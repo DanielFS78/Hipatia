@@ -1,0 +1,76 @@
+# General Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs and Reports
+logs/
+test_reports/
+test_output/
+.coverage
+htmlcov/
+htmlcov_appcontroller/
+.pytest_cache/
+
+# Databases (SQLite)
+*.db
+*.sqlite3
+*.sqlite
+temp_simulation_*.db
+etiquetas.db
+montaje.db
+pilas.db
+production_data.db
+
+# Backups
+Backup/
+database_backups/
+migration/backup/
+
+# Secrets
+config/database.yaml
+secrets.py
+.env.local
+
+# Project Specific
+etiqueta_prueba.docx
+core/etiquetas_test.docx
+temp_chunks/
+iteration_images/
+qr_codes/
+simulation_checkpoint.pkl

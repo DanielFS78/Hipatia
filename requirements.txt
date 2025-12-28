@@ -1,0 +1,48 @@
+# ==============================================================================
+# REQUIREMENTS - Sistema de Cálculo de Tiempos de Fabricación
+# Versión consolidada y actualizada - Diciembre 2025
+# ==============================================================================
+
+# --- Framework UI Principal ---
+PyQt6>=6.10.1
+PyQt6-Charts>=6.10.0
+
+# --- Base de Datos y ORM ---
+SQLAlchemy>=2.0.45
+
+# --- Procesamiento de Datos ---
+pandas>=2.2.3
+openpyxl>=3.1.5
+
+# --- Procesamiento de Imágenes y QR ---
+Pillow>=12.0.0
+opencv-python>=4.12.0.88
+qrcode>=8.0
+
+# --- Generación de Documentos ---
+python-docx>=1.2.0
+reportlab>=4.4.7
+jinja2>=3.1.4
+# weasyprint & xhtml2pdf removed due to missing system libs on macOS
+
+
+# --- Utilidades ---
+requests>=2.32.0
+concurrent-log-handler>=0.9.25
+graphviz>=0.20.3
+wikiquote>=0.1.17
+wikipedia>=1.4.0
+
+# --- Testing y Cobertura ---
+pytest>=8.4.2
+pytest-cov>=6.0.0
+pytest-html>=4.1.1
+pytest-qt>=4.4.0
+pytest-mock>=3.14.0
+pytest-timeout>=2.3.1
+coverage>=7.6.0
+
+# --- Análisis de Código ---
+pylint>=3.3.0
+bandit>=1.7.10
+flake8>=7.1.0

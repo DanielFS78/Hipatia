@@ -1,0 +1,16 @@
+# .pylintrc
+[MESSAGES CONTROL]
+# Desactiva advertencias comunes pero a menudo poco importantes para este proyecto
+disable=missing-module-docstring,
+        missing-class-docstring,
+        missing-function-docstring,
+        invalid-name,
+        line-too-long,
+        too-many-locals,
+        too-many-arguments,
+        too-many-instance-attributes,
+        too-many-public-methods
+
+[REPORTS]
+# Le decimos que la salida sea un archivo JSON para poder procesarla después
+output-format=json:test_reports/pylint_report.json,colorized

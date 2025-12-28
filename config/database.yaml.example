@@ -1,0 +1,72 @@
+# Configuración de bases de datos para el sistema de tiempos de fabricación
+# Este archivo centraliza todas las configuraciones de conexión a bases de datos
+
+# Configuración de la base de datos heredada (SQLite) - Solo para migración
+legacy:
+  sqlite:
+    montaje:
+      path: "montaje.db"
+      backup_path: "backups/montaje_backup_{timestamp}.db"
+    pilas:
+      path: "pilas.db"
+      backup_path: "backups/pilas_backup_{timestamp}.db"
+
+# Configuración de la nueva base de datos (PostgreSQL)
+production:
+  postgresql:
+    host: "localhost"
+    port: 5432
+    database: "tiempos_fabricacion"
+    username: "fabricacion_user"
+    password: "fabricacion_pass_2024"
+    schema: "public"
+    pool_size: 20
+    max_overflow: 30
+    pool_timeout: 30
+    pool_recycle: 3600
+    echo: false  # Cambiar a true para debug SQL
+
+# Configuración para desarrollo local con Docker
+development:
+  postgresql:
+    host: "localhost"
+    port: 5432
+    database: "tiempos_fabricacion"
+    username: "fabricacion_user"
+    password: "fabricacion_pass_2024"
+    schema: "public"
+    pool_size: 5
+    max_overflow: 10
+    pool_timeout: 30
+    pool_recycle: 3600
+    echo: true  # Debug activado en desarrollo
+
+# Configuración para tests (base de datos en memoria o de test)
+testing:
+  postgresql:
+    host: "localhost"
+    port: 5432
+    database: "tiempos_fabricacion_test"
+    username: "fabricacion_user"
+    password: "fabricacion_pass_2024"
+    schema: "public"
+    pool_size: 1
+    max_overflow: 0
+    pool_timeout: 10
+    pool_recycle: 300
+    echo: false
+
+# Configuraciones específicas para la migración
+migration:
+  chunk_size: 1000  # Número de registros a procesar por lote
+  backup_before_migration: true
+  validate_data_integrity: true
+  log_migration_progress: true
+  rollback_on_error: true
+
+# Configuraciones de logging
+logging:
+  database_queries: false
+  migration_progress: true
+  error_details: true
+  performance_metrics: true

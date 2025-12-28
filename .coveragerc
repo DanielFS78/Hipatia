@@ -1,0 +1,38 @@
+# .coveragerc
+# Configuración detallada para el análisis de cobertura de código.
+
+[run]
+# Módulos a incluir en el análisis de cobertura.
+source =
+    app
+    controllers
+    core
+    database
+    features
+    ui
+    calendar_helper
+    simulation_engine
+
+# Archivos y directorios a omitir.
+omit =
+    */.venv/*
+    */tests/*
+    */__pycache__/*
+
+[report]
+# Configuración de los reportes de cobertura.
+show_missing = True
+skip_covered = False
+
+# Líneas de código a excluir del análisis.
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise NotImplementedError
+    if __name__ == .__main__.:
+
+[html]
+directory = test_reports/coverage_html
+
+[json]
+output = test_reports/coverage.json
