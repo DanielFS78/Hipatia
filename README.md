@@ -1,7 +1,7 @@
 # 🏭 Industrial Production Simulator & Optimizer (Built with AI)
 
-[![Tests](https://img.shields.io/badge/Tests-1136%20PASSED-success?style=for-the-badge)](https://github.com/your-username/your-repo-name)
-[![Coverage](https://img.shields.io/badge/Coverage-100%25%20(Repos)-brightgreen?style=for-the-badge)](https://github.com/your-username/your-repo-name)
+[![Tests](https://img.shields.io/badge/Tests-1136%20PASSED-success?style=for-the-badge)](https://github.com/DanielFS78/Hipatia)
+[![Coverage](https://img.shields.io/badge/Coverage-100%25%20(Repos)-brightgreen?style=for-the-badge)](https://github.com/DanielFS78/Hipatia)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 > [!IMPORTANT]
