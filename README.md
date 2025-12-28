@@ -13,7 +13,7 @@
 
 Este software es un **Motor de Simulación y Optimización de Tiempos de Fabricación**. Permite a plantas industriales planificar cargas de trabajo, optimizar la asignación de operarios y realizar un seguimiento mediante códigos QR.
 
-📖 **[Ver Manual de Usuario Completo](Documentacion/Manual%20de%20uso.md)** - Documentación detallada de todas las funcionalidades.
+📖 **[Descargar Manual de Usuario (DOCX)](Documentacion/Manual_de_uso_corregido.docx)** - Documentación detallada de todas las funcionalidades.
 
 ### El Experimento:
 Este proyecto comenzó como un simple script de sumas en la terminal y evolucionó a través de **12 refactorizaciones completas** asistidas por IA. Mi objetivo es validar si este nivel de complejidad es sostenible y seguro para su implementación real en fábrica.
