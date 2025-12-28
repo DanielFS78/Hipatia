@@ -2,7 +2,7 @@
 
 [![Tests](https://img.shields.io/badge/Tests-1136%20PASSED-success?style=for-the-badge)](https://github.com/DanielFS78/Hipatia)
 [![Coverage](https://img.shields.io/badge/Coverage-100%25%20(Repos)-brightgreen?style=for-the-badge)](https://github.com/DanielFS78/Hipatia)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 > [!IMPORTANT]
 > **REQUEST FOR AUDIT:** I am a non-programmer who built this 60k LOC project over 1,000 hours using AI. It works perfectly and has **1136 tests**, but I need experts to review its core architecture, security, and maintainability.
@@ -66,7 +66,17 @@ If you are a senior Python developer or architect, I would value your feedback o
 ---
 
 ## 📜 License
-Published under the **MIT License**. Use it, break it, and please, help me improve it.
+
+Published under the **[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)** (Attribution-NonCommercial-ShareAlike 4.0 International).
+
+**You are free to:**
+- **Share** — copy and redistribute the material in any medium or format.
+- **Adapt** — remix, transform, and build upon the material.
+
+**Under the following terms:**
+- **Attribution** — You must give appropriate credit.
+- **NonCommercial** — You may not use the material for commercial purposes (No Paid Software).
+- **ShareAlike** — If you remix, transform, or build upon the material, you must distribute your contributions under the same license.
 
 ---
 
