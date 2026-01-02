@@ -5,6 +5,17 @@ class AddProductWidget(QWidget):
     """Widget para añadir un nuevo producto con formulario dinámico."""
     manage_subs_signal = pyqtSignal(list)
     manage_procesos_signal = pyqtSignal(list)
+    
+    # Attributes for strict mocks
+    codigo_entry = None
+    descripcion_entry = None
+    departamento_menu = None
+    donde_textbox = None
+    sub_switch = None
+    trabajador_menu = None
+    tiempo_optimo_entry = None
+    subfabricaciones_temp = []
+    procesos_mecanicos_temp = []
 
     def __init__(self, controller=None):
         super().__init__()
@@ -128,6 +139,13 @@ class ProductsWidget(QWidget):
     manage_subs_signal = pyqtSignal()
     manage_procesos_signal = pyqtSignal()
     manage_details_signal = pyqtSignal(str)
+    
+    # Attributes for strict mocks and type hinting
+    results_list = None
+    search_entry = None
+    current_subfabricaciones = []
+    current_procesos_mecanicos = []
+    form_widgets = {}
 
     def __init__(self, controller):
         super().__init__()

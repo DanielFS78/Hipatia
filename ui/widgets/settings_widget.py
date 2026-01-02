@@ -325,7 +325,6 @@ class SettingsWidget(QWidget):
                 start = brk.get('start', '??:??')
                 end = brk.get('end', '??:??')
                 settings_page.breaks_list.addItem(f"{start} - {end}")
-            settings_page.breaks_list.addItem(f"{start} - {end}")
         except (json.JSONDecodeError, AttributeError) as e:
             print(f"Warning: Error loading breaks: {e}")
             settings_page.breaks_list.clear()

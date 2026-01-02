@@ -8,7 +8,11 @@ _on_product_search_changed, _on_product_result_selected, y métodos de iteracion
 import pytest
 from unittest.mock import MagicMock, patch, ANY
 from controllers.product_controller import ProductController
-
+from controllers.app_controller import AppController
+from core.app_model import AppModel
+from ui.main_window import MainView
+from ui.widgets.products_widget import ProductsWidget, AddProductWidget
+from ui.widgets.gestion_datos_widget import GestionDatosWidget
 
 # =============================================================================
 # FIXTURES
@@ -17,26 +21,45 @@ from controllers.product_controller import ProductController
 @pytest.fixture
 def mock_view():
     """Mock de MainView con páginas configuradas."""
-    view = MagicMock()
+    view = MagicMock(spec=MainView)
     
-    # Página de edición de productos
-    mock_edit = MagicMock()
+    # Página de edición de productos (ProductsWidget)
+    mock_edit = MagicMock(spec=ProductsWidget)
+    # Configure attributes likely accessed by controller. 
+    # Note: If these attributes don't exist on ProductsWidget, spec will raise AttributeError.
+    # We might need to adjust attribute names if refactoring changed them.
+    # Checking previous usages: product_code_label, product_desc_entry...
+    # If they are dynamic or created in init_ui, spec might miss them unless they are in __dict__ or slots.
+    # But usually standard MagicMock(spec=Class) allows access if it's a standard class.
+    # However, for PyQt widgets, child widgets are often attributes.
+    
+    # Mocking standard attributes expected by the controller:
+    # Based on existing test:
     mock_edit.product_code_label = MagicMock()
     mock_edit.product_desc_entry = MagicMock()
     mock_edit.procesos_list = MagicMock()
     mock_edit.search_linedit = MagicMock()
     mock_edit.result_edit_list = MagicMock()
     
-    # Página de gestión de datos
-    mock_gestion = MagicMock()
-    mock_gestion.productos_tab = MagicMock()
+    # Página de gestión de datos (GestionDatosWidget)
+    mock_gestion = MagicMock(spec=GestionDatosWidget)
+    mock_gestion.productos_tab = MagicMock(spec=ProductsWidget)
+    
+    # Ensure nested attributes on productos_tab match what controller expects
+    # The heuristic here: strict mock checks if 'productos_tab' is a VALID attribute name of GestionDatosWidget.
+    # It IS, line 32 of gestion_datos_widget.py.
+    # Then mock_gestion.productos_tab return value is a mock with spec=ProductsWidget.
+    # Does ProductsWidget have 'products_list', 'search_entry'?
+    # Checking products_widget.py outline: 'search_entry' was not explicitly in __init__ snippet but likely in base or created.
+    # If not, strict mock might fail. We will see.
+    
     mock_gestion.productos_tab.products_list = MagicMock()
-    mock_gestion.productos_tab.search_entry = MagicMock()
+    mock_gestion.productos_tab.search_entry = MagicMock() 
     mock_gestion.productos_tab.result_edit_list = MagicMock()
     mock_gestion.productos_tab.search_linedit = MagicMock()
     
-    # Página de añadir producto
-    mock_add = MagicMock()
+    # Página de añadir producto (AddProductWidget)
+    mock_add = MagicMock(spec=AddProductWidget)
     mock_add.codigo_entry = MagicMock()
     mock_add.codigo_entry.text.return_value = "PROD-NEW"
     mock_add.descripcion_entry = MagicMock()
@@ -52,15 +75,13 @@ def mock_view():
         "add_product": mock_add
     }
     view.buttons = {}
-    view.show_message = MagicMock()
-    view.show_confirmation_dialog = MagicMock(return_value=True)
     return view
 
 
 @pytest.fixture
 def mock_model():
     """Mock de AppModel."""
-    model = MagicMock()
+    model = MagicMock(spec=AppModel)
     model.db = MagicMock()
     model.db.config_repo = MagicMock()
     model.db.tracking_repo = MagicMock()
@@ -69,13 +90,20 @@ def mock_model():
     model.product_deleted_signal = MagicMock()
     model.pilas_changed_signal = MagicMock()
     model.search_products.return_value = []
+    # Add other attributes accessed by controller if needed
+    model.update_product = MagicMock()
+    model.delete_product = MagicMock()
+    model.get_fabricacion_products = MagicMock()
+    model.update_product_iteration = MagicMock()
+    model.delete_product_iteration = MagicMock()
+    model.add_product_iteration = MagicMock()
     return model
 
 
 @pytest.fixture
 def controller(mock_model, mock_view):
     """Instancia de ProductController com mock de AppController."""
-    mock_app = MagicMock()
+    mock_app = MagicMock(spec=AppController)
     mock_app.model = mock_model
     mock_app.view = mock_view
     mock_app.db = mock_model.db

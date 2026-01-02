@@ -2152,36 +2152,18 @@ class AppController(QObject):
 
 
 
-    def _on_report_result_selected(self, item):
-        result_data = item.data(Qt.ItemDataRole.UserRole)
-        self.selected_report_item = result_data
-        reportes_page = self.view.pages.get("reportes")
 
-        # Limpiar botones existentes
-        for i in reversed(range(reportes_page.reports_buttons_layout.count())):
-            reportes_page.reports_buttons_layout.itemAt(i).widget().setParent(None)
-
-        if result_data['type'] == 'Producto':
-            codigo = result_data['code']
-            btn = QPushButton(f"ðŸ“Š Historial de Iteraciones (PDF) para {codigo}")
-            reportes_page.reports_buttons_layout.addWidget(btn)
-            btn.clicked.connect(lambda: self._on_generar_informe_clicked('historial_iteraciones'))
-
-        elif result_data['type'] == 'Pila':
-            pila_id = result_data['id']
-            btn1 = QPushButton(f"ðŸ­ Informe de Pila (Excel) para {result_data['code']}")
-            btn2 = QPushButton(f"ðŸ“‹ Historial de Pila (PDF) para {result_data['code']}")
-            reportes_page.reports_buttons_layout.addWidget(btn1)
-            reportes_page.reports_buttons_layout.addWidget(btn2)
-            btn1.clicked.connect(lambda: self._on_generar_informe_clicked('pila_fabricacion_excel', pila_id))
-            btn2.clicked.connect(lambda: self._on_generar_informe_clicked('historial_pila_pdf', pila_id))
 
     def _connect_reportes_signals(self):
+        # El ReportesWidget v2 se autoconfigura y maneja sus propias señales.
+        # Solo necesitamos asegurar que tenga la referencia al controlador si no se pasó en el init.
         reportes_page = self.view.pages.get("reportes")
         if isinstance(reportes_page, ReportesWidget):
-            reportes_page.search_entry.textChanged.connect(self._on_report_search_changed)
-            reportes_page.results_list.itemClicked.connect(self._on_report_result_selected)
-        self.logger.debug("Señales de 'Generación de Informes' conectadas.")
+            # Asegurar que el widget tenga el controlador (aunque ya se pasa en __init__)
+            if not reportes_page.controller:
+                reportes_page.set_controller(self)
+                
+        self.logger.debug("Señales de 'Generación de Informes' verificadas.")
 
     def _connect_workers_signals(self):
         self.worker_controller._connect_workers_signals()
@@ -3174,29 +3156,7 @@ class AppController(QObject):
             history_data = self.model.get_machine_history(machine_id)
             machines_page.populate_history_tables(history_data.get('maintenance_history', []))
 
-    def _on_report_search_changed(self, text):
-        reportes_page = self.view.pages.get("reportes")
-        if not isinstance(reportes_page, ReportesWidget) or len(text) < 2:
-            if reportes_page: reportes_page.results_list.clear()
-            return
 
-        # Solo buscar productos y pilas
-        search_results = self.model.search_products(text)
-        # Convertir formato de productos para consistencia
-        formatted_results = []
-        for product in search_results:
-            formatted_results.append({'type': 'Producto', 'code': product.codigo, 'description': product.descripcion})
-
-        pilas_results = self.model.pila_repo.search_pilas(text)
-        for pila in pilas_results:
-            formatted_results.append({'type': 'Pila', 'code': pila.nombre, 'description': pila.descripcion, 'id': pila.id})
-
-        reportes_page.results_list.clear()
-        for result in formatted_results:
-            item_text = f"[{result['type']}] {result['code']} - {result['description']}"
-            item = QListWidgetItem(item_text)
-            item.setData(Qt.ItemDataRole.UserRole, result)
-            reportes_page.results_list.addItem(item)
 
     def _on_generar_informe_clicked(self, tipo_informe, item_id=None):
         """Genera el informe seleccionado por el usuario desde la página de Reportes."""

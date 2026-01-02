@@ -6,8 +6,25 @@ Cobertura objetivo: Métodos de navegación, señales y gestión de UI.
 import pytest
 from unittest.mock import MagicMock, patch
 from controllers.app_controller import AppController
-from ui.widgets import SettingsWidget, CalculateTimesWidget
-
+from core.app_model import AppModel
+from ui.main_window import MainView
+from ui.widgets import SettingsWidget, CalculateTimesWidget, GestionDatosWidget
+from ui.widgets.lotes_widget import LotesWidget
+from ui.widgets.lotes_widget import LotesWidget
+from ui.widgets.preprocesos_widget import PreprocesosWidget
+from ui.widgets.products_widget import ProductsWidget
+from ui.widgets.fabrications_widget import FabricationsWidget
+from ui.widgets.home_widget import HomeWidget
+from ui.widgets.dashboard_widget import DashboardWidget
+from ui.widgets.historial_widget import HistorialWidget
+from ui.widgets.reportes_widget import ReportesWidget
+from ui.widgets.products_widget import ProductsWidget, AddProductWidget
+from PyQt6.QtWidgets import QPushButton, QWidget
+from database.database_manager import DatabaseManager
+from database.repositories.configuration_repository import ConfigurationRepository
+from database.repositories.worker_repository import WorkerRepository
+from database.repositories.tracking_repository import TrackingRepository
+from schedule_config import ScheduleConfig
 
 # =============================================================================
 # FIXTURES
@@ -16,54 +33,88 @@ from ui.widgets import SettingsWidget, CalculateTimesWidget
 @pytest.fixture
 def mock_view():
     """Mock de MainView con páginas y botones de navegación."""
-    view = MagicMock()
+    view = MagicMock(spec=MainView)
+    
+    # Configurar páginas con spec
+    mock_settings = MagicMock(spec=SettingsWidget)
+    mock_calc = MagicMock(spec=CalculateTimesWidget)
+    mock_gestion = MagicMock(spec=GestionDatosWidget)
+    mock_lote = MagicMock(spec=LotesWidget)
+    mock_preprocesos = MagicMock(spec=PreprocesosWidget)
+    
+    # GestionDatos internals needed for testing navigation
+    mock_gestion.productos_tab = MagicMock(spec=ProductsWidget)
+    mock_gestion.fabricaciones_tab = MagicMock(spec=FabricationsWidget)
+    
     view.pages = {
-        "settings": MagicMock(),
-        "calculate": MagicMock(),
-        "gestion_datos": MagicMock(),
+        "settings": mock_settings,
+        "calculate": mock_calc,
+        "gestion_datos": mock_gestion,
+        "definir_lote": mock_lote,
+        "preprocesos": mock_preprocesos,
+        "home": MagicMock(spec=HomeWidget),
+        "dashboard": MagicMock(spec=DashboardWidget),
+        "historial": MagicMock(spec=HistorialWidget),
+        "context_help": MagicMock(spec=QWidget), # Generic
+        "reportes": MagicMock(spec=ReportesWidget),
+        "add_product": MagicMock(spec=AddProductWidget),
     }
+    
+    # Configurar botones (using MagicMock as buttons are simple QWidgets/Action usually)
     view.buttons = {
-        "home": MagicMock(),
-        "dashboard": MagicMock(),
-        "settings": MagicMock(),
-        "calculate": MagicMock(),
-        "historial": MagicMock(),
-        "gestion_datos": MagicMock(),
-        "context_help": MagicMock(),
-        "reportes": MagicMock(),
-        "add_product": MagicMock(),
+        "home": MagicMock(spec=QPushButton),
+        "dashboard": MagicMock(spec=QPushButton),
+        "settings": MagicMock(spec=QPushButton),
+        "calculate": MagicMock(spec=QPushButton),
+        "historial": MagicMock(spec=QPushButton),
+        "gestion_datos": MagicMock(spec=QPushButton),
+        "context_help": MagicMock(spec=QPushButton),
+        "reportes": MagicMock(spec=QPushButton),
+        "add_product": MagicMock(spec=QPushButton),
     }
+    
     view.show_message = MagicMock()
     view.switch_page = MagicMock()
+    view.current_page_name = MagicMock(return_value="home")
+    
     return view
 
 
 @pytest.fixture
 def mock_model():
     """Mock de AppModel."""
-    model = MagicMock()
-    model.db = MagicMock()
-    model.db.config_repo = MagicMock()
-    model.db.tracking_repo = MagicMock()
-    model.worker_repo = MagicMock()
-    model.product_deleted_signal = MagicMock()
-    model.pilas_changed_signal = MagicMock()
+    model = MagicMock(spec=AppModel)
+    model.db = MagicMock(spec=DatabaseManager)
+    model.db.config_repo = MagicMock(spec=ConfigurationRepository)
+    model.db.tracking_repo = MagicMock(spec=TrackingRepository)
+    model.worker_repo = MagicMock(spec=WorkerRepository)
+    
+    # Signals are auto-created by attributes in AppModel? 
+    # Better to leave them unless we need specific configuration.
+    # model.product_deleted_signal = MagicMock() 
+    # model.pilas_changed_signal = MagicMock()
+    
+    # Ensure SessionLocal (instance attr) covers strict mock issues
+    model.db.SessionLocal = MagicMock()
+    
     return model
 
 
 @pytest.fixture
 def mock_schedule_config():
     """Mock de ScheduleConfig."""
-    return MagicMock()
+    return MagicMock(spec=ScheduleConfig)
 
 
 @pytest.fixture
 def controller(mock_model, mock_view, mock_schedule_config):
     """Instancia de AppController con dependencias mockeadas."""
+    # Patch dependencies created in __init__
     with patch('controllers.app_controller.CameraManager'), \
          patch('controllers.app_controller.QrGenerator'), \
          patch('controllers.app_controller.LabelManager'), \
          patch('controllers.app_controller.LabelCounterRepository'):
+        
         ctrl = AppController(mock_model, mock_view, mock_schedule_config)
         return ctrl
 
@@ -82,27 +133,27 @@ class TestOnNavButtonClicked:
 
     def test_nav_button_switches_to_dashboard(self, controller):
         """Verifica navegación a dashboard y actualización de vista."""
-        controller.update_dashboard_view = MagicMock()
-        controller._on_nav_button_clicked("dashboard")
-        
-        controller.view.switch_page.assert_called_once_with("dashboard")
-        controller.update_dashboard_view.assert_called_once()
+        with patch.object(controller, 'update_dashboard_view', autospec=True) as mock_update:
+            controller._on_nav_button_clicked("dashboard")
+            
+            controller.view.switch_page.assert_called_once_with("dashboard")
+            mock_update.assert_called_once()
 
     def test_nav_button_switches_to_settings(self, controller):
         """Verifica navegación a configuración y carga de ajustes."""
-        controller._load_schedule_settings = MagicMock()
-        controller._on_nav_button_clicked("settings")
-        
-        controller.view.switch_page.assert_called_once_with("settings")
-        controller._load_schedule_settings.assert_called_once()
+        with patch.object(controller, '_load_schedule_settings', autospec=True) as mock_load:
+            controller._on_nav_button_clicked("settings")
+            
+            controller.view.switch_page.assert_called_once_with("settings")
+            mock_load.assert_called_once()
 
     def test_nav_button_switches_to_historial(self, controller):
         """Verifica navegación a historial y actualización."""
-        controller.update_historial_view = MagicMock()
-        controller._on_nav_button_clicked("historial")
-        
-        controller.view.switch_page.assert_called_once_with("historial")
-        controller.update_historial_view.assert_called_once()
+        with patch.object(controller, 'update_historial_view', autospec=True) as mock_update:
+            controller._on_nav_button_clicked("historial")
+            
+            controller.view.switch_page.assert_called_once_with("historial")
+            mock_update.assert_called_once()
 
     def test_nav_button_switches_to_calculate(self, controller):
         """Verifica navegación a página de cálculo."""
@@ -118,31 +169,32 @@ class TestOnNavButtonClicked:
 
     def test_nav_button_switches_to_gestion_datos(self, controller):
         """Verifica navegación a gestión de datos."""
-        controller.update_workers_view = MagicMock()
-        controller.update_machines_view = MagicMock()
-        controller.update_lotes_view = MagicMock()
-        
-        mock_gestion = MagicMock()
-        mock_gestion.productos_tab = MagicMock()
-        mock_gestion.productos_tab.search_entry = MagicMock()
-        mock_gestion.fabricaciones_tab = MagicMock()
-        mock_gestion.fabricaciones_tab.search_entry = MagicMock()
-        controller.view.pages = {"gestion_datos": mock_gestion}
-        
-        controller._on_nav_button_clicked("gestion_datos")
-        
-        controller.view.switch_page.assert_called_once_with("gestion_datos")
-        controller.update_workers_view.assert_called_once()
-        controller.update_machines_view.assert_called_once()
-        controller.update_lotes_view.assert_called_once()
+        # Clean strict mocks using patch
+        with patch.object(controller, 'update_workers_view', autospec=True) as mock_workers, \
+             patch.object(controller, 'update_machines_view', autospec=True) as mock_machines, \
+             patch.object(controller, 'update_lotes_view', autospec=True) as mock_lotes:
+                 
+             mock_gestion = MagicMock(spec=GestionDatosWidget)
+             mock_gestion.productos_tab = MagicMock(spec=ProductsWidget)
+             mock_gestion.productos_tab.search_entry = MagicMock() # QLineEdit/Wrapper
+             mock_gestion.fabricaciones_tab = MagicMock(spec=FabricationsWidget)
+             mock_gestion.fabricaciones_tab.search_entry = MagicMock()
+             controller.view.pages = {"gestion_datos": mock_gestion}
+            
+             controller._on_nav_button_clicked("gestion_datos")
+            
+             controller.view.switch_page.assert_called_once_with("gestion_datos")
+             mock_workers.assert_called_once()
+             mock_machines.assert_called_once()
+             mock_lotes.assert_called_once()
 
     def test_nav_button_switches_to_preprocesos(self, controller):
         """Verifica navegación a preprocesos y carga de datos."""
-        controller._load_preprocesos_data = MagicMock()
-        controller._on_nav_button_clicked("preprocesos")
-        
-        controller.view.switch_page.assert_called_once_with("preprocesos")
-        controller._load_preprocesos_data.assert_called_once()
+        with patch.object(controller, '_load_preprocesos_data', autospec=True) as mock_load:
+            controller._on_nav_button_clicked("preprocesos")
+            
+            controller.view.switch_page.assert_called_once_with("preprocesos")
+            mock_load.assert_called_once()
 
     def test_nav_button_switches_to_definir_lote(self, controller):
         """Verifica navegación a definir lote y limpieza de formulario."""

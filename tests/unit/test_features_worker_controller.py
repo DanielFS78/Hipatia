@@ -216,16 +216,23 @@ class TestWorkerControllerQRHandlers:
         mock_trabajo = MagicMock()
         mock_trabajo.tiempo_inicio = datetime.now()
         mock_trabajo.producto_codigo = "P1"
-        mock_trabajo.estado = "EN_PROCESO" # Override MagicMock default
+        mock_trabajo.estado = "EN_PROCESO"
+        mock_trabajo.orden_fabricacion = "OF-EXISTENTE"
+        mock_trabajo.trabajador_nombre = "Pepe"
+        mock_trabajo.pasos_trazabilidad = []
+        mock_trabajo.incidencias = []
+        
         mock_db_manager.tracking_repo.obtener_trabajo_por_qr.return_value = mock_trabajo
+        mock_db_manager.tracking_repo.get_ultimo_paso_para_qr.return_value = None
         
         controller._handle_consult_qr()
         
-        mock_main_window.show_message.assert_any_call(ANY, ANY, "warning")
+        # Ahora devuelve INFO con los detalles, no warning
+        mock_main_window.show_message.assert_any_call("Información de Trazabilidad", ANY, "info")
 
-    @patch('features.worker_controller.QInputDialog.getText')
-    def test_handle_start_task_new_qr(self, mock_get_text, controller, mock_db_manager, mock_main_window):
-        # Caso: QR nuevo -> Pide OF -> Crea TrabajoLog -> Inicia Paso
+    @patch('features.worker_controller.OrderSetupDialog')
+    def test_handle_start_task_new_qr(self, mock_setup_dialog_cls, controller, mock_db_manager, mock_main_window):
+        # Caso: QR nuevo -> Pide configuración pedido (OrderSetupDialog) -> Crea TrabajoLog -> Inicia Paso
         controller.qr_scanner = MagicMock()
         controller.qr_scanner.scan_once.return_value = "QR-NEW"
         controller.qr_scanner.parse_qr_data.return_value = {"producto_codigo": "PROD-1"}
@@ -233,7 +240,14 @@ class TestWorkerControllerQRHandlers:
         mock_db_manager.tracking_repo.get_paso_activo_por_trabajador.return_value = None
         mock_db_manager.tracking_repo.obtener_trabajo_por_qr.return_value = None
         
-        mock_get_text.return_value = ("OF-2023", True)
+        # Configurar el diálogo mockeado
+        mock_dialog_instance = mock_setup_dialog_cls.return_value
+        from PyQt6.QtWidgets import QDialog
+        mock_dialog_instance.exec.return_value = QDialog.DialogCode.Accepted
+        mock_dialog_instance.get_data.return_value = {
+            'order_number': 'OF-2023',
+            'total_units': 100
+        }
         
         mock_log = MagicMock()
         mock_log.id = 500
@@ -247,7 +261,7 @@ class TestWorkerControllerQRHandlers:
         
         controller._handle_start_task({"id": 1, "producto_codigo": "PROD-1"})
         
-        mock_get_text.assert_called()
+        mock_setup_dialog_cls.assert_called()
         mock_db_manager.tracking_repo.iniciar_nuevo_paso.assert_called()
         mock_main_window.update_task_state.assert_called_with("en_proceso", ANY)
 

@@ -69,3 +69,4 @@ class TrabajoLogDTO:
     orden_fabricacion: Optional[str] = None
     
     incidencias: List[IncidenciaLogDTO] = field(default_factory=list)
+    pasos_trazabilidad: List[PasoTrazabilidadDTO] = field(default_factory=list)

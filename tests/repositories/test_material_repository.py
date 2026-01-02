@@ -1,8 +1,10 @@
 import pytest
 from unittest.mock import MagicMock, call
+from sqlalchemy.orm import Session, Query
 from sqlalchemy.exc import IntegrityError
 from database.repositories.material_repository import MaterialRepository
 from core.dtos import MaterialDTO, MaterialStatsDTO
+from database.models import Material, Producto, ProductIteration
 
 # =================================================================================
 # UNIT TESTS (Mocks)
@@ -12,20 +14,21 @@ from core.dtos import MaterialDTO, MaterialStatsDTO
 def test_get_all_materials_returns_dtos():
     """Verify that get_all_materials returns a list of MaterialDTO objects."""
     # Mock the session factory handling context manager
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     
     repo = MaterialRepository(mock_factory)
     
     # Mocking the query result
-    mock_material = MagicMock()
+    mock_material = MagicMock(spec=Material)
     mock_material.id = 1
     mock_material.codigo_componente = "MAT001"
     mock_material.descripcion_componente = "Test Material"
     
     # Configure chained mock for query().order_by().all()
-    mock_query = mock_session.query.return_value
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
     mock_query.order_by.return_value = mock_query
     mock_query.all.return_value = [mock_material]
     
@@ -40,19 +43,21 @@ def test_get_all_materials_returns_dtos():
 @pytest.mark.unit
 def test_get_problematic_components_stats_returns_dtos():
     """Verify that get_problematic_components_stats returns MaterialStatsDTO objects."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     
     repo = MaterialRepository(mock_factory)
     
-    # Mock row result
+    # Mock row result (KeyedTuple or similar, so spec might be tricky, usually generic object with dynamic attrs)
+    # Since SQLAlchemy returns Row/UserDefined objects, MagicMock is acceptable here if attributes are explicit
     mock_row = MagicMock()
     mock_row.codigo_componente = "MAT001"
     mock_row.frecuencia = 5
     
     # Configure chained mock for complex query
-    mock_query = mock_session.query.return_value
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
     mock_query.join.return_value = mock_query
     mock_query.group_by.return_value = mock_query
     mock_query.order_by.return_value = mock_query
@@ -69,18 +74,22 @@ def test_get_problematic_components_stats_returns_dtos():
 @pytest.mark.unit
 def test_add_material_updates_description_if_exists():
     """Verify that add_material updates description if material already exists."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     
     repo = MaterialRepository(mock_factory)
     
     # Existing material with OLD description
-    mock_existing = MagicMock()
+    mock_existing = MagicMock(spec=Material)
     mock_existing.id = 10
     mock_existing.descripcion_componente = "Old Description"
     
-    mock_session.query.return_value.filter_by.return_value.first.return_value = mock_existing
+    # We must mock chained query
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.return_value = mock_existing
     
     result_id = repo.add_material("EXISTING_CODE", "New Description")
     
@@ -90,49 +99,36 @@ def test_add_material_updates_description_if_exists():
 @pytest.mark.unit
 def test_add_material_integrity_error_handling():
     """Verify retry logic on IntegrityError."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     
     repo = MaterialRepository(mock_factory)
     
     # First query returns None (not found)
-    mock_session.query.return_value.filter_by.return_value.first.side_effect = [None, MagicMock(id=99)]
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [None, MagicMock(spec=Material, id=99)]
     
     # Commit raises IntegrityError
     mock_session.commit.side_effect = IntegrityError(None, None, Exception("Duplicate"))
     
     # Second session for validation check (retry)
-    mock_session_2 = MagicMock()
-    # We need to mock get_session returning a new session
-    # But base_repository uses session_factory(), so we can use side_effect on factory
-    # repo.session_factory is mock_factory
-    # Call 1: Context manager for safe_execute. Call 2: get_session() in catch block.
-    # However, safe_execute uses `with self.get_session() as session` NO wait, base uses `session = self.get_session()`
-    # Let's inspect base_repository implementation logic to mock correctly.
-    # Logic in add_material: safe_execute -> _operation -> session.add -> session.flush
-    # If IntegrityError, catch block calls self.get_session() again.
-    
-    # Simpler approach: Mock safe_execute to raise IntegrityError, and test catch block logic? 
-    # But safe_execute catches generic Exception. add_material has specific try/except around safe_execute.
-    # Review `add_material`:
-    # try: return self.safe_execute(_operation)
-    # except IntegrityError: ...
-    
-    # safe_execute usually suppresses exceptions and returns default value. 
-    # UNLESS we mock safe_execute to RAISE IntegrityError.
-    
+    mock_session_retry = MagicMock(spec=Session)
     repo.safe_execute = MagicMock(side_effect=IntegrityError(None, None, Exception("Duplicate")))
     
     # Mock specific session for the catch block
-    mock_session_retry = MagicMock()
-    mock_factory.side_effect = [mock_session, mock_session_retry] # Reset side effect if needed or add to existing
+    mock_factory.side_effect = [mock_session, mock_session_retry]
     
-    mock_existing = MagicMock()
+    mock_existing = MagicMock(spec=Material)
     mock_existing.id = 99
-    mock_session_retry.query.return_value.filter_by.return_value.first.return_value = mock_existing
     
-    # Re-instantiate to attach fresh mocks if needed, or just set side_effect on factory
+    mock_query_retry = MagicMock(spec=Query)
+    mock_session_retry.query.return_value = mock_query_retry
+    mock_query_retry.filter_by.return_value = mock_query_retry
+    mock_query_retry.first.return_value = mock_existing
+    
     repo.session_factory.side_effect = [mock_session_retry] 
     
     result_id = repo.add_material("DUP_CODE", "Desc")
@@ -142,7 +138,7 @@ def test_add_material_integrity_error_handling():
 @pytest.mark.unit
 def test_update_material_not_found():
     """Verify update_material returns False if material does not exist."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
@@ -155,35 +151,47 @@ def test_update_material_not_found():
 @pytest.mark.unit
 def test_update_material_duplicate_code():
     """Verify update_material returns False if new code is taken by another material."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
-    mock_material = MagicMock(id=1, codigo_componente="OLD_CODE")
-    mock_session.query.return_value.filter_by.return_value.first.return_value = mock_material
+    mock_material = MagicMock(spec=Material, id=1, codigo_componente="OLD_CODE")
+    
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.return_value = mock_material
     
     # Mock duplicate check finding another material
-    mock_existing = MagicMock(id=2)
-    mock_session.query.return_value.filter.return_value.first.return_value = mock_existing
-    
+    mock_existing = MagicMock(spec=Material, id=2)
+    mock_query.filter.return_value = mock_query
+    mock_query.first.side_effect = [mock_material, mock_existing] # First find returns existing, chain is complex here.
+    # The actual logic: existing = query(Material).filter_by(id=id).first() (uses query mock) 
+    # check = query(Material).filter(...).first() (uses SAME query mock return value usually)
+    # So we need to control side_effect of default query mock's first().
+    # first() calls: 1. find material (returns mock_material), 2. check duplicate (returns mock_existing)
+    mock_query.first.side_effect = [mock_material, mock_existing]
+
     success = repo.update_material(1, "NEW_CODE_TAKEN", "Desc")
     assert success is False
 
 @pytest.mark.unit
 def test_link_material_to_product_success():
     """Verify successful linking of material to product."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
-    mock_prod = MagicMock()
+    mock_prod = MagicMock(spec=Producto)
     mock_prod.materiales = []
-    mock_mat = MagicMock()
+    mock_mat = MagicMock(spec=Material)
     
-    # First query for Product, Second for Material
-    mock_session.query.return_value.filter_by.return_value.first.side_effect = [mock_prod, mock_mat]
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [mock_prod, mock_mat]
     
     success = repo.link_material_to_product("PROD-01", 1)
     
@@ -193,16 +201,21 @@ def test_link_material_to_product_success():
 @pytest.mark.unit
 def test_link_material_to_product_already_exists():
     """Verify successful linking (idempotent) if already linked."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
-    mock_mat = MagicMock()
-    mock_prod = MagicMock()
+    mock_mat = MagicMock(spec=Material)
+    mock_prod = MagicMock(spec=Producto)
     mock_prod.materiales = [mock_mat] # Already has it
     
-    mock_session.query.return_value.filter_by.return_value.first.side_effect = [mock_prod, mock_mat]
+    mock_session.query.side_effect = [MagicMock(spec=Query), MagicMock(spec=Query)] # Or same query mock
+    # Simpler:
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [mock_prod, mock_mat]
     
     success = repo.link_material_to_product("PROD-01", 1)
     
@@ -212,17 +225,20 @@ def test_link_material_to_product_already_exists():
 
 @pytest.mark.unit
 def test_unlink_material_from_product_success():
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
-    mock_mat = MagicMock()
-    mock_prod = MagicMock()
+    mock_mat = MagicMock(spec=Material)
+    mock_prod = MagicMock(spec=Producto)
     mock_prod.materiales = [mock_mat]
     
-    mock_session.query.return_value.options.return_value.filter_by.return_value.first.return_value = mock_prod
-    mock_session.query.return_value.filter_by.return_value.first.return_value = mock_mat
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.options.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [mock_prod, mock_mat]
     
     success = repo.unlink_material_from_product("PROD-01", 1)
     
@@ -233,7 +249,7 @@ def test_unlink_material_from_product_success():
 def test_mock_default_error_value():
     """Verify default error value."""
     # Assuming helper method on instance, not testing BaseRepository logic directly but ensure override works if present
-    repo = MaterialRepository(MagicMock())
+    repo = MaterialRepository(MagicMock(spec=Session))
     assert repo._get_default_error_value() is None
 
 @pytest.mark.unit
@@ -282,16 +298,21 @@ def test_add_material_generic_exception():
 @pytest.mark.unit
 def test_update_material_success():
     """Verify successful material update."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
-    mock_material = MagicMock(id=1, codigo_componente="OLD")
-    mock_session.query.return_value.filter_by.return_value.first.return_value = mock_material
+    mock_material = MagicMock(spec=Material, id=1, codigo_componente="OLD")
+    
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.return_value = mock_material
     
     # Mock duplicate check: No conflict
-    mock_session.query.return_value.filter.return_value.first.return_value = None
+    mock_query.filter.return_value = mock_query
+    mock_query.first.side_effect = [mock_material, None]
     
     success = repo.update_material(1, "NEW", "Desc")
     assert success is True
@@ -300,13 +321,16 @@ def test_update_material_success():
 @pytest.mark.unit
 def test_link_material_to_product_not_found():
     """Verify failure to link if product or material not found."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
     # Simulate Product found, Material NOT found
-    mock_session.query.return_value.filter_by.return_value.first.side_effect = [MagicMock(), None]
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [MagicMock(spec=Producto), None]
     
     success = repo.link_material_to_product("PROD", 999)
     assert success is False
@@ -314,17 +338,20 @@ def test_link_material_to_product_not_found():
 @pytest.mark.unit
 def test_unlink_material_from_product_not_linked():
     """Verify unlink returns True if not linked (idempotent)."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
-    mock_prod = MagicMock()
+    mock_prod = MagicMock(spec=Producto)
     mock_prod.materiales = [] # Empty
-    mock_mat = MagicMock()
+    mock_mat = MagicMock(spec=Material)
     
-    mock_session.query.return_value.options.return_value.filter_by.return_value.first.return_value = mock_prod
-    mock_session.query.return_value.filter_by.return_value.first.return_value = mock_mat
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.options.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [mock_prod, mock_mat]
     
     success = repo.unlink_material_from_product("PROD", 1)
     assert success is True
@@ -332,16 +359,19 @@ def test_unlink_material_from_product_not_linked():
 @pytest.mark.unit
 def test_link_material_to_iteration_success():
     """Verify linking material to iteration."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
-    mock_iter = MagicMock()
+    mock_iter = MagicMock(spec=ProductIteration)
     mock_iter.materiales = []
-    mock_mat = MagicMock()
+    mock_mat = MagicMock(spec=Material)
     
-    mock_session.query.return_value.filter_by.return_value.first.side_effect = [mock_iter, mock_mat]
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [mock_iter, mock_mat]
     
     success = repo.link_material_to_iteration(1, 100)
     assert success is True
@@ -350,13 +380,16 @@ def test_link_material_to_iteration_success():
 @pytest.mark.unit
 def test_link_material_to_iteration_not_found():
     """Verify linking fails if entities not found."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
     # Iteration not found
-    mock_session.query.return_value.filter_by.return_value.first.side_effect = [None, MagicMock()]
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [None, MagicMock(spec=Material)]
     
     success = repo.link_material_to_iteration(999, 100)
     assert success is False
@@ -364,17 +397,20 @@ def test_link_material_to_iteration_not_found():
 @pytest.mark.unit
 def test_delete_material_link_from_iteration_success():
     """Verify unlinking material from iteration."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
-    mock_mat = MagicMock()
-    mock_iter = MagicMock()
+    mock_mat = MagicMock(spec=Material)
+    mock_iter = MagicMock(spec=ProductIteration)
     mock_iter.materiales = [mock_mat]
     
-    mock_session.query.return_value.options.return_value.filter_by.return_value.first.return_value = mock_iter
-    mock_session.query.return_value.filter_by.return_value.first.return_value = mock_mat
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.options.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [mock_iter, mock_mat]
     
     success = repo.delete_material_link_from_iteration(1, 100)
     assert success is True
@@ -385,32 +421,32 @@ def test_delete_material_link_from_iteration_success():
 @pytest.mark.unit
 def test_add_material_integrity_error_but_lookup_fails():
     """Verify IntegrityError handling when subsequent lookup also fails (returns None)."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
     # First query None
-    mock_session.query.return_value.filter_by.return_value.first.side_effect = [None]
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [None]
+    
     # Commit raises IntegrityError
     mock_session.commit.side_effect = IntegrityError(None, None, Exception("Duplicate"))
     
     # Retry session
-    mock_session_retry = MagicMock()
+    mock_session_retry = MagicMock(spec=Session)
     mock_factory.side_effect = [mock_session, mock_session_retry]
     repo.session_factory.side_effect = [mock_session_retry]
     
     # Retry query ALSO returns None
-    mock_session_retry.query.return_value.filter_by.return_value.first.return_value = None
+    mock_query_retry = MagicMock(spec=Query)
+    mock_session_retry.query.return_value = mock_query_retry
+    mock_query_retry.filter_by.return_value = mock_query_retry
+    mock_query_retry.first.return_value = None
     
     repo.safe_execute = MagicMock(side_effect=IntegrityError(None, None, Exception("Duplicate")))
-    
-    # We need to ensure we hit the exact structure of add_material which manually handles IntegrityError
-    # BUT we mocked safe_execute in the previous test which bypasses the real logic partially if we aren't careful.
-    # Actually, in strict unit testing of the METHOD logic, we shouldn't mock the method `safe_execute` if we want to test the `except IntegrityError` block AROUND it.
-    # However, `safe_execute` is called inside `add_material`.
-    # `try: return self.safe_execute(_operation) except IntegrityError...`
-    # So mocking `safe_execute` to raise `IntegrityError` IS the correct way to reach the except block.
     
     result = repo.add_material("FAIL_CODE", "Desc")
     assert result is None
@@ -418,14 +454,17 @@ def test_add_material_integrity_error_but_lookup_fails():
 @pytest.mark.unit
 def test_unlink_material_from_product_product_not_found():
     """Verify unlink returns False if product not found."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
     # Product None, Material ignored (lazy eval or second query)
-    mock_session.query.return_value.options.return_value.filter_by.return_value.first.return_value = None
-    mock_session.query.return_value.filter_by.return_value.first.return_value = MagicMock() # Material found
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.options.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [None, MagicMock(spec=Material)]
     
     success = repo.unlink_material_from_product("MISSING_PROD", 1)
     assert success is False
@@ -433,15 +472,18 @@ def test_unlink_material_from_product_product_not_found():
 @pytest.mark.unit
 def test_unlink_material_from_product_material_not_found():
     """Verify unlink returns True if material not found (idempotent)."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
-    mock_prod = MagicMock()
-    # Product found, Material None
-    mock_session.query.return_value.options.return_value.filter_by.return_value.first.return_value = mock_prod
-    mock_session.query.return_value.filter_by.return_value.first.return_value = None
+    mock_prod = MagicMock(spec=Producto)
+    
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.options.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [mock_prod, None]
     
     success = repo.unlink_material_from_product("PROD", 999)
     # Code says: if not material: return True
@@ -450,16 +492,19 @@ def test_unlink_material_from_product_material_not_found():
 @pytest.mark.unit
 def test_link_material_to_iteration_already_linked():
     """Verify link iteration returns True if already linked."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
-    mock_mat = MagicMock()
-    mock_iter = MagicMock()
+    mock_mat = MagicMock(spec=Material)
+    mock_iter = MagicMock(spec=ProductIteration)
     mock_iter.materiales = [mock_mat]
     
-    mock_session.query.return_value.filter_by.return_value.first.side_effect = [mock_iter, mock_mat]
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [mock_iter, mock_mat]
     
     success = repo.link_material_to_iteration(1, 100)
     assert success is True
@@ -469,13 +514,16 @@ def test_link_material_to_iteration_already_linked():
 @pytest.mark.unit
 def test_delete_material_link_from_iteration_iteration_not_found():
     """Verify delete link returns False if iteration not found."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
-    mock_session.query.return_value.options.return_value.filter_by.return_value.first.return_value = None
-    mock_session.query.return_value.filter_by.return_value.first.return_value = MagicMock()
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.options.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [None, MagicMock()]
     
     success = repo.delete_material_link_from_iteration(999, 100)
     assert success is False
@@ -483,13 +531,16 @@ def test_delete_material_link_from_iteration_iteration_not_found():
 @pytest.mark.unit
 def test_delete_material_link_from_iteration_material_not_found():
     """Verify delete link returns True if material not found."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
-    mock_session.query.return_value.options.return_value.filter_by.return_value.first.return_value = MagicMock()
-    mock_session.query.return_value.filter_by.return_value.first.return_value = None
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.options.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [MagicMock(spec=ProductIteration), None]
     
     success = repo.delete_material_link_from_iteration(1, 999)
     assert success is True
@@ -497,17 +548,20 @@ def test_delete_material_link_from_iteration_material_not_found():
 @pytest.mark.unit
 def test_delete_material_link_from_iteration_not_linked():
     """Verify delete link returns True if not linked."""
-    mock_session = MagicMock()
+    mock_session = MagicMock(spec=Session)
     mock_factory = MagicMock(return_value=mock_session)
     mock_session.__enter__.return_value = mock_session
     repo = MaterialRepository(mock_factory)
     
-    mock_mat = MagicMock()
-    mock_iter = MagicMock()
+    mock_mat = MagicMock(spec=Material)
+    mock_iter = MagicMock(spec=ProductIteration)
     mock_iter.materiales = [] # Empty
     
-    mock_session.query.return_value.options.return_value.filter_by.return_value.first.return_value = mock_iter
-    mock_session.query.return_value.filter_by.return_value.first.return_value = mock_mat
+    mock_query = MagicMock(spec=Query)
+    mock_session.query.return_value = mock_query
+    mock_query.options.return_value = mock_query
+    mock_query.filter_by.return_value = mock_query
+    mock_query.first.side_effect = [mock_iter, mock_mat]
     
     success = repo.delete_material_link_from_iteration(1, 100)
     assert success is True

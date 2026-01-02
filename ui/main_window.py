@@ -32,6 +32,10 @@ def resource_path(relative_path):
 
 class MainView(QMainWindow):
     """Vista principal de la aplicación (la ventana)."""
+    
+    # Attributes for strict mocks
+    pages = {}
+    buttons = {}
 
     def __init__(self, parent=None):
         """Inicializa la ventana principal y sus componentes de UI."""

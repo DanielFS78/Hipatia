@@ -17,6 +17,7 @@ from .preproceso_repository import PreprocesoRepository
 from .lote_repository import LoteRepository
 from .tracking_repository import TrackingRepository
 from .label_counter_repository import LabelCounterRepository
+from .reports_repository import ReportsRepository
 # Opcional: Define qué se importa con 'from .repositories import *'
 __all__ = [
     'BaseRepository',
@@ -28,5 +29,6 @@ __all__ = [
     'ConfigurationRepository',
     'MaterialRepository',
     'IterationRepository',
-    'TrackingRepository'
+    'TrackingRepository',
+    'ReportsRepository'
 ]

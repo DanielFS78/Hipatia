@@ -6,6 +6,15 @@ class PreprocesosWidget(QWidget):
     Widget rediseñado para la gestión de Preprocesos.
     Muestra una lista a la izquierda y los detalles del seleccionado a la derecha.
     """
+    
+    # Attributes for strict mocks
+    add_button = None
+    edit_button = None
+    delete_button = None
+    search_entry = None
+    preprocesos_list = None
+    preprocesos_data_cache = []
+    current_preproceso_id = None
 
     def __init__(self, controller=None):
         super().__init__()

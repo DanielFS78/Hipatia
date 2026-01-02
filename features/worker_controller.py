@@ -23,6 +23,10 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt
 
+# New Imports for Phase 4
+from core.production_context import ProductionContext
+from ui.dialogs.tracking_dialogs import OrderSetupDialog
+
 
 # ============================================================================
 # DIÁLOGO PARA REGISTRAR INCIDENCIAS
@@ -172,6 +176,9 @@ class WorkerController:
         self.logger.info(
             f"WorkerController inicializado para trabajador ID: {current_user.get('id')}"
         )
+
+        # --- Phase 4: Production Context ---
+        self.context = ProductionContext()
 
     def initialize(self):
         """
@@ -881,6 +888,20 @@ class WorkerController:
                 if ultimo_paso:
                     info_paso = f"{ultimo_paso.paso_nombre} ({ultimo_paso.estado_paso})"
                 
+                # Formatear la LISTA de Pasos (Trazabilidad Multicapa)
+                pasos_str = ""
+                if hasattr(trabajo_existente_obj, 'pasos_trazabilidad') and trabajo_existente_obj.pasos_trazabilidad:
+                    pasos_str = "\n\n📋 HISTORIAL DE PROCESOS:"
+                    # Ordenar por fecha (aunque ya deberían venir ordenados de DB, nos aseguramos si es necesario)
+                    # pero asumimos que el repo los trae ordenados o el orden de inserción.
+                    for p in trabajo_existente_obj.pasos_trazabilidad:
+                        # p es un PasoTrazabilidadDTO
+                        estado_p = "✅" if p.estado_paso == 'completado' else "⏳"
+                        hora_p = p.tiempo_inicio_paso.strftime('%H:%M') if p.tiempo_inicio_paso else ""
+                        nombre_w = p.trabajador_nombre or "Desconocido"
+                        duracion = f"({p.duracion_paso_segundos}s)" if p.duracion_paso_segundos else ""
+                        pasos_str += f"\n- {estado_p} {p.paso_nombre} | {nombre_w} | {hora_p} {duracion}"
+
                 # Formatear incidencias si existen
                 incidencias_str = ""
                 if trabajo_existente_obj.incidencias:
@@ -890,18 +911,21 @@ class WorkerController:
                         estado_inc = inc.estado.upper()
                         incidencias_str += f"\n- [{fecha_inc}] ({estado_inc}) {inc.tipo_incidencia}: {inc.descripcion}"
 
-                self.main_window.show_message(
-                    f"QR EN USO - {estado}",
-                    f"Información del Código QR:\n\n"
-                    f"Producto: {trabajo_existente_obj.producto_codigo}\n"
-                    f"Orden Prod (OF): {orden_fab}\n"
-                    f"Trabajador: {trabajador}\n"
-                    f"Fecha Inicio: {fecha_inicio}\n"
-                    f"Estado Global: {estado}\n"
-                    f"Último Paso: {info_paso}"
-                    f"{incidencias_str}",
-                    "warning" if estado == "EN_PROCESO" else "info"
+                msg_final = (
+                    f"✅ UNIDAD REGISTRADA\n\n"
+                    f"OF: {orden_fab}\n"
+                    f"Estado: {estado}\n"
+                    f"Inicio: {fecha_inicio}\n"
+                    f"{pasos_str}"
+                    f"{incidencias_str}"
                 )
+
+                self.main_window.show_message(
+                    "Información de Trazabilidad",
+                    msg_final,
+                    "info"
+                )
+
             else:
                 self.main_window.show_message(
                     "QR DISPONIBLE",
@@ -917,21 +941,14 @@ class WorkerController:
     def _handle_start_task(self, task_data: Dict[str, Any]):
         """
         Maneja la solicitud de INICIAR un paso de trabajo escaneando un QR.
-
-        Lógica:
-        1. Comprueba si el trabajador ya tiene un paso activo (error).
-        2. Escanea QR.
-        3. Valida el formato del QR.
-        4. PREGUNTA por la OF si el QR es nuevo.
-        5. Obtiene/Crea el TrabajoLog ("pasaporte") para ese QR (ya con la OF).
-        6. Comprueba el último paso ("sello") de ese pasaporte.
-        7. Inicia el nuevo paso (`PasoTrazabilidad`).
+        Implementa el flujo de "Producción Inteligente" (Fase 4).
         """
         if not self.qr_scanner or not self.tracking_repo:
             self.logger.error("QR Scanner o Tracking Repository no están disponibles")
             return
 
         trabajador_id = self.current_user.get('id')
+        trabajador_rol = self.current_user.get('role', 'Operario')
         fabricacion_id = task_data.get('id')
 
         try:
@@ -939,21 +956,28 @@ class WorkerController:
             paso_ya_activo = self.tracking_repo.get_paso_activo_por_trabajador(trabajador_id)
             if paso_ya_activo:
                 self.main_window.show_message("Acción Requerida",
-                                              f"Ya tienes un paso 'en_proceso'.\n\nFinaliza '{paso_ya_activo.paso_nombre}' antes de iniciar uno nuevo.",
+                                              f"Ya tienes un paso 'en_proceso' ({paso_ya_activo.paso_nombre}).\n\n"
+                                              "Finalízalo antes de iniciar uno nuevo.",
                                               "warning")
                 return
 
-            # --- 2. Escanear QR ---
-            self.logger.info(f"Iniciando escaneo para comenzar/continuar la tarea: {task_data.get('codigo')}")
-            self.main_window.show_message("Escáner", "Acerque el QR de la UNIDAD para INICIAR el siguiente paso...",
-                                          "info")
+            # --- 2. Preparar el mensaje de escaneo (con contexto si existe) ---
+            scan_prompt = "Acerque el QR de la UNIDAD..."
+            if self.context.is_active:
+                progress = self.context.get_progress_label()
+                scan_prompt += f"\n\nEsperando: {progress}\nPedido: {self.context.order_number}"
 
+            self.main_window.show_message("Escáner", scan_prompt, "info")
+
+            # --- 3. Escanear QR ---
+            self.logger.info(f"Iniciando escaneo. Contexto activo: {self.context.is_active}")
             qr_data = self.qr_scanner.scan_once(timeout=30)
+            
             if not qr_data:
                 self.logger.info("Escaneo cancelado.")
                 return
 
-            # --- 3. Validar formato QR y Tarea ---
+            # --- 4. Validar formato QR y Tarea ---
             parsed_data = self.qr_scanner.parse_qr_data(qr_data)
             if not parsed_data:
                 self.main_window.show_message("QR Inválido",
@@ -961,148 +985,150 @@ class WorkerController:
                                               "warning")
                 return
 
-            # Obtenemos AMBOS códigos de producto para compararlos
             producto_qr_codigo = parsed_data.get('producto_codigo')
             producto_tarea_codigo = task_data.get('producto_codigo')
 
-            # Validación: Asegurarse de que el QR escaneado pertenece a la tarea seleccionada
             if producto_qr_codigo != producto_tarea_codigo:
-                self.logger.warning(f"QR ({producto_qr_codigo}) no coincide con Tarea ({producto_tarea_codigo})")
                 self.main_window.show_message(
                     "QR Incorrecto",
-                    f"El QR escaneado ({producto_qr_codigo}) no corresponde al producto de la tarea seleccionada ({producto_tarea_codigo}).",
+                    f"El QR ({producto_qr_codigo}) no coincide con la tarea seleccionada ({producto_tarea_codigo}).",
                     "error"
                 )
                 return
 
-            # --- 4. PREGUNTAR por la OF si el QR es nuevo ---
+            # --- 5. Lógica de Contexto e Inicio de Unidad ---
             numero_of_para_guardar = None
-
-            # Buscamos primero si el "pasaporte" ya existe
+            
+            # Buscar si el QR ya tiene historial ("Pasaporte")
             trabajo_log_existente = self.tracking_repo.obtener_trabajo_por_qr(qr_data)
 
             if not trabajo_log_existente:
-                self.logger.info(f"Es un QR nuevo. Solicitando Orden de Fabricación (Pedido)...")
+                # ==> NUEVA UNIDAD (No existe en DB)
+                
+                # A. Si tenemos contexto activo, usamos sus datos
+                if self.context.is_active:
+                    # Validar si ya hemos terminado el objetivo
+                    if self.context.is_complete():
+                        # Preguntar si desea cerrar el pedido actual
+                        if self.main_window.show_confirmation_dialog(
+                            "Pedido Completado",
+                            f"Se han completado las {self.context._status.total_units} unidades previstas.\n\n"
+                            "¿Desea CERRAR este pedido y comenzar uno nuevo?\n"
+                            "(Si elige 'No', se permitirá sobre-producción)"
+                        ):
+                            # Usuario quiere cerrar: resetear contexto
+                            self.context.reset()
+                            self.logger.info("Contexto de producción cerrado por usuario.")
+                            # Al estar inactivo, pasará al bloque 'else' que muestra OrderSetupDialog
+                        else:
+                            # Usuario quiere continuar (sobre-producción)
+                            self.logger.info("Usuario permite sobre-producción, continuando...")
 
-                # Mostramos el pop-up para pedir el número de pedido
-                numero_of_para_guardar, ok = QInputDialog.getText(
-                    self.main_window,
-                    "Orden de Fabricación (Pedido)",
-                    "Es la primera vez que se escanea esta unidad.\n\nIntroduce el Nº de Pedido (OF) asociado:"
-                )
+                    # Usar datos del contexto si sigue activo
+                    if self.context.is_active:
+                        numero_of_para_guardar = self.context.order_number
+                        self.logger.info(f"Usando OF del contexto: {numero_of_para_guardar}")
 
-                if not ok:
-                    self.logger.info("El usuario canceló la introducción de la OF.")
-                    return  # El usuario pulsó "Cancelar"
+                # B. Si NO hay contexto, preguntamos al usuario (OrderSetupDialog)
+                else:
+                    self.logger.info("QR nuevo y sin contexto. Solicitando configuración de pedido...")
+                    dialog = OrderSetupDialog(self.main_window)
+                    if dialog.exec() == QDialog.DialogCode.Accepted:
+                        data = dialog.get_data()
+                        numero_of_para_guardar = data['order_number']
+                        total_units = data['total_units']
+                        
+                        # Iniciar el contexto
+                        # El proceso actual se deriva del ROL del trabajador
+                        self.context.start_session(
+                            order_number=numero_of_para_guardar, 
+                            total_units=total_units, 
+                            process_name=trabajador_rol
+                        )
+                    else:
+                        self.logger.info("Configuración de pedido cancelada.")
+                        return
 
-                if not numero_of_para_guardar or not numero_of_para_guardar.strip():
-                    self.main_window.show_message("Error",
-                                                  "El número de Orden de Fabricación (Pedido) es obligatorio para iniciar una nueva unidad.",
-                                                  "error")
-                    return  # El usuario dejó el campo vacío
+            else:
+                # ==> UNIDAD EXISTENTE
+                numero_of_para_guardar = trabajo_log_existente.orden_fabricacion
+                
+                # Check de seguridad: ¿Es la misma OF que estamos trabajando?
+                if self.context.is_active and numero_of_para_guardar != self.context.order_number:
+                     self.main_window.show_message(
+                         "Advertencia de Pedido",
+                         f"Estás trabajando en el pedido {self.context.order_number}, pero este QR pertenece al {numero_of_para_guardar}.\nSe registrará el paso correctamente, pero verifica que no cruzas pedidos.",
+                         "warning"
+                     )
 
-                numero_of_para_guardar = numero_of_para_guardar.strip().upper()
-                self.logger.info(f"OF introducida: {numero_of_para_guardar}")
-
-            # --- 5. Obtener/Crear el "Pasaporte" (TrabajoLog) ---
+            # --- 6. Obtener/Crear el "Pasaporte" ---
             trabajo_log = self.tracking_repo.obtener_o_crear_trabajo_log_por_qr(
                 qr_code=qr_data,
                 trabajador_id=trabajador_id,
                 fabricacion_id=fabricacion_id,
                 producto_codigo=producto_tarea_codigo,
-                orden_fabricacion=numero_of_para_guardar  # Pasamos la OF (o None si ya existía)
+                orden_fabricacion=numero_of_para_guardar
             )
 
             if not trabajo_log:
-                self.main_window.show_message("Error de Base de Datos",
-                                              "No se pudo obtener o crear el registro (pasaporte) para este QR.",
-                                              "error")
+                self.main_window.show_message("Error", "No se pudo crear el registro para este QR.", "error")
                 return
 
-            # --- 6. Comprobar el último "Sello" (PasoTrazabilidad) ---
-            ultimo_paso = self.tracking_repo.get_ultimo_paso_para_qr(trabajo_log.id)
+            # --- 7. Determinar el nombre del paso (Multicapa Dinámica) ---
+            # El nombre del paso es el ROL del trabajador (o tarea específica si se implementa selección)
+            nombre_paso_actual = trabajador_rol
+            
+            # Validar duplicados: ¿Ya se hizo este paso en esta unidad?
+            ultimo_paso_mismo_tipo = False
+            if trabajo_log.pasos_trazabilidad:
+                for p in trabajo_log.pasos_trazabilidad:
+                    if p.paso_nombre == nombre_paso_actual and p.estado_paso == 'completado':
+                         ultimo_paso_mismo_tipo = True
+                         break
+            
+            if ultimo_paso_mismo_tipo:
+                 if not self.main_window.show_confirmation_dialog(
+                     "Paso Duplicado",
+                     f"El paso '{nombre_paso_actual}' ya figura como completado para esta unidad.\n¿Desea repetirlo/registrarlo de nuevo?"
+                 ):
+                     return
 
-            if ultimo_paso and ultimo_paso.estado_paso == 'en_proceso':
-                if ultimo_paso.trabajador_id == trabajador_id:
-                    self.main_window.show_message("Paso en Proceso",
-                                                  f"Ya tienes este paso '{ultimo_paso.paso_nombre}' en proceso.\n\n"
-                                                  "Pulsa 'Finalizar Tarea' para completarlo.",
-                                                  "info")
-                else:
-                    self.main_window.show_message("QR en Uso",
-                                                  "Esta unidad está siendo trabajada por otro operario en este momento.",
-                                                  "error")
-                return
-
-            # --- 7. Buscar el siguiente paso a realizar ---
-            # (Esta es la parte que requiere la configuración del producto)
-
-            # TODO: Esta lógica debe implementarse. Por ahora, creamos un paso genérico.
-
-            # --- Lógica de ejemplo (temporal) ---
-            paso_nombre_siguiente = "Paso Genérico"
-            tipo_paso_siguiente = "generico"
-            maquina_id_siguiente = None
-            es_paso_final = False
-
-            num_paso_actual = 0
-            if ultimo_paso:
-                try:
-                    num_paso_actual = int(ultimo_paso.paso_nombre.split(" ")[-1])
-                except:
-                    num_paso_actual = 0
-
-            paso_nombre_siguiente = f"Paso Genérico {num_paso_actual + 1}"
-            if num_paso_actual + 1 >= 3:
-                es_paso_final = True
-            # --- Fin lógica de ejemplo ---
-
-            # --- 8. Iniciar el nuevo paso (crear el "sello") ---
-            self.logger.info(f"Iniciando nuevo paso: {paso_nombre_siguiente}")
+            # --- 8. Iniciar el paso (Sello) ---
+            self.logger.info(f"Iniciando paso '{nombre_paso_actual}' para QR {qr_data}")
             nuevo_paso = self.tracking_repo.iniciar_nuevo_paso(
                 trabajo_log_id=trabajo_log.id,
                 trabajador_id=trabajador_id,
-                paso_nombre=paso_nombre_siguiente,
-                tipo_paso=tipo_paso_siguiente,
-                maquina_id=maquina_id_siguiente
+                paso_nombre=nombre_paso_actual,
+                tipo_paso="standard_process", # Se podría refinar más
+                maquina_id=None
             )
 
             if nuevo_paso:
-                # Recargar trabajos activos
+                # Incrementamos contador de sesión (solo si es nuevo en esta sesión)
+                # OJO: Si es un paso nuevo de una unidad existente, ¿cuenta? 
+                # Sí, cuenta como "unidad procesada por mi"
+                self.context.increment_unit()
+                
                 self._load_active_trabajos()
-
-                # Actualizar estado de la interfaz
-                self.main_window.update_task_state("en_proceso", paso_nombre_siguiente)
-
-                # Habilitar botones de finalizar e incidencia
+                self.main_window.update_task_state("en_proceso", nombre_paso_actual)
                 self.main_window.enable_action_buttons(True)
 
-                self.main_window.show_message(
-                    "Paso Iniciado",
-                    f"Has iniciado el paso: {paso_nombre_siguiente}\n"
-                    f"OF: {trabajo_log.orden_fabricacion}\n"
-                    f"Unidad QR: {qr_data}",
-                    "info"
-                )
+                # Mensaje de éxito con progreso
+                msg = f"Iniciada unidad: {qr_data[-6:]}\nPaso: {nombre_paso_actual}"
+                if self.context.is_active:
+                    msg += f"\n\nPROGRESO: {self.context.get_progress_label()}"
+                
+                self.main_window.show_message("Paso Iniciado", msg, "info")
             else:
-                self.main_window.show_message("Error", "No se pudo registrar el inicio del nuevo paso.", "error")
+                self.main_window.show_message("Error", "No se pudo iniciar el paso.", "error")
 
         except Exception as e:
             self.logger.error(f"Error crítico al iniciar paso: {e}", exc_info=True)
-            self.main_window.show_message("Error Crítico", f"Ocurrió un error al iniciar el paso: {e}", "error")
+            self.main_window.show_message("Error Crítico", f"Ocurrió un error: {e}", "error")
 
     def _handle_end_task(self, task_data: Dict[str, Any]):
         """
         Maneja la solicitud de FINALIZAR el paso de trabajo activo.
-        MODIFICADO: Ahora requiere escanear el QR para confirmar.
-
-        Lógica:
-        1. Comprueba si el trabajador tiene un paso activo. Si no, error.
-        2. Escanea QR.
-        3. Valida que el QR escaneado es el MISMO que el del paso activo.
-        4. Finaliza el PasoTrazabilidad (el "sello").
-        5. Comprueba si era el último paso del producto.
-        6. Si era el último, finaliza el TrabajoLog (el "pasaporte").
         """
         if not self.qr_scanner or not self.tracking_repo:
             self.logger.error("QR Scanner o Tracking Repository no están disponibles")
@@ -1119,7 +1145,6 @@ class WorkerController:
                 return
 
             # Obtener el QR del pasaporte asociado a este paso activo
-            # Usar el trabajo_log_id para buscar el TrabajoLog
             trabajo_log_activo = self.tracking_repo.obtener_trabajo_por_id(paso_activo.trabajo_log_id)
             if not trabajo_log_activo:
                 self.main_window.show_message("Error de Sincronización",
@@ -1131,7 +1156,7 @@ class WorkerController:
             self.logger.info(
                 f"Finalizando paso ID: {paso_activo.id} ({paso_activo.paso_nombre}). Se espera QR: {qr_de_la_tarea_activa}")
 
-            # --- 2. Escanear QR para confirmar ---
+            # --- 2. Escanear QR para confirmar (Seguridad) ---
             self.main_window.show_message("Escáner",
                                           f"Acerque el QR ({qr_de_la_tarea_activa[:10]}...) para FINALIZAR el paso...",
                                           "info")
@@ -1161,44 +1186,16 @@ class WorkerController:
                 self.main_window.show_message("Error", "No se pudo guardar la finalización del paso.", "error")
                 return
 
-            # --- 5. Comprobar si era el último paso ---
-            # (Se mantiene la lógica de ejemplo temporal)
-
-            # TODO: Esta lógica debe implementarse.
-            # Aquí deberías consultar el Producto y ver si 'paso_finalizado.paso_nombre'
-            # era la última subfabricacion / proceso.
-
-            es_paso_final = False
-            if "Paso Genérico" in paso_finalizado.paso_nombre:
-                # Para este test, un producto simple solo tiene un paso.
-                # TODO: Reemplazar esto con lógica real de subfabricaciones
-                es_paso_final = True
-
-            # --- 6. Si era el último, finalizar el "Pasaporte" (TrabajoLog) ---
-            if es_paso_final:
-                self.logger.info(
-                    f"Era el último paso. Finalizando el TrabajoLog (Pasaporte) ID: {paso_finalizado.trabajo_log_id}")
-                trabajo_log_finalizado = self.tracking_repo.finalizar_trabajo_log(
-                    paso_finalizado.trabajo_log_id,
-                    notas_finalizacion="Completado último paso."
-                )
-                if trabajo_log_finalizado:
-                    self.main_window.show_message(
-                        "Unidad Completada",
-                        f"¡Has completado el último paso!\n\nDuración total unidad: {trabajo_log_finalizado.duracion_segundos}s",
-                        "info"
-                    )
-            else:
-                self.main_window.show_message(
-                    "Paso Finalizado",
-                    f"Paso '{paso_finalizado.paso_nombre}' completado en {paso_finalizado.duracion_paso_segundos} segundos.",
-                    "info"
-                )
-
-            # --- 7. Actualizar UI ---
-            self._load_active_trabajos()  # Recargar caché
+            # --- 5. Feedback y UI ---
+            self._load_active_trabajos()  # Recargar caché (quitará la tarea activa)
             self.main_window.update_task_state("pendiente", None)  # Volver a estado "listo"
             self.main_window.enable_action_buttons(False)  # Deshabilitar botones de acción
+
+            msg = f"Paso '{paso_finalizado.paso_nombre}' finalizado.\nDuración: {paso_finalizado.duracion_paso_segundos}s"
+            if self.context.is_active:
+                msg += f"\n\nPROGRESO: {self.context.get_progress_label()}"
+            
+            self.main_window.show_message("Paso Finalizado", msg, "info")
 
         except Exception as e:
             self.logger.error(f"Error crítico al finalizar paso: {e}", exc_info=True)

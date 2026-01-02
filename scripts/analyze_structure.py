@@ -1,81 +1,63 @@
-
-import os
 import ast
+import os
 import sys
 
-def analyze_file(filepath):
-    """Parses a python file and extracts class and method defs, specifically looking for materials/components usage."""
-    with open(filepath, 'r') as f:
-        try:
-            tree = ast.parse(f.read())
-        except Exception:
-            return {}
-            
-    analysis = {
-        'classes': {},
-        'imports': []
-    }
-    
-    for node in ast.walk(tree):
-        if isinstance(node, ast.Import) or isinstance(node, ast.ImportFrom):
-            # rudimentary import capture
-            if isinstance(node, ast.Import):
-                for n in node.names:
-                    analysis['imports'].append(n.name)
-            else:
-                module = node.module or ''
-                for n in node.names:
-                    analysis['imports'].append(f"{module}.{n.name}")
+def analyze_file(file_path):
+    with open(file_path, "r", encoding="utf-8") as f:
+        tree = ast.parse(f.read())
 
+    report = []
+    report.append(f"# Analysis of {os.path.basename(file_path)}\n")
+    report.append(f"**Path**: `{file_path}`\n")
+
+    for node in ast.walk(tree):
         if isinstance(node, ast.ClassDef):
-            methods = []
+            report.append(f"## Class: {node.name}")
+            # Get bases
+            bases = [b.id for b in node.bases if isinstance(b, ast.Name)]
+            if bases:
+                report.append(f"- Inherits from: {', '.join(bases)}")
+            
+            # Get methods
             for item in node.body:
                 if isinstance(item, ast.FunctionDef):
                     args = [a.arg for a in item.args.args]
-                    methods.append(f"{item.name}({', '.join(args)})")
-            
-            analysis['classes'][node.name] = methods
-            
-    return analysis
+                    report.append(f"- Method: `{item.name}({', '.join(args)})`")
+                    if ast.get_docstring(item):
+                        doc = ast.get_docstring(item).split('\n')[0]
+                        report.append(f"  - Doc: {doc}")
+            report.append("")
 
-def scan_repository(root_dir):
-    relevant_files = [
-        'database/repositories/material_repository.py',
-        'database/repositories/product_repository.py',
-        'database/repositories/preproceso_repository.py',
-        'controllers/product_controller.py',
-        'ui/dialogs/prep_dialogs.py',
-        'core/dtos.py',
-        'core/app_model.py'
+        elif isinstance(node, ast.FunctionDef):
+            # Check if it's a top-level function (not inside a class)
+            # This is a bit simplified, ast.walk is depth-first but doesn't track parent interaction easily
+            # However, for a summary report, listing all functions is okay, or we can just skip if inside class (handled above)
+            pass 
+
+    return "\n".join(report)
+
+def main():
+    target_files = [
+        "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/core/qr_scanner.py",
+        "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/controllers/app_controller.py",
+        "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/core/app_model.py",
+        "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/database/repositories/tracking_repository.py",
+        "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/database/models.py",
+        "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/ui/widgets/calculate_times_widget.py"
     ]
-    
-    print("# Análisis de Arquitectura: Materiales y Componentes\n")
-    
-    for rel_path in relevant_files:
-        full_path = os.path.join(root_dir, rel_path)
-        if os.path.exists(full_path):
-            print(f"## Archivo: `{rel_path}`")
-            data = analyze_file(full_path)
-            
-            if data['imports']:
-                print("**Imports Relevantes:**")
-                for imp in data['imports']:
-                    if 'ui' in imp or 'database' in imp or 'core' in imp:
-                        print(f"- {imp}")
-            
-            if data['classes']:
-                print("\n**Clases y Métodos:**")
-                for cls, methods in data['classes'].items():
-                    print(f"- **{cls}**")
-                    for method in methods:
-                        # Highlight relevant methods
-                        if any(k in method.lower() for k in ['material', 'componente', 'preproceso', 'dialog']):
-                            print(f"  - `{method}` 👈")
-                        else:
-                            print(f"  - `{method}`")
-            print("\n" + "="*50 + "\n")
+
+    output_dir = "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/Documentacion/Fase 4"
+    os.makedirs(output_dir, exist_ok=True)
+
+    for file_path in target_files:
+        if os.path.exists(file_path):
+            print(f"Analyzing {file_path}...")
+            content = analyze_file(file_path)
+            output_filename = f"analysis_{os.path.basename(file_path).replace('.py', '')}.md"
+            with open(os.path.join(output_dir, output_filename), "w", encoding="utf-8") as f:
+                f.write(content)
         else:
-            print(f"Warning: File not found: {rel_path}")
+            print(f"File not found: {file_path}")
 
 if __name__ == "__main__":
-    scan_repository(os.getcwd())
+    main()

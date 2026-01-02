@@ -1,0 +1,2820 @@
+[
+  {
+    "file": "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/core/production_context.py",
+    "filename": "production_context.py",
+    "classes": [
+      {
+        "name": "ProductionStatus",
+        "lineno": 5,
+        "docstring": "Data class to hold the status of the current production session.",
+        "bases": [],
+        "methods": [],
+        "class_attributes": [],
+        "instance_attributes": []
+      },
+      {
+        "name": "ProductionContext",
+        "lineno": 13,
+        "docstring": "Manages the context of the current production session for a worker.\nKeeps track of the current Order (OF), progress (1 of X), and current process layer.",
+        "bases": [],
+        "methods": [
+          {
+            "name": "__init__",
+            "lineno": 18,
+            "docstring": null,
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "start_session",
+            "lineno": 27,
+            "docstring": "Starts a new production session.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "order_number",
+                "type": "str"
+              },
+              {
+                "name": "total_units",
+                "type": "int"
+              },
+              {
+                "name": "process_name",
+                "type": "str"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "increment_unit",
+            "lineno": 37,
+            "docstring": "Increments the completed units counter.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "is_complete",
+            "lineno": 42,
+            "docstring": "Checks if the target number of units has been reached.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "bool"
+          },
+          {
+            "name": "get_progress_label",
+            "lineno": 46,
+            "docstring": "Returns a formatted string like 'Unit 5 of 100'.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "str"
+          },
+          {
+            "name": "reset",
+            "lineno": 52,
+            "docstring": "Clears the current session.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "order_number",
+            "lineno": 63,
+            "docstring": null,
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": true,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [
+              "property"
+            ],
+            "return_type": "str"
+          },
+          {
+            "name": "current_process",
+            "lineno": 67,
+            "docstring": null,
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": true,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [
+              "property"
+            ],
+            "return_type": "str"
+          },
+          {
+            "name": "is_active",
+            "lineno": 71,
+            "docstring": null,
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": true,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [
+              "property"
+            ],
+            "return_type": "bool"
+          }
+        ],
+        "class_attributes": [],
+        "instance_attributes": [
+          {
+            "name": "_status",
+            "lineno": 19
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "constants": [],
+    "imports": [
+      {
+        "type": "from",
+        "module": "dataclasses",
+        "name": "dataclass",
+        "alias": null,
+        "lineno": 1
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Optional",
+        "alias": null,
+        "lineno": 2
+      }
+    ]
+  },
+  {
+    "file": "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/core/tracking_dtos.py",
+    "filename": "tracking_dtos.py",
+    "classes": [
+      {
+        "name": "FabricacionAsignadaDTO",
+        "lineno": 6,
+        "docstring": "DTO para fabricaciones asignadas a un trabajador.",
+        "bases": [],
+        "methods": [],
+        "class_attributes": [],
+        "instance_attributes": []
+      },
+      {
+        "name": "IncidenciaAdjuntoDTO",
+        "lineno": 16,
+        "docstring": "DTO para adjuntos de una incidencia.",
+        "bases": [],
+        "methods": [],
+        "class_attributes": [],
+        "instance_attributes": []
+      },
+      {
+        "name": "IncidenciaLogDTO",
+        "lineno": 23,
+        "docstring": "DTO para incidencias registradas.",
+        "bases": [],
+        "methods": [],
+        "class_attributes": [],
+        "instance_attributes": []
+      },
+      {
+        "name": "PasoTrazabilidadDTO",
+        "lineno": 37,
+        "docstring": "DTO para pasos de trazabilidad (sellos).",
+        "bases": [],
+        "methods": [],
+        "class_attributes": [],
+        "instance_attributes": []
+      },
+      {
+        "name": "TrabajoLogDTO",
+        "lineno": 52,
+        "docstring": "DTO para el log principal de trabajo (Pasaporte).",
+        "bases": [],
+        "methods": [],
+        "class_attributes": [],
+        "instance_attributes": []
+      }
+    ],
+    "functions": [],
+    "constants": [],
+    "imports": [
+      {
+        "type": "from",
+        "module": "dataclasses",
+        "name": "dataclass",
+        "alias": null,
+        "lineno": 1
+      },
+      {
+        "type": "from",
+        "module": "dataclasses",
+        "name": "field",
+        "alias": null,
+        "lineno": 1
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "List",
+        "alias": null,
+        "lineno": 2
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Optional",
+        "alias": null,
+        "lineno": 2
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Dict",
+        "alias": null,
+        "lineno": 2
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Any",
+        "alias": null,
+        "lineno": 2
+      },
+      {
+        "type": "from",
+        "module": "datetime",
+        "name": "datetime",
+        "alias": null,
+        "lineno": 3
+      },
+      {
+        "type": "from",
+        "module": "datetime",
+        "name": "date",
+        "alias": null,
+        "lineno": 3
+      }
+    ]
+  },
+  {
+    "file": "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/core/qr_scanner.py",
+    "filename": "qr_scanner.py",
+    "classes": [
+      {
+        "name": "QrScanner",
+        "lineno": 41,
+        "docstring": "Escáner de códigos QR para trazabilidad usando OpenCV.\n\nEsta versión usa el detector QR nativo de OpenCV, eliminando la\ndependencia de pyzbar que tiene problemas en Windows.\n\nSoporta dos modos de operación:\n- CONSULTA: Solo muestra información del QR sin registrar nada\n- TRABAJO: Registra inicio/fin de trabajo en la base de datos\n\nAttributes:\n    logger: Logger para registro de operaciones\n    camera_index: Índice de la cámara (0 por defecto)\n    camera: Objeto VideoCapture de OpenCV\n    qr_detector: Detector QR (WeChatQRCode o QRCodeDetector fallback)\n    use_wechat: Booleano indicando si se está usando el motor optimizado\n    last_scan: Último QR escaneado (para evitar lecturas duplicadas)\n    scan_cooldown: Tiempo mínimo entre escaneos del mismo QR (segundos)",
+        "bases": [],
+        "methods": [
+          {
+            "name": "__init__",
+            "lineno": 62,
+            "docstring": "Inicializa el escáner de QR.\nMODIFICADO: Acepta un objeto de cámara YA ABIERTO.\n\nArgs:\n    camera_manager: La instancia global de CameraManager.\n    camera_index: Índice de la cámara a usar.\n    camera_object: La instancia de cv2.VideoCapture ya inicializada.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "camera_manager",
+                "type": "CameraManager"
+              },
+              {
+                "name": "camera_index",
+                "type": "int"
+              },
+              {
+                "name": "camera_object",
+                "type": "cv2.VideoCapture"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "_init_detector",
+            "lineno": 96,
+            "docstring": "Inicializa el mejor detector disponible.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "_fallback_detector",
+            "lineno": 128,
+            "docstring": "Inicializa el detector estándar de OpenCV como respaldo.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "initialize_camera",
+            "lineno": 134,
+            "docstring": "VERSIÓN SÚPER-SIMPLIFICADA: Solo comprueba si el objeto\nde cámara recibido es válido y está abierto.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "bool"
+          },
+          {
+            "name": "_check_cooldown",
+            "lineno": 148,
+            "docstring": "Comprueba si el QR escaneado está en período de enfriamiento.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "data",
+                "type": "str"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "bool"
+          },
+          {
+            "name": "release_camera",
+            "lineno": 162,
+            "docstring": "Libera la cámara y cierra ventanas de OpenCV.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "scan_frame",
+            "lineno": 177,
+            "docstring": "Escanea un frame en busca de códigos QR usando OpenCV.\nMODIFICADO: Redimensiona el frame a 640px para acelerar la detección.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "frame"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Tuple[Optional[str], Optional[any]]"
+          },
+          {
+            "name": "draw_qr_detection",
+            "lineno": 279,
+            "docstring": "Dibuja indicadores visuales en el frame.\nMODIFICADO: Acepta bbox como argumento.\n\nArgs:\n    frame: Frame de OpenCV\n    qr_data: Datos del QR detectado (opcional)\n    bbox: Bounding box del QR detectado (opcional)\n\nReturns:\n    Frame con los indicadores dibujados",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "frame"
+              },
+              {
+                "name": "qr_data",
+                "type": "Optional[str]"
+              },
+              {
+                "name": "bbox",
+                "type": "Optional[any]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "parse_qr_data",
+            "lineno": 353,
+            "docstring": "Parsea el contenido de un QR de trazabilidad.\n\nFormato esperado: FAB{id}-{producto}-UNIT{num}-{timestamp}-{hash}\nEjemplo: FAB123-PROD001-UNIT1-20250131143022-A3F9\n\nArgs:\n    qr_data: Contenido del QR\n\nReturns:\n    Diccionario con la información parseada o None si el formato no es válido",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "qr_data",
+                "type": "str"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[Dict]"
+          },
+          {
+            "name": "validate_qr_format",
+            "lineno": 396,
+            "docstring": "Valida que un QR tenga el formato correcto de trazabilidad.\n\nArgs:\n    qr_data: Contenido del QR\n\nReturns:\n    True si el formato es válido, False si no",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "qr_data",
+                "type": "str"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "bool"
+          },
+          {
+            "name": "scan_once",
+            "lineno": 409,
+            "docstring": "Escanea hasta detectar un QR (bloqueo).\nUSA LA CÁMARA YA INICIALIZADA.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "timeout",
+                "type": "int"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[str]"
+          },
+          {
+            "name": "get_qr_info_for_display",
+            "lineno": 484,
+            "docstring": "Obtiene información formateada del QR para mostrar al usuario.\n\nArgs:\n    qr_data: Contenido del QR\n\nReturns:\n    String con información formateada",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "qr_data",
+                "type": "str"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "str"
+          },
+          {
+            "name": "set_camera_index",
+            "lineno": 512,
+            "docstring": "Permite cambiar la cámara activa del escáner.\nLibera la cámara antigua e inicializa la nueva.\n\nArgs:\n    new_index: El nuevo índice de cámara a usar.\n\nReturns:\n    True si la nueva cámara se inicializó con éxito, False si no.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "new_index",
+                "type": "int"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "bool"
+          }
+        ],
+        "class_attributes": [],
+        "instance_attributes": [
+          {
+            "name": "logger",
+            "lineno": 72
+          },
+          {
+            "name": "camera_manager",
+            "lineno": 75
+          },
+          {
+            "name": "camera_index",
+            "lineno": 76
+          },
+          {
+            "name": "camera",
+            "lineno": 77
+          },
+          {
+            "name": "use_wechat",
+            "lineno": 81
+          },
+          {
+            "name": "qr_detector",
+            "lineno": 82
+          },
+          {
+            "name": "last_scan",
+            "lineno": 85
+          },
+          {
+            "name": "last_scan_time",
+            "lineno": 86
+          },
+          {
+            "name": "scan_cooldown",
+            "lineno": 87
+          },
+          {
+            "name": "is_camera_ready",
+            "lineno": 88
+          },
+          {
+            "name": "is_camera_ready",
+            "lineno": 89
+          }
+        ]
+      },
+      {
+        "name": "QrScannerCallback",
+        "lineno": 547,
+        "docstring": "Clase auxiliar para manejar callbacks del escáner.\n\nPermite definir acciones personalizadas cuando se escanea un QR\nen diferentes modos (consulta o trabajo).",
+        "bases": [],
+        "methods": [
+          {
+            "name": "__init__",
+            "lineno": 555,
+            "docstring": "Inicializa los callbacks.\n\nArgs:\n    on_consulta: Función a llamar en modo consulta (qr_data, parsed_info)\n    on_trabajo: Función a llamar en modo trabajo (qr_data, parsed_info) -> bool",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "on_consulta",
+                "type": "Optional[Callable[[str, Dict], None]]"
+              },
+              {
+                "name": "on_trabajo",
+                "type": "Optional[Callable[[str, Dict], bool]]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "handle_consulta",
+            "lineno": 570,
+            "docstring": "Maneja escaneo en modo consulta.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "qr_data",
+                "type": "str"
+              },
+              {
+                "name": "parsed_info",
+                "type": "Dict"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "handle_trabajo",
+            "lineno": 575,
+            "docstring": "Maneja escaneo en modo trabajo.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "qr_data",
+                "type": "str"
+              },
+              {
+                "name": "parsed_info",
+                "type": "Dict"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "bool"
+          }
+        ],
+        "class_attributes": [],
+        "instance_attributes": [
+          {
+            "name": "on_consulta",
+            "lineno": 567
+          },
+          {
+            "name": "on_trabajo",
+            "lineno": 568
+          }
+        ]
+      }
+    ],
+    "functions": [
+      {
+        "name": "scan_qr_simple",
+        "lineno": 586,
+        "docstring": "Función de utilidad para escanear un QR de forma simple.\n\nArgs:\n    camera_index: Índice de la cámara\n    timeout: Tiempo máximo de espera\n\nReturns:\n    Contenido del QR o None\n\nExample:\n    >>> qr_data = scan_qr_simple()\n    >>> if qr_data:\n    ...     print(f\"QR escaneado: {qr_data}\")",
+        "args": [
+          {
+            "name": "camera_index",
+            "type": "int"
+          },
+          {
+            "name": "timeout",
+            "type": "int"
+          }
+        ],
+        "decorators": [],
+        "return_type": "Optional[str]"
+      },
+      {
+        "name": "validate_qr",
+        "lineno": 606,
+        "docstring": "Función de utilidad para validar formato de QR.\n\nArgs:\n    qr_data: Contenido del QR\n\nReturns:\n    True si es válido, False si no\n\nExample:\n    >>> qr = \"FAB123-PROD001-UNIT1-20250131143022-A3F9\"\n    >>> if validate_qr(qr):\n    ...     print(\"QR válido\")",
+        "args": [
+          {
+            "name": "qr_data",
+            "type": "str"
+          }
+        ],
+        "decorators": [],
+        "return_type": "bool"
+      },
+      {
+        "name": "get_qr_info",
+        "lineno": 625,
+        "docstring": "Función de utilidad para obtener información de un QR.\n\nArgs:\n    qr_data: Contenido del QR\n\nReturns:\n    Diccionario con información o None\n\nExample:\n    >>> qr = \"FAB123-PROD001-UNIT1-20250131143022-A3F9\"\n    >>> info = get_qr_info(qr)\n    >>> if info:\n    ...     print(f\"Producto: {info['producto_codigo']}\")",
+        "args": [
+          {
+            "name": "qr_data",
+            "type": "str"
+          }
+        ],
+        "decorators": [],
+        "return_type": "Optional[Dict]"
+      }
+    ],
+    "constants": [],
+    "imports": [
+      {
+        "type": "import",
+        "module": "logging",
+        "alias": null,
+        "lineno": 22
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Optional",
+        "alias": null,
+        "lineno": 28
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Dict",
+        "alias": null,
+        "lineno": 28
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Tuple",
+        "alias": null,
+        "lineno": 28
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Callable",
+        "alias": null,
+        "lineno": 28
+      },
+      {
+        "type": "from",
+        "module": "datetime",
+        "name": "datetime",
+        "alias": null,
+        "lineno": 29
+      },
+      {
+        "type": "import",
+        "module": "re",
+        "alias": null,
+        "lineno": 30
+      },
+      {
+        "type": "import",
+        "module": "os",
+        "alias": null,
+        "lineno": 31
+      },
+      {
+        "type": "from",
+        "module": "core.camera_manager",
+        "name": "CameraManager",
+        "alias": null,
+        "lineno": 32
+      },
+      {
+        "type": "from",
+        "module": "core.camera_manager",
+        "name": "CameraInfo",
+        "alias": null,
+        "lineno": 32
+      },
+      {
+        "type": "import",
+        "module": "cv2",
+        "alias": null,
+        "lineno": 24
+      },
+      {
+        "type": "from",
+        "module": "cv2",
+        "name": "wechat_qrcode_WeChatQRCode",
+        "alias": null,
+        "lineno": 36
+      },
+      {
+        "type": "from",
+        "module": "unittest.mock",
+        "name": "MagicMock",
+        "alias": null,
+        "lineno": 26
+      }
+    ]
+  },
+  {
+    "file": "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/features/worker_controller.py",
+    "filename": "worker_controller.py",
+    "classes": [
+      {
+        "name": "IncidenceDialog",
+        "lineno": 35,
+        "docstring": "Diálogo modal para que el trabajador registre una incidencia,\nincluyendo título, descripción y la posibilidad de adjuntar fotos.",
+        "bases": [
+          "QDialog"
+        ],
+        "methods": [
+          {
+            "name": "__init__",
+            "lineno": 41,
+            "docstring": null,
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "parent"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "_on_add_foto",
+            "lineno": 81,
+            "docstring": "Abre un diálogo para seleccionar archivos de imagen.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "get_data",
+            "lineno": 97,
+            "docstring": "Devuelve los datos del formulario si son válidos.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[Dict[str, Any]]"
+          }
+        ],
+        "class_attributes": [],
+        "instance_attributes": [
+          {
+            "name": "fotos_paths",
+            "lineno": 47
+          },
+          {
+            "name": "tipo_incidencia_edit",
+            "lineno": 54
+          },
+          {
+            "name": "descripcion_edit",
+            "lineno": 57
+          },
+          {
+            "name": "fotos_list_widget",
+            "lineno": 67
+          },
+          {
+            "name": "add_foto_btn",
+            "lineno": 71
+          }
+        ]
+      },
+      {
+        "name": "WorkerController",
+        "lineno": 120,
+        "docstring": "Controlador para gestionar las operaciones de trabajadores.\n\nEste controlador actúa como intermediario entre la interfaz de trabajador\ny la capa de datos, gestionando todas las operaciones relacionadas con\nel registro de tiempos, escaneo de QR e incidencias.\n\nAttributes:\n    current_user (dict): Datos del trabajador autenticado\n    db_manager: Gestor de base de datos\n    main_window: Ventana principal del trabajador\n    qr_scanner: Escáner de códigos QR\n    tracking_repo: Repositorio de trazabilidad",
+        "bases": [],
+        "methods": [
+          {
+            "name": "__init__",
+            "lineno": 136,
+            "docstring": "Inicializa el controlador de trabajador.\n\nArgs:\n    current_user: Diccionario con datos del trabajador autenticado\n    db_manager: Instancia del DatabaseManager\n    main_window: Instancia de WorkerMainWindow\n    qr_scanner: Instancia del QrScanner (opcional)\n    tracking_repo: Instancia del TrackingRepository (opcional)",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "current_user",
+                "type": "Dict[str, Any]"
+              },
+              {
+                "name": "db_manager"
+              },
+              {
+                "name": "main_window"
+              },
+              {
+                "name": "qr_scanner"
+              },
+              {
+                "name": "tracking_repo"
+              },
+              {
+                "name": "label_manager"
+              },
+              {
+                "name": "qr_generator"
+              },
+              {
+                "name": "label_counter_repo"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "initialize",
+            "lineno": 183,
+            "docstring": "Inicializa el controlador y carga los datos iniciales.\n\nEste método debe llamarse después de crear el controlador\npara cargar las fabricaciones asignadas y configurar la interfaz.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "_connect_signals",
+            "lineno": 212,
+            "docstring": "Conecta las señales de la ventana con los métodos del controlador.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "_load_assigned_fabricaciones",
+            "lineno": 237,
+            "docstring": "Carga las fabricaciones asignadas al trabajador actual.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "_load_active_trabajos",
+            "lineno": 288,
+            "docstring": "Carga los trabajos activos del trabajador.\n\nConsulta los trabajos que están en estado 'en_proceso' para este trabajador.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "get_assigned_fabricaciones",
+            "lineno": 316,
+            "docstring": "Obtiene la lista de fabricaciones asignadas al trabajador.\n\nReturns:\n    Lista de diccionarios con información de las fabricaciones",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "List[Dict[str, Any]]"
+          },
+          {
+            "name": "get_active_trabajos",
+            "lineno": 325,
+            "docstring": "Obtiene la lista de trabajos activos del trabajador.\n\nReturns:\n    Lista de diccionarios con información de los trabajos activos",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "List[Dict[str, Any]]"
+          },
+          {
+            "name": "iniciar_trabajo",
+            "lineno": 334,
+            "docstring": "Inicia un nuevo trabajo escaneando un código QR.\n\nArgs:\n    qr_code: Código QR único de la unidad\n    fabricacion_id: ID de la fabricación\n    producto_codigo: Código del producto\n\nReturns:\n    Diccionario con información del trabajo creado, o None si falla",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "qr_code",
+                "type": "str"
+              },
+              {
+                "name": "fabricacion_id",
+                "type": "int"
+              },
+              {
+                "name": "producto_codigo",
+                "type": "str"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[Dict[str, Any]]"
+          },
+          {
+            "name": "finalizar_trabajo",
+            "lineno": 398,
+            "docstring": "Finaliza un trabajo activo.\n\nArgs:\n    trabajo_log_id: ID del trabajo a finalizar\n\nReturns:\n    True si se finalizó correctamente, False en caso contrario",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajo_log_id",
+                "type": "int"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "bool"
+          },
+          {
+            "name": "registrar_incidencia",
+            "lineno": 442,
+            "docstring": "Registra una incidencia para un trabajo específico.\n\nArgs:\n    trabajo_log_id: ID del trabajo donde ocurrió la incidencia\n    tipo_incidencia: Tipo de incidencia (defecto, pausa, etc.)\n    descripcion: Descripción detallada de la incidencia\n    fotos_paths: Lista de rutas a fotografías (opcional)\n\nReturns:\n    Diccionario con información de la incidencia creada, o None si falla",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajo_log_id",
+                "type": "int"
+              },
+              {
+                "name": "tipo_incidencia",
+                "type": "str"
+              },
+              {
+                "name": "descripcion",
+                "type": "str"
+              },
+              {
+                "name": "fotos_paths",
+                "type": "Optional[List[str]]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[Dict[str, Any]]"
+          },
+          {
+            "name": "get_estadisticas_trabajador",
+            "lineno": 510,
+            "docstring": "Obtiene las estadísticas del trabajador actual.\n\nReturns:\n    Diccionario con estadísticas, o None si falla",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[Dict[str, Any]]"
+          },
+          {
+            "name": "_handle_logout",
+            "lineno": 537,
+            "docstring": "Maneja el cierre de sesión del trabajador.\n\nLimpia los datos en cache y cierra la aplicación.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "refresh_data",
+            "lineno": 559,
+            "docstring": "Recarga todos los datos desde la base de datos.\n\nÚtil para actualizar la interfaz con los últimos cambios.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "_handle_task_selected",
+            "lineno": 580,
+            "docstring": "Se llama cuando el usuario selecciona una tarea en la lista.\nActualiza el estado de la UI comprobando si el trabajador actual\ntiene un paso activo relacionado con esa tarea.\n\nMODIFICADO: Llama a update_task_state con el nombre de estado correcto.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "task_data",
+                "type": "Dict[str, Any]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "_handle_generate_labels",
+            "lineno": 652,
+            "docstring": "Maneja la solicitud de generar e imprimir etiquetas QR.\nMODIFICADO: Usa el repositorio de contadores (etiquetas.db) y\ncuenta los placeholders en la plantilla para generar QRs únicos y secuenciales.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "task_data",
+                "type": "Dict[str, Any]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "_handle_consult_qr",
+            "lineno": 843,
+            "docstring": "Maneja la solicitud de consultar un QR.\nAbre el escáner, valida el formato y comprueba si ya está en uso.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "_handle_start_task",
+            "lineno": 941,
+            "docstring": "Maneja la solicitud de INICIAR un paso de trabajo escaneando un QR.\nImplementa el flujo de \"Producción Inteligente\" (Fase 4).",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "task_data",
+                "type": "Dict[str, Any]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "_handle_end_task",
+            "lineno": 1134,
+            "docstring": "Maneja la solicitud de FINALIZAR el paso de trabajo activo.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "task_data",
+                "type": "Dict[str, Any]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "_handle_register_incidence",
+            "lineno": 1209,
+            "docstring": "Maneja la solicitud de registrar una incidencia para el PASO activo.\nMODIFICADO: Ahora requiere escanear el QR de la unidad activa para confirmar.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "task_data",
+                "type": "Dict[str, Any]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "_handle_export_data",
+            "lineno": 1309,
+            "docstring": "Maneja la exportación de datos de trabajo a un archivo JSON.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "_handle_camera_config",
+            "lineno": 1369,
+            "docstring": "Muestra el diálogo de configuración de cámara.\nPermite al trabajador resolver problemas sin cambiar de usuario.",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          }
+        ],
+        "class_attributes": [],
+        "instance_attributes": [
+          {
+            "name": "current_user",
+            "lineno": 157
+          },
+          {
+            "name": "db_manager",
+            "lineno": 158
+          },
+          {
+            "name": "main_window",
+            "lineno": 159
+          },
+          {
+            "name": "qr_scanner",
+            "lineno": 160
+          },
+          {
+            "name": "tracking_repo",
+            "lineno": 161
+          },
+          {
+            "name": "label_manager",
+            "lineno": 163
+          },
+          {
+            "name": "qr_generator",
+            "lineno": 164
+          },
+          {
+            "name": "label_counter_repo",
+            "lineno": 165
+          },
+          {
+            "name": "camera_manager",
+            "lineno": 168
+          },
+          {
+            "name": "logger",
+            "lineno": 170
+          },
+          {
+            "name": "_fabricaciones_asignadas",
+            "lineno": 173
+          },
+          {
+            "name": "_trabajos_activos",
+            "lineno": 174
+          },
+          {
+            "name": "context",
+            "lineno": 181
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "constants": [],
+    "imports": [
+      {
+        "type": "import",
+        "module": "logging",
+        "alias": null,
+        "lineno": 11
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Optional",
+        "alias": null,
+        "lineno": 12
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "List",
+        "alias": null,
+        "lineno": 12
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Dict",
+        "alias": null,
+        "lineno": 12
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Any",
+        "alias": null,
+        "lineno": 12
+      },
+      {
+        "type": "from",
+        "module": "datetime",
+        "name": "datetime",
+        "alias": null,
+        "lineno": 13
+      },
+      {
+        "type": "from",
+        "module": "core.camera_manager",
+        "name": "CameraBackend",
+        "alias": null,
+        "lineno": 19
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QDialog",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QVBoxLayout",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QFormLayout",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QLineEdit",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QTextEdit",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QMessageBox",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QInputDialog",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QDialogButtonBox",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QPushButton",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QFileDialog",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QListWidget",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QLabel",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QInputDialog",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtCore",
+        "name": "Qt",
+        "alias": null,
+        "lineno": 24
+      },
+      {
+        "type": "from",
+        "module": "core.production_context",
+        "name": "ProductionContext",
+        "alias": null,
+        "lineno": 27
+      },
+      {
+        "type": "from",
+        "module": "ui.dialogs.tracking_dialogs",
+        "name": "OrderSetupDialog",
+        "alias": null,
+        "lineno": 28
+      },
+      {
+        "type": "import",
+        "module": "cv2",
+        "alias": null,
+        "lineno": 15
+      },
+      {
+        "type": "from",
+        "module": "unittest.mock",
+        "name": "MagicMock",
+        "alias": null,
+        "lineno": 17
+      },
+      {
+        "type": "from",
+        "module": "core.camera_manager",
+        "name": "CameraManager",
+        "alias": null,
+        "lineno": 167
+      },
+      {
+        "type": "import",
+        "module": "json",
+        "alias": null,
+        "lineno": 1313
+      },
+      {
+        "type": "import",
+        "module": "sys",
+        "alias": null,
+        "lineno": 553
+      },
+      {
+        "type": "import",
+        "module": "subprocess",
+        "alias": null,
+        "lineno": 753
+      },
+      {
+        "type": "import",
+        "module": "shutil",
+        "alias": null,
+        "lineno": 754
+      },
+      {
+        "type": "from",
+        "module": "ui.worker.camera_config_dialog",
+        "name": "CameraConfigDialog",
+        "alias": null,
+        "lineno": 1378
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QFileDialog",
+        "alias": null,
+        "lineno": 800
+      },
+      {
+        "type": "from",
+        "module": "pathlib",
+        "name": "Path",
+        "alias": null,
+        "lineno": 801
+      },
+      {
+        "type": "from",
+        "module": "datetime",
+        "name": "datetime",
+        "alias": null,
+        "lineno": 802
+      },
+      {
+        "type": "from",
+        "module": "core.qr_scanner",
+        "name": "QrScanner",
+        "alias": null,
+        "lineno": 1399
+      }
+    ]
+  },
+  {
+    "file": "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/database/repositories/tracking_repository.py",
+    "filename": "tracking_repository.py",
+    "classes": [
+      {
+        "name": "TrackingRepository",
+        "lineno": 42,
+        "docstring": "Repositorio para operaciones de tracking y trazabilidad.\n\nEste repositorio maneja toda la lÃ³gica de negocio relacionada con:\n- Inicio y finalizaciÃ³n de trabajos\n- Registro de incidencias con fotos\n- Consultas de productividad y tiempos\n- AsignaciÃ³n de trabajadores a fabricaciones",
+        "bases": [
+          "BaseRepository"
+        ],
+        "methods": [
+          {
+            "name": "__init__",
+            "lineno": 53,
+            "docstring": "Inicializa el repositorio.\n\nArgs:\n    session_factory: Factory para crear sesiones de SQLAlchemy",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "session_factory"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "get_fabricaciones_por_trabajador",
+            "lineno": 67,
+            "docstring": "Obtiene todas las fabricaciones asignadas a un trabajador específicamente,\nordenadas por la más reciente primero, incluyendo los productos y cantidades.\n\nReturns:\n    Lista de FabricacionAsignadaDTO",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajador_id",
+                "type": "int"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "List[FabricacionAsignadaDTO]"
+          },
+          {
+            "name": "actualizar_estado_asignacion",
+            "lineno": 137,
+            "docstring": "Actualiza el estado de una asignaciÃ³n de fabricaciÃ³n a un trabajador.\n\nArgs:\n    trabajador_id: ID del trabajador\n    fabricacion_id: ID de la fabricaciÃ³n\n    nuevo_estado: Nuevo estado ('activo', 'completado', 'cancelado')\n\nReturns:\n    True si se actualizÃ³ correctamente, False en caso contrario",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajador_id",
+                "type": "int"
+              },
+              {
+                "name": "fabricacion_id",
+                "type": "int"
+              },
+              {
+                "name": "nuevo_estado",
+                "type": "str"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "bool"
+          },
+          {
+            "name": "obtener_o_crear_trabajo_log_por_qr",
+            "lineno": 181,
+            "docstring": "Obtiene un TrabajoLog por QR si existe. Si no, lo crea.\nEste es el \"pasaporte\" de la unidad.\n\nArgs:\n    qr_code: Código QR único de la unidad\n    trabajador_id: ID del trabajador que crea el registro\n    fabricacion_id: ID de la fabricación\n    producto_codigo: Código del producto\n    orden_fabricacion: Número de orden (opcional)\n    notas: Notas opcionales\n\nReturns:\n    TrabajoLogDTO (existente o nuevo) o None si hay error",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "qr_code",
+                "type": "str"
+              },
+              {
+                "name": "trabajador_id",
+                "type": "int"
+              },
+              {
+                "name": "fabricacion_id",
+                "type": "int"
+              },
+              {
+                "name": "producto_codigo",
+                "type": "str"
+              },
+              {
+                "name": "orden_fabricacion",
+                "type": "Optional[str]"
+              },
+              {
+                "name": "notas",
+                "type": "Optional[str]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[TrabajoLogDTO]"
+          },
+          {
+            "name": "iniciar_trabajo",
+            "lineno": 261,
+            "docstring": "Inicia un nuevo trabajo (Wrapper para obtener_o_crear_trabajo_log_por_qr).\nMantiene compatibilidad con cÃ³digo existente.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "qr_code",
+                "type": "str"
+              },
+              {
+                "name": "trabajador_id",
+                "type": "int"
+              },
+              {
+                "name": "fabricacion_id",
+                "type": "int"
+              },
+              {
+                "name": "producto_codigo",
+                "type": "str"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[TrabajoLogDTO]"
+          },
+          {
+            "name": "finalizar_trabajo_log",
+            "lineno": 279,
+            "docstring": "Finaliza el TrabajoLog principal (el \"pasaporte\").\nEsto solo debe llamarse cuando se completa el ÚLTIMO paso.\n\nArgs:\n    trabajo_log_id: ID del TrabajoLog a finalizar\n    notas_finalizacion: Notas al finalizar (opcional)\n\nReturns:\n    TrabajoLogDTO actualizado o None si hay error",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajo_log_id",
+                "type": "int"
+              },
+              {
+                "name": "notas_finalizacion",
+                "type": "Optional[str]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[TrabajoLogDTO]"
+          },
+          {
+            "name": "pausar_trabajo",
+            "lineno": 353,
+            "docstring": "Pausa un trabajo en proceso.\n\nArgs:\n    qr_code: CÃ³digo QR de la unidad\n    motivo: Motivo de la pausa\n\nReturns:\n    True si se pausÃ³ correctamente, False si no",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "qr_code",
+                "type": "str"
+              },
+              {
+                "name": "motivo",
+                "type": "str"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "bool"
+          },
+          {
+            "name": "reanudar_trabajo",
+            "lineno": 389,
+            "docstring": "Reanuda un trabajo pausado.\n\nArgs:\n    qr_code: CÃ³digo QR de la unidad\n\nReturns:\n    True si se reanudÃ³ correctamente, False si no",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "qr_code",
+                "type": "str"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "bool"
+          },
+          {
+            "name": "obtener_trabajo_por_qr",
+            "lineno": 424,
+            "docstring": "Obtiene un trabajo por su código QR.\n\nArgs:\n    qr_code: Código QR de la unidad\n\nReturns:\n    TrabajoLogDTO o None si no existe",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "qr_code",
+                "type": "str"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[TrabajoLogDTO]"
+          },
+          {
+            "name": "obtener_trabajo_por_id",
+            "lineno": 452,
+            "docstring": "Obtiene un trabajo por su ID.\n\nArgs:\n    trabajo_log_id: ID del TrabajoLog\n\nReturns:\n    TrabajoLogDTO o None si no existe",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajo_log_id",
+                "type": "int"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[TrabajoLogDTO]"
+          },
+          {
+            "name": "get_paso_activo_por_trabajador",
+            "lineno": 484,
+            "docstring": "Busca si un trabajador tiene un paso de trazabilidad en estado 'en_proceso'.\nEsto previene que un trabajador inicie dos tareas a la vez.\n\nArgs:\n    trabajador_id: ID del trabajador\n\nReturns:\n    El objeto PasoTrazabilidadDTO activo, o None si no tiene ninguno.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajador_id",
+                "type": "int"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[PasoTrazabilidadDTO]"
+          },
+          {
+            "name": "get_ultimo_paso_para_qr",
+            "lineno": 520,
+            "docstring": "Obtiene el último paso (más reciente) registrado para un TrabajoLog (QR).\n\nArgs:\n    trabajo_log_id: ID del TrabajoLog (el \"pasaporte\")\n\nReturns:\n    El último objeto PasoTrazabilidadDTO, o None si no tiene ninguno.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajo_log_id",
+                "type": "int"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[PasoTrazabilidadDTO]"
+          },
+          {
+            "name": "iniciar_nuevo_paso",
+            "lineno": 552,
+            "docstring": "Crea un nuevo registro de PasoTrazabilidad (un \"sello\").",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajo_log_id",
+                "type": "int"
+              },
+              {
+                "name": "trabajador_id",
+                "type": "int"
+              },
+              {
+                "name": "paso_nombre",
+                "type": "str"
+              },
+              {
+                "name": "tipo_paso",
+                "type": "str"
+              },
+              {
+                "name": "maquina_id",
+                "type": "Optional[int]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[PasoTrazabilidadDTO]"
+          },
+          {
+            "name": "finalizar_paso",
+            "lineno": 603,
+            "docstring": "Finaliza un PasoTrazabilidad, calculando su duración.\n\nArgs:\n    paso_id: ID del PasoTrazabilidad a finalizar.\n\nReturns:\n    El objeto PasoTrazabilidadDTO actualizado.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "paso_id",
+                "type": "int"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[PasoTrazabilidadDTO]"
+          },
+          {
+            "name": "obtener_trabajos_activos",
+            "lineno": 668,
+            "docstring": "Obtiene todos los trabajos activos (en_proceso o pausados).\n\nArgs:\n    trabajador_id: Filtrar por trabajador (opcional)\n    fabricacion_id: Filtrar por fabricaciÃ³n (opcional)\n\nReturns:\n    Lista de TrabajoLogDTO activos",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajador_id",
+                "type": "Optional[int]"
+              },
+              {
+                "name": "fabricacion_id",
+                "type": "Optional[int]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "List[TrabajoLogDTO]"
+          },
+          {
+            "name": "registrar_incidencia",
+            "lineno": 715,
+            "docstring": "Registra una nueva incidencia.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajo_log_id",
+                "type": "int"
+              },
+              {
+                "name": "trabajador_id",
+                "type": "int"
+              },
+              {
+                "name": "tipo_incidencia",
+                "type": "str"
+              },
+              {
+                "name": "descripcion",
+                "type": "str"
+              },
+              {
+                "name": "rutas_fotos",
+                "type": "Optional[List[str]]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[IncidenciaLogDTO]"
+          },
+          {
+            "name": "_crear_adjunto",
+            "lineno": 769,
+            "docstring": "Crea un adjunto fotogrÃ¡fico (uso interno).\n\nArgs:\n    session: SesiÃ³n activa de SQLAlchemy\n    incidencia_id: ID de la incidencia\n    ruta_archivo: Ruta completa del archivo\n\nReturns:\n    IncidenciaAdjunto creado",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "session",
+                "type": "Session"
+              },
+              {
+                "name": "incidencia_id",
+                "type": "int"
+              },
+              {
+                "name": "ruta_archivo",
+                "type": "str"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[IncidenciaAdjunto]"
+          },
+          {
+            "name": "añadir_foto_a_incidencia",
+            "lineno": 816,
+            "docstring": "Añade una foto a una incidencia existente.\n\nArgs:\n    incidencia_id: ID de la incidencia\n    ruta_foto: Ruta de la foto\n    descripcion: Descripción de la foto (opcional)\n\nReturns:\n    IncidenciaAdjuntoDTO creado o None si hay error",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "incidencia_id",
+                "type": "int"
+              },
+              {
+                "name": "ruta_foto",
+                "type": "str"
+              },
+              {
+                "name": "descripcion",
+                "type": "Optional[str]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[IncidenciaAdjuntoDTO]"
+          },
+          {
+            "name": "resolver_incidencia",
+            "lineno": 854,
+            "docstring": "Marca una incidencia como resuelta.\n\nArgs:\n    incidencia_id: ID de la incidencia\n    resolucion: Descripción de la resolución\n\nReturns:\n    IncidenciaLogDTO actualizado o None si hay error",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "incidencia_id",
+                "type": "int"
+              },
+              {
+                "name": "resolucion",
+                "type": "str"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Optional[IncidenciaLogDTO]"
+          },
+          {
+            "name": "obtener_incidencias_abiertas",
+            "lineno": 898,
+            "docstring": "Obtiene todas las incidencias abiertas.\n\nArgs:\n    fabricacion_id: Filtrar por fabricación (opcional)\n\nReturns:\n    Lista de IncidenciaLogDTO abiertas",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "fabricacion_id",
+                "type": "Optional[int]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "List[IncidenciaLogDTO]"
+          },
+          {
+            "name": "asignar_trabajador_a_fabricacion",
+            "lineno": 940,
+            "docstring": "Asigna un trabajador a una fabricaciÃ³n.\n\nArgs:\n    trabajador_id: ID del trabajador\n    fabricacion_id: ID de la fabricaciÃ³n\n\nReturns:\n    True si se asignÃ³ correctamente, False si no",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajador_id",
+                "type": "int"
+              },
+              {
+                "name": "fabricacion_id",
+                "type": "int"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "bool"
+          },
+          {
+            "name": "desasignar_trabajador_de_fabricacion",
+            "lineno": 992,
+            "docstring": "Desasigna un trabajador de una fabricaciÃ³n.\n\nArgs:\n    trabajador_id: ID del trabajador\n    fabricacion_id: ID de la fabricaciÃ³n\n\nReturns:\n    True si se desasignÃ³ correctamente, False si no",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajador_id",
+                "type": "int"
+              },
+              {
+                "name": "fabricacion_id",
+                "type": "int"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "bool"
+          },
+          {
+            "name": "obtener_trabajadores_de_fabricacion",
+            "lineno": 1037,
+            "docstring": "Obtiene todos los trabajadores asignados a una fabricaciÃ³n.\n\nArgs:\n    fabricacion_id: ID de la fabricaciÃ³n\n\nReturns:\n    Lista de Trabajador asignados",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "fabricacion_id",
+                "type": "int"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "List[Trabajador]"
+          },
+          {
+            "name": "obtener_estadisticas_trabajador",
+            "lineno": 1071,
+            "docstring": "Obtiene estadÃ­sticas de un trabajador.\n\nArgs:\n    trabajador_id: ID del trabajador\n    fecha_inicio: Fecha de inicio del periodo (opcional)\n    fecha_fin: Fecha de fin del periodo (opcional)\n\nReturns:\n    Diccionario con estadÃ­sticas",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajador_id",
+                "type": "int"
+              },
+              {
+                "name": "fecha_inicio",
+                "type": "Optional[datetime]"
+              },
+              {
+                "name": "fecha_fin",
+                "type": "Optional[datetime]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Dict"
+          },
+          {
+            "name": "obtener_estadisticas_fabricacion",
+            "lineno": 1127,
+            "docstring": "Obtiene estadÃ­sticas de una fabricaciÃ³n.\n\nArgs:\n    fabricacion_id: ID de la fabricaciÃ³n\n\nReturns:\n    Diccionario con estadÃ­sticas",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "fabricacion_id",
+                "type": "int"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Dict"
+          },
+          {
+            "name": "get_trabajo_logs_por_trabajador",
+            "lineno": 1175,
+            "docstring": "Obtiene todos los registros de trabajo (fichajes) de un trabajador,\nordenados por el mÃ¡s reciente.\n\nArgs:\n    trabajador_id: ID del trabajador\n\nReturns:\n    Lista de TrabajoLogDTO.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajador_id",
+                "type": "int"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "List[TrabajoLogDTO]"
+          },
+          {
+            "name": "upsert_trabajo_log_from_dict",
+            "lineno": 1209,
+            "docstring": "Inserta o actualiza un TrabajoLog desde un diccionario (JSON).\nManeja anidamiento de incidencias y adjuntos.\n\nArgs:\n    data: Diccionario con los datos del TrabajoLog\n\nReturns:\n    Tuple (str: 'created'/'updated'/'skipped'/'error', int: id_trabajo)",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "data",
+                "type": "Dict[str, Any]"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "Tuple[str, Optional[int]]"
+          },
+          {
+            "name": "get_data_for_export",
+            "lineno": 1314,
+            "docstring": "Recopila todos los datos de un trabajador creados desde una fecha específica.\nIncluye TrabajoLogs, PasosTrazabilidad, IncidenciaLogs y IncidenciaAdjuntos.\n\nArgs:\n    trabajador_id: ID del trabajador\n    since_date: Fecha (en UTC) desde la cual exportar\n\nReturns:\n    Lista de diccionarios (serializables a JSON) con todos los datos.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajador_id",
+                "type": "int"
+              },
+              {
+                "name": "since_date",
+                "type": "datetime"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "List[Dict[str, Any]]"
+          },
+          {
+            "name": "get_all_ordenes_fabricacion",
+            "lineno": 1460,
+            "docstring": "Obtiene todas las Órdenes de Fabricación únicas registradas en el sistema.\n\nReturns:\n    Lista de códigos de Órdenes de Fabricación (sin duplicados, ordenados)",
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "list[str]"
+          },
+          {
+            "name": "_map_to_trabajo_log_dto",
+            "lineno": 1491,
+            "docstring": "Map a TrabajoLog ORM object to TrabajoLogDTO.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "trabajo",
+                "type": "TrabajoLog"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "TrabajoLogDTO"
+          },
+          {
+            "name": "_map_to_incidencia_log_dto",
+            "lineno": 1530,
+            "docstring": "Map an IncidenciaLog ORM object to IncidenciaLogDTO.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "incidencia",
+                "type": "IncidenciaLog"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "IncidenciaLogDTO"
+          },
+          {
+            "name": "_map_to_incidencia_adjunto_dto",
+            "lineno": 1554,
+            "docstring": "Map IncidenciaAdjunto ORM to DTO.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "adjunto",
+                "type": "IncidenciaAdjunto"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "IncidenciaAdjuntoDTO"
+          },
+          {
+            "name": "_map_to_paso_trazabilidad_dto",
+            "lineno": 1564,
+            "docstring": "Map a PasoTrazabilidad ORM object to PasoTrazabilidadDTO.",
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "paso",
+                "type": "PasoTrazabilidad"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": [],
+            "return_type": "PasoTrazabilidadDTO"
+          }
+        ],
+        "class_attributes": [],
+        "instance_attributes": [
+          {
+            "name": "logger",
+            "lineno": 61
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "constants": [],
+    "imports": [
+      {
+        "type": "import",
+        "module": "logging",
+        "alias": null,
+        "lineno": 17
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Optional",
+        "alias": null,
+        "lineno": 18
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "List",
+        "alias": null,
+        "lineno": 18
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Dict",
+        "alias": null,
+        "lineno": 18
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Tuple",
+        "alias": null,
+        "lineno": 18
+      },
+      {
+        "type": "from",
+        "module": "typing",
+        "name": "Any",
+        "alias": null,
+        "lineno": 18
+      },
+      {
+        "type": "from",
+        "module": "datetime",
+        "name": "datetime",
+        "alias": null,
+        "lineno": 19
+      },
+      {
+        "type": "from",
+        "module": "datetime",
+        "name": "timedelta",
+        "alias": null,
+        "lineno": 19
+      },
+      {
+        "type": "from",
+        "module": "datetime",
+        "name": "timezone",
+        "alias": null,
+        "lineno": 19
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy",
+        "name": "and_",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy",
+        "name": "or_",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy",
+        "name": "func",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy",
+        "name": "desc",
+        "alias": null,
+        "lineno": 20
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy.orm",
+        "name": "Session",
+        "alias": null,
+        "lineno": 21
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy.orm",
+        "name": "joinedload",
+        "alias": null,
+        "lineno": 21
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy.exc",
+        "name": "SQLAlchemyError",
+        "alias": null,
+        "lineno": 22
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy.exc",
+        "name": "IntegrityError",
+        "alias": null,
+        "lineno": 22
+      },
+      {
+        "type": "from",
+        "module": "models",
+        "name": "Fabricacion",
+        "alias": null,
+        "lineno": 24
+      },
+      {
+        "type": "from",
+        "module": "models",
+        "name": "trabajador_fabricacion_link",
+        "alias": null,
+        "lineno": 24
+      },
+      {
+        "type": "from",
+        "module": "models",
+        "name": "fabricacion_productos",
+        "alias": null,
+        "lineno": 24
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy.orm",
+        "name": "aliased",
+        "alias": null,
+        "lineno": 25
+      },
+      {
+        "type": "from",
+        "module": "database.models",
+        "name": "TrabajoLog",
+        "alias": null,
+        "lineno": 27
+      },
+      {
+        "type": "from",
+        "module": "database.models",
+        "name": "IncidenciaLog",
+        "alias": null,
+        "lineno": 27
+      },
+      {
+        "type": "from",
+        "module": "database.models",
+        "name": "IncidenciaAdjunto",
+        "alias": null,
+        "lineno": 27
+      },
+      {
+        "type": "from",
+        "module": "database.models",
+        "name": "Trabajador",
+        "alias": null,
+        "lineno": 27
+      },
+      {
+        "type": "from",
+        "module": "database.models",
+        "name": "Fabricacion",
+        "alias": null,
+        "lineno": 27
+      },
+      {
+        "type": "from",
+        "module": "database.models",
+        "name": "Producto",
+        "alias": null,
+        "lineno": 27
+      },
+      {
+        "type": "from",
+        "module": "database.models",
+        "name": "PasoTrazabilidad",
+        "alias": null,
+        "lineno": 27
+      },
+      {
+        "type": "from",
+        "module": "database.models",
+        "name": "Maquina",
+        "alias": null,
+        "lineno": 27
+      },
+      {
+        "type": "from",
+        "module": "base",
+        "name": "BaseRepository",
+        "alias": null,
+        "lineno": 32
+      },
+      {
+        "type": "from",
+        "module": "core.tracking_dtos",
+        "name": "TrabajoLogDTO",
+        "alias": null,
+        "lineno": 33
+      },
+      {
+        "type": "from",
+        "module": "core.tracking_dtos",
+        "name": "PasoTrazabilidadDTO",
+        "alias": null,
+        "lineno": 33
+      },
+      {
+        "type": "from",
+        "module": "core.tracking_dtos",
+        "name": "IncidenciaLogDTO",
+        "alias": null,
+        "lineno": 33
+      },
+      {
+        "type": "from",
+        "module": "core.tracking_dtos",
+        "name": "IncidenciaAdjuntoDTO",
+        "alias": null,
+        "lineno": 33
+      },
+      {
+        "type": "from",
+        "module": "core.tracking_dtos",
+        "name": "FabricacionAsignadaDTO",
+        "alias": null,
+        "lineno": 33
+      },
+      {
+        "type": "from",
+        "module": "core.tracking_dtos",
+        "name": "TrabajoLogDTO",
+        "alias": null,
+        "lineno": 37
+      },
+      {
+        "type": "from",
+        "module": "core.tracking_dtos",
+        "name": "PasoTrazabilidadDTO",
+        "alias": null,
+        "lineno": 37
+      },
+      {
+        "type": "from",
+        "module": "core.tracking_dtos",
+        "name": "IncidenciaLogDTO",
+        "alias": null,
+        "lineno": 37
+      },
+      {
+        "type": "from",
+        "module": "core.tracking_dtos",
+        "name": "IncidenciaAdjuntoDTO",
+        "alias": null,
+        "lineno": 37
+      },
+      {
+        "type": "from",
+        "module": "core.tracking_dtos",
+        "name": "FabricacionAsignadaDTO",
+        "alias": null,
+        "lineno": 37
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy.orm",
+        "name": "defer",
+        "alias": null,
+        "lineno": 495
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy.orm",
+        "name": "joinedload",
+        "alias": null,
+        "lineno": 495
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy.orm",
+        "name": "defer",
+        "alias": null,
+        "lineno": 530
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy.orm",
+        "name": "joinedload",
+        "alias": null,
+        "lineno": 563
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy.orm",
+        "name": "joinedload",
+        "alias": null,
+        "lineno": 616
+      },
+      {
+        "type": "import",
+        "module": "os",
+        "alias": null,
+        "lineno": 786
+      },
+      {
+        "type": "from",
+        "module": "sqlalchemy.orm",
+        "name": "load_only",
+        "alias": null,
+        "lineno": 1330
+      }
+    ]
+  },
+  {
+    "file": "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/ui/dialogs/tracking_dialogs.py",
+    "filename": "tracking_dialogs.py",
+    "classes": [
+      {
+        "name": "OrderSetupDialog",
+        "lineno": 7,
+        "docstring": "Dialog to setup the start of a production session.\nAsks for the Order Number (OF) and the Total Quantity to produce.",
+        "bases": [
+          "QDialog"
+        ],
+        "methods": [
+          {
+            "name": "__init__",
+            "lineno": 12,
+            "docstring": null,
+            "args": [
+              {
+                "name": "self"
+              },
+              {
+                "name": "parent"
+              },
+              {
+                "name": "default_order"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          },
+          {
+            "name": "get_data",
+            "lineno": 47,
+            "docstring": null,
+            "args": [
+              {
+                "name": "self"
+              }
+            ],
+            "is_property": false,
+            "is_static": false,
+            "is_classmethod": false,
+            "decorators": []
+          }
+        ],
+        "class_attributes": [],
+        "instance_attributes": [
+          {
+            "name": "order_input",
+            "lineno": 28
+          },
+          {
+            "name": "quantity_spin",
+            "lineno": 32
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "constants": [],
+    "imports": [
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QDialog",
+        "alias": null,
+        "lineno": 1
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QVBoxLayout",
+        "alias": null,
+        "lineno": 1
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QLabel",
+        "alias": null,
+        "lineno": 1
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QLineEdit",
+        "alias": null,
+        "lineno": 1
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QSpinBox",
+        "alias": null,
+        "lineno": 1
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QDialogButtonBox",
+        "alias": null,
+        "lineno": 1
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtWidgets",
+        "name": "QFormLayout",
+        "alias": null,
+        "lineno": 1
+      },
+      {
+        "type": "from",
+        "module": "PyQt6.QtCore",
+        "name": "Qt",
+        "alias": null,
+        "lineno": 5
+      }
+    ]
+  }
+]

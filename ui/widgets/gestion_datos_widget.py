@@ -11,6 +11,15 @@ class GestionDatosWidget(QWidget):
     Widget unificado que contiene pestañas para gestionar los datos
     principales de la aplicación.
     """
+    
+    # Attributes for strict mocks
+    controller = None
+    tab_widget = None
+    productos_tab = None
+    fabricaciones_tab = None
+    maquinas_tab = None
+    trabajadores_tab = None
+    lotes_tab = None
 
     def __init__(self, controller=None):
         super().__init__()

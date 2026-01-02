@@ -34,10 +34,6 @@ from core.tracking_dtos import (
     TrabajoLogDTO, PasoTrazabilidadDTO, IncidenciaLogDTO, 
     IncidenciaAdjuntoDTO, FabricacionAsignadaDTO
 )
-from core.tracking_dtos import (
-    TrabajoLogDTO, PasoTrazabilidadDTO, IncidenciaLogDTO, 
-    IncidenciaAdjuntoDTO, FabricacionAsignadaDTO
-)
 
 class TrackingRepository(BaseRepository):
     """
@@ -209,6 +205,7 @@ class TrackingRepository(BaseRepository):
                 joinedload(TrabajoLog.trabajador),
                 joinedload(TrabajoLog.fabricacion),
                 joinedload(TrabajoLog.producto),
+                joinedload(TrabajoLog.pasos_trazabilidad),
                 joinedload(TrabajoLog.incidencias).joinedload(IncidenciaLog.adjuntos)
             ).filter(
                 TrabajoLog.qr_code == qr_code
@@ -239,6 +236,7 @@ class TrackingRepository(BaseRepository):
                 joinedload(TrabajoLog.trabajador),
                 joinedload(TrabajoLog.fabricacion),
                 joinedload(TrabajoLog.producto),
+                joinedload(TrabajoLog.pasos_trazabilidad),
                 joinedload(TrabajoLog.incidencias).joinedload(IncidenciaLog.adjuntos)
             ).filter(TrabajoLog.id == nuevo_trabajo.id).first()
 
@@ -435,6 +433,7 @@ class TrackingRepository(BaseRepository):
                 joinedload(TrabajoLog.trabajador),
                 joinedload(TrabajoLog.fabricacion),
                 joinedload(TrabajoLog.producto),
+                joinedload(TrabajoLog.pasos_trazabilidad),
                 joinedload(TrabajoLog.incidencias).joinedload(IncidenciaLog.adjuntos)
             ).filter(TrabajoLog.qr_code == qr_code).first()
 
@@ -462,6 +461,7 @@ class TrackingRepository(BaseRepository):
                 joinedload(TrabajoLog.trabajador),
                 joinedload(TrabajoLog.fabricacion),
                 joinedload(TrabajoLog.producto),
+                joinedload(TrabajoLog.pasos_trazabilidad),
                 joinedload(TrabajoLog.incidencias).joinedload(IncidenciaLog.adjuntos)
             ).filter(TrabajoLog.id == trabajo_log_id).first()
 
@@ -1514,6 +1514,12 @@ class TrackingRepository(BaseRepository):
             dto.incidencias = [self._map_to_incidencia_log_dto(i) for i in incidencias]
         except Exception:
             dto.incidencias = []
+
+        try:
+            pasos = getattr(trabajo, 'pasos_trazabilidad', [])
+            dto.pasos_trazabilidad = [self._map_to_paso_trazabilidad_dto(p) for p in pasos]
+        except Exception:
+            dto.pasos_trazabilidad = []
             
         return dto
 

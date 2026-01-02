@@ -74,7 +74,8 @@ from database.database_manager import DatabaseManager
 from database.repositories import (
     ProductRepository, WorkerRepository, MachineRepository,
     PilaRepository, PreprocesoRepository, LoteRepository,
-    MaterialRepository, TrackingRepository, IterationRepository, ConfigurationRepository
+    MaterialRepository, TrackingRepository, IterationRepository, ConfigurationRepository,
+    ReportsRepository
 )
 # NOTA: Importar repositorios y modelos está BIEN. No dependen de cv2.
 
@@ -193,8 +194,26 @@ def in_memory_db_manager(session):
     Proporciona un DatabaseManager conectado a BD en memoria.
     Incluye configuración inicial básica.
     """
+    # Usar la conexión cruda causaba problemas de pool/threading.
+    # Mejor enfoque: Inyectar el motor existente.
+    
+    # Instanciamos con "existing_connection" para saltar la creación de archivo
     connection = session.connection().connection
     db_manager = DatabaseManager(existing_connection=connection)
+    
+    # PARCHE CRÍTICO: Sobrescribir el motor y la factory de sesiones
+    # para usar EXACTAMENTE el mismo motor que la fixture 'session'.
+    # Esto evita conflictos de 'SingletonThreadPool' y 'AssertionError'.
+    db_manager.engine = session.get_bind()
+    db_manager.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=db_manager.engine)
+    
+    # Re-inicializar repositorios con la nueva SessionLocal segura
+    # Esto asegura que usen el motor correcto.
+    db_manager.reports_repo = ReportsRepository(db_manager.SessionLocal)
+    db_manager.tracking_repo = TrackingRepository(db_manager.SessionLocal)
+    db_manager.product_repo = ProductRepository(db_manager.SessionLocal)
+    db_manager.worker_repo = WorkerRepository(db_manager.SessionLocal)
+    # (Añadir otros si fuera necesario, pero Reports es el foco actual)
 
     # Crear tabla de configuración
     db_manager.cursor.execute(
@@ -209,8 +228,8 @@ def in_memory_db_manager(session):
     yield db_manager
 
     # Teardown explícito para evitar ResourceWarning
-    if db_manager.engine:
-        db_manager.engine.dispose()
+    # No cerramos el engine aquí porque pertenece a la fixture 'session'
+    pass
 
 
 @pytest.fixture(scope="function")
@@ -405,12 +424,191 @@ def sample_pytest_audit_data():
 
 
 # ==============================================================================
-# FIXTURES DE PYTEST-QT (si se usan tests de UI)
+# FIXTURES DE PYTEST-QT (simuladas si pytest-qt no está instalado)
 # ==============================================================================
-# La fixture qtbot es proporcionada automáticamente por pytest-qt
-# No es necesario definirla manualmente amenos que no se use el plugin.
-# Si pytest-qt está instalado, esta definición manual causaba conflictos/errores
-# al pasar 'app' en lugar de 'request' al constructor de QtBot.
+# Estas fixtures simulan la funcionalidad básica de pytest-qt para tests
+# que requieren interacción con widgets Qt.
+
+class QtBotMock:
+    """
+    Simula las funcionalidades básicas de qtbot de pytest-qt.
+    Permite añadir widgets, simular clicks y keystrokes.
+    """
+    def __init__(self, qapp):
+        self._qapp = qapp
+        self._widgets = []
+    
+    def addWidget(self, widget):
+        """Registra un widget para limpieza posterior."""
+        self._widgets.append(widget)
+    
+    # Alias para compatibilidad con tests que usan snake_case
+    add_widget = addWidget
+    
+    def mouseClick(self, widget, button, modifier=None, pos=None, delay=-1):
+        """Simula un click de ratón en el widget."""
+        from PyQt6.QtCore import QEvent, Qt, QPointF
+        from PyQt6.QtGui import QMouseEvent
+        from PyQt6.QtWidgets import QApplication
+        
+        if pos is None:
+            center = widget.rect().center()
+            pos = QPointF(float(center.x()), float(center.y()))
+        elif isinstance(pos, tuple):
+            pos = QPointF(float(pos[0]), float(pos[1]))
+        else:
+            pos = QPointF(float(pos.x()), float(pos.y()))
+        
+        # Crear evento de press y release
+        press_event = QMouseEvent(
+            QEvent.Type.MouseButtonPress,
+            pos,
+            button,
+            button,
+            Qt.KeyboardModifier.NoModifier
+        )
+        release_event = QMouseEvent(
+            QEvent.Type.MouseButtonRelease,
+            pos,
+            button,
+            button,
+            Qt.KeyboardModifier.NoModifier
+        )
+        
+        QApplication.sendEvent(widget, press_event)
+        QApplication.sendEvent(widget, release_event)
+        
+        # Simular click si el widget tiene el método
+        if hasattr(widget, 'click'):
+            widget.click()
+        
+        self._qapp.processEvents()
+    
+    def keyPress(self, widget, key, modifier=None, delay=-1):
+        """Simula una pulsación de tecla."""
+        from PyQt6.QtCore import QEvent, Qt
+        from PyQt6.QtGui import QKeyEvent
+        from PyQt6.QtWidgets import QApplication
+        
+        if modifier is None:
+            modifier = Qt.KeyboardModifier.NoModifier
+        
+        event = QKeyEvent(QEvent.Type.KeyPress, key, modifier)
+        QApplication.sendEvent(widget, event)
+        self._qapp.processEvents()
+    
+    def keyClicks(self, widget, text, modifier=None, delay=-1):
+        """Simula escritura de texto."""
+        from PyQt6.QtCore import QEvent, Qt
+        from PyQt6.QtGui import QKeyEvent
+        from PyQt6.QtWidgets import QApplication
+        
+        if modifier is None:
+            modifier = Qt.KeyboardModifier.NoModifier
+        
+        for char in text:
+            event = QKeyEvent(QEvent.Type.KeyPress, ord(char), modifier, char)
+            QApplication.sendEvent(widget, event)
+        
+        self._qapp.processEvents()
+    
+    def wait(self, ms):
+        """Espera simulada."""
+        import time
+        time.sleep(ms / 1000.0)
+        self._qapp.processEvents()
+    
+    def waitUntil(self, callback, timeout=5000):
+        """Espera hasta que callback retorne True o timeout."""
+        import time
+        start = time.time()
+        while (time.time() - start) * 1000 < timeout:
+            self._qapp.processEvents()
+            if callback():
+                return
+            time.sleep(0.01)
+        raise TimeoutError(f"waitUntil timed out after {timeout}ms")
+    
+    def cleanup(self):
+        """Limpia todos los widgets registrados."""
+        for widget in self._widgets:
+            try:
+                widget.close()
+                widget.deleteLater()
+            except RuntimeError:
+                pass  # Widget ya destruido
+        self._widgets.clear()
+        self._qapp.processEvents()
+    
+    def waitSignal(self, signal, timeout=5000, raising=True):
+        """
+        Retorna un context manager que espera a que la señal sea emitida.
+        Compatible con la API de pytest-qt.
+        """
+        return SignalBlocker(signal, timeout, raising, self._qapp)
+
+
+class SignalBlocker:
+    """
+    Context manager para esperar señales de Qt.
+    Similar a pytestqt.plugin.SignalBlocker.
+    """
+    def __init__(self, signal, timeout, raising, qapp):
+        self.signal = signal
+        self.timeout = timeout
+        self.raising = raising
+        self.qapp = qapp
+        self.args = None
+        self.signal_triggered = False
+    
+    def __enter__(self):
+        self._callback = lambda *args: self._on_signal(*args)
+        self.signal.connect(self._callback)
+        return self
+    
+    def _on_signal(self, *args):
+        self.args = args
+        self.signal_triggered = True
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        try:
+            self.signal.disconnect(self._callback)
+        except (TypeError, RuntimeError):
+            pass  # Ya desconectado o widget destruido
+        
+        if exc_type is None:
+            # Si no hay excepción, esperar la señal
+            import time
+            start = time.time()
+            while not self.signal_triggered and (time.time() - start) * 1000 < self.timeout:
+                self.qapp.processEvents()
+                time.sleep(0.01)
+            
+            if not self.signal_triggered and self.raising:
+                raise TimeoutError(f"Signal not emitted within {self.timeout}ms")
+        
+        return False
+
+
+@pytest.fixture(scope="session")
+def qapp():
+    """
+    Fixture que proporciona una instancia de QApplication.
+    Similar a la fixture de pytest-qt pero más simple.
+    """
+    app = QApplication.instance() or QApplication(sys.argv)
+    yield app
+
+
+@pytest.fixture
+def qtbot(qapp):
+    """
+    Fixture que proporciona un objeto QtBotMock para simular
+    interacciones de usuario con widgets Qt.
+    """
+    bot = QtBotMock(qapp)
+    yield bot
+    bot.cleanup()
 
 # HOOKS DE PYTEST PARA METRICAS
 # ==============================================================================
@@ -468,11 +666,12 @@ def app_instance():
 
 
 @pytest.fixture
-def label_counter_repo(tmp_path):
-    """Crea un repo de contadores de etiquetas en un archivo temporal."""
-    test_db_path = tmp_path / "test_etiquetas.db"
-    repo = LabelCounterRepository(db_path=str(test_db_path))
+def label_counter_repo(session):
+    """Crea un repo de contadores de etiquetas usando la sesión compartida."""
+    # Instanciar el repositorio con la factory de la sesión actual
+    repo = LabelCounterRepository(lambda: session)
     yield repo
+    # No es necesario close() explícito ya que session se cierra en su fixture
     repo.close()
 
 

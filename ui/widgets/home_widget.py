@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from .base import *
+import requests
+from PyQt6.QtGui import QPixmap
 
 class HomeWidget(QWidget):
     """Widget para la pantalla de inicio."""
@@ -97,8 +99,8 @@ class HomeWidget(QWidget):
             if image_url:
                 # Cargar imagen de forma asíncrona idealmente, pero aquí usaremos requests básico
                 # En un entorno real, esto debería ir en un hilo aparte
-                import requests
-                from PyQt6.QtGui import QPixmap
+                # import requests -> Moved to top
+                # from PyQt6.QtGui import QPixmap -> Moved to top
                 try:
                     # Wikimedia requiere un User-Agent válido
                     headers = {'User-Agent': 'CalculadorTiempos/1.0 (daniel@example.com)'}

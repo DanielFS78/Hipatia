@@ -16,7 +16,7 @@ openpyxl>=3.1.5
 
 # --- Procesamiento de Imágenes y QR ---
 Pillow>=12.0.0
-opencv-python>=4.12.0.88
+opencv-contrib-python>=4.12.0.88
 qrcode>=8.0
 
 # --- Generación de Documentos ---

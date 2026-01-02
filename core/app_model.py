@@ -30,6 +30,7 @@ class AppModel(QObject):
         self.lote_repo = db_manager.lote_repo
         self.iteration_repo = db_manager.iteration_repo
         self.tracking_repo = db_manager.tracking_repo
+        self.reports_repo = db_manager.reports_repo
         self.material_repo = db_manager.material_repo
 
         self.logger = logging.getLogger("EvolucionTiemposApp")
@@ -819,3 +820,43 @@ class AppModel(QObject):
         except Exception as e:
             self.logger.error(f"Error eliminando preproceso: {e}")
             return False
+
+    # =========================================================================
+    # MÉTODOS DEL REPOSITORIO DE REPORTES (Fase 5)
+    # =========================================================================
+
+    def reports_buscar_por_codigo(self, query: str, limit: int = 20):
+        """Búsqueda inteligente por código o descripción."""
+        return self.reports_repo.buscar_por_codigo(query, limit)
+
+    def reports_obtener_ordenes_por_producto(self, producto_codigo: str, limit: int = 50):
+        """Obtiene órdenes de fabricación de un producto."""
+        return self.reports_repo.obtener_ordenes_por_producto(producto_codigo, limit)
+
+    def reports_obtener_detalle_orden(self, orden_fabricacion: str):
+        """Obtiene detalle completo de una orden."""
+        return self.reports_repo.obtener_detalle_orden(orden_fabricacion)
+
+    def reports_calcular_promedio_tiempo(self, producto_codigo: str, fecha_inicio=None, fecha_fin=None):
+        """Calcula tiempo promedio por unidad para un producto."""
+        return self.reports_repo.calcular_promedio_tiempo_unidad(producto_codigo, fecha_inicio, fecha_fin)
+
+    def reports_obtener_tiempos_por_trabajador(self, producto_codigo: str):
+        """Obtiene tiempos promedio agrupados por trabajador."""
+        return self.reports_repo.obtener_tiempos_por_trabajador(producto_codigo)
+
+    def reports_obtener_incidencias_por_producto(self, producto_codigo: str):
+        """Obtiene resumen de incidencias agrupadas por tipo."""
+        return self.reports_repo.obtener_incidencias_por_producto(producto_codigo)
+
+    def reports_obtener_evolucion_temporal(self, producto_codigo: str, dias: int = 30):
+        """Obtiene evolución del tiempo promedio en los últimos N días."""
+        return self.reports_repo.obtener_evolucion_temporal(producto_codigo, dias)
+
+    def reports_obtener_resumen_producto(self, producto_codigo: str):
+        """Obtiene resumen estadístico de un producto."""
+        return self.reports_repo.obtener_resumen_producto(producto_codigo)
+
+    def reports_obtener_unidades_de_orden(self, orden_fabricacion: str):
+        """Obtiene unidades individuales de una orden."""
+        return self.reports_repo.obtener_unidades_de_orden(orden_fabricacion)

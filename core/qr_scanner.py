@@ -28,7 +28,15 @@ except (ImportError, AttributeError):
 from typing import Optional, Dict, Tuple, Callable
 from datetime import datetime
 import re
+import os
 from core.camera_manager import CameraManager, CameraInfo
+
+# Intentar importar WeChatQRCode (requiere opencv-contrib-python)
+try:
+    from cv2 import wechat_qrcode_WeChatQRCode
+    HAS_WECHAT_QR = True
+except ImportError:
+    HAS_WECHAT_QR = False
 
 class QrScanner:
     """
@@ -45,7 +53,8 @@ class QrScanner:
         logger: Logger para registro de operaciones
         camera_index: Índice de la cámara (0 por defecto)
         camera: Objeto VideoCapture de OpenCV
-        qr_detector: Detector QR de OpenCV (QRCodeDetector)
+        qr_detector: Detector QR (WeChatQRCode o QRCodeDetector fallback)
+        use_wechat: Booleano indicando si se está usando el motor optimizado
         last_scan: Último QR escaneado (para evitar lecturas duplicadas)
         scan_cooldown: Tiempo mínimo entre escaneos del mismo QR (segundos)
     """
@@ -67,17 +76,16 @@ class QrScanner:
         self.camera_index = camera_index
         self.camera = camera_object  # Aceptamos el objeto ya creado
         self.logger.info(f"QrScanner inicializado con manager y objeto de cámara (índice {camera_index})")
-        # --- FIN DE CAMBIOS ---
+        
+        # --- Inicialización del Motor de Escaneo (WeChatQRCode) ---
+        self.use_wechat = False
+        self.qr_detector = None
+        self._init_detector()
 
-        self.qr_detector = cv2.QRCodeDetector()
         self.last_scan = None
         self.last_scan_time = None
         self.scan_cooldown = 4.0
-
-        # Nueva variable de estado
         self.is_camera_ready = False
-
-        # La inicialización ahora solo comprueba el objeto
         self.is_camera_ready = self.initialize_camera()
 
         if self.is_camera_ready:
@@ -85,12 +93,49 @@ class QrScanner:
         else:
             self.logger.error(f"QrScanner recibió una cámara NO VÁLIDA (índice {self.camera_index})")
 
+    def _init_detector(self):
+        """Inicializa el mejor detector disponible."""
+        # Rutas a los modelos (asumiendo estructura core/models/)
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        models_dir = os.path.join(base_dir, "models")
+        
+        detect_proto = os.path.join(models_dir, "detect.prototxt")
+        detect_caffe = os.path.join(models_dir, "detect.caffemodel")
+        sr_proto = os.path.join(models_dir, "sr.prototxt")
+        sr_caffe = os.path.join(models_dir, "sr.caffemodel")
+        
+        models_exist = (os.path.exists(detect_proto) and os.path.exists(detect_caffe) and 
+                        os.path.exists(sr_proto) and os.path.exists(sr_caffe))
+
+        if HAS_WECHAT_QR and models_exist:
+            try:
+                self.logger.info("Inicializando WeChatQRCode (Motor Optimizado)...")
+                self.qr_detector = wechat_qrcode_WeChatQRCode(
+                    detect_proto, detect_caffe, sr_proto, sr_caffe
+                )
+                self.use_wechat = True
+                self.logger.info("✓ WeChatQRCode inicializado correctamente")
+            except Exception as e:
+                self.logger.error(f"Error cargando modelos WeChatQRCode: {e}")
+                self._fallback_detector()
+        else:
+            if not HAS_WECHAT_QR:
+                self.logger.warning("WeChatQRCode no disponible en cv2 (opencv-contrib-python faltante?).")
+            if not models_exist:
+                self.logger.warning(f"Modelos de WeChatQRCode no encontrados en {models_dir}")
+            self._fallback_detector()
+
+    def _fallback_detector(self):
+        """Inicializa el detector estándar de OpenCV como respaldo."""
+        self.logger.info("Usando cv2.QRCodeDetector estándar (Rendimiento Básico)")
+        self.qr_detector = cv2.QRCodeDetector()
+        self.use_wechat = False
+
     def initialize_camera(self) -> bool:
         """
         VERSIÓN SÚPER-SIMPLIFICADA: Solo comprueba si el objeto
         de cámara recibido es válido y está abierto.
         """
-        # --- INICIO DE CAMBIOS ---
         if self.camera and self.camera.isOpened():
             self.logger.info("El objeto de cámara recibido es válido y está abierto.")
             self.is_camera_ready = True
@@ -155,62 +200,81 @@ class QrScanner:
             small_frame = frame  # Fallback
             scale_factor = 1.0
 
-        # --- 2. Analizar el Frame Pequeño (como en Paso 2/7) ---
-        try:
-            gray = cv2.cvtColor(small_frame, cv2.COLOR_BGR2GRAY)
-            thresh_adapt = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                                 cv2.THRESH_BINARY, 11, 2)
+            # --- 2. Analizar el Frame Pequeño ---
+            try:
+                # No necesitamos conversión a gris/threshold manual tan agresiva con WeChatQRCode
+                # pero mantenemos la lógica básica por si acaso
+                
+                # WeChatQRCode funciona excelente con BGR directo,
+                # pero si falla, probamos con gris.
+                images_to_try = [small_frame]
+                
+                # Si usamos el detector estándar, mantenemos la lógica antigua de gris/threshold
+                if not self.use_wechat:
+                    gray = cv2.cvtColor(small_frame, cv2.COLOR_BGR2GRAY)
+                    thresh_adapt = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                                       cv2.THRESH_BINARY, 11, 2)
+                    images_to_try = [gray, thresh_adapt]
 
-            images_to_try = [gray, thresh_adapt]  # Probar en gris y adaptativo
+                data = None
+                bbox = None  # Bbox en la escala pequeña
 
-            data = None
-            bbox = None  # Bbox en la escala pequeña
+                for img in images_to_try:
+                    try:
+                        if self.use_wechat:
+                            # WeChatQRCode devuelve una lista de resultados
+                            res, points = self.qr_detector.detectAndDecode(img)
+                            if res and len(res) > 0:
+                                data = res[0]  # Tomamos el primero
+                                bbox = points[0] # Tomamos los puntos del primero
+                        else:
+                            # Detector estándar
+                            d, b, _ = self.qr_detector.detectAndDecode(img)
+                            if d:
+                                data = d
+                                bbox = b
+                    except cv2.error as e:
+                        self.logger.debug(f"Excepción interna de OpenCV en detectAndDecode: {e}")
+                        continue
 
-            for img in images_to_try:
+                    if data:
+                        break # Encontrado!
+                    
+                    if not self.use_wechat and bbox is not None and data is None:
+                        # Para el detector estándar, a veces detecta caja sin datos
+                        # Para WeChat suele ser todo o nada
+                        pass
 
-                # --- INICIO DE CORRECCIÓN ---
-                # Esta función de OpenCV puede lanzar una excepción 'cv2.error'
-                # si encuentra contornos inválidos (área 0).
-                # La capturamos para evitar que el bucle de escaneo se rompa.
-                try:
-                    d, b, _ = self.qr_detector.detectAndDecode(img)
-                except cv2.error as e:
-                    # Logueamos como debug, ya que este error es común y "esperado"
-                    # si la imagen es ruidosa. No queremos spam en el log de INFO.
-                    self.logger.debug(f"Excepción interna de OpenCV (área 0) en detectAndDecode: {e}")
-                    d, b = None, None  # Continuar con el siguiente frame
-                # --- FIN DE CORRECCIÓN ---
+                # --- 3. Lógica de Retorno con Re-escalado ---
+                scaled_bbox = None
+                if bbox is not None:
+                    # Normalizar bbox para que sea consistente
+                    # WeChat devuelve float32 (4, 2), standard devuelve float32 (1, 4, 2)
+                    
+                    current_bbox = bbox
+                    if self.use_wechat:
+                         # Asegurar formato similar al standar para compatibilidad (1, 4, 2)
+                         # Aunque draw_qr_detection lo arreglaremos para que sea agnóstico
+                         pass
+                    
+                    # Escalar
+                    scaled_bbox = current_bbox * scale_factor
 
-                if d:  # Si encontramos datos, es un éxito total
-                    data = d
-                    bbox = b
-                    break  # Salir del bucle
-                elif b is not None and bbox is None:
-                    # A veces detecta la caja (b) pero no los datos (d)
-                    bbox = b
+                if data:
+                    if self._check_cooldown(data):
+                        return (None, scaled_bbox)
 
-            # --- 3. Lógica de Retorno con Re-escalado ---
-            scaled_bbox = None
-            if bbox is not None:
-                scaled_bbox = bbox * scale_factor
+                    self.logger.info(f"QR escaneado ({'WeChat' if self.use_wechat else 'Std'}): {data}")
+                    return (data, scaled_bbox)
 
-            if data:
-                if self._check_cooldown(data):
-                    return (None, scaled_bbox)
+                if scaled_bbox is not None:
+                    return (None, scaled_bbox) 
 
-                self.logger.info(f"QR escaneado: {data}")
-                return (data, scaled_bbox)
+                return (None, None)
 
-            if scaled_bbox is not None:
-                return (None, scaled_bbox)  # Sin datos, pero mostrar caja
-
-            return (None, None)
-
-        except Exception as e:
-            # Este 'except' general ahora solo capturará errores
-            # inesperados (como el re-dimensionado o conversión de color)
-            self.logger.error(f"Error grave escaneando frame (post-resize): {e}", exc_info=True)
-            return (None, None)
+            except Exception as e:
+                self.logger.error(f"Error grave en lógica de detección: {e}", exc_info=True)
+                return (None, None)
 
     def draw_qr_detection(self, frame, qr_data: Optional[str], bbox: Optional[any]):
         """
@@ -233,17 +297,24 @@ class QrScanner:
 
             if bbox is not None:
                 # Convertir bbox a puntos enteros
-                bbox = bbox.astype(int)
+                # Manejar diferentes formatos de bbox (WeChat vs Standard)
+                points = bbox
+                
+                # Estandarizar a lista de puntos (4, 2)
+                if len(points.shape) == 3: # (1, 4, 2) del standard
+                    points = points[0]
+                
+                points = points.astype(int)
 
                 # Dibujar rectángulo verde alrededor del QR
                 for i in range(4):
-                    pt1 = tuple(bbox[0][i])
-                    pt2 = tuple(bbox[0][(i + 1) % 4])
+                    pt1 = tuple(points[i])
+                    pt2 = tuple(points[(i + 1) % 4])
                     cv2.line(frame, pt1, pt2, (0, 255, 0), 3)
 
                 # Mostrar texto del QR si está disponible
                 if qr_data:
-                    x, y = bbox[0][0]
+                    x, y = points[0]
                     # Truncar texto si es muy largo
                     text = qr_data[:35] + "..." if len(qr_data) > 35 else qr_data
 
@@ -514,27 +585,36 @@ class QrScannerCallback:
 
 def scan_qr_simple(camera_index: int = 0, timeout: int = 30) -> Optional[str]:
     """
-    Función de utilidad para escanear un QR de forma simple.
-
+    DEPRECATED: Esta función no es compatible con la nueva API de QrScanner.
+    
+    Use QrScanner directamente con un CameraManager y camera_object.
+    
     Args:
         camera_index: Índice de la cámara
         timeout: Tiempo máximo de espera
 
     Returns:
         Contenido del QR o None
-
-    Example:
-        >>> qr_data = scan_qr_simple()
-        >>> if qr_data:
-        ...     print(f"QR escaneado: {qr_data}")
+        
+    Raises:
+        DeprecationWarning: Esta función está obsoleta
     """
-    scanner = QrScanner(camera_index)
-    return scanner.scan_once(timeout)
+    import warnings
+    warnings.warn(
+        "scan_qr_simple() está obsoleta. Use QrScanner con CameraManager directamente.",
+        DeprecationWarning,
+        stacklevel=2
+    )
+    # Intentar crear scanner con la API antigua causará error
+    # Retornamos None para evitar crash
+    return None
 
 
 def validate_qr(qr_data: str) -> bool:
     """
     Función de utilidad para validar formato de QR.
+    
+    Esta función NO requiere cámara y valida el formato usando regex.
 
     Args:
         qr_data: Contenido del QR
@@ -547,13 +627,16 @@ def validate_qr(qr_data: str) -> bool:
         >>> if validate_qr(qr):
         ...     print("QR válido")
     """
-    scanner = QrScanner()
-    return scanner.validate_qr_format(qr_data)
+    # Patrón validación standalone (sin necesidad de instancia de QrScanner)
+    pattern = r'FAB(\d+)-([A-Z0-9/]+)-UNIT(\d+)-(\d{14})-([A-F0-9]{4})'
+    return re.match(pattern, qr_data) is not None
 
 
 def get_qr_info(qr_data: str) -> Optional[Dict]:
     """
     Función de utilidad para obtener información de un QR.
+    
+    Esta función NO requiere cámara y parsea el formato usando regex.
 
     Args:
         qr_data: Contenido del QR
@@ -567,8 +650,29 @@ def get_qr_info(qr_data: str) -> Optional[Dict]:
         >>> if info:
         ...     print(f"Producto: {info['producto_codigo']}")
     """
-    scanner = QrScanner()
-    return scanner.parse_qr_data(qr_data)
+    # Parseo standalone (sin necesidad de instancia de QrScanner)
+    pattern = r'FAB(\d+)-([A-Z0-9/]+)-UNIT(\d+)-(\d{14})-([A-F0-9]{4})'
+    match = re.match(pattern, qr_data)
+    
+    if not match:
+        return None
+    
+    fabricacion_id, producto_codigo, unit_number, timestamp_str, hash_code = match.groups()
+    
+    try:
+        timestamp = datetime.strptime(timestamp_str, '%Y%m%d%H%M%S')
+    except ValueError:
+        return None
+    
+    return {
+        'valido': True,
+        'fabricacion_id': int(fabricacion_id),
+        'producto_codigo': producto_codigo,
+        'unit_number': int(unit_number),
+        'timestamp': timestamp,
+        'hash': hash_code,
+        'qr_completo': qr_data
+    }
 
 
 # ============================================================================

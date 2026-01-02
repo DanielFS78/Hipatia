@@ -74,3 +74,13 @@ temp_chunks/
 iteration_images/
 qr_codes/
 simulation_checkpoint.pkl
+
+# Documentation (External)
+Documentacion/opencv/
+Documentacion/PyQt6-Charts/
+Documentacion/PyQt6-Graphs/
+Documentacion/Qr/
+
+# Temporary Files
+coverage.json
+temp_output.txt

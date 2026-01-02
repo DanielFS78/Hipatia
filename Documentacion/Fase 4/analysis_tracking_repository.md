@@ -1,0 +1,72 @@
+# Analysis of tracking_repository.py
+
+**Path**: `/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/database/repositories/tracking_repository.py`
+
+## Class: TrackingRepository
+- Inherits from: BaseRepository
+- Method: `__init__(self, session_factory)`
+  - Doc: Inicializa el repositorio.
+- Method: `get_fabricaciones_por_trabajador(self, trabajador_id)`
+  - Doc: Obtiene todas las fabricaciones asignadas a un trabajador específicamente,
+- Method: `actualizar_estado_asignacion(self, trabajador_id, fabricacion_id, nuevo_estado)`
+  - Doc: Actualiza el estado de una asignaciÃ³n de fabricaciÃ³n a un trabajador.
+- Method: `obtener_o_crear_trabajo_log_por_qr(self, qr_code, trabajador_id, fabricacion_id, producto_codigo, orden_fabricacion, notas)`
+  - Doc: Obtiene un TrabajoLog por QR si existe. Si no, lo crea.
+- Method: `iniciar_trabajo(self, qr_code, trabajador_id, fabricacion_id, producto_codigo)`
+  - Doc: Inicia un nuevo trabajo (Wrapper para obtener_o_crear_trabajo_log_por_qr).
+- Method: `finalizar_trabajo_log(self, trabajo_log_id, notas_finalizacion)`
+  - Doc: Finaliza el TrabajoLog principal (el "pasaporte").
+- Method: `pausar_trabajo(self, qr_code, motivo)`
+  - Doc: Pausa un trabajo en proceso.
+- Method: `reanudar_trabajo(self, qr_code)`
+  - Doc: Reanuda un trabajo pausado.
+- Method: `obtener_trabajo_por_qr(self, qr_code)`
+  - Doc: Obtiene un trabajo por su código QR.
+- Method: `obtener_trabajo_por_id(self, trabajo_log_id)`
+  - Doc: Obtiene un trabajo por su ID.
+- Method: `get_paso_activo_por_trabajador(self, trabajador_id)`
+  - Doc: Busca si un trabajador tiene un paso de trazabilidad en estado 'en_proceso'.
+- Method: `get_ultimo_paso_para_qr(self, trabajo_log_id)`
+  - Doc: Obtiene el último paso (más reciente) registrado para un TrabajoLog (QR).
+- Method: `iniciar_nuevo_paso(self, trabajo_log_id, trabajador_id, paso_nombre, tipo_paso, maquina_id)`
+  - Doc: Crea un nuevo registro de PasoTrazabilidad (un "sello").
+- Method: `finalizar_paso(self, paso_id)`
+  - Doc: Finaliza un PasoTrazabilidad, calculando su duración.
+- Method: `obtener_trabajos_activos(self, trabajador_id, fabricacion_id)`
+  - Doc: Obtiene todos los trabajos activos (en_proceso o pausados).
+- Method: `registrar_incidencia(self, trabajo_log_id, trabajador_id, tipo_incidencia, descripcion, rutas_fotos)`
+  - Doc: Registra una nueva incidencia.
+- Method: `_crear_adjunto(self, session, incidencia_id, ruta_archivo)`
+  - Doc: Crea un adjunto fotogrÃ¡fico (uso interno).
+- Method: `añadir_foto_a_incidencia(self, incidencia_id, ruta_foto, descripcion)`
+  - Doc: Añade una foto a una incidencia existente.
+- Method: `resolver_incidencia(self, incidencia_id, resolucion)`
+  - Doc: Marca una incidencia como resuelta.
+- Method: `obtener_incidencias_abiertas(self, fabricacion_id)`
+  - Doc: Obtiene todas las incidencias abiertas.
+- Method: `asignar_trabajador_a_fabricacion(self, trabajador_id, fabricacion_id)`
+  - Doc: Asigna un trabajador a una fabricaciÃ³n.
+- Method: `desasignar_trabajador_de_fabricacion(self, trabajador_id, fabricacion_id)`
+  - Doc: Desasigna un trabajador de una fabricaciÃ³n.
+- Method: `obtener_trabajadores_de_fabricacion(self, fabricacion_id)`
+  - Doc: Obtiene todos los trabajadores asignados a una fabricaciÃ³n.
+- Method: `obtener_estadisticas_trabajador(self, trabajador_id, fecha_inicio, fecha_fin)`
+  - Doc: Obtiene estadÃ­sticas de un trabajador.
+- Method: `obtener_estadisticas_fabricacion(self, fabricacion_id)`
+  - Doc: Obtiene estadÃ­sticas de una fabricaciÃ³n.
+- Method: `get_trabajo_logs_por_trabajador(self, trabajador_id)`
+  - Doc: Obtiene todos los registros de trabajo (fichajes) de un trabajador,
+- Method: `upsert_trabajo_log_from_dict(self, data)`
+  - Doc: Inserta o actualiza un TrabajoLog desde un diccionario (JSON).
+- Method: `get_data_for_export(self, trabajador_id, since_date)`
+  - Doc: Recopila todos los datos de un trabajador creados desde una fecha específica.
+- Method: `get_all_ordenes_fabricacion(self)`
+  - Doc: Obtiene todas las Órdenes de Fabricación únicas registradas en el sistema.
+- Method: `_map_to_trabajo_log_dto(self, trabajo)`
+  - Doc: Map a TrabajoLog ORM object to TrabajoLogDTO.
+- Method: `_map_to_incidencia_log_dto(self, incidencia)`
+  - Doc: Map an IncidenciaLog ORM object to IncidenciaLogDTO.
+- Method: `_map_to_incidencia_adjunto_dto(self, adjunto)`
+  - Doc: Map IncidenciaAdjunto ORM to DTO.
+- Method: `_map_to_paso_trazabilidad_dto(self, paso)`
+  - Doc: Map a PasoTrazabilidad ORM object to PasoTrazabilidadDTO.

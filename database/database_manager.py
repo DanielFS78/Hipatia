@@ -24,7 +24,7 @@ from .models import (Producto, Trabajador, Maquina, Pila, Subfabricacion,
 from .repositories import (ProductRepository, WorkerRepository, MachineRepository,
                              PilaRepository, LoteRepository, ConfigurationRepository,
                            MaterialRepository, PreprocesoRepository,
-                           IterationRepository, TrackingRepository)
+                           IterationRepository, TrackingRepository, ReportsRepository)
 
 
 class DatabaseManager:
@@ -91,6 +91,7 @@ class DatabaseManager:
             self.iteration_repo = IterationRepository(self.SessionLocal)
             self.iteration_repo = IterationRepository(self.SessionLocal)
             self.tracking_repo = TrackingRepository(self.SessionLocal)
+            self.reports_repo = ReportsRepository(self.SessionLocal)
 
         except sqlite3.Error as e:
             self.logger.critical(f"CRITICAL: Error al conectar (sqlite3) a la base de datos: {e}")

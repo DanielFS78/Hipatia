@@ -464,6 +464,25 @@ class WorkerMainWindow(QMainWindow):
         
         msg_box.exec()
 
+    def show_confirmation_dialog(self, title: str, message: str) -> bool:
+        """
+        Muestra un diálogo de confirmación (Sí/No).
+        
+        Args:
+            title (str): Título del diálogo
+            message (str): Mensaje
+            
+        Returns:
+            bool: True si el usuario pulsa 'Sí', False si pulsa 'No'.
+        """
+        from PyQt6.QtWidgets import QMessageBox
+        reply = QMessageBox.question(
+            self, title, message,
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No
+        )
+        return reply == QMessageBox.StandardButton.Yes
+
     def update_tasks_list(self, tasks: list):
         self.tasks_list.clear()
         if not tasks:
