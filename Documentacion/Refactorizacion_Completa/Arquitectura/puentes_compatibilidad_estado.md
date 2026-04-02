@@ -36,3 +36,16 @@ Un puente puede eliminarse cuando:
 - no tiene imports desde runtime activo,
 - no hay tests que dependan de su API legacy,
 - existe ruta equivalente tipada (DTO/servicio) con cobertura.
+
+
+## Actualización de retiro (2026-04-02, bloque shims/mixins)
+
+- Se eliminó `core/app_model_bridges/` del runtime (`compat.py`, `planning.py`, `product.py`).
+- `AppModel` dejó de heredar bridges y conserva la API legacy mediante delegación directa a fachadas/servicios dentro de `core/app_model.py`.
+- Se retiraron mixins supervivientes en favor de composición explícita:
+  - `features/worker_controller_io_mixin.py` -> `features/worker_controller_io_manager.py` inyectado en `WorkerController`.
+  - `core/services/product_service_delegation_mixin.py` -> métodos integrados en `core/services/product_service.py`.
+  - `ui/dialogs/production_flow/enhanced_flow_presenter_state.py` -> `ui/dialogs/production_flow/enhanced_flow_state_manager.py` inyectado en `EnhancedFlowPresenter`.
+- Validación de cierre tras retiro:
+  - `python3 -m mypy .` -> verde.
+  - `pytest -q` -> verde.
