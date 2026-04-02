@@ -1,359 +1,284 @@
-# repositories/product_repository.py
+# database/repositories/product_repository.py
 """
 Repositorio para la gestión de productos.
-Mantiene compatibilidad exacta con los métodos existentes en database_manager.py
+Consolidado mediante absorción del mixin de fabricación.
 """
-
-from typing import List, Tuple, Optional, Dict, Any
-from sqlalchemy import or_
-from sqlalchemy.orm import joinedload # <-- AÑADE ESTA LÍNEA
-from sqlalchemy.exc import IntegrityError
+from __future__ import annotations
+from typing import List, Optional, Any
+from sqlalchemy.orm import Session
 
 from .base import BaseRepository
 from ..models import Producto, Subfabricacion, ProcesoMecanico
-from core.dtos import ProductDTO, SubfabricacionDTO, ProcesoMecanicoDTO, MaterialDTO
+from ..models.base import fabricacion_productos
+from core.dtos import (
+    MaterialDTO,
+    ProductDTO,
+    ProductDetailsDTO,
+    SubfabricacionDTO,
+    ProcesoMecanicoDTO,
+)
+from .product_repository_helpers import (
+    to_product_dto,
+    to_subfabricacion_dto,
+    to_proceso_mecanico_dto,
+    to_material_dto,
+    normalize_machine_id,
+)
+
 
 class ProductRepository(BaseRepository):
     """
-    Repositorio para la gestión de productos.
-    Replica exactamente la interfaz de los métodos de productos en database_manager.py
+    Repositorio para gestión de productos.
+    Maneja la persistencia de artículos, escandallos y relaciones de fabricación.
     """
 
-    def _get_default_error_value(self):
-        """Retorna lista vacía por defecto para consultas, False para operaciones."""
-        return []
+    def add_product(self, data: dict, sub_data: list | None = None) -> bool:
+        """Añade un producto, subfabricaciones y procesos mecánicos."""
 
-    def get_all_products(self) -> List[ProductDTO]:
-        """
-        Obtiene la lista completa de todos los productos.
-        Mantiene compatibilidad con: database_manager.get_all_products()
+        def _operation(session: Session) -> bool:
+            p = session.query(Producto).filter_by(codigo=data["codigo"]).first()
+            if p:
+                self.logger.warning(f"Producto {data['codigo']} ya existe.")
+                return False
 
-        Returns:
-            Lista de objetos ProductDTO
-        """
+            # Separar procesos mecánicos si vienen en data
+            procesos_data = data.pop("procesos_mecanicos", [])
 
-        def _operation(session):
-            productos = session.query(Producto).order_by(Producto.codigo).all()
-            return [
-                ProductDTO(
-                    codigo=p.codigo,
-                    descripcion=p.descripcion,
-                    departamento=p.departamento,
-                    tipo_trabajador=p.tipo_trabajador,
-                    donde=p.donde or "",
-                    tiene_subfabricaciones=p.tiene_subfabricaciones,
-                    tiempo_optimo=p.tiempo_optimo or 0.0
-                ) for p in productos
-            ]
+            nuevo_p = Producto(**data)
+            session.add(nuevo_p)
+            session.flush()
 
-        return self.safe_execute(_operation) or []
+            # Gestión de subfabricaciones
+            if sub_data:
+                for sub in sub_data:
+                    if hasattr(sub, "descripcion"):
+                        nueva_sub = Subfabricacion(
+                            producto_codigo=nuevo_p.codigo,
+                            descripcion=sub.descripcion,
+                            tiempo=sub.tiempo,
+                            tipo_trabajador=sub.tipo_trabajador,
+                        )
+                    else:
+                        sub_copy = dict(sub)
+                        sub_copy["maquina_id"] = normalize_machine_id(sub_copy.get("maquina_id"))
+                        nueva_sub = Subfabricacion(
+                            producto_codigo=nuevo_p.codigo,
+                            **sub_copy
+                        )
+                    session.add(nueva_sub)
 
-    def search_products(self, query: str) -> List[ProductDTO]:
-        """
-        Busca productos por código o descripción.
-        Mantiene compatibilidad con: database_manager.search_products()
-
-        Args:
-            query: Término de búsqueda
-
-        Returns:
-            Lista de objetos ProductDTO
-        """
-        if not query:
-            return self.get_all_products()
-
-        if len(query) < 2:
-            return []
-
-        def _operation(session):
-            productos = session.query(Producto).filter(
-                or_(
-                    Producto.codigo.like(f"%{query}%"),
-                    Producto.descripcion.like(f"%{query}%")
-                )
-            ).all()
-            return [
-                ProductDTO(
-                    codigo=p.codigo,
-                    descripcion=p.descripcion,
-                    departamento=p.departamento,
-                    tipo_trabajador=p.tipo_trabajador,
-                    donde=p.donde or "",
-                    tiene_subfabricaciones=p.tiene_subfabricaciones,
-                    tiempo_optimo=p.tiempo_optimo or 0.0
-                ) for p in productos
-            ]
-
-        return self.safe_execute(_operation) or []
-
-    def get_latest_products(self, limit: int = 10) -> List[ProductDTO]:
-        """
-        Obtiene los últimos productos añadidos.
-        Mantiene compatibilidad con: database_manager.get_latest_products()
-
-        Args:
-            limit: Número máximo de productos a devolver
-
-        Returns:
-            Lista de objetos ProductDTO
-        """
-
-        def _operation(session):
-            # Usamos rowid para simular el comportamiento de SQLite
-            productos = session.query(Producto) \
-                .order_by(Producto.codigo.desc()) \
-                .limit(limit).all()
-            return [
-                ProductDTO(
-                    codigo=p.codigo,
-                    descripcion=p.descripcion,
-                    departamento=p.departamento,
-                    tipo_trabajador=p.tipo_trabajador,
-                    donde=p.donde or "",
-                    tiene_subfabricaciones=p.tiene_subfabricaciones,
-                    tiempo_optimo=p.tiempo_optimo or 0.0
-                ) for p in productos
-            ]
-
-        return self.safe_execute(_operation) or []
-
-    def get_product_details(self, codigo: str) -> Tuple[Optional[ProductDTO], List[SubfabricacionDTO], List[ProcesoMecanicoDTO]]:
-        """
-        Obtiene todos los detalles de un producto por su código.
-        Mantiene compatibilidad con: database_manager.get_product_details()
-
-        Args:
-            codigo: Código del producto
-
-        Returns:
-            Tupla de (ProductDTO, List[SubfabricacionDTO], List[ProcesoMecanicoDTO])
-        """
-
-        def _operation(session):
-            producto = session.query(Producto).filter_by(codigo=codigo).first()
-            if not producto:
-                return None, [], []
-
-            # Convertir producto a DTO
-            producto_data = ProductDTO(
-                codigo=producto.codigo,
-                descripcion=producto.descripcion,
-                departamento=producto.departamento,
-                tipo_trabajador=producto.tipo_trabajador,
-                donde=producto.donde or "",
-                tiene_subfabricaciones=producto.tiene_subfabricaciones,
-                tiempo_optimo=producto.tiempo_optimo or 0.0
-            )
-
-            # Obtener subfabricaciones
-            subfabs = session.query(Subfabricacion) \
-                .filter_by(producto_codigo=codigo) \
-                .all()
-            subfabricaciones_data = []
-            for sub in subfabs:
-                subfabricaciones_data.append(SubfabricacionDTO(
-                    id=sub.id,
-                    producto_codigo=sub.producto_codigo,
-                    descripcion=sub.descripcion,
-                    tiempo=sub.tiempo,
-                    tipo_trabajador=sub.tipo_trabajador,
-                    maquina_id=sub.maquina_id
-                ))
-
-            # Obtener procesos mecánicos
-            procesos = session.query(ProcesoMecanico) \
-                .filter_by(producto_codigo=codigo) \
-                .all()
-            procesos_data = []
-            for proceso in procesos:
-                procesos_data.append(ProcesoMecanicoDTO(
-                    id=proceso.id,
-                    producto_codigo=proceso.producto_codigo,
-                    nombre=proceso.nombre,
-                    descripcion=proceso.descripcion,
-                    tiempo=proceso.tiempo,
-                    tipo_trabajador=proceso.tipo_trabajador
-                ))
-
-            return producto_data, subfabricaciones_data, procesos_data
-
-        result = self.safe_execute(_operation)
-        if not result:
-            return None, [], []
-        return result
-
-    def add_product(self, data: Dict[str, Any], subfabricaciones: Optional[List[Dict]] = None) -> bool:
-        """
-        Añade un nuevo producto y sus subfabricaciones si las tiene.
-        VERSIÓN MEJORADA con validación de maquina_id más limpia.
-        """
-
-        def _operation(session):
-            producto = Producto(
-                codigo=data["codigo"],
-                descripcion=data["descripcion"],
-                departamento=data["departamento"],
-                tipo_trabajador=data["tipo_trabajador"],
-                donde=data.get("donde"),
-                tiene_subfabricaciones=data["tiene_subfabricaciones"],
-                tiempo_optimo=data.get("tiempo_optimo")
-            )
-            session.add(producto)
-
-            if data["tiene_subfabricaciones"] and subfabricaciones:
-                for sub in subfabricaciones:
-                    maquina_id = sub.get("maquina_id")
-
-                    # Normalizar maquina_id a un entero o None
-                    try:
-                        maquina_id_final = int(maquina_id) if maquina_id not in [None, ""] else None
-                    except (ValueError, TypeError):
-                        self.logger.warning(
-                            f"Valor de maquina_id inválido ('{maquina_id}') para la subfabricación '{sub['descripcion']}'. Se asignará como NULO.")
-                        maquina_id_final = None
-
-                    subfab = Subfabricacion(
-                        producto_codigo=data["codigo"],
-                        descripcion=sub["descripcion"],
-                        tiempo=sub["tiempo"],
-                        tipo_trabajador=sub["tipo_trabajador"],
-                        maquina_id=maquina_id_final
+            # Gestión de procesos mecánicos
+            for proc in procesos_data:
+                if hasattr(proc, "nombre"):
+                    nuevo_proc = ProcesoMecanico(
+                        producto_codigo=nuevo_p.codigo,
+                        nombre=proc.nombre,
+                        descripcion=proc.descripcion,
+                        tiempo=proc.tiempo,
+                        tipo_trabajador=proc.tipo_trabajador,
                     )
-                    session.add(subfab)
-
-            procesos_mecanicos = data.get("procesos_mecanicos", [])
-            if procesos_mecanicos:
-                for proceso in procesos_mecanicos:
-                    proc = ProcesoMecanico(
-                        producto_codigo=data["codigo"],
-                        nombre=proceso["nombre"],
-                        descripcion=proceso["descripcion"],
-                        tiempo=proceso["tiempo"],
-                        tipo_trabajador=proceso["tipo_trabajador"]
+                else:
+                    nuevo_proc = ProcesoMecanico(
+                        producto_codigo=nuevo_p.codigo,
+                        **proc
                     )
-                    session.add(proc)
+                session.add(nuevo_proc)
 
-            self.logger.info(f"Producto '{data['codigo']}' añadido/actualizado en la sesión.")
+            self.logger.info(f"Producto {data['codigo']} añadido con éxito.")
             return True
 
         return self.safe_execute(_operation) or False
 
-    def update_product(self, codigo_original: str, data: Dict[str, Any],
-                       subfabricaciones: Optional[List[Dict]] = None) -> bool:
-        """
-        Actualiza un producto existente y sus subfabricaciones.
-        Mantiene compatibilidad con: database_manager.update_product()
+    def update_product(self, codigo_original: str, data: dict, sub_data: list | None = None) -> bool:
+        """Actualiza un producto, subfabricaciones y procesos mecánicos."""
 
-        Args:
-            codigo_original: Código original del producto
-            data: Nuevos datos del producto
-            subfabricaciones: Lista de subfabricaciones actualizadas
-
-        Returns:
-            True si se actualizó correctamente, False en caso contrario
-        """
-
-        def _operation(session):
-            # Buscar producto
-            producto = session.query(Producto).filter_by(codigo=codigo_original).first()
-            if not producto:
+        def _operation(session: Session) -> bool:
+            p = session.query(Producto).filter_by(codigo=codigo_original).first()
+            if not p:
                 return False
 
-            # Actualizar producto
-            producto.codigo = data["codigo"]
-            producto.descripcion = data["descripcion"]
-            producto.departamento = data["departamento"]
-            producto.tipo_trabajador = data["tipo_trabajador"]
-            producto.donde = data.get("donde")
-            producto.tiene_subfabricaciones = data["tiene_subfabricaciones"]
-            producto.tiempo_optimo = data.get("tiempo_optimo")
+            # Separar procesos mecánicos si vienen en data
+            procesos_data = data.pop("procesos_mecanicos", None)
 
-            # Eliminar subfabricaciones y procesos mecánicos existentes
-            session.query(Subfabricacion) \
-                .filter_by(producto_codigo=codigo_original) \
-                .delete()
-            session.query(ProcesoMecanico) \
-                .filter_by(producto_codigo=codigo_original) \
-                .delete()
+            # Actualizar campos del producto
+            for key, value in data.items():
+                setattr(p, key, value)
 
-            # Añadir subfabricaciones actualizadas
-            if data["tiene_subfabricaciones"] and subfabricaciones:
-                for sub in subfabricaciones:
-                    subfab = Subfabricacion(
-                        producto_codigo=data["codigo"],
-                        descripcion=sub["descripcion"],
-                        tiempo=sub["tiempo"],
-                        tipo_trabajador=sub["tipo_trabajador"],
-                        maquina_id=sub.get("maquina_id")
-                    )
-                    session.add(subfab)
+            # Gestionar subfabricaciones (reemplazo total)
+            if sub_data is not None:
+                session.query(Subfabricacion).filter_by(producto_codigo=codigo_original).delete()
+                for sub in sub_data:
+                    if hasattr(sub, "descripcion"):
+                        nueva_sub = Subfabricacion(
+                            producto_codigo=p.codigo,
+                            descripcion=sub.descripcion,
+                            tiempo=sub.tiempo,
+                            tipo_trabajador=sub.tipo_trabajador,
+                        )
+                    else:
+                        sub_copy = dict(sub)
+                        sub_copy["maquina_id"] = normalize_machine_id(sub_copy.get("maquina_id"))
+                        nueva_sub = Subfabricacion(
+                            producto_codigo=p.codigo,
+                            **sub_copy
+                        )
+                    session.add(nueva_sub)
 
-            # Añadir procesos mecánicos actualizados
-            procesos_mecanicos = data.get("procesos_mecanicos", [])
-            if procesos_mecanicos:
-                for proceso in procesos_mecanicos:
-                    proc = ProcesoMecanico(
-                        producto_codigo=data["codigo"],
-                        nombre=proceso["nombre"],
-                        descripcion=proceso["descripcion"],
-                        tiempo=proceso["tiempo"],
-                        tipo_trabajador=proceso["tipo_trabajador"]
-                    )
-                    session.add(proc)
+            # Gestionar procesos mecánicos (reemplazo total si se provee)
+            if procesos_data is not None:
+                session.query(ProcesoMecanico).filter_by(producto_codigo=codigo_original).delete()
+                for proc in procesos_data:
+                    if hasattr(proc, "nombre"):
+                        nuevo_proc = ProcesoMecanico(
+                            producto_codigo=p.codigo,
+                            nombre=proc.nombre,
+                            descripcion=proc.descripcion,
+                            tiempo=proc.tiempo,
+                            tipo_trabajador=proc.tipo_trabajador,
+                        )
+                    else:
+                        nuevo_proc = ProcesoMecanico(
+                            producto_codigo=p.codigo,
+                            **proc
+                        )
+                    session.add(nuevo_proc)
 
-            self.logger.info(f"Producto '{codigo_original}' actualizado a '{data['codigo']}'.")
+            self.logger.info(f"Producto {codigo_original} actualizado.")
             return True
 
         return self.safe_execute(_operation) or False
 
     def delete_product(self, codigo: str) -> bool:
-        """
-        Elimina un producto de la base de datos.
-        Mantiene compatibilidad con: database_manager.delete_product()
+        """Elimina un producto por su código."""
 
-        Args:
-            codigo: Código del producto a eliminar
-
-        Returns:
-            True si se eliminó correctamente, False en caso contrario
-        """
-
-        def _operation(session):
-            producto = session.query(Producto).filter_by(codigo=codigo).first()
-            if not producto:
+        def _operation(session: Session) -> bool:
+            p = session.query(Producto).filter_by(codigo=codigo).first()
+            if not p:
                 return False
-
-            session.delete(producto)
-            self.logger.info(f"Producto '{codigo}' eliminado con éxito.")
+            session.delete(p)
+            self.logger.info(f"Producto {codigo} eliminado.")
             return True
 
         return self.safe_execute(_operation) or False
 
-    def get_materials_for_product(self, codigo: str) -> List[MaterialDTO]:
-        """
-        Obtiene los materiales asociados a un producto específico.
+    def get_all_products(self) -> List[ProductDTO]:
+        """Obtiene la lista completa de productos registrados."""
 
-        Args:
-            codigo: Código del producto
-
-        Returns:
-            Lista de objetos MaterialDTO
-        """
-
-        def _operation(session):
-            producto = session.query(Producto).options(
-                joinedload(Producto.materiales)
-            ).filter_by(codigo=codigo).first()
-
-            if not producto:
-                return []
-
-            return [
-                MaterialDTO(
-                    id=m.id,
-                    codigo_componente=m.codigo_componente,
-                    descripcion_componente=m.descripcion_componente
-                ) for m in producto.materiales
-            ]
+        def _operation(session: Session) -> List[ProductDTO]:
+            productos = session.query(Producto).order_by(Producto.codigo).all()
+            return [to_product_dto(p) for p in productos]
 
         return self.safe_execute(_operation) or []
+
+    def get_product_by_code(self, codigo: str) -> Optional[ProductDTO]:
+        """Busca un producto por su código único."""
+
+        def _operation(session: Session) -> Optional[ProductDTO]:
+            producto = session.query(Producto).filter_by(codigo=codigo).first()
+            if not producto:
+                return None
+            return to_product_dto(producto)
+
+        return self.safe_execute(_operation)
+
+    def get_latest_products(self, limit: int = 10) -> List[ProductDTO]:
+        """Obtiene los últimos productos (orden descendente por código)."""
+
+        def _operation(session: Session) -> List[ProductDTO]:
+            productos = (
+                session.query(Producto).order_by(Producto.codigo.desc()).limit(limit).all()
+            )
+            return [to_product_dto(p) for p in productos]
+
+        return self.safe_execute(_operation) or []
+
+    def get_product_details(self, codigo_producto: str) -> ProductDetailsDTO:
+        """Obtiene detalles, subfabricaciones y procesos de un producto."""
+
+        def _operation(session: Session) -> ProductDetailsDTO:
+            p = session.query(Producto).filter_by(codigo=codigo_producto).first()
+            p_dto = to_product_dto(p) if p else None
+
+            subfabs = (
+                session.query(Subfabricacion).filter_by(producto_codigo=codigo_producto).all()
+            )
+            procesos = (
+                session.query(ProcesoMecanico).filter_by(producto_codigo=codigo_producto).all()
+            )
+
+            return ProductDetailsDTO(
+                producto=p_dto,
+                subfabricaciones=[to_subfabricacion_dto(s) for s in subfabs],
+                procesos_mecanicos=[to_proceso_mecanico_dto(pr) for pr in procesos],
+            )
+
+        return self.safe_execute(_operation) or ProductDetailsDTO(None, [], [])
+
+    def search_products(self, term: str) -> List[ProductDTO]:
+        """
+        Busca productos por código o descripción.
+        Si el término es None o vacío, devuelve todos.
+        Si el término tiene menos de 2 caracteres (y no es vacío), devuelve vacío.
+        """
+        if term is not None and 0 < len(term) < 2:
+            return []
+
+        def _operation(session: Session) -> List[ProductDTO]:
+            from sqlalchemy import or_
+
+            query = session.query(Producto)
+            if term:
+                query = query.filter(
+                    or_(
+                        Producto.codigo.ilike(f"%{term}%"),
+                        Producto.descripcion.ilike(f"%{term}%"),
+                    )
+                )
+
+            productos = query.order_by(Producto.codigo).limit(50).all()
+            return [to_product_dto(p) for p in productos]
+
+        return self.safe_execute(_operation) or []
+
+    def get_materials_for_product(self, producto_codigo: str) -> List[MaterialDTO]:
+        """Obtiene la lista de materiales vinculados a un producto."""
+
+        def _operation(session: Session) -> List[MaterialDTO]:
+            from sqlalchemy.orm import joinedload
+            from core.dtos import MaterialDTO
+
+            p = session.query(Producto).options(
+                joinedload(Producto.materiales)
+            ).filter_by(codigo=producto_codigo).first()
+
+            if not p:
+                return []
+
+            return [to_material_dto(m) for m in p.materiales]
+
+        return self.safe_execute(_operation) or []
+
+    # =========================================================================
+    # GESTIÓN DE FABRICACIÓN (MIXIN ABSORBIDO)
+    # =========================================================================
+
+    def get_products_by_fabricacion(self, fabricacion_id: int) -> List[ProductDTO]:
+        """
+        Obtiene los productos asociados a una fabricación.
+        Mantiene compatibilidad con DatabaseManager.
+        """
+
+        def _operation(session: Session) -> List[ProductDTO]:
+            rows = (
+                session.query(Producto, fabricacion_productos.c.cantidad)
+                .join(fabricacion_productos, Producto.codigo == fabricacion_productos.c.producto_codigo)
+                .filter(fabricacion_productos.c.fabricacion_id == fabricacion_id)
+                .order_by(Producto.codigo)
+                .all()
+            )
+            return [to_product_dto(p) for p, _cantidad in rows]
+
+        return self.safe_execute(_operation) or []
+
+    def _get_default_error_value(self) -> None:
+        return None
