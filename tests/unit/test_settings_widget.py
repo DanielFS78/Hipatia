@@ -11,9 +11,18 @@ import pytest
 from PyQt6.QtCore import QTime
 
 from controllers.schedule_controller import ScheduleController
+from database.database_manager import DatabaseManager
+from database.repositories.configuration_repository import ConfigurationRepository
 from ui.widgets.settings_widget import SettingsWidget
 
 pytestmark = pytest.mark.unit
+
+
+class _ControllerWithDb:
+    """Sustituto concreto: el widget solo exige `.db` con `.config_repo`."""
+
+    def __init__(self, db: DatabaseManager) -> None:
+        self.db = db
 
 
 @pytest.fixture
@@ -137,3 +146,42 @@ class TestSettingsWidget:
         w.load_schedule_settings()
 
         assert w.schedule_controller is None
+
+    def test_load_schedule_settings_fallback_populates_breaks(self, qtbot) -> None:
+        """Fallback con `controller.db` rellena descansos sin subscripts en el widget."""
+        w = SettingsWidget()
+        qtbot.addWidget(w)
+        repo = create_autospec(ConfigurationRepository, instance=True)
+        repo.get_setting.side_effect = lambda k, default="": {
+            "work_start_time": "09:00",
+            "work_end_time": "18:00",
+            "backup_time": "02:30",
+            "breaks": '[{"start": "12:00", "end": "13:00"}]',
+        }.get(k, default)
+        db = create_autospec(DatabaseManager, instance=True)
+        db.config_repo = repo
+        w.controller = _ControllerWithDb(cast(DatabaseManager, db))
+        w.load_schedule_settings()
+        assert w.breaks_list.count() == 1
+        item0 = w.breaks_list.item(0)
+        assert item0 is not None
+        assert item0.text() == "12:00 - 13:00"
+        assert w.work_start_time.time().toString("HH:mm") == "09:00"
+        assert w.backup_time.time().toString("HH:mm") == "02:30"
+
+    def test_load_schedule_settings_fallback_invalid_breaks_json(self, qtbot) -> None:
+        """JSON de breaks inválido no rompe la carga del resto."""
+        w = SettingsWidget()
+        qtbot.addWidget(w)
+        repo = create_autospec(ConfigurationRepository, instance=True)
+        repo.get_setting.side_effect = lambda k, default="": {
+            "work_start_time": "08:00",
+            "work_end_time": "17:00",
+            "backup_time": "03:00",
+            "breaks": "not-json",
+        }.get(k, default)
+        db = create_autospec(DatabaseManager, instance=True)
+        db.config_repo = repo
+        w.controller = _ControllerWithDb(cast(DatabaseManager, db))
+        w.load_schedule_settings()
+        assert w.breaks_list.count() == 0

@@ -15,6 +15,7 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont, QColor
+from typing import Any
 
 
 class OrderCard(QFrame):
@@ -37,8 +38,17 @@ class OrderCard(QFrame):
             background-color: #f8fafc;
         }
     """
+
+    STYLE_SELECTED = """
+        QFrame {
+            background-color: #eff6ff;
+            border: 2px solid #2563eb;
+            border-radius: 8px;
+            padding: 12px;
+        }
+    """
     
-    def __init__(self, order_data, parent=None):
+    def __init__(self, order_data: Any, parent: Any = None) -> None:
         """
         Args:
             order_data: OrdenFabricacionResumenDTO
@@ -49,7 +59,7 @@ class OrderCard(QFrame):
         self.setCursor(Qt.CursorShape.PointingHandCursor)
         self._setup_ui()
     
-    def _setup_ui(self):
+    def _setup_ui(self) -> None:
         """Configura la interfaz de la tarjeta."""
         layout = QVBoxLayout(self)
         layout.setContentsMargins(12, 10, 12, 10)
@@ -59,7 +69,10 @@ class OrderCard(QFrame):
         top_row = QHBoxLayout()
         
         of_label = QLabel(f"📋 {self.order_data.orden_fabricacion}")
-        of_label.setFont(QFont("", 11, QFont.Weight.Bold))
+        of_font = QFont()
+        of_font.setPointSize(11)
+        of_font.setWeight(QFont.Weight.Bold)
+        of_label.setFont(of_font)
         top_row.addWidget(of_label)
         
         top_row.addStretch()
@@ -111,8 +124,12 @@ class OrderCard(QFrame):
         
         data_row.addStretch()
         layout.addLayout(data_row)
+
+    def set_selected(self, selected: bool) -> None:
+        """Actualiza estilo visual para reflejar selección."""
+        self.setStyleSheet(self.STYLE_SELECTED if selected else self.STYLE_CARD)
     
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event: Any) -> None:
         """Emite señal al hacer clic."""
         self.clicked.emit(self.order_data.orden_fabricacion)
         super().mousePressEvent(event)
@@ -136,15 +153,26 @@ class OrderListWidget(QWidget):
         }
     """
     
-    def __init__(self, controller=None, parent=None):
+    def __init__(self, controller: Any = None, parent: Any = None) -> None:
         super().__init__(parent)
         self.controller = controller
         self.logger = logging.getLogger("EvolucionTiemposApp.OrderListWidget")
-        self._current_producto = None
-        self._order_cards = []
+        self._current_producto: str | None = None
+        self._selected_order: str | None = None
+        self._order_cards: list[Any] = []
         self._setup_ui()
+
+    def _get_reports_model(self) -> Any:
+        """Obtiene una interfaz con métodos de reportes (AppModel o wrapper con .model)."""
+        if self.controller is None:
+            return None
+        if hasattr(self.controller, "get_orders_for_product"):
+            return self.controller
+        if hasattr(self.controller, "model"):
+            return self.controller.model
+        return None
     
-    def _setup_ui(self):
+    def _setup_ui(self) -> None:
         """Configura la interfaz del widget."""
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -159,7 +187,10 @@ class OrderListWidget(QWidget):
         
         # Título
         self.title_label = QLabel("📋 Órdenes de Fabricación")
-        self.title_label.setFont(QFont("", 12, QFont.Weight.Bold))
+        title_font = QFont()
+        title_font.setPointSize(12)
+        title_font.setWeight(QFont.Weight.Bold)
+        self.title_label.setFont(title_font)
         container_layout.addWidget(self.title_label)
         
         # Scroll area para las tarjetas
@@ -185,7 +216,7 @@ class OrderListWidget(QWidget):
         
         layout.addWidget(container)
     
-    def load_orders_for_product(self, producto_codigo: str):
+    def load_orders_for_product(self, producto_codigo: str) -> None:
         """
         Carga las órdenes de fabricación de un producto.
         
@@ -199,12 +230,8 @@ class OrderListWidget(QWidget):
         self.status_label.setText("Cargando órdenes...")
         
         try:
-            if self.controller and hasattr(self.controller, 'model'):
-                orders = self.controller.model.reports_obtener_ordenes_por_producto(
-                    producto_codigo, limit=50
-                )
-            else:
-                orders = []
+            reports_model = self._get_reports_model()
+            orders = reports_model.get_orders_for_product(producto_codigo) if reports_model else []
             
             self._display_orders(orders)
             
@@ -212,7 +239,7 @@ class OrderListWidget(QWidget):
             self.logger.error(f"Error cargando órdenes: {e}", exc_info=True)
             self.status_label.setText("Error al cargar órdenes")
     
-    def _display_orders(self, orders):
+    def _display_orders(self, orders: list[Any]) -> None:
         """Muestra las órdenes en tarjetas."""
         self._clear_cards()
         
@@ -231,25 +258,33 @@ class OrderListWidget(QWidget):
         
         self.logger.info(f"Mostradas {len(orders)} órdenes")
     
-    def _clear_cards(self):
+    def _clear_cards(self) -> None:
         """Elimina todas las tarjetas."""
         for card in self._order_cards:
             self.cards_layout.removeWidget(card)
             card.deleteLater()
         self._order_cards = []
     
-    def _on_order_clicked(self, orden_fabricacion: str):
+    def _on_order_clicked(self, orden_fabricacion: str) -> None:
         """Maneja clic en una orden."""
+        self.select_order(orden_fabricacion)
         self.order_selected.emit(orden_fabricacion)
+
+    def select_order(self, orden_fabricacion: str) -> None:
+        """Marca visualmente una orden como seleccionada en la lista actual."""
+        self._selected_order = orden_fabricacion
+        for card in self._order_cards:
+            card.set_selected(card.order_data.orden_fabricacion == orden_fabricacion)
     
-    def set_controller(self, controller):
+    def set_controller(self, controller: Any) -> None:
         """Establece el controlador."""
         self.controller = controller
     
-    def clear(self):
+    def clear(self) -> None:
         """Limpia el widget."""
         self._clear_cards()
         self._current_producto = None
+        self._selected_order = None
         self.title_label.setText("📋 Órdenes de Fabricación")
         self.status_label.setText("Seleccione un producto para ver sus órdenes")
         self.status_label.show()

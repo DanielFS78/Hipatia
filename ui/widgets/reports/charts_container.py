@@ -11,10 +11,16 @@ tiempos por trabajador y patrón de incidencias.
 import logging
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QFrame,
-    QTabWidget, QSizePolicy, QGridLayout
+    QTabWidget, QGridLayout
 )
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QColor, QPainter, QPen, QBrush
+from typing import Any
+from ui.widgets.reports.stat_card import StatCard
+from ui.widgets.reports.charts_renderers import (
+    clear_stats_layout,
+    update_stats_cards,
+)
 
 # Import condicional de Charts
 try:
@@ -26,41 +32,6 @@ try:
 except ImportError:
     CHARTS_AVAILABLE = False
     logging.warning("PyQt6.QtCharts no disponible. Gráficas deshabilitadas.")
-
-
-class StatCard(QFrame):
-    """Tarjeta de estadística individual."""
-    
-    STYLE = """
-        QFrame {
-            background-color: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 16px;
-        }
-    """
-    
-    def __init__(self, title: str, value: str, subtitle: str = "", color: str = "#2563eb"):
-        super().__init__()
-        self.setStyleSheet(self.STYLE)
-        self.setMinimumWidth(150)
-        
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(16, 12, 16, 12)
-        layout.setSpacing(4)
-        
-        title_label = QLabel(title)
-        title_label.setStyleSheet(f"color: #64748b; font-size: 11px;")
-        layout.addWidget(title_label)
-        
-        value_label = QLabel(value)
-        value_label.setStyleSheet(f"color: {color}; font-size: 24px; font-weight: bold;")
-        layout.addWidget(value_label)
-        
-        if subtitle:
-            sub_label = QLabel(subtitle)
-            sub_label.setStyleSheet("color: #94a3b8; font-size: 10px;")
-            layout.addWidget(sub_label)
 
 
 class ReportsChartsWidget(QWidget):
@@ -77,14 +48,30 @@ class ReportsChartsWidget(QWidget):
         }
     """
     
-    def __init__(self, controller=None, parent=None):
+    def __init__(self, controller: Any = None, parent: Any = None) -> None:
         super().__init__(parent)
         self.controller = controller
         self.logger = logging.getLogger("EvolucionTiemposApp.ReportsChartsWidget")
-        self._current_producto = None
+        self._current_producto: str | None = None
+        self._tab_titles = ["📈 Evolución", "👥 Por Trabajador", "⚠️ Incidencias"]
+        self._tab_descriptions = [
+            "Evolución temporal del tiempo de producción",
+            "Comparativa de tiempos entre trabajadores",
+            "Distribución de incidencias por tipo",
+        ]
         self._setup_ui()
+
+    def _get_reports_model(self) -> Any:
+        """Obtiene una interfaz con métodos de reportes (AppModel o wrapper con .model)."""
+        if self.controller is None:
+            return None
+        if hasattr(self.controller, "get_product_time_stats"):
+            return self.controller
+        if hasattr(self.controller, "model"):
+            return self.controller.model
+        return None
     
-    def _setup_ui(self):
+    def _setup_ui(self) -> None:
         """Configura la interfaz."""
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -99,7 +86,10 @@ class ReportsChartsWidget(QWidget):
         
         # Título
         self.title_label = QLabel("📊 Análisis de Producción")
-        self.title_label.setFont(QFont("", 12, QFont.Weight.Bold))
+        title_font = QFont()
+        title_font.setPointSize(12)
+        title_font.setWeight(QFont.Weight.Bold)
+        self.title_label.setFont(title_font)
         container_layout.addWidget(self.title_label)
         
         # Grid de tarjetas de estadísticas
@@ -139,15 +129,9 @@ class ReportsChartsWidget(QWidget):
         container_layout.addWidget(self.tabs, 1)
         layout.addWidget(container)
     
-    def _create_placeholder_tabs(self):
+    def _create_placeholder_tabs(self) -> None:
         """Crea tabs con placeholders."""
-        tabs_info = [
-            ("📈 Evolución", "Evolución temporal del tiempo de producción"),
-            ("👥 Por Trabajador", "Comparativa de tiempos entre trabajadores"),
-            ("⚠️ Incidencias", "Distribución de incidencias por tipo")
-        ]
-        
-        for title, description in tabs_info:
+        for title, description in zip(self._tab_titles, self._tab_descriptions):
             tab = QWidget()
             tab_layout = QVBoxLayout(tab)
             tab_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -157,8 +141,39 @@ class ReportsChartsWidget(QWidget):
             tab_layout.addWidget(placeholder)
             
             self.tabs.addTab(tab, title)
+
+    def _set_placeholder_tab(self, index: int, message: str) -> None:
+        tab = QWidget()
+        tab_layout = QVBoxLayout(tab)
+        tab_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        placeholder = QLabel(message)
+        placeholder.setStyleSheet("color: #94a3b8; font-style: italic;")
+        tab_layout.addWidget(placeholder)
+        old_widget = self.tabs.widget(index)
+        if old_widget is not None:
+            self.tabs.removeTab(index)
+        self.tabs.insertTab(index, tab, self._tab_titles[index])
+
+    def _set_chart_tab(self, index: int, chart: Any, empty_message: str) -> None:
+        if not CHARTS_AVAILABLE:
+            self._set_placeholder_tab(index, empty_message)
+            return
+        if chart is None:
+            self._set_placeholder_tab(index, empty_message)
+            return
+        current_widget = self.tabs.widget(index)
+        if current_widget is not None:
+            set_chart = getattr(current_widget, "setChart", None)
+            if callable(set_chart):
+                set_chart(chart)
+                return
+        chart_view = QChartView(chart)
+        chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
+        if current_widget is not None:
+            self.tabs.removeTab(index)
+        self.tabs.insertTab(index, chart_view, self._tab_titles[index])
     
-    def update_charts(self, producto_codigo: str):
+    def update_charts(self, producto_codigo: str) -> None:
         """
         Actualiza todas las gráficas para un producto.
         
@@ -169,87 +184,36 @@ class ReportsChartsWidget(QWidget):
         self.title_label.setText(f"📊 Análisis: {producto_codigo}")
         
         try:
-            if not self.controller or not hasattr(self.controller, 'model'):
+            model = self._get_reports_model()
+            if model is None:
                 return
             
-            model = self.controller.model
-            
             # Cargar estadísticas de tiempo promedio
-            promedio_data = model.reports_calcular_promedio_tiempo(producto_codigo)
+            promedio_data = model.get_product_time_stats(producto_codigo) if hasattr(model, "get_product_time_stats") else None
             self._update_stats_cards(promedio_data)
             
             # Cargar datos para gráficas
             if CHARTS_AVAILABLE:
-                evolucion_data = model.reports_obtener_evolucion_temporal(producto_codigo, dias=30)
+                evolucion_data = model.get_evolution_stats(producto_codigo, days=30) if hasattr(model, "get_evolution_stats") else []
                 self._update_evolution_chart(evolucion_data)
                 
-                trabajadores_data = model.reports_obtener_tiempos_por_trabajador(producto_codigo)
+                trabajadores_data = model.get_worker_time_stats(producto_codigo) if hasattr(model, "get_worker_time_stats") else []
                 self._update_workers_chart(trabajadores_data)
                 
-                incidencias_data = model.reports_obtener_incidencias_por_producto(producto_codigo)
+                incidencias_data = model.get_incidents_stats(producto_codigo) if hasattr(model, "get_incidents_stats") else []
                 self._update_incidents_chart(incidencias_data)
             
         except Exception as e:
             self.logger.error(f"Error actualizando gráficas: {e}", exc_info=True)
     
-    def _update_stats_cards(self, promedio_data):
+    def _update_stats_cards(self, promedio_data: Any) -> None:
         """Actualiza las tarjetas de estadísticas."""
-        # Limpiar layout actual
-        while self.stats_layout.count():
-            child = self.stats_layout.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
-        
-        if not promedio_data:
-            placeholder = QLabel("No hay datos de producción")
-            placeholder.setStyleSheet("color: #94a3b8; font-style: italic;")
-            self.stats_layout.addWidget(placeholder)
-            return
-        
-        # Tiempo promedio
-        tiempo_min = promedio_data.promedio_segundos / 60
-        card1 = StatCard(
-            "Tiempo Promedio",
-            f"{tiempo_min:.1f} min",
-            f"σ = {promedio_data.desviacion_estandar/60:.1f} min",
-            "#2563eb"
-        )
-        self.stats_layout.addWidget(card1)
-        
-        # Total unidades
-        card2 = StatCard(
-            "Total Unidades",
-            str(promedio_data.total_unidades),
-            "producidas",
-            "#16a34a"
-        )
-        self.stats_layout.addWidget(card2)
-        
-        # Tiempo mínimo
-        min_min = promedio_data.minimo_segundos / 60
-        card3 = StatCard(
-            "Mejor Tiempo",
-            f"{min_min:.1f} min",
-            "por unidad",
-            "#0891b2"
-        )
-        self.stats_layout.addWidget(card3)
-        
-        # Tiempo máximo
-        max_min = promedio_data.maximo_segundos / 60
-        card4 = StatCard(
-            "Peor Tiempo",
-            f"{max_min:.1f} min",
-            "por unidad",
-            "#dc2626"
-        )
-        self.stats_layout.addWidget(card4)
-        
-        self.stats_layout.addStretch()
+        update_stats_cards(self, promedio_data, StatCard)
     
-    def _update_evolution_chart(self, evolucion_data):
+    def _update_evolution_chart(self, evolucion_data: Any) -> None:
         """Actualiza la gráfica de evolución temporal."""
         if not CHARTS_AVAILABLE or not evolucion_data:
+            self._set_placeholder_tab(0, self._tab_descriptions[0])
             return
         
         # Crear serie de línea
@@ -266,20 +230,16 @@ class ReportsChartsWidget(QWidget):
         chart.addSeries(series)
         chart.setTitle("Evolución del Tiempo de Producción")
         chart.setAnimationOptions(QChart.AnimationOption.SeriesAnimations)
-        chart.legend().hide()
+        legend = chart.legend()
+        if legend:
+            legend.hide()
         
-        # Crear vista
-        chart_view = QChartView(chart)
-        chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
-        
-        # Reemplazar tab
-        self.tabs.removeTab(0)
-        self.tabs.insertTab(0, chart_view, "📈 Evolución")
-        self.tabs.setCurrentIndex(0)
+        self._set_chart_tab(0, chart, self._tab_descriptions[0])
     
-    def _update_workers_chart(self, trabajadores_data):
+    def _update_workers_chart(self, trabajadores_data: Any) -> None:
         """Actualiza la gráfica de tiempos por trabajador."""
         if not CHARTS_AVAILABLE or not trabajadores_data:
+            self._set_placeholder_tab(1, self._tab_descriptions[1])
             return
         
         # Crear serie de barras
@@ -313,64 +273,51 @@ class ReportsChartsWidget(QWidget):
         chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)
         series.attachAxis(axis_y)
         
-        chart.legend().setVisible(False)
+        legend = chart.legend()
+        if legend:
+            legend.setVisible(False)
         
-        # Crear vista
-        chart_view = QChartView(chart)
-        chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
-        
-        # Reemplazar tab
-        self.tabs.removeTab(1)
-        self.tabs.insertTab(1, chart_view, "👥 Por Trabajador")
+        self._set_chart_tab(1, chart, self._tab_descriptions[1])
     
-    def _update_incidents_chart(self, incidencias_data):
+    def _update_incidents_chart(self, incidencias_data: Any) -> None:
         """Actualiza la gráfica de incidencias (pie chart)."""
         if not CHARTS_AVAILABLE or not incidencias_data:
+            self._set_placeholder_tab(2, self._tab_descriptions[2])
             return
         
         # Crear serie de pastel
         series = QPieSeries()
         
-        colors = ["#ef4444", "#f59e0b", "#eab308", "#22c55e", "#3b82f6", "#8b5cf6"]
-        
         for i, inc in enumerate(incidencias_data[:6]):  # Limitar a 6 tipos
             slice = series.append(f"{inc.tipo_incidencia} ({inc.cantidad})", inc.cantidad)
-            slice.setLabelVisible(True)
+            if slice:
+                slice.setLabelVisible(True)
         
         # Crear chart
         chart = QChart()
         chart.addSeries(series)
         chart.setTitle("Distribución de Incidencias")
         chart.setAnimationOptions(QChart.AnimationOption.SeriesAnimations)
-        chart.legend().setAlignment(Qt.AlignmentFlag.AlignRight)
+        legend = chart.legend()
+        if legend:
+            legend.setAlignment(Qt.AlignmentFlag.AlignRight)
         
-        # Crear vista
-        chart_view = QChartView(chart)
-        chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
-        
-        # Reemplazar tab
-        self.tabs.removeTab(2)
-        self.tabs.insertTab(2, chart_view, "⚠️ Incidencias")
+        self._set_chart_tab(2, chart, self._tab_descriptions[2])
     
-    def set_controller(self, controller):
+    def set_controller(self, controller: Any) -> None:
         """Establece el controlador."""
         self.controller = controller
     
-    def clear(self):
+    def clear(self) -> None:
         """Limpia el widget."""
         self._current_producto = None
         self.title_label.setText("📊 Análisis de Producción")
         
-        # Limpiar stats
-        while self.stats_layout.count():
-            child = self.stats_layout.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
+        clear_stats_layout(self)
         
         self.stats_placeholder = QLabel("Seleccione un producto para ver estadísticas")
         self.stats_placeholder.setStyleSheet("color: #94a3b8; font-style: italic;")
         self.stats_layout.addWidget(self.stats_placeholder)
         
-        # Recrear tabs placeholder
-        self.tabs.clear()
-        self._create_placeholder_tabs()
+        for index, description in enumerate(self._tab_descriptions):
+            self._set_placeholder_tab(index, description)
