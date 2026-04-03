@@ -15,7 +15,6 @@ from .protocols import IWorkerView, IWorkerService
 class WorkerAuthManager:
     """
     Gestor para el cambio de contraseñas de trabajadores y administración.
-    Reemplaza al antiguo AuthMixin.
     """
     def __init__(self, app: Any, view: IWorkerView, worker_service: IWorkerService):
         self.app = app

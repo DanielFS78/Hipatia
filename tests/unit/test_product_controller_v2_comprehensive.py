@@ -979,7 +979,7 @@ class TestProductControllerV2Comprehensive:
         mock_dependencies['view'].show_message.assert_called_once_with("Error", "No se ha seleccionado un producto.", "warning")
 
     def test_delegation_full_coverage(self, controller, mock_dependencies):
-        """Cubre los métodos de delegación restantes en el mixin."""
+        """Cubre delegaciones del controlador hacia product_manager, material_manager y fabricacion_manager."""
         # Parcheamos con create_autospec si los managers no son mocks
         controller.product_manager._on_search_or_add_pressed = MagicMock(spec=controller.product_manager._on_search_or_add_pressed)
         controller.product_manager._on_manage_details_clicked = MagicMock(spec=controller.product_manager._on_manage_details_clicked)

@@ -9,7 +9,7 @@ import logging
 T = TypeVar("T")
 
 class RepositoryProtocol(Protocol):
-    """Protocolo que define el contrato para los Mixins de Repositorio (BaseRepository)."""
+    """Contrato común de repositorios basados en BaseRepository (sesión y ejecución segura)."""
     session_factory: Callable[[], Session]
     logger: logging.Logger
     

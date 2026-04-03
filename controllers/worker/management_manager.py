@@ -18,7 +18,6 @@ from ui.widgets.workers_widget import WorkersWidget
 class WorkerManagementManager:
     """
     Gestor para la administración de trabajadores (CRUD).
-    Reemplaza al antiguo ManagementMixin.
     """
     def __init__(self, app: Any, model: IWorkerModel, view: IWorkerView, worker_service: IWorkerService, fabricacion_service: Optional[IFabricacionService] = None):
         """

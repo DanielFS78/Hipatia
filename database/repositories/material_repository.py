@@ -1,7 +1,7 @@
 # database/repositories/material_repository.py
 """
 Repositorio para la gestión de materiales y componentes.
-Consolidado mediante absorción del mixin de enlaces.
+Incluye materiales y la gestión de enlaces producto–material en el mismo repositorio.
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING, List, Optional, Any
@@ -169,7 +169,7 @@ class MaterialRepository(BaseRepository):
         return self.safe_execute(_operation) or []
 
     # =========================================================================
-    # GESTIÓN DE ENLACES (MIXIN ABSORBIDO)
+    # GESTIÓN DE ENLACES
     # =========================================================================
 
     def link_material_to_product(self, producto_codigo: str, material_id: int) -> bool:

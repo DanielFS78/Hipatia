@@ -87,7 +87,7 @@ class UISignalsController(QObject):
     def connect_machines_signals(self) -> None:
         self._wiring.connect_machines_signals()
 
-    # Alias del mixin histórico; delegan en la API pública connect_*.
+    # Compatibilidad: nombres _connect_* que delegan en connect_* (API pública).
     def _connect_navigation_signals(self) -> None:
         self.connect_navigation_signals()
 

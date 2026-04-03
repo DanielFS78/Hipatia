@@ -18,7 +18,6 @@ from ui.widgets.workers_widget import WorkersWidget
 class WorkerTaskManager:
     """
     Gestor para la asignación y cancelación de tareas a trabajadores.
-    Reemplaza al antiguo TaskMixin.
     """
     def __init__(self, app: Any, model: IWorkerModel, view: IWorkerView, worker_service: IWorkerService, controller_ref: WorkerControllerProtocol):
         self.app = app

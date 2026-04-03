@@ -124,7 +124,7 @@ Mixins que, aunque delegan, crean herencia múltiple innecesaria.
 |-------|----------------|------------|--------|
 | Compat AppController | *(eliminado)* | `AppController` | ✅ Métodos en el propio `AppController`. |
 | Productos fabricación | `controllers/product/fabricacion_products_handler.py` | `FabricacionManager` | ✅ `FabricacionProductsHandler`. |
-| Builder flujo enhanced | `ui/dialogs/production_flow/flow_builder.py` | `EnhancedFlowPresenter` | ✅ `FlowBuilder`; estado en `EnhancedFlowPresenterStateMixin`. |
+| Builder flujo enhanced | `ui/dialogs/production_flow/flow_builder.py` | `EnhancedFlowPresenter` | ✅ `FlowBuilder`; estado en el presentador / helpers asociados. |
 
 ### Orden recomendado (una pieza por iteración)
 

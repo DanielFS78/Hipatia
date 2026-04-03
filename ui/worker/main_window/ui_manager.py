@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Construcción de la interfaz de WorkerMainWindow por composición (sin herencia tipo mixin).
+Construcción de la interfaz de WorkerMainWindow mediante WorkerMainWindowUIManager (composición).
 """
 
 from __future__ import annotations

@@ -4,7 +4,7 @@ Registro único para evitar divergencia entre clones (worktree Cursor vs iCloud)
 
 ## Inventario reproducible
 
-- Archivos `*_mixin.py` en el repo (excl. nombre genérico del script de análisis): búsqueda `**/*_mixin.py` → solo `tests/unit/test_product_service_delegation_mixin.py` (test) y `scripts/analyze_mixin.py` (herramienta). **No** hay `*_mixin.py` bajo `controllers/`.
+- Archivos `*_mixin.py` en el repo (excl. nombre genérico del script de análisis): búsqueda `**/*_mixin.py` → solo `scripts/analyze_mixin.py` (herramienta de análisis; el nombre es histórico). Los tests de delegación de `ProductService` están en `tests/unit/test_product_service_delegation.py`. **No** hay `*_mixin.py` bajo `controllers/`.
 - `scripts/analyze_mixin.py` espera rutas de archivos como argumentos; para inspeccionar un archivo concreto: `python3 scripts/analyze_mixin.py ruta/al/archivo.py`.
 - Herencia múltiple en controladores: sin coincidencias obvias con `class Foo(A, B)` en `controllers/*.py` en el barrido de abril 2026.
 

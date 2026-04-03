@@ -1,7 +1,7 @@
 # database/repositories/product_repository.py
 """
 Repositorio para la gestión de productos.
-Consolidado mediante absorción del mixin de fabricación.
+Incluye la persistencia de productos y la parte relacionada con fabricación en el mismo repositorio.
 """
 from __future__ import annotations
 from typing import List, Optional, Any
@@ -259,7 +259,7 @@ class ProductRepository(BaseRepository):
         return self.safe_execute(_operation) or []
 
     # =========================================================================
-    # GESTIÓN DE FABRICACIÓN (MIXIN ABSORBIDO)
+    # GESTIÓN DE FABRICACIÓN
     # =========================================================================
 
     def get_products_by_fabricacion(self, fabricacion_id: int) -> List[ProductDTO]:

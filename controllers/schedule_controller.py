@@ -28,8 +28,7 @@ if TYPE_CHECKING:
 class ScheduleController(QObject):
     """
     Controlador de horarios y descansos.
-    Utiliza el patrón Composición para delegar la lógica de UI y API legacy a helpers especializados,
-    erradicando la herencia múltiple de mixins.
+    Utiliza composición para delegar la lógica de UI y API legacy en helpers especializados.
     """
 
     def __init__(self, db: Any, view: Any, schedule_manager: Any, logger: Optional[logging.Logger] = None) -> None:

@@ -109,7 +109,7 @@
   test_backup_controller_comprehensive.py                    85      85  usa PyQt6 (widgets sin stubs de tipo)
   test_product_repository.py                                 85      85  sin dependencias externas
   test_hardware_controller.py                                85      85  usa PyQt6 (widgets sin stubs de tipo)
-  test_product_service_delegation_mixin.py                   85      85  sin dependencias externas
+  test_product_service_delegation.py                         85      85  sin dependencias externas
   test_event_engine_comprehensive.py                         85      85  sin dependencias externas
   test_timeline_widget.py                                    85      85  usa PyQt6 (widgets sin stubs de tipo)
   test_flow_builder_service.py                               85      85  sin dependencias externas

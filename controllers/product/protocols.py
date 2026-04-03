@@ -93,7 +93,7 @@ class IProductModel(Protocol):
     def get_product_iterations(self, codigo_producto: str) -> List[Any]: ...
 
 class ProductControllerProtocol(Protocol):
-    """Protocolo que define el contrato para los Mixins de ProductController."""
+    """Contrato estructural que cumple ProductController (vista, servicios, estado, callbacks)."""
     app: Any
     db: Any
     model: IProductModel

@@ -1,6 +1,6 @@
 """
-Analiza un archivo Python de mixin o clase: lista atributos y llamadas vía self.*
-para planificar migración a composición (dependencias del mixin).
+Analiza un archivo Python (clase grande o módulo acoplado): lista atributos y llamadas vía self.*
+Útil para planificar extracción a composición o a gestores independientes.
 """
 
 import ast
@@ -52,4 +52,4 @@ if __name__ == "__main__":
         for path in sys.argv[1:]:
             analyze(path)
     else:
-        print("Uso: python3 scripts/analyze_mixin.py <ruta_del_mixin1> [ruta_del_mixin2 ...]")
+        print("Uso: python3 scripts/analyze_mixin.py <ruta_archivo1.py> [ruta_archivo2.py ...]")

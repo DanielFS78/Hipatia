@@ -2,7 +2,7 @@
 """
 Nombre del Módulo: fabricacion_products_handler
 Descripción: Coordinación de productos asociados a fabricaciones (diálogo y datos
-             para cálculo). Extraído de la antigua herencia por mixin (B4.5).
+             para cálculo). Extraído en B4.5 desde lógica que antes estaba acoplada al controlador de producto.
 """
 
 from __future__ import annotations

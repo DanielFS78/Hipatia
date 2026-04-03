@@ -3,7 +3,7 @@
 TRACKING LOG REPOSITORY (Modularizado)
 ========================================================================
 Repositorio para la gestión central de logs de trabajo y pasos.
-Utiliza Mixins para organizar la lógica por dominios.
+Organiza la lógica por dominios delegando en gestores especializados (composición).
 ========================================================================
 """
 from __future__ import annotations

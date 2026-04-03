@@ -1,7 +1,7 @@
 # database/repositories/iteration_repository.py
 """
 Repositorio para gestión de iteraciones de productos.
-Consolidado mediante absorción de mixins para eliminar herencia múltiple.
+Módulo único que concentra la persistencia de iteraciones (antes repartida en varias piezas).
 """
 from __future__ import annotations
 from typing import List, Any, Optional, Dict, cast
@@ -212,7 +212,7 @@ class IterationRepository(BaseRepository):
         return self.safe_execute(_operation) or False
 
     # =========================================================================
-    # GESTIÓN DE IMÁGENES (MIXIN ABSORBIDO)
+    # GESTIÓN DE IMÁGENES
     # =========================================================================
 
     def add_image(self, iteration_id: int, image_path: str, description: str | None = None) -> bool:
