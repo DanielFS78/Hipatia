@@ -5,6 +5,10 @@ Este archivo hace que el directorio 'repositories' sea un paquete de Python
 y expone las clases de repositorio para facilitar su importación.
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
 from .base import BaseRepository
 from .product_repository import ProductRepository
 from .configuration_repository import ConfigurationRepository
@@ -17,7 +21,10 @@ from .preproceso import PreprocesoRepository
 from .lote_repository import LoteRepository
 from .tracking_repository import TrackingRepository
 from .label_counter_repository import LabelCounterRepository
-from .reports import ReportsRepository
+
+if TYPE_CHECKING:
+    from .reports import ReportsRepository
+
 # Opcional: Define qué se importa con 'from .repositories import *'
 __all__ = [
     'BaseRepository',
@@ -32,3 +39,12 @@ __all__ = [
     'TrackingRepository',
     'ReportsRepository'
 ]
+
+
+def __getattr__(name: str) -> Any:
+    """Carga perezosa de `ReportsRepository` para no exigir el subpaquete `reports` en imports parciales."""
+    if name == "ReportsRepository":
+        from .reports import ReportsRepository as _ReportsRepository
+
+        return _ReportsRepository
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
