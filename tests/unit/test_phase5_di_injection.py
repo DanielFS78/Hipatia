@@ -10,6 +10,9 @@ from unittest.mock import patch
 import pytest
 
 from controllers.calculation_controller import CalculationController
+from controllers.worker.protocols import IWorkerService
+from core.application_state import ApplicationState
+from core.protocols import IFabricacionService, IMaterialService, IProductService
 
 
 pytestmark = pytest.mark.unit
@@ -90,9 +93,9 @@ def test_worker_controller_propagates_injected_services(mock_task, mock_auth, mo
     ctrl = WorkerController(
         app_controller=app,
         view=app.view,
-        worker_service=injected_worker,
-        product_service=injected_product,
-        fabricacion_service=injected_fabricacion,
+        worker_service=cast(IWorkerService, injected_worker),
+        product_service=cast(IProductService, injected_product),
+        fabricacion_service=cast(IFabricacionService | None, injected_fabricacion),
         workers_changed_signal=sig,
     )
 
@@ -124,11 +127,11 @@ def test_product_controller_uses_injected_services(_mm, _pm, _fm, _prm) -> None:
         product_model=app.model,
         view=app.view,
         product_facade=pf,
-        fabricacion_service=fs,
+        fabricacion_service=cast(IFabricacionService, fs),
         planning_facade=plf,
-        material_service=ms,
+        material_service=cast(IMaterialService, ms),
         machine_service=mac,
-        state=st,
+        state=cast(ApplicationState, st),
     )
 
     assert ctrl.model is app.model

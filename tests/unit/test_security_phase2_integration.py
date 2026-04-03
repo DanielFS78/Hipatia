@@ -64,7 +64,7 @@ class TestAuditIntegration:
             # Importar LOCALMENTE dentro del parche
             from controllers.product_controller_v2 import ProductController
 
-            state = MagicMock()
+            state = MagicMock(spec=["active_dialogs"])
             state.active_dialogs = {}
             controller = ProductController(
                 app_shell=mock_app_integration,

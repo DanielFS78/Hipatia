@@ -2,8 +2,12 @@
 Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 """
 
+from datetime import date
+from typing import Callable, List, Optional, Tuple, Dict, Any, Union
+
+from sqlalchemy.orm import Session
+
 from ..base import BaseRepository
-from typing import List, Optional, Tuple, Dict, Any, Union
 from .pila_base_manager import PilaBaseManager
 from .pila_crud_manager import PilaCRUDManager
 from .pila_workflow_manager import PilaWorkflowManager
@@ -16,7 +20,7 @@ class PilaRepository(BaseRepository):
     Implementa el patrón Fachada delegando en DAO Managers especializados.
     """
 
-    def __init__(self, session_factory) -> None:
+    def __init__(self, session_factory: Callable[[], Session]) -> None:
         super().__init__(session_factory)
         
         # Composición de gestores
@@ -26,7 +30,7 @@ class PilaRepository(BaseRepository):
         self.bitacora = PilaBitacoraManager(session_factory)
         self._sync_managers()
 
-    def _sync_managers(self):
+    def _sync_managers(self) -> None:
         for m in [self.base, self.crud, self.workflow, self.bitacora]:
             m.session_factory = self.session_factory
 
@@ -57,31 +61,84 @@ class PilaRepository(BaseRepository):
         return self.crud.delete_pila(pid)
 
     # Delegación: PilaWorkflowManager
-    def save_pila(self, *args, **kwargs) -> Union[int, str, bool]:
-        return self.workflow.save_pila(*args, **kwargs)
+    def save_pila(
+        self,
+        nombre: str,
+        descripcion: str,
+        pila_de_calculo: Dict[str, Any],
+        production_flow: List[Any],
+        simulation_results: List[Any],
+        producto_origen_codigo: Optional[str] = None,
+    ) -> Union[int, str, bool]:
+        return self.workflow.save_pila(
+            nombre,
+            descripcion,
+            pila_de_calculo,
+            production_flow,
+            simulation_results,
+            producto_origen_codigo,
+        )
 
-    def update_pila(self, *args, **kwargs) -> Union[bool, str]:
-        return self.workflow.update_pila(*args, **kwargs)
+    def update_pila(
+        self,
+        pila_id: int,
+        nombre: Optional[str] = None,
+        descripcion: Optional[str] = None,
+        pila_de_calculo: Optional[Dict[str, Any]] = None,
+        production_flow: Optional[List[Any]] = None,
+        simulation_results: Optional[List[Any]] = None,
+    ) -> Union[bool, str]:
+        return self.workflow.update_pila(
+            pila_id,
+            nombre=nombre,
+            descripcion=descripcion,
+            pila_de_calculo=pila_de_calculo,
+            production_flow=production_flow,
+            simulation_results=simulation_results,
+        )
 
-    def load_pila(self, *args, **kwargs) -> Tuple[Optional[PilaDTO], Optional[Dict], Optional[List], Optional[List]]:
-        return self.workflow.load_pila(*args, **kwargs)
+    def load_pila(
+        self, pila_id: int
+    ) -> Tuple[Optional[PilaDTO], Optional[Dict[str, Any]], Optional[List[Any]], Optional[List[Any]]]:
+        return self.workflow.load_pila(pila_id)
 
     # Delegación: PilaBitacoraManager
-    def create_diario_bitacora(self, *args, **kwargs) -> Optional[int]:
-        return self.bitacora.create_diario_bitacora(*args, **kwargs)
+    def create_diario_bitacora(self, pila_id: int) -> Optional[int]:
+        return self.bitacora.create_diario_bitacora(pila_id)
 
-    def get_diario_bitacora(self, *args, **kwargs) -> Tuple[Optional[int], List[Tuple]]:
-        return self.bitacora.get_diario_bitacora(*args, **kwargs)
+    def get_diario_bitacora(self, pila_id: int) -> Tuple[Optional[int], List[Tuple[Any, ...]]]:
+        return self.bitacora.get_diario_bitacora(pila_id)
 
-    def add_diario_evento(self, *args, **kwargs) -> bool:
-        return self.bitacora.add_diario_evento(*args, **kwargs)
+    def add_diario_evento(
+        self,
+        pila_id: int,
+        fecha: date,
+        dia_numero: int = 1,
+        plan: str = "",
+        trabajo: str = "",
+        notas: str = "",
+        plan_previsto: str = "",
+        trabajo_realizado: str = "",
+    ) -> bool:
+        return self.bitacora.add_diario_evento(
+            pila_id,
+            fecha,
+            dia_numero=dia_numero,
+            plan=plan,
+            trabajo=trabajo,
+            notas=notas,
+            plan_previsto=plan_previsto,
+            trabajo_realizado=trabajo_realizado,
+        )
 
-    def update_diario_evento(self, *args, **kwargs) -> bool:
-        return self.bitacora.update_diario_evento(*args, **kwargs)
+    def update_diario_evento(
+        self, bitacora_id: int, fecha: date, plan: str, trabajo: str, notas: str
+    ) -> bool:
+        return self.bitacora.update_diario_evento(bitacora_id, fecha, plan, trabajo, notas)
 
     # Métodos de utilidad (compatibilidad con tests y lógica interna)
-    def _convert_indices_to_ids(self, *args, **kwargs) -> None:
-        return self.base.convert_indices_to_ids(*args, **kwargs)
+    def _convert_indices_to_ids(self, production_flow: List[Any]) -> None:
+        self.base.convert_indices_to_ids(production_flow)
 
-    def _convert_ids_to_indices(self, *args, **kwargs) -> None:
-        return self.base.convert_ids_to_indices(*args, **kwargs)
+    def _convert_ids_to_indices(self, production_flow: List[Any]) -> None:
+        self.base.convert_ids_to_indices(production_flow)

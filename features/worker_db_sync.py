@@ -4,7 +4,7 @@ Actúa como fachada para el repositorio de trazabilidad y otras operaciones de B
 """
 
 import logging
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
 from datetime import datetime
 
 class WorkerDbSync:
@@ -12,7 +12,9 @@ class WorkerDbSync:
     Maneja las operaciones de lectura/escritura en base de datos para el trabajador.
     """
 
-    def __init__(self, tracking_repo, logger=None):
+    def __init__(
+        self, tracking_repo: Any, logger: Optional[logging.Logger] = None
+    ) -> None:
         self.tracking_repo = tracking_repo
         self.logger = logger or logging.getLogger("EvolucionTiemposApp.WorkerDbSync")
 

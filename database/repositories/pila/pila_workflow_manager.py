@@ -7,7 +7,7 @@ Capa de datos (`pila_workflow_manager`): modelos, repositorios o acceso SQLAlche
 import json
 import copy
 from datetime import datetime
-from typing import List, Dict, Optional, Tuple, Union, Any, cast
+from typing import Callable, List, Dict, Optional, Tuple, Union, Any
 from sqlalchemy.orm import Session
 from ..base import BaseRepository
 from ...models import Pila, PasoPila
@@ -18,12 +18,19 @@ from .pila_base_manager import PilaBaseManager
 class PilaWorkflowManager(BaseRepository):
     """Gestor DAO para la lógica de negocio y persistencia de flujos de trabajo (Pilas)."""
 
-    def __init__(self, session_factory, base_manager: PilaBaseManager):
+    def __init__(self, session_factory: Callable[[], Session], base_manager: PilaBaseManager) -> None:
         super().__init__(session_factory)
         self.base_manager = base_manager
 
-    def save_pila(self, nombre: str, descripcion: str, pila_de_calculo: dict, production_flow: list,
-                    simulation_results: list, producto_origen_codigo=None) -> Union[int, str, bool]:
+    def save_pila(
+        self,
+        nombre: str,
+        descripcion: str,
+        pila_de_calculo: Dict[str, Any],
+        production_flow: List[Any],
+        simulation_results: List[Any],
+        producto_origen_codigo: Optional[str] = None,
+    ) -> Union[int, str, bool]:
         def _operation(session: Session) -> Union[int, str, bool]:
             if session.query(Pila).filter_by(nombre=nombre).first(): return "UNIQUE_CONSTRAINT"
             flow_copy = copy.deepcopy(production_flow)
@@ -45,8 +52,16 @@ class PilaWorkflowManager(BaseRepository):
             return nueva_pila.id
         return self.safe_execute(_operation) or False
 
-    def update_pila(self, pila_id: int, nombre=None, descripcion=None, pila_de_calculo=None, production_flow=None, simulation_results=None) -> Union[bool, str]:
-        def _operation(session: Session):
+    def update_pila(
+        self,
+        pila_id: int,
+        nombre: Optional[str] = None,
+        descripcion: Optional[str] = None,
+        pila_de_calculo: Optional[Dict[str, Any]] = None,
+        production_flow: Optional[List[Any]] = None,
+        simulation_results: Optional[List[Any]] = None,
+    ) -> Union[bool, str]:
+        def _operation(session: Session) -> Union[bool, str]:
             p = session.query(Pila).filter_by(id=pila_id).first()
             if not p: return False
             if nombre:
@@ -73,8 +88,12 @@ class PilaWorkflowManager(BaseRepository):
             return True
         return self.safe_execute(_operation) or False
 
-    def load_pila(self, pila_id: int) -> Tuple[Optional[PilaDTO], Optional[Dict], Optional[List], Optional[List]]:
-        def _operation(session: Session):
+    def load_pila(
+        self, pila_id: int
+    ) -> Tuple[Optional[PilaDTO], Optional[Dict[str, Any]], Optional[List[Any]], Optional[List[Any]]]:
+        def _operation(
+            session: Session,
+        ) -> Tuple[Optional[PilaDTO], Optional[Dict[str, Any]], Optional[List[Any]], Optional[List[Any]]]:
             pila = session.query(Pila).filter_by(id=pila_id).first()
             if not pila: return None, None, None, None
             try:
@@ -105,4 +124,6 @@ class PilaWorkflowManager(BaseRepository):
             self.base_manager.convert_ids_to_indices(flow)
             return meta, calc, flow, sim
         res = self.safe_execute(_operation)
-        return cast(Tuple[Optional[PilaDTO], Optional[Dict], Optional[List], Optional[List]], res or (None, None, None, None))
+        if res is None:
+            return (None, None, None, None)
+        return res

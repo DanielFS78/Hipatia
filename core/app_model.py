@@ -68,7 +68,7 @@ class AppModel(QObject):
     # Signals that might still be used directly or need bridging
     simulation_state_updated = pyqtSignal(str) 
 
-    def __init__(self, db_manager: DatabaseManager):
+    def __init__(self, db_manager: DatabaseManager) -> None:
         """
         Inicializa el modelo de la aplicación.
 
@@ -105,7 +105,7 @@ class AppModel(QObject):
         # --- Connect Signals ---
         self._connect_service_signals()
 
-    def _connect_service_signals(self):
+    def _connect_service_signals(self) -> None:
         """Conecta las señales de los servicios a las señales del AppModel (Bridge)."""
         self.product_service.product_added_signal.connect(self.product_added_signal)
         self.product_service.product_updated_signal.connect(self.product_updated_signal)

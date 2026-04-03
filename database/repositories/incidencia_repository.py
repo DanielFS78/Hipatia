@@ -8,7 +8,7 @@ Repositorio para la gestión de incidencias y adjuntos.
 import os
 import logging
 from datetime import datetime, timezone
-from typing import Optional, List, cast
+from typing import Callable, Optional, List, cast
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -23,7 +23,7 @@ class IncidenciaRepository(BaseRepository):
     Repositorio para gestión de incidencias.
     """
 
-    def __init__(self, session_factory):
+    def __init__(self, session_factory: Callable[[], Session]) -> None:
         super().__init__(session_factory)
         self.logger = logging.getLogger("EvolucionTiemposApp.IncidenciaRepository")
 

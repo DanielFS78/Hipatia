@@ -72,7 +72,7 @@ class LabelCounterRepository(BaseRepository):
             count=cantidad
         )
 
-    def close(self):
+    def close(self) -> None:
         """
         Método de compatibilidad. No hace nada porque la sesión se maneja por request/operación.
         """

@@ -8,7 +8,14 @@ description: Histórico + referencia del patrón Composición (Managers/Helpers)
 ## Estado 2026-04 (worktree actual)
 
 - **No** hay archivos `*_mixin.py` bajo `controllers/` (salvo referencias en tests o `scripts/analyze_mixin.py`).
-- Sustituciones vigentes: `BackupIOManager`, `ReportExportManager`, `UISignalsBinder`, `ScheduleUiOpsHelper` (incluye la antigua API de `ScheduleLegacyApiHelper`), managers bajo `controllers/product/`, etc.
+- Sustituciones vigentes: `BackupIOManager`, `ReportExportManager`, `UISignalsWiring` (usado por `UISignalsController`), `ScheduleUiOpsHelper` (incluye la antigua API de `ScheduleLegacyApiHelper`), managers bajo `controllers/product/`, etc.
+
+### Cierre explícito: señales UI y backup I/O (sin herencia múltiple)
+
+| Histórico (ya no en el repo) | Implementación actual |
+|:--|:--|
+| `backup_controller_io_mixin.py` | `controllers/backup_controller_io_manager.py` → clase **`BackupIOManager`**: `BackupController` hace `self._db_io = BackupIOManager(self)` y delega `on_import_databases` / `on_export_databases` / `on_sync_databases`. **Sin mixin.** |
+| `ui_signals_controller_mixin.py` | **`UISignalsController`** (`controllers/ui_signals_controller.py`) es un `QObject` aparte; el cableado vive en **`UISignalsWiring`** (`controllers/ui_signals_wiring.py`). `AppController` solo **compone** `self.ui_signals_controller = UISignalsController(self)` en `initialize_infra` / arranque. **Sin mixin sobre `AppController`.** |
 - **Inventario reproducible:** `python3 scripts/analyze_mixin.py` (y búsqueda `rg '_mixin\\.py' --glob '*.py'`).
 - Índice de skills: [SKILL_INDEX.md](SKILL_INDEX.md).
 
@@ -83,6 +90,8 @@ Mixins que, aunque delegan, crean herencia múltiple innecesaria.
 
 | Mixin actual | Acción |
 |:--|:--|
+| `backup_controller_io_mixin.py` | ✅ Sustituido por **`BackupIOManager`** (`backup_controller_io_manager.py`), composición en `BackupController`. |
+| `ui_signals_controller_mixin.py` | ✅ Sustituido por **`UISignalsController`** + **`UISignalsWiring`**; no hay mixin en `AppController`. |
 | `app_controller_compat_mixin.py` | ✅ Absorbido en `AppController` (mixin eliminado) |
 | `fabricacion_manager_products_mixin.py` | ✅ Sustituido por `fabricacion_products_handler.py` (`FabricacionProductsHandler`) |
 | `enhanced_flow_presenter_builder.py` | ✅ `FlowBuilder` en `ui/dialogs/production_flow/flow_builder.py` |
@@ -111,6 +120,8 @@ Mixins que, aunque delegan, crean herencia múltiple innecesaria.
   - [x] **Fabricación:** `FabricacionManagerProductsMixin` sustituido por `FabricacionProductsHandler` (composición).
   - [x] AppController — `AppControllerCompatMixin` absorbido en `app_controller.py`
   - [x] Enhanced flow — `FlowBuilder` compuesto desde `EnhancedFlowPresenter` (`flow_builder.py`)
+  - [x] **Backup I/O:** `backup_controller_io_mixin` → `BackupIOManager` en `BackupController`.
+  - [x] **Señales UI:** `ui_signals_controller_mixin` → `UISignalsController` + `UISignalsWiring` (composición desde `AppController`).
 
 ---
 

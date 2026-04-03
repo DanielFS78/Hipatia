@@ -2,6 +2,8 @@
 
 > **Histórico:** existió el paquete `core/app_model_bridges/` (compat / product / planning). Fue **eliminado**: `AppModel` delega directamente en `ProductFacade`, `PlanningFacade`, `ReportService` y `SystemIntegrationService`.
 
+**Si lees un informe antiguo** (p. ej. “Caída de los Puentes”, auditorías 2025, PDF desactualizado) que dice que **aún** debes conservar o borrar `core/app_model_bridges/` con `compat.py`, `planning.py` y `product.py`: **ignora esa parte**. En el árbol actual **no existe** esa carpeta ni esos módulos puente. No hay tarea de “redirigir controladores para poder borrar la carpeta”: el retiro ya está hecho. El trabajo vigente es seguir usando **fachadas y servicios** (`ProductFacade`, `PlanningFacade`, DI en `StartupController`) y reducir delegadores en `AppModel` cuando no queden consumidores (ver skill `reduccion_god_objects`).
+
 ## Objetivo
 Centralizar señales y una API estable para controladores sin capa intermedia de “puentes”; el dominio producto/planificación pasa por fachadas; reportes y sistema (lotes, config, órdenes) por servicios dedicados.
 

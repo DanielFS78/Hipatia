@@ -5,13 +5,13 @@ Capa de datos (`pila_base_manager`): modelos, repositorios o acceso SQLAlchemy r
 """
 
 import uuid
-from typing import List, Dict
+from typing import Any, List
 from ..base import BaseRepository
 
 class PilaBaseManager(BaseRepository):
     """Gestor de utilidades base para el dominio de Pilas (serialización de flujos)."""
 
-    def convert_indices_to_ids(self, production_flow: List[Dict]) -> None:
+    def convert_indices_to_ids(self, production_flow: List[Any]) -> None:
         """Convierte índices relativos en IDs únicos persistentes para el flujo."""
         index_to_id_map = {}
         for i, step in enumerate(production_flow):
@@ -28,7 +28,7 @@ class PilaBaseManager(BaseRepository):
                 if idx in index_to_id_map: step['next_cyclic_task_id'] = index_to_id_map[idx]
                 del step['next_cyclic_task_index']
 
-    def convert_ids_to_indices(self, production_flow: List[Dict]) -> None:
+    def convert_ids_to_indices(self, production_flow: List[Any]) -> None:
         """Reconvierte IDs persistentes en índices relativos para uso en memoria/UI."""
         id_to_index_map = {step.get('unique_id'): i for i, step in enumerate(production_flow) if step.get('unique_id')}
         for step in production_flow:

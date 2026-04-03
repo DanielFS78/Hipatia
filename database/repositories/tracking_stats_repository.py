@@ -6,11 +6,12 @@ Repositorio para consultas estadísticas de seguimiento.
 ========================================================================
 """
 import logging
-from typing import Optional, Dict, List, cast
+from typing import Callable, Optional, Dict, List, cast
 from datetime import datetime
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session
 
 from database.models import (
     TrabajoLog, IncidenciaLog, Fabricacion, Trabajador
@@ -22,7 +23,7 @@ class TrackingStatsRepository(BaseRepository):
     Repositorio para consultas estadísticas de seguimiento.
     """
 
-    def __init__(self, session_factory):
+    def __init__(self, session_factory: Callable[[], Session]) -> None:
         super().__init__(session_factory)
         self.logger = logging.getLogger("EvolucionTiemposApp.TrackingStatsRepository")
 

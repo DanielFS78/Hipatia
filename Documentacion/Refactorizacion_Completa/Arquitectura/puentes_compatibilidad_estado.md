@@ -1,5 +1,7 @@
 # Estado de puentes de compatibilidad (2026-04-02)
 
+**Aclaración (2026-04):** Cualquier documento que describa como *pendiente* el cierre de `core/app_model_bridges/` (`compat.py`, `planning.py`, `product.py`) está **desfasado**. Ese paquete **no está** en el repositorio; `AppModel` ya habla con `ProductFacade`, `PlanningFacade`, `ReportService` y `SystemIntegrationService` sin capa intermedia homónima.
+
 ## Inventario activo real
 
 - Lectura unificada de tareas canvas y flags de ciclo en `core/flow_canvas_io.py` (`canvas_task_body`, `canvas_task_display_name`, `flow_task_config_is_cycle_*`, `legacy_canvas_task_*`).
@@ -27,6 +29,7 @@
 ## No existe en este árbol
 
 - El paquete `core/app_model_bridges/` fue eliminado del repo activo; `AppModel` delega directamente en `ProductFacade`, `PlanningFacade`, `ReportService` y `SystemIntegrationService`.
+- **No** hay acción abierta del tipo “migrar controladores para eliminar bridges de AppModel”: la carpeta ya no forma parte del código.
 
 ## Riesgos si no se gestiona retiro incremental
 

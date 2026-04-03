@@ -11,6 +11,8 @@ description: Plan para reducir la centralización excesiva en AppModel. Los cont
 
 **Nota (2026-04):** La fase de mixins en AppModel está cerrada; el modelo es una clase única. La reducción pasa por **inyección directa** y **poda de delegadores huérfanos** (solo tras `rg` con cero consumidores).
 
+**Puentes `core/app_model_bridges/`:** No existen en el repo (`compat.py` / `planning.py` / `product.py` de ese paquete). Si un informe antiguo los cita como tarea pendiente, está obsoleto; ver `Documentacion/Arquitectura_AppModel_Bridges.md`.
+
 ## Solución
 
 1. **Registrar servicios y facades en `DIContainer`** desde `StartupController._init_services` (`ProductService`, `WorkerService`, `PilaService`, `MachineService`, `PreparationService`, `FabricacionService`, `ReportService`, `TrackingAssignmentService`, `ProductFacade`, `PlanningFacade`, `SystemIntegrationService`, etc.).
