@@ -104,5 +104,5 @@ test_output.log
 # Backups de datos locales (checksums y archivos; no versionar)
 data/backups/
 
-# Informes generados en ejecución local
-reports/
+# Informes generados en ejecución local (solo carpeta en la raíz del repo)
+/reports/
