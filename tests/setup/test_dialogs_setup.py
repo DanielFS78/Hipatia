@@ -66,9 +66,14 @@ def dialogs_classes():
 # TESTS DE ESTRUCTURA: Verificación de Existencia de Clases
 # =============================================================================
 
+@pytest.mark.timeout(120)
 @pytest.mark.setup
 class TestDialogsClassesExist:
-    """Verifica que todas las clases requeridas existen."""
+    """Verifica que todas las clases requeridas existen.
+
+    El fixture de módulo ``dialogs_classes`` recorre y parsea AST de todo ``ui/dialogs``;
+    en rutas lentas (iCloud, HDD) puede superar el ``--timeout=30`` global de pytest.
+    """
 
     # Clases de diálogos principales
     REQUIRED_DIALOG_CLASSES = [
@@ -393,9 +398,10 @@ class TestDialogsImports:
 # TESTS DE CONTEO Y MÉTRICAS
 # =============================================================================
 
+@pytest.mark.timeout(120)
 @pytest.mark.setup
 class TestDialogsMetrics:
-    """Verifica métricas del paquete de diálogos."""
+    """Verifica métricas del paquete de diálogos (mismo umbral que TestDialogsClassesExist)."""
 
     def test_minimum_classes_count(self, dialogs_classes):
         """El paquete debe tener un número mínimo de clases."""
