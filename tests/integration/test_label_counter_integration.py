@@ -1,4 +1,4 @@
-# tests/integration/test_label_counter_integration.py
+"""Tests de integración para LabelCounterRepository."""
 import pytest
 from database.repositories.label_counter_repository import LabelCounterRepository
 from database.models import FabricacionContador, Fabricacion

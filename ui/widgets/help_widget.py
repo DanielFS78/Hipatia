@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
+"""
+Interfaz PyQt6 (`help_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+"""
+
 from .base import *
 
 class HelpWidget(QWidget):
     """Widget para mostrar la página de ayuda 'Cómo Funciona'."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         layout = QVBoxLayout(self)
         layout.setContentsMargins(25, 20, 25, 20)

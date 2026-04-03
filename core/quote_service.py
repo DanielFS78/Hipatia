@@ -1,4 +1,8 @@
 
+"""
+Lógica o utilidades del núcleo (`quote_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+"""
+
 import json
 import logging
 import random
@@ -6,27 +10,30 @@ import os
 import wikipedia
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
+from typing import List, Dict, Optional, Any
+
+from core.dtos import QuoteDTO, AuthorInfoDTO
 
 class QuoteService:
     """
     Servicio para mostrar frases célebres y enriquecerlas con datos de Wikipedia.
     """
-    def __init__(self, resource_path="resources/quotes.json"):
+    def __init__(self, resource_path: str = "resources/quotes.json") -> None:
         self.logger = logging.getLogger("EvolucionTiemposApp")
         self.resource_path = resource_path
-        self.quotes = []
+        self.quotes: List[QuoteDTO] = []
         self._load_quotes()
         
         # Configurar idioma de wikipedia una vez
         try:
             wikipedia.set_lang("es")
-        except:
+        except Exception:
             self.logger.warning("No se pudo configurar idioma español para Wikipedia.")
 
         # Caché simple en memoria para no repetir llamadas a Wikipedia en la misma sesión
-        self.author_cache = {}
+        self.author_cache: Dict[str, AuthorInfoDTO] = {}
 
-    def _load_quotes(self):
+    def _load_quotes(self) -> None:
         """Carga las frases del JSON local."""
         try:
             if not os.path.exists(self.resource_path):
@@ -34,32 +41,42 @@ class QuoteService:
                 return
 
             with open(self.resource_path, 'r', encoding='utf-8') as f:
-                self.quotes = json.load(f)
+                data = json.load(f)
+                self.quotes = [QuoteDTO(quote=q["quote"], author=q["author"]) for q in data]
             
             self.logger.info(f"Cargadas {len(self.quotes)} frases célebres.")
         except Exception as e:
             self.logger.error(f"Error cargando frases: {e}")
 
-    def get_random_quote(self):
-        """Devuelve un diccionario con 'quote' y 'author'."""
+    def get_random_quote(self) -> QuoteDTO:
+        """
+        Devuelve una frase aleatoria.
+        
+        Returns:
+            Instancia de QuoteDTO con la frase y el autor.
+        """
         if not self.quotes:
-            return {
-                "quote": "La única forma de hacer un gran trabajo es amar lo que haces.",
-                "author": "Steve Jobs"
-            }
+            return QuoteDTO(
+                quote="La única forma de hacer un gran trabajo es amar lo que haces.",
+                author="Steve Jobs"
+            )
         return random.choice(self.quotes)
 
-    def get_author_info(self, author_name):
+    def get_author_info(self, author_name: str) -> Optional[AuthorInfoDTO]:
         """
         Busca información del autor en Wikipedia (Bio + Imagen).
-        Devuelve un diccionario o None si falla.
+        
+        Args:
+            author_name: Nombre del autor a buscar.
+            
+        Returns:
+            AuthorInfoDTO con el resumen e imagen, o None si no se encuentra.
         """
         # 1. Verificar caché
         if author_name in self.author_cache:
             return self.author_cache[author_name]
 
-        # 2. Buscar en Wikipedia (en un hilo separado idealmente, pero aquí sincrónico por simplicidad inicial
-        #    aunque se llamará desde un QThread en la UI para no bloquear)
+        # 2. Buscar en Wikipedia
         try:
             # Buscar página
             results = wikipedia.search(author_name)
@@ -75,7 +92,7 @@ class QuoteService:
                 summary = summary[:197] + "..."
 
             # Obtener imagen (buscar la primera imagen que parezca un retrato)
-            image_url = None
+            image_url: Optional[str] = None
             if page.images:
                 # Filtrar iconos, svgs, y buscar preferentemente .jpg o .png
                 valid_images = [
@@ -93,10 +110,10 @@ class QuoteService:
                     portrait_candidates = [img for img in valid_images if name_part in img.lower() or 'portrait' in img.lower()]
                     image_url = portrait_candidates[0] if portrait_candidates else valid_images[0]
 
-            info = {
-                "summary": summary,
-                "image_url": image_url
-            }
+            info = AuthorInfoDTO(
+                summary=summary,
+                image_url=image_url
+            )
             
             # Guardar en caché
             self.author_cache[author_name] = info

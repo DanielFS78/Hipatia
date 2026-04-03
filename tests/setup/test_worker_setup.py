@@ -1,4 +1,4 @@
-# tests/setup/test_worker_setup.py
+"""Tests de setup para el esquema de trabajadores en la base de datos."""
 import pytest
 from sqlalchemy import inspect
 from database.models import Base, Trabajador

@@ -1,12 +1,18 @@
 # -*- coding: utf-8 -*-
+"""
+Lógica o utilidades del núcleo (`product_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+"""
+
 import logging
-from typing import Any, cast
-from dataclasses import asdict
+from typing import Any
 
 from PyQt6.QtCore import QObject, pyqtSignal
 
-from core.dtos import ProductDTO, ProductIterationDTO, MaterialDTO, PreparationStepDTO, ProductDetailsDTO
+from core.dtos import MaterialDTO, ProductDetailsDTO, ProductDTO, ProductIterationDTO
 from database.database_manager import DatabaseManager
+from database.repositories.iteration_repository import IterationRepository
+from database.repositories.material_repository import MaterialRepository
+from database.repositories.product_repository import ProductRepository
 
 class ProductService(QObject):
     """
@@ -22,21 +28,21 @@ class ProductService(QObject):
     product_updated_signal = pyqtSignal()
     product_deleted_signal = pyqtSignal()
 
-    def __init__(self, db_manager: DatabaseManager):
+    def __init__(self, db_manager: DatabaseManager) -> None:
         super().__init__()
         self.db = db_manager
         self.logger = logging.getLogger("ProductService")
 
     @property
-    def product_repo(self) -> Any:
+    def product_repo(self) -> ProductRepository:
         return self.db.product_repo
 
     @property
-    def iteration_repo(self) -> Any:
+    def iteration_repo(self) -> IterationRepository:
         return self.db.iteration_repo
-        
+
     @property
-    def material_repo(self) -> Any:
+    def material_repo(self) -> MaterialRepository:
         return self.db.material_repo
 
     def get_product_iterations(self, codigo_producto: str) -> list[ProductIterationDTO]:
@@ -87,13 +93,16 @@ class ProductService(QObject):
     def delete_iteration_image(self, image_id: int) -> bool:
         return self.iteration_repo.delete_image(image_id)
 
+    def get_product_iterations_by_id_or_similar(self, iteracion_id: int) -> ProductIterationDTO | None:
+        return self.iteration_repo.get_product_iterations_by_id_or_similar(iteracion_id)
+
     def update_iteration_file_path(self, iteration_id: int, column_name: str, file_path: str) -> bool:
         return self.iteration_repo.update_iteration_file_path(iteration_id, column_name, file_path)
 
     def get_materials_for_product(self, producto_codigo: str) -> list[MaterialDTO]:
         return self.product_repo.get_materials_for_product(producto_codigo)
 
-    def add_material_to_iteration(self, iteracion_id: int, codigo: str, descripcion: str) -> int:
+    def add_material_to_iteration(self, iteracion_id: int, codigo: str, descripcion: str) -> int | None:
         material_id = self.material_repo.add_material(codigo, descripcion)
         if material_id:
             self.material_repo.link_material_to_iteration(iteracion_id, material_id)

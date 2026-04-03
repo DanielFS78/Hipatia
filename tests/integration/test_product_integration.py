@@ -1,3 +1,4 @@
+"""Tests de integración para ProductRepository."""
 import pytest
 from sqlalchemy import select, inspect
 from database.models import Producto, Subfabricacion, ProcesoMecanico, Material

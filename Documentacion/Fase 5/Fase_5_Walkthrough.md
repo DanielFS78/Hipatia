@@ -1,5 +1,31 @@
 # Fase 5: Módulo de Reportes de Producción - Walkthrough Completo
 
+## Actualización de sincronización (Abr 2026)
+
+### Cambios relevantes respecto al walkthrough original
+
+- La arquitectura final de datos no usa un único archivo `reports_repository.py`, sino una carpeta modular:
+  - `database/repositories/reports/repository.py` (fachada)
+  - managers especializados de búsqueda, órdenes, incidencias, productos y estadísticas.
+- La capa de dominio usa `ReportService` (`core/services/report_service.py`) y `AppModel` delega con métodos `get_*` de reportes.
+- Se añadió el contrato agregado `get_product_reports_dashboard(product_code, evolution_days=30)` para reducir round-trips entre UI y backend.
+- El flujo de selección de orden en `ReportesWidget` dejó de ser stub:
+  - carga detalle de orden
+  - carga unidades de orden
+  - muestra resumen contextual
+  - resalta la orden seleccionada en `OrderListWidget`.
+- `ReportsChartsWidget` ahora reutiliza tabs/charts y tiene fallback robusto con placeholders cuando faltan datos.
+- `SmartSearchWidget` evita ejecutar consultas repetidas para la misma query ya resuelta.
+
+### Verificación reciente
+
+- `pytest` reportes (unit/integration focal): **verde**
+- `mypy` focal reportes: **verde**
+
+### Nota de mantenimiento
+
+Las secciones históricas de este archivo se conservan como referencia de implementación inicial; para el estado operativo vigente usar este bloque y el bloque de estado de `Fase_5.md`.
+
 **Fecha de finalización:** 30 de Diciembre de 2025  
 **Estado:** ✅ COMPLETADO
 

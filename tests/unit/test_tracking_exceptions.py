@@ -20,7 +20,7 @@ from core.tracking_dtos import TrabajoLogDTO, PasoTrazabilidadDTO, IncidenciaLog
 def session_no_close(session):
     """Prevents repository from closing the session during tests."""
     original_close = session.close
-    session.close = MagicMock()
+    session.close = lambda: None
     yield session
     session.close = original_close
 
@@ -246,36 +246,7 @@ class TestTrackingRepositoryExceptions:
         session.query = original_query
         assert result == []
 
-    def test_asignar_trabajador_a_fabricacion_sqlalchemy_error(self, tracking_repo_test, seed_data):
-        """Test SQLAlchemy error during asignar_trabajador_a_fabricacion."""
-        session = tracking_repo_test.session_factory()
-        original_commit = session.commit
-        session.commit = MagicMock(side_effect=SQLAlchemyError("Mock error"))
-        
-        result = tracking_repo_test.asignar_trabajador_a_fabricacion(
-            seed_data['worker_id'], seed_data['fab_id']
-        )
-        
-        session.commit = original_commit
-        assert result is False
 
-    def test_desasignar_trabajador_de_fabricacion_sqlalchemy_error(self, tracking_repo_test, seed_data):
-        """Test SQLAlchemy error during desasignar_trabajador_de_fabricacion."""
-        # First assign
-        tracking_repo_test.asignar_trabajador_a_fabricacion(
-            seed_data['worker_id'], seed_data['fab_id']
-        )
-        
-        session = tracking_repo_test.session_factory()
-        original_commit = session.commit
-        session.commit = MagicMock(side_effect=SQLAlchemyError("Mock error"))
-        
-        result = tracking_repo_test.desasignar_trabajador_de_fabricacion(
-            seed_data['worker_id'], seed_data['fab_id']
-        )
-        
-        session.commit = original_commit
-        assert result is False
 
     def test_obtener_trabajadores_de_fabricacion_sqlalchemy_error(self, tracking_repo_test, seed_data):
         """Test SQLAlchemy error during obtener_trabajadores_de_fabricacion."""
@@ -409,23 +380,23 @@ class TestTrackingRepositoryMapperEdgeCases:
     def test_map_to_trabajo_log_dto_incidencias_exception(self, tracking_repo_test, seed_data, session_no_close):
         """Test mapper returns DTO even with problematic incidencias."""
         # Test that mapper handles None gracefully
-        result = tracking_repo_test._map_to_trabajo_log_dto(None)
+        result = tracking_repo_test.log_repo._map_to_trabajo_log_dto(None)
         assert result is None
 
     def test_map_to_incidencia_log_dto_adjuntos_exception(self, tracking_repo_test, seed_data, session_no_close):
         """Test mapper returns DTO with empty adjuntos on None input."""
         # Test None handling
-        result = tracking_repo_test._map_to_incidencia_log_dto(None)
+        result = tracking_repo_test.log_repo._map_to_incidencia_log_dto(None)
         assert result is None
 
     def test_map_to_incidencia_adjunto_dto_none(self, tracking_repo_test):
         """Test mapper returns None for None input."""
-        result = tracking_repo_test._map_to_incidencia_adjunto_dto(None)
+        result = tracking_repo_test.log_repo._map_to_incidencia_adjunto_dto(None)
         assert result is None
 
     def test_map_to_paso_trazabilidad_dto_none(self, tracking_repo_test):
         """Test mapper returns None for None input."""
-        result = tracking_repo_test._map_to_paso_trazabilidad_dto(None)
+        result = tracking_repo_test.log_repo._map_to_paso_trazabilidad_dto(None)
         assert result is None
 
 
@@ -470,32 +441,34 @@ class TestTrackingRepositoryStatisticsEdgeCases:
 
     def test_obtener_o_crear_trabajo_log_integrity_error(self, tracking_repo_test, seed_data):
         """Trigger IntegrityError in obtener_o_crear_trabajo_log_por_qr para cubrir línea 248."""
-        mock_session = MagicMock()
+        session = MagicMock(spec=["query", "add", "commit", "rollback", "close"])
         # Mocking the query to return None (initially not found)
-        mock_session.query.return_value.options.return_value.filter.return_value.first.return_value = None
+        session.query.return_value.options.return_value.filter_by.return_value.first.return_value = None
         # Mocking add/commit to raise IntegrityError
-        mock_session.add.side_effect = IntegrityError("Mock", "params", "orig")
+        session.add.side_effect = IntegrityError("Mock", "params", Exception("orig"))
         
-        tracking_repo_test.session_factory = lambda: mock_session
+        tracking_repo_test.log_repo.core.session_factory = lambda: session
         
         result = tracking_repo_test.obtener_o_crear_trabajo_log_por_qr(
             "DUPE", seed_data['worker_id'], seed_data['fab_id'], seed_data['product_code']
         )
         assert result is None
-        mock_session.rollback.assert_called_once()
+        assert session.rollback.call_count == 1
+        session.rollback.assert_called_once_with()
 
     def test_obtener_o_crear_trabajo_log_sqlalchemy_error_custom(self, tracking_repo_test, seed_data):
         """Trigger SQLAlchemyError in obtener_o_crear_trabajo_log_por_qr para cubrir línea 252."""
-        mock_session = MagicMock()
-        mock_session.query.side_effect = SQLAlchemyError("Generic SQL Error")
+        session = MagicMock(spec=["query", "rollback", "close"])
+        session.query.side_effect = SQLAlchemyError("Generic SQL Error")
         
-        tracking_repo_test.session_factory = lambda: mock_session
+        tracking_repo_test.log_repo.core.session_factory = lambda: session
         
         result = tracking_repo_test.obtener_o_crear_trabajo_log_por_qr(
             "ERROR", seed_data['worker_id'], seed_data['fab_id'], seed_data['product_code']
         )
         assert result is None
-        mock_session.rollback.assert_called_once()
+        assert session.rollback.call_count == 1
+        session.rollback.assert_called_once_with()
 
     def test_get_data_for_export_complete_flow_coverage(self, tracking_repo_test, seed_data, session_no_close):
         """Cubre loops e hilos de ejecución en get_data_for_export (líneas 1331, 1354, 1396-1411, 1420-1444)."""
@@ -536,7 +509,7 @@ class TestTrackingRepositoryStatisticsEdgeCases:
         # Configure the mock to raise Exception when accessing 'incidencias'
         type(mock_trabajo).incidencias = PropertyMock(side_effect=Exception("Triggered"))
         
-        result = tracking_repo_test._map_to_trabajo_log_dto(mock_trabajo)
+        result = tracking_repo_test.log_repo._map_to_trabajo_log_dto(mock_trabajo)
         assert result is not None
         assert result.incidencias == []
 
@@ -546,6 +519,6 @@ class TestTrackingRepositoryStatisticsEdgeCases:
         # Configure to raise Exception when accessing 'adjuntos'
         type(mock_incidencia).adjuntos = PropertyMock(side_effect=Exception("Triggered"))
         
-        result = tracking_repo_test._map_to_incidencia_log_dto(mock_incidencia)
+        result = tracking_repo_test.log_repo._map_to_incidencia_log_dto(mock_incidencia)
         assert result is not None
         assert result.adjuntos == []

@@ -1,6 +1,7 @@
+"""Tests para ReportsRepository."""
 import pytest
 from datetime import datetime, timedelta
-from database.repositories.reports_repository import ReportsRepository
+from database.repositories.reports import ReportsRepository
 from core.reports_dtos import (
     OrdenFabricacionResumenDTO,
     PromedioTiempoDTO,
@@ -13,6 +14,9 @@ from database.models import (
     Trabajador,
     PasoTrazabilidad
 )
+
+pytestmark = pytest.mark.unit
+
 
 class TestReportsRepository:
     
@@ -161,3 +165,13 @@ class TestReportsRepository:
         """Verifica detalles de una orden específica."""
         units = reports_repo.obtener_unidades_de_orden("OF-001")
         assert isinstance(units, list)
+
+    def test_get_product_dashboard_bundle(self, reports_repo, sample_data):
+        """Verifica el bundle agregado para dashboard de producto."""
+        bundle = reports_repo.obtener_dashboard_producto("PROD-001", evolution_days=7)
+        assert isinstance(bundle, dict)
+        assert "orders" in bundle
+        assert "time_stats" in bundle
+        assert "worker_stats" in bundle
+        assert "incidents" in bundle
+        assert "evolution" in bundle

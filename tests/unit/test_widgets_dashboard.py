@@ -13,7 +13,8 @@ Siguiendo la metodología de Fase 2 y 3.7.
 """
 
 import pytest
-from unittest.mock import MagicMock, patch, PropertyMock, call
+from unittest.mock import MagicMock, patch, PropertyMock, call, ANY
+from typing import Any
 from datetime import date, datetime, timedelta
 import sys
 
@@ -31,7 +32,7 @@ class TestDashboardWidgetLogic:
         from ui.widgets import DashboardWidget
         
         widget = MagicMock(spec=DashboardWidget)
-        widget.machine_chart_view = MagicMock()
+        widget.machine_chart_view = MagicMock(spec=[])
         
         data = [
             {'nombre': 'Torno CNC', 'horas_uso': 120},
@@ -47,7 +48,7 @@ class TestDashboardWidgetLogic:
         from ui.widgets import DashboardWidget
         
         widget = MagicMock(spec=DashboardWidget)
-        widget.worker_chart_view = MagicMock()
+        widget.worker_chart_view = MagicMock(spec=[])
         
         data = [
             {'nombre': 'Juan García', 'tareas_asignadas': 15},
@@ -55,8 +56,8 @@ class TestDashboardWidgetLogic:
         ]
         
         # Simular creación de gráfico
-        chart = MagicMock()
-        series = MagicMock()
+        chart = MagicMock(spec=[])
+        series = MagicMock(spec=["append"])
         
         for worker in data:
             series.append(worker['nombre'], worker['tareas_asignadas'])
@@ -76,7 +77,7 @@ class TestDashboardWidgetLogic:
         ]
         
         # Filtrar componentes con más de 3 fallos
-        problematic = [c for c in data if c['fallos'] > 3]
+        problematic = [c for c in data if c['fallos'] > 3]  # type: ignore[operator]
         
         assert len(problematic) == 2
         assert problematic[0]['codigo'] == 'COMP-001'
@@ -116,7 +117,7 @@ class TestDashboardWidgetLogic:
         from ui.widgets import DashboardWidget
         
         widget = MagicMock(spec=DashboardWidget)
-        controller = MagicMock()
+        controller = MagicMock(spec=[])
         
         widget.controller = controller
         
@@ -167,8 +168,8 @@ class TestTimelineVisualizationWidgetLogic:
         
         # Calcular límites
         if results:
-            max_end = max(r['start'] + r['duration'] for r in results)
-            min_start = min(r['start'] for r in results)
+            max_end = max(r['start'] + r['duration'] for r in results)  # type: ignore[operator]
+            min_start = min(r['start'] for r in results)  # type: ignore[type-var]
         else:
             max_end = 0
             min_start = 0
@@ -198,11 +199,13 @@ class TestTimelineVisualizationWidgetLogic:
         
         widget = MagicMock(spec=TimelineVisualizationWidget)
         widget.task_rects = [
-            {'rect': MagicMock(contains=MagicMock(return_value=True)), 'task_data': {'name': 'Tarea 1'}}
+            {'rect': MagicMock(spec=["contains"], contains=MagicMock(return_value=True)), 'task_data': {'name': 'Tarea 1'}}
         ]
         
-        event = MagicMock()
-        event.pos.return_value = MagicMock(x=MagicMock(return_value=100), y=MagicMock(return_value=50))
+        event = MagicMock(spec=["pos"])
+        event.pos.return_value = MagicMock(spec=["x", "y"])
+        event.pos.return_value.x.return_value = 100
+        event.pos.return_value.y.return_value = 50
         
         # Simular detección de clic
         clicked_task = None
@@ -219,16 +222,16 @@ class TestTimelineVisualizationWidgetLogic:
         from ui.widgets import TimelineVisualizationWidget
         
         widget = MagicMock(spec=TimelineVisualizationWidget)
-        widget.setToolTip = MagicMock()
+        widget.setToolTip = MagicMock(spec=[])
         widget.task_rects = [
             {
-                'rect': MagicMock(contains=MagicMock(return_value=True)),
+                'rect': MagicMock(spec=["contains"], contains=MagicMock(return_value=True)),
                 'task_data': {'name': 'Tarea 1', 'duration': 10}
             }
         ]
         
-        event = MagicMock()
-        event.pos.return_value = MagicMock()
+        event = MagicMock(spec=["pos"])
+        event.pos.return_value = MagicMock(spec=[])
         
         # Simular tooltip
         for task_rect in widget.task_rects:
@@ -237,7 +240,8 @@ class TestTimelineVisualizationWidgetLogic:
                 widget.setToolTip(tooltip)
                 break
         
-        widget.setToolTip.assert_called_once()
+        assert widget.setToolTip.call_count == 1
+        widget.setToolTip.assert_called_once_with(ANY)
 
     def test_clear_resets_widget_state(self):
         """clear debe resetear el estado del widget."""
@@ -246,7 +250,7 @@ class TestTimelineVisualizationWidgetLogic:
         widget = MagicMock(spec=TimelineVisualizationWidget)
         widget.results = [{'task': 'Tarea 1'}]
         widget.audit = {'total': 100}
-        widget.task_rects = [{'rect': MagicMock()}]
+        widget.task_rects = [{'rect': MagicMock(spec=[])}]
         
         # Simular clear
         widget.results = []
@@ -271,8 +275,8 @@ class TestTaskAnalysisPanelLogic:
         from ui.widgets import TaskAnalysisPanel
         
         panel = MagicMock(spec=TaskAnalysisPanel)
-        panel.header_label = MagicMock()
-        panel.log_text = MagicMock()
+        panel.header_label = MagicMock(spec=["setText"])
+        panel.log_text = MagicMock(spec=[])
         
         task_data = {
             'name': 'Tarea Test',
@@ -289,7 +293,8 @@ class TestTaskAnalysisPanelLogic:
         header_text = f"{task_data['name']} - {task_data['duration']}h"
         panel.header_label.setText(header_text)
         
-        panel.header_label.setText.assert_called_once()
+        assert panel.header_label.setText.call_count == 1
+        panel.header_label.setText.assert_called_once_with(header_text)
 
     def test_displayTask_formats_audit_log(self):
         """displayTask debe formatear el log de auditoría."""
@@ -317,10 +322,10 @@ class TestTaskAnalysisPanelLogic:
         from ui.widgets import TaskAnalysisPanel
         
         panel = MagicMock(spec=TaskAnalysisPanel)
-        panel.log_text = MagicMock()
+        panel.log_text = MagicMock(spec=["setPlainText"])
         
         task_data = {'name': 'Tarea Test'}
-        task_audit = []
+        task_audit: list[Any] = []
         
         # Simular con audit vacío
         if not task_audit:

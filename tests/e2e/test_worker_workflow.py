@@ -1,8 +1,10 @@
+"""Tests E2E para el flujo de gestión de trabajadores."""
 import pytest
 from database.models import Trabajador
-import hashlib
 
-@pytest.mark.e2e
+pytestmark = pytest.mark.e2e
+
+
 class TestWorkerWorkflow:
     """
     End-to-End tests simulating real Worker/HR workflows.
@@ -52,8 +54,8 @@ class TestWorkerWorkflow:
         print("Step 3: Worker logs in")
         user = worker_repo.authenticate_user(username, password)
         assert user is not None
-        assert user["nombre"] == "John Doe E2E"
-        assert user["role"] == "Operario"
+        assert user.nombre_completo == "John Doe E2E"
+        assert user.role == "Operario"
         
         # 4. Update details (Promotion)
         print("Step 4: Worker gets promoted")
@@ -67,8 +69,8 @@ class TestWorkerWorkflow:
         
         # Verify promotion details
         details = worker_repo.get_worker_details(worker_id)
-        assert details["tipo_trabajador"] == 2
-        assert details["notas"] == "Promoted to Technician"
+        assert details.tipo_trabajador == 2
+        assert details.notas == "Promoted to Technician"
         
         # 5. Deactivate worker
         print("Step 5: Worker leaves company (Deactivation)")
@@ -90,10 +92,10 @@ class TestWorkerWorkflow:
         user_after_exit = worker_repo.authenticate_user(username, password)
         # Assuming policies: Inactive users SHOULD NOT be able to login
         # If this fails, we found a security gap to fix or document.
-        if user_after_exit is not None and user_after_exit["activo"] is False:
+        if user_after_exit is not None and user_after_exit.activo is False:
              # If repo returns the user even if inactive, we must handle it in UI or Controller.
              # But let's check if the returned object effectively says "activo: False"
-             assert user_after_exit["activo"] is False
+             assert user_after_exit.activo is False
         
         # 7. Delete worker
         print("Step 7: Data cleanup")
@@ -119,13 +121,15 @@ class TestWorkerWorkflow:
         assert worker_repo.authenticate_user(username, pass_v1) is None
         
         # 2. Create user
+        from core.security.password_service import PasswordService
         worker_repo.add_worker(
-            nombre_completo="Security Tester", 
-            notas="", 
+            nombre_completo="Worker Workflow",
+            notas="Test user",
             tipo_trabajador=1,
+            activo=True,
             username=username,
-            password_hash=hashlib.sha256(pass_v1.encode()).hexdigest(),
-            role="Tester"
+            password_hash=PasswordService.hash_password(pass_v1),
+            role="Trabajador"
         )
         workers = worker_repo.get_all_workers()
         worker_id = workers[0].id

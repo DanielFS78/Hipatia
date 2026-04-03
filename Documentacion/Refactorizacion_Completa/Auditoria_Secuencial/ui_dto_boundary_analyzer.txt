@@ -1,0 +1,2 @@
+/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/Documentacion/Refactorizacion_Completa/Fase_12C/ui_dto_boundary_report.json
+Total hallazgos: 21

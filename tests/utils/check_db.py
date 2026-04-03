@@ -4,7 +4,7 @@ print("="*70)
 print("DIAGNÓSTICO DE BASE DE DATOS: montaje.db")
 print("="*70)
 
-conn = sqlite3.connect('montaje.db')
+conn = sqlite3.connect('data/montaje.db')
 cursor = conn.cursor()
 
 # 1. Verificar versión del esquema

@@ -1,6 +1,12 @@
+"""
+Lógica o utilidades del núcleo (`tracking_dtos`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+"""
+
 from dataclasses import dataclass, field
 from typing import List, Optional, Dict, Any
 from datetime import datetime, date
+
+from core.dtos import FabricacionProductoDTO
 
 @dataclass
 class FabricacionAsignadaDTO:
@@ -10,7 +16,7 @@ class FabricacionAsignadaDTO:
     descripcion: str
     fecha_asignacion: Optional[datetime]
     estado: str
-    productos: List[Dict[str, Any]] = field(default_factory=list)
+    productos: List[FabricacionProductoDTO] = field(default_factory=list)
 
 @dataclass
 class IncidenciaAdjuntoDTO:

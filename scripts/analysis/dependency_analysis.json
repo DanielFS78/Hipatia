@@ -1,0 +1,240 @@
+{
+  "fan_in_top20": [
+    {
+      "module": "database.models",
+      "importers": 21
+    },
+    {
+      "module": "database.database_manager",
+      "importers": 17
+    },
+    {
+      "module": "core.services.time_calculator",
+      "importers": 17
+    },
+    {
+      "module": "core.di_container",
+      "importers": 14
+    },
+    {
+      "module": "core.dtos",
+      "importers": 13
+    },
+    {
+      "module": "ui.dialogs",
+      "importers": 10
+    },
+    {
+      "module": "controllers.app_controller",
+      "importers": 9
+    },
+    {
+      "module": "ui.widgets",
+      "importers": 9
+    },
+    {
+      "module": "core.security.security_service",
+      "importers": 8
+    },
+    {
+      "module": "core.security.access_control",
+      "importers": 7
+    },
+    {
+      "module": "core.app_model",
+      "importers": 6
+    },
+    {
+      "module": "core.services.calculation_audit",
+      "importers": 6
+    },
+    {
+      "module": "controllers.worker_controller",
+      "importers": 5
+    },
+    {
+      "module": "core.application_state",
+      "importers": 5
+    },
+    {
+      "module": "core.tracking_dtos",
+      "importers": 5
+    },
+    {
+      "module": "core.schedule_config",
+      "importers": 4
+    },
+    {
+      "module": "database.config",
+      "importers": 4
+    },
+    {
+      "module": "controllers.historial_controller",
+      "importers": 4
+    },
+    {
+      "module": "controllers.machine_controller",
+      "importers": 4
+    },
+    {
+      "module": "controllers.product_controller_v2",
+      "importers": 4
+    }
+  ],
+  "fan_out_top15": [
+    {
+      "module": "controllers.startup_controller",
+      "dependencies": 35
+    },
+    {
+      "module": "controllers.app_controller",
+      "dependencies": 25
+    },
+    {
+      "module": "controllers",
+      "dependencies": 20
+    },
+    {
+      "module": "controllers.simulation_controller",
+      "dependencies": 14
+    },
+    {
+      "module": "controllers.ui_signals_controller",
+      "dependencies": 13
+    },
+    {
+      "module": "controllers.session_controller",
+      "dependencies": 10
+    },
+    {
+      "module": "app",
+      "dependencies": 8
+    },
+    {
+      "module": "controllers.pila_controller",
+      "dependencies": 8
+    },
+    {
+      "module": "controllers.worker_controller",
+      "dependencies": 8
+    },
+    {
+      "module": "core.app_model",
+      "dependencies": 7
+    },
+    {
+      "module": "features.worker_controller",
+      "dependencies": 7
+    },
+    {
+      "module": "controllers.product.product_mixin",
+      "dependencies": 5
+    },
+    {
+      "module": "database.repositories.tracking_repository",
+      "dependencies": 5
+    },
+    {
+      "module": "scripts.profile_queries",
+      "dependencies": 5
+    },
+    {
+      "module": "ui.dialogs.production_flow.enhanced_flow_dialog",
+      "dependencies": 5
+    }
+  ],
+  "cycles": [
+    [
+      "controllers.app_controller",
+      "controllers.schedule_controller",
+      "ui.widgets.settings_widget",
+      "controllers.app_controller"
+    ],
+    [
+      "controllers.schedule_controller",
+      "ui.widgets.settings_widget",
+      "controllers.schedule_controller"
+    ],
+    [
+      "controllers.app_controller",
+      "controllers.lote_controller",
+      "ui.widgets.calculate_times_widget",
+      "controllers.simulation_controller",
+      "controllers.app_controller"
+    ],
+    [
+      "ui.widgets.calculate_times_widget",
+      "controllers.simulation_controller",
+      "ui.widgets.calculate_times_widget"
+    ],
+    [
+      "controllers.app_controller",
+      "controllers.lote_controller",
+      "ui.widgets.calculate_times_widget",
+      "controllers.ui_signals_controller",
+      "controllers.app_controller"
+    ],
+    [
+      "controllers.lote_controller",
+      "ui.widgets.calculate_times_widget",
+      "controllers.ui_signals_controller",
+      "ui.widgets.lotes_widget",
+      "controllers.lote_controller"
+    ],
+    [
+      "ui.widgets.calculate_times_widget",
+      "controllers.ui_signals_controller",
+      "ui.widgets.calculate_times_widget"
+    ],
+    [
+      "controllers.app_controller",
+      "controllers.startup_controller",
+      "controllers.session_controller",
+      "controllers.app_controller"
+    ],
+    [
+      "controllers.app_controller",
+      "controllers.startup_controller",
+      "controllers.app_controller"
+    ]
+  ],
+  "orphan_modules": [
+    "controllers",
+    "controllers.product.fabricacion_mixin",
+    "controllers.product.material_mixin",
+    "controllers.product.preproceso_mixin",
+    "controllers.product.product_mixin",
+    "core.simulation.engine.motor",
+    "core.simulation.engine.results_compiler",
+    "core.simulation.resource_manager",
+    "core.simulation.timeline_task",
+    "core.utils.visualization",
+    "database.repositories.iteration_repository",
+    "database.repositories.label_counter_repository",
+    "database.repositories.lote_repository",
+    "database.repositories.machine_repository",
+    "database.repositories.material_repository",
+    "database.repositories.pila_repository",
+    "database.repositories.preproceso_repository",
+    "database.repositories.tracking.assignment_mixin",
+    "database.repositories.tracking.core_mixin",
+    "database.repositories.tracking.queries_mixin",
+    "database.repositories.tracking.steps_mixin",
+    "database.repositories.tracking_repository",
+    "database.repositories.worker_repository",
+    "ui.dialogs.fabrication.assignment_dialogs",
+    "ui.dialogs.fabrication.bitacora_dialog",
+    "ui.dialogs.fabrication.create_dialog",
+    "ui.dialogs.fabrication.selection_dialogs",
+    "ui.dialogs.prep.prep_groups_dialog",
+    "ui.dialogs.prep.prep_steps_dialog",
+    "ui.dialogs.prep.preproceso_dialog",
+    "ui.dialogs.product.add_iteration_dialog",
+    "ui.dialogs.product.procesos_mecanicos_dialog",
+    "ui.dialogs.product.product_details_dialog",
+    "ui.dialogs.product.subfabricaciones_dialog",
+    "ui.dialogs.production_flow.define_flow_dialog",
+    "ui.dialogs.production_flow.enhanced_flow_dialog",
+    "ui.widgets.workers_widget"
+  ]
+}

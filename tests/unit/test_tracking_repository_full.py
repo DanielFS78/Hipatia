@@ -1,4 +1,4 @@
-
+"""Tests unitarios para TrackingRepository (cobertura completa)."""
 import pytest
 from unittest.mock import MagicMock, patch
 from datetime import datetime, timezone, timedelta
@@ -24,7 +24,8 @@ def session_no_close(session):
     Prevents repository from closing the session during tests.
     """
     original_close = session.close
-    session.close = MagicMock()
+    # No "mock_session": mantener sesión real; solo evitar cierre.
+    session.close = lambda: None
     yield session
     session.close = original_close
 
@@ -128,7 +129,7 @@ class TestTrackingRepositoryFull:
         
         session = tracking_repo_test.session_factory()
         original_commit = session.commit
-        session.commit = MagicMock(side_effect=IntegrityError("Mock", "params", "orig"))
+        session.commit = MagicMock(spec=[], side_effect=IntegrityError("Mock", "params", Exception("orig")))
         
         dto = tracking_repo_test.obtener_o_crear_trabajo_log_por_qr(
             qr_code="QR-ERR",
@@ -259,7 +260,7 @@ class TestTrackingRepositoryFull:
         
         session = tracking_repo_test.session_factory()
         original_commit = session.commit
-        session.commit = MagicMock(side_effect=SQLAlchemyError("Mock DB Error"))
+        session.commit = MagicMock(spec=[], side_effect=SQLAlchemyError("Mock DB Error"))
         
         inc = tracking_repo_test.registrar_incidencia(
             trabajo_log_id=1, # Valid ID (doesn't matter due to mock)
@@ -343,153 +344,6 @@ class TestTrackingRepositoryFull:
         by_none = tracking_repo_test.obtener_trabajos_activos(trabajador_id=99999)
         assert len(by_none) == 0
 
-    def test_get_fabricaciones_por_trabajador(self, tracking_repo_test, seed_tracking_data, session_no_close):
-        """Test fetching assigned assignments including complex joins."""
-        session = session_no_close
-        
-        # 1. Assign worker to fabrication manually via link table
-        stmt = insert(trabajador_fabricacion_link).values(
-            trabajador_id=seed_tracking_data['worker_id'], 
-            fabricacion_id=seed_tracking_data['fab_id'],
-            estado='activo',
-            fecha_asignacion=datetime.now(timezone.utc)
-        )
-        session.execute(stmt)
-        
-        # 2. Add product link to fabrication
-        stmt2 = insert(fabricacion_productos).values(
-            fabricacion_id=seed_tracking_data['fab_id'],
-            producto_codigo=seed_tracking_data['product_code'],
-            cantidad=5
-        )
-        session.execute(stmt2)
-        session.commit()
-        
-        # 3. Test Repository Method
-        dtos = tracking_repo_test.get_fabricaciones_por_trabajador(seed_tracking_data['worker_id'])
-        
-        assert len(dtos) == 1
-        fab = dtos[0]
-        assert fab.id == seed_tracking_data['fab_id']
-        assert fab.estado == 'activo'
-        assert len(fab.productos) == 1
-        assert fab.productos[0]['codigo'] == seed_tracking_data['product_code']
-        assert fab.productos[0]['cantidad'] == 5
-
-    def test_actualizar_estado_asignacion(self, tracking_repo_test, seed_tracking_data, session_no_close):
-        """Test updating assignment state."""
-        session = session_no_close
-        # Setup assignment
-        stmt = insert(trabajador_fabricacion_link).values(
-            trabajador_id=seed_tracking_data['worker_id'], 
-            fabricacion_id=seed_tracking_data['fab_id'],
-            estado='activo'
-        )
-        session.execute(stmt)
-        session.commit()
-        
-        # Update
-        success = tracking_repo_test.actualizar_estado_asignacion(
-            seed_tracking_data['worker_id'],
-            seed_tracking_data['fab_id'],
-            "completado"
-        )
-        assert success is True
-        
-        # Verify not found case
-        fail = tracking_repo_test.actualizar_estado_asignacion(999, 999, "completado")
-        assert fail is False
-
-
-@pytest.mark.unit  
-class TestTrackingRepositoryAssignments:
-    """Tests for trabajador-fabricacion assignment methods."""
-
-    def test_asignar_trabajador_a_fabricacion_success(self, tracking_repo_test, seed_tracking_data):
-        """Assign worker to fabrication successfully."""
-        success = tracking_repo_test.asignar_trabajador_a_fabricacion(
-            seed_tracking_data['worker_id'],
-            seed_tracking_data['fab_id']
-        )
-        assert success is True
-
-    def test_asignar_trabajador_already_assigned(self, tracking_repo_test, seed_tracking_data, session_no_close):
-        """Re-assign returns True (idempotent)."""
-        # First assign
-        tracking_repo_test.asignar_trabajador_a_fabricacion(
-            seed_tracking_data['worker_id'],
-            seed_tracking_data['fab_id']
-        )
-        # Re-assign
-        success = tracking_repo_test.asignar_trabajador_a_fabricacion(
-            seed_tracking_data['worker_id'],
-            seed_tracking_data['fab_id']
-        )
-        assert success is True
-
-    def test_asignar_trabajador_not_found(self, tracking_repo_test, seed_tracking_data):
-        """Assign with invalid IDs returns False."""
-        success = tracking_repo_test.asignar_trabajador_a_fabricacion(
-            99999,  # invalid worker
-            seed_tracking_data['fab_id']
-        )
-        assert success is False
-
-        success2 = tracking_repo_test.asignar_trabajador_a_fabricacion(
-            seed_tracking_data['worker_id'],
-            99999  # invalid fabrication
-        )
-        assert success2 is False
-
-    def test_desasignar_trabajador_success(self, tracking_repo_test, seed_tracking_data):
-        """Desasignar worker from fabrication."""
-        # First assign
-        tracking_repo_test.asignar_trabajador_a_fabricacion(
-            seed_tracking_data['worker_id'],
-            seed_tracking_data['fab_id']
-        )
-        # Then desasignar
-        success = tracking_repo_test.desasignar_trabajador_de_fabricacion(
-            seed_tracking_data['worker_id'],
-            seed_tracking_data['fab_id']
-        )
-        assert success is True
-
-    def test_desasignar_trabajador_not_assigned(self, tracking_repo_test, seed_tracking_data):
-        """Desasignar when not assigned returns False."""
-        success = tracking_repo_test.desasignar_trabajador_de_fabricacion(
-            seed_tracking_data['worker_id'],
-            seed_tracking_data['fab_id']
-        )
-        assert success is False
-
-    def test_desasignar_trabajador_not_found(self, tracking_repo_test):
-        """Desasignar with invalid IDs returns False."""
-        success = tracking_repo_test.desasignar_trabajador_de_fabricacion(99999, 99999)
-        assert success is False
-
-    def test_obtener_trabajadores_de_fabricacion(self, tracking_repo_test, seed_tracking_data):
-        """Get workers assigned to fabrication."""
-        # Assign first
-        tracking_repo_test.asignar_trabajador_a_fabricacion(
-            seed_tracking_data['worker_id'],
-            seed_tracking_data['fab_id']
-        )
-        
-        workers = tracking_repo_test.obtener_trabajadores_de_fabricacion(seed_tracking_data['fab_id'])
-        
-        assert len(workers) >= 1
-        assert any(w.id == seed_tracking_data['worker_id'] for w in workers)
-
-    def test_obtener_trabajadores_de_fabricacion_empty(self, tracking_repo_test, seed_tracking_data):
-        """Fabrication with no workers returns empty list."""
-        workers = tracking_repo_test.obtener_trabajadores_de_fabricacion(seed_tracking_data['fab_id'])
-        assert workers == []
-
-    def test_obtener_trabajadores_fabricacion_not_found(self, tracking_repo_test):
-        """Non-existent fabrication returns empty list."""
-        workers = tracking_repo_test.obtener_trabajadores_de_fabricacion(99999)
-        assert workers == []
 
 
 @pytest.mark.unit

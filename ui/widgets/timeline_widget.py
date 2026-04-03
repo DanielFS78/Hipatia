@@ -1,17 +1,22 @@
 # -*- coding: utf-8 -*-
+"""
+Interfaz PyQt6 (`timeline_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+"""
+
 from .base import *
+from typing import Any
 from PyQt6.QtWidgets import QToolTip
 
 class TimelineVisualizationWidget(QWidget):
     """Widget que dibuja un diagrama de Gantt interactivo y detallado."""
     task_selected = pyqtSignal(dict, list)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent: Any = None) -> None:
         super().__init__(parent)
-        self.results = []
-        self.audit = []
-        self.tasks = []
-        self.task_rects = []
+        self.results: list[Any] = []
+        self.audit: list[Any] = []
+        self.tasks: list[Any] = []
+        self.task_rects: list[Any] = []
         self.start_time = datetime.now()
         self.total_days = 7
         self.padding_left = 50
@@ -21,7 +26,7 @@ class TimelineVisualizationWidget(QWidget):
         self.row_gap = 10
         self.setMouseTracking(True)
 
-    def setData(self, results, audit):
+    def setData(self, results: list[Any], audit: list[Any]) -> None:
         self.results = sorted(results, key=lambda x: x['Inicio'])
         self.audit = audit
         if results:
@@ -34,7 +39,7 @@ class TimelineVisualizationWidget(QWidget):
             self.total_days = 1
         self.update()
 
-    def paintEvent(self, event):
+    def paintEvent(self, event: Any) -> None:
         if not self.results:
             return
         painter = QPainter(self)
@@ -46,7 +51,7 @@ class TimelineVisualizationWidget(QWidget):
         self._draw_tasks(painter, pixels_per_day)
         self._draw_dependencies(painter)
 
-    def _draw_time_axis(self, painter, pixels_per_day):
+    def _draw_time_axis(self, painter: Any, pixels_per_day: float) -> None:
         painter.setPen(QColor("#adb5bd"))
         font = painter.font()
         font.setPointSize(8)
@@ -79,7 +84,7 @@ class TimelineVisualizationWidget(QWidget):
             painter.drawText(QRect(int(x_pos) - 20, self.padding_top - 30, 40, 20), Qt.AlignmentFlag.AlignCenter,
                              date_str)
 
-    def _draw_tasks(self, painter, pixels_per_day):
+    def _draw_tasks(self, painter: Any, pixels_per_day: float) -> None:
         self.task_rects.clear()
         font = painter.font()
         font.setPointSize(9)
@@ -113,7 +118,7 @@ class TimelineVisualizationWidget(QWidget):
 
         self.setMinimumHeight(int(y_pos + len(self.results) * (self.bar_height + self.row_gap) + self.padding_bottom))
 
-    def _draw_dependencies(self, painter):
+    def _draw_dependencies(self, painter: Any) -> None:
         painter.setPen(QPen(QColor("#023e8a"), 2, Qt.PenStyle.SolidLine))
         painter.setBrush(QBrush(QColor("#023e8a")))
 
@@ -129,21 +134,21 @@ class TimelineVisualizationWidget(QWidget):
                 painter.drawLine(start_point, end_point)
                 self._draw_arrowhead(painter, start_point, end_point)
 
-    def _draw_arrowhead(self, painter, p1, p2, size=10):
+    def _draw_arrowhead(self, painter: Any, p1: Any, p2: Any, size: int = 10) -> None:
         from math import atan2, cos, sin, pi
         angle = atan2(p2.y() - p1.y(), p2.x() - p1.x())
         p3 = QPoint(int(p2.x() - size * cos(angle + pi / 6)), int(p2.y() - size * sin(angle + pi / 6)))
         p4 = QPoint(int(p2.x() - size * cos(angle - pi / 6)), int(p2.y() - size * sin(angle - pi / 6)))
         painter.drawPolygon(p2, p3, p4)
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event: Any) -> None:
         for rect, task, audit in self.task_rects:
             if rect.contains(event.pos()):
                 self.task_selected.emit(task, audit)
                 return
         super().mousePressEvent(event)
 
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event: Any) -> None:
         found_task = False
         for rect, task, audit in self.task_rects:
             if rect.contains(event.pos()):
@@ -169,7 +174,7 @@ class TimelineVisualizationWidget(QWidget):
             QToolTip.hideText()
         super().mouseMoveEvent(event)
 
-    def clear(self):
+    def clear(self) -> None:
         self.results = []
         self.tasks = []
         self.update()
@@ -178,7 +183,7 @@ class TimelineVisualizationWidget(QWidget):
 class TaskAnalysisPanel(QWidget):
     """Widget que muestra el detalle de una tarea seleccionada."""
 
-    def __init__(self, parent=None):
+    def __init__(self, parent: Any = None) -> None:
         super().__init__(parent)
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(10, 10, 10, 10)
@@ -208,13 +213,15 @@ class TaskAnalysisPanel(QWidget):
         main_layout.addWidget(self.header_label)
         main_layout.addWidget(log_frame, 1)
 
-    def displayTask(self, task_data, task_audit):
+    def displayTask(self, task_data: dict[str, Any], task_audit: list[Any]) -> None:
         while self.log_vbox.count():
             child = self.log_vbox.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
+            if child is not None:
+                w = child.widget()
+                if w is not None:
+                    w.deleteLater()
 
-        has_warning = any(d.status.value == 'WARNING' for d in task_audit)
+        has_warning = any((d.status.value if hasattr(d.status, 'value') else d.status) == 'WARNING' for d in task_audit)
         if has_warning:
             self.header_label.setText(f"Tarea '{task_data['Tarea']}': Requiere Atención ⚠️")
             self.header_label.setStyleSheet("color: #d97706;")
@@ -229,9 +236,10 @@ class TaskAnalysisPanel(QWidget):
         for decision in sorted(task_audit, key=lambda d: d.timestamp):
             log_line = f"{decision.icon} <b>{decision.user_friendly_reason}</b>"
             color = "#6b7280"
-            if decision.status == 'POSITIVE':
+            status_val = decision.status.value if hasattr(decision.status, 'value') else decision.status
+            if status_val == 'POSITIVE':
                 color = "#16a34a"
-            elif decision.status == 'WARNING':
+            elif status_val == 'WARNING':
                 color = "#f59e0b"
 
             label = QLabel(log_line)

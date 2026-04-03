@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+Interfaz PyQt6 (`historial_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+"""
+
 from .base import *
+from typing import Any
 
 class HistorialWidget(QWidget):
     """Widget para la nueva sección de historial de iteraciones y fabricaciones."""
@@ -10,9 +15,11 @@ class HistorialWidget(QWidget):
     calendar_date_selected_signal = pyqtSignal(QDate)
     print_report_signal = pyqtSignal()
 
-    def __init__(self, controller):
+    def __init__(self, controller: Any = None) -> None:
         super().__init__()
-        self.controller = controller
+        from core.di_container import DIContainer
+        from controllers.historial.controller import HistorialController
+        self.historial_controller = DIContainer.get_instance().resolve(HistorialController)
         self.current_mode = "iteraciones"
         main_layout = QHBoxLayout(self)
         main_layout.setContentsMargins(20, 20, 20, 20)
@@ -65,7 +72,7 @@ class HistorialWidget(QWidget):
         main_layout.addWidget(left_panel)
         main_layout.addWidget(right_panel, 1)
 
-    def _create_placeholder_page(self):
+    def _create_placeholder_page(self) -> None:
         placeholder_widget = QWidget()
         layout = QVBoxLayout(placeholder_widget)
         placeholder_label = QLabel("Seleccione un elemento de la lista para ver sus detalles.")
@@ -77,7 +84,7 @@ class HistorialWidget(QWidget):
         layout.addWidget(placeholder_label)
         self.details_stack.insertWidget(0, placeholder_widget)
 
-    def _create_details_page(self):
+    def _create_details_page(self) -> None:
         details_widget = QWidget()
         layout = QVBoxLayout(details_widget)
 
@@ -101,14 +108,14 @@ class HistorialWidget(QWidget):
 
         self.details_stack.insertWidget(1, details_widget)
 
-    def _create_chart_view(self, title):
+    def _create_chart_view(self, title: str) -> Any:
         chart = QChart()
         chart.setTitle(title)
         chart_view = QChartView(chart)
         chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
         return chart_view
 
-    def _on_mode_changed(self):
+    def _on_mode_changed(self) -> None:
         if self.iteraciones_radio.isChecked():
             self.current_mode = "iteraciones"
             self.filter_combo.clear()
@@ -122,16 +129,16 @@ class HistorialWidget(QWidget):
 
         self.mode_changed_signal.emit(self.current_mode)
 
-    def clear_view(self):
+    def clear_view(self) -> None:
         self.results_list.clear()
         self.clear_calendar_format()
         self.details_stack.setCurrentIndex(0)
 
-    def clear_calendar_format(self):
+    def clear_calendar_format(self) -> None:
         default_format = QTextCharFormat()
         self.calendar.setDateTextFormat(QDate(), default_format)
 
-    def highlight_calendar_dates(self, dates, color_hex):
+    def highlight_calendar_dates(self, dates: list[QDate], color_hex: str) -> None:
         date_format = QTextCharFormat()
         date_format.setBackground(QColor(color_hex))
         date_format.setForeground(QColor("white"))

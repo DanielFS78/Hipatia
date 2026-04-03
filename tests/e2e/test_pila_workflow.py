@@ -1,7 +1,10 @@
+"""Tests E2E para el flujo de gestión de pilas."""
 import pytest
 from datetime import datetime, timedelta
 
-@pytest.mark.e2e
+pytestmark = pytest.mark.e2e
+
+
 class TestPilaWorkflow:
     """
     End-to-End simulation of Pila management workflow.
@@ -73,7 +76,7 @@ class TestPilaWorkflow:
         
         # 4. Add Bitacora Entry
         print("Step 4: Bitacora Entry")
-        pila_repo.add_diario_entry(
+        pila_repo.add_diario_evento(
             pila_id, start.date(), 1, "Plan E2E", "Done E2E", "Notes"
         )
         _, entries = pila_repo.get_diario_bitacora(pila_id)

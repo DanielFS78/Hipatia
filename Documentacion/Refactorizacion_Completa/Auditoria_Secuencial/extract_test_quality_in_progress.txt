@@ -1,0 +1,2 @@
+✅ Backlog generado: /Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/Documentacion/Mejora_Calidad/backlog_tests_en_progreso.md
+✅ Skill generada:  /Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/.agents/skills/backlog_tests_en_progreso/SKILL.md

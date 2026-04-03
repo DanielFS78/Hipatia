@@ -1,3 +1,4 @@
+"""Tests para IterationRepository."""
 import pytest
 from unittest.mock import MagicMock, patch
 from datetime import datetime
@@ -5,17 +6,20 @@ from database.repositories.iteration_repository import IterationRepository
 from core.dtos import ProductIterationDTO, ProductIterationMaterialDTO
 from database.models import ProductIteration, Material
 
+pytestmark = pytest.mark.unit
+
+
 class TestIterationRepository:
 
     @pytest.fixture
     def mock_session(self):
-        return MagicMock()
+        return MagicMock(spec=["query", "add", "delete", "flush", "execute", "commit", "rollback", "close"])
 
     @pytest.fixture
     def repository(self, mock_session):
         repo = IterationRepository(session_factory=lambda: mock_session)
         # Mock the logger to avoid actual logging during tests
-        repo.logger = MagicMock()
+        repo.logger = MagicMock(spec=["info", "warning", "error", "exception", "critical", "debug"])
         return repo
 
     def test_get_all_iterations_with_dates_returns_dtos(self, repository, mock_session):
@@ -74,6 +78,7 @@ class TestIterationRepository:
         dto = results[0]
         assert isinstance(dto, ProductIterationDTO)
         assert dto.producto_codigo == "PROD002"
+        assert dto.materiales is not None
         assert len(dto.materiales) == 1
         mat_dto = dto.materiales[0]
         assert isinstance(mat_dto, ProductIterationMaterialDTO)
@@ -212,6 +217,29 @@ class TestIterationRepository:
         """Test el valor por defecto en caso de error global."""
         assert repository._get_default_error_value() == []
 
+    def test_get_product_iterations_by_id_or_similar_success(self, repository, mock_session):
+        mock_iter = MagicMock(spec=ProductIteration)
+        mock_iter.id = 5
+        mock_iter.producto_codigo = "PROD005"
+        mock_iter.descripcion_cambio = "Cambio 5"
+        mock_iter.fecha_creacion = datetime(2024, 1, 1, 10, 0)
+        mock_iter.nombre_responsable = "Tester"
+        mock_iter.tipo_fallo = "Leve"
+        mock_iter.ruta_imagen = "img5.png"
+        mock_iter.ruta_plano = "plano5.pdf"
+        mock_iter.materiales = []
+        mock_session.query.return_value.filter_by.return_value.options.return_value.first.return_value = mock_iter
+
+        dto = repository.get_product_iterations_by_id_or_similar(5)
+
+        assert dto is not None
+        assert dto.id == 5
+        assert dto.producto_codigo == "PROD005"
+
+    def test_get_product_iterations_by_id_or_similar_not_found(self, repository, mock_session):
+        mock_session.query.return_value.filter_by.return_value.options.return_value.first.return_value = None
+        assert repository.get_product_iterations_by_id_or_similar(999) is None
+
     def test_add_product_iteration_error(self, repository, mock_session):
         """Test error handling in add_product_iteration."""
         mock_session.add.side_effect = Exception("Database Error")
@@ -246,3 +274,21 @@ class TestIterationRepository:
         mock_session.query.return_value.filter_by.return_value.first.return_value = None
         result = repository.update_iteration_file_path(999, "ruta_imagen", "path.jpg")
         assert result is False
+
+    def test_add_image_success(self, repository, mock_session):
+        result = repository.add_image(10, "/tmp/a.png", "desc")
+        assert result is True
+        assert mock_session.execute.call_count == 1
+
+    def test_get_images_success(self, repository, mock_session):
+        row = (1, "/tmp/a.png", "desc", datetime(2024, 1, 2, 11, 0))
+        mock_session.execute.return_value.fetchall.return_value = [row]
+        results = repository.get_images(10)
+        assert len(results) == 1
+        assert results[0].id == 1
+        assert results[0].image_path == "/tmp/a.png"
+
+    def test_delete_image_success(self, repository, mock_session):
+        result = repository.delete_image(2)
+        assert result is True
+        assert mock_session.execute.call_count == 1

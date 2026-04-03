@@ -22,7 +22,7 @@ from io import BytesIO
 from PIL import Image
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import QByteArray
-from typing import Optional, Tuple, List
+from typing import Optional, Tuple, List, Any
 from datetime import datetime
 import hashlib
 import uuid
@@ -43,9 +43,9 @@ class QrGenerator:
     def __init__(
         self,
         qr_version: int = 1,
-        error_correction=qrcode.constants.ERROR_CORRECT_H,
-            box_size: int = 4,  # Reducido de 10
-            border: int = 2  # Reducido de 4
+        error_correction: int = qrcode.constants.ERROR_CORRECT_M, # M es mejor para QRs muy pequeños
+            box_size: int = 4,
+            border: int = 1  # Mínimo estándar para ahorrar espacio
     ):
         """
         Inicializa el generador de QR.
@@ -293,8 +293,9 @@ def generate_production_qr_id(
 if __name__ == "__main__":
     # Configurar logging para el ejemplo
     logging.basicConfig(level=logging.INFO)
+    logger_main = logging.getLogger("EvolucionTiemposApp.QrGenerator.Example")
 
-    print("=== EJEMPLO DE USO: QrGenerator ===\n")
+    logger_main.info("=== EJEMPLO DE USO: QrGenerator ===\n")
 
     # Crear generador
     generator = QrGenerator()
@@ -305,28 +306,28 @@ if __name__ == "__main__":
         producto_codigo="PROD001",
         unit_number=1
     )
-    print(f"1. ID único generado: {unique_id}\n")
+    logger_main.info(f"1. ID único generado: {unique_id}\n")
 
     # 2. Generar QR y guardar
-    print("2. Generando código QR...")
+    logger_main.info("2. Generando código QR...")
     success = generator.save_qr_to_file(
         data=unique_id,
         filepath="ejemplo_qr.png",
         size=(400, 400)
     )
-    print(f"   Guardado: {'✓' if success else '✗'}\n")
+    logger_main.info(f"   Guardado: {'✓' if success else '✗'}\n")
 
     # 3. Generar QR en lote
-    print("3. Generando lote de 5 QRs...")
+    logger_main.info("3. Generando lote de 5 QRs...")
     batch = generator.generate_batch_qr_codes(
         base_data="FAB123-PROD001",
         count=5,
         size=(200, 200)
     )
-    print(f"   Generados: {len(batch)} códigos QR\n")
+    logger_main.info(f"   Generados: {len(batch)} códigos QR\n")
 
     # Mostrar los datos generados
     for i, (data, img) in enumerate(batch, 1):
-        print(f"   QR {i}: {data}")
+        logger_main.info(f"   QR {i}: {data}")
 
-    print("\n=== FIN DEL EJEMPLO ===")
+    logger_main.info("\n=== FIN DEL EJEMPLO ===")

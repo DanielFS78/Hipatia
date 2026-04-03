@@ -1,15 +1,13 @@
 """
-Tests de Integración para ui/dialogs.py - Fase 3.7
-===================================================
-Tests que verifican la interacción entre diálogos y otros componentes
-usando mocks extensivos para evitar problemas con Qt/GUI.
-
-Siguiendo la metodología de Fase 2.
+Tests de Integración para ui/dialogs.py - Fase 3.7.
+Verifican la interacción entre diálogos y otros componentes con mocks extensivos.
 """
-
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 from datetime import date
+from typing import Any
+
+pytestmark = pytest.mark.integration
 
 
 # =============================================================================
@@ -21,19 +19,25 @@ def integration_controller():
     """
     Controlador con mocks configurados para simular respuestas reales.
     """
-    controller = MagicMock()
+    controller = MagicMock(spec=["model"])
     
     # Configurar el modelo con datos de ejemplo
-    controller.model = MagicMock()
+    controller.model = MagicMock(spec=[
+        "get_all_machines",
+        "get_machines_by_process_type",
+        "get_all_workers",
+        "get_all_preprocesos",
+        "get_materials_for_product",
+    ])
     
     # Máquinas
-    mock_machine_1 = MagicMock()
+    mock_machine_1 = MagicMock(spec=["id", "nombre", "tipo_proceso", "activo"])
     mock_machine_1.id = 1
     mock_machine_1.nombre = "CNC Principal"
     mock_machine_1.tipo_proceso = "CNC"
     mock_machine_1.activo = True
     
-    mock_machine_2 = MagicMock()
+    mock_machine_2 = MagicMock(spec=["id", "nombre", "tipo_proceso", "activo"])
     mock_machine_2.id = 2
     mock_machine_2.nombre = "Torno Manual"
     mock_machine_2.tipo_proceso = "Torno"
@@ -43,7 +47,7 @@ def integration_controller():
     controller.model.get_machines_by_process_type.return_value = [mock_machine_1]
     
     # Trabajadores
-    mock_worker_1 = MagicMock()
+    mock_worker_1 = MagicMock(spec=["id", "nombre_completo", "activo"])
     mock_worker_1.id = 1
     mock_worker_1.nombre_completo = "Juan García"
     mock_worker_1.activo = True
@@ -51,7 +55,7 @@ def integration_controller():
     controller.model.get_all_workers.return_value = [mock_worker_1]
     
     # Preprocesos
-    mock_preproceso = MagicMock()
+    mock_preproceso = MagicMock(spec=["id", "nombre", "descripcion", "tiempo"])
     mock_preproceso.id = 1
     mock_preproceso.nombre = "Preproceso Test"
     mock_preproceso.descripcion = "Descripción"
@@ -123,7 +127,7 @@ class TestFabricacionIntegration:
         initial_assigned = [preprocesos[0].id]
         
         # Simular cambio (quitar preproceso)
-        updated_assigned = []
+        updated_assigned: list[int] = []
 
         assert len(initial_assigned) == 1
         assert len(updated_assigned) == 0
@@ -189,13 +193,13 @@ class TestSequentialGroupsIntegration:
         workers = integration_controller.model.get_all_workers()
         worker_names = [w.nombre_completo for w in workers]
 
-        tasks = [
+        tasks: list[dict[str, Any]] = [
             {"task": {"name": "T1", "duration": 5}},
             {"task": {"name": "T2", "duration": 10}},
             {"task": {"name": "T3", "duration": 15}}
         ]
 
-        group = {
+        group: dict[str, Any] = {
             "type": "sequential_group",
             "tasks": tasks,
             "assigned_workers": worker_names,
@@ -208,15 +212,15 @@ class TestSequentialGroupsIntegration:
 
     def test_group_calculates_total_time(self, integration_controller):
         """Grupos deben calcular tiempo total correctamente."""
-        tasks = [
+        tasks: list[dict[str, Any]] = [
             {"task": {"name": "T1", "duration": 5.0}},
             {"task": {"name": "T2", "duration": 10.0}},
             {"task": {"name": "T3", "duration": 15.0}}
         ]
 
-        total_time = sum(t["task"]["duration"] for t in tasks)
+        total_time = sum(float(t["task"]["duration"]) for t in tasks)
 
-        group = {
+        group: dict[str, Any] = {
             "type": "sequential_group",
             "tasks": tasks,
             "group_metadata": {
@@ -270,15 +274,13 @@ class TestProductMaterialsIntegration:
 
     def test_product_loads_materials(self, integration_controller):
         """Producto debe cargar sus materiales."""
-        mock_material = MagicMock()
+        mock_material = MagicMock(spec=["id", "codigo", "descripcion", "cantidad"])
         mock_material.id = 1
         mock_material.codigo = "MAT-001"
         mock_material.descripcion = "Material Test"
         mock_material.cantidad = 5
 
-        integration_controller.model.get_materials_for_product = MagicMock(
-            return_value=[mock_material]
-        )
+        integration_controller.model.get_materials_for_product.return_value = [mock_material]
 
         materials = integration_controller.model.get_materials_for_product("PROD-001")
 
@@ -287,9 +289,7 @@ class TestProductMaterialsIntegration:
 
     def test_product_without_materials(self, integration_controller):
         """Producto sin materiales debe retornar lista vacía."""
-        integration_controller.model.get_materials_for_product = MagicMock(
-            return_value=[]
-        )
+        integration_controller.model.get_materials_for_product.return_value = []
 
         materials = integration_controller.model.get_materials_for_product("PROD-EMPTY")
 
@@ -306,7 +306,7 @@ class TestCycleConfigurationIntegration:
 
     def test_cycle_configuration_applies_to_task(self):
         """Configuración de ciclo debe aplicarse a la tarea."""
-        canvas_tasks = [
+        canvas_tasks: list[dict[str, Any]] = [
             {
                 "task": {"name": "Inicio"},
                 "config": {"is_cycle_start": True}
@@ -356,7 +356,7 @@ class TestReassignmentRulesIntegration:
         workers = integration_controller.model.get_all_workers()
         worker_name = workers[0].nombre_completo
 
-        canvas_tasks = [
+        canvas_tasks: list[dict[str, Any]] = [
             {"task": {"name": "Tarea A"}, "assigned_workers": [worker_name]},
             {"task": {"name": "Tarea B"}, "assigned_workers": []}
         ]

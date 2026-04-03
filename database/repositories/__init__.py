@@ -8,16 +8,16 @@ y expone las clases de repositorio para facilitar su importación.
 from .base import BaseRepository
 from .product_repository import ProductRepository
 from .configuration_repository import ConfigurationRepository
-from .worker_repository import WorkerRepository
-from .machine_repository import MachineRepository
-from .pila_repository import PilaRepository
+from .worker import WorkerRepository
+from .machine import MachineRepository
+from .pila import PilaRepository
 from .material_repository import MaterialRepository
 from .iteration_repository import IterationRepository
-from .preproceso_repository import PreprocesoRepository
+from .preproceso import PreprocesoRepository
 from .lote_repository import LoteRepository
 from .tracking_repository import TrackingRepository
 from .label_counter_repository import LabelCounterRepository
-from .reports_repository import ReportsRepository
+from .reports import ReportsRepository
 # Opcional: Define qué se importa con 'from .repositories import *'
 __all__ = [
     'BaseRepository',

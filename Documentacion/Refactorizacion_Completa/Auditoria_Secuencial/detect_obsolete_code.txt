@@ -1,0 +1,16 @@
+Analyzing project definition at: /Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion
+Found 662 Python files.
+Found 864 classes and 3634 public functions.
+\n--- Deprecated/Obsolete Code Markers ---
+\nFile: scripts/legacy_analyzer.py
+  - Line 110: """Busca líneas con marcadores @deprecated, TODO: Remove, DEPRECATED."""
+  - Line 123: if "@deprecated" in lower or "todo: remove" in lower:
+  - Line 387: "## 4. Marcadores @deprecated / TODO: Remove",
+\nFile: scripts/analysis/detect_obsolete_code.py
+  - Line 72: """Busca decoradores de deprecación y comentarios TODO: Remove."""
+  - Line 79: if "@deprecated" in line or "TODO: Remove" in line or "DEPRECATED" in line:
+  - Line 118: print("No explicit @deprecated or 'TODO: Remove' markers found.")
+\n--- Potential Cleanup Candidates (File Naming) ---
+  - ui/dialogs/effects/mixed_gold_green.py
+  - ui/dialogs/effects/golden_glow.py
+  - core/services/temporal_storage.py

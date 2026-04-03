@@ -1,9 +1,20 @@
 
+"""
+Script ejecutable (`generate_quotes_db`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+"""
+
 import json
 import os
-import requests
 import logging
 import random
+import urllib.request
+
+
+"""Genera una base de datos local de frases (quotes) en `resources/quotes.json`.
+
+El script intenta descargar quotes desde una(s) URL(s) remotas y, si falla,
+recupera un backup local embebido.
+"""
 
 # Configuración de logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -12,7 +23,7 @@ logger = logging.getLogger(__name__)
 OUTPUT_FILE = "resources/quotes.json"
 
 # Fuentes de frases en JSON (Raw URLs) - EN ESPAÑOL
-SOURCES = [
+SOURCES: list[dict[str, str]] = [
     {
         "url": "https://gist.githubusercontent.com/amr89-dev/3e3af34adb75ad2b2d6d4fe0a4dc2e61/raw/quotes_es.json",
         "key_quote": "quote",
@@ -21,7 +32,7 @@ SOURCES = [
 ]
 
 # Frases de respaldo por si fallan las descargas (Seed data)
-BACKUP_QUOTES = [
+BACKUP_QUOTES: list[dict[str, str]] = [
     {"quote": "La vida es aquello que te va sucediendo mientras te empeñas en hacer otros planes.", "author": "John Lennon"},
     {"quote": "El único modo de hacer un gran trabajo es amar lo que haces.", "author": "Steve Jobs"},
     {"quote": "No cuentes los días, haz que los días cuenten.", "author": "Muhammad Ali"},
@@ -29,40 +40,41 @@ BACKUP_QUOTES = [
     {"quote": "La creatividad es la inteligencia divirtiéndose.", "author": "Albert Einstein"}
 ]
 
-def fetch_quotes():
-    """
-    Descarga frases de múltiples fuentes JSON.
-    """
-    all_quotes = []
+def fetch_quotes() -> list[dict[str, str]]:
+    """Descarga frases de múltiples fuentes JSON."""
+    all_quotes: list[dict[str, str]] = []
     
     for source in SOURCES:
+        url: str = source["url"]
+        key_quote: str = source["key_quote"]
+        key_author: str = source["key_author"]
         try:
-            logger.info(f"Descargando de: {source['url']}...")
-            response = requests.get(source['url'], timeout=10)
-            
-            if response.status_code == 200:
-                data = response.json()
+            logger.info(f"Descargando de: {url}...")
+            with urllib.request.urlopen(url, timeout=10) as response:
+                raw = response.read()
+
+            parsed = json.loads(raw.decode("utf-8"))
+            if isinstance(parsed, list):
                 count = 0
-                for item in data:
-                    q = item.get(source['key_quote'])
-                    a = item.get(source['key_author'])
-                    
-                    if q and a:
+                for item in parsed:
+                    if not isinstance(item, dict):
+                        continue
+                    q = item.get(key_quote)
+                    a = item.get(key_author)
+                    if isinstance(q, str) and isinstance(a, str):
                         all_quotes.append({"quote": q, "author": a})
                         count += 1
                 logger.info(f"Importadas {count} frases.")
             else:
-                logger.warning(f"Error {response.status_code} descargando {source['url']}")
+                logger.warning(f"Respuesta inesperada descargando {url}: no es una lista JSON.")
                 
         except Exception as e:
-            logger.error(f"Error procesando {source['url']}: {e}")
+            logger.error(f"Error procesando {url}: {e}")
 
     return all_quotes
 
-def generate_database():
-    """
-    Función principal para generar la base de datos.
-    """
+def generate_database() -> None:
+    """Genera el fichero JSON final con las frases."""
     logger.info("Iniciando generación de base de datos de frases...")
     
     quotes = fetch_quotes()
@@ -75,7 +87,7 @@ def generate_database():
         quotes.extend(BACKUP_QUOTES)
 
     # Eliminar duplicados básicos
-    unique_quotes = {q['quote']: q for q in quotes}.values()
+    unique_quotes = {q["quote"]: q for q in quotes}.values()
     final_list = list(unique_quotes)
     
     # Mezclar

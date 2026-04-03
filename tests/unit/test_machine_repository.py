@@ -1,16 +1,15 @@
+# -*- coding: utf-8 -*-
 # tests/unit/test_machine_repository.py
 """
 Tests unitarios completos para MachineRepository.
 Cubren gestión de máquinas, mantenimiento y la lógica crítica de grupos de preparación.
-
-Autor: Sistema de Tests Migración SQLAlchemy
-Fecha: 25/12/2025
 """
-
 import pytest
 from unittest.mock import MagicMock
 from datetime import date
 from database.models import Maquina, GrupoPreparacion, PreparacionPaso, Subfabricacion, Producto
+
+pytestmark = pytest.mark.unit
 
 # ==============================================================================
 # FIXTURES ESPECÍFICOS
@@ -24,7 +23,7 @@ def session_no_close(session):
     reutilizan la misma sesión en memoria.
     """
     original_close = session.close
-    session.close = MagicMock() # Mockear close para que no haga nada
+    session.close = lambda: None
     yield session
     # Restaurar para limpieza final si fuera necesario (aunque el fixture session hace teardown)
     session.close = original_close
@@ -682,7 +681,7 @@ class TestMachineRepositoryCoverage:
         from sqlalchemy.exc import IntegrityError
         
         # Necesitamos un mock de session muy específico
-        mock_session = MagicMock()
+        mock_session = MagicMock(spec=["query", "add", "flush", "commit", "rollback", "close"])
         
         # 1. Configurar query inicial para devolver None (simulando que no existe al principio)
         # Y el query de recuperación para devolver un objeto (simulando que apareció)
@@ -694,7 +693,7 @@ class TestMachineRepositoryCoverage:
         # Tercera llamada (log/check) -> existing_machine 
         
         # Mockeamos el objeto Query devuelto por session.query(Maquina)
-        mock_query = MagicMock()
+        mock_query = MagicMock(spec=["filter_by", "first"])
         mock_session.query.return_value = mock_query
         
         # Configurar filter_by para devolverse a sí mismo (para encadenar)
@@ -704,7 +703,7 @@ class TestMachineRepositoryCoverage:
         mock_query.first.side_effect = [None, existing_machine, existing_machine]
         
         # Configurar flush para lanzar IntegrityError
-        mock_session.flush.side_effect = IntegrityError("Mock", "params", "orig")
+        mock_session.flush.side_effect = IntegrityError("Mock", "params", Exception("orig"))
         
         # Inyectar el mock session en el factory
         machine_repo_test.session_factory = lambda: mock_session
@@ -719,7 +718,8 @@ class TestMachineRepositoryCoverage:
         # Assert
         assert result == True
         # Verificar que se llamó a rollback
-        mock_session.rollback.assert_called_once()
+        assert mock_session.rollback.call_count == 1
+        mock_session.rollback.assert_called_once_with()
 
     def test_add_machine_integrity_error_unknown(self, machine_repo_test, session_no_close):
         """
@@ -728,9 +728,9 @@ class TestMachineRepositoryCoverage:
         """
         from sqlalchemy.exc import IntegrityError
         
-        mock_session = MagicMock()
+        mock_session = MagicMock(spec=["query", "add", "flush", "commit", "rollback", "close"])
         
-        mock_query = MagicMock()
+        mock_query = MagicMock(spec=["filter_by", "first"])
         mock_session.query.return_value = mock_query
         mock_query.filter_by.return_value = mock_query
         
@@ -738,7 +738,7 @@ class TestMachineRepositoryCoverage:
         mock_query.first.return_value = None
         
         # flush falla
-        mock_session.flush.side_effect = IntegrityError("Mock", "params", "orig")
+        mock_session.flush.side_effect = IntegrityError("Mock", "params", Exception("orig"))
         
         machine_repo_test.session_factory = lambda: mock_session
         
@@ -749,7 +749,8 @@ class TestMachineRepositoryCoverage:
         )
         
         assert result == "UNIQUE_CONSTRAINT"
-        mock_session.rollback.assert_called_once()
+        assert mock_session.rollback.call_count == 1
+        mock_session.rollback.assert_called_once_with()
 
     # ==============================================================================
     # TESTS PARA COBERTURA 100% Y BASE REPOSITORY
@@ -791,23 +792,25 @@ class TestMachineRepositoryCoverage:
     def test_safe_execute_sqlalchemy_error(self, machine_repo_test):
         """Cubre el bloque de SQLAlchemyError en BaseRepository."""
         from sqlalchemy.exc import SQLAlchemyError
-        mock_session = MagicMock()
+        mock_session = MagicMock(spec=["query", "rollback", "close"])
         mock_session.query.side_effect = SQLAlchemyError("Mocked SA Error")
         machine_repo_test.session_factory = lambda: mock_session
         
         result = machine_repo_test.get_all_machines()
         assert result == []
-        mock_session.rollback.assert_called_once()
+        assert mock_session.rollback.call_count == 1
+        mock_session.rollback.assert_called_once_with()
 
     def test_safe_execute_generic_exception(self, machine_repo_test):
         """Cubre el bloque de Exception genérica en BaseRepository."""
-        mock_session = MagicMock()
+        mock_session = MagicMock(spec=["query", "rollback", "close"])
         mock_session.query.side_effect = Exception("Simulated crash")
         machine_repo_test.session_factory = lambda: mock_session
         
         result = machine_repo_test.get_all_machines()
         assert result == []
-        mock_session.rollback.assert_called_once()
+        assert mock_session.rollback.call_count == 1
+        mock_session.rollback.assert_called_once_with()
 
     def test_safe_execute_expunge(self, machine_repo_test, session):
         """Cubre el borrado de objetos de la sesión (expunge) en base.py."""

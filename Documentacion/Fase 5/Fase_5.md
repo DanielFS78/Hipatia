@@ -1,5 +1,50 @@
 # Fase 5: Módulo de Reportes de Producción
 
+## Estado actualizado (Abr 2026)
+
+> [!IMPORTANT]
+> Este documento contiene secciones históricas del diseño original.  
+> El estado vigente de implementación es el descrito en este bloque y en `Fase_5_Walkthrough.md`.
+
+### Estado general
+
+- Estado funcional: **implementado y estabilizado**
+- Capa de datos vigente: `database/repositories/reports/` con fachada `repository.py` + managers especializados:
+  - `reports_search_manager.py`
+  - `reports_orders_manager.py`
+  - `reports_stats_manager.py`
+  - `reports_incidences_manager.py`
+  - `reports_products_manager.py`
+- Capa de servicio: `core/services/report_service.py`
+- Fachada de aplicación: `core/app_model.py` (métodos `get_*` de reportes + `get_product_reports_dashboard()`)
+- UI vigente:
+  - `ui/widgets/reportes_widget.py`
+  - `ui/widgets/reports/smart_search.py`
+  - `ui/widgets/reports/order_list.py`
+  - `ui/widgets/reports/charts_container.py`
+
+### Ajustes de optimización aplicados en esta fase
+
+1. **Wiring estable UI→Modelo**
+   - `ReportesWidget` resuelve un contrato estable de reportes (`AppModel` o adaptador con `.model`) y elimina rutas frágiles.
+   - Se completa el flujo de selección de orden con carga de detalle/unidades y selección visual en lista.
+
+2. **Optimización backend**
+   - `reports_stats_manager.py`: cálculo de desviación estándar sin cargar todas las duraciones en memoria.
+   - `reports_search_manager.py`: límites seguros, normalización de query y ordenación determinista por última actividad.
+   - `repository.py` + `report_service.py` + `app_model.py`: nuevo método agregado `get_product_reports_dashboard()` para contrato único de dashboard.
+
+3. **Optimización UI**
+   - `OrderListWidget`: selección visual explícita de orden (`select_order`).
+   - `ReportsChartsWidget`: reutilización de tabs/charts y placeholders robustos.
+   - `SmartSearchWidget`: evita búsquedas redundantes con la misma query.
+
+### Criterios de cierre técnicos
+
+- Tests de reportes (unit + integración UI/backend) en verde.
+- `mypy` focalizado de módulos de reportes en verde.
+- Documentación de Fase 5 sincronizada con la arquitectura actual.
+
 **Fecha de Creación:** 30 de Diciembre de 2025  
 **Objetivo Principal:** Implementar un módulo completo de reportes de producción que permita visualizar, analizar y explorar los datos de fabricación recopilados mediante el sistema de trazabilidad QR.
 

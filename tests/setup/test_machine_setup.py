@@ -1,4 +1,4 @@
-
+"""Tests de setup para el esquema de máquinas en la base de datos."""
 import pytest
 from sqlalchemy import inspect
 from database.models import Maquina, MachineMaintenanc, GrupoPreparacion

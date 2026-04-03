@@ -1,6 +1,11 @@
+"""Tests E2E para el flujo de preprocesos y fabricaciones."""
 import pytest
 
-@pytest.mark.e2e
+pytestmark = pytest.mark.e2e
+
+from core.dtos import PreprocesoDTO, FabricacionDTO
+
+
 class TestPreprocesoWorkflow:
     """Tests End-to-End para el flujo de trabajo de Preprocesos y Fabricaciones."""
 
@@ -22,13 +27,14 @@ class TestPreprocesoWorkflow:
         
         # 2. Crear Preproceso
         repo = repos["preproceso"]
-        prep_data = {
-            "nombre": "Preproceso E2E",
-            "descripcion": "Descripción E2E",
-            "tiempo": 50.0,
-            "componentes_ids": [m.id]
-        }
-        assert repo.create_preproceso(prep_data) is True
+        prep_dto = PreprocesoDTO(
+            id=0,
+            nombre="Preproceso E2E",
+            descripcion="Descripción E2E",
+            tiempo=50.0,
+            componentes_ids=[m.id]
+        )
+        assert repo.create_preproceso(prep_dto) is True
         
         # Obtener ID del preproceso creado (necesario para el siguiente paso)
         # En una app real lo tendríamos del retorno o de una búsqueda
@@ -37,12 +43,13 @@ class TestPreprocesoWorkflow:
         prep_id = preproceso.id
         
         # 3. Crear Fabricación
-        fab_data = {
-            "codigo": "FAB-E2E-001",
-            "descripcion": "Fabricación End-to-End",
-            "preprocesos_ids": [prep_id]
-        }
-        assert repo.create_fabricacion_with_preprocesos(fab_data) is True
+        fab_dto = FabricacionDTO(
+            id=0,
+            codigo="FAB-E2E-001",
+            descripcion="Fabricación End-to-End",
+            preprocesos_ids=[prep_id]
+        )
+        assert repo.create_fabricacion_with_preprocesos(fab_dto) is True
         
         # 4. Añadir productos a la fabricación
         # Primero crear el producto para satisfacer la FK

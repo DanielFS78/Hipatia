@@ -1,6 +1,15 @@
+# -*- coding: utf-8 -*-
+"""Tests de integración de AppModel con BD en memoria.
+
+Cubre ciclo de vida de producto, asignación de tarea a trabajador,
+gestión de máquinas y persistencia de pilas.
+"""
 import pytest
 from app import AppModel
 from core.dtos import ProductDTO
+
+pytestmark = pytest.mark.integration
+
 
 @pytest.fixture
 def integrated_app_model(in_memory_db_manager):
@@ -26,13 +35,13 @@ class TestAppModelIntegration:
         
         # 2. Leer producto
         details = integrated_app_model.get_product_details("P-INTEG-01")
-        assert details[0].codigo == "P-INTEG-01"
-        assert details[0].tiempo_optimo == 60.0
+        assert details.producto.codigo == "P-INTEG-01"
+        assert details.producto.tiempo_optimo == 60.0
         
         # 3. Calcular datos (lógica de negocio importante)
         calc_data = integrated_app_model.get_data_for_calculation("P-INTEG-01")
         assert len(calc_data) == 1
-        assert calc_data[0]["tiempo_optimo"] == 60.0
+        assert calc_data[0].tiempo_optimo == 60.0
         
         # 4. Eliminar producto
         success = integrated_app_model.delete_product("P-INTEG-01")
@@ -40,13 +49,15 @@ class TestAppModelIntegration:
         
         # 5. Verificar eliminación
         details_deleted = integrated_app_model.get_product_details("P-INTEG-01")
-        assert details_deleted == (None, [], [])
+        assert details_deleted.producto is None
+        assert details_deleted.subfabricaciones == []
+        assert details_deleted.procesos_mecanicos == []
 
     def test_assign_task_to_worker_flow(self, integrated_app_model, in_memory_db_manager):
         """Test de flujo complejo: Asignar tarea a trabajador."""
         # Setup: Crear Trabajador y Producto
-        in_memory_db_manager.worker_repo.add_worker("Worker Test", "Notes", 1)
-        workers = in_memory_db_manager.worker_repo.get_all_workers()
+        in_memory_db_manager.add_worker("Worker Test", "Notes", 1)
+        workers = in_memory_db_manager.get_all_workers()
         worker_id = workers[0].id
         
         prod_data = {
@@ -76,7 +87,7 @@ class TestAppModelIntegration:
         assert "OF: OF-123" in fabs[0].descripcion
         
         # Verifica link con tracking
-        tasks_worker = integrated_app_model.db.tracking_repo.get_fabricaciones_por_trabajador(worker_id)
+        tasks_worker = integrated_app_model.get_fabricaciones_por_trabajador(worker_id)
         assert len(tasks_worker) == 1
         assert tasks_worker[0].codigo == fabs[0].codigo
 
@@ -135,10 +146,10 @@ class TestAppModelIntegration:
         # Cargar detalles
         loaded = integrated_app_model.load_pila(result_id)
         # Retorna: (metadata, pila_de_calculo, production_flow, simulation_results)
-        assert loaded[0]["nombre"] == "Pila Test 1"
+        assert loaded[0].nombre == "Pila Test 1"
         assert loaded[1] == pila_calc
         # production_flow (loaded[2]) se modifica al guardar (IDs únicos), difícil comparar directo
         assert len(loaded[2]) == 1
         assert loaded[2][0]["task"] == "T1"
-        assert loaded[0]["producto_origen"] == "PROD-ORIGEN" # Metadata contains prod orig
+        assert loaded[0].producto_origen_codigo == "PROD-ORIGEN" # Metadata contains prod orig
         assert loaded[3] == results

@@ -7,6 +7,9 @@ completos por integración.
 """
 import pytest
 from unittest.mock import MagicMock, patch, ANY
+
+from core.facades.product_facade import ProductFacade
+from core.facades.planning_facade import PlanningFacade
 from controllers.worker.controller import WorkerController
 from core.security.password_service import PasswordService
 from core.dtos import WorkerFormDataDTO
@@ -21,8 +24,20 @@ def mock_app_integration():
     app.session_controller = MagicMock(spec=["current_user", "audit_logger"])
     app.session_controller.current_user = MagicMock(id=1, username="admin_audit", role="Responsable")
     app.session_controller.audit_logger = MagicMock(spec=["log"])
-    app.model = MagicMock(spec=["product_service", "worker_service", "fabricacion_service", "material_service"])
+    app.model = MagicMock(
+        spec=[
+            "product_service",
+            "product_facade",
+            "planning_facade",
+            "worker_service",
+            "fabricacion_service",
+            "material_service",
+        ]
+    )
     app.model.product_service = MagicMock(spec=["add_product", "get_product_by_code"])
+    app.model.pila_service = MagicMock(spec=["get_data_for_calculation", "get_data_for_calculation_from_session"])
+    app.model.product_facade = ProductFacade(app.model.product_service)
+    app.model.planning_facade = PlanningFacade(app.model.pila_service)
     app.model.worker_service = MagicMock(spec=["add_worker"])
     app.model.fabricacion_service = MagicMock(spec=[])
     app.model.material_service = MagicMock(spec=[])

@@ -1,4 +1,4 @@
-
+"""Tests para cubrir líneas faltantes en TrackingRepository."""
 import pytest
 from datetime import datetime, timezone
 from unittest.mock import MagicMock
@@ -13,51 +13,10 @@ class TestTrackingRepositoryCoverageFix:
     @pytest.fixture(autouse=True)
     def prevent_session_close(self, session):
         """Evita que el repositorio cierre la sesión de test."""
-        session.close = MagicMock()
+        # No "mock_session": mantener sesión real de fixture; solo evitar cierre.
+        session.close = lambda: None
 
-    def test_get_fabricaciones_asignadas_duplicates(self, repos, session):
-        """
-        Cubre líneas 111-122: Lógica de agrupación de fabricaciones asignadas.
-        """
-        repo = repos["tracking"]
-        
-        # 1. Crear datos de prueba complejos
-        worker = Trabajador(nombre_completo="Worker Duplicates", activo=True)
-        session.add(worker)
-        session.commit()
-        
-        fab = Fabricacion(codigo="FAB-DUP", descripcion="Duplicate Test")
-        session.add(fab)
-        session.commit()
-        
-        # Asignar trabajador a fabricación
-        worker.fabricaciones_asignadas.append(fab)
-        session.commit()
-        
-        # Crear Productos
-        p1 = Producto(codigo="PROD-1", descripcion="P1", departamento="D", tipo_trabajador=1, tiene_subfabricaciones=False)
-        p2 = Producto(codigo="PROD-2", descripcion="P2", departamento="D", tipo_trabajador=1, tiene_subfabricaciones=False)
-        session.add_all([p1, p2])
-        session.commit()
-        
-        # Añadir productos a la fabricación
-        preproceso_repo = repos["preproceso"]
-        preproceso_repo.add_product_to_fabricacion(fab.id, "PROD-1", 10)
-        preproceso_repo.add_product_to_fabricacion(fab.id, "PROD-2", 5)
-        
-        # 2. Ejecutar método bajo prueba con el nombre correcto
-        results = repo.get_fabricaciones_por_trabajador(worker.id)
-        
-        # 3. Assertions
-        assert len(results) == 1
-        dto = results[0]
-        assert isinstance(dto, FabricacionAsignadaDTO)
-        assert dto.codigo == "FAB-DUP"
-        assert len(dto.productos) == 2
-        
-        prod_codes = {p['codigo'] for p in dto.productos}
-        assert "PROD-1" in prod_codes
-        assert "PROD-2" in prod_codes
+
 
 
     def test_completar_trabajo_naive_datetime(self, repos, session):

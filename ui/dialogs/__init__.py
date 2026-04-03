@@ -9,13 +9,13 @@ Refactorización Phase 3 Extended completada: Todas las clases han sido extraíd
 
 # Importar desde módulos ya extraídos
 from .canvas_widgets import CanvasWidget, CardWidget
-from .visual_effects import (
+from .effects import (
     GoldenGlowEffect, GreenCycleEffect, MixedGoldGreenEffect,
     ProcessingGlowEffect, SimulationProgressEffect
 )
 
 # Importar desde nuevos módulos refactorizados
-from .production_flow_dialogs import (
+from .production_flow import (
     DefineProductionFlowDialog,
     EnhancedProductionFlowDialog,
     CycleEndConfigDialog,
@@ -23,21 +23,25 @@ from .production_flow_dialogs import (
     DefinirCantidadesDialog
 )
 
-from .fabrication_dialogs import (
-    CreateFabricacionDialog,
+from .fabrication.create_dialog import CreateFabricacionDialog
+from .fabrication.selection_dialogs import (
     PreprocesosSelectionDialog,
-    PreprocesosForCalculationDialog,
-    AssignPreprocesosDialog,
-    FabricacionBitacoraDialog,
+    PreprocesosForCalculationDialog
+)
+from .fabrication.assignment_dialogs import AssignPreprocesosDialog
+from .fabrication.bitacora_dialog import FabricacionBitacoraDialog
+from .fabrication.input_dialogs import (
     GetLoteInstanceParametersDialog,
     GetOptimizationParametersDialog,
-    GetUnitsDialog,
-    SavePilaDialog,
-    LoadPilaDialog,
-    ProductsSelectionDialog
+    GetUnitsDialog
 )
+from .fabrication.persistence_dialogs import (
+    SavePilaDialog,
+    LoadPilaDialog
+)
+from .fabrication.products_dialog import ProductsSelectionDialog
 
-from .product_dialogs import (
+from .product import (
     ProductDetailsDialog,
     AddIterationDialog,
     SubfabricacionesDialog,
@@ -45,7 +49,7 @@ from .product_dialogs import (
     AddProcesoMecanicoDialog
 )
 
-from .prep_dialogs_v2 import (
+from .prep import (
     PrepStepsDialog,
     PrepGroupsDialog,
     PreprocesoDialog

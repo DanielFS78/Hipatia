@@ -1,0 +1,5736 @@
+{
+  "summary": {
+    "total_source_files": 243,
+    "total_test_files": 181,
+    "total_source_loc": 45750,
+    "total_functions": 1889,
+    "total_classes": 283,
+    "typing_coverage": {
+      "typed": 834,
+      "untyped": 1055,
+      "percentage": 44.15
+    },
+    "total_print_statements": 457,
+    "total_bare_excepts": 9,
+    "total_broad_excepts": 14,
+    "total_todo_fixme": 25,
+    "total_type_ignore": 9
+  },
+  "architecture": {
+    "monolithic_files": [
+      {
+        "file": "core/simulation/simulation_events.py",
+        "loc": 1013,
+        "functions": 7,
+        "classes": 5
+      },
+      {
+        "file": "core/label_manager.py",
+        "loc": 801,
+        "functions": 16,
+        "classes": 1
+      },
+      {
+        "file": "core/services/report_sheets.py",
+        "loc": 770,
+        "functions": 9,
+        "classes": 6
+      },
+      {
+        "file": "core/qr_scanner.py",
+        "loc": 755,
+        "functions": 19,
+        "classes": 2
+      },
+      {
+        "file": "core/camera_manager.py",
+        "loc": 665,
+        "functions": 16,
+        "classes": 3
+      },
+      {
+        "file": "database/repositories/machine_repository.py",
+        "loc": 651,
+        "functions": 40,
+        "classes": 1
+      },
+      {
+        "file": "database/repositories/reports_repository.py",
+        "loc": 643,
+        "functions": 19,
+        "classes": 1
+      },
+      {
+        "file": "database/models.py",
+        "loc": 619,
+        "functions": 28,
+        "classes": 27
+      },
+      {
+        "file": "ui/worker/worker_main_window.py",
+        "loc": 616,
+        "functions": 21,
+        "classes": 1
+      },
+      {
+        "file": "controllers/simulation_controller.py",
+        "loc": 614,
+        "functions": 21,
+        "classes": 2
+      },
+      {
+        "file": "database/repositories/pila_repository.py",
+        "loc": 614,
+        "functions": 26,
+        "classes": 1
+      },
+      {
+        "file": "ui/dialogs/visual_effects.py",
+        "loc": 575,
+        "functions": 23,
+        "classes": 5
+      },
+      {
+        "file": "scripts/analysis/analyze_dialogs.py",
+        "loc": 539,
+        "functions": 13,
+        "classes": 1
+      },
+      {
+        "file": "scripts/detect_dead_code.py",
+        "loc": 513,
+        "functions": 9,
+        "classes": 1
+      }
+    ],
+    "god_classes": [
+      {
+        "file": "controllers/app_controller.py",
+        "functions": 36
+      },
+      {
+        "file": "controllers/simulation_controller.py",
+        "functions": 21
+      },
+      {
+        "file": "core/app_model.py",
+        "functions": 82
+      },
+      {
+        "file": "core/services/fabricacion_service.py",
+        "functions": 43
+      },
+      {
+        "file": "core/services/product_service.py",
+        "functions": 22
+      },
+      {
+        "file": "core/simulation/engine/motor.py",
+        "functions": 30
+      },
+      {
+        "file": "database/repositories/iteration_repository.py",
+        "functions": 21
+      },
+      {
+        "file": "database/repositories/machine_repository.py",
+        "functions": 40
+      },
+      {
+        "file": "database/repositories/pila_repository.py",
+        "functions": 26
+      },
+      {
+        "file": "database/repositories/preproceso_repository.py",
+        "functions": 37
+      },
+      {
+        "file": "database/repositories/tracking_repository.py",
+        "functions": 29
+      },
+      {
+        "file": "database/repositories/worker_repository.py",
+        "functions": 22
+      },
+      {
+        "file": "ui/dialogs/fabrication/create_dialog.py",
+        "functions": 26
+      },
+      {
+        "file": "ui/dialogs/product/product_details_dialog.py",
+        "functions": 24
+      },
+      {
+        "file": "ui/dialogs/production_flow/enhanced_flow_dialog.py",
+        "functions": 21
+      },
+      {
+        "file": "ui/dialogs/production_flow/enhanced_flow_presenter.py",
+        "functions": 22
+      },
+      {
+        "file": "ui/widgets/production_flow/flow_canvas.py",
+        "functions": 25
+      },
+      {
+        "file": "ui/widgets/production_flow/inspector_panel.py",
+        "functions": 21
+      },
+      {
+        "file": "ui/worker/worker_main_window.py",
+        "functions": 21
+      }
+    ],
+    "high_complexity_functions": [
+      {
+        "file": "analyze_ui.py",
+        "max_complexity": 12,
+        "longest_func": "analyze_file",
+        "longest_func_lines": 64
+      },
+      {
+        "file": "app.py",
+        "max_complexity": 14,
+        "longest_func": "main",
+        "longest_func_lines": 101
+      },
+      {
+        "file": "controllers/backup_controller.py",
+        "max_complexity": 12,
+        "longest_func": "on_import_databases",
+        "longest_func_lines": 71
+      },
+      {
+        "file": "controllers/hardware_controller.py",
+        "max_complexity": 17,
+        "longest_func": "initialize_qr_scanner",
+        "longest_func_lines": 96
+      },
+      {
+        "file": "controllers/historial_controller.py",
+        "max_complexity": 16,
+        "longest_func": "on_item_selected",
+        "longest_func_lines": 77
+      },
+      {
+        "file": "controllers/navigation_controller.py",
+        "max_complexity": 17,
+        "longest_func": "_perform_navigation",
+        "longest_func_lines": 49
+      },
+      {
+        "file": "controllers/pila_controller.py",
+        "max_complexity": 11,
+        "longest_func": "_on_load_pila_clicked",
+        "longest_func_lines": 62
+      },
+      {
+        "file": "controllers/product/fabricacion_mixin.py",
+        "max_complexity": 14,
+        "longest_func": "show_create_fabricacion_dialog",
+        "longest_func_lines": 49
+      },
+      {
+        "file": "controllers/product/product_mixin.py",
+        "max_complexity": 11,
+        "longest_func": "_on_save_product_clicked",
+        "longest_func_lines": 46
+      },
+      {
+        "file": "controllers/report_controller.py",
+        "max_complexity": 11,
+        "longest_func": "on_print_historial_report_clicked",
+        "longest_func_lines": 72
+      },
+      {
+        "file": "controllers/worker_controller.py",
+        "max_complexity": 22,
+        "longest_func": "_on_save_worker_clicked",
+        "longest_func_lines": 112
+      },
+      {
+        "file": "core/camera_manager.py",
+        "max_complexity": 12,
+        "longest_func": "validate_camera_hardware",
+        "longest_func_lines": 75
+      },
+      {
+        "file": "core/label_manager.py",
+        "max_complexity": 12,
+        "longest_func": "generate_labels",
+        "longest_func_lines": 89
+      },
+      {
+        "file": "core/qr_scanner.py",
+        "max_complexity": 19,
+        "longest_func": "scan_frame",
+        "longest_func_lines": 98
+      },
+      {
+        "file": "core/quote_service.py",
+        "max_complexity": 19,
+        "longest_func": "get_author_info",
+        "longest_func_lines": 56
+      },
+      {
+        "file": "core/services/fabricacion_service.py",
+        "max_complexity": 11,
+        "longest_func": "assign_task_to_worker",
+        "longest_func_lines": 70
+      },
+      {
+        "file": "core/services/flow_simulation_service.py",
+        "max_complexity": 22,
+        "longest_func": "calculate_preview_order",
+        "longest_func_lines": 93
+      },
+      {
+        "file": "core/services/pila_service.py",
+        "max_complexity": 24,
+        "longest_func": "get_data_for_calculation_from_session",
+        "longest_func_lines": 106
+      },
+      {
+        "file": "core/services/report_sheets.py",
+        "max_complexity": 44,
+        "longest_func": "create_sheet",
+        "longest_func_lines": 196
+      },
+      {
+        "file": "core/services/reporting/excel_report_strategy.py",
+        "max_complexity": 33,
+        "longest_func": "_crear_hoja_graficas",
+        "longest_func_lines": 135
+      },
+      {
+        "file": "core/services/reporting/pdf_report_strategy.py",
+        "max_complexity": 25,
+        "longest_func": "_add_resource_analysis_to_pdf",
+        "longest_func_lines": 70
+      },
+      {
+        "file": "core/services/time_calculator.py",
+        "max_complexity": 11,
+        "longest_func": "calculate_work_minutes_between",
+        "longest_func_lines": 61
+      },
+      {
+        "file": "core/simulation/engine/dependency_handler.py",
+        "max_complexity": 22,
+        "longest_func": "verificar_dependencias_cumplidas",
+        "longest_func_lines": 95
+      },
+      {
+        "file": "core/simulation/engine/motor.py",
+        "max_complexity": 12,
+        "longest_func": "__init__",
+        "longest_func_lines": 34
+      },
+      {
+        "file": "core/simulation/engine/results_compiler.py",
+        "max_complexity": 17,
+        "longest_func": "compilar_resultados",
+        "longest_func_lines": 75
+      },
+      {
+        "file": "core/simulation/simulation_engine.py",
+        "max_complexity": 30,
+        "longest_func": "_prepare_and_prioritize_tasks",
+        "longest_func_lines": 158
+      },
+      {
+        "file": "core/simulation/simulation_events.py",
+        "max_complexity": 56,
+        "longest_func": "procesar",
+        "longest_func_lines": 452
+      },
+      {
+        "file": "core/sync_service.py",
+        "max_complexity": 12,
+        "longest_func": "_compare_table",
+        "longest_func_lines": 64
+      },
+      {
+        "file": "core/utils/pila_serializer.py",
+        "max_complexity": 12,
+        "longest_func": "deserialize_production_flow",
+        "longest_func_lines": 56
+      },
+      {
+        "file": "core/utils/visualization.py",
+        "max_complexity": 13,
+        "longest_func": "generate_organigram_image",
+        "longest_func_lines": 92
+      },
+      {
+        "file": "database/repositories/incidencia_repository.py",
+        "max_complexity": 11,
+        "longest_func": "registrar_incidencia",
+        "longest_func_lines": 54
+      },
+      {
+        "file": "database/repositories/iteration_repository.py",
+        "max_complexity": 13,
+        "longest_func": "add_product_iteration",
+        "longest_func_lines": 64
+      },
+      {
+        "file": "database/repositories/lote_repository.py",
+        "max_complexity": 11,
+        "longest_func": "get_lote_details",
+        "longest_func_lines": 31
+      },
+      {
+        "file": "database/repositories/pila_repository.py",
+        "max_complexity": 15,
+        "longest_func": "save_pila",
+        "longest_func_lines": 87
+      },
+      {
+        "file": "database/repositories/product_repository.py",
+        "max_complexity": 20,
+        "longest_func": "update_product",
+        "longest_func_lines": 67
+      },
+      {
+        "file": "database/repositories/reports_repository.py",
+        "max_complexity": 14,
+        "longest_func": "obtener_ordenes_por_producto",
+        "longest_func_lines": 91
+      },
+      {
+        "file": "database/repositories/tracking/core_mixin.py",
+        "max_complexity": 24,
+        "longest_func": "upsert_trabajo_log_from_dict",
+        "longest_func_lines": 55
+      },
+      {
+        "file": "database/repositories/tracking/queries_mixin.py",
+        "max_complexity": 19,
+        "longest_func": "get_data_for_export",
+        "longest_func_lines": 57
+      },
+      {
+        "file": "database/repositories/worker_repository.py",
+        "max_complexity": 12,
+        "longest_func": "add_worker",
+        "longest_func_lines": 81
+      },
+      {
+        "file": "features/worker_controller.py",
+        "max_complexity": 11,
+        "longest_func": "__init__",
+        "longest_func_lines": 34
+      },
+      {
+        "file": "generate_ui_report.py",
+        "max_complexity": 29,
+        "longest_func": "generate_markdown",
+        "longest_func_lines": 133
+      },
+      {
+        "file": "scripts/analysis/analyze_codebase.py",
+        "max_complexity": 26,
+        "longest_func": "analyze_file",
+        "longest_func_lines": 67
+      },
+      {
+        "file": "scripts/analysis/analyze_controller.py",
+        "max_complexity": 15,
+        "longest_func": "analyze_file",
+        "longest_func_lines": 28
+      },
+      {
+        "file": "scripts/analysis/analyze_coverage_risks.py",
+        "max_complexity": 15,
+        "longest_func": "analyze_risk",
+        "longest_func_lines": 92
+      },
+      {
+        "file": "scripts/analysis/analyze_db_usage.py",
+        "max_complexity": 25,
+        "longest_func": "generate_report",
+        "longest_func_lines": 67
+      },
+      {
+        "file": "scripts/analysis/analyze_dependencies.py",
+        "max_complexity": 18,
+        "longest_func": "analyze_dependencies",
+        "longest_func_lines": 65
+      },
+      {
+        "file": "scripts/analysis/analyze_dialogs.py",
+        "max_complexity": 64,
+        "longest_func": "generate_markdown_report",
+        "longest_func_lines": 272
+      },
+      {
+        "file": "scripts/analysis/analyze_fabrication_dialogs.py",
+        "max_complexity": 15,
+        "longest_func": "analyze_file",
+        "longest_func_lines": 28
+      },
+      {
+        "file": "scripts/analysis/analyze_loose_mocks.py",
+        "max_complexity": 20,
+        "longest_func": "check_loose_mocks",
+        "longest_func_lines": 37
+      },
+      {
+        "file": "scripts/analysis/analyze_nomenclature.py",
+        "max_complexity": 35,
+        "longest_func": "generate_markdown",
+        "longest_func_lines": 118
+      },
+      {
+        "file": "scripts/analysis/analyze_repository_connections.py",
+        "max_complexity": 19,
+        "longest_func": "export_to_markdown",
+        "longest_func_lines": 64
+      },
+      {
+        "file": "scripts/analysis/analyze_root_files.py",
+        "max_complexity": 12,
+        "longest_func": "main",
+        "longest_func_lines": 50
+      },
+      {
+        "file": "scripts/analysis/analyze_structure.py",
+        "max_complexity": 11,
+        "longest_func": "analyze_file",
+        "longest_func_lines": 33
+      },
+      {
+        "file": "scripts/analysis/analyze_tracking_impact.py",
+        "max_complexity": 13,
+        "longest_func": "search_usages",
+        "longest_func_lines": 44
+      },
+      {
+        "file": "scripts/analysis/analyze_typing_deep.py",
+        "max_complexity": 13,
+        "longest_func": "analyze_file",
+        "longest_func_lines": 42
+      },
+      {
+        "file": "scripts/analysis/analyze_ui_structure.py",
+        "max_complexity": 12,
+        "longest_func": "analyze_file",
+        "longest_func_lines": 52
+      },
+      {
+        "file": "scripts/analysis/detect_obsolete_code.py",
+        "max_complexity": 12,
+        "longest_func": "main",
+        "longest_func_lines": 52
+      },
+      {
+        "file": "scripts/codebase_analyzer.py",
+        "max_complexity": 31,
+        "longest_func": "main",
+        "longest_func_lines": 73
+      },
+      {
+        "file": "scripts/detect_dead_code.py",
+        "max_complexity": 21,
+        "longest_func": "generate_report",
+        "longest_func_lines": 150
+      },
+      {
+        "file": "scripts/extract_code_symbols.py",
+        "max_complexity": 23,
+        "longest_func": "generate_markdown_report",
+        "longest_func_lines": 93
+      },
+      {
+        "file": "scripts/generate_coverage_report.py",
+        "max_complexity": 12,
+        "longest_func": "print_report",
+        "longest_func_lines": 79
+      },
+      {
+        "file": "scripts/legacy/generate_nomenclature.py",
+        "max_complexity": 18,
+        "longest_func": "generate_nomenclature",
+        "longest_func_lines": 76
+      },
+      {
+        "file": "scripts/security_audit_analyzer.py",
+        "max_complexity": 15,
+        "longest_func": "generate_report",
+        "longest_func_lines": 39
+      },
+      {
+        "file": "scripts/test_quality_analyzer.py",
+        "max_complexity": 12,
+        "longest_func": "analyze_test_file",
+        "longest_func_lines": 41
+      },
+      {
+        "file": "scripts/verify_migration.py",
+        "max_complexity": 12,
+        "longest_func": "check_tuple_access_on_dtos",
+        "longest_func_lines": 40
+      },
+      {
+        "file": "tools/analyze_app_controller.py",
+        "max_complexity": 14,
+        "longest_func": "analyze",
+        "longest_func_lines": 72
+      },
+      {
+        "file": "ui/dialogs/canvas_widgets.py",
+        "max_complexity": 11,
+        "longest_func": "paintEvent",
+        "longest_func_lines": 67
+      },
+      {
+        "file": "ui/dialogs/production_flow/common_dialogs.py",
+        "max_complexity": 12,
+        "longest_func": "_setup_ui",
+        "longest_func_lines": 132
+      },
+      {
+        "file": "ui/dialogs/production_flow/define_flow_presenter.py",
+        "max_complexity": 18,
+        "longest_func": "group_tasks",
+        "longest_func_lines": 73
+      },
+      {
+        "file": "ui/dialogs/production_flow/enhanced_flow_presenter.py",
+        "max_complexity": 12,
+        "longest_func": "get_logical_connections",
+        "longest_func_lines": 55
+      },
+      {
+        "file": "ui/widgets/calculate_times_widget.py",
+        "max_complexity": 12,
+        "longest_func": "setup_ui",
+        "longest_func_lines": 59
+      },
+      {
+        "file": "ui/widgets/fabrications_widget.py",
+        "max_complexity": 14,
+        "longest_func": "display_fabricacion_form",
+        "longest_func_lines": 53
+      },
+      {
+        "file": "ui/widgets/production_flow/inspector_panel.py",
+        "max_complexity": 19,
+        "longest_func": "set_task",
+        "longest_func_lines": 107
+      }
+    ],
+    "deeply_nested": [
+      {
+        "file": "analyze_ui.py",
+        "nested_count": 4
+      },
+      {
+        "file": "core/security/access_control.py",
+        "nested_count": 6
+      },
+      {
+        "file": "database/repositories/iteration_repository.py",
+        "nested_count": 10
+      },
+      {
+        "file": "database/repositories/lote_repository.py",
+        "nested_count": 5
+      },
+      {
+        "file": "database/repositories/machine_repository.py",
+        "nested_count": 20
+      },
+      {
+        "file": "database/repositories/material_repository.py",
+        "nested_count": 9
+      },
+      {
+        "file": "database/repositories/pila_repository.py",
+        "nested_count": 12
+      },
+      {
+        "file": "database/repositories/preproceso_repository.py",
+        "nested_count": 18
+      },
+      {
+        "file": "database/repositories/product_repository.py",
+        "nested_count": 8
+      },
+      {
+        "file": "database/repositories/reports_repository.py",
+        "nested_count": 9
+      },
+      {
+        "file": "database/repositories/worker_repository.py",
+        "nested_count": 11
+      }
+    ],
+    "typing_coverage": {
+      "typed": 834,
+      "untyped": 1055,
+      "percentage": 44.15
+    },
+    "print_offenders": [
+      {
+        "file": "tools/hardware/detect_cameras.py",
+        "count": 57
+      },
+      {
+        "file": "scripts/maintenance/backup_database.py",
+        "count": 27
+      },
+      {
+        "file": "scripts/verify_migration.py",
+        "count": 26
+      },
+      {
+        "file": "tools/analyze_app_controller.py",
+        "count": 25
+      },
+      {
+        "file": "scripts/analysis/analyze_dialogs.py",
+        "count": 16
+      },
+      {
+        "file": "scripts/extract_code_symbols.py",
+        "count": 16
+      },
+      {
+        "file": "scripts/profile_queries.py",
+        "count": 14
+      },
+      {
+        "file": "run_tests.py",
+        "count": 13
+      },
+      {
+        "file": "scripts/generate_coverage_report.py",
+        "count": 13
+      },
+      {
+        "file": "scripts/legacy/verify_postgres_connection.py",
+        "count": 12
+      },
+      {
+        "file": "scripts/analysis/detect_obsolete_code.py",
+        "count": 11
+      },
+      {
+        "file": "scripts/security_audit_analyzer.py",
+        "count": 11
+      },
+      {
+        "file": "scripts/download_opencv_resources.py",
+        "count": 10
+      },
+      {
+        "file": "scripts/analysis/analyze_codebase.py",
+        "count": 9
+      },
+      {
+        "file": "scripts/analysis/analyze_controller.py",
+        "count": 9
+      },
+      {
+        "file": "scripts/analysis/analyze_nomenclature.py",
+        "count": 9
+      },
+      {
+        "file": "scripts/legacy/debug_settings_widget.py",
+        "count": 9
+      },
+      {
+        "file": "core/qr_generator.py",
+        "count": 8
+      },
+      {
+        "file": "scripts/analysis/analyze_typing_deep.py",
+        "count": 8
+      },
+      {
+        "file": "tools/qr_generator.py",
+        "count": 8
+      },
+      {
+        "file": "ui/worker/camera_config_dialog.py",
+        "count": 8
+      },
+      {
+        "file": "scripts/analysis/analyze_dependencies.py",
+        "count": 7
+      },
+      {
+        "file": "scripts/analysis/analyze_fabrication_dialogs.py",
+        "count": 7
+      },
+      {
+        "file": "scripts/check_typing_coverage.py",
+        "count": 7
+      },
+      {
+        "file": "scripts/legacy/check_local_users.py",
+        "count": 7
+      }
+    ],
+    "bare_except_offenders": [
+      {
+        "file": "controllers/product/fabricacion_mixin.py",
+        "count": 1
+      },
+      {
+        "file": "core/services/report_sheets.py",
+        "count": 1
+      },
+      {
+        "file": "core/simulation/engine/results_compiler.py",
+        "count": 2
+      },
+      {
+        "file": "database/repositories/tracking/core_mixin.py",
+        "count": 2
+      },
+      {
+        "file": "database/repositories/tracking/queries_mixin.py",
+        "count": 1
+      },
+      {
+        "file": "features/worker_controller.py",
+        "count": 1
+      },
+      {
+        "file": "tools/hardware/detect_cameras.py",
+        "count": 1
+      }
+    ],
+    "long_line_offenders": [
+      {
+        "file": "controllers/simulation_controller.py",
+        "count": 14
+      },
+      {
+        "file": "core/app_model.py",
+        "count": 16
+      },
+      {
+        "file": "core/services/report_sheets.py",
+        "count": 14
+      },
+      {
+        "file": "core/services/reporting/pdf_report_strategy.py",
+        "count": 13
+      },
+      {
+        "file": "core/simulation/simulation_events.py",
+        "count": 17
+      },
+      {
+        "file": "database/models.py",
+        "count": 37
+      },
+      {
+        "file": "generate_ui_report.py",
+        "count": 13
+      },
+      {
+        "file": "ui/widgets/calculate_times_widget.py",
+        "count": 36
+      },
+      {
+        "file": "ui/widgets/lotes_widget.py",
+        "count": 16
+      }
+    ]
+  },
+  "duplicates": [
+    {
+      "file1": "controllers/product/fabricacion_mixin.py",
+      "file2": "core/label_manager.py",
+      "matching_lines": 10,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/product/fabricacion_mixin.py",
+      "file2": "features/worker_controller.py",
+      "matching_lines": 9,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "core/label_manager.py",
+      "file2": "features/worker_controller.py",
+      "matching_lines": 9,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/product/fabricacion_mixin.py",
+      "file2": "features/worker_db_sync.py",
+      "matching_lines": 8,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "core/label_manager.py",
+      "file2": "features/worker_db_sync.py",
+      "matching_lines": 8,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "features/worker_controller.py",
+      "file2": "features/worker_db_sync.py",
+      "matching_lines": 8,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/calculation_controller.py",
+      "file2": "controllers/product/fabricacion_mixin.py",
+      "matching_lines": 7,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/calculation_controller.py",
+      "file2": "core/label_manager.py",
+      "matching_lines": 7,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/calculation_controller.py",
+      "file2": "core/services/backup_service.py",
+      "matching_lines": 7,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/calculation_controller.py",
+      "file2": "features/worker_controller.py",
+      "matching_lines": 7,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/calculation_controller.py",
+      "file2": "features/worker_db_sync.py",
+      "matching_lines": 7,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/product/fabricacion_mixin.py",
+      "file2": "core/services/backup_service.py",
+      "matching_lines": 7,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "core/label_manager.py",
+      "file2": "core/services/backup_service.py",
+      "matching_lines": 7,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "core/services/backup_service.py",
+      "file2": "features/worker_controller.py",
+      "matching_lines": 7,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "core/services/backup_service.py",
+      "file2": "features/worker_db_sync.py",
+      "matching_lines": 7,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "database/repositories/machine_repository.py",
+      "file2": "database/repositories/preproceso_repository.py",
+      "matching_lines": 7,
+      "sample": "def _operation(session: Session) -> bool:"
+    },
+    {
+      "file1": "controllers/calculation_controller.py",
+      "file2": "controllers/product/material_mixin.py",
+      "matching_lines": 6,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/calculation_controller.py",
+      "file2": "controllers/simulation_controller.py",
+      "matching_lines": 6,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/calculation_controller.py",
+      "file2": "core/qr_scanner.py",
+      "matching_lines": 6,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/calculation_controller.py",
+      "file2": "core/simulation/simulation_adapter.py",
+      "matching_lines": 6,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/calculation_controller.py",
+      "file2": "core/simulation/simulation_events.py",
+      "matching_lines": 6,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/product/fabricacion_mixin.py",
+      "file2": "controllers/product/material_mixin.py",
+      "matching_lines": 6,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/product/fabricacion_mixin.py",
+      "file2": "controllers/simulation_controller.py",
+      "matching_lines": 6,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/product/fabricacion_mixin.py",
+      "file2": "core/qr_scanner.py",
+      "matching_lines": 6,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/product/fabricacion_mixin.py",
+      "file2": "core/simulation/simulation_adapter.py",
+      "matching_lines": 6,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/product/fabricacion_mixin.py",
+      "file2": "core/simulation/simulation_events.py",
+      "matching_lines": 6,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/product/material_mixin.py",
+      "file2": "controllers/simulation_controller.py",
+      "matching_lines": 6,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/product/material_mixin.py",
+      "file2": "core/label_manager.py",
+      "matching_lines": 6,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/product/material_mixin.py",
+      "file2": "core/qr_scanner.py",
+      "matching_lines": 6,
+      "sample": "except Exception as e:"
+    },
+    {
+      "file1": "controllers/product/material_mixin.py",
+      "file2": "core/services/backup_service.py",
+      "matching_lines": 6,
+      "sample": "except Exception as e:"
+    }
+  ],
+  "zombie_code": {
+    "total_definitions": 1417,
+    "potentially_unused": [
+      {
+        "name": "Visitor",
+        "file": "analyze_ui.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "visit_Call",
+        "file": "analyze_ui.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "setup_logging",
+        "file": "app.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "handle_exception",
+        "file": "app.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "logout_user",
+        "file": "controllers/app_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "populate_historial_list",
+        "file": "controllers/app_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "on_historial_item_selected",
+        "file": "controllers/app_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "on_save_schedule_settings",
+        "file": "controllers/app_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "on_calc_product_result_selected",
+        "file": "controllers/calculation_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "on_export_audit_log",
+        "file": "controllers/calculation_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "on_data_after_import",
+        "file": "controllers/file_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "connect_definir_lote_signals",
+        "file": "controllers/lote_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "on_calc_lote_search_changed",
+        "file": "controllers/lote_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "set_current_lote_content",
+        "file": "controllers/lote_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "navigate_to",
+        "file": "controllers/navigation_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "update_page_permissions",
+        "file": "controllers/navigation_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "get_preprocesos_for_fabricacion",
+        "file": "controllers/pila_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "convert_preproceso_to_pila_step",
+        "file": "controllers/preproceso_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "on_manage_procesos_for_new_product",
+        "file": "controllers/preproceso_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "handle_image_attachment",
+        "file": "controllers/product/product_mixin.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "update_simulation_data",
+        "file": "controllers/report_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "on_generar_informe_clicked",
+        "file": "controllers/report_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "on_export_to_excel_clicked",
+        "file": "controllers/report_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "on_export_gantt_to_pdf_clicked",
+        "file": "controllers/report_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "on_print_historial_report_clicked",
+        "file": "controllers/report_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "OptimizerWorker",
+        "file": "controllers/simulation_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "update_simulation_progress",
+        "file": "controllers/ui_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "safe_update_quote",
+        "file": "controllers/ui_controller.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "get_all_prep_steps",
+        "file": "core/app_model.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "add_listener",
+        "file": "core/application_state.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "remove_listener",
+        "file": "core/application_state.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "CameraBackend",
+        "file": "core/camera_manager.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "quick_detect_cameras",
+        "file": "core/camera_manager.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "get_working_camera_index",
+        "file": "core/camera_manager.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "validate_camera_index",
+        "file": "core/camera_manager.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "validate_camera_hardware",
+        "file": "core/camera_manager.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "get_fallback_camera",
+        "file": "core/camera_manager.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "create_camera_selector_data",
+        "file": "core/camera_manager.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "ConfigurationDTO",
+        "file": "core/dtos.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "QABCMeta",
+        "file": "core/interfaces/controller_interface.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "quick_print_labels",
+        "file": "core/label_manager.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "get_template_path",
+        "file": "core/label_manager.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "list_templates",
+        "file": "core/label_manager.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "replace_placeholders",
+        "file": "core/label_manager.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "create_sample_template",
+        "file": "core/label_manager.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "ProductionStatus",
+        "file": "core/production_context.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "start_session",
+        "file": "core/production_context.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "increment_unit",
+        "file": "core/production_context.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "is_complete",
+        "file": "core/production_context.py",
+        "type": "possibly_unused_externally"
+      },
+      {
+        "name": "get_progress_label",
+        "file": "core/production_context.py",
+        "type": "possibly_unused_externally"
+      }
+    ]
+  },
+  "stale_files": [
+    {
+      "file": "fix_syntax2.py",
+      "type": "Fix script",
+      "size_bytes": 717
+    },
+    {
+      "file": "out.txt",
+      "type": "Output dump",
+      "size_bytes": 24950
+    },
+    {
+      "file": "force_skip.py",
+      "type": "Force script",
+      "size_bytes": 889
+    },
+    {
+      "file": "skip_all.py",
+      "type": "Skip script",
+      "size_bytes": 1333
+    },
+    {
+      "file": "revert.py",
+      "type": "Revert script",
+      "size_bytes": 887
+    },
+    {
+      "file": "debug_qt.py",
+      "type": "Debug script",
+      "size_bytes": 363
+    },
+    {
+      "file": "fix_reports.py",
+      "type": "Fix script",
+      "size_bytes": 340
+    },
+    {
+      "file": "out_reportes.txt",
+      "type": "Output dump",
+      "size_bytes": 32199
+    },
+    {
+      "file": "output.txt",
+      "type": "Output dump",
+      "size_bytes": 27786
+    },
+    {
+      "file": "out_lotes.txt",
+      "type": "Output dump",
+      "size_bytes": 28911
+    },
+    {
+      "file": "ui/dialogs/product_dialogs.py.bak",
+      "type": "Backup file",
+      "size_bytes": 37291
+    },
+    {
+      "file": "scripts/fix_test_prep_patches2.py",
+      "type": "Fix script",
+      "size_bytes": 732
+    },
+    {
+      "file": "scripts/fix_test_patches.py",
+      "type": "Fix script",
+      "size_bytes": 1068
+    },
+    {
+      "file": "scripts/fix_test_prep_patches.py",
+      "type": "Fix script",
+      "size_bytes": 1097
+    },
+    {
+      "file": "scripts/legacy/debug_fabricaciones.py",
+      "type": "Debug script",
+      "size_bytes": 894
+    },
+    {
+      "file": "scripts/legacy/debug_settings_widget.py",
+      "type": "Debug script",
+      "size_bytes": 1537
+    },
+    {
+      "file": "controllers/app_controller.py.bak",
+      "type": "Backup file",
+      "size_bytes": 43417
+    }
+  ],
+  "per_file": [
+    {
+      "path": "analyze_ui.py",
+      "loc": 91,
+      "blank_lines": 17,
+      "comment_lines": 1,
+      "functions": 6,
+      "classes": 1,
+      "methods": 4,
+      "max_function_length": 64,
+      "max_function_name": "analyze_file",
+      "imports": 3,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 6,
+      "global_vars": 0,
+      "nested_functions": 4,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 1,
+      "naming_issues": [
+        "Function 'visit_ClassDef' L22: should be snake_case",
+        "Function 'visit_FunctionDef' L36: should be snake_case",
+        "Function 'visit_Call' L46: should be snake_case"
+      ],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'analyze_file' is 64 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12",
+        "PRINT_STATEMENTS: 1 print() calls",
+        "EXCESSIVE_NESTING: 4 nested functions"
+      ]
+    },
+    {
+      "path": "app.py",
+      "loc": 273,
+      "blank_lines": 55,
+      "comment_lines": 37,
+      "functions": 6,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 101,
+      "max_function_name": "main",
+      "imports": 25,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 6,
+      "global_vars": 1,
+      "nested_functions": 1,
+      "cyclomatic_complexity_max": 14,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'main' is 101 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 14"
+      ]
+    },
+    {
+      "path": "controllers/app_controller.py",
+      "loc": 283,
+      "blank_lines": 60,
+      "comment_lines": 28,
+      "functions": 36,
+      "classes": 1,
+      "methods": 36,
+      "max_function_length": 56,
+      "max_function_name": "__init__",
+      "imports": 32,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 4,
+      "untyped_functions": 32,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 6,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '__init__' is 56 lines"
+      ]
+    },
+    {
+      "path": "controllers/backup_controller.py",
+      "loc": 329,
+      "blank_lines": 48,
+      "comment_lines": 29,
+      "functions": 10,
+      "classes": 1,
+      "methods": 9,
+      "max_function_length": 71,
+      "max_function_name": "on_import_databases",
+      "imports": 12,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 1,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 1,
+      "untyped_functions": 9,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 3,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'on_import_databases' is 71 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12"
+      ]
+    },
+    {
+      "path": "controllers/calculation_controller.py",
+      "loc": 316,
+      "blank_lines": 58,
+      "comment_lines": 28,
+      "functions": 11,
+      "classes": 1,
+      "methods": 11,
+      "max_function_length": 71,
+      "max_function_name": "connect_calculate_signals",
+      "imports": 4,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 3,
+      "untyped_functions": 8,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 9,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'connect_calculate_signals' is 71 lines"
+      ]
+    },
+    {
+      "path": "controllers/file_controller.py",
+      "loc": 186,
+      "blank_lines": 34,
+      "comment_lines": 9,
+      "functions": 5,
+      "classes": 1,
+      "methods": 5,
+      "max_function_length": 62,
+      "max_function_name": "on_import_task_data",
+      "imports": 9,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 1,
+      "untyped_functions": 4,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 8,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'on_import_task_data' is 62 lines"
+      ]
+    },
+    {
+      "path": "controllers/hardware_controller.py",
+      "loc": 299,
+      "blank_lines": 52,
+      "comment_lines": 8,
+      "functions": 6,
+      "classes": 1,
+      "methods": 6,
+      "max_function_length": 96,
+      "max_function_name": "initialize_qr_scanner",
+      "imports": 7,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 6,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 17,
+      "long_lines": 2,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'initialize_qr_scanner' is 96 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 17"
+      ]
+    },
+    {
+      "path": "controllers/historial_controller.py",
+      "loc": 405,
+      "blank_lines": 79,
+      "comment_lines": 16,
+      "functions": 9,
+      "classes": 1,
+      "methods": 9,
+      "max_function_length": 77,
+      "max_function_name": "on_item_selected",
+      "imports": 8,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 9,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 16,
+      "long_lines": 6,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'on_item_selected' is 77 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 16"
+      ]
+    },
+    {
+      "path": "controllers/navigation_controller.py",
+      "loc": 168,
+      "blank_lines": 27,
+      "comment_lines": 7,
+      "functions": 10,
+      "classes": 1,
+      "methods": 10,
+      "max_function_length": 49,
+      "max_function_name": "_perform_navigation",
+      "imports": 6,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 1,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 3,
+      "untyped_functions": 7,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 17,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 17"
+      ]
+    },
+    {
+      "path": "controllers/pila_controller.py",
+      "loc": 396,
+      "blank_lines": 69,
+      "comment_lines": 13,
+      "functions": 20,
+      "classes": 1,
+      "methods": 20,
+      "max_function_length": 62,
+      "max_function_name": "_on_load_pila_clicked",
+      "imports": 12,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 1,
+      "untyped_functions": 19,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 11,
+      "long_lines": 7,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_on_load_pila_clicked' is 62 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 11"
+      ]
+    },
+    {
+      "path": "controllers/product/fabricacion_mixin.py",
+      "loc": 237,
+      "blank_lines": 27,
+      "comment_lines": 1,
+      "functions": 11,
+      "classes": 1,
+      "methods": 11,
+      "max_function_length": 49,
+      "max_function_name": "show_create_fabricacion_dialog",
+      "imports": 4,
+      "print_count": 0,
+      "bare_excepts": 1,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 11,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 14,
+      "long_lines": 4,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 14",
+        "BARE_EXCEPTS: 1 bare except: clauses"
+      ]
+    },
+    {
+      "path": "controllers/product/product_mixin.py",
+      "loc": 274,
+      "blank_lines": 35,
+      "comment_lines": 1,
+      "functions": 18,
+      "classes": 1,
+      "methods": 18,
+      "max_function_length": 46,
+      "max_function_name": "_on_save_product_clicked",
+      "imports": 10,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 18,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 11,
+      "long_lines": 6,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 11"
+      ]
+    },
+    {
+      "path": "controllers/report_controller.py",
+      "loc": 326,
+      "blank_lines": 51,
+      "comment_lines": 9,
+      "functions": 8,
+      "classes": 1,
+      "methods": 8,
+      "max_function_length": 72,
+      "max_function_name": "on_print_historial_report_clicked",
+      "imports": 7,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 2,
+      "untyped_functions": 6,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 11,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'on_print_historial_report_clicked' is 72 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 11"
+      ]
+    },
+    {
+      "path": "controllers/session_controller.py",
+      "loc": 223,
+      "blank_lines": 42,
+      "comment_lines": 27,
+      "functions": 5,
+      "classes": 1,
+      "methods": 5,
+      "max_function_length": 72,
+      "max_function_name": "launch_worker_interface",
+      "imports": 15,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 5,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 7,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'launch_worker_interface' is 72 lines"
+      ]
+    },
+    {
+      "path": "controllers/simulation_controller.py",
+      "loc": 614,
+      "blank_lines": 125,
+      "comment_lines": 36,
+      "functions": 21,
+      "classes": 2,
+      "methods": 21,
+      "max_function_length": 53,
+      "max_function_name": "_handle_run_optimizer_from_visual_editor",
+      "imports": 27,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 17,
+      "untyped_functions": 4,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 8,
+      "long_lines": 14,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LARGE_FILE: 614 lines",
+        "LONG_FUNCTION: '_handle_run_optimizer_from_visual_editor' is 53 lines"
+      ]
+    },
+    {
+      "path": "controllers/startup_controller.py",
+      "loc": 302,
+      "blank_lines": 59,
+      "comment_lines": 45,
+      "functions": 8,
+      "classes": 1,
+      "methods": 8,
+      "max_function_length": 85,
+      "max_function_name": "_init_services",
+      "imports": 40,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 2,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 8,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 5,
+      "long_lines": 5,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_init_services' is 85 lines"
+      ]
+    },
+    {
+      "path": "controllers/worker_controller.py",
+      "loc": 445,
+      "blank_lines": 76,
+      "comment_lines": 16,
+      "functions": 12,
+      "classes": 1,
+      "methods": 12,
+      "max_function_length": 112,
+      "max_function_name": "_on_save_worker_clicked",
+      "imports": 15,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 12,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 22,
+      "long_lines": 6,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_on_save_worker_clicked' is 112 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 22"
+      ]
+    },
+    {
+      "path": "core/camera_manager.py",
+      "loc": 665,
+      "blank_lines": 122,
+      "comment_lines": 53,
+      "functions": 16,
+      "classes": 3,
+      "methods": 12,
+      "max_function_length": 75,
+      "max_function_name": "validate_camera_hardware",
+      "imports": 7,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 15,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LARGE_FILE: 665 lines",
+        "LONG_FUNCTION: 'validate_camera_hardware' is 75 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12"
+      ]
+    },
+    {
+      "path": "core/interfaces/controller_interface.py",
+      "loc": 45,
+      "blank_lines": 7,
+      "comment_lines": 4,
+      "functions": 3,
+      "classes": 2,
+      "methods": 3,
+      "max_function_length": 11,
+      "max_function_name": "handle_error",
+      "imports": 3,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 3,
+      "untyped_functions": 0,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 1,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "core/label_manager.py",
+      "loc": 801,
+      "blank_lines": 143,
+      "comment_lines": 70,
+      "functions": 16,
+      "classes": 1,
+      "methods": 15,
+      "max_function_length": 89,
+      "max_function_name": "generate_labels",
+      "imports": 22,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 1,
+      "type_ignore_count": 5,
+      "typed_functions": 15,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LARGE_FILE: 801 lines",
+        "LONG_FUNCTION: 'generate_labels' is 89 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12",
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "core/qr_generator.py",
+      "loc": 332,
+      "blank_lines": 64,
+      "comment_lines": 24,
+      "functions": 8,
+      "classes": 1,
+      "methods": 6,
+      "max_function_length": 41,
+      "max_function_name": "generate_qr_code",
+      "imports": 10,
+      "print_count": 8,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 1,
+      "typed_functions": 7,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 3,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 8 print() calls"
+      ]
+    },
+    {
+      "path": "core/qr_scanner.py",
+      "loc": 755,
+      "blank_lines": 147,
+      "comment_lines": 73,
+      "functions": 19,
+      "classes": 2,
+      "methods": 16,
+      "max_function_length": 98,
+      "max_function_name": "scan_frame",
+      "imports": 10,
+      "print_count": 2,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 1,
+      "type_ignore_count": 2,
+      "typed_functions": 17,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 19,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LARGE_FILE: 755 lines",
+        "LONG_FUNCTION: 'scan_frame' is 98 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 19",
+        "PRINT_STATEMENTS: 2 print() calls"
+      ]
+    },
+    {
+      "path": "core/quote_service.py",
+      "loc": 109,
+      "blank_lines": 17,
+      "comment_lines": 12,
+      "functions": 4,
+      "classes": 1,
+      "methods": 4,
+      "max_function_length": 56,
+      "max_function_name": "get_author_info",
+      "imports": 8,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 1,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 4,
+      "untyped_functions": 0,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 19,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'get_author_info' is 56 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 19"
+      ]
+    },
+    {
+      "path": "core/security/access_control.py",
+      "loc": 102,
+      "blank_lines": 12,
+      "comment_lines": 9,
+      "functions": 8,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 36,
+      "max_function_name": "require_permission",
+      "imports": 7,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 8,
+      "untyped_functions": 0,
+      "global_vars": 0,
+      "nested_functions": 6,
+      "cyclomatic_complexity_max": 10,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "EXCESSIVE_NESTING: 6 nested functions"
+      ]
+    },
+    {
+      "path": "core/services/audit_logger.py",
+      "loc": 160,
+      "blank_lines": 20,
+      "comment_lines": 0,
+      "functions": 9,
+      "classes": 1,
+      "methods": 9,
+      "max_function_length": 51,
+      "max_function_name": "log",
+      "imports": 5,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 1,
+      "untyped_functions": 8,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 6,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'log' is 51 lines"
+      ]
+    },
+    {
+      "path": "core/services/backup_service.py",
+      "loc": 331,
+      "blank_lines": 76,
+      "comment_lines": 30,
+      "functions": 9,
+      "classes": 1,
+      "methods": 9,
+      "max_function_length": 57,
+      "max_function_name": "list_available_backups",
+      "imports": 9,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 8,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 9,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'list_available_backups' is 57 lines"
+      ]
+    },
+    {
+      "path": "core/services/fabricacion_service.py",
+      "loc": 319,
+      "blank_lines": 77,
+      "comment_lines": 16,
+      "functions": 43,
+      "classes": 1,
+      "methods": 43,
+      "max_function_length": 70,
+      "max_function_name": "assign_task_to_worker",
+      "imports": 7,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 38,
+      "untyped_functions": 5,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 11,
+      "long_lines": 4,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'assign_task_to_worker' is 70 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 11"
+      ]
+    },
+    {
+      "path": "core/services/flow_simulation_service.py",
+      "loc": 188,
+      "blank_lines": 35,
+      "comment_lines": 19,
+      "functions": 6,
+      "classes": 2,
+      "methods": 6,
+      "max_function_length": 93,
+      "max_function_name": "calculate_preview_order",
+      "imports": 1,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 6,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 22,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'calculate_preview_order' is 93 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 22"
+      ]
+    },
+    {
+      "path": "core/services/pila_service.py",
+      "loc": 256,
+      "blank_lines": 43,
+      "comment_lines": 24,
+      "functions": 12,
+      "classes": 1,
+      "methods": 12,
+      "max_function_length": 106,
+      "max_function_name": "get_data_for_calculation_from_session",
+      "imports": 6,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 10,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 24,
+      "long_lines": 3,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'get_data_for_calculation_from_session' is 106 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 24"
+      ]
+    },
+    {
+      "path": "core/services/rate_limiter.py",
+      "loc": 132,
+      "blank_lines": 23,
+      "comment_lines": 6,
+      "functions": 4,
+      "classes": 1,
+      "methods": 4,
+      "max_function_length": 70,
+      "max_function_name": "check_and_record_attempt",
+      "imports": 5,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 2,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 6,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'check_and_record_attempt' is 70 lines"
+      ]
+    },
+    {
+      "path": "core/services/report_sheets.py",
+      "loc": 770,
+      "blank_lines": 130,
+      "comment_lines": 11,
+      "functions": 9,
+      "classes": 6,
+      "methods": 9,
+      "max_function_length": 196,
+      "max_function_name": "create_sheet",
+      "imports": 12,
+      "print_count": 0,
+      "bare_excepts": 1,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 9,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 44,
+      "long_lines": 14,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LARGE_FILE: 770 lines",
+        "LONG_FUNCTION: 'create_sheet' is 196 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 44",
+        "BARE_EXCEPTS: 1 bare except: clauses"
+      ]
+    },
+    {
+      "path": "core/services/reporting/excel_report_strategy.py",
+      "loc": 407,
+      "blank_lines": 29,
+      "comment_lines": 9,
+      "functions": 7,
+      "classes": 1,
+      "methods": 7,
+      "max_function_length": 135,
+      "max_function_name": "_crear_hoja_graficas",
+      "imports": 13,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 5,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 33,
+      "long_lines": 5,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_crear_hoja_graficas' is 135 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 33"
+      ]
+    },
+    {
+      "path": "core/services/reporting/pdf_report_strategy.py",
+      "loc": 343,
+      "blank_lines": 35,
+      "comment_lines": 12,
+      "functions": 9,
+      "classes": 2,
+      "methods": 9,
+      "max_function_length": 70,
+      "max_function_name": "_add_resource_analysis_to_pdf",
+      "imports": 10,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 9,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 25,
+      "long_lines": 13,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_add_resource_analysis_to_pdf' is 70 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 25"
+      ]
+    },
+    {
+      "path": "core/services/time_calculator.py",
+      "loc": 200,
+      "blank_lines": 40,
+      "comment_lines": 33,
+      "functions": 7,
+      "classes": 1,
+      "methods": 7,
+      "max_function_length": 61,
+      "max_function_name": "calculate_work_minutes_between",
+      "imports": 2,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 6,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 11,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'calculate_work_minutes_between' is 61 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 11"
+      ]
+    },
+    {
+      "path": "core/simulation/engine/dependency_handler.py",
+      "loc": 126,
+      "blank_lines": 23,
+      "comment_lines": 5,
+      "functions": 3,
+      "classes": 1,
+      "methods": 3,
+      "max_function_length": 95,
+      "max_function_name": "verificar_dependencias_cumplidas",
+      "imports": 4,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 2,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 22,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'verificar_dependencias_cumplidas' is 95 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 22"
+      ]
+    },
+    {
+      "path": "core/simulation/engine/motor.py",
+      "loc": 225,
+      "blank_lines": 42,
+      "comment_lines": 8,
+      "functions": 30,
+      "classes": 1,
+      "methods": 30,
+      "max_function_length": 34,
+      "max_function_name": "__init__",
+      "imports": 17,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 2,
+      "untyped_functions": 28,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 4,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12"
+      ]
+    },
+    {
+      "path": "core/simulation/engine/results_compiler.py",
+      "loc": 164,
+      "blank_lines": 28,
+      "comment_lines": 2,
+      "functions": 4,
+      "classes": 1,
+      "methods": 4,
+      "max_function_length": 75,
+      "max_function_name": "compilar_resultados",
+      "imports": 4,
+      "print_count": 0,
+      "bare_excepts": 2,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 3,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 17,
+      "long_lines": 3,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'compilar_resultados' is 75 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 17",
+        "BARE_EXCEPTS: 2 bare except: clauses"
+      ]
+    },
+    {
+      "path": "core/simulation/simulation_engine.py",
+      "loc": 281,
+      "blank_lines": 36,
+      "comment_lines": 18,
+      "functions": 7,
+      "classes": 2,
+      "methods": 6,
+      "max_function_length": 158,
+      "max_function_name": "_prepare_and_prioritize_tasks",
+      "imports": 10,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 5,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 1,
+      "cyclomatic_complexity_max": 30,
+      "long_lines": 2,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_prepare_and_prioritize_tasks' is 158 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 30"
+      ]
+    },
+    {
+      "path": "core/simulation/simulation_events.py",
+      "loc": 1013,
+      "blank_lines": 130,
+      "comment_lines": 111,
+      "functions": 7,
+      "classes": 5,
+      "methods": 7,
+      "max_function_length": 452,
+      "max_function_name": "procesar",
+      "imports": 7,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 7,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 56,
+      "long_lines": 17,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LARGE_FILE: 1013 lines",
+        "LONG_FUNCTION: 'procesar' is 452 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 56"
+      ]
+    },
+    {
+      "path": "core/simulation/timeline_task.py",
+      "loc": 410,
+      "blank_lines": 72,
+      "comment_lines": 60,
+      "functions": 11,
+      "classes": 1,
+      "methods": 11,
+      "max_function_length": 97,
+      "max_function_name": "agregar_instancia_paralela",
+      "imports": 8,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 10,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 6,
+      "long_lines": 2,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'agregar_instancia_paralela' is 97 lines"
+      ]
+    },
+    {
+      "path": "core/sync_service.py",
+      "loc": 245,
+      "blank_lines": 43,
+      "comment_lines": 13,
+      "functions": 5,
+      "classes": 1,
+      "methods": 5,
+      "max_function_length": 64,
+      "max_function_name": "_compare_table",
+      "imports": 6,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 5,
+      "untyped_functions": 0,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_compare_table' is 64 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12"
+      ]
+    },
+    {
+      "path": "core/utils/pila_serializer.py",
+      "loc": 165,
+      "blank_lines": 26,
+      "comment_lines": 9,
+      "functions": 4,
+      "classes": 1,
+      "methods": 1,
+      "max_function_length": 56,
+      "max_function_name": "deserialize_production_flow",
+      "imports": 5,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 4,
+      "untyped_functions": 0,
+      "global_vars": 1,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'deserialize_production_flow' is 56 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12"
+      ]
+    },
+    {
+      "path": "core/utils/visualization.py",
+      "loc": 115,
+      "blank_lines": 19,
+      "comment_lines": 7,
+      "functions": 2,
+      "classes": 1,
+      "methods": 2,
+      "max_function_length": 92,
+      "max_function_name": "generate_organigram_image",
+      "imports": 6,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 1,
+      "typed_functions": 1,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 13,
+      "long_lines": 3,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'generate_organigram_image' is 92 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 13"
+      ]
+    },
+    {
+      "path": "database/database_manager.py",
+      "loc": 184,
+      "blank_lines": 33,
+      "comment_lines": 23,
+      "functions": 10,
+      "classes": 1,
+      "methods": 10,
+      "max_function_length": 53,
+      "max_function_name": "__init__",
+      "imports": 9,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 3,
+      "untyped_functions": 7,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 5,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '__init__' is 53 lines"
+      ]
+    },
+    {
+      "path": "database/models.py",
+      "loc": 619,
+      "blank_lines": 140,
+      "comment_lines": 71,
+      "functions": 28,
+      "classes": 27,
+      "methods": 28,
+      "max_function_length": 3,
+      "max_function_name": "componentes",
+      "imports": 4,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 28,
+      "global_vars": 8,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 1,
+      "long_lines": 37,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LARGE_FILE: 619 lines"
+      ]
+    },
+    {
+      "path": "database/repositories/incidencia_repository.py",
+      "loc": 255,
+      "blank_lines": 38,
+      "comment_lines": 9,
+      "functions": 8,
+      "classes": 1,
+      "methods": 8,
+      "max_function_length": 54,
+      "max_function_name": "registrar_incidencia",
+      "imports": 9,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 1,
+      "todo_fixme": 1,
+      "type_ignore_count": 0,
+      "typed_functions": 7,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 11,
+      "long_lines": 0,
+      "naming_issues": [
+        "Function 'añadir_foto_a_incidencia' L122: should be snake_case"
+      ],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'registrar_incidencia' is 54 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 11"
+      ]
+    },
+    {
+      "path": "database/repositories/iteration_repository.py",
+      "loc": 332,
+      "blank_lines": 62,
+      "comment_lines": 15,
+      "functions": 21,
+      "classes": 1,
+      "methods": 11,
+      "max_function_length": 64,
+      "max_function_name": "add_product_iteration",
+      "imports": 11,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 20,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 10,
+      "cyclomatic_complexity_max": 13,
+      "long_lines": 3,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'add_product_iteration' is 64 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 13",
+        "EXCESSIVE_NESTING: 10 nested functions"
+      ]
+    },
+    {
+      "path": "database/repositories/lote_repository.py",
+      "loc": 137,
+      "blank_lines": 30,
+      "comment_lines": 6,
+      "functions": 10,
+      "classes": 1,
+      "methods": 5,
+      "max_function_length": 31,
+      "max_function_name": "get_lote_details",
+      "imports": 7,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 10,
+      "untyped_functions": 0,
+      "global_vars": 0,
+      "nested_functions": 5,
+      "cyclomatic_complexity_max": 11,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 11",
+        "EXCESSIVE_NESTING: 5 nested functions"
+      ]
+    },
+    {
+      "path": "database/repositories/machine_repository.py",
+      "loc": 651,
+      "blank_lines": 123,
+      "comment_lines": 39,
+      "functions": 40,
+      "classes": 1,
+      "methods": 20,
+      "max_function_length": 80,
+      "max_function_name": "add_machine",
+      "imports": 17,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 1,
+      "type_ignore_count": 0,
+      "typed_functions": 39,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 20,
+      "cyclomatic_complexity_max": 10,
+      "long_lines": 3,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LARGE_FILE: 651 lines",
+        "LONG_FUNCTION: 'add_machine' is 80 lines",
+        "EXCESSIVE_NESTING: 20 nested functions"
+      ]
+    },
+    {
+      "path": "database/repositories/material_repository.py",
+      "loc": 354,
+      "blank_lines": 72,
+      "comment_lines": 22,
+      "functions": 19,
+      "classes": 1,
+      "methods": 10,
+      "max_function_length": 57,
+      "max_function_name": "add_material",
+      "imports": 8,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 1,
+      "type_ignore_count": 0,
+      "typed_functions": 18,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 9,
+      "cyclomatic_complexity_max": 7,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'add_material' is 57 lines",
+        "EXCESSIVE_NESTING: 9 nested functions"
+      ]
+    },
+    {
+      "path": "database/repositories/pila_repository.py",
+      "loc": 614,
+      "blank_lines": 111,
+      "comment_lines": 58,
+      "functions": 26,
+      "classes": 1,
+      "methods": 14,
+      "max_function_length": 87,
+      "max_function_name": "save_pila",
+      "imports": 14,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 25,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 12,
+      "cyclomatic_complexity_max": 15,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LARGE_FILE: 614 lines",
+        "LONG_FUNCTION: 'save_pila' is 87 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 15",
+        "EXCESSIVE_NESTING: 12 nested functions"
+      ]
+    },
+    {
+      "path": "database/repositories/preproceso_repository.py",
+      "loc": 459,
+      "blank_lines": 92,
+      "comment_lines": 28,
+      "functions": 37,
+      "classes": 1,
+      "methods": 19,
+      "max_function_length": 50,
+      "max_function_name": "add_product_to_fabricacion",
+      "imports": 11,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 36,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 18,
+      "cyclomatic_complexity_max": 8,
+      "long_lines": 6,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "EXCESSIVE_NESTING: 18 nested functions"
+      ]
+    },
+    {
+      "path": "database/repositories/product_repository.py",
+      "loc": 362,
+      "blank_lines": 60,
+      "comment_lines": 13,
+      "functions": 16,
+      "classes": 1,
+      "methods": 8,
+      "max_function_length": 67,
+      "max_function_name": "update_product",
+      "imports": 7,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 16,
+      "untyped_functions": 0,
+      "global_vars": 0,
+      "nested_functions": 8,
+      "cyclomatic_complexity_max": 20,
+      "long_lines": 3,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'update_product' is 67 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 20",
+        "EXCESSIVE_NESTING: 8 nested functions"
+      ]
+    },
+    {
+      "path": "database/repositories/reports_repository.py",
+      "loc": 643,
+      "blank_lines": 97,
+      "comment_lines": 55,
+      "functions": 19,
+      "classes": 1,
+      "methods": 10,
+      "max_function_length": 91,
+      "max_function_name": "obtener_ordenes_por_producto",
+      "imports": 8,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 1,
+      "type_ignore_count": 0,
+      "typed_functions": 9,
+      "untyped_functions": 10,
+      "global_vars": 0,
+      "nested_functions": 9,
+      "cyclomatic_complexity_max": 14,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LARGE_FILE: 643 lines",
+        "LONG_FUNCTION: 'obtener_ordenes_por_producto' is 91 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 14",
+        "EXCESSIVE_NESTING: 9 nested functions"
+      ]
+    },
+    {
+      "path": "database/repositories/tracking/core_mixin.py",
+      "loc": 272,
+      "blank_lines": 22,
+      "comment_lines": 2,
+      "functions": 14,
+      "classes": 1,
+      "methods": 14,
+      "max_function_length": 55,
+      "max_function_name": "upsert_trabajo_log_from_dict",
+      "imports": 7,
+      "print_count": 0,
+      "bare_excepts": 2,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 10,
+      "untyped_functions": 4,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 24,
+      "long_lines": 10,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'upsert_trabajo_log_from_dict' is 55 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 24",
+        "BARE_EXCEPTS: 2 bare except: clauses"
+      ]
+    },
+    {
+      "path": "database/repositories/tracking/queries_mixin.py",
+      "loc": 82,
+      "blank_lines": 9,
+      "comment_lines": 1,
+      "functions": 3,
+      "classes": 1,
+      "methods": 2,
+      "max_function_length": 57,
+      "max_function_name": "get_data_for_export",
+      "imports": 6,
+      "print_count": 0,
+      "bare_excepts": 1,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 2,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 1,
+      "cyclomatic_complexity_max": 19,
+      "long_lines": 3,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'get_data_for_export' is 57 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 19",
+        "BARE_EXCEPTS: 1 bare except: clauses"
+      ]
+    },
+    {
+      "path": "database/repositories/worker_repository.py",
+      "loc": 415,
+      "blank_lines": 79,
+      "comment_lines": 22,
+      "functions": 22,
+      "classes": 1,
+      "methods": 11,
+      "max_function_length": 81,
+      "max_function_name": "add_worker",
+      "imports": 13,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 22,
+      "untyped_functions": 0,
+      "global_vars": 0,
+      "nested_functions": 11,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 3,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'add_worker' is 81 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12",
+        "EXCESSIVE_NESTING: 11 nested functions"
+      ]
+    },
+    {
+      "path": "debug_qt.py",
+      "loc": 14,
+      "blank_lines": 2,
+      "comment_lines": 0,
+      "functions": 0,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 0,
+      "max_function_name": "",
+      "imports": 3,
+      "print_count": 5,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 0,
+      "global_vars": 1,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 0,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 5 print() calls"
+      ]
+    },
+    {
+      "path": "features/worker_controller.py",
+      "loc": 380,
+      "blank_lines": 63,
+      "comment_lines": 8,
+      "functions": 19,
+      "classes": 2,
+      "methods": 19,
+      "max_function_length": 34,
+      "max_function_name": "__init__",
+      "imports": 19,
+      "print_count": 0,
+      "bare_excepts": 1,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 1,
+      "untyped_functions": 18,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 11,
+      "long_lines": 6,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 11",
+        "BARE_EXCEPTS: 1 bare except: clauses"
+      ]
+    },
+    {
+      "path": "fix_syntax2.py",
+      "loc": 27,
+      "blank_lines": 6,
+      "comment_lines": 1,
+      "functions": 0,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 0,
+      "max_function_name": "",
+      "imports": 2,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 0,
+      "global_vars": 1,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 0,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "force_skip.py",
+      "loc": 29,
+      "blank_lines": 7,
+      "comment_lines": 2,
+      "functions": 0,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 0,
+      "max_function_name": "",
+      "imports": 2,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 0,
+      "global_vars": 2,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 0,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "generate_ui_report.py",
+      "loc": 143,
+      "blank_lines": 27,
+      "comment_lines": 12,
+      "functions": 2,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 133,
+      "max_function_name": "generate_markdown",
+      "imports": 3,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 1,
+      "cyclomatic_complexity_max": 29,
+      "long_lines": 13,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'generate_markdown' is 133 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 29",
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "re_skip.py",
+      "loc": 47,
+      "blank_lines": 8,
+      "comment_lines": 2,
+      "functions": 0,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 0,
+      "max_function_name": "",
+      "imports": 2,
+      "print_count": 3,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 0,
+      "global_vars": 2,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 0,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 3 print() calls"
+      ]
+    },
+    {
+      "path": "revert.py",
+      "loc": 27,
+      "blank_lines": 5,
+      "comment_lines": 1,
+      "functions": 0,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 0,
+      "max_function_name": "",
+      "imports": 2,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 0,
+      "global_vars": 1,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 0,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "run_tests.py",
+      "loc": 311,
+      "blank_lines": 40,
+      "comment_lines": 18,
+      "functions": 3,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 190,
+      "max_function_name": "generate_compliance_dashboard",
+      "imports": 7,
+      "print_count": 13,
+      "bare_excepts": 0,
+      "broad_excepts": 1,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 3,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 10,
+      "long_lines": 5,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'generate_compliance_dashboard' is 190 lines",
+        "PRINT_STATEMENTS: 13 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_codebase.py",
+      "loc": 129,
+      "blank_lines": 25,
+      "comment_lines": 8,
+      "functions": 2,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 67,
+      "max_function_name": "analyze_file",
+      "imports": 5,
+      "print_count": 9,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 1,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 26,
+      "long_lines": 3,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'analyze_file' is 67 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 26",
+        "PRINT_STATEMENTS: 9 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_controller.py",
+      "loc": 36,
+      "blank_lines": 8,
+      "comment_lines": 2,
+      "functions": 1,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 28,
+      "max_function_name": "analyze_file",
+      "imports": 3,
+      "print_count": 9,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 15,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 15",
+        "PRINT_STATEMENTS: 9 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_coverage_risks.py",
+      "loc": 108,
+      "blank_lines": 17,
+      "comment_lines": 16,
+      "functions": 1,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 92,
+      "max_function_name": "analyze_risk",
+      "imports": 5,
+      "print_count": 5,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 15,
+      "long_lines": 2,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'analyze_risk' is 92 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 15",
+        "PRINT_STATEMENTS: 5 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_db_usage.py",
+      "loc": 138,
+      "blank_lines": 23,
+      "comment_lines": 13,
+      "functions": 2,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 67,
+      "max_function_name": "generate_report",
+      "imports": 3,
+      "print_count": 2,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 2,
+      "global_vars": 2,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 25,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'generate_report' is 67 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 25",
+        "PRINT_STATEMENTS: 2 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_dependencies.py",
+      "loc": 106,
+      "blank_lines": 21,
+      "comment_lines": 8,
+      "functions": 3,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 65,
+      "max_function_name": "analyze_dependencies",
+      "imports": 5,
+      "print_count": 7,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 1,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 1,
+      "cyclomatic_complexity_max": 18,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'analyze_dependencies' is 65 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 18",
+        "PRINT_STATEMENTS: 7 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_dialogs.py",
+      "loc": 539,
+      "blank_lines": 86,
+      "comment_lines": 35,
+      "functions": 13,
+      "classes": 1,
+      "methods": 11,
+      "max_function_length": 272,
+      "max_function_name": "generate_markdown_report",
+      "imports": 7,
+      "print_count": 16,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 5,
+      "untyped_functions": 8,
+      "global_vars": 3,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 64,
+      "long_lines": 3,
+      "naming_issues": [
+        "Function 'visit_Import' L36: should be snake_case",
+        "Function 'visit_ImportFrom' L41: should be snake_case",
+        "Function 'visit_ClassDef' L47: should be snake_case"
+      ],
+      "dead_imports": [],
+      "issues": [
+        "LARGE_FILE: 539 lines",
+        "LONG_FUNCTION: 'generate_markdown_report' is 272 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 64",
+        "PRINT_STATEMENTS: 16 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_fabrication_dialogs.py",
+      "loc": 36,
+      "blank_lines": 7,
+      "comment_lines": 1,
+      "functions": 1,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 28,
+      "max_function_name": "analyze_file",
+      "imports": 3,
+      "print_count": 7,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 15,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 15",
+        "PRINT_STATEMENTS: 7 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_loose_mocks.py",
+      "loc": 56,
+      "blank_lines": 10,
+      "comment_lines": 3,
+      "functions": 1,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 37,
+      "max_function_name": "check_loose_mocks",
+      "imports": 2,
+      "print_count": 4,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 20,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 20",
+        "PRINT_STATEMENTS: 4 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_nomenclature.py",
+      "loc": 315,
+      "blank_lines": 48,
+      "comment_lines": 26,
+      "functions": 6,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 118,
+      "max_function_name": "generate_markdown",
+      "imports": 5,
+      "print_count": 9,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 6,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 35,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'generate_markdown' is 118 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 35",
+        "PRINT_STATEMENTS: 9 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_refactoring_impact.py",
+      "loc": 43,
+      "blank_lines": 8,
+      "comment_lines": 0,
+      "functions": 2,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 18,
+      "max_function_name": "analyze_directory",
+      "imports": 2,
+      "print_count": 5,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 8,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 5 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_repository_connections.py",
+      "loc": 268,
+      "blank_lines": 51,
+      "comment_lines": 21,
+      "functions": 6,
+      "classes": 1,
+      "methods": 5,
+      "max_function_length": 64,
+      "max_function_name": "export_to_markdown",
+      "imports": 7,
+      "print_count": 4,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 1,
+      "type_ignore_count": 0,
+      "typed_functions": 4,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 19,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'export_to_markdown' is 64 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 19",
+        "PRINT_STATEMENTS: 4 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_root_files.py",
+      "loc": 182,
+      "blank_lines": 28,
+      "comment_lines": 12,
+      "functions": 3,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 50,
+      "max_function_name": "main",
+      "imports": 6,
+      "print_count": 4,
+      "bare_excepts": 0,
+      "broad_excepts": 1,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 3,
+      "global_vars": 3,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12",
+        "PRINT_STATEMENTS: 4 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_structure.py",
+      "loc": 64,
+      "blank_lines": 11,
+      "comment_lines": 5,
+      "functions": 2,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 33,
+      "max_function_name": "analyze_file",
+      "imports": 3,
+      "print_count": 2,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 11,
+      "long_lines": 8,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 11",
+        "PRINT_STATEMENTS: 2 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_tracking_impact.py",
+      "loc": 51,
+      "blank_lines": 11,
+      "comment_lines": 0,
+      "functions": 1,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 44,
+      "max_function_name": "search_usages",
+      "imports": 2,
+      "print_count": 4,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 13,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 13",
+        "PRINT_STATEMENTS: 4 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_typing_deep.py",
+      "loc": 122,
+      "blank_lines": 26,
+      "comment_lines": 12,
+      "functions": 3,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 42,
+      "max_function_name": "analyze_file",
+      "imports": 4,
+      "print_count": 8,
+      "bare_excepts": 0,
+      "broad_excepts": 1,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 1,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 13,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 13",
+        "PRINT_STATEMENTS: 8 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/analyze_ui_structure.py",
+      "loc": 130,
+      "blank_lines": 27,
+      "comment_lines": 4,
+      "functions": 4,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 52,
+      "max_function_name": "analyze_file",
+      "imports": 3,
+      "print_count": 5,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 4,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'analyze_file' is 52 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12",
+        "PRINT_STATEMENTS: 5 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/detect_obsolete_code.py",
+      "loc": 140,
+      "blank_lines": 25,
+      "comment_lines": 13,
+      "functions": 5,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 52,
+      "max_function_name": "main",
+      "imports": 5,
+      "print_count": 11,
+      "bare_excepts": 0,
+      "broad_excepts": 2,
+      "todo_fixme": 3,
+      "type_ignore_count": 0,
+      "typed_functions": 4,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'main' is 52 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12",
+        "PRINT_STATEMENTS: 11 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analysis/verify_naming_conventions.py",
+      "loc": 70,
+      "blank_lines": 14,
+      "comment_lines": 1,
+      "functions": 5,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 21,
+      "max_function_name": "main",
+      "imports": 4,
+      "print_count": 5,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 4,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 8,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 5 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analyze_product_controller_coverage.py",
+      "loc": 80,
+      "blank_lines": 18,
+      "comment_lines": 1,
+      "functions": 3,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 41,
+      "max_function_name": "analyze_coverage",
+      "imports": 4,
+      "print_count": 3,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 3,
+      "global_vars": 3,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 6,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 3 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/analyze_ui_state.py",
+      "loc": 66,
+      "blank_lines": 14,
+      "comment_lines": 2,
+      "functions": 3,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 24,
+      "max_function_name": "main",
+      "imports": 2,
+      "print_count": 5,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 3,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 6,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 5 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/check_typing_coverage.py",
+      "loc": 80,
+      "blank_lines": 18,
+      "comment_lines": 6,
+      "functions": 3,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 25,
+      "max_function_name": "get_typing_stats",
+      "imports": 4,
+      "print_count": 7,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 3,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 8,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 7 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/codebase_analyzer.py",
+      "loc": 151,
+      "blank_lines": 25,
+      "comment_lines": 3,
+      "functions": 4,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 73,
+      "max_function_name": "main",
+      "imports": 4,
+      "print_count": 2,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 4,
+      "global_vars": 0,
+      "nested_functions": 1,
+      "cyclomatic_complexity_max": 31,
+      "long_lines": 2,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'main' is 73 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 31",
+        "PRINT_STATEMENTS: 2 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/detect_dead_code.py",
+      "loc": 513,
+      "blank_lines": 78,
+      "comment_lines": 33,
+      "functions": 9,
+      "classes": 1,
+      "methods": 3,
+      "max_function_length": 150,
+      "max_function_name": "generate_report",
+      "imports": 9,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 1,
+      "todo_fixme": 2,
+      "type_ignore_count": 0,
+      "typed_functions": 5,
+      "untyped_functions": 4,
+      "global_vars": 6,
+      "nested_functions": 1,
+      "cyclomatic_complexity_max": 21,
+      "long_lines": 0,
+      "naming_issues": [
+        "Function 'visit_ClassDef' L67: should be snake_case",
+        "Function 'visit_FunctionDef' L77: should be snake_case"
+      ],
+      "dead_imports": [],
+      "issues": [
+        "LARGE_FILE: 513 lines",
+        "LONG_FUNCTION: 'generate_report' is 150 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 21"
+      ]
+    },
+    {
+      "path": "scripts/download_opencv_resources.py",
+      "loc": 68,
+      "blank_lines": 11,
+      "comment_lines": 6,
+      "functions": 2,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 46,
+      "max_function_name": "main",
+      "imports": 4,
+      "print_count": 10,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 5,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 10 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/extract_code_symbols.py",
+      "loc": 423,
+      "blank_lines": 65,
+      "comment_lines": 20,
+      "functions": 16,
+      "classes": 1,
+      "methods": 14,
+      "max_function_length": 93,
+      "max_function_name": "generate_markdown_report",
+      "imports": 6,
+      "print_count": 16,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 7,
+      "untyped_functions": 9,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 23,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'generate_markdown_report' is 93 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 23",
+        "PRINT_STATEMENTS: 16 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/fix_test_patches.py",
+      "loc": 30,
+      "blank_lines": 8,
+      "comment_lines": 0,
+      "functions": 0,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 0,
+      "max_function_name": "",
+      "imports": 1,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 0,
+      "global_vars": 3,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 0,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/fix_test_prep_patches.py",
+      "loc": 31,
+      "blank_lines": 9,
+      "comment_lines": 0,
+      "functions": 0,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 0,
+      "max_function_name": "",
+      "imports": 1,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 0,
+      "global_vars": 3,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 0,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/fix_test_prep_patches2.py",
+      "loc": 29,
+      "blank_lines": 8,
+      "comment_lines": 2,
+      "functions": 0,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 0,
+      "max_function_name": "",
+      "imports": 1,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 0,
+      "global_vars": 4,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 0,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/generate_comprehensive_report.py",
+      "loc": 95,
+      "blank_lines": 12,
+      "comment_lines": 10,
+      "functions": 3,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 53,
+      "max_function_name": "generate_report",
+      "imports": 5,
+      "print_count": 5,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 3,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 6,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'generate_report' is 53 lines",
+        "PRINT_STATEMENTS: 5 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/generate_coverage_report.py",
+      "loc": 176,
+      "blank_lines": 31,
+      "comment_lines": 10,
+      "functions": 5,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 79,
+      "max_function_name": "print_report",
+      "imports": 6,
+      "print_count": 13,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 2,
+      "untyped_functions": 3,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'print_report' is 79 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12",
+        "PRINT_STATEMENTS: 13 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/legacy/check_local_users.py",
+      "loc": 41,
+      "blank_lines": 8,
+      "comment_lines": 2,
+      "functions": 1,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 25,
+      "max_function_name": "check_users",
+      "imports": 5,
+      "print_count": 7,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 5,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 7 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/legacy/debug_fabricaciones.py",
+      "loc": 32,
+      "blank_lines": 9,
+      "comment_lines": 1,
+      "functions": 1,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 18,
+      "max_function_name": "inspect_fabricaciones",
+      "imports": 5,
+      "print_count": 4,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 3,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 4 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/legacy/debug_settings_widget.py",
+      "loc": 49,
+      "blank_lines": 11,
+      "comment_lines": 2,
+      "functions": 1,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 21,
+      "max_function_name": "test_settings_widget",
+      "imports": 6,
+      "print_count": 9,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 3,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 9 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/legacy/generate_nomenclature.py",
+      "loc": 85,
+      "blank_lines": 18,
+      "comment_lines": 3,
+      "functions": 1,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 76,
+      "max_function_name": "generate_nomenclature",
+      "imports": 3,
+      "print_count": 2,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 18,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'generate_nomenclature' is 76 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 18",
+        "PRINT_STATEMENTS: 2 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/legacy/verify_postgres_connection.py",
+      "loc": 86,
+      "blank_lines": 19,
+      "comment_lines": 11,
+      "functions": 1,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 61,
+      "max_function_name": "verify_connection",
+      "imports": 6,
+      "print_count": 12,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 1,
+      "global_vars": 1,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 7,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'verify_connection' is 61 lines",
+        "PRINT_STATEMENTS: 12 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/maintenance/backup_database.py",
+      "loc": 104,
+      "blank_lines": 20,
+      "comment_lines": 5,
+      "functions": 2,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 59,
+      "max_function_name": "create_backup",
+      "imports": 4,
+      "print_count": 27,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 7,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'create_backup' is 59 lines",
+        "PRINT_STATEMENTS: 27 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/maintenance/reset_admin.py",
+      "loc": 44,
+      "blank_lines": 9,
+      "comment_lines": 2,
+      "functions": 1,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 28,
+      "max_function_name": "reset_admin_password",
+      "imports": 6,
+      "print_count": 4,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 3,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 4 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/print_summary.py",
+      "loc": 13,
+      "blank_lines": 4,
+      "comment_lines": 0,
+      "functions": 0,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 0,
+      "max_function_name": "",
+      "imports": 1,
+      "print_count": 4,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 0,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 0,
+      "long_lines": 2,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 4 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/profile_queries.py",
+      "loc": 104,
+      "blank_lines": 23,
+      "comment_lines": 16,
+      "functions": 3,
+      "classes": 1,
+      "methods": 2,
+      "max_function_length": 32,
+      "max_function_name": "profile_method",
+      "imports": 12,
+      "print_count": 14,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 3,
+      "global_vars": 9,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 6,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 14 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/security_audit_analyzer.py",
+      "loc": 246,
+      "blank_lines": 41,
+      "comment_lines": 10,
+      "functions": 10,
+      "classes": 1,
+      "methods": 9,
+      "max_function_length": 39,
+      "max_function_name": "generate_report",
+      "imports": 5,
+      "print_count": 11,
+      "bare_excepts": 0,
+      "broad_excepts": 1,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 1,
+      "untyped_functions": 9,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 15,
+      "long_lines": 3,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 15",
+        "PRINT_STATEMENTS: 11 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/seed_data.py",
+      "loc": 134,
+      "blank_lines": 18,
+      "comment_lines": 14,
+      "functions": 1,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 108,
+      "max_function_name": "seed_data",
+      "imports": 8,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 1,
+      "global_vars": 1,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 8,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'seed_data' is 108 lines"
+      ]
+    },
+    {
+      "path": "scripts/split_product_dialogs.py",
+      "loc": 77,
+      "blank_lines": 14,
+      "comment_lines": 7,
+      "functions": 0,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 0,
+      "max_function_name": "",
+      "imports": 1,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 0,
+      "global_vars": 8,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 0,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/test_quality_analyzer.py",
+      "loc": 72,
+      "blank_lines": 13,
+      "comment_lines": 2,
+      "functions": 2,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 41,
+      "max_function_name": "analyze_test_file",
+      "imports": 4,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12",
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/update_test_imports.py",
+      "loc": 14,
+      "blank_lines": 6,
+      "comment_lines": 0,
+      "functions": 0,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 0,
+      "max_function_name": "",
+      "imports": 1,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 0,
+      "global_vars": 2,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 0,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/verify_migration.py",
+      "loc": 257,
+      "blank_lines": 46,
+      "comment_lines": 16,
+      "functions": 7,
+      "classes": 1,
+      "methods": 0,
+      "max_function_length": 40,
+      "max_function_name": "check_tuple_access_on_dtos",
+      "imports": 6,
+      "print_count": 26,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 6,
+      "untyped_functions": 1,
+      "global_vars": 4,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12",
+        "PRINT_STATEMENTS: 26 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/verify_qr_optimization.py",
+      "loc": 39,
+      "blank_lines": 11,
+      "comment_lines": 5,
+      "functions": 1,
+      "classes": 1,
+      "methods": 1,
+      "max_function_length": 23,
+      "max_function_name": "test_wechat_qrcode_initialization",
+      "imports": 5,
+      "print_count": 5,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 2,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 5 print() calls"
+      ]
+    },
+    {
+      "path": "scripts/verify_structure.py",
+      "loc": 60,
+      "blank_lines": 11,
+      "comment_lines": 2,
+      "functions": 2,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 16,
+      "max_function_name": "check_structure",
+      "imports": 3,
+      "print_count": 4,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 2,
+      "global_vars": 2,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 5,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 4 print() calls"
+      ]
+    },
+    {
+      "path": "skip_all.py",
+      "loc": 35,
+      "blank_lines": 6,
+      "comment_lines": 0,
+      "functions": 0,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 0,
+      "max_function_name": "",
+      "imports": 1,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 0,
+      "global_vars": 1,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 0,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "syntax_checker.py",
+      "loc": 11,
+      "blank_lines": 2,
+      "comment_lines": 0,
+      "functions": 0,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 0,
+      "max_function_name": "",
+      "imports": 3,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 0,
+      "global_vars": 1,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 0,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "tools/analyze_app_controller.py",
+      "loc": 151,
+      "blank_lines": 29,
+      "comment_lines": 12,
+      "functions": 6,
+      "classes": 1,
+      "methods": 3,
+      "max_function_length": 72,
+      "max_function_name": "analyze",
+      "imports": 4,
+      "print_count": 25,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 6,
+      "global_vars": 3,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 14,
+      "long_lines": 2,
+      "naming_issues": [
+        "Function 'visit_FunctionDef' L16: should be snake_case",
+        "Function 'visit_Attribute' L21: should be snake_case"
+      ],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'analyze' is 72 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 14",
+        "PRINT_STATEMENTS: 25 print() calls"
+      ]
+    },
+    {
+      "path": "tools/hardware/detect_cameras.py",
+      "loc": 156,
+      "blank_lines": 32,
+      "comment_lines": 7,
+      "functions": 0,
+      "classes": 0,
+      "methods": 0,
+      "max_function_length": 0,
+      "max_function_name": "",
+      "imports": 3,
+      "print_count": 57,
+      "bare_excepts": 1,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 0,
+      "global_vars": 1,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 0,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 57 print() calls",
+        "BARE_EXCEPTS: 1 bare except: clauses"
+      ]
+    },
+    {
+      "path": "tools/qr_generator.py",
+      "loc": 333,
+      "blank_lines": 65,
+      "comment_lines": 24,
+      "functions": 8,
+      "classes": 1,
+      "methods": 6,
+      "max_function_length": 41,
+      "max_function_name": "generate_qr_code",
+      "imports": 10,
+      "print_count": 8,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 7,
+      "untyped_functions": 1,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 3,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 8 print() calls"
+      ]
+    },
+    {
+      "path": "ui/dialogs/backup_restore_dialog.py",
+      "loc": 280,
+      "blank_lines": 45,
+      "comment_lines": 16,
+      "functions": 5,
+      "classes": 1,
+      "methods": 5,
+      "max_function_length": 92,
+      "max_function_name": "_on_restore_clicked",
+      "imports": 8,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 1,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 5,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 8,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_on_restore_clicked' is 92 lines"
+      ]
+    },
+    {
+      "path": "ui/dialogs/canvas_widgets.py",
+      "loc": 496,
+      "blank_lines": 91,
+      "comment_lines": 79,
+      "functions": 20,
+      "classes": 2,
+      "methods": 20,
+      "max_function_length": 67,
+      "max_function_name": "paintEvent",
+      "imports": 4,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 20,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 11,
+      "long_lines": 0,
+      "naming_issues": [
+        "Function 'dragEnterEvent' L37: should be snake_case",
+        "Function 'dragMoveEvent' L40: should be snake_case",
+        "Function 'dropEvent' L43: should be snake_case",
+        "Function 'paintEvent' L50: should be snake_case",
+        "Function 'mousePressEvent' L386: should be snake_case",
+        "Function 'mousePressEvent' L443: should be snake_case",
+        "Function 'mouseMoveEvent' L456: should be snake_case",
+        "Function 'mouseReleaseEvent' L467: should be snake_case"
+      ],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'paintEvent' is 67 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 11"
+      ]
+    },
+    {
+      "path": "ui/dialogs/connection_dialog.py",
+      "loc": 131,
+      "blank_lines": 19,
+      "comment_lines": 7,
+      "functions": 2,
+      "classes": 1,
+      "methods": 2,
+      "max_function_length": 93,
+      "max_function_name": "__init__",
+      "imports": 5,
+      "print_count": 1,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 1,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '__init__' is 93 lines",
+        "PRINT_STATEMENTS: 1 print() calls"
+      ]
+    },
+    {
+      "path": "ui/dialogs/fabrication/assignment_dialogs.py",
+      "loc": 163,
+      "blank_lines": 34,
+      "comment_lines": 12,
+      "functions": 6,
+      "classes": 1,
+      "methods": 6,
+      "max_function_length": 61,
+      "max_function_name": "setup_ui",
+      "imports": 5,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 6,
+      "untyped_functions": 0,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 5,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'setup_ui' is 61 lines"
+      ]
+    },
+    {
+      "path": "ui/dialogs/fabrication/bitacora_dialog.py",
+      "loc": 221,
+      "blank_lines": 38,
+      "comment_lines": 8,
+      "functions": 7,
+      "classes": 1,
+      "methods": 7,
+      "max_function_length": 66,
+      "max_function_name": "__init__",
+      "imports": 9,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 7,
+      "untyped_functions": 0,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 5,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '__init__' is 66 lines"
+      ]
+    },
+    {
+      "path": "ui/dialogs/fabrication/products_dialog.py",
+      "loc": 194,
+      "blank_lines": 36,
+      "comment_lines": 16,
+      "functions": 9,
+      "classes": 1,
+      "methods": 9,
+      "max_function_length": 66,
+      "max_function_name": "setup_ui",
+      "imports": 3,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 9,
+      "untyped_functions": 0,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 5,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'setup_ui' is 66 lines"
+      ]
+    },
+    {
+      "path": "ui/dialogs/fabrication/selection_dialogs.py",
+      "loc": 223,
+      "blank_lines": 47,
+      "comment_lines": 13,
+      "functions": 8,
+      "classes": 2,
+      "methods": 8,
+      "max_function_length": 75,
+      "max_function_name": "setup_ui",
+      "imports": 4,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 8,
+      "untyped_functions": 0,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 8,
+      "long_lines": 4,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'setup_ui' is 75 lines"
+      ]
+    },
+    {
+      "path": "ui/dialogs/prep/prep_groups_dialog.py",
+      "loc": 221,
+      "blank_lines": 32,
+      "comment_lines": 6,
+      "functions": 8,
+      "classes": 1,
+      "methods": 8,
+      "max_function_length": 77,
+      "max_function_name": "__init__",
+      "imports": 8,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 8,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 7,
+      "long_lines": 4,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '__init__' is 77 lines"
+      ]
+    },
+    {
+      "path": "ui/dialogs/prep/prep_steps_dialog.py",
+      "loc": 203,
+      "blank_lines": 23,
+      "comment_lines": 3,
+      "functions": 6,
+      "classes": 1,
+      "methods": 6,
+      "max_function_length": 59,
+      "max_function_name": "__init__",
+      "imports": 7,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 6,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 7,
+      "long_lines": 2,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '__init__' is 59 lines"
+      ]
+    },
+    {
+      "path": "ui/dialogs/prep/preproceso_dialog.py",
+      "loc": 270,
+      "blank_lines": 39,
+      "comment_lines": 21,
+      "functions": 9,
+      "classes": 1,
+      "methods": 9,
+      "max_function_length": 66,
+      "max_function_name": "setup_ui",
+      "imports": 7,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 1,
+      "untyped_functions": 8,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 8,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'setup_ui' is 66 lines"
+      ]
+    },
+    {
+      "path": "ui/dialogs/product/subfabricaciones_dialog.py",
+      "loc": 219,
+      "blank_lines": 37,
+      "comment_lines": 11,
+      "functions": 8,
+      "classes": 1,
+      "methods": 8,
+      "max_function_length": 58,
+      "max_function_name": "__init__",
+      "imports": 10,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 8,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 6,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '__init__' is 58 lines"
+      ]
+    },
+    {
+      "path": "ui/dialogs/production_flow/common_dialogs.py",
+      "loc": 381,
+      "blank_lines": 70,
+      "comment_lines": 36,
+      "functions": 9,
+      "classes": 3,
+      "methods": 9,
+      "max_function_length": 132,
+      "max_function_name": "_setup_ui",
+      "imports": 3,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 9,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 2,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_setup_ui' is 132 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12"
+      ]
+    },
+    {
+      "path": "ui/dialogs/production_flow/define_flow_dialog.py",
+      "loc": 451,
+      "blank_lines": 82,
+      "comment_lines": 4,
+      "functions": 17,
+      "classes": 1,
+      "methods": 17,
+      "max_function_length": 51,
+      "max_function_name": "__init__",
+      "imports": 8,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 17,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 9,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '__init__' is 51 lines"
+      ]
+    },
+    {
+      "path": "ui/dialogs/production_flow/define_flow_presenter.py",
+      "loc": 211,
+      "blank_lines": 31,
+      "comment_lines": 5,
+      "functions": 14,
+      "classes": 1,
+      "methods": 14,
+      "max_function_length": 73,
+      "max_function_name": "group_tasks",
+      "imports": 3,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 8,
+      "untyped_functions": 6,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 18,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'group_tasks' is 73 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 18"
+      ]
+    },
+    {
+      "path": "ui/dialogs/production_flow/enhanced_flow_presenter.py",
+      "loc": 455,
+      "blank_lines": 79,
+      "comment_lines": 34,
+      "functions": 22,
+      "classes": 1,
+      "methods": 22,
+      "max_function_length": 55,
+      "max_function_name": "get_logical_connections",
+      "imports": 3,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 1,
+      "type_ignore_count": 0,
+      "typed_functions": 17,
+      "untyped_functions": 5,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 1,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'get_logical_connections' is 55 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12"
+      ]
+    },
+    {
+      "path": "ui/dialogs/visual_effects.py",
+      "loc": 575,
+      "blank_lines": 105,
+      "comment_lines": 53,
+      "functions": 23,
+      "classes": 5,
+      "methods": 23,
+      "max_function_length": 84,
+      "max_function_name": "paintEvent",
+      "imports": 3,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 23,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 5,
+      "long_lines": 0,
+      "naming_issues": [
+        "Function 'eventFilter' L41: should be snake_case",
+        "Function 'paintEvent' L95: should be snake_case",
+        "Function 'eventFilter' L222: should be snake_case",
+        "Function 'paintEvent' L263: should be snake_case",
+        "Function 'eventFilter' L297: should be snake_case",
+        "Function 'paintEvent' L331: should be snake_case",
+        "Function 'eventFilter' L391: should be snake_case",
+        "Function 'paintEvent' L425: should be snake_case",
+        "Function 'paintEvent' L523: should be snake_case"
+      ],
+      "dead_imports": [],
+      "issues": [
+        "LARGE_FILE: 575 lines",
+        "LONG_FUNCTION: 'paintEvent' is 84 lines"
+      ]
+    },
+    {
+      "path": "ui/main_window.py",
+      "loc": 407,
+      "blank_lines": 66,
+      "comment_lines": 50,
+      "functions": 16,
+      "classes": 1,
+      "methods": 13,
+      "max_function_length": 101,
+      "max_function_name": "_create_nav_panel",
+      "imports": 7,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 1,
+      "untyped_functions": 15,
+      "global_vars": 0,
+      "nested_functions": 2,
+      "cyclomatic_complexity_max": 10,
+      "long_lines": 1,
+      "naming_issues": [
+        "Function 'closeEvent' L378: should be snake_case"
+      ],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_create_nav_panel' is 101 lines"
+      ]
+    },
+    {
+      "path": "ui/widgets/calculate_times_widget.py",
+      "loc": 202,
+      "blank_lines": 31,
+      "comment_lines": 2,
+      "functions": 16,
+      "classes": 1,
+      "methods": 16,
+      "max_function_length": 59,
+      "max_function_name": "setup_ui",
+      "imports": 5,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 16,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 12,
+      "long_lines": 36,
+      "naming_issues": [
+        "Function 'showEvent' L26: should be snake_case"
+      ],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'setup_ui' is 59 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 12"
+      ]
+    },
+    {
+      "path": "ui/widgets/fabrications_widget.py",
+      "loc": 112,
+      "blank_lines": 15,
+      "comment_lines": 5,
+      "functions": 6,
+      "classes": 1,
+      "methods": 6,
+      "max_function_length": 53,
+      "max_function_name": "display_fabricacion_form",
+      "imports": 1,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 6,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 14,
+      "long_lines": 4,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'display_fabricacion_form' is 53 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 14"
+      ]
+    },
+    {
+      "path": "ui/widgets/historial_widget.py",
+      "loc": 142,
+      "blank_lines": 24,
+      "comment_lines": 1,
+      "functions": 8,
+      "classes": 1,
+      "methods": 8,
+      "max_function_length": 56,
+      "max_function_name": "__init__",
+      "imports": 3,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 8,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 2,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '__init__' is 56 lines"
+      ]
+    },
+    {
+      "path": "ui/widgets/home_widget.py",
+      "loc": 125,
+      "blank_lines": 19,
+      "comment_lines": 10,
+      "functions": 2,
+      "classes": 1,
+      "methods": 2,
+      "max_function_length": 76,
+      "max_function_name": "__init__",
+      "imports": 3,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 2,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 8,
+      "long_lines": 2,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '__init__' is 76 lines"
+      ]
+    },
+    {
+      "path": "ui/widgets/lotes_widget.py",
+      "loc": 189,
+      "blank_lines": 35,
+      "comment_lines": 11,
+      "functions": 16,
+      "classes": 2,
+      "methods": 16,
+      "max_function_length": 37,
+      "max_function_name": "setup_ui",
+      "imports": 5,
+      "print_count": 2,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 16,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 7,
+      "long_lines": 16,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "PRINT_STATEMENTS: 2 print() calls"
+      ]
+    },
+    {
+      "path": "ui/widgets/machines_widget.py",
+      "loc": 173,
+      "blank_lines": 23,
+      "comment_lines": 2,
+      "functions": 9,
+      "classes": 1,
+      "methods": 9,
+      "max_function_length": 55,
+      "max_function_name": "_create_form_widgets",
+      "imports": 3,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 9,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 3,
+      "long_lines": 2,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_create_form_widgets' is 55 lines"
+      ]
+    },
+    {
+      "path": "ui/widgets/production_flow/define_control_panel.py",
+      "loc": 230,
+      "blank_lines": 30,
+      "comment_lines": 6,
+      "functions": 10,
+      "classes": 1,
+      "methods": 10,
+      "max_function_length": 108,
+      "max_function_name": "_setup_ui",
+      "imports": 3,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 10,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 6,
+      "long_lines": 3,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_setup_ui' is 108 lines"
+      ]
+    },
+    {
+      "path": "ui/widgets/production_flow/inspector_panel.py",
+      "loc": 455,
+      "blank_lines": 97,
+      "comment_lines": 31,
+      "functions": 21,
+      "classes": 1,
+      "methods": 21,
+      "max_function_length": 107,
+      "max_function_name": "set_task",
+      "imports": 7,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 21,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 19,
+      "long_lines": 2,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: 'set_task' is 107 lines",
+        "HIGH_COMPLEXITY: Max cyclomatic complexity 19"
+      ]
+    },
+    {
+      "path": "ui/widgets/products_widget.py",
+      "loc": 276,
+      "blank_lines": 41,
+      "comment_lines": 5,
+      "functions": 15,
+      "classes": 2,
+      "methods": 14,
+      "max_function_length": 69,
+      "max_function_name": "__init__",
+      "imports": 6,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 15,
+      "global_vars": 0,
+      "nested_functions": 1,
+      "cyclomatic_complexity_max": 9,
+      "long_lines": 9,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '__init__' is 69 lines"
+      ]
+    },
+    {
+      "path": "ui/widgets/reports/charts_container.py",
+      "loc": 377,
+      "blank_lines": 70,
+      "comment_lines": 32,
+      "functions": 11,
+      "classes": 2,
+      "methods": 11,
+      "max_function_length": 54,
+      "max_function_name": "_setup_ui",
+      "imports": 5,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 11,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 5,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_setup_ui' is 54 lines"
+      ]
+    },
+    {
+      "path": "ui/widgets/reports/order_list.py",
+      "loc": 256,
+      "blank_lines": 49,
+      "comment_lines": 12,
+      "functions": 11,
+      "classes": 2,
+      "methods": 11,
+      "max_function_length": 62,
+      "max_function_name": "_setup_ui",
+      "imports": 5,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 11,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 4,
+      "long_lines": 0,
+      "naming_issues": [
+        "Function 'mousePressEvent' L115: should be snake_case"
+      ],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_setup_ui' is 62 lines"
+      ]
+    },
+    {
+      "path": "ui/widgets/reports/smart_search.py",
+      "loc": 170,
+      "blank_lines": 29,
+      "comment_lines": 14,
+      "functions": 8,
+      "classes": 1,
+      "methods": 8,
+      "max_function_length": 61,
+      "max_function_name": "_init_ui",
+      "imports": 4,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 8,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 4,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_init_ui' is 61 lines"
+      ]
+    },
+    {
+      "path": "ui/widgets/settings_widget.py",
+      "loc": 366,
+      "blank_lines": 63,
+      "comment_lines": 4,
+      "functions": 12,
+      "classes": 1,
+      "methods": 12,
+      "max_function_length": 149,
+      "max_function_name": "__init__",
+      "imports": 5,
+      "print_count": 4,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 12,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 6,
+      "long_lines": 3,
+      "naming_issues": [
+        "Function 'showEvent' L357: should be snake_case"
+      ],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '__init__' is 149 lines",
+        "PRINT_STATEMENTS: 4 print() calls"
+      ]
+    },
+    {
+      "path": "ui/widgets/workers_widget.py",
+      "loc": 450,
+      "blank_lines": 74,
+      "comment_lines": 10,
+      "functions": 13,
+      "classes": 1,
+      "methods": 13,
+      "max_function_length": 144,
+      "max_function_name": "_create_form_widgets",
+      "imports": 3,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 0,
+      "untyped_functions": 13,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 8,
+      "long_lines": 6,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_create_form_widgets' is 144 lines"
+      ]
+    },
+    {
+      "path": "ui/worker/camera_config_dialog.py",
+      "loc": 454,
+      "blank_lines": 83,
+      "comment_lines": 17,
+      "functions": 9,
+      "classes": 1,
+      "methods": 9,
+      "max_function_length": 113,
+      "max_function_name": "_setup_ui",
+      "imports": 8,
+      "print_count": 8,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 0,
+      "type_ignore_count": 0,
+      "typed_functions": 1,
+      "untyped_functions": 8,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 9,
+      "long_lines": 4,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LONG_FUNCTION: '_setup_ui' is 113 lines",
+        "PRINT_STATEMENTS: 8 print() calls"
+      ]
+    },
+    {
+      "path": "ui/worker/worker_main_window.py",
+      "loc": 616,
+      "blank_lines": 122,
+      "comment_lines": 53,
+      "functions": 21,
+      "classes": 1,
+      "methods": 21,
+      "max_function_length": 86,
+      "max_function_name": "_create_header",
+      "imports": 7,
+      "print_count": 0,
+      "bare_excepts": 0,
+      "broad_excepts": 0,
+      "todo_fixme": 1,
+      "type_ignore_count": 0,
+      "typed_functions": 5,
+      "untyped_functions": 16,
+      "global_vars": 0,
+      "nested_functions": 0,
+      "cyclomatic_complexity_max": 7,
+      "long_lines": 0,
+      "naming_issues": [],
+      "dead_imports": [],
+      "issues": [
+        "LARGE_FILE: 616 lines",
+        "LONG_FUNCTION: '_create_header' is 86 lines"
+      ]
+    }
+  ]
+}

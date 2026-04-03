@@ -1,3 +1,6 @@
+"""
+Interfaz PyQt6 (`enhanced_flow_presenter`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+"""
 from __future__ import annotations
 
 import logging

@@ -1,0 +1,17 @@
+Analyzing Codebase in: /Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion
+
+Total Functions: 2766
+Typed Functions: 2547
+Coverage: 92.08%
+
+Top Untyped Files (by function count):
+database/repositories/tracking_log_repository.py: 4/22 (18.2%)
+ui/dialogs/product/procesos_mecanicos_dialog.py: 0/10 (0.0%)
+ui/dialogs/prep/prep_groups_dialog.py: 0/8 (0.0%)
+ui/dialogs/product/subfabricaciones_dialog.py: 0/8 (0.0%)
+scripts/run_quality_audit.py: 0/8 (0.0%)
+scripts/security_audit_analyzer.py: 2/10 (20.0%)
+ui/dialogs/prep/preproceso_dialog.py: 2/9 (22.2%)
+analyze_ui.py: 0/6 (0.0%)
+ui/dialogs/prep/prep_steps_dialog.py: 0/6 (0.0%)
+ui/widgets/reportes_widget.py: 2/8 (25.0%)

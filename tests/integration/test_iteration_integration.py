@@ -1,8 +1,13 @@
+# -*- coding: utf-8 -*-
+"""Tests de integración de IterationRepository: ciclo de vida, materiales, get_product_iterations."""
 import pytest
 from datetime import datetime
 from database.repositories.iteration_repository import IterationRepository
 from database.models import Producto
 from core.dtos import ProductIterationDTO
+
+pytestmark = pytest.mark.integration
+
 
 class TestIterationIntegration:
     
@@ -24,16 +29,6 @@ class TestIterationIntegration:
         session.add(prod)
         session.commit()
         return prod
-
-    def test_full_lifecycle(self, repository, sample_product):
-        # ... existing content ...
-        # (Content omitted for brevity, but logically needs no change as repository is passed)
-        # However, to use multi_replace effectively on a large block, I should target specific definitions if possible
-        # or replace the fixtures block.
-        pass # Placeholder for tool logic, actual replacement below handles just fixtures/defs if cleaner
-        
-    # Better strategy: Replace just the fixtures and method signatures
-
 
     def test_full_lifecycle(self, repository, sample_product):
         # 1. Add Iteration
@@ -58,6 +53,7 @@ class TestIterationIntegration:
         assert isinstance(dto, ProductIterationDTO)
         assert dto.id == iter_id
         assert dto.descripcion == "Initial Version"
+        assert dto.materiales is not None
         assert len(dto.materiales) == 2
         
         # Verify materials

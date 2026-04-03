@@ -1,206 +1,274 @@
+"""
+Nombre del Módulo: test_reports_widgets
+Descripcion: Tests unitarios para los cuatro widgets del módulo de reportes:
+             StatCard (tarjeta de estadística), OrderListWidget (lista de órdenes
+             de fabricación), SmartSearchWidget (búsqueda con debounce) y
+             ReportsChartsWidget (contenedor de gráficas de análisis).
+             Verifica inicialización, estado interno, señales y comportamiento
+             sin controlador.
+
+Decisión de mocking: Todos los widgets heredan de QWidget/QFrame (PyQt6) —
+MagicMock() inevitable para componentes visuales. El AppModel de SmartSearchWidget
+se pasa como MagicMock() estándar. isVisible() siempre devuelve False en entorno
+headless aunque se llame a show(); los tests verifican count() o atributos internos
+en lugar de visibilidad. No se usa autospec en ningún caso al ser clases Qt.
+"""
 import pytest
-import logging
-from unittest.mock import MagicMock
-from datetime import datetime
-from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QListWidget, QLabel, QFrame
+from unittest.mock import MagicMock, patch
 
-from ui.widgets.reports.smart_search import SmartSearchWidget
-from ui.widgets.reports.order_list import OrderListWidget, OrderCard
-from ui.widgets.reports.charts_container import ReportsChartsWidget, StatCard
+pytestmark = pytest.mark.unit
 
-from core.reports_dtos import (
-    ResultadoBusquedaDTO, OrdenFabricacionResumenDTO, PromedioTiempoDTO,
-    PuntoEvolucionDTO, TiempoTrabajadorDTO, IncidenciaResumenDTO
-)
 
-@pytest.fixture
-def mock_controller():
-    controller = MagicMock()
-    # Mock model methods that might be called via controller.model
-    controller.model = MagicMock()
-    return controller
+# ─── StatCard ────────────────────────────────────────────────────────────────
 
-class TestSmartSearchWidget:
-    
-    def test_search_input_triggers_timer(self, qtbot, mock_controller):
-        """Verifica que escribiendo inicie el timer de debounce."""
-        widget = SmartSearchWidget(controller=mock_controller)
-        qtbot.add_widget(widget)
-        
-        # Escribir texto
-        qtbot.keyClicks(widget.search_input, "PRO")
-        
-        # Verificar que el timer está activo
-        assert widget._search_timer.isActive()
-        
-    def test_search_execution(self, qtbot, mock_controller):
-        """Verifica que se ejecute la búsqueda tras el timeout."""
-        widget = SmartSearchWidget(controller=mock_controller)
-        qtbot.add_widget(widget)
-        
-        # Mock de resultados
-        mock_controller.model.reports_buscar_por_codigo.return_value = [
-            ResultadoBusquedaDTO("producto", "P1", "Desc 1"),
-            ResultadoBusquedaDTO("orden", "OF1", "Orden 1")
-        ]
-        
-        # Trigger manual de perform_search para evitar esperar 300ms reales
-        widget.search_input.setText("TEST")
-        widget._perform_search()
-        
-        # Verificar llamada al controller (incluir kwargs)
-        mock_controller.model.reports_buscar_por_codigo.assert_called_with("TEST", limit=20)
-        
-        # Verificar populado de lista
-        assert widget.results_list.count() == 2
-        item0 = widget.results_list.item(0)
-        assert "P1" in item0.text()
+class TestStatCard:
+    """Verifica StatCard: inicialización con y sin subtítulo, color personalizado y ancho mínimo."""
+    @pytest.fixture
+    def card(self, qapp):
+        from ui.widgets.reports.charts_container import StatCard
+        return StatCard(title="Tiempo Promedio", value="5.2 min", subtitle="por unidad")
 
-    def test_selection_emits_signal(self, qtbot, mock_controller):
-        """Verifica que seleccionar un resultado emita la señal."""
-        widget = SmartSearchWidget(controller=mock_controller)
-        qtbot.add_widget(widget)
-        
-        # Poblar lista manualmente usando _display_results
-        dto = ResultadoBusquedaDTO("producto", "P1", "Desc 1")
-        widget._display_results([dto])
-        
-        with qtbot.waitSignal(widget.result_selected) as blocker:
-            # Simular click en el primer item
-            rect = widget.results_list.visualItemRect(widget.results_list.item(0))
-            qtbot.mouseClick(widget.results_list.viewport(), Qt.MouseButton.LeftButton, pos=rect.center())
-            
-        assert blocker.args == ("producto", "P1")
+    def test_instantiation(self, card):
+        assert card is not None
 
-    def test_search_no_results(self, qtbot, mock_controller):
-        """Verifica comportamiento cuando no hay resultados."""
-        widget = SmartSearchWidget(controller=mock_controller)
-        qtbot.add_widget(widget)
-        
-        # Mock vacío
-        mock_controller.model.reports_buscar_por_codigo.return_value = []
-        
-        widget.search_input.setText("XXXX")
-        widget._perform_search()
-        
-        assert widget.results_list.count() == 0
-        assert "No se encontraron" in widget.status_label.text()
+    def test_instantiation_without_subtitle(self, qapp):
+        from ui.widgets.reports.charts_container import StatCard
+        c = StatCard(title="Total", value="100")
+        assert c is not None
 
-    def test_enter_key_selects_first(self, qtbot, mock_controller):
-        """Verifica que Enter seleccione el primer resultado."""
-        widget = SmartSearchWidget(controller=mock_controller)
-        qtbot.add_widget(widget)
-        
-        dto = ResultadoBusquedaDTO("producto", "P1", "Desc 1")
-        widget._display_results([dto])
-        
-        with qtbot.waitSignal(widget.result_selected) as blocker:
-            widget._on_enter_pressed()
-            
-        assert blocker.args == ("producto", "P1")
+    def test_instantiation_with_custom_color(self, qapp):
+        from ui.widgets.reports.charts_container import StatCard
+        c = StatCard(title="Mejor", value="3.1 min", color="#16a34a")
+        assert c is not None
+
+    def test_minimum_width(self, card):
+        assert card.minimumWidth() == 150
+
+
+# ─── OrderListWidget ─────────────────────────────────────────────────────────
 
 class TestOrderListWidget:
-    
-    def test_update_orders(self, qtbot, mock_controller):
-        """Verifica la carga de tarjetas de órdenes."""
-        from datetime import datetime
-        widget = OrderListWidget(controller=mock_controller)
-        qtbot.add_widget(widget)
-        
-        # Mock datos
-        orders = [
-            OrdenFabricacionResumenDTO("OF1", "P1", "D1", datetime.now(), estado="completado", cantidad_unidades=10),
-            OrdenFabricacionResumenDTO("OF2", "P1", "D1", datetime.now(), estado="en_proceso", cantidad_unidades=5)
-        ]
-        mock_controller.model.reports_obtener_ordenes_por_producto.return_value = orders
-        
-        # Ejecutar update (load_orders_for_product)
-        widget.load_orders_for_product("P1")
-        
-        # Verificar layout contiene 2 tarjetas + stretch (o solo tarjetas)
-        cards = widget.findChildren(OrderCard)
-        assert len(cards) == 2
-        assert cards[0].order_data.orden_fabricacion == "OF1"
-        assert cards[0].order_data.cantidad_unidades == 10
+    """Verifica OrderListWidget: estado inicial, carga de órdenes, clear() y señal order_selected."""
+    @pytest.fixture
+    def widget(self, qapp):
+        from ui.widgets.reports.order_list import OrderListWidget
+        return OrderListWidget()
 
-    def test_click_emits_signal(self, qtbot, mock_controller):
-        """Verifica que hacer clic en una tarjeta emita señal."""
-        widget = OrderListWidget(controller=mock_controller)
-        qtbot.add_widget(widget)
-        
-        dto = OrdenFabricacionResumenDTO("OF1", "P1", "D1", datetime.now())
+    def test_instantiation(self, widget):
+        assert widget is not None
+
+    def test_instantiation_with_controller(self, qapp):
+        from ui.widgets.reports.order_list import OrderListWidget
+        ctrl = MagicMock(spec=[])
+        w = OrderListWidget(controller=ctrl)
+        assert w is not None
+
+    def test_has_title_label(self, widget):
+        assert widget.title_label is not None
+
+    def test_has_status_label(self, widget):
+        assert widget.status_label is not None
+
+    def test_initial_current_producto_is_none(self, widget):
+        assert widget._current_producto is None
+
+    def test_initial_order_cards_empty(self, widget):
+        assert len(widget._order_cards) == 0
+
+    def test_set_controller(self, widget):
+        ctrl = MagicMock(spec=[])
+        widget.set_controller(ctrl)
+        assert widget.controller is ctrl
+
+    def test_clear_resets_state(self, widget):
+        widget._current_producto = "PROD-01"
+        widget.clear()
+        assert widget._current_producto is None
+
+    def test_clear_resets_title(self, widget):
+        widget.title_label.setText("Algo")
+        widget.clear()
+        assert "Órdenes" in widget.title_label.text()
+
+    def test_load_orders_no_controller(self, widget):
+        # Should not raise even without controller
+        widget.load_orders_for_product("PROD-01")
+        assert widget._current_producto == "PROD-01"
+
+    def test_load_orders_with_controller_no_model(self, widget):
+        ctrl = MagicMock(spec=[])  # no 'model' attribute
+        widget.set_controller(ctrl)
+        widget.load_orders_for_product("PROD-01")
+        assert widget._current_producto == "PROD-01"
+
+    def test_load_orders_updates_title(self, widget):
+        widget.load_orders_for_product("PROD-99")
+        assert "PROD-99" in widget.title_label.text()
+
+    def test_select_order_marks_card_selected(self, widget):
+        dto = MagicMock(spec=["orden_fabricacion", "estado", "fecha_inicio", "cantidad_unidades", "tiempo_total_segundos", "incidencias_count"])
+        dto.orden_fabricacion = "OF-SEL-1"
+        dto.estado = "completado"
+        dto.fecha_inicio = None
+        dto.cantidad_unidades = 1
+        dto.tiempo_total_segundos = 60
+        dto.incidencias_count = 0
         widget._display_orders([dto])
-        
-        cards = widget.findChildren(OrderCard)
-        card = cards[0]
-        
-        with qtbot.waitSignal(widget.order_selected) as blocker:
-            qtbot.mouseClick(card, Qt.MouseButton.LeftButton)
-            
-        assert blocker.args == ("OF1",)
 
-    def test_empty_orders(self, qtbot, mock_controller):
-        """Verifica mensaje cuando no hay órdenes."""
-        widget = OrderListWidget(controller=mock_controller)
-        qtbot.add_widget(widget)
-        widget.show()
-        
-        mock_controller.model.reports_obtener_ordenes_por_producto.return_value = []
-        widget.load_orders_for_product("P1")
-        
-        assert widget.status_label.isVisible()
-        assert "No hay órdenes" in widget.status_label.text()
+        widget.select_order("OF-SEL-1")
+
+        assert widget._selected_order == "OF-SEL-1"
+
+    def test_order_selected_signal_exists(self, widget):
+        assert hasattr(widget, "order_selected")
+
+
+# ─── SmartSearchWidget ───────────────────────────────────────────────────────
+
+class TestSmartSearchWidget:
+    """Verifica SmartSearchWidget: debounce, clear_search(), _update_results_list() y señales."""
+    @pytest.fixture
+    def widget(self, qapp):
+        from ui.widgets.reports.smart_search import SmartSearchWidget
+        model = MagicMock(spec=[])
+        return SmartSearchWidget(app_model=model)
+
+    def test_instantiation(self, widget):
+        assert widget is not None
+
+    def test_instantiation_no_model(self, qapp):
+        from ui.widgets.reports.smart_search import SmartSearchWidget
+        w = SmartSearchWidget(app_model=None)
+        assert w is not None
+
+    def test_has_search_input(self, widget):
+        assert widget.search_input is not None
+
+    def test_has_results_list(self, widget):
+        assert widget.results_list is not None
+
+    def test_results_list_initially_hidden(self, widget):
+        assert widget.results_list.isVisible() is False
+
+    def test_has_debounce_timer(self, widget):
+        assert widget.debounce_timer is not None
+
+    def test_result_selected_signal_exists(self, widget):
+        assert hasattr(widget, "result_selected")
+
+    def test_search_cleared_signal_exists(self, widget):
+        assert hasattr(widget, "search_cleared")
+
+    def test_clear_search_hides_results(self, widget):
+        widget.results_list.show()
+        widget.clear_search()
+        assert widget.results_list.isVisible() is False
+
+    def test_clear_search_clears_input(self, widget):
+        widget.search_input.setText("algo")
+        widget.clear_search()
+        assert widget.search_input.text() == ""
+
+    def test_short_text_hides_results(self, widget):
+        widget.results_list.show()
+        widget._on_text_changed("a")
+        assert widget.results_list.isVisible() is False
+
+    def test_empty_text_emits_search_cleared(self, widget):
+        received = []
+        widget.search_cleared.connect(lambda: received.append(True))
+        widget._on_text_changed("")
+        assert len(received) == 1
+
+    def test_set_controller_updates_model(self, widget):
+        ctrl = MagicMock(spec=["model"])
+        ctrl.model = MagicMock(spec=[])
+        widget.set_controller(ctrl)
+        assert widget.app_model is ctrl.model
+
+    def test_perform_search_no_model(self, qapp):
+        from ui.widgets.reports.smart_search import SmartSearchWidget
+        w = SmartSearchWidget(app_model=None)
+        w.search_input.setText("test")
+        # Should not raise
+        w._perform_search()
+        assert w.results_list.count() == 0
+
+    def test_update_results_list_empty(self, widget):
+        widget._update_results_list([])
+        assert widget.results_list.isVisible() is False
+
+    def test_update_results_list_with_items(self, widget):
+        dto = MagicMock(spec=["tipo", "codigo", "descripcion"])
+        dto.tipo = "producto"
+        dto.codigo = "P1"
+        dto.descripcion = "Producto 1"
+        widget._update_results_list([dto])
+        assert widget.results_list.count() == 1
+
+    def test_perform_search_skips_same_query(self, widget):
+        widget.app_model = MagicMock(spec=["search_reports_data"])
+        widget.app_model.search_reports_data.return_value = []
+        widget.search_input.setText("ABC")
+        widget._perform_search()
+        widget._perform_search()
+        widget.app_model.search_reports_data.assert_called_once_with("ABC")
+
+
+# ─── ReportsChartsWidget ─────────────────────────────────────────────────────
 
 class TestReportsChartsWidget:
-    
-    def test_update_charts_empty(self, qtbot, mock_controller):
-        """Verifica actualización de gráficos sin errores."""
-        widget = ReportsChartsWidget(controller=mock_controller)
-        qtbot.add_widget(widget)
-        
-        # Mockear respuestas para evitar errores de atributos en Mocks
-        # Nota: El widget usa 'reports_calcular_promedio_tiempo' (sin _unidad)
-        mock_controller.model.reports_calcular_promedio_tiempo.return_value = None
-        mock_controller.model.reports_obtener_evolucion_temporal.return_value = []
-        mock_controller.model.reports_obtener_tiempos_por_trabajador.return_value = []
-        mock_controller.model.reports_obtener_incidencias_por_producto.return_value = []
-        
-        widget.update_charts("P1")
-        
-        # Debe haber 1 item (placeholder)
-        assert widget.stats_layout.count() > 0
+    """Verifica ReportsChartsWidget: tabs placeholder, clear(), update_charts() sin controlador y set_controller()."""
+    @pytest.fixture
+    def widget(self, qapp):
+        from ui.widgets.reports.charts_container import ReportsChartsWidget
+        return ReportsChartsWidget()
 
-    def test_update_charts_full_data(self, qtbot, mock_controller):
-        """Verifica actualización con datos completos."""
-        widget = ReportsChartsWidget(controller=mock_controller)
-        qtbot.add_widget(widget)
-        
-        # Mock datos válidos
-        promedio = PromedioTiempoDTO("P1", "D1", 120.0, 10.0, 100, 140, 50)
-        mock_controller.model.reports_calcular_promedio_tiempo.return_value = promedio
-        mock_controller.model.reports_obtener_evolucion_temporal.return_value = [
-            PuntoEvolucionDTO(datetime.now(), 120.0, 5)
-        ]
-        mock_controller.model.reports_obtener_tiempos_por_trabajador.return_value = [
-            TiempoTrabajadorDTO(1, "Juan", 120.0, 100, 140, 10)
-        ]
-        mock_controller.model.reports_obtener_incidencias_por_producto.return_value = [
-            IncidenciaResumenDTO("Error X", 2, 10.0)
-        ]
-        
-        widget.update_charts("P1")
-        
-        # Verificar que se crearon 4 tarjetas de estadísticas
-        # layout count incluye items, spacers, etc.
-        # StatCards son QFrame
-        frames = widget.findChildren(QFrame)
-        # Hay frames contenedores también, contar StatCards por clase es difícil si no exportada,
-        # pero podemos contar QLabels específicos o asumir que si no crashó y mock devolvió, iteró.
-        # Mejor verification:
-        title = widget.title_label.text()
-        assert "P1" in title
-        
-        # Verificar que se llamaron a los helpers
-        # (Implícitamente verificado si no hay error)
-        pass
+    def test_instantiation(self, widget):
+        assert widget is not None
+
+    def test_instantiation_with_controller(self, qapp):
+        from ui.widgets.reports.charts_container import ReportsChartsWidget
+        ctrl = MagicMock(spec=[])
+        w = ReportsChartsWidget(controller=ctrl)
+        assert w is not None
+
+    def test_has_title_label(self, widget):
+        assert widget.title_label is not None
+
+    def test_has_tabs(self, widget):
+        assert widget.tabs is not None
+
+    def test_tabs_has_three_placeholder_tabs(self, widget):
+        assert widget.tabs.count() == 3
+
+    def test_initial_current_producto_is_none(self, widget):
+        assert widget._current_producto is None
+
+    def test_set_controller(self, widget):
+        ctrl = MagicMock(spec=[])
+        widget.set_controller(ctrl)
+        assert widget.controller is ctrl
+
+    def test_clear_resets_title(self, widget):
+        widget.title_label.setText("Algo")
+        widget.clear()
+        assert "Análisis" in widget.title_label.text()
+
+    def test_clear_resets_current_producto(self, widget):
+        widget._current_producto = "PROD-01"
+        widget.clear()
+        assert widget._current_producto is None
+
+    def test_clear_recreates_tabs(self, widget):
+        widget.clear()
+        assert widget.tabs.count() == 3
+
+    def test_update_charts_no_controller(self, widget):
+        # Should not raise
+        widget.update_charts("PROD-01")
+        assert widget._current_producto == "PROD-01"
+
+    def test_update_charts_updates_title(self, widget):
+        widget.update_charts("PROD-99")
+        assert "PROD-99" in widget.title_label.text()

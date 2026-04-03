@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""Tests unitarios de TrackingRepository (pre-migración): sesión, DTOs, métodos."""
 import pytest
 import os
 import sys
@@ -5,6 +7,8 @@ from datetime import datetime, timezone
 
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+
+pytestmark = pytest.mark.unit
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -163,37 +167,4 @@ def test_obtener_trabajos_activos(tracking_repo, seed_data):
     assert any(job.qr_code == "QR-TEST-005" for job in activos)
     assert all(isinstance(job, TrabajoLogDTO) for job in activos)
 
-def test_get_fabricaciones_por_trabajador_returns_dtos(tracking_repo, seed_data):
-    # This test might return empty list if seed data didn't create link
-    # But it should verify return TYPE is List[FabricacionAsignadaDTO] or DTO
-    
-    # Manually link worker to fabrication if needed?
-    # tracking_repo.asignar_trabajador_a_fabricacion is likely needed, or manual link
-    
-    # Arrange - Manual link
-    session = tracking_repo.session_factory()
-    # Need to access link table directly or use model relationship
-    # But link table `trabajador_fabricacion_link` is a Table object.
-    # We can use execute insert.
-    from sqlalchemy import insert
-    from database.models import trabajador_fabricacion_link
-    
-    stmt = insert(trabajador_fabricacion_link).values(
-        trabajador_id=seed_data['worker_id'], 
-        fabricacion_id=seed_data['fabricacion_id'],
-        estado='activo'
-    )
-    session.execute(stmt)
-    session.commit()
-    session.close()
-    
-    # Act
-    fabs = tracking_repo.get_fabricaciones_por_trabajador(seed_data['worker_id'])
-    
-    # Assert
-    # Import locally to assert
-    from core.tracking_dtos import FabricacionAsignadaDTO
-    
-    assert len(fabs) >= 1
-    assert any(f.id == seed_data['fabricacion_id'] for f in fabs)
-    assert all(isinstance(f, FabricacionAsignadaDTO) for f in fabs)
+

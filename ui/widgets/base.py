@@ -1,3 +1,12 @@
+"""
+========================================================================
+WIDGETS BASE DE INTERFAZ DE USUARIO
+========================================================================
+Clases base, configuración e imports comunes de los que heredan los
+widgets de la aplicación. Centraliza comportamientos estándar y
+utilidades gráficas compartidas.
+========================================================================
+"""
 # -*- coding: utf-8 -*-
 import logging
 from datetime import datetime, date, timedelta
@@ -25,4 +34,4 @@ except ImportError:
     logging.warning("PyQt6.QtCharts no está disponible. Los gráficos no funcionarán.")
 
 # --- CONSTANTES DE LA APLICACIÓN ---
-MAX_TASKS_TO_RENDER = 500
+MAX_TASKS_TO_RENDER: int = 500

@@ -1,4 +1,4 @@
-
+"""Tests de integración para máquinas (cascadas y relaciones)."""
 import pytest
 from database.models import Maquina, MachineMaintenanc, GrupoPreparacion, PreparacionPaso, Producto
 

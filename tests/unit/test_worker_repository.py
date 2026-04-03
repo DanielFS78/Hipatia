@@ -12,7 +12,7 @@ import pytest
 import hashlib
 from datetime import datetime
 from database.models import Trabajador, TrabajadorPilaAnotacion, Pila
-from core.dtos import WorkerDTO, WorkerAnnotationDTO
+from core.dtos import WorkerDTO, WorkerAnnotationDTO, WorkerDetailDTO, AuthResponseDTO
 
 
 # ==============================================================================
@@ -167,7 +167,7 @@ class TestWorkerRepositoryGetMethods:
 
     def test_get_worker_details_existing(self, repos, session):
         """
-        Prueba que get_worker_details() devuelve diccionario con todos los campos.
+        Prueba que get_worker_details() devuelve WorkerDetailDTO con todos los campos.
         """
         worker_repo = repos["worker"]
         
@@ -189,16 +189,14 @@ class TestWorkerRepositoryGetMethods:
         
         # Assert
         assert details is not None
-        assert isinstance(details, dict)
-        assert details["id"] == worker_id
-        assert details["nombre_completo"] == "María Fernández"
-        assert details["activo"] == True
-        assert details["notas"] == "Especialista"
-        assert details["tipo_trabajador"] == 3
-        assert details["username"] == "mfernandez"
-        assert details["role"] == "Trabajador"
-        # Verificar que no incluye password_hash por seguridad
-        assert "password_hash" not in details
+        assert isinstance(details, WorkerDetailDTO)
+        assert details.id == worker_id
+        assert details.nombre_completo == "María Fernández"
+        assert details.activo == True
+        assert details.notas == "Especialista"
+        assert details.tipo_trabajador == 3
+        assert details.username == "mfernandez"
+        assert details.role == "Trabajador"
 
     def test_get_worker_details_not_found(self, repos):
         """
@@ -248,7 +246,8 @@ class TestWorkerRepositoryCRUD:
         Prueba que add_worker() acepta credenciales opcionales.
         """
         worker_repo = repos["worker"]
-        password_hash = hashlib.sha256("test123".encode('utf-8')).hexdigest()
+        from core.security.password_service import PasswordService
+        password_hash = PasswordService.hash_password("test123")
         
         # Act
         result = worker_repo.add_worker(
@@ -268,8 +267,8 @@ class TestWorkerRepositoryCRUD:
         worker_id = workers[0].id
         details = worker_repo.get_worker_details(worker_id)
         
-        assert details["username"] == "admin_test"
-        assert details["role"] == "Responsable"
+        assert details.username == "admin_test"
+        assert details.role == "Responsable"
 
     def test_add_worker_duplicate_name_updates(self, repos, session):
         """
@@ -331,10 +330,10 @@ class TestWorkerRepositoryCRUD:
         # Assert
         assert result == True
         details = worker_repo.get_worker_details(worker_id)
-        assert details["nombre_completo"] == "Nombre Actualizado"
-        assert details["activo"] == False
-        assert details["notas"] == "Notas modificadas"
-        assert details["tipo_trabajador"] == 3
+        assert details.nombre_completo == "Nombre Actualizado"
+        assert details.activo == False
+        assert details.notas == "Notas modificadas"
+        assert details.tipo_trabajador == 3
 
     def test_update_worker_not_found(self, repos):
         """
@@ -404,7 +403,8 @@ class TestWorkerRepositoryAuthentication:
         """
         worker_repo = repos["worker"]
         password = "mi_password_123"
-        password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        from core.security.password_service import PasswordService
+        password_hash = PasswordService.hash_password(password)
         
         # Arrange
         w = Trabajador(
@@ -424,16 +424,17 @@ class TestWorkerRepositoryAuthentication:
         
         # Assert
         assert result is not None
-        assert isinstance(result, dict)
-        assert result["nombre"] == "Usuario Auth"
-        assert result["role"] == "Trabajador"
+        assert isinstance(result, AuthResponseDTO)
+        assert result.nombre_completo == "Usuario Auth"
+        assert result.role == "Trabajador"
 
     def test_authenticate_user_wrong_password(self, repos, session):
         """
         Prueba que autenticación falla con contraseña incorrecta.
         """
         worker_repo = repos["worker"]
-        password_hash = hashlib.sha256("correcta".encode('utf-8')).hexdigest()
+        from core.security.password_service import PasswordService
+        password_hash = PasswordService.hash_password("correcta")
         
         # Arrange
         w = Trabajador(
@@ -469,6 +470,7 @@ class TestWorkerRepositoryAuthentication:
         Prueba actualización completa de credenciales.
         """
         worker_repo = repos["worker"]
+        from core.security.password_service import PasswordService
         
         # Arrange
         w = Trabajador(
@@ -477,7 +479,7 @@ class TestWorkerRepositoryAuthentication:
             notas="",
             tipo_trabajador=1,
             username="old_user",
-            password_hash=hashlib.sha256("old_pass".encode('utf-8')).hexdigest(),
+            password_hash=PasswordService.hash_password("old_pass"),
             role="Trabajador"
         )
         session.add(w)
@@ -498,7 +500,7 @@ class TestWorkerRepositoryAuthentication:
         # Verificar que las nuevas credenciales funcionan
         auth_result = worker_repo.authenticate_user("new_user", "new_pass")
         assert auth_result is not None
-        assert auth_result["role"] == "Responsable"
+        assert auth_result.role == "Responsable"
 
     def test_update_user_credentials_empty_password(self, repos, session):
         """
@@ -506,7 +508,8 @@ class TestWorkerRepositoryAuthentication:
         """
         worker_repo = repos["worker"]
         original_password = "original_pass"
-        original_hash = hashlib.sha256(original_password.encode('utf-8')).hexdigest()
+        from core.security.password_service import PasswordService
+        original_hash = PasswordService.hash_password(original_password)
         
         # Arrange
         w = Trabajador(
@@ -541,6 +544,7 @@ class TestWorkerRepositoryAuthentication:
         Prueba actualización solo de contraseña.
         """
         worker_repo = repos["worker"]
+        from core.security.password_service import PasswordService
         
         # Arrange
         w = Trabajador(
@@ -549,7 +553,7 @@ class TestWorkerRepositoryAuthentication:
             notas="",
             tipo_trabajador=1,
             username="solo_pass",
-            password_hash=hashlib.sha256("old".encode('utf-8')).hexdigest(),
+            password_hash=PasswordService.hash_password("old"),
             role="Trabajador"
         )
         session.add(w)
@@ -761,10 +765,10 @@ class TestWorkerRepositoryEdgeCases:
         details = worker_repo.get_worker_details(worker_id)
         
         # Assert tipos
-        assert isinstance(details["id"], int)
-        assert isinstance(details["nombre_completo"], str)
-        assert isinstance(details["activo"], bool)
-        assert isinstance(details["tipo_trabajador"], int)
+        assert isinstance(details.id, int)
+        assert isinstance(details.nombre_completo, str)
+        assert isinstance(details.activo, bool)
+        assert isinstance(details.tipo_trabajador, int)
 
     def test_update_worker_partial_fields(self, repos, session):
         """
@@ -795,7 +799,7 @@ class TestWorkerRepositoryEdgeCases:
         # Assert
         assert result == True
         details = worker_repo.get_worker_details(worker_id)
-        assert details["notas"] == "Modificado"
+        assert details.notas == "Modificado"
 
     def test_concurrent_add_same_worker(self, repos):
         """
@@ -931,7 +935,7 @@ class TestWorkerRepositoryEdgeCases:
         result = worker_repo.update_user_credentials(99999, "u", "p", "r")
         assert result is False
 
-    def test_concurrent_add_same_worker(self, repos):
+    def test_concurrent_add_same_worker_updates(self, repos):
         """
         Prueba que añadir el mismo trabajador dos veces no duplica.
         """

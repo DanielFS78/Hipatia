@@ -1,7 +1,12 @@
+# -*- coding: utf-8 -*-
+"""Tests unitarios de LoteRepository: create_lote, get_lote_details, listado."""
 import pytest
 from database.repositories.lote_repository import LoteRepository
 from database.models import Lote, Producto, Fabricacion
 from core.dtos import LoteDTO, ProductDTO, FabricacionDTO
+
+pytestmark = pytest.mark.unit
+
 
 @pytest.fixture
 def lote_repo(session):
@@ -65,8 +70,10 @@ def test_get_lote_details(lote_repo, seed_lote_data):
     assert isinstance(dto, LoteDTO)
     assert dto.id == lote_id
     assert dto.codigo == "LOTE-DET"
+    assert dto.productos is not None
     assert len(dto.productos) == 1
     assert dto.productos[0].codigo == prod_codes[0]
+    assert dto.fabricaciones is not None
     assert len(dto.fabricaciones) == 1
     assert dto.fabricaciones[0].id == fab_ids[0]
 

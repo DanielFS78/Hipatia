@@ -1,14 +1,5 @@
-# -*- coding: utf-8 -*-
 """
-Módulo de widgets para el sistema de Reportes de Producción (Fase 5).
+Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 """
 
 from .smart_search import SmartSearchWidget
-from .order_list import OrderListWidget
-from .charts_container import ReportsChartsWidget
-
-__all__ = [
-    'SmartSearchWidget',
-    'OrderListWidget',
-    'ReportsChartsWidget'
-]

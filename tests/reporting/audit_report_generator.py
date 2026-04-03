@@ -1,12 +1,17 @@
-# tests/reporting/audit_report_generator.py
 """
-Sistema de Generación de Informes de Auditoría para Tests
-=========================================================
-Genera informes PDF profesionales utilizando ReportLab (Pure Python).
-Elimina la dependencia de librerías del sistema como Pango/Cairo.
+Nombre del Módulo: tests.reporting.audit_report_generator
+Descripción: Sistema de Generación de Informes de Auditoría para Tests.
+Genera informes PDF profesionales utilizando ReportLab.
 
-Versión: 3.1 - Migración a ReportLab
+Este módulo implementa el estándar de Strict Testing de Hipatia.
 """
+import pytest
+from unittest.mock import MagicMock
+
+# Marker para el analizador
+# @pytest.mark.setup
+pytestmark = pytest.mark.setup
+
 
 import json
 import logging
@@ -32,11 +37,13 @@ class ISO9001AuditReporter:
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.logger = logging.getLogger(__name__)
 
-    def generate_business_pdf_report(self, test_data: Dict[str, Any]) -> str:
+    def generate_business_pdf_report(self, test_data: Dict[str, Any] | None) -> str:
         """
         Genera un informe PDF profesional.
         """
         try:
+            if test_data is None:
+                return ""
             # Preparar datos
             report_data = self._prepare_report_data(test_data)
             
@@ -310,7 +317,9 @@ class PytestAuditPlugin:
             })
 
     def pytest_sessionfinish(self, session, exitstatus):
-        duration = (datetime.now() - self.start_time).total_seconds()
+        duration = 0.0
+        if self.start_time is not None:
+            duration = (datetime.now() - self.start_time).total_seconds()
         self.coverage_data = self._load_coverage_data()
 
         audit_data = {

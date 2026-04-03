@@ -177,11 +177,11 @@ class TestProductRepositoryGetMethods:
         """
         product_repo = repos["product"]
         
-        producto, subfabs, procesos = product_repo.get_product_details("NO-EXISTE")
+        details = product_repo.get_product_details("NO-EXISTE")
         
-        assert producto is None
-        assert subfabs == []
-        assert procesos == []
+        assert details.producto is None
+        assert details.subfabricaciones == []
+        assert details.procesos_mecanicos == []
 
     def test_get_product_details_simple_product(self, repos, session):
         """
@@ -203,15 +203,16 @@ class TestProductRepositoryGetMethods:
         session.commit()
         
         # Act
-        producto, subfabs, procesos = product_repo.get_product_details("SIMPLE-001")
+        details = product_repo.get_product_details("SIMPLE-001")
+        producto = details.producto
         
         # Assert
         assert producto is not None
         assert isinstance(producto, ProductDTO)
         assert producto.codigo == "SIMPLE-001"
         assert producto.tiempo_optimo == 120.5
-        assert subfabs == []
-        assert procesos == []
+        assert details.subfabricaciones == []
+        assert details.procesos_mecanicos == []
 
     def test_get_product_details_with_subfabs_and_procesos(self, repos, session):
         """
@@ -248,7 +249,10 @@ class TestProductRepositoryGetMethods:
         session.commit()
         
         # Act
-        producto, subfabs, procesos = product_repo.get_product_details("COMPLEX-001")
+        details = product_repo.get_product_details("COMPLEX-001")
+        producto = details.producto
+        subfabs = details.subfabricaciones
+        procesos = details.procesos_mecanicos
         
         # Assert
         assert isinstance(producto, ProductDTO)
@@ -322,7 +326,8 @@ class TestProductRepositoryCRUD:
         # Assert
         assert result == True
         
-        producto, subfabricaciones, _ = product_repo.get_product_details("SUB-001")
+        details = product_repo.get_product_details("SUB-001")
+        subfabricaciones = details.subfabricaciones
         assert len(subfabricaciones) == 2
         assert subfabricaciones[0].descripcion == "Paso 1"
         assert subfabricaciones[1].descripcion == "Paso 2"
@@ -351,8 +356,8 @@ class TestProductRepositoryCRUD:
         # Assert
         assert result == True
         
-        producto, _, procesos = product_repo.get_product_details("PROC-001")
-        assert len(procesos) == 2
+        details = product_repo.get_product_details("PROC-001")
+        assert len(details.procesos_mecanicos) == 2
 
     def test_add_product_invalid_maquina_id(self, repos):
         """
@@ -377,7 +382,8 @@ class TestProductRepositoryCRUD:
         # Assert: Debe manejar el error y convertir a None
         assert result == True
         
-        _, subfabricaciones, _ = product_repo.get_product_details("INVALID-001")
+        details = product_repo.get_product_details("INVALID-001")
+        subfabricaciones = details.subfabricaciones
         assert len(subfabricaciones) == 1
         assert subfabricaciones[0].maquina_id is None
 
@@ -405,7 +411,8 @@ class TestProductRepositoryCRUD:
         assert result is False
         
         # Verificar que sigue existiendo solo una instancia correcta
-        p, _, _ = product_repo.get_product_details("DUP-001")
+        details = product_repo.get_product_details("DUP-001")
+        p = details.producto
         assert p is not None
         assert p.descripcion == "Original"
 
@@ -441,7 +448,8 @@ class TestProductRepositoryCRUD:
         
         # Assert
         assert result == True
-        producto, _, _ = product_repo.get_product_details("UPDATE-001")
+        details = product_repo.get_product_details("UPDATE-001")
+        producto = details.producto
         assert producto.descripcion == "Actualizado"
         assert producto.departamento == "Corte"
         assert producto.tipo_trabajador == 2
@@ -476,10 +484,12 @@ class TestProductRepositoryCRUD:
         # Assert
         assert result == True
         # Código antiguo no debe existir
-        old_producto, _, _ = product_repo.get_product_details("OLD-CODE")
+        details_old = product_repo.get_product_details("OLD-CODE")
+        old_producto = details_old.producto
         assert old_producto is None
         # Código nuevo debe existir
-        new_producto, _, _ = product_repo.get_product_details("NEW-CODE")
+        details_new = product_repo.get_product_details("NEW-CODE")
+        new_producto = details_new.producto
         assert new_producto is not None
 
     def test_update_product_not_found(self, repos):
@@ -519,7 +529,8 @@ class TestProductRepositoryCRUD:
         product_repo.add_product(data, old_subfabs)
         
         # Verificar estado inicial
-        _, initial_subfabs, _ = product_repo.get_product_details("REPLACE-001")
+        details = product_repo.get_product_details("REPLACE-001")
+        initial_subfabs = details.subfabricaciones
         assert len(initial_subfabs) == 1
         assert initial_subfabs[0].descripcion == "Subfab Original"
         
@@ -539,7 +550,8 @@ class TestProductRepositoryCRUD:
         
         # Assert
         assert result == True
-        _, subfabs, _ = product_repo.get_product_details("REPLACE-001")
+        details2 = product_repo.get_product_details("REPLACE-001")
+        subfabs = details2.subfabricaciones
         assert len(subfabs) == 2
         descripciones = [s.descripcion for s in subfabs]
         assert "Nueva Subfab 1" in descripciones
@@ -719,7 +731,8 @@ class TestProductRepositoryEdgeCases:
         result = product_repo.add_product(data)
         
         assert result == True
-        producto, _, _ = product_repo.get_product_details("MINIMAL-001")
+        details = product_repo.get_product_details("MINIMAL-001")
+        producto = details.producto
         assert producto.donde == ""
         assert producto.tiempo_optimo == 0.0
 
@@ -743,7 +756,10 @@ class TestProductRepositoryEdgeCases:
         session.commit()
         
         # Act
-        producto, subfabs, procesos = product_repo.get_product_details("TYPES-001")
+        details = product_repo.get_product_details("TYPES-001")
+        producto = details.producto
+        subfabs = details.subfabricaciones
+        procesos = details.procesos_mecanicos
         
         # Assert tipos
         assert isinstance(producto.codigo, str)
@@ -760,14 +776,14 @@ class TestProductRepositoryEdgeCases:
         """Prueba get_product_details cuando ocurre una excepción para cubrir línea 182."""
         product_repo = repos["product"]
         # Mock session to raise exception
-        mock_session = MagicMock()
+        mock_session = MagicMock(spec=["query", "close", "rollback"])
         mock_session.query.side_effect = Exception("Mock Error")
         product_repo.session_factory = lambda: mock_session
         
-        prod, sub, proc = product_repo.get_product_details("ANY")
-        assert prod is None
-        assert sub == []
-        assert proc == []
+        details = product_repo.get_product_details("ANY")
+        assert details.producto is None
+        assert details.subfabricaciones == []
+        assert details.procesos_mecanicos == []
 
     def test_update_product_with_procesos_mecanicos(self, repos, session):
         """Prueba actualización incluyendo procesos mecánicos para cubrir bucles de guardado."""
@@ -792,7 +808,8 @@ class TestProductRepositoryEdgeCases:
         
         # Assert
         assert result == True
-        _, _, procesos = product_repo.get_product_details("P-PROC")
+        details = product_repo.get_product_details("P-PROC")
+        procesos = details.procesos_mecanicos
         assert len(procesos) == 2
         assert procesos[0].nombre == "Torno"
         assert procesos[1].nombre == "Fresado"

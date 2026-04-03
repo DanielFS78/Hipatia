@@ -1,4 +1,4 @@
-
+"""Tests para PreprocesoRepository."""
 import pytest
 from unittest.mock import MagicMock
 from database.models import Preproceso, Fabricacion, Material
@@ -106,7 +106,7 @@ class TestPreprocesoRepositoryUnit:
         session.add(p)
         session.commit()
         
-        data = {"nombre": "MOD", "descripcion": "Modified", "tiempo": 2}
+        data = PreprocesoDTO(id=p.id, nombre="MOD", descripcion="Modified", tiempo=2.0)
         assert repos["preproceso"].update_preproceso(p.id, data) is True
         
         updated = session.query(Preproceso).filter_by(id=p.id).first()
@@ -125,10 +125,10 @@ class TestPreprocesoRepositoryUnit:
         session.commit()
         
         # Cambiar de M1 a M2
-        data = {
-            "nombre": "REL", "descripcion": "D", "tiempo": 1,
-            "componentes_ids": [m2.id]
-        }
+        data = PreprocesoDTO(
+            id=p.id, nombre="REL", descripcion="D", tiempo=1.0,
+            componentes_ids=[m2.id]
+        )
         repos["preproceso"].update_preproceso(p.id, data)
         
         updated = session.query(Preproceso).filter_by(id=p.id).first()
@@ -232,11 +232,12 @@ class TestPreprocesoRepositoryFabricaciones:
         session.add_all([p1, p2])
         session.commit()
 
-        data = {
-            "codigo": "FAB-NEW",
-            "descripcion": "Nueva Fabricacion",
-            "preprocesos_ids": [p1.id, p2.id]
-        }
+        data = FabricacionDTO(
+            id=0,
+            codigo="FAB-NEW",
+            descripcion="Nueva Fabricacion",
+            preprocesos_ids=[p1.id, p2.id]
+        )
         
         success = repos["preproceso"].create_fabricacion_with_preprocesos(data)
         assert success is True
@@ -248,10 +249,11 @@ class TestPreprocesoRepositoryFabricaciones:
 
     def test_create_fabricacion_without_preprocesos(self, repos, session):
         """Crear fabricación sin preprocesos."""
-        data = {
-            "codigo": "FAB-SIMPLE",
-            "descripcion": "Simple"
-        }
+        data = FabricacionDTO(
+            id=0,
+            codigo="FAB-SIMPLE",
+            descripcion="Simple"
+        )
         
         success = repos["preproceso"].create_fabricacion_with_preprocesos(data)
         assert success is True
@@ -402,11 +404,12 @@ class TestPreprocesoRepositoryEdgeCases:
 
     def test_create_preproceso_success(self, repos, session):
         """Crear preproceso exitosamente."""
-        data = {
-            "nombre": "Nuevo Preproceso",
-            "descripcion": "Descripción",
-            "tiempo": 15.5
-        }
+        data = PreprocesoDTO(
+            id=0,
+            nombre="Nuevo Preproceso",
+            descripcion="Descripción",
+            tiempo=15.5
+        )
         
         success = repos["preproceso"].create_preproceso(data)
         assert success is True
@@ -422,12 +425,13 @@ class TestPreprocesoRepositoryEdgeCases:
         session.add_all([m1, m2])
         session.commit()
 
-        data = {
-            "nombre": "Con Materiales",
-            "descripcion": "Test",
-            "tiempo": 10,
-            "componentes_ids": [m1.id, m2.id]
-        }
+        data = PreprocesoDTO(
+            id=0,
+            nombre="Con Materiales",
+            descripcion="Test",
+            tiempo=10.0,
+            componentes_ids=[m1.id, m2.id]
+        )
         
         success = repos["preproceso"].create_preproceso(data)
         assert success is True
@@ -447,7 +451,7 @@ class TestPreprocesoRepositoryEdgeCases:
         session.add(f)
         session.commit()
 
-        data = {"codigo": "FAB-NEW", "descripcion": "New Desc"}
+        data = FabricacionDTO(id=f.id, codigo="FAB-NEW", descripcion="New Desc")
         success = repos["preproceso"].update_fabricacion_and_preprocesos(
             f.id, data, [p2.id]
         )
@@ -467,25 +471,27 @@ class TestPreprocesoRepositoryEdgeCases:
         """Prueba IntegrityError en add_product_to_fabricacion para cubrir línea 170."""
         from sqlalchemy.exc import IntegrityError
         preproceso_repo = repos["preproceso"]
-        mock_session = MagicMock()
-        mock_session.execute.side_effect = IntegrityError(
-            statement="INSERT...", 
-            params={"fab_id": 1, "prod_code": "P1", "qty": 1}, 
-            orig=Exception("FK violation")
+        session = MagicMock(spec=["execute", "commit", "rollback", "close", "expunge"])
+        session.execute.side_effect = IntegrityError(
+            statement="INSERT...",
+            params={"fab_id": 1, "prod_code": "P1", "qty": 1},
+            orig=Exception("FK violation"),
         )
-        preproceso_repo.session_factory = lambda: mock_session
+        preproceso_repo.fabricacion.session_factory = lambda: session
         
         result = preproceso_repo.add_product_to_fabricacion(1, "P1")
         assert result is False
-        mock_session.rollback.assert_called_once()
+        assert session.rollback.call_count == 1
+        session.rollback.assert_called_once_with()
 
     def test_add_product_to_fabricacion_generic_exception(self, repos):
         """Prueba Exception genérica en add_product_to_fabricacion para cubrir línea 177."""
         preproceso_repo = repos["preproceso"]
-        mock_session = MagicMock()
-        mock_session.execute.side_effect = Exception("General Error")
-        preproceso_repo.session_factory = lambda: mock_session
+        session = MagicMock(spec=["execute", "commit", "rollback", "close", "expunge"])
+        session.execute.side_effect = Exception("General Error")
+        preproceso_repo.fabricacion.session_factory = lambda: session
         
         result = preproceso_repo.add_product_to_fabricacion(1, "P1")
         assert result is False
-        mock_session.rollback.assert_called_once()
+        assert session.rollback.call_count == 1
+        session.rollback.assert_called_once_with()

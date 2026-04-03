@@ -43,19 +43,22 @@ logs/
 test_reports/
 test_output/
 .coverage
+.coverage_parts/
 htmlcov/
 htmlcov_appcontroller/
 .pytest_cache/
 
 # Databases (SQLite)
+# Databases (SQLite)
 *.db
 *.sqlite3
 *.sqlite
 temp_simulation_*.db
-etiquetas.db
-montaje.db
-pilas.db
-production_data.db
+
+# Data Directory
+data/*.db
+data/*.sqlite
+!data/.gitkeep
 
 # Backups
 Backup/
@@ -66,6 +69,8 @@ migration/backup/
 config/database.yaml
 secrets.py
 .env.local
+.env.docker
+.env.*.local
 
 # Project Specific
 etiqueta_prueba.docx
@@ -84,3 +89,20 @@ Documentacion/Qr/
 # Temporary Files
 coverage.json
 temp_output.txt
+
+# Debug / manual log captures
+*_fail.txt
+pytest_out.txt
+export_log.txt
+test_output.log
+*.bak
+
+# Duplicados típicos de sincronización (iCloud / copias locales)
+* 2.*
+* 3.*
+
+# Backups de datos locales (checksums y archivos; no versionar)
+data/backups/
+
+# Informes generados en ejecución local
+reports/

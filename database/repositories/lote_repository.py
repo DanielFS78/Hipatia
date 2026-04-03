@@ -3,7 +3,7 @@
 Repositorio para la gestión de plantillas de Lote.
 """
 from typing import List, Tuple, Optional, Dict, Any
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, Session
 from sqlalchemy import or_
 from datetime import datetime
 
@@ -20,7 +20,7 @@ class LoteRepository(BaseRepository):
     def create_lote(self, data: Dict[str, Any]) -> Optional[int]:
         """Crea una nueva plantilla de Lote y asocia sus componentes."""
 
-        def _operation(session):
+        def _operation(session: Session) -> Optional[int]:
             # Crea la instancia principal del Lote
             nuevo_lote = Lote(
                 codigo=data['codigo'],
@@ -46,7 +46,7 @@ class LoteRepository(BaseRepository):
     def get_lote_details(self, lote_id: int) -> Optional[LoteDTO]:
         """Obtiene los detalles de una plantilla de Lote, incluyendo sus componentes."""
 
-        def _operation(session):
+        def _operation(session: Session) -> Optional[LoteDTO]:
             lote = session.query(Lote).options(
                 joinedload(Lote.productos),
                 joinedload(Lote.fabricaciones)
@@ -56,19 +56,19 @@ class LoteRepository(BaseRepository):
                 return None
             
             products_dtos = [
-                ProductDTO(codigo=p.codigo, descripcion=p.descripcion) 
+                ProductDTO(codigo=p.codigo or "", descripcion=p.descripcion or "") 
                 for p in lote.productos
             ]
             
             fabs_dtos = [
-                FabricacionDTO(id=f.id, codigo=f.codigo, descripcion=f.descripcion)
+                FabricacionDTO(id=int(f.id or 0), codigo=f.codigo or "", descripcion=f.descripcion or "")
                 for f in lote.fabricaciones
             ]
 
             return LoteDTO(
                 id=lote.id,
-                codigo=lote.codigo,
-                descripcion=lote.descripcion,
+                codigo=lote.codigo or "",
+                descripcion=lote.descripcion or "",
                 productos=products_dtos,
                 fabricaciones=fabs_dtos
             )
@@ -78,7 +78,7 @@ class LoteRepository(BaseRepository):
     def search_lotes(self, query: str) -> List[LoteDTO]:
         """Busca plantillas de Lote por código o descripción."""
 
-        def _operation(session):
+        def _operation(session: Session) -> List[LoteDTO]:
             lotes = session.query(Lote).filter(
                 or_(
                     Lote.codigo.ilike(f"%{query}%"),
@@ -89,8 +89,8 @@ class LoteRepository(BaseRepository):
             return [
                 LoteDTO(
                     id=lote.id, 
-                    codigo=lote.codigo, 
-                    descripcion=lote.descripcion,
+                    codigo=lote.codigo or "", 
+                    descripcion=lote.descripcion or "",
                     productos=[],
                     fabricaciones=[]
                 ) 
@@ -102,7 +102,7 @@ class LoteRepository(BaseRepository):
     def update_lote(self, lote_id: int, data: Dict[str, Any]) -> bool:
         """Actualiza una plantilla de Lote existente."""
 
-        def _operation(session):
+        def _operation(session: Session) -> bool:
             lote = session.query(Lote).filter_by(id=lote_id).first()
             if not lote:
                 return False
@@ -127,7 +127,7 @@ class LoteRepository(BaseRepository):
     def delete_lote(self, lote_id: int) -> bool:
         """Elimina una plantilla de Lote."""
 
-        def _operation(session):
+        def _operation(session: Session) -> bool:
             lote = session.query(Lote).filter_by(id=lote_id).first()
             if lote:
                 session.delete(lote)

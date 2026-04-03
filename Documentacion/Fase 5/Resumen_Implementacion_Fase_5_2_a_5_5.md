@@ -1,5 +1,24 @@
 # Resumen de Implementación - Fase 5.2 a 5.5
 
+## Actualización de optimización UI (Abr 2026)
+
+### Estado funcional vigente
+
+- `ReportesWidget` opera con contrato estable de reportes (`AppModel` directo o wrapper con `.model`).
+- Selección de orden completada:
+  - carga de detalle y unidades de orden
+  - resumen contextual de la orden
+  - resaltado visual de orden seleccionada.
+- `OrderListWidget` incorpora `select_order()` y estado interno de orden activa.
+- `ReportsChartsWidget` evita reconstrucción completa de tabs en cada refresco y reutiliza vistas de gráfica cuando corresponde.
+- `SmartSearchWidget` evita búsquedas redundantes de la misma query ya ejecutada.
+
+### Validación UI/reportes
+
+- `tests/unit/test_reportes_widget.py`: verde
+- `tests/unit/test_reports_widgets.py`: verde (incluye selección de orden + deduplicación de búsqueda)
+- `tests/integration/test_reports_ui_integration.py`: verde
+
 **Fecha:** 30 de Diciembre de 2025  
 **Objetivo:** Módulo completo de Reportes de Producción (UI)
 

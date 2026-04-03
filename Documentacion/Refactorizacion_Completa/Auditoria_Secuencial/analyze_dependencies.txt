@@ -1,0 +1,22 @@
+--- Dependency Analysis Report ---
+Total Internal Modules Tracked: 416
+Total Potential Circular Dependencies Detected: 16
+
+--- Detected Cycles (First 5) ---
+1. controllers.app_controller -> controllers -> controllers.pila.controller -> controllers.app_controller
+2. controllers.backup_controller -> controllers.backup_controller_io_mixin -> controllers.backup_controller
+3. controllers.app_controller -> controllers -> controllers.simulation.controller -> controllers.app_controller
+4. controllers.app_controller -> controllers -> controllers.machine_controller -> controllers.app_controller
+5. controllers.app_controller -> controllers -> controllers.session_controller -> controllers.app_controller
+
+--- Top 10 Most Imported Modules ---
+core.dtos: imported 170 times
+database.models: imported 60 times
+database.database_manager: imported 36 times
+controllers.app_controller: imported 28 times
+core.di_container: imported 28 times
+core.app_model: imported 27 times
+core.security.security_service: imported 18 times
+ui.main_window: imported 17 times
+core.services.time_calculator: imported 17 times
+ui.dialogs: imported 17 times

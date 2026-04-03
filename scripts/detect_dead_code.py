@@ -23,7 +23,16 @@ import sys
 from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
-from typing import Dict, List, Set, Tuple, Optional
+from typing import Dict, List, Set, Tuple, Optional, cast
+import logging
+
+# Configurar logging para salida a consola
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(message)s',
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
+logger = logging.getLogger("DetectDeadCode")
 
 # Ruta base del proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -91,7 +100,10 @@ def find_references_in_file(file_path: Path, method_names: Set[str], class_names
     Busca referencias a métodos y clases en un archivo.
     Retorna un diccionario con las referencias encontradas.
     """
-    references = defaultdict(list)
+    Reference = dict[str, object]
+    references: Dict[str, List[Reference]] = cast(
+        Dict[str, List[Reference]], defaultdict(list)
+    )
     
     try:
         with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
@@ -175,7 +187,7 @@ def find_all_references(method_names: Set[str], class_names: Set[str]) -> Dict[s
                     all_references[name].extend(ref_list)
                 files_searched += 1
     
-    print(f"   Archivos analizados: {files_searched}")
+    logger.info(f"   Archivos analizados: {files_searched}")
     return all_references
 
 
@@ -183,7 +195,7 @@ def analyze_dead_code(classes: Dict[str, dict], references: Dict[str, List[dict]
     """
     Analiza y clasifica métodos según su uso.
     """
-    analysis = {
+    analysis: dict[str, list[dict[str, object]]] = {
         "used_classes": [],
         "unused_classes": [],
         "dead_methods": [],
@@ -444,30 +456,30 @@ def generate_report(classes: Dict[str, dict], analysis: dict) -> str:
 
 def main():
     """Función principal."""
-    print("=" * 60)
-    print("Detector de Código Muerto - ui/dialogs.py - Fase 3.7")
-    print("=" * 60)
+    logger.info("=" * 60)
+    logger.info("Detector de Código Muerto - ui/dialogs.py - Fase 3.7")
+    logger.info("=" * 60)
     
     # Verificar archivo
     if not DIALOGS_PATH.exists():
-        print(f"❌ Error: No se encuentra {DIALOGS_PATH}")
+        logger.error(f"❌ Error: No se encuentra {DIALOGS_PATH}")
         sys.exit(1)
     
     # Leer código
-    print(f"\n📂 Leyendo: {DIALOGS_PATH}")
+    logger.info(f"\n📂 Leyendo: {DIALOGS_PATH}")
     with open(DIALOGS_PATH, 'r', encoding='utf-8') as f:
         source_code = f.read()
     
     # Parsear
-    print("🔍 Extrayendo métodos y clases...")
+    logger.info("🔍 Extrayendo métodos y clases...")
     tree = ast.parse(source_code)
     extractor = MethodExtractor()
     extractor.visit(tree)
     
     total_classes = len(extractor.classes)
     total_methods = sum(len(c["methods"]) for c in extractor.classes.values())
-    print(f"   Clases: {total_classes}")
-    print(f"   Métodos: {total_methods}")
+    logger.info(f"   Clases: {total_classes}")
+    logger.info(f"   Métodos: {total_methods}")
     
     # Recopilar nombres
     all_method_names = set()
@@ -476,18 +488,18 @@ def main():
         all_method_names.update(class_info["methods"].keys())
     
     # Buscar referencias
-    print("\n🔎 Buscando referencias en el proyecto...")
+    logger.info("\n🔎 Buscando referencias en el proyecto...")
     references = find_all_references(all_method_names, class_names)
     
     # Analizar
-    print("\n📊 Analizando uso de código...")
+    logger.info("\n📊 Analizando uso de código...")
     analysis = analyze_dead_code(extractor.classes, references)
     
     dead_count = len(analysis["dead_methods"])
-    print(f"   Métodos potencialmente muertos: {dead_count}")
+    logger.info(f"   Métodos potencialmente muertos: {dead_count}")
     
     # Generar reporte
-    print("\n📝 Generando reporte...")
+    logger.info("\n📝 Generando reporte...")
     report = generate_report(extractor.classes, analysis)
     
     # Guardar
@@ -495,8 +507,8 @@ def main():
     with open(OUTPUT_PATH, 'w', encoding='utf-8') as f:
         f.write(report)
     
-    print(f"\n✅ Reporte guardado en: {OUTPUT_PATH}")
-    print("\n" + "=" * 60)
+    logger.info(f"\n✅ Reporte guardado en: {OUTPUT_PATH}")
+    logger.info("\n" + "=" * 60)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-
+"""Tests de setup para el esquema de preprocesos y fabricaciones."""
 import pytest
 from sqlalchemy import inspect
 

@@ -1,84 +1,71 @@
-# tests/unit/test_label_counter_repository.py
+"""Tests de integración para `LabelCounterRepository` usando SQLite in-memory.
+
+Regla de calidad Hipatia: los repositorios se validan contra una BD real en memoria,
+evitando mocks de `Session` (falsos positivos / contratos irreales).
+"""
+
 import pytest
-from unittest.mock import MagicMock
-from sqlalchemy.orm import Session
-from database.repositories.label_counter_repository import LabelCounterRepository
-from database.models import FabricacionContador
+
 from core.dtos import LabelRangeDTO
+from database.models import Fabricacion, FabricacionContador
+from database.repositories.label_counter_repository import LabelCounterRepository
 
-class TestLabelCounterRepositoryUnit:
+pytestmark = pytest.mark.integration
 
-    @pytest.fixture
-    def mock_session(self):
-        return MagicMock(spec=Session)
 
-    @pytest.fixture
-    def repo(self, mock_session):
-        repo = LabelCounterRepository(lambda: mock_session)
-        return repo
+@pytest.fixture
+def repo(session):
+    return LabelCounterRepository(lambda: session)
 
-    def test_get_next_unit_range_success_existing_counter(self, repo, mock_session):
-        # Arrange
-        fabricacion_id = 1
-        cantidad = 10
-        current_counter = FabricacionContador(fabricacion_id=fabricacion_id, ultimo_numero_unidad=50)
-        
-        # Configure mock query
-        mock_query = mock_session.query.return_value
-        mock_filter = mock_query.filter_by.return_value
-        mock_filter.first.return_value = current_counter
 
-        # Act
-        result = repo.get_next_unit_range(fabricacion_id, cantidad)
+@pytest.fixture
+def fabricacion(session):
+    fab = Fabricacion(codigo="FAB-LABEL-001", descripcion="Fabricación para labels")
+    session.add(fab)
+    session.commit()
+    return fab
 
-        # Assert
-        assert isinstance(result, LabelRangeDTO)
-        assert result.fabricacion_id == fabricacion_id
-        assert result.start == 51
-        assert result.end == 60
-        assert result.count == 10
-        assert current_counter.ultimo_numero_unidad == 60 # Check side effect on object
-        mock_session.commit.assert_called_once()
 
-    def test_get_next_unit_range_success_new_counter(self, repo, mock_session):
-        # Arrange
-        fabricacion_id = 2
-        cantidad = 5
-        
-        # Configure mock query to return None (no existing counter)
-        mock_query = mock_session.query.return_value
-        mock_filter = mock_query.filter_by.return_value
-        mock_filter.first.return_value = None
+def test_get_next_unit_range_existing_counter(repo, session, fabricacion):
+    session.add(FabricacionContador(fabricacion_id=fabricacion.id, ultimo_numero_unidad=50))
+    session.commit()
 
-        # Act
-        result = repo.get_next_unit_range(fabricacion_id, cantidad)
+    result = repo.get_next_unit_range(fabricacion.id, 10)
 
-        # Assert
-        assert isinstance(result, LabelRangeDTO)
-        assert result.fabricacion_id == fabricacion_id
-        assert result.start == 1
-        assert result.end == 5
-        assert result.count == 5
-        
-        # Verify a new object was added
-        mock_session.add.assert_called_once()
-        added_obj = mock_session.add.call_args[0][0]
-        assert isinstance(added_obj, FabricacionContador)
-        assert added_obj.fabricacion_id == fabricacion_id
-        assert added_obj.ultimo_numero_unidad == 5
-        mock_session.commit.assert_called_once()
+    assert isinstance(result, LabelRangeDTO)
+    assert result.fabricacion_id == fabricacion.id
+    assert result.start == 51
+    assert result.end == 60
+    assert result.count == 10
 
-    def test_get_next_unit_range_error(self, repo, mock_session):
-        # Arrange
-        mock_session.query.side_effect = Exception("DB Error")
+    contador = session.query(FabricacionContador).filter_by(fabricacion_id=fabricacion.id).first()
+    assert contador is not None
+    assert contador.ultimo_numero_unidad == 60
 
-        # Act
-        result = repo.get_next_unit_range(1, 10)
 
-        # Assert
-        assert result is None
-        mock_session.rollback.assert_called_once()
+def test_get_next_unit_range_new_counter(repo, session, fabricacion):
+    result = repo.get_next_unit_range(fabricacion.id, 5)
 
-    def test_close_does_nothing(self, repo):
-        # Just ensure it doesn't crash
-        repo.close()
+    assert isinstance(result, LabelRangeDTO)
+    assert result.fabricacion_id == fabricacion.id
+    assert result.start == 1
+    assert result.end == 5
+    assert result.count == 5
+
+    contador = session.query(FabricacionContador).filter_by(fabricacion_id=fabricacion.id).first()
+    assert contador is not None
+    assert contador.ultimo_numero_unidad == 5
+
+
+def test_get_next_unit_range_invalid_fabricacion_rolls_back_and_returns_none(repo, session):
+    assert session.query(FabricacionContador).count() == 0
+
+    result = repo.get_next_unit_range(999999, 10)
+    assert result is None
+
+    assert session.query(FabricacionContador).count() == 0
+
+
+def test_close_does_not_raise(repo):
+    repo.close()
+    assert repo is not None

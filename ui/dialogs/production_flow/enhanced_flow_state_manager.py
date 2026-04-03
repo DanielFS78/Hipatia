@@ -1,3 +1,6 @@
+"""
+Interfaz PyQt6 (`enhanced_flow_state_manager`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+"""
 from __future__ import annotations
 
 from datetime import date

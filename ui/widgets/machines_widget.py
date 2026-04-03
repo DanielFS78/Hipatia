@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+Interfaz PyQt6 (`machines_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+"""
+
 from .base import *
+from typing import Any
 
 class MachinesWidget(QWidget):
     """Widget para gestionar la base de datos de máquinas (CRUD)."""
@@ -8,11 +13,19 @@ class MachinesWidget(QWidget):
     add_maintenance_signal = pyqtSignal(int)
     delete_signal = pyqtSignal(int)
 
-    def __init__(self, controller):
+    def __init__(self, controller: Any = None) -> None:
+        """
+        Inicializa el widget de máquinas y sus dependencias (DI).
+
+        Args:
+            controller: Controlador opcional (compatibilidad; preferir DIContainer).
+        """
         super().__init__()
-        self.controller = controller
+        from core.di_container import DIContainer
+        from controllers.machine_controller import MachineController
+        self.machine_controller = DIContainer.get_instance().resolve(MachineController)
         self.current_machine_id = None
-        self.form_widgets = {}
+        self.form_widgets: dict[str, Any] = {}
 
         main_layout = QHBoxLayout(self)
         main_layout.setContentsMargins(30, 30, 30, 30)
@@ -39,13 +52,15 @@ class MachinesWidget(QWidget):
 
         self.clear_details_area()
 
-    def _filter_machines_list(self):
+    def _filter_machines_list(self) -> None:
         filter_text = self.search_bar.text().lower()
         for i in range(self.machines_list.count()):
             item = self.machines_list.item(i)
+            if item is None:
+                continue
             item.setHidden(filter_text not in item.text().lower())
 
-    def populate_list(self, machines_data):
+    def populate_list(self, machines_data: list[Any]) -> None:
         self.machines_list.blockSignals(True)
         self.machines_list.clear()
         for machine in machines_data:
@@ -58,18 +73,20 @@ class MachinesWidget(QWidget):
         self.clear_details_area()
         self._filter_machines_list()
 
-    def clear_details_area(self):
+    def clear_details_area(self) -> None:
         while self.details_container_layout.count():
             child = self.details_container_layout.takeAt(0)
-            if child.widget(): child.widget().deleteLater()
+            if child is not None:
+                w = child.widget()
+                if w is not None:
+                    w.deleteLater()
         self.form_widgets = {}
         self.current_machine_id = None
         placeholder = QLabel("Seleccione una máquina de la lista para ver sus detalles o añada una nueva.")
         placeholder.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        placeholder.setWordWrap(True)
         self.details_container_layout.addWidget(placeholder)
 
-    def _create_form_widgets(self):
+    def _create_form_widgets(self) -> None:
         self.clear_details_area()
         container_widget = QWidget()
         container_layout = QVBoxLayout(container_widget)
@@ -89,7 +106,8 @@ class MachinesWidget(QWidget):
         self.form_widgets['departamento'].addItems(["Mecánica", "Electrónica", "Montaje"])
         self.form_widgets['tipo_proceso'] = QComboBox()
         self.form_widgets['tipo_proceso'].setEditable(True)
-        if self.controller: self.form_widgets['tipo_proceso'].addItems(self.controller.model.get_distinct_machine_processes())
+        if self.machine_controller:
+            self.form_widgets['tipo_proceso'].addItems(self.machine_controller.get_distinct_machine_processes())
         self.form_widgets['activa'] = QCheckBox("Máquina en activo")
 
         form_layout.addRow("Nombre Máquina:", self.form_widgets['nombre'])
@@ -104,7 +122,8 @@ class MachinesWidget(QWidget):
         self.form_widgets['maintenance_table'] = QTableWidget()
         self.form_widgets['maintenance_table'].setColumnCount(2)
         self.form_widgets['maintenance_table'].setHorizontalHeaderLabels(["Fecha", "Notas"])
-        self.form_widgets['maintenance_table'].horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        self.form_widgets['maintenance_table'].setColumnWidth(0, 150)
+        self.form_widgets['maintenance_table'].setColumnWidth(1, 350)
         self.form_widgets['maintenance_table'].setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         history_layout.addWidget(self.form_widgets['maintenance_table'])
         add_btn = QPushButton("Añadir Registro de Mantenimiento")
@@ -124,7 +143,7 @@ class MachinesWidget(QWidget):
         container_layout.addLayout(button_layout)
         self.details_container_layout.addWidget(container_widget)
 
-    def show_machine_details(self, machine_data):
+    def show_machine_details(self, machine_data: Any) -> None:
         self._create_form_widgets()
         self.current_machine_id = machine_data.id
         self.form_widgets['title'].setText("Editar Máquina")
@@ -136,7 +155,7 @@ class MachinesWidget(QWidget):
         self.form_widgets['delete_button'].setVisible(True)
         self.form_widgets['manage_groups_button'].clicked.connect(lambda: self.manage_groups_signal.emit(self.current_machine_id, machine_data.nombre))
 
-    def show_add_new_form(self):
+    def show_add_new_form(self) -> None:
         self._create_form_widgets()
         self.current_machine_id = None
         self.form_widgets['title'].setText("Añadir Nueva Máquina")
@@ -147,7 +166,7 @@ class MachinesWidget(QWidget):
         self.form_widgets['delete_button'].setVisible(False)
         self.form_widgets['nombre'].setFocus()
 
-    def get_form_data(self):
+    def get_form_data(self) -> dict[str, Any] | None:
         if not self.form_widgets: return None
         return {
             "nombre": self.form_widgets['nombre'].text().strip(),
@@ -156,7 +175,7 @@ class MachinesWidget(QWidget):
             "activa": self.form_widgets['activa'].isChecked()
         }
 
-    def populate_history_tables(self, maintenance_history):
+    def populate_history_tables(self, maintenance_history: list[Any]) -> None:
         table = self.form_widgets.get('maintenance_table')
         if not table: return
         table.setRowCount(0)

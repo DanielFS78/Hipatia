@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+Interfaz PyQt6 (`prep_steps_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+"""
+
 from .base import *
+from typing import Any
 
 class PrepStepsWidget(QWidget):
     """Widget para gestionar la base de datos de fases de preparación (CRUD)."""
@@ -7,11 +12,11 @@ class PrepStepsWidget(QWidget):
     update_step_signal = pyqtSignal(int, dict)
     delete_step_signal = pyqtSignal(int)
 
-    def __init__(self, controller):
+    def __init__(self, controller: Any) -> None:
         super().__init__()
         self.controller = controller
-        self.current_step_id = None
-        self.form_widgets = {}
+        self.current_step_id: Any = None
+        self.form_widgets: dict[str, Any] = {}
 
         main_layout = QHBoxLayout(self)
 
@@ -31,11 +36,11 @@ class PrepStepsWidget(QWidget):
         main_layout.addWidget(right_panel, 2)
         self.clear_details_area()
 
-    def set_controller(self, controller):
+    def set_controller(self, controller: Any) -> None:
         """Asigna el controlador al widget."""
         self.controller = controller
 
-    def load_preprocesos_data(self, data: list):
+    def load_preprocesos_data(self, data: list[Any]) -> None:
         """Carga los datos de los preprocesos en la lista."""
         self.steps_list.clear()
         for preproceso in data:
@@ -44,7 +49,7 @@ class PrepStepsWidget(QWidget):
             item.setData(Qt.ItemDataRole.UserRole, preproceso['id'])
             self.steps_list.addItem(item)
 
-    def populate_list(self, steps_data):
+    def populate_list(self, steps_data: list[Any]) -> None:
         self.steps_list.blockSignals(True)
         self.steps_list.clear()
         for step_data in steps_data:
@@ -55,19 +60,21 @@ class PrepStepsWidget(QWidget):
         self.steps_list.blockSignals(False)
         self.clear_details_area()
 
-    def clear_details_area(self):
+    def clear_details_area(self) -> None:
         """Limpia el panel de detalles."""
         while self.details_container_layout.count():
             child = self.details_container_layout.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
+            if child is not None:
+                w = child.widget()
+                if w is not None:
+                    w.deleteLater()
         self.form_widgets = {}
         self.current_step_id = None
         placeholder = QLabel("Seleccione una fase o añada una nueva.")
         placeholder.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.details_container_layout.addWidget(placeholder)
 
-    def _create_form_widgets(self):
+    def _create_form_widgets(self) -> None:
         """Crea la estructura del formulario de detalles."""
         self.clear_details_area()
         container_widget = QWidget()
@@ -105,7 +112,7 @@ class PrepStepsWidget(QWidget):
         container_layout.addLayout(button_layout)
         container_layout.addStretch()
 
-    def show_step_details(self, step_data):
+    def show_step_details(self, step_data: dict[str, Any]) -> None:
         self._create_form_widgets()
         self.current_step_id = step_data.get('id')
         self.form_widgets['title'].setText("Editar Fase de Preparación")
@@ -117,14 +124,14 @@ class PrepStepsWidget(QWidget):
         self.form_widgets['delete_button'].setVisible(True)
         self.form_widgets['save_button'].setVisible(True)
 
-    def show_add_new_form(self):
+    def show_add_new_form(self) -> None:
         self._create_form_widgets()
         self.current_step_id = None
         self.form_widgets['title'].setText("Añadir Nueva Fase de Preparación")
         self.form_widgets['delete_button'].setVisible(False)
         self.form_widgets['nombre'].setFocus()
 
-    def _on_save_button_clicked(self):
+    def _on_save_button_clicked(self) -> None:
         data = self.get_form_data()
         if not data: return
         if self.current_step_id is None:
@@ -132,7 +139,7 @@ class PrepStepsWidget(QWidget):
         else:
             self.update_step_signal.emit(self.current_step_id, data)
 
-    def get_form_data(self):
+    def get_form_data(self) -> dict[str, Any] | None:
         if not self.form_widgets: return None
         nombre = self.form_widgets['nombre'].text().strip()
         tiempo_str = self.form_widgets['tiempo_fase'].text().strip().replace(",", ".")
@@ -153,6 +160,6 @@ class PrepStepsWidget(QWidget):
             "es_verificacion": 1 if self.form_widgets['es_verificacion'].isChecked() else 0,
         }
 
-    def clear_form(self):
+    def clear_form(self) -> None:
         self.steps_list.clearSelection()
         self.clear_details_area()

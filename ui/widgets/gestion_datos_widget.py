@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
+"""
+Interfaz PyQt6 (`gestion_datos_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+"""
+
 from .base import *
 from .products_widget import ProductsWidget
 from .fabrications_widget import FabricationsWidget
 from .machines_widget import MachinesWidget
 from .workers_widget import WorkersWidget
 from .lotes_widget import LotesWidget
+from typing import Any
 
 class GestionDatosWidget(QWidget):
     """
@@ -13,15 +18,15 @@ class GestionDatosWidget(QWidget):
     """
     
     # Attributes for strict mocks
-    controller = None
-    tab_widget = None
-    productos_tab = None
-    fabricaciones_tab = None
-    maquinas_tab = None
-    trabajadores_tab = None
-    lotes_tab = None
+    controller: Any = None
+    tab_widget: QTabWidget | None = None
+    productos_tab: QWidget | None = None
+    fabricaciones_tab: QWidget | None = None
+    maquinas_tab: QWidget | None = None
+    trabajadores_tab: QWidget | None = None
+    lotes_tab: QWidget | None = None
 
-    def __init__(self, controller=None):
+    def __init__(self, controller: Any = None) -> None:
         super().__init__()
         self.controller = controller
         main_layout = QVBoxLayout(self); main_layout.setContentsMargins(20, 20, 20, 20)
@@ -34,7 +39,7 @@ class GestionDatosWidget(QWidget):
         self.maquinas_tab = None; self.trabajadores_tab = None; self.lotes_tab = None
         self._create_tabs()
 
-    def _create_tabs(self):
+    def _create_tabs(self) -> None:
         try:
             if self.controller:
                 self.productos_tab = ProductsWidget(self.controller)
@@ -45,19 +50,20 @@ class GestionDatosWidget(QWidget):
             else:
                 self.productos_tab = QWidget(); self.fabricaciones_tab = QWidget()
                 self.maquinas_tab = QWidget(); self.trabajadores_tab = QWidget(); self.lotes_tab = QWidget()
-
-            self.tab_widget.addTab(self.productos_tab, "Productos")
-            self.tab_widget.addTab(self.fabricaciones_tab, "Fabricaciones")
-            self.tab_widget.addTab(self.maquinas_tab, "Máquinas")
-            self.tab_widget.addTab(self.trabajadores_tab, "Trabajadores")
-            self.tab_widget.addTab(self.lotes_tab, "Lotes")
+            if self.tab_widget is not None:
+                if self.productos_tab is not None: self.tab_widget.addTab(self.productos_tab, "Productos")
+                if self.fabricaciones_tab is not None: self.tab_widget.addTab(self.fabricaciones_tab, "Fabricaciones")
+                if self.maquinas_tab is not None: self.tab_widget.addTab(self.maquinas_tab, "Máquinas")
+                if self.trabajadores_tab is not None: self.tab_widget.addTab(self.trabajadores_tab, "Trabajadores")
+                if self.lotes_tab is not None: self.tab_widget.addTab(self.lotes_tab, "Lotes")
         except Exception as e:
             logging.error(f"Error creando pestañas en GestionDatosWidget: {e}")
 
-    def set_controller(self, controller):
+    def set_controller(self, controller: Any) -> None:
         self.controller = controller
         if self.productos_tab and not hasattr(self.productos_tab, 'search_entry'):
-            self.tab_widget.clear(); self._create_tabs()
+            if self.tab_widget is not None: self.tab_widget.clear()
+            self._create_tabs()
         else:
             for w in [self.productos_tab, self.fabricaciones_tab, self.lotes_tab, self.maquinas_tab, self.trabajadores_tab]:
                 if w and hasattr(w, 'set_controller'): w.set_controller(controller)

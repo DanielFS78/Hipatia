@@ -1,4 +1,4 @@
-
+"""Tests para ConfigurationRepository."""
 import pytest
 from datetime import date
 import json
@@ -10,7 +10,8 @@ from unittest.mock import MagicMock
 @pytest.fixture
 def session_no_close(session):
     original_close = session.close
-    session.close = MagicMock()
+    # No "mock_session": mantener sesión real; solo evitar cierre.
+    session.close = lambda: None
     yield session
     session.close = original_close
 
@@ -102,7 +103,7 @@ class TestConfigurationRepositoryHolidays:
         data = '[123, {"date": null}, "invalid-date"]' 
         config_repo.set_setting("holidays", data)
         # Mock logger para verificar que se loguea el error
-        config_repo.logger = MagicMock()
+        config_repo.logger = MagicMock(spec=["debug", "warning", "error"])
         
         holidays = config_repo.get_holidays()
         

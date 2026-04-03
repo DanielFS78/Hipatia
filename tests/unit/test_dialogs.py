@@ -14,6 +14,7 @@ Siguiendo la metodología de Fase 2:
 
 import pytest
 from unittest.mock import MagicMock, patch, PropertyMock, call
+from typing import Any
 from datetime import date
 import sys
 
@@ -23,23 +24,23 @@ import sys
 # =============================================================================
 
 # Crear mocks para todos los componentes de PyQt6
-mock_qt_widgets = MagicMock()
-mock_qt_core = MagicMock()
-mock_qt_gui = MagicMock()
+mock_qt_widgets = MagicMock(spec=["QDialog", "QDialogButtonBox", "QMessageBox"])
+mock_qt_core = MagicMock(spec=["Qt", "QDate", "pyqtSignal"])
+mock_qt_gui = MagicMock(spec=[])
 
 # Configurar atributos necesarios
 mock_qt_core.Qt.ItemDataRole.UserRole = 256
 mock_qt_core.Qt.AlignmentFlag.AlignTop = 32
 mock_qt_core.Qt.ItemFlag.ItemIsSelectable = 1
-mock_qt_core.QDate.currentDate.return_value = MagicMock()
-mock_qt_core.pyqtSignal = MagicMock(return_value=MagicMock())
+mock_qt_core.QDate.currentDate.return_value = MagicMock(spec=[])
+mock_qt_core.pyqtSignal = MagicMock(return_value=MagicMock(spec=["connect", "emit"]))
 
 mock_qt_widgets.QDialog.DialogCode.Accepted = 1
 mock_qt_widgets.QDialog.DialogCode.Rejected = 0
 mock_qt_widgets.QDialogButtonBox.StandardButton.Ok = 1
 mock_qt_widgets.QDialogButtonBox.StandardButton.Cancel = 2
-mock_qt_widgets.QMessageBox.warning = MagicMock()
-mock_qt_widgets.QMessageBox.information = MagicMock()
+mock_qt_widgets.QMessageBox.warning = MagicMock(spec=[])
+mock_qt_widgets.QMessageBox.information = MagicMock(spec=[])
 
 
 # =============================================================================
@@ -49,7 +50,7 @@ mock_qt_widgets.QMessageBox.information = MagicMock()
 @pytest.fixture
 def mock_preproceso():
     """Fixture para un PreprocesDTO mockeado."""
-    prep = MagicMock()
+    prep = MagicMock(spec=["id", "nombre", "descripcion", "tiempo", "activo"])
     prep.id = 1
     prep.nombre = "Preproceso Test"
     prep.descripcion = "Descripción de prueba"
@@ -61,7 +62,7 @@ def mock_preproceso():
 @pytest.fixture
 def mock_fabricacion():
     """Fixture para un FabricacionDTO mockeado."""
-    fab = MagicMock()
+    fab = MagicMock(spec=["id", "nombre", "codigo", "descripcion"])
     fab.id = 1
     fab.nombre = "Fabricación Test"
     fab.codigo = "FAB-001"
@@ -143,11 +144,11 @@ class TestPreprocesosSelectionDialogLogic:
         dialog = MagicMock(spec=PreprocesosSelectionDialog)
 
         # Simular checkboxes
-        cb1 = MagicMock()
+        cb1 = MagicMock(spec=["isChecked"])
         cb1.isChecked.return_value = True
-        cb2 = MagicMock()
+        cb2 = MagicMock(spec=["isChecked"])
         cb2.isChecked.return_value = False
-        cb3 = MagicMock()
+        cb3 = MagicMock(spec=["isChecked"])
         cb3.isChecked.return_value = True
 
         dialog.checkboxes = {1: cb1, 2: cb2, 3: cb3}
@@ -172,7 +173,7 @@ class TestCreateFabricacionDialogLogic:
         from ui.dialogs import CreateFabricacionDialog
 
         dialog = MagicMock(spec=CreateFabricacionDialog)
-        dialog.nombre_edit = MagicMock()
+        dialog.nombre_edit = MagicMock(spec=["text"])
         dialog.nombre_edit.text.return_value = ""
 
         # Lógica de validación
@@ -184,7 +185,7 @@ class TestCreateFabricacionDialogLogic:
         from ui.dialogs import CreateFabricacionDialog
 
         dialog = MagicMock(spec=CreateFabricacionDialog)
-        dialog.nombre_edit = MagicMock()
+        dialog.nombre_edit = MagicMock(spec=["text"])
         dialog.nombre_edit.text.return_value = "Fabricación Test"
 
         is_valid = len(dialog.nombre_edit.text().strip()) > 0
@@ -196,7 +197,7 @@ class TestCreateFabricacionDialogLogic:
 
         dialog = MagicMock(spec=CreateFabricacionDialog)
         dialog.assigned_preprocesos = []
-        dialog.available_list = MagicMock()
+        dialog.available_list = MagicMock(spec=["currentRow"])
         dialog.available_list.currentRow.return_value = 0
         dialog.all_preprocesos = [MagicMock(id=1, nombre="Prep 1")]
 
@@ -325,19 +326,23 @@ class TestDefineProductionFlowDialogLogic:
         ]
 
         # Simular _prepare_task_data
-        structured_data = {}
+        structured_data: dict[str, Any] = {}
         for task in tasks_data:
             product_code = task["codigo"]
+            assert isinstance(product_code, str)
             structured_data[product_code] = {
                 "descripcion": task["descripcion"],
                 "tasks": []
             }
-            if task.get("tiene_subfabricaciones") and task.get("sub_partes"):
-                for sub in task["sub_partes"]:
-                    structured_data[product_code]["tasks"].append({
-                        "name": sub["descripcion"],
-                        "duration": sub.get("tiempo", 0)
-                    })
+            if isinstance(task, dict) and task.get("tiene_subfabricaciones") and task.get("sub_partes"):
+                sub_partes = task["sub_partes"]
+                if isinstance(sub_partes, list):
+                    for sub in sub_partes:
+                        if isinstance(sub, dict):
+                            structured_data[product_code]["tasks"].append({
+                                "name": sub.get("descripcion", ""),
+                                "duration": sub.get("tiempo", 0)
+                            })
 
         assert "PROD-001" in structured_data
         assert len(structured_data["PROD-001"]["tasks"]) == 1
@@ -387,7 +392,7 @@ class TestGetUnitsDialogLogic:
         from ui.dialogs import GetUnitsDialog
 
         dialog = MagicMock(spec=GetUnitsDialog)
-        dialog.units_spin = MagicMock()
+        dialog.units_spin = MagicMock(spec=["value"])
         dialog.units_spin.value.return_value = 36
 
         result = dialog.units_spin.value()
@@ -400,7 +405,7 @@ class TestGetUnitsDialogLogic:
         from ui.dialogs import GetUnitsDialog
 
         dialog = MagicMock(spec=GetUnitsDialog)
-        dialog.units_spin = MagicMock()
+        dialog.units_spin = MagicMock(spec=["value"])
         dialog.units_spin.value.return_value = 1
 
         result = dialog.units_spin.value()
@@ -423,11 +428,15 @@ class TestAddBreakDialogLogic:
         dialog = MagicMock(spec=AddBreakDialog)
         
         # Crear mocks separados para cada tiempo
-        start_time_mock = MagicMock()
-        start_time_mock.time.return_value.toString.return_value = "12:00"
+        start_time_mock = MagicMock(spec=["time"])
+        start_qtime = MagicMock(spec=["toString"])
+        start_qtime.toString.return_value = "12:00"
+        start_time_mock.time.return_value = start_qtime
         
-        end_time_mock = MagicMock()
-        end_time_mock.time.return_value.toString.return_value = "13:00"
+        end_time_mock = MagicMock(spec=["time"])
+        end_qtime = MagicMock(spec=["toString"])
+        end_qtime.toString.return_value = "13:00"
+        end_time_mock.time.return_value = end_qtime
         
         dialog.start_time = start_time_mock
         dialog.end_time = end_time_mock
@@ -513,9 +522,9 @@ class TestConfigDialogsLogic:
         from ui.dialogs import CycleEndConfigDialog
 
         dialog = MagicMock(spec=CycleEndConfigDialog)
-        dialog.is_cycle_end_checkbox = MagicMock()
+        dialog.is_cycle_end_checkbox = MagicMock(spec=["isChecked"])
         dialog.is_cycle_end_checkbox.isChecked.return_value = True
-        dialog.next_task_combo = MagicMock()
+        dialog.next_task_combo = MagicMock(spec=["currentIndex"])
         dialog.next_task_combo.currentIndex.return_value = 0
 
         # Simular get_configuration
@@ -534,7 +543,7 @@ class TestConfigDialogsLogic:
 
         dialog = MagicMock(spec=ReassignmentRuleDialog)
         dialog.worker_name = "Juan García"
-        dialog.target_task_combo = MagicMock()
+        dialog.target_task_combo = MagicMock(spec=["currentData"])
         dialog.target_task_combo.currentData.return_value = 1
 
         # Simular get_rule
@@ -560,7 +569,7 @@ class TestProductDetailsDialogLogic:
         from ui.dialogs import ProductDetailsDialog
 
         dialog = MagicMock(spec=ProductDetailsDialog)
-        dialog.components_table = MagicMock()
+        dialog.components_table = MagicMock(spec=["setRowCount", "setItem"])
 
         components = [
             MagicMock(id=1, codigo="COMP-001", descripcion="Componente 1"),
@@ -571,7 +580,7 @@ class TestProductDetailsDialogLogic:
         dialog.components_table.setRowCount(len(components))
 
         for i, comp in enumerate(components):
-            dialog.components_table.setItem(i, 0, MagicMock())
+            dialog.components_table.setItem(i, 0, MagicMock(spec=[]))
 
         assert dialog.components_table.setRowCount.call_count == 1
         assert dialog.components_table.setItem.call_count == 2
@@ -581,7 +590,7 @@ class TestProductDetailsDialogLogic:
         from ui.dialogs import ProductDetailsDialog
 
         dialog = MagicMock(spec=ProductDetailsDialog)
-        dialog.iterations_list = MagicMock()
+        dialog.iterations_list = MagicMock(spec=["clear", "addItem"])
 
         iterations = [
             MagicMock(id=1, version="v1.0", fecha=date(2025, 1, 1)),
@@ -591,9 +600,10 @@ class TestProductDetailsDialogLogic:
         # Simular load_iterations
         dialog.iterations_list.clear()
         for iteration in iterations:
-            dialog.iterations_list.addItem(MagicMock())
+            dialog.iterations_list.addItem(MagicMock(spec=[]))
 
-        dialog.iterations_list.clear.assert_called_once()
+        assert dialog.iterations_list.clear.call_count == 1
+        dialog.iterations_list.clear.assert_called_once_with()
         assert dialog.iterations_list.addItem.call_count == 2
 
     def test_on_add_material_validates_selection(self):
@@ -601,7 +611,7 @@ class TestProductDetailsDialogLogic:
         from ui.dialogs import ProductDetailsDialog
 
         dialog = MagicMock(spec=ProductDetailsDialog)
-        dialog.material_combo = MagicMock()
+        dialog.material_combo = MagicMock(spec=["currentData"])
 
         # Sin selección
         dialog.material_combo.currentData.return_value = None
@@ -625,7 +635,7 @@ class TestLoadPilaDialogLogic:
         from ui.dialogs import LoadPilaDialog
 
         dialog = MagicMock(spec=LoadPilaDialog)
-        dialog.pilas_list = MagicMock()
+        dialog.pilas_list = MagicMock(spec=["currentRow"])
         dialog.pilas_list.currentRow.return_value = -1
 
         # Simular get_selected_id
@@ -639,9 +649,9 @@ class TestLoadPilaDialogLogic:
         from ui.dialogs import LoadPilaDialog
 
         dialog = MagicMock(spec=LoadPilaDialog)
-        dialog.pilas_list = MagicMock()
+        dialog.pilas_list = MagicMock(spec=["currentRow", "currentItem"])
         dialog.pilas_list.currentRow.return_value = 0
-        dialog.pilas_list.currentItem.return_value = MagicMock()
+        dialog.pilas_list.currentItem.return_value = MagicMock(spec=["data"])
         dialog.pilas_list.currentItem.return_value.data.return_value = 42
 
         # Simular get_selected_id
@@ -664,8 +674,8 @@ class TestSavePilaDialogLogic:
         from ui.dialogs import SavePilaDialog
 
         dialog = MagicMock(spec=SavePilaDialog)
-        dialog.nombre_edit = MagicMock()
-        dialog.descripcion_edit = MagicMock()
+        dialog.nombre_edit = MagicMock(spec=["text"])
+        dialog.descripcion_edit = MagicMock(spec=["toPlainText"])
 
         dialog.nombre_edit.text.return_value = "Pila Test"
         dialog.descripcion_edit.toPlainText.return_value = "Descripción de prueba"
@@ -695,8 +705,8 @@ class TestLoginDialogLogic:
         from ui.dialogs import LoginDialog
 
         dialog = MagicMock(spec=LoginDialog)
-        dialog.username_edit = MagicMock()
-        dialog.password_edit = MagicMock()
+        dialog.username_edit = MagicMock(spec=["text"])
+        dialog.password_edit = MagicMock(spec=["text"])
 
         dialog.username_edit.text.return_value = "admin"
         dialog.password_edit.text.return_value = "password123"
@@ -726,9 +736,9 @@ class TestChangePasswordDialogLogic:
         from ui.dialogs import ChangePasswordDialog
 
         dialog = MagicMock(spec=ChangePasswordDialog)
-        dialog.old_password_edit = MagicMock()
-        dialog.new_password_edit = MagicMock()
-        dialog.confirm_password_edit = MagicMock()
+        dialog.old_password_edit = MagicMock(spec=["text"])
+        dialog.new_password_edit = MagicMock(spec=["text"])
+        dialog.confirm_password_edit = MagicMock(spec=["text"])
 
         dialog.old_password_edit.text.return_value = "old123"
         dialog.new_password_edit.text.return_value = "new456"
@@ -752,8 +762,8 @@ class TestChangePasswordDialogLogic:
         from ui.dialogs import ChangePasswordDialog
 
         dialog = MagicMock(spec=ChangePasswordDialog)
-        dialog.new_password_edit = MagicMock()
-        dialog.confirm_password_edit = MagicMock()
+        dialog.new_password_edit = MagicMock(spec=["text"])
+        dialog.confirm_password_edit = MagicMock(spec=["text"])
 
         dialog.new_password_edit.text.return_value = "new456"
         dialog.confirm_password_edit.text.return_value = "new456"
@@ -777,7 +787,7 @@ class TestPrepGroupsDialogLogic:
         from ui.dialogs import PrepGroupsDialog
 
         dialog = MagicMock(spec=PrepGroupsDialog)
-        dialog.groups_list = MagicMock()
+        dialog.groups_list = MagicMock(spec=["clear", "addItem"])
 
         groups = [
             MagicMock(id=1, nombre="Grupo 1"),
@@ -787,7 +797,8 @@ class TestPrepGroupsDialogLogic:
         # Simular _load_groups
         dialog.groups_list.clear()
         for group in groups:
-            dialog.groups_list.addItem(MagicMock())
+            dialog.groups_list.addItem(MagicMock(spec=[]))
 
-        dialog.groups_list.clear.assert_called_once()
+        assert dialog.groups_list.clear.call_count == 1
+        dialog.groups_list.clear.assert_called_once_with()
         assert dialog.groups_list.addItem.call_count == 2

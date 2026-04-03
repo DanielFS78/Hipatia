@@ -1,0 +1,1 @@
+../../.agents/skills/refactorizacion_mcp/SKILL.md

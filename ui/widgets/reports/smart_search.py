@@ -1,288 +1,185 @@
 # -*- coding: utf-8 -*-
 """
-========================================================================
-SMART SEARCH WIDGET - Widget de Búsqueda Inteligente
-========================================================================
-Widget que proporciona búsqueda en tiempo real con autocompletado
-para productos, fabricaciones y órdenes de fabricación.
-
-Características:
-- Debounce de 300ms para evitar consultas excesivas
-- Resultados agrupados por tipo (producto/orden)
-- Iconos visuales para distinguir tipos
-- Selección mediante clic o Enter
-========================================================================
+Interfaz PyQt6 (`smart_search`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 """
+
 import logging
 from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
-    QListWidget, QListWidgetItem, QFrame, QSizePolicy
+    QWidget, QVBoxLayout, QLineEdit, QListWidget, QListWidgetItem,
+    QLabel, QHBoxLayout, QFrame
 )
-from PyQt6.QtCore import Qt, pyqtSignal, QTimer
-from PyQt6.QtGui import QFont, QColor, QIcon
-
+from PyQt6.QtCore import pyqtSignal, Qt, QTimer
+from PyQt6.QtGui import QIcon, QAction
+from typing import Any
 
 class SmartSearchWidget(QWidget):
     """
-    Widget de búsqueda inteligente con autocompletado.
-    
-    Signals:
-        result_selected(str, str): Emitido cuando se selecciona un resultado.
-            - tipo: 'producto' o 'orden'
-            - codigo: Código del elemento seleccionado
-        search_cleared: Emitido cuando se limpia la búsqueda.
+    Widget de búsqueda inteligente que ofrece autocompletado y
+    filtrado en tiempo real para el módulo de reportes.
     """
-    
-    result_selected = pyqtSignal(str, str)  # (tipo, codigo)
+    # Señal emitida cuando se selecciona un resultado
+    # Args: tipo (str), codigo (str)
+    result_selected = pyqtSignal(str, str)
+    # Señal emitida cuando se limpia la búsqueda
     search_cleared = pyqtSignal()
-    
-    # Constantes de estilo
-    STYLE_FRAME = """
-        QFrame {
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-        }
-    """
-    STYLE_SEARCH_INPUT = """
-        QLineEdit {
-            padding: 12px 16px;
-            font-size: 14px;
-            border: 2px solid #e2e8f0;
-            border-radius: 6px;
-            background-color: white;
-        }
-        QLineEdit:focus {
-            border-color: #2563eb;
-        }
-    """
-    STYLE_LIST = """
-        QListWidget {
-            border: none;
-            background-color: transparent;
-            font-size: 13px;
-        }
-        QListWidget::item {
-            padding: 10px 12px;
-            border-bottom: 1px solid #e2e8f0;
-            border-radius: 4px;
-            margin: 2px 0;
-        }
-        QListWidget::item:hover {
-            background-color: #eff6ff;
-        }
-        QListWidget::item:selected {
-            background-color: #dbeafe;
-            color: #1e40af;
-        }
-    """
-    
-    def __init__(self, controller=None, parent=None):
-        """
-        Inicializa el widget de búsqueda inteligente.
-        
-        Args:
-            controller: Controlador de la aplicación (para acceder al modelo)
-            parent: Widget padre
-        """
+
+    def __init__(self, app_model: Any, parent: Any = None) -> None:
         super().__init__(parent)
-        self.controller = controller
-        self.logger = logging.getLogger("EvolucionTiemposApp.SmartSearchWidget")
+        self.app_model = app_model
+        self.logger = logging.getLogger("EvolucionTiemposApp.SmartSearch")
+        self._last_query_executed: str = ""
         
-        # Timer para debounce
-        self._search_timer = QTimer()
-        self._search_timer.setSingleShot(True)
-        self._search_timer.setInterval(300)  # 300ms de debounce
-        self._search_timer.timeout.connect(self._perform_search)
+        # Estado interno
+        self.debounce_timer = QTimer()
+        self.debounce_timer.setSingleShot(True)
+        self.debounce_timer.setInterval(300)  # 300ms de espera
+        self.debounce_timer.timeout.connect(self._perform_search)
         
-        # Último término buscado (evitar búsquedas duplicadas)
-        self._last_query = ""
-        
-        # Resultados actuales
-        self._current_results = []
-        
-        self._setup_ui()
-        self._connect_signals()
-    
-    def _setup_ui(self):
-        """Configura la interfaz de usuario."""
+        self._init_ui()
+
+    def _init_ui(self) -> None:
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(12)
+        layout.setSpacing(5)
+
+        # --- Campo de Búsqueda ---
+        search_container = QWidget()
+        search_layout = QHBoxLayout(search_container)
+        search_layout.setContentsMargins(0, 0, 0, 0)
+        search_layout.setSpacing(0)
         
-        # Frame contenedor
-        container = QFrame()
-        container.setStyleSheet(self.STYLE_FRAME)
-        container_layout = QVBoxLayout(container)
-        container_layout.setContentsMargins(16, 16, 16, 16)
-        container_layout.setSpacing(12)
-        
-        # Título
-        title_label = QLabel("🔍 Buscar Producto u Orden")
-        title_label.setFont(QFont("", 12, QFont.Weight.Bold))
-        container_layout.addWidget(title_label)
-        
-        # Campo de búsqueda
         self.search_input = QLineEdit()
-        self.search_input.setPlaceholderText("Escriba código o descripción...")
-        self.search_input.setStyleSheet(self.STYLE_SEARCH_INPUT)
-        self.search_input.setClearButtonEnabled(True)
-        container_layout.addWidget(self.search_input)
+        self.search_input.setPlaceholderText("Buscar producto, OF o tarea...")
+        self.search_input.setFixedHeight(40)
+        self.search_input.setStyleSheet("""
+            QLineEdit {
+                border: 1px solid #cbd5e1;
+                border-radius: 8px;
+                padding: 0 12px;
+                background-color: white;
+                font-size: 14px;
+            }
+            QLineEdit:focus {
+                border: 2px solid #2563eb;
+            }
+        """)
         
-        # Lista de resultados
-        results_label = QLabel("Resultados")
-        results_label.setStyleSheet("color: #64748b; font-size: 11px;")
-        container_layout.addWidget(results_label)
-        
-        self.results_list = QListWidget()
-        self.results_list.setStyleSheet(self.STYLE_LIST)
-        self.results_list.setMinimumHeight(200)
-        self.results_list.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        container_layout.addWidget(self.results_list, 1)
-        
-        # Mensaje de estado
-        self.status_label = QLabel("Introduzca al menos 2 caracteres para buscar")
-        self.status_label.setStyleSheet("color: #94a3b8; font-size: 11px; font-style: italic;")
-        self.status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        container_layout.addWidget(self.status_label)
-        
-        layout.addWidget(container)
-    
-    def _connect_signals(self):
-        """Conecta las señales internas."""
         self.search_input.textChanged.connect(self._on_text_changed)
+        
+        search_layout.addWidget(self.search_input)
+        layout.addWidget(search_container)
+
+        # --- Lista de Resultados (Flotante o Debajo) ---
+        # Para simplificar, en esta fase la ponemos debajo, pero colapsada si no hay resultados.
+        self.results_list = QListWidget()
+        self.results_list.setStyleSheet("""
+            QListWidget {
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                background-color: white;
+                outline: none;
+            }
+            QListWidget::item {
+                padding: 10px;
+                border-bottom: 1px solid #f1f5f9;
+            }
+            QListWidget::item:selected {
+                background-color: #eff6ff;
+                color: #1e293b;
+            }
+            QListWidget::item:hover {
+                background-color: #f8fafc;
+            }
+        """)
         self.results_list.itemClicked.connect(self._on_item_clicked)
-        self.results_list.itemDoubleClicked.connect(self._on_item_double_clicked)
-        self.search_input.returnPressed.connect(self._on_enter_pressed)
-    
-    def _on_text_changed(self, text: str):
-        """Maneja cambios en el texto de búsqueda con debounce."""
-        text = text.strip()
+        self.results_list.hide() # Oculta inicialmente
         
-        if len(text) < 2:
-            self._search_timer.stop()
+        # Altura máxima para no ocupar toda la pantalla
+        self.results_list.setMaximumHeight(300)
+        
+        layout.addWidget(self.results_list)
+
+    def _on_text_changed(self, text: str) -> None:
+        """Maneja el cambio de texto con debounce."""
+        if len(text.strip()) < 2:
+            self.results_list.hide()
             self.results_list.clear()
-            self._current_results = []
-            
-            if len(text) == 0:
-                self.status_label.setText("Introduzca al menos 2 caracteres para buscar")
+            if not text.strip():
                 self.search_cleared.emit()
-            else:
-                self.status_label.setText("Introduzca al menos 2 caracteres...")
             return
-        
-        # Reiniciar timer de debounce
-        self._search_timer.stop()
-        self._search_timer.start()
-        self.status_label.setText("Buscando...")
-    
-    def _perform_search(self):
-        """Ejecuta la búsqueda real después del debounce."""
+            
+        self.debounce_timer.start()
+
+    def _perform_search(self) -> None:
+        """Ejecuta la búsqueda contra el AppModel."""
         query = self.search_input.text().strip()
-        
-        if query == self._last_query:
-            return  # Evitar búsqueda duplicada
-        
-        self._last_query = query
-        
-        if len(query) < 2:
+        if not query:
+            return
+        if query.lower() == self._last_query_executed:
             return
         
-        self.logger.info(f"Buscando: '{query}'")
+        if not self.app_model:
+            self.logger.warning("No hay AppModel configurado para buscar.")
+            return
+
+        self.logger.info(f"Buscando: {query}")
         
         try:
-            # Obtener resultados del modelo a través del controlador
-            if self.controller and hasattr(self.controller, 'model'):
-                results = self.controller.model.reports_buscar_por_codigo(query, limit=20)
-            else:
-                results = []
-                self.logger.warning("No hay controlador disponible para realizar búsqueda")
-            
-            self._display_results(results)
-            
+            results = self.app_model.search_reports_data(query)
+            self._last_query_executed = query.lower()
+            self._update_results_list(results)
         except Exception as e:
-            self.logger.error(f"Error en búsqueda: {e}", exc_info=True)
-            self.status_label.setText("Error al buscar. Intente de nuevo.")
-            self.results_list.clear()
-    
-    def _display_results(self, results):
-        """Muestra los resultados en la lista."""
+            self.logger.error(f"Error en búsqueda: {e}")
+            # Podría mostrar un mensaje de error en la lista vacía
+
+    def _update_results_list(self, results: list[Any]) -> None:
+        """Actualiza la lista visual de resultados."""
         self.results_list.clear()
-        self._current_results = results
         
         if not results:
-            self.status_label.setText("No se encontraron resultados")
+            self.results_list.hide()
             return
+            
+        self.results_list.show()
         
-        for result in results:
+        for dto in results:
             item = QListWidgetItem()
+            # Usamos setData para guardar el objeto completo o sus partes clave
+            item.setData(Qt.ItemDataRole.UserRole, dto)
             
-            # Determinar icono según tipo
-            if result.tipo == 'producto':
-                icon_text = "📦"
-                tipo_text = "Producto"
-            elif result.tipo == 'orden':
-                icon_text = "📋"
-                tipo_text = "Orden"
-            else:
-                icon_text = "📄"
-                tipo_text = result.tipo.capitalize()
-            
-            # Formatear texto
-            display_text = f"{icon_text} {result.codigo}"
-            if result.descripcion:
-                display_text += f"\n    {result.descripcion[:50]}"
-            if result.total_unidades > 0:
-                display_text += f" ({result.total_unidades} uds)"
+            # Crear un widget personalizado para la fila es mejor, pero text simple por ahora
+            tipo_icon = "📦" if dto.tipo == 'producto' else "🏭" if dto.tipo == 'fabricacion' else "📄"
+            display_text = f"{tipo_icon}  {dto.codigo} - {dto.descripcion}"
             
             item.setText(display_text)
-            item.setData(Qt.ItemDataRole.UserRole, {
-                'tipo': result.tipo,
-                'codigo': result.codigo
-            })
-            
-            # Color de fondo según tipo
-            if result.tipo == 'producto':
-                item.setBackground(QColor("#f0fdf4"))  # Verde muy claro
-            elif result.tipo == 'orden':
-                item.setBackground(QColor("#fef3c7"))  # Amarillo muy claro
-            
             self.results_list.addItem(item)
-        
-        self.status_label.setText(f"{len(results)} resultado(s) encontrado(s)")
-    
-    def _on_item_clicked(self, item: QListWidgetItem):
-        """Maneja clic en un elemento de la lista."""
-        data = item.data(Qt.ItemDataRole.UserRole)
-        if data:
-            self.result_selected.emit(data['tipo'], data['codigo'])
-    
-    def _on_item_double_clicked(self, item: QListWidgetItem):
-        """Maneja doble clic en un elemento (mismo comportamiento que clic simple)."""
-        self._on_item_clicked(item)
-    
-    def _on_enter_pressed(self):
-        """Maneja la tecla Enter - selecciona el primer resultado."""
-        if self.results_list.count() > 0:
-            first_item = self.results_list.item(0)
-            self.results_list.setCurrentItem(first_item)
-            self._on_item_clicked(first_item)
-    
-    def clear_search(self):
-        """Limpia la búsqueda y resultados."""
+
+    def _on_item_clicked(self, item: Any) -> None:
+        """Maneja el clic en un resultado."""
+        dto = item.data(Qt.ItemDataRole.UserRole)
+        if dto:
+            self.logger.info(f"Seleccionado: {dto.tipo} - {dto.codigo}")
+            self.result_selected.emit(dto.tipo, dto.codigo)
+            
+            # Opcional: limpiar búsqueda o mantenerla
+            self.results_list.hide()
+            # self.search_input.setText(dto.codigo) # Feedback visual
+
+    def clear_search(self) -> None:
+        """Limpia el campo de búsqueda y resultados."""
+        self._last_query_executed = ""
         self.search_input.clear()
         self.results_list.clear()
-        self._current_results = []
-        self._last_query = ""
-        self.status_label.setText("Introduzca al menos 2 caracteres para buscar")
-    
-    def set_controller(self, controller):
-        """Establece el controlador para acceder al modelo."""
-        self.controller = controller
-    
-    def get_selected_result(self):
-        """Retorna el resultado actualmente seleccionado."""
-        current_item = self.results_list.currentItem()
-        if current_item:
-            return current_item.data(Qt.ItemDataRole.UserRole)
-        return None
+        self.results_list.hide()
+        self.search_cleared.emit()
+
+    def set_controller(self, controller: Any) -> None:
+        """Actualiza el modelo desde el controlador."""
+        if controller is None:
+            self.app_model = None
+            return
+        if hasattr(controller, "search_reports_data"):
+            self.app_model = controller
+            return
+        if hasattr(controller, 'model'):
+            self.app_model = controller.model

@@ -4,9 +4,11 @@ Repositorio base que proporciona funcionalidades comunes para todos los reposito
 """
 
 import logging
-from typing import Optional, List, Any
+from typing import Optional, List, Any, Callable, TypeVar, Union, cast
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
+
+T = TypeVar("T")
 
 
 class BaseRepository:
@@ -15,7 +17,7 @@ class BaseRepository:
     Proporciona funcionalidades comunes como manejo de sesiones, logging y operaciones CRUD básicas.
     """
 
-    def __init__(self, session_factory):
+    def __init__(self, session_factory: Callable[[], Session]) -> None:
         """
         Inicializa el repositorio base.
 
@@ -25,7 +27,7 @@ class BaseRepository:
         self.session_factory = session_factory
         self.logger = logging.getLogger(f"EvolucionTiemposApp.{self.__class__.__name__}")
 
-    def get_session(self) -> Optional[Session]:
+    def get_session(self) -> Session | None:
         """
         Obtiene una nueva sesión de SQLAlchemy.
 
@@ -38,7 +40,7 @@ class BaseRepository:
             self.logger.error(f"Error al crear sesión: {e}")
             return None
 
-    def safe_execute(self, operation, *args, **kwargs):
+    def safe_execute(self, operation: Callable[..., T], *args: Any, **kwargs: Any) -> T | None:
         """
         Ejecuta una operación de base de datos de forma segura con manejo de errores.
         VERSIÓN MEJORADA con mejor logging para debugging.
@@ -46,7 +48,7 @@ class BaseRepository:
         session = self.get_session()
         if not session:
             self.logger.error("No se pudo obtener sesión de SQLAlchemy")
-            return self._get_default_error_value()
+            return cast(Optional[T], self._get_default_error_value())
 
         try:
             self.logger.debug(f"Ejecutando operación: {operation.__name__}")
@@ -73,15 +75,15 @@ class BaseRepository:
         except SQLAlchemyError as e:
             session.rollback()
             self.logger.error(f"Error de SQLAlchemy en {operation.__name__}: {e}")
-            return self._get_default_error_value()
+            return cast(Optional[T], self._get_default_error_value())
         except Exception as e:
             session.rollback()
             self.logger.error(f"Error inesperado en {operation.__name__}: {e}")
-            return self._get_default_error_value()
+            return cast(Optional[T], self._get_default_error_value())
         finally:
             session.close()
 
-    def _get_default_error_value(self):
+    def _get_default_error_value(self) -> Any:
         """
         Valor por defecto a devolver en caso de error.
         Cada repositorio puede sobrescribir este método.

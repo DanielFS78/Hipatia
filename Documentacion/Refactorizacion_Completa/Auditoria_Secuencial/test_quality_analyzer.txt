@@ -1,0 +1,234 @@
+
+============================================================
+  ANÁLISIS DE CALIDAD DE TESTS — HIPATIA
+============================================================
+  Archivos analizados : 227
+  Actualizados        : 227
+  En Progreso         : 0
+  Legacy / Pendiente  : 0
+============================================================
+  Score absoluto medio  : 75.9/100
+  Score optimizado medio: 77.8/100
+  Archivos en su techo  : 227/227
+============================================================
+
+  ✅ ARCHIVOS EN SU TECHO REAL (score optimizado = techo):
+  Archivo                                                   Abs   Techo  Razón
+  -------------------------------------------------------  -----  ------  ------------------------------
+  test_iteration_repository.py                              100     100  sin dependencias externas
+  test_dashboard_widget.py                                  100     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_pila_controller_comprehensive.py                     100     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_calculate_times_widget.py                            100     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_product_dialogs_coverage.py                           70     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_a3rp_excel_adapter.py                                100     100  sin dependencias externas
+  test_lote_manager_isolated.py                              70     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_historial_controller_comprehensive.py                 70     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_preproceso_controller_comprehensive.py               100     100  sin dependencias externas
+  test_machine_repository.py                                100     100  sin dependencias externas
+  test_prep_dialogs_coverage.py                             100     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_navigation_controller_comprehensive.py                70     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_pila_manager_isolated.py                              70     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_calculation_controller_comprehensive.py               82     100  parchea builtins/Qt/OS (autospec no aplicable)
+  test_worker_controller_comprehensive.py                    70     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_camera_manager_full.py                               100     100  sin dependencias externas
+  test_ui_controller_comprehensive.py                        70     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_lote_controller_comprehensive.py                      70     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_ui_signals_controller_comprehensive.py               100     100  sin dependencias externas
+  test_worker_main_window.py                                 70     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_preproceso_repository.py                             100     100  sin dependencias externas
+  test_product_controller_v2_comprehensive.py               100     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_app_controller_orchestration.py                      100     100  sin dependencias externas
+  test_machine_controller_comprehensive.py                   70     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_simulation_controller_comprehensive.py               100     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_define_flow_dialog_edge.py                            70     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_fabrication_dialogs.py                               100     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_product_controller_preprocesos.py                     70     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_di_container_lifecycle.py                            100     100  sin dependencias externas
+  test_charts_container.py                                  100     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_canvas_widgets.py                                    100     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_product_repository_db.py                             100     100  sin dependencias externas
+  test_backup_restore_dialog.py                             100     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_flow_item_widget.py                                  100     100  usa PyQt6 (widgets sin stubs de tipo)
+  test_report_controller_comprehensive.py                    77      92  parchea builtins/Qt/OS (autospec no aplicable)
+  test_cycle_reproduction.py                                 85      85  sin dependencias externas
+  test_backup_integration.py                                 85      85  sin dependencias externas
+  test_audit_report_generator.py                             85      85  sin dependencias externas
+  test_features_worker_controller.py                         85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_app_model.py                                          85      85  sin dependencias externas
+  test_preparation_service.py                                85      85  sin dependencias externas
+  test_app_coverage.py                                       85      85  sin dependencias externas
+  test_label_manager.py                                      85      85  sin dependencias externas
+  test_scheduler_logic.py                                    85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_ui_scaler.py                                          85      85  sin dependencias externas
+  test_security_improvements.py                              85      85  sin dependencias externas
+  test_apli_adapter.py                                       85      85  sin dependencias externas
+  test_products_widget.py                                    85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_historial_widget.py                                   85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_fabrication_dialogs_coverage.py                       85      85  sin dependencias externas
+  test_machine_service.py                                    85      85  sin dependencias externas
+  test_backup_controller.py                                  85      85  sin dependencias externas
+  test_enhanced_flow_dialog.py                               70      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_phase5_di_injection.py                                85      85  sin dependencias externas
+  test_maintenance_service.py                                85      85  sin dependencias externas
+  test_reports_infrastructure.py                             85      85  sin dependencias externas
+  test_inspector_panel.py                                    85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_widgets_coverage.py                                   85      85  sin dependencias externas
+  test_product_service_core_paths.py                         85      85  sin dependencias externas
+  test_health_checker.py                                     85      85  sin dependencias externas
+  test_define_flow_dialog.py                                 85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_database_manager_full.py                              85      85  sin dependencias externas
+  test_settings_widget.py                                    85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_enhanced_flow_presenter.py                            85      85  sin dependencias externas
+  test_configuration_repository.py                           85      85  sin dependencias externas
+  test_worker_validation_service.py                          85      85  sin dependencias externas
+  test_common_dialogs.py                                     85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_preprocesos_widget.py                                 85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_product_service.py                                    85      85  sin dependencias externas
+  test_security_phase2_integration.py                        85      85  sin dependencias externas
+  test_tracking_repository_stats_export.py                   85      85  sin dependencias externas
+  test_charts_widget.py                                      85      85  sin dependencias externas
+  test_session_controller_comprehensive.py                   85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_backup_service.py                                     85      85  sin dependencias externas
+  test_startup_controller.py                                 85      85  sin dependencias externas
+  test_health_test_runner.py                                 85      85  sin dependencias externas
+  test_create_fabricacion_dialog.py                          80      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_visual_effects.py                                     85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_worker_service.py                                     85      85  sin dependencias externas
+  test_define_flow_presenter.py                              85      85  sin dependencias externas
+  test_app_model_coverage.py                                 85      85  sin dependencias externas
+  test_widgets_dashboard.py                                  85      85  sin dependencias externas
+  test_reportes_widget.py                                    85      85  sin dependencias externas
+  test_smart_search.py                                       85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_bom_import_service.py                                 85      85  sin dependencias externas
+  test_order_list_widget.py                                  85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_qr_scanner.py                                         85      85  sin dependencias externas
+  test_worker_db_sync.py                                     85      85  sin dependencias externas
+  test_machine_controller.py                                 85      85  sin dependencias externas
+  test_flow_canvas.py                                        85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_bitacora_dialog.py                                    85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_backup_controller_comprehensive.py                    85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_product_repository.py                                 85      85  sin dependencias externas
+  test_hardware_controller.py                                85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_product_service_delegation_mixin.py                   85      85  sin dependencias externas
+  test_event_engine_comprehensive.py                         85      85  sin dependencias externas
+  test_timeline_widget.py                                    85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_flow_builder_service.py                               85      85  sin dependencias externas
+  test_schedule_controller_comprehensive.py                  73      85  usa PyQt6 (widgets sin stubs de tipo); parchea builtins/Qt/OS (autospec no aplicable)
+  test_file_controller.py                                    85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_dialogs.py                                            85      85  sin dependencias externas
+  test_workers_widget.py                                     85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_report_strategy_comprehensive.py                      85      85  sin dependencias externas
+  test_tracking_exceptions.py                                85      85  sin dependencias externas
+  test_fabricacion_controller_comprehensive.py               85      85  sin dependencias externas
+  test_simulation_events_comprehensive.py                    85      85  sin dependencias externas
+  test_controller_interface.py                               85      85  sin dependencias externas
+  test_tracking_assignment_service.py                        85      85  sin dependencias externas
+  test_widgets_integration.py                                85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_app_model_services_setup.py                           85      85  sin dependencias externas
+  test_reports_ui_integration.py                             85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_pila_integration.py                                   85      85  sin dependencias externas
+  test_iteration_setup.py                                    85      85  sin dependencias externas
+  test_app_services_e2e_setup.py                             85      85  sin dependencias externas
+  test_machine_workflow.py                                   85      85  sin dependencias externas
+  test_iteration_workflow.py                                 85      85  sin dependencias externas
+  test_security_workflow.py                                  85      85  sin dependencias externas
+  test_product_workflow.py                                   85      85  sin dependencias externas
+  test_dialogs_e2e.py                                        85      85  sin dependencias externas
+  test_backup_audit_e2e.py                                   85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_fabricacion_manager.py                                85      85  sin dependencias externas
+  test_material_manager.py                                   85      85  sin dependencias externas
+  test_product_manager.py                                    85      85  usa PyQt6 (widgets sin stubs de tipo)
+  test_preproceso_manager.py                                 85      85  sin dependencias externas
+  test_management_manager.py                                 85      85  sin dependencias externas
+  test_auth_manager.py                                       85      85  sin dependencias externas
+  test_task_manager.py                                       85      85  sin dependencias externas
+  test_sync_service.py                                       80      80  sin dependencias externas
+  test_main_window.py                                        75      75  usa PyQt6 (widgets sin stubs de tipo)
+  test_app_startup_integration.py                            75      75  usa PyQt6 (widgets sin stubs de tipo)
+  test_machines_widget.py                                    70      70  usa PyQt6 (widgets sin stubs de tipo)
+  test_lotes_widget.py                                       70      70  usa PyQt6 (widgets sin stubs de tipo)
+  test_dialogs_flow.py                                       70      70  sin dependencias externas
+  test_health_worker.py                                      70      70  sin dependencias externas
+  test_reports_widgets.py                                    70      70  sin dependencias externas
+  test_fabrications_widget.py                                70      70  usa PyQt6 (widgets sin stubs de tipo)
+  test_canvas_widgets_coverage.py                            70      70  usa PyQt6 (widgets sin stubs de tipo)
+  test_prep_steps_widget.py                                  70      70  usa PyQt6 (widgets sin stubs de tipo)
+  test_tracking_repository_full.py                           70      70  sin dependencias externas
+  test_security_validation.py                                70      70  sin dependencias externas
+  test_order_list.py                                         70      70  usa PyQt6 (widgets sin stubs de tipo)
+  test_camera_config_dialog.py                               70      70  usa PyQt6 (widgets sin stubs de tipo)
+  test_gestion_datos_widget.py                               70      70  usa PyQt6 (widgets sin stubs de tipo)
+  test_home_widget.py                                        70      70  sin dependencias externas
+  test_dialogs_integration.py                                70      70  sin dependencias externas
+  test_label_counter_setup.py                                70      70  sin dependencias externas
+  test_conftest_infrastructure.py                            70      70  usa PyQt6 (widgets sin stubs de tipo)
+  test_main_window_flows.py                                  70      70  usa PyQt6 (widgets sin stubs de tipo)
+  test_camera_config_presenter.py                            65      65  sin dependencias externas
+  test_camera_manager_no_cv2.py                              65      65  sin dependencias externas
+  test_camera_manager_main.py                                65      65  sin dependencias externas
+  test_macos_fix.py                                          65      65  sin dependencias externas
+  test_utility_dialogs_coverage.py                           65      65  usa PyQt6 (widgets sin stubs de tipo)
+  test_reports_repository.py                                 65      65  sin dependencias externas
+  test_label_counter_repository.py                           65      65  sin dependencias externas
+  test_pila_repository.py                                    65      65  sin dependencias externas
+  test_flow_simulation_service.py                            65      65  sin dependencias externas
+  test_lote_repository.py                                    65      65  sin dependencias externas
+  test_password_service.py                                   65      65  sin dependencias externas
+  test_worker_repository.py                                  65      65  sin dependencias externas
+  test_detect_dead_code.py                                   65      65  sin dependencias externas
+  test_reports_integration.py                                65      65  sin dependencias externas
+  test_iteration_integration.py                              65      65  sin dependencias externas
+  test_label_counter_integration.py                          65      65  sin dependencias externas
+  test_material_repository.py                                65      65  sin dependencias externas
+  test_tracking_repository_unit.py                           65      65  sin dependencias externas
+  test_flow_toolbar.py                                       60      60  usa PyQt6 (widgets sin stubs de tipo)
+  test_create_dialog.py                                      50      55  usa PyQt6 (widgets sin stubs de tipo)
+  test_audit_infra.py                                        50      50  sin dependencias externas
+  test_common_production_dialogs.py                          50      50  usa PyQt6 (widgets sin stubs de tipo)
+  test_inspector_presenter.py                                50      50  sin dependencias externas
+  test_connection_dialog_comprehensive.py                    50      50  usa PyQt6 (widgets sin stubs de tipo)
+  test_qt_log_handler.py                                     50      50  sin dependencias externas
+  test_help_widget.py                                        50      50  sin dependencias externas
+  test_log_terminal_widget.py                                50      50  sin dependencias externas
+  test_dialog_integration_smoke.py                           50      50  sin dependencias externas
+  test_code_quality_config.py                                50      50  sin dependencias externas
+  test_tracking_repository_coverage_fix.py                   50      50  sin dependencias externas
+  test_report_sheets.py                                      50      50  sin dependencias externas
+  test_library_panel.py                                      50      50  sin dependencias externas
+  test_startup_screen_report.py                              50      50  sin dependencias externas
+  test_database_config.py                                    50      50  sin dependencias externas
+  test_protocols_imports.py                                  50      50  sin dependencias externas
+  test_startup_screen_constants.py                           50      50  sin dependencias externas
+  test_fabrication_module_structure.py                       50      50  sin dependencias externas
+  test_tracking_dialogs.py                                   50      50  usa PyQt6 (widgets sin stubs de tipo)
+  test_create_presenter.py                                   50      50  sin dependencias externas
+  test_machine_integration.py                                50      50  sin dependencias externas
+  test_worker_integration.py                                 50      50  sin dependencias externas
+  test_configuration_integration.py                          50      50  sin dependencias externas
+  test_product_integration.py                                50      50  sin dependencias externas
+  test_preproceso_integration.py                             50      50  sin dependencias externas
+  test_docx_adapter.py                                       50      50  sin dependencias externas
+  test_app_model_integration.py                              50      50  sin dependencias externas
+  test_widgets_setup.py                                      50      50  sin dependencias externas
+  test_preproceso_setup.py                                   50      50  sin dependencias externas
+  test_product_setup.py                                      50      50  sin dependencias externas
+  test_machine_setup.py                                      50      50  sin dependencias externas
+  test_pila_setup.py                                         50      50  sin dependencias externas
+  test_dialogs_setup.py                                      50      50  sin dependencias externas
+  test_worker_setup.py                                       50      50  sin dependencias externas
+  test_macos_setup.py                                        50      50  sin dependencias externas
+  test_tracking_repository_setup.py                          50      50  sin dependencias externas
+  test_pila_workflow.py                                      50      50  sin dependencias externas
+  test_preproceso_workflow.py                                50      50  sin dependencias externas
+  test_worker_workflow.py                                    50      50  sin dependencias externas
+  test_label_counter_e2e.py                                  50      50  sin dependencias externas
+  test_package_compliance.py                                 50      50  sin dependencias externas
+  test_main_header.py                                        50      50  sin dependencias externas
+  test_main_nav_panel.py                                     50      50  usa PyQt6 (widgets sin stubs de tipo)
+  test_flow_simulation_handler.py                            50      50  usa PyQt6 (widgets sin stubs de tipo)
+  test_flow_action_handler.py                                50      50  usa PyQt6 (widgets sin stubs de tipo)
+  test_bom_import_preview_dialog.py                          40      40  usa PyQt6 (widgets sin stubs de tipo)
+  test_bom_importer.py                                       25      25  sin dependencias externas
+
+  Datos guardados en: /Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/test_reports/compliance_data.json
+

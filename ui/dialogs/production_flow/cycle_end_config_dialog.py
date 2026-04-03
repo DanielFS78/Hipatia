@@ -1,11 +1,16 @@
+"""
+Interfaz PyQt6 (`cycle_end_config_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+"""
 from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
 
-from core.flow_canvas_io import legacy_canvas_task_config, legacy_canvas_task_is_cycle_start
-from core.flow_dialog_bridges import (
+from core.flow_canvas_io import (
     canvas_task_display_name,
+    flow_task_config_cycle_return_to_index,
     flow_task_config_is_cycle_end_flag,
+    legacy_canvas_task_config,
+    legacy_canvas_task_is_cycle_start,
 )
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont
@@ -45,7 +50,9 @@ class CycleEndConfigDialog(QDialog):
             current_config = legacy_canvas_task_config(
                 self.all_canvas_tasks[self.current_task_index]
             )
-            self.current_return_index_from_config = current_config.get("cycle_return_to_index")
+            self.current_return_index_from_config = flow_task_config_cycle_return_to_index(
+                current_config
+            )
             self.is_currently_marked_as_end = flow_task_config_is_cycle_end_flag(current_config)
 
         self.setWindowTitle("Configurar Fin de Ciclo")

@@ -7,10 +7,12 @@ Descripción: Genera documentación técnica completa de Hipatia en Markdown con
              flujo de fabricación) extraídos del código real del proyecto.
              Incluye sección de Suite de Tests generada desde compliance_data.json.
 """
+import argparse
 import os
 import ast
 import json
 import datetime
+import sys
 from pathlib import Path
 from typing import TypedDict
 
@@ -31,7 +33,7 @@ IGNORE_NAMES = {
     "data", "logs", "htmlcov", "test_reports", ".venv", "migrations",
     "migration", "Backup", "iteration_images", "qr_codes", "temp_chunks",
 }
-FRASES_IGNORADAS = {"", "None", "Sin descripción disponible", "Sin descripción disponible.", "None."}
+from doc_audit_common import FRASES_IGNORADAS, module_docstring_raw
 
 # ---------------------------------------------------------------------------
 # ESTILOS DE IMPRESIÓN (PDF)
@@ -894,6 +896,11 @@ def _measure_page_starts_for_file_sections(md_text: str) -> dict[str, int]:
 
     prefix, sections = _split_markdown_into_sections(md_text)
     page_map: dict[str, int] = {}
+    n_sections = len(sections)
+    print(
+        f"  (Midiendo PDF: {n_sections} bloques de contenido; puede tardar varios minutos.)",
+        flush=True,
+    )
 
     pdf = MarkdownPdf(toc_level=2, optimize=True)
 
@@ -903,7 +910,9 @@ def _measure_page_starts_for_file_sections(md_text: str) -> dict[str, int]:
     if getattr(prefix_section, "page_count", 0):
         current_page += int(prefix_section.page_count)
 
-    for kind_key, seg in sections:
+    for idx, (kind_key, seg) in enumerate(sections, start=1):
+        if idx == 1 or idx % 25 == 0 or idx == n_sections:
+            print(f"  … medición PDF bloque {idx}/{n_sections}", flush=True)
         s = Section(seg, toc=False)
         pdf.add_section(s, user_css=PRINT_CSS)
         if kind_key.startswith("file:"):
@@ -930,12 +939,16 @@ def _render_pdf_from_markdown(md_text: str) -> None:
     from markdown_pdf import MarkdownPdf, Section
 
     prefix, sections = _split_markdown_into_sections(md_text)
+    n_sections = len(sections)
+    print(f"  (Render PDF final: {n_sections} bloques.)", flush=True)
 
     pdf = MarkdownPdf(toc_level=2, optimize=True)
     prefix_section = Section(prefix, toc=False)
     pdf.add_section(prefix_section, user_css=PRINT_CSS)
 
-    for _, seg in sections:
+    for idx, (_, seg) in enumerate(sections, start=1):
+        if idx == 1 or idx % 25 == 0 or idx == n_sections:
+            print(f"  … PDF final bloque {idx}/{n_sections}", flush=True)
         pdf.add_section(Section(seg, toc=False), user_css=PRINT_CSS)
 
     pdf_file = str(OUTPUT_FILE).replace(".md", ".pdf")
@@ -975,7 +988,7 @@ def _parse_file(filepath: Path) -> dict:
         return {"error": str(e), "doc": "", "classes": [], "functions": []}
 
     info: dict = {
-        "doc": ast.get_docstring(tree) or "",
+        "doc": module_docstring_raw(tree),
         "classes": [],
         "functions": [],
     }
@@ -1493,8 +1506,13 @@ def _write_testing_section(md, compliance_data: list[dict]) -> None:
 
 def generate_markdown(page_map: dict[str, int] | None = None) -> None:
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    phase = "índice con páginas reales" if page_map else "índice placeholder (p0000)"
+    print(f"→ Generando Markdown ({phase})…", flush=True)
     root_files, dir_files = _collect_files()
+    n_ref = len(root_files) + sum(len(v) for v in dir_files.values())
+    print(f"  Referencia de código: {n_ref} archivos a volcar en el cuerpo.", flush=True)
     # Índice completo (incluye omitidos) para facilitar verificación visual.
+    print("  Construyendo árbol de índice…", flush=True)
     index_tree = _collect_index_tree()
     stats = _index_stats(index_tree)
 
@@ -1727,11 +1745,13 @@ def generate_markdown(page_map: dict[str, int] | None = None) -> None:
             "> Extraído automáticamente de los docstrings del código fuente. "
             "Organizado por capa.\n\n"
         )
+        print("  Volcando referencia por archivo (AST por fichero; la fase más larga)…", flush=True)
 
         if root_files:
             md.write("<div class='pagebreak'></div>\n\n")
             md.write("<div id='folder_root'>\n\n## Raíz del proyecto\n\n</div>\n\n")
             md.write(_folder_connections_mermaid("root") + "\n\n")
+            print(f"  · Raíz del proyecto: {len(root_files)} archivo(s)…", flush=True)
             for rel in root_files:
                 _write_file_section(md, PROJECT_ROOT / rel)
 
@@ -1752,49 +1772,72 @@ def generate_markdown(page_map: dict[str, int] | None = None) -> None:
             # Contenido del capítulo (empieza en página nueva)
             md.write("<div class='pagebreak'></div>\n\n")
             md.write(f"## {dirname}/ — Referencia\n\n")
-            for rel in files:
+            n_dir = len(files)
+            print(f"  · Capítulo `{dirname}/`: {n_dir} archivo(s)…", flush=True)
+            for i, rel in enumerate(files, start=1):
+                if n_dir > 40 and i % 40 == 0:
+                    print(f"    … {i}/{n_dir} `{dirname}`", flush=True)
                 _write_file_section(md, PROJECT_ROOT / rel)
 
-    print(f"✅ Documentación Markdown generada: {OUTPUT_FILE}")
+    print(f"✅ Documentación Markdown generada: {OUTPUT_FILE}", flush=True)
 
 
 # ---------------------------------------------------------------------------
 # MAIN
 # ---------------------------------------------------------------------------
 
-if __name__ == "__main__":
-    print("Generando documentación de Hipatia...")
-    
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Genera Documentacion Daniel (.md y opcionalmente .pdf).")
+    parser.add_argument(
+        "--md-only",
+        action="store_true",
+        help="Solo genera el Markdown (sin PDF ni doble pase). Mucho más rápido.",
+    )
+    args = parser.parse_args()
+
+    print("Generando documentación de Hipatia...", flush=True)
+
     # 0. Limpiar archivos antiguos en la carpeta de destino
     if OUTPUT_DIR.exists():
         for old_file in OUTPUT_DIR.glob("Documentacion Daniel.*"):
             try:
                 old_file.unlink()
-                print(f"Borrando archivo antiguo: {old_file.name}")
+                print(f"Borrando archivo antiguo: {old_file.name}", flush=True)
             except Exception as e:
-                print(f"No se pudo borrar {old_file.name}: {e}")
+                print(f"No se pudo borrar {old_file.name}: {e}", flush=True)
+
+    if args.md_only:
+        generate_markdown(page_map=None)
+        print(f"✅ Modo --md-only: no se generó PDF. Salida: {OUTPUT_FILE}", flush=True)
+        return
 
     # PDF opcional con page-map exacto (2 pases) usando partición por archivo.
     try:
         import markdown_pdf  # noqa: F401
 
+        print("Fase 1/4: Markdown con índice placeholder (p0000)…", flush=True)
         generate_markdown(page_map=None)  # índice con placeholders p0000
         md_placeholder = OUTPUT_FILE.read_text(encoding="utf-8")
 
         pdf_file = str(OUTPUT_FILE).replace(".md", ".pdf")
-        print(f"Convirtiendo a PDF (medición de páginas): {pdf_file}...")
+        print(f"Fase 2/4: medición de páginas → `{pdf_file}` (lento)…", flush=True)
         page_map = _measure_page_starts_for_file_sections(md_placeholder)
 
+        print("Fase 3/4: Markdown con páginas exactas en el índice…", flush=True)
         generate_markdown(page_map=page_map)  # índice con páginas exactas
         md_final = OUTPUT_FILE.read_text(encoding="utf-8")
 
-        print(f"Convirtiendo a PDF (páginas exactas): {pdf_file}...")
+        print(f"Fase 4/4: render final del PDF…", flush=True)
         _render_pdf_from_markdown(md_final)
-        print(f"✅ PDF generado: {pdf_file}")
+        print(f"✅ PDF generado: {pdf_file}", flush=True)
     except ImportError:
         generate_markdown(page_map=None)
-        print("⚠️  markdown_pdf no instalado — solo se generó el .md")
+        print("⚠️  markdown_pdf no instalado — solo se generó el .md", flush=True)
     except Exception as e:
         # Fallback seguro: al menos generar el .md final con placeholder.
         generate_markdown(page_map=None)
-        print(f"⚠️  Error al generar PDF: {e}")
+        print(f"⚠️  Error al generar PDF: {e}", flush=True)
+
+
+if __name__ == "__main__":
+    main()

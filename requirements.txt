@@ -1,6 +1,10 @@
 # ==============================================================================
 # REQUIREMENTS - Sistema de Cálculo de Tiempos de Fabricación
 # Versión consolidada y actualizada - Diciembre 2025
+alembic
+bcrypt
+greenlet
+psycopg2-binary
 # ==============================================================================
 
 # --- Framework UI Principal ---
@@ -24,6 +28,7 @@ python-docx>=1.2.0
 reportlab>=4.4.7
 jinja2>=3.1.4
 # weasyprint & xhtml2pdf removed due to missing system libs on macOS
+markdown-pdf>=1.3.1
 
 
 # --- Utilidades ---
@@ -40,9 +45,11 @@ pytest-html>=4.1.1
 pytest-qt>=4.4.0
 pytest-mock>=3.14.0
 pytest-timeout>=2.3.1
+pytest-env>=1.1.3
 coverage>=7.6.0
 
 # --- Análisis de Código ---
 pylint>=3.3.0
 bandit>=1.7.10
 flake8>=7.1.0
+mypy>=1.8.0

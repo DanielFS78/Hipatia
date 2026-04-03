@@ -1,9 +1,17 @@
+"""
+Interfaz PyQt6 (`flow_action_handler`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+"""
 from __future__ import annotations
-from typing import Optional, Any, List, Dict, TYPE_CHECKING, Mapping, MutableMapping
+
+from typing import Optional, Any, List, Dict, TYPE_CHECKING
 from PyQt6.QtWidgets import QMessageBox, QInputDialog, QWidget, QPushButton, QLabel
 from PyQt6.QtCore import Qt
-from core.flow_dialog_bridges import (
+from core.flow_canvas_io import (
     canvas_task_body,
+    cycle_end_dialog_configuration_values,
+    worker_line_config_display_name,
+    worker_line_config_reassignment_rule,
+    worker_line_config_set_reassignment_rule,
 )
 from .common_dialogs import CycleEndConfigDialog, ReassignmentRuleDialog
 
@@ -21,28 +29,12 @@ class FlowActionHandler:
         self.graph_manager = graph_manager
         self.controller = controller
 
-    @staticmethod
-    def _cycle_end_config_values(cfg: Mapping[str, Any]) -> tuple[Any, Any]:
-        return cfg.get("is_cycle_end"), cfg.get("return_to_index")
-
-    @staticmethod
-    def _worker_config_display_name(config: Mapping[str, Any], fallback: str) -> str:
-        return str(config.get("name", fallback))
-
-    @staticmethod
-    def _worker_config_reassignment_rule(config: Mapping[str, Any]) -> Any:
-        return config.get("reassignment_rule")
-
-    @staticmethod
-    def _worker_config_set_reassignment_rule(config: MutableMapping[str, Any], rule: Any) -> None:
-        config["reassignment_rule"] = rule
-
     def handle_cycle_end(self, selected_index: Optional[int], simulation_service: Any) -> None:
         if selected_index is None: return
         dialog = CycleEndConfigDialog(selected_index, self.presenter.canvas_tasks, self.parent)
         if dialog.exec():
             cfg = dialog.get_configuration()
-            ice, rti = self._cycle_end_config_values(cfg)
+            ice, rti = cycle_end_dialog_configuration_values(cfg)
             if self.presenter.apply_cycle_end_config(selected_index, ice, rti):
                 self.graph_manager.update_connections(selected_index)
                 self.graph_manager.update_all_cycle_effects(simulation_service)
@@ -57,14 +49,14 @@ class FlowActionHandler:
         if not task: return
 
         dialog = ReassignmentRuleDialog(
-            self._worker_config_display_name(config, worker_name),
+            worker_line_config_display_name(config, worker_name),
             canvas_task_body(task),
             self.presenter.canvas_tasks,
-            self._worker_config_reassignment_rule(config),
+            worker_line_config_reassignment_rule(config),
             self.parent,
         )
         if dialog.exec():
-            self._worker_config_set_reassignment_rule(config, dialog.get_rule())
+            worker_line_config_set_reassignment_rule(config, dialog.get_rule())
 
     def delete_task(self, selected_index: Optional[int], inspector: Any) -> Optional[int]:
         if selected_index is None: return selected_index

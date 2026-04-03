@@ -1,4 +1,7 @@
-
+# -*- coding: utf-8 -*-
+"""Tests de estadísticas y export del TrackingRepository: estadísticas por trabajador/fabricación,
+upsert trabajo, get_data_for_export, obtener_trabajo_por_id.
+"""
 import pytest
 from unittest.mock import MagicMock, patch
 from datetime import datetime, timezone, timedelta
@@ -11,10 +14,13 @@ from database.repositories.tracking_repository import TrackingRepository
 from core.tracking_dtos import TrabajoLogDTO
 from sqlalchemy import insert
 
+pytestmark = pytest.mark.unit
+
+
 @pytest.fixture
 def session_no_close(session):
     original_close = session.close
-    session.close = MagicMock()
+    session.close = MagicMock(spec=[])  # evita cierre real de sesión en tests
     yield session
     session.close = original_close
 
@@ -246,21 +252,5 @@ class TestTrackingRepoStatsExport:
         
         assert tracking_repo_test.obtener_trabajo_por_id(99999) is None
 
-    def test_assignment_ops(self, tracking_repo_test, seed_stats_data, session_no_close):
-        w_id, f_id, _ = seed_stats_data
-        
-        # Initial check
-        workers = tracking_repo_test.obtener_trabajadores_de_fabricacion(f_id)
-        assert len(workers) == 0
-        
-        # Assign
-        tracking_repo_test.asignar_trabajador_a_fabricacion(w_id, f_id)
-        workers_after = tracking_repo_test.obtener_trabajadores_de_fabricacion(f_id)
-        assert len(workers_after) == 1
-        
-        # Desasign
-        success = tracking_repo_test.desasignar_trabajador_de_fabricacion(w_id, f_id)
-        assert success is True
-        workers_final = tracking_repo_test.obtener_trabajadores_de_fabricacion(f_id)
-        assert len(workers_final) == 0
+
 

@@ -1,3 +1,7 @@
+"""
+Lógica o utilidades del núcleo (`production_context`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+"""
+
 from dataclasses import dataclass
 from typing import Optional
 
@@ -15,8 +19,8 @@ class ProductionContext:
     Manages the context of the current production session for a worker.
     Keeps track of the current Order (OF), progress (1 of X), and current process layer.
     """
-    def __init__(self):
-        self._status = ProductionStatus(
+    def __init__(self) -> None:
+        self._status: ProductionStatus = ProductionStatus(
             order_number="",
             total_units=0,
             units_completed=0,
@@ -24,7 +28,7 @@ class ProductionContext:
             active=False
         )
 
-    def start_session(self, order_number: str, total_units: int, process_name: str):
+    def start_session(self, order_number: str, total_units: int, process_name: str) -> None:
         """Starts a new production session."""
         self._status = ProductionStatus(
             order_number=order_number,
@@ -34,7 +38,7 @@ class ProductionContext:
             active=True
         )
 
-    def increment_unit(self):
+    def increment_unit(self) -> None:
         """Increments the completed units counter."""
         if self._status.active:
             self._status.units_completed += 1
@@ -49,7 +53,7 @@ class ProductionContext:
             return "Sin sesión activa"
         return f"Unidad {self._status.units_completed + 1} de {self._status.total_units}"
 
-    def reset(self):
+    def reset(self) -> None:
         """Clears the current session."""
         self._status = ProductionStatus(
             order_number="",

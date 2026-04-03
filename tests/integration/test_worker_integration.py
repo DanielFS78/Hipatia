@@ -1,7 +1,7 @@
-# tests/integration/test_worker_integration.py
+"""Tests de integración para WorkerRepository."""
 import pytest
 from database.models import Trabajador
-from database.repositories.worker_repository import WorkerRepository
+from database.repositories.worker import WorkerRepository
 
 @pytest.mark.integration
 class TestWorkerRepositoryIntegration:
@@ -59,34 +59,29 @@ class TestWorkerRepositoryIntegration:
         try:
             repo = WorkerRepository(lambda: session)
             
-            # 1. Insertar trabajador válido
+            # Insertar trabajador válido
             repo.add_worker("Valid Worker", "", 1)
             
-            # 2. Intentar operación que fallará manualmente y verificar rollback
-            # Simulamos un fallo 'manual' en una operación compleja si existiera.
-            # Como WorkerRepository es simple, usaremos manipulación directa de sesión para simular.
+            # Verificar que el trabajador fue insertado correctamente
+            from database.models import Trabajador
+            count_before = session.query(Trabajador).count()
+            assert count_before == 1
             
+            # Verificar que safe_execute maneja errores sin dejar datos sucios
+            # Intentar operación que falla (ID duplicado)
             try:
-                # Iniciamos transacción 'manual' o usamos repository
-                # Vamos a añadir un worker y luego lanzar excepción antes de commit (si repo no hiciera commit)
-                # Pero el repo hace safe_execute con commit.
-                # Probaremos que si safe_execute captura error, hace rollback.
-                
-                # Para testear esto necesitamos mockear la operación interna para que falle
-                pass
-            except:
-                pass
-                
-            # En este caso, testear rollback de Repository es unitario.
-            # Para integración, testemos restricciones de BD REAL.
+                w_dup = Trabajador(id=1, nombre_completo="Duplicate", activo=True)
+                session.add(w_dup)
+                session.commit()
+            except Exception:
+                session.rollback()
             
-            # Intentar insertar con ID duplicado a mano
-            w1 = Trabajador(id=1, nombre_completo="A", activo=True) 
-            # Insertar SQL directo malformado?
-            pass
+            # El count debe seguir siendo 1 (rollback funcionó)
+            count_after = session.query(Trabajador).count()
+            assert count_after == 1
         finally:
             session.close()
-            engine.dispose()  # Cerrar engine correctamente
+            engine.dispose()
 
     def test_interaction_with_pila_repository(self, temp_db_file):
         """
@@ -107,6 +102,7 @@ class TestWorkerRepositoryIntegration:
             # 1. Crear Worker
             worker_repo.add_worker("Worker For Pila", "", 1)
             worker = session.query(Trabajador).first()
+            assert worker is not None
             worker_id = worker.id # Capturar ID mientras está attachado
             
             # 2. Crear Pila

@@ -4,6 +4,7 @@ Repositorio para la gestión de configuración de la aplicación.
 """
 from typing import Optional, Any, List
 from datetime import date
+from sqlalchemy.orm import Session
 import json
 
 from .base import BaseRepository
@@ -16,7 +17,7 @@ class ConfigurationRepository(BaseRepository):
     Almacena pares clave-valor de configuración.
     """
 
-    def _get_default_error_value(self):
+    def _get_default_error_value(self) -> None:
         """Valor por defecto en caso de error."""
         return None
 
@@ -32,7 +33,7 @@ class ConfigurationRepository(BaseRepository):
             Valor de configuración o default_value
         """
 
-        def _operation(session):
+        def _operation(session: Session) -> Any:
             config = session.query(Configuration).filter_by(clave=key).first()
             return config.valor if config else default_value
 
@@ -50,7 +51,7 @@ class ConfigurationRepository(BaseRepository):
             True si se guardó correctamente, False en caso contrario
         """
 
-        def _operation(session):
+        def _operation(session: Session) -> bool:
             # Buscar si existe
             config = session.query(Configuration).filter_by(clave=key).first()
 

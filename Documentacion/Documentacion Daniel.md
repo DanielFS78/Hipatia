@@ -1,6 +1,6 @@
 # Documentación Técnica: Hipatia
 
-> Generado automáticamente el 2026-04-02 13:16:49
+> Generado automáticamente el 2026-04-03 09:46:36
 
 ---
 
@@ -10,8 +10,8 @@
 
 | Métrica | Valor |
 |---|---:|
-| Archivos `.py` listados en el índice | 423 |
-| Incluidos en el cuerpo (tienen bloque en el PDF) | 423 |
+| Archivos `.py` listados en el índice | 429 |
+| Incluidos en el cuerpo (tienen bloque en el PDF) | 429 |
 | Omitidos (reglas de docstrings/otros) | 0 |
 
 Leyenda:
@@ -22,33 +22,33 @@ Leyenda:
 - `Mypy Parcial`: el proyecto usa una configuración gradual allí; se prioriza estabilidad/coste de esfuerzo.
 
 - analysis/
-  - `scripts/analysis/analyze_codebase.py` → p0468 | clases: FileStats, DirectorySummary | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_controller.py` → p0469 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_coverage_risks.py` → p0470 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_db_usage.py` → p0471 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_dependencies.py` → p0472 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_fabrication_dialogs.py` → p0473 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_loose_mocks.py` → p0474 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_refactoring_impact.py` → p0475 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_repository_connections.py` → p0476 | clases: FileAnalysisResult, RepoUsageData, ProjectAnalysisResult, RepositoryConnectionAnalyzer | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_root_files.py` → p0477 | clases: DefinitionsDict, DefinitionsPayload, ErrorPayload, MissingResult, RootFileAnalysis | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_structure.py` → p0478 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_tracking_impact.py` → p0479 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_typing_deep.py` → p0480 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_ui_structure.py` → p0481 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/detect_obsolete_code.py` → p0482 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/verify_naming_conventions.py` → p0483 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_codebase.py` → p0475 | clases: FileStats, DirectorySummary | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_controller.py` → p0476 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_coverage_risks.py` → p0477 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_db_usage.py` → p0478 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_dependencies.py` → p0479 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_fabrication_dialogs.py` → p0480 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_loose_mocks.py` → p0481 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_refactoring_impact.py` → p0482 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_repository_connections.py` → p0483 | clases: FileAnalysisResult, RepoUsageData, ProjectAnalysisResult, RepositoryConnectionAnalyzer | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_root_files.py` → p0484 | clases: DefinitionsDict, DefinitionsPayload, ErrorPayload, MissingResult, RootFileAnalysis | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_structure.py` → p0485 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_tracking_impact.py` → p0486 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_typing_deep.py` → p0487 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_ui_structure.py` → p0488 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/detect_obsolete_code.py` → p0489 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/verify_naming_conventions.py` → p0490 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - app_model_bridges/
-  - `core/app_model_bridges/__init__.py` → p0143 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/app_model_bridges/compat.py` → p0144 | clases: AppModelCompatBridge | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/app_model_bridges/planning.py` → p0145 | clases: AppModelPlanningBridge | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/app_model_bridges/product.py` → p0146 | clases: AppModelProductBridge | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/app_model_bridges/__init__.py` → p0142 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/app_model_bridges/compat.py` → p0143 | clases: AppModelCompatBridge | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/app_model_bridges/planning.py` → p0144 | clases: AppModelPlanningBridge | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/app_model_bridges/product.py` → p0145 | clases: AppModelProductBridge | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - camera_manager/
-  - `core/camera_manager/__init__.py` → p0147 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/camera_manager/base.py` → p0148 | clases: CameraBackend, CameraInfo | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/camera_manager/detector.py` → p0149 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/camera_manager/manager.py` → p0150 | clases: CameraManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/camera_manager/utils.py` → p0151 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/camera_manager/__init__.py` → p0146 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/camera_manager/base.py` → p0147 | clases: CameraBackend, CameraInfo | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/camera_manager/detector.py` → p0148 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/camera_manager/manager.py` → p0149 | clases: CameraManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/camera_manager/utils.py` → p0150 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - dialogs/
   - effects/
     - `ui/dialogs/effects/__init__.py` → p0336 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
@@ -62,39 +62,38 @@ Leyenda:
     - `ui/dialogs/fabrication/assignment_dialogs.py` → p0343 | clases: AssignPreprocesosDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
     - `ui/dialogs/fabrication/bitacora_dialog.py` → p0344 | clases: BitacoraEntryDTO, FabricacionBitacoraDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
     - `ui/dialogs/fabrication/create_dialog.py` → p0345 | clases: CreateFabricacionDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/fabrication/create_dialog_compat.py` → p0346 | clases: CreateDialogCompatMixin | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/fabrication/create_presenter.py` → p0347 | clases: CreateFabricacionPresenter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/fabrication/input_dialogs.py` → p0348 | clases: GetLoteInstanceParametersDialog, GetOptimizationParametersDialog, GetUnitsDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/fabrication/persistence_dialogs.py` → p0349 | clases: SavePilaDialog, LoadPilaDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/fabrication/products_dialog.py` → p0350 | clases: ProductsSelectionDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/fabrication/selection_dialogs.py` → p0351 | clases: PreprocesosSelectionDialog, PreprocesosForCalculationDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/fabrication/create_presenter.py` → p0346 | clases: CreateFabricacionPresenter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/fabrication/input_dialogs.py` → p0347 | clases: GetLoteInstanceParametersDialog, GetOptimizationParametersDialog, GetUnitsDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/fabrication/persistence_dialogs.py` → p0348 | clases: SavePilaDialog, LoadPilaDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/fabrication/products_dialog.py` → p0349 | clases: ProductsSelectionDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/fabrication/selection_dialogs.py` → p0350 | clases: PreprocesosSelectionDialog, PreprocesosForCalculationDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - prep/
-    - `ui/dialogs/prep/__init__.py` → p0352 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/prep/prep_groups_dialog.py` → p0353 | clases: PrepGroupsDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/prep/prep_steps_dialog.py` → p0354 | clases: PrepStepsDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/prep/preproceso_dialog.py` → p0355 | clases: PreprocesoDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/prep/__init__.py` → p0351 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/prep/prep_groups_dialog.py` → p0352 | clases: PrepGroupsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/prep/prep_steps_dialog.py` → p0353 | clases: PrepStepsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/prep/preproceso_dialog.py` → p0354 | clases: PreprocesoDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - product/
-    - `ui/dialogs/product/__init__.py` → p0356 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/product/add_iteration_dialog.py` → p0357 | clases: AddIterationDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/product/bom_import_preview_dialog.py` → p0358 | clases: BOMImportPreviewDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/product/procesos_mecanicos_dialog.py` → p0359 | clases: ProcesosMecanicosDialog, AddProcesoMecanicoDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/product/product_details_dialog.py` → p0360 | clases: ProductDetailsDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/product/subfabricaciones_dialog.py` → p0361 | clases: SubfabricacionesDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/product/__init__.py` → p0355 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/product/add_iteration_dialog.py` → p0356 | clases: AddIterationDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/product/bom_import_preview_dialog.py` → p0357 | clases: BOMImportPreviewDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/product/procesos_mecanicos_dialog.py` → p0358 | clases: ProcesosMecanicosDialog, AddProcesoMecanicoDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/product/product_details_dialog.py` → p0359 | clases: ProductDetailsDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/product/subfabricaciones_dialog.py` → p0360 | clases: SubfabricacionesDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - production_flow/
-    - `ui/dialogs/production_flow/__init__.py` → p0362 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/production_flow/common_dialogs.py` → p0363 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/production_flow/cycle_end_config_dialog.py` → p0364 | clases: CycleEndConfigDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/production_flow/define_flow_dialog.py` → p0365 | clases: DefineProductionFlowDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/production_flow/define_flow_presenter.py` → p0366 | clases: DefineFlowPresenter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/production_flow/definir_cantidades_dialog.py` → p0367 | clases: DefinirCantidadesDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/production_flow/enhanced_flow_dialog.py` → p0368 | clases: EnhancedProductionFlowDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/production_flow/enhanced_flow_presenter.py` → p0369 | clases: EnhancedFlowPresenter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/production_flow/enhanced_flow_presenter_state.py` → p0370 | clases: EnhancedFlowPresenterStateMixin | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/production_flow/flow_action_handler.py` → p0371 | clases: FlowActionHandler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/production_flow/flow_builder.py` → p0372 | clases: FlowBuilder | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/production_flow/flow_simulation_handler.py` → p0373 | clases: FlowSimulationHandler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/production_flow/machine_resource_manager.py` → p0374 | clases: MachineResourceManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/production_flow/reassignment_rule_dialog.py` → p0375 | clases: ReassignmentRuleDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/production_flow/__init__.py` → p0361 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/production_flow/common_dialogs.py` → p0362 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/production_flow/cycle_end_config_dialog.py` → p0363 | clases: CycleEndConfigDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/production_flow/define_flow_dialog.py` → p0364 | clases: DefineProductionFlowDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/production_flow/define_flow_presenter.py` → p0365 | clases: DefineFlowPresenter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/production_flow/definir_cantidades_dialog.py` → p0366 | clases: DefinirCantidadesDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/production_flow/enhanced_flow_dialog.py` → p0367 | clases: EnhancedProductionFlowDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/production_flow/enhanced_flow_presenter.py` → p0368 | clases: EnhancedFlowPresenter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/production_flow/enhanced_flow_state_manager.py` → p0369 | clases: EnhancedFlowStateManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/production_flow/flow_action_handler.py` → p0370 | clases: FlowActionHandler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/production_flow/flow_builder.py` → p0371 | clases: FlowBuilder | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/production_flow/flow_simulation_handler.py` → p0372 | clases: FlowSimulationHandler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/production_flow/machine_resource_manager.py` → p0373 | clases: MachineResourceManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/production_flow/reassignment_rule_dialog.py` → p0374 | clases: ReassignmentRuleDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `ui/dialogs/__init__.py` → p0328 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `ui/dialogs/backup_restore_dialog.py` → p0329 | clases: BackupRestoreDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `ui/dialogs/canvas_widget.py` → p0330 | clases: CanvasWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
@@ -104,21 +103,21 @@ Leyenda:
   - `ui/dialogs/tracking_dialogs.py` → p0334 | clases: OrderSetupDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `ui/dialogs/utility_dialogs.py` → p0335 | clases: AddBreakDialog, LoginDialog, ChangePasswordDialog, SyncDialog, SeleccionarHojasExcelDialog, MultiWorkerSelectionDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - facades/
-  - `core/facades/__init__.py` → p0152 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/facades/planning_facade.py` → p0153 | clases: PlanningFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/facades/product_facade.py` → p0154 | clases: ProductFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/facades/production_facade.py` → p0155 | clases: ProductionFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/facades/reporting_facade.py` → p0156 | clases: ReportingFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/facades/system_facade.py` → p0157 | clases: SystemFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/facades/workforce_facade.py` → p0158 | clases: WorkforceFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/facades/__init__.py` → p0151 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/facades/planning_facade.py` → p0152 | clases: PlanningFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/facades/product_facade.py` → p0153 | clases: ProductFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/facades/production_facade.py` → p0154 | clases: ProductionFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/facades/reporting_facade.py` → p0155 | clases: ReportingFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/facades/system_facade.py` → p0156 | clases: SystemFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/facades/workforce_facade.py` → p0157 | clases: WorkforceFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - hardware/
-  - `tools/hardware/detect_cameras.py` → p0491 | clases: CameraInfo | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `tools/hardware/detect_cameras.py` → p0498 | clases: CameraInfo | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - health/
-  - `core/health/__init__.py` → p0159 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/health/constants.py` → p0160 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/health/health_checker.py` → p0161 | clases: TableHealth, SystemHealth, TestResults, HealthReport, DatabaseHealthChecker | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/health/health_worker.py` → p0162 | clases: HealthCheckWorker | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/health/test_runner.py` → p0163 | clases: TestRunner | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/health/__init__.py` → p0158 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/health/constants.py` → p0159 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/health/health_checker.py` → p0160 | clases: TableHealth, SystemHealth, TestResults, HealthReport, DatabaseHealthChecker | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/health/health_worker.py` → p0161 | clases: HealthCheckWorker | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/health/test_runner.py` → p0162 | clases: TestRunner | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - historial/
   - `controllers/historial/__init__.py` → p0077 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `controllers/historial/controller.py` → p0078 | clases: HistorialController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
@@ -128,28 +127,28 @@ Leyenda:
   - `controllers/historial/view_manager.py` → p0082 | clases: HistorialViewManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - import_manager/
   - adapters/
-    - `core/import_manager/adapters/__init__.py` → p0167 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/import_manager/adapters/a3rp_csv_adapter.py` → p0168 | clases: A3RPCSVAdapter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/import_manager/adapters/a3rp_excel_adapter.py` → p0169 | clases: A3RPExcelAdapter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/import_manager/adapters/__init__.py` → p0166 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/import_manager/adapters/a3rp_csv_adapter.py` → p0167 | clases: A3RPCSVAdapter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/import_manager/adapters/a3rp_excel_adapter.py` → p0168 | clases: A3RPExcelAdapter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - services/
-    - `core/import_manager/services/__init__.py` → p0170 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/import_manager/services/bom_import_service.py` → p0171 | clases: BOMImportService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/import_manager/__init__.py` → p0164 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/import_manager/dto.py` → p0165 | clases: BOMNodeDTO | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/import_manager/ports.py` → p0166 | clases: IBOMImporter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/import_manager/services/__init__.py` → p0169 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/import_manager/services/bom_import_service.py` → p0170 | clases: BOMImportService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/import_manager/__init__.py` → p0163 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/import_manager/dto.py` → p0164 | clases: BOMNodeDTO | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/import_manager/ports.py` → p0165 | clases: IBOMImporter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - interfaces/
-  - `core/interfaces/controller_interface.py` → p0172 | clases: QABCMeta, IController | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/interfaces/view_interface.py` → p0173 | clases: IView | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/interfaces/worker_view_interface.py` → p0174 | clases: IWorkerView | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/interfaces/controller_interface.py` → p0171 | clases: QABCMeta, IController | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/interfaces/view_interface.py` → p0172 | clases: IView | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/interfaces/worker_view_interface.py` → p0173 | clases: IWorkerView | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - label_manager/
-  - `core/label_manager/__init__.py` → p0175 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/label_manager/base.py` → p0176 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/label_manager/manager.py` → p0177 | clases: LabelManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/label_manager/ports.py` → p0178 | clases: IDocumentGenerator | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/label_manager/printer.py` → p0179 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/label_manager/__init__.py` → p0174 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/label_manager/base.py` → p0175 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/label_manager/manager.py` → p0176 | clases: LabelManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/label_manager/ports.py` → p0177 | clases: IDocumentGenerator | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/label_manager/printer.py` → p0178 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - maintenance/
-  - `scripts/maintenance/backup_database.py` → p0484 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/maintenance/reset_admin.py` → p0485 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/maintenance/backup_database.py` → p0491 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/maintenance/reset_admin.py` → p0492 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - models/
   - `database/models/__init__.py` → p0253 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `database/models/base.py` → p0254 | clases: Base | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
@@ -168,18 +167,17 @@ Leyenda:
 - product/
   - `controllers/product/__init__.py` → p0087 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `controllers/product/fabricacion_manager.py` → p0088 | clases: FabricacionManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `controllers/product/fabricacion_products_handler.py` → p0089 | clases: FabricacionProductsHandler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `controllers/product/fabricacion_products_handler.py` → p0089 | clases: IPlanningCalculationProvider, FabricacionProductsHandler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `controllers/product/material_manager.py` → p0090 | clases: MaterialManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `controllers/product/preproceso_manager.py` → p0091 | clases: PreprocesoManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `controllers/product/product_manager.py` → p0092 | clases: ProductManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `controllers/product/product_manager_iteration_mixin.py` → p0093 | clases: ProductManagerIterationMixin | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `controllers/product/protocols.py` → p0094 | clases: IProductView, IProductService, IFabricacionService, IMaterialService, IProductModel, ProductControllerProtocol | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `controllers/product/protocols.py` → p0093 | clases: IProductView, IProductService, IFabricacionService, IMaterialService, IProductModel, ProductControllerProtocol | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - qr_scanner/
-  - `core/qr_scanner/__init__.py` → p0180 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/qr_scanner/base.py` → p0181 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/qr_scanner/detector.py` → p0182 | clases: QRDetector | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/qr_scanner/scanner.py` → p0183 | clases: QrScanner, QrScannerCallback | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/qr_scanner/ui.py` → p0184 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/qr_scanner/__init__.py` → p0179 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/qr_scanner/base.py` → p0180 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/qr_scanner/detector.py` → p0181 | clases: QRDetector | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/qr_scanner/scanner.py` → p0182 | clases: QrScanner, QrScannerCallback | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/qr_scanner/ui.py` → p0183 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - repositories/
   - machine/
     - `database/repositories/machine/__init__.py` → p0278 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
@@ -220,271 +218,279 @@ Leyenda:
     - `database/repositories/worker/repository.py` → p0308 | clases: WorkerRepository | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
     - `database/repositories/worker/worker_manager.py` → p0309 | clases: WorkerCoreManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `database/repositories/__init__.py` → p0263 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `database/repositories/base.py` → p0264 | clases: BaseRepository | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `database/repositories/configuration_repository.py` → p0265 | clases: ConfigurationRepository | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `database/repositories/base.py` → p0264 | clases: BaseRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/configuration_repository.py` → p0265 | clases: ConfigurationRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `database/repositories/incidencia_repository.py` → p0266 | clases: IncidenciaRepository | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `database/repositories/iteration_repository.py` → p0267 | clases: IterationRepository | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `database/repositories/iteration_repository.py` → p0267 | clases: IterationRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `database/repositories/iteration_repository_helpers.py` → p0268 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `database/repositories/label_counter_repository.py` → p0269 | clases: LabelCounterRepository | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `database/repositories/lote_repository.py` → p0270 | clases: LoteRepository | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `database/repositories/material_repository.py` → p0271 | clases: MaterialRepository | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `database/repositories/product_repository.py` → p0272 | clases: ProductRepository | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `database/repositories/lote_repository.py` → p0270 | clases: LoteRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/material_repository.py` → p0271 | clases: MaterialRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/product_repository.py` → p0272 | clases: ProductRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `database/repositories/product_repository_helpers.py` → p0273 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `database/repositories/protocols.py` → p0274 | clases: RepositoryProtocol, PilaRepositoryProtocol, TrackingRepositoryProtocol | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `database/repositories/tracking_log_repository.py` → p0275 | clases: TrackingLogRepository | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `database/repositories/tracking_repository.py` → p0276 | clases: TrackingRepository | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `database/repositories/tracking_log_repository.py` → p0275 | clases: TrackingLogRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/tracking_repository.py` → p0276 | clases: TrackingRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `database/repositories/tracking_stats_repository.py` → p0277 | clases: TrackingStatsRepository | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - security/
-  - `core/security/access_control.py` → p0185 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/security/password_service.py` → p0186 | clases: PasswordService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/security/security_exceptions.py` → p0187 | clases: SecurityError, SecurityServiceNotInitializedError, InsufficientPermissionsError, RateLimitExceededError | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/security/security_service.py` → p0188 | clases: UserRole, Permission, SecurityService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/security/access_control.py` → p0184 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/security/password_service.py` → p0185 | clases: PasswordService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/security/security_exceptions.py` → p0186 | clases: SecurityError, SecurityServiceNotInitializedError, InsufficientPermissionsError, RateLimitExceededError | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/security/security_service.py` → p0187 | clases: UserRole, Permission, SecurityService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - services/
   - report_sheets/
-    - `core/services/report_sheets/__init__.py` → p0211 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/services/report_sheets/audit.py` → p0212 | clases: AuditSheet | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/services/report_sheets/base.py` → p0213 | clases: ExcelSheetStrategy | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/services/report_sheets/cronograma.py` → p0214 | clases: CronogramaSheet | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/services/report_sheets/cuellos_botella.py` → p0215 | clases: CuellosBotollaSheet | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/services/report_sheets/graficas.py` → p0216 | clases: GraficasSheet | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/services/report_sheets/resumen.py` → p0217 | clases: ResumenEjecutivoSheet | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/services/report_sheets/trabajadores.py` → p0218 | clases: AnalisisTrabajadoresSheet | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/services/report_sheets/trabajo_paralelo.py` → p0219 | clases: TrabajoParaleloSheet | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/services/report_sheets/__init__.py` → p0210 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/services/report_sheets/audit.py` → p0211 | clases: AuditSheet | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/services/report_sheets/base.py` → p0212 | clases: ExcelSheetStrategy | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/services/report_sheets/cronograma.py` → p0213 | clases: CronogramaSheet | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/services/report_sheets/cuellos_botella.py` → p0214 | clases: CuellosBotollaSheet | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/services/report_sheets/graficas.py` → p0215 | clases: GraficasSheet | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/services/report_sheets/resumen.py` → p0216 | clases: ResumenEjecutivoSheet | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/services/report_sheets/trabajadores.py` → p0217 | clases: AnalisisTrabajadoresSheet | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/services/report_sheets/trabajo_paralelo.py` → p0218 | clases: TrabajoParaleloSheet | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - reporting/
-    - `core/services/reporting/__init__.py` → p0220 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/services/reporting/base.py` → p0221 | clases: IReporteEstrategia, GeneradorDeInformes | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/services/reporting/excel_report_strategy.py` → p0222 | clases: ReportePilaFabricacionExcelMejorado | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/services/reporting/pdf_report_sections.py` → p0223 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/services/reporting/pdf_report_strategy.py` → p0224 | clases: ReporteHistorialFabricacion, ReporteHistorialIteracion | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/audit_logger.py` → p0189 | clases: AuditLogger | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/backup_service.py` → p0190 | clases: BackupService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/backup_utils.py` → p0191 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/calculation_audit.py` → p0192 | clases: DecisionStatus, CalculationDecision | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/calendar_helper.py` → p0193 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/data_importer.py` → p0194 | clases: Material, IMaterialImporter, ExcelMaterialImporter, MaterialImporterFactory | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/fabricacion_service.py` → p0195 | clases: FabricacionService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/flow_builder_service.py` → p0196 | clases: FlowBuilderService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/flow_simulation_service.py` → p0197 | clases: SimulationSession, FlowSimulationService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/machine_service.py` → p0198 | clases: MachineService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/maintenance_service.py` → p0199 | clases: MaintenanceWorker, MaintenanceService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/pila_service.py` → p0200 | clases: PilaService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/preparation_service.py` → p0201 | clases: PreparationService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/product_service.py` → p0202 | clases: ProductService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/product_service_delegation_mixin.py` → p0203 | clases: ProductServiceDelegationMixin | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/rate_limiter.py` → p0204 | clases: RateLimiter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/report_service.py` → p0205 | clases: ReportService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/report_strategy.py` → p0206 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/temporal_storage.py` → p0207 | clases: RegistroTemporal | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/time_calculator.py` → p0208 | clases: CalculadorDeTiempos | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/tracking_assignment_service.py` → p0209 | clases: TrackingAssignmentService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/services/worker_service.py` → p0210 | clases: WorkerService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/services/reporting/__init__.py` → p0219 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/services/reporting/base.py` → p0220 | clases: IReporteEstrategia, GeneradorDeInformes | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/reporting/excel_report_strategy.py` → p0221 | clases: ReportePilaFabricacionExcelMejorado | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/services/reporting/pdf_report_sections.py` → p0222 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/services/reporting/pdf_report_strategy.py` → p0223 | clases: ReporteHistorialFabricacion, ReporteHistorialIteracion | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/audit_logger.py` → p0188 | clases: AuditLogger | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/backup_service.py` → p0189 | clases: BackupService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/backup_utils.py` → p0190 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/calculation_audit.py` → p0191 | clases: DecisionStatus, CalculationDecision | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/calendar_helper.py` → p0192 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/data_importer.py` → p0193 | clases: Material, IMaterialImporter, ExcelMaterialImporter, MaterialImporterFactory | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/fabricacion_service.py` → p0194 | clases: FabricacionService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/services/flow_builder_service.py` → p0195 | clases: FlowBuilderService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/services/flow_simulation_service.py` → p0196 | clases: SimulationSession, FlowSimulationService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/services/machine_service.py` → p0197 | clases: MachineService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/services/maintenance_service.py` → p0198 | clases: MaintenanceWorker, MaintenanceService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/pila_service.py` → p0199 | clases: PilaService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/services/preparation_service.py` → p0200 | clases: PreparationService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/services/product_service.py` → p0201 | clases: ProductService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/rate_limiter.py` → p0202 | clases: RateLimiter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/report_service.py` → p0203 | clases: ReportService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/report_strategy.py` → p0204 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/system_integration_service.py` → p0205 | clases: SystemIntegrationService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/services/temporal_storage.py` → p0206 | clases: RegistroTemporal | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/time_calculator.py` → p0207 | clases: CalculadorDeTiempos | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/tracking_assignment_service.py` → p0208 | clases: TrackingAssignmentService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/services/worker_service.py` → p0209 | clases: WorkerService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - simulation/
   - engine/
-    - `core/simulation/engine/__init__.py` → p0232 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/simulation/engine/base.py` → p0233 | clases: SimulationState | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/simulation/engine/core_runner.py` → p0234 | clases: CoreSimulationRunner | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/simulation/engine/dependency_handler.py` → p0235 | clases: DependencyHandler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/simulation/engine/motor.py` → p0236 | clases: MotorDeEventos | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/simulation/engine/results_compiler.py` → p0237 | clases: ResultsCompiler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/simulation/engine/__init__.py` → p0231 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/simulation/engine/base.py` → p0232 | clases: SimulationState | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/simulation/engine/core_runner.py` → p0233 | clases: CoreSimulationRunner | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/simulation/engine/dependency_handler.py` → p0234 | clases: DependencyHandler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/simulation/engine/motor.py` → p0235 | clases: MotorDeEventos | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/simulation/engine/results_compiler.py` → p0236 | clases: ResultsCompiler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - simulation_events/
-    - `core/simulation/simulation_events/__init__.py` → p0238 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/simulation/simulation_events/base.py` → p0239 | clases: EventoDeSimulacion | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/simulation/simulation_events/production.py` → p0240 | clases: EventoInicioUnidad, EventoFinUnidad | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `core/simulation/simulation_events/worker.py` → p0241 | clases: EventoReasignacionTrabajador, EventoTiempoInactivo | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `controllers/simulation/__init__.py` → p0095 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `controllers/simulation/controller.py` → p0096 | clases: SimulationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/editor_manager.py` → p0097 | clases: SimulationEditorManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `controllers/simulation/execution_helpers.py` → p0098 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `controllers/simulation/execution_manager.py` → p0099 | clases: SimulationExecutionManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `controllers/simulation/optimizer_worker.py` → p0100 | clases: OptimizerWorker | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `controllers/simulation/protocols.py` → p0101 | clases: SimulationControllerProtocol | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/simulation/__init__.py` → p0225 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/simulation/event_engine.py` → p0226 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/simulation/resource_manager.py` → p0227 | clases: IntervaloOcupacion, ReglaReasignacion, GestorDeRecursos | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/simulation/simulation_adapter.py` → p0228 | clases: AdaptadorScheduler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/simulation/simulation_engine.py` → p0229 | clases: SimulationWorker, Optimizer | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/simulation/timeline_task.py` → p0230 | clases: LineaTemporalTarea | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/simulation/timeline_task_parallel.py` → p0231 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/simulation/simulation_events/__init__.py` → p0237 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/simulation/simulation_events/base.py` → p0238 | clases: EventoDeSimulacion | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/simulation/simulation_events/production.py` → p0239 | clases: EventoInicioUnidad, EventoFinUnidad | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `core/simulation/simulation_events/worker.py` → p0240 | clases: EventoReasignacionTrabajador, EventoTiempoInactivo | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `controllers/simulation/__init__.py` → p0094 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `controllers/simulation/controller.py` → p0095 | clases: SimulationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/editor_manager.py` → p0096 | clases: SimulationEditorManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `controllers/simulation/execution_helpers.py` → p0097 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `controllers/simulation/execution_manager.py` → p0098 | clases: SimulationExecutionManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `controllers/simulation/optimizer_worker.py` → p0099 | clases: OptimizerWorker | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `controllers/simulation/protocols.py` → p0100 | clases: SimulationControllerProtocol | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/simulation/__init__.py` → p0224 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/simulation/event_engine.py` → p0225 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/simulation/resource_manager.py` → p0226 | clases: IntervaloOcupacion, ReglaReasignacion, GestorDeRecursos | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/simulation/simulation_adapter.py` → p0227 | clases: AdaptadorScheduler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/simulation/simulation_engine.py` → p0228 | clases: SimulationWorker, Optimizer | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/simulation/timeline_task.py` → p0229 | clases: LineaTemporalTarea | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/simulation/timeline_task_parallel.py` → p0230 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - utils/
-  - `core/utils/helpers.py` → p0242 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/utils/pila_serializer.py` → p0243 | clases: PilaJSONEncoder | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/utils/ui_scaler.py` → p0244 | clases: UIScaler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/utils/visualization.py` → p0245 | clases: VisualizationGenerator | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/utils/author_loader.py` → p0241 | clases: WorkerSignals, AuthorInfoLoader | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/utils/helpers.py` → p0242 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/utils/pila_serializer.py` → p0243 | clases: PilaJSONEncoder | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/utils/ui_scaler.py` → p0244 | clases: UIScaler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/utils/visualization.py` → p0245 | clases: VisualizationGenerator | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - validation/
   - `core/validation/validator_service.py` → p0246 | clases: ValidationResult, ValidatorService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - versions/
-  - `migrations/versions/a195b5f170d2_add_security_tables.py` → p0496 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `migrations/versions/c1444b2546d3_initial_clean_migration.py` → p0497 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `migrations/versions/a195b5f170d2_add_security_tables.py` → p0503 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `migrations/versions/c1444b2546d3_initial_clean_migration.py` → p0504 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - widgets/
   - product/
-    - `ui/widgets/product/__init__.py` → p0397 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/product/iterations_widget.py` → p0398 | clases: ProductIterationsWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/product/materials_widget.py` → p0399 | clases: ProductMaterialsWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/product/__init__.py` → p0396 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/product/iterations_widget.py` → p0397 | clases: ProductIterationsWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/product/materials_widget.py` → p0398 | clases: ProductMaterialsWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - production_flow/
-    - `ui/widgets/production_flow/__init__.py` → p0400 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/production_flow/define_control_panel.py` → p0401 | clases: DefineControlPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/production_flow/flow_canvas.py` → p0402 | clases: ProductionFlowCanvas | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/production_flow/flow_card_widget.py` → p0403 | clases: FlowCardWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/production_flow/flow_connection_painter.py` → p0404 | clases: FlowConnectionPainter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/production_flow/flow_display_panel.py` → p0405 | clases: FlowDisplayPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/production_flow/flow_graph_manager.py` → p0406 | clases: FlowGraphManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/production_flow/flow_item_widget.py` → p0407 | clases: FlowItemWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/production_flow/flow_toolbar.py` → p0408 | clases: FlowToolbarWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/production_flow/inspector_panel.py` → p0409 | clases: ProductionTaskInspector | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/production_flow/inspector_presenter.py` → p0410 | clases: InspectorPresenter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/production_flow/inspector_task_loader.py` → p0411 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/production_flow/inspector_ui.py` → p0412 | clases: InspectorWidgets | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/production_flow/library_panel.py` → p0413 | clases: TaskLibraryPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/production_flow/__init__.py` → p0399 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/production_flow/define_control_panel.py` → p0400 | clases: DefineControlPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/production_flow/flow_canvas.py` → p0401 | clases: ProductionFlowCanvas | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/production_flow/flow_card_widget.py` → p0402 | clases: FlowCardWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/production_flow/flow_connection_painter.py` → p0403 | clases: FlowConnectionPainter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/production_flow/flow_display_panel.py` → p0404 | clases: FlowDisplayPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/production_flow/flow_graph_manager.py` → p0405 | clases: FlowGraphManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/production_flow/flow_item_widget.py` → p0406 | clases: FlowItemWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/production_flow/flow_toolbar.py` → p0407 | clases: FlowToolbarWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/production_flow/inspector_panel.py` → p0408 | clases: ProductionTaskInspector | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/production_flow/inspector_presenter.py` → p0409 | clases: InspectorPresenter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/production_flow/inspector_task_loader.py` → p0410 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/production_flow/inspector_ui.py` → p0411 | clases: InspectorWidgets | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/production_flow/library_panel.py` → p0412 | clases: TaskLibraryPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - reports/
-    - `ui/widgets/reports/__init__.py` → p0414 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/reports/charts_container.py` → p0415 | clases: ReportsChartsWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/reports/charts_renderers.py` → p0416 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/reports/order_list.py` → p0417 | clases: OrderCard, OrderListWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/reports/smart_search.py` → p0418 | clases: SmartSearchWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/reports/stat_card.py` → p0419 | clases: StatCard | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/reports/__init__.py` → p0413 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/reports/charts_container.py` → p0414 | clases: ReportsChartsWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/reports/charts_renderers.py` → p0415 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/reports/order_list.py` → p0416 | clases: OrderCard, OrderListWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/reports/smart_search.py` → p0417 | clases: SmartSearchWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/reports/stat_card.py` → p0418 | clases: StatCard | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - worker/
-    - `ui/widgets/worker/camera_info_panel.py` → p0420 | clases: CameraInfoPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/worker/camera_selector_panel.py` → p0421 | clases: CameraSelectorPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/worker/worker_activity_panel.py` → p0422 | clases: WorkerActivityPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/worker/worker_details_panel.py` → p0423 | clases: WorkerDetailsPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/widgets/worker/worker_incidence_dialog.py` → p0424 | clases: WorkerIncidenceDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/__init__.py` → p0376 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/base.py` → p0377 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/calculate_times_widget.py` → p0378 | clases: CalculateTimesWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/dashboard_widget.py` → p0379 | clases: DashboardWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/fabrications_widget.py` → p0380 | clases: FabricationsWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/gestion_datos_widget.py` → p0381 | clases: GestionDatosWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/help_widget.py` → p0382 | clases: HelpWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/historial_widget.py` → p0383 | clases: HistorialWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/home_widget.py` → p0384 | clases: HomeWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/log_terminal_widget.py` → p0385 | clases: LogTerminalWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/lotes_widget.py` → p0386 | clases: DefinirLoteWidget, LotesWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/machines_widget.py` → p0387 | clases: MachinesWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/main_header.py` → p0388 | clases: MainHeader | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/main_nav_panel.py` → p0389 | clases: MainNavPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/prep_steps_widget.py` → p0390 | clases: PrepStepsWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/preprocesos_widget.py` → p0391 | clases: PreprocesosWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/products_widget.py` → p0392 | clases: ProductsWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/reportes_widget.py` → p0393 | clases: ReportesWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/settings_widget.py` → p0394 | clases: SettingsWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/timeline_widget.py` → p0395 | clases: TimelineVisualizationWidget, TaskAnalysisPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/widgets/workers_widget.py` → p0396 | clases: WorkersWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/worker/camera_info_panel.py` → p0419 | clases: CameraInfoPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/worker/camera_selector_panel.py` → p0420 | clases: CameraSelectorPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/worker/worker_activity_panel.py` → p0421 | clases: WorkerActivityPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/worker/worker_details_panel.py` → p0422 | clases: WorkerDetailsPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/widgets/worker/worker_incidence_dialog.py` → p0423 | clases: WorkerIncidenceDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/__init__.py` → p0375 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/base.py` → p0376 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/calculate_times_widget.py` → p0377 | clases: CalculateTimesWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/dashboard_widget.py` → p0378 | clases: DashboardWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/fabrications_widget.py` → p0379 | clases: FabricationsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/gestion_datos_widget.py` → p0380 | clases: GestionDatosWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/help_widget.py` → p0381 | clases: HelpWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/historial_widget.py` → p0382 | clases: HistorialWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/home_widget.py` → p0383 | clases: HomeWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/log_terminal_widget.py` → p0384 | clases: LogTerminalWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/lotes_widget.py` → p0385 | clases: DefinirLoteWidget, LotesWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/machines_widget.py` → p0386 | clases: MachinesWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/main_header.py` → p0387 | clases: MainHeader | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/main_nav_panel.py` → p0388 | clases: MainNavPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/prep_steps_widget.py` → p0389 | clases: PrepStepsWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/preprocesos_widget.py` → p0390 | clases: PreprocesosWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/products_widget.py` → p0391 | clases: ProductsWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/reportes_widget.py` → p0392 | clases: ReportesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/settings_widget.py` → p0393 | clases: SettingsWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/timeline_widget.py` → p0394 | clases: TimelineVisualizationWidget, TaskAnalysisPanel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/widgets/workers_widget.py` → p0395 | clases: WorkersWidget | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - worker/
   - main_window/
-    - `ui/worker/main_window/__init__.py` → p0428 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/worker/main_window/ui_setup.py` → p0429 | clases: WorkerMainWindowUISetup | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/worker/main_window/window.py` → p0430 | clases: WorkerMainWindow | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `controllers/worker/__init__.py` → p0102 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `controllers/worker/auth_manager.py` → p0103 | clases: WorkerAuthManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `controllers/worker/controller.py` → p0104 | clases: WorkerController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/worker/management_manager.py` → p0105 | clases: WorkerManagementManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `controllers/worker/protocols.py` → p0106 | clases: IWorkerView, IWorkerService, IFabricacionService, IProductService, IWorkerModel, WorkerControllerProtocol | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `controllers/worker/task_manager.py` → p0107 | clases: WorkerTaskManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/worker/__init__.py` → p0425 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/worker/camera_config_dialog.py` → p0426 | clases: CameraConfigDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `ui/worker/camera_config_presenter.py` → p0427 | clases: CameraConfigPresenter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `analyze_ui.py` → p0048 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `app.py` → p0047 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `controllers/__init__.py` → p0053 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `controllers/app_controller.py` → p0054 | clases: AppController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/backup_controller.py` → p0055 | clases: BackupController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/backup_controller_io_mixin.py` → p0056 | clases: BackupControllerIOMixin | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `controllers/calculation_controller.py` → p0057 | clases: CalculationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/fabricacion_controller.py` → p0058 | clases: FabricacionController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/file_controller.py` → p0059 | clases: FileController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/hardware_controller.py` → p0060 | clases: HardwareController | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `controllers/lote_controller.py` → p0061 | clases: LoteController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/machine_controller.py` → p0062 | clases: MachineController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/navigation_controller.py` → p0063 | clases: NavigationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/preproceso_controller.py` → p0064 | clases: PreprocesoController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/product_controller_v2.py` → p0065 | clases: ProductController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/report_controller.py` → p0066 | clases: ReportController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/report_controller_export_mixin.py` → p0067 | clases: ReportControllerExportMixin | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `controllers/schedule_controller.py` → p0068 | clases: ScheduleController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/schedule_helpers.py` → p0069 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `controllers/schedule_legacy_helper.py` → p0070 | clases: ScheduleLegacyApiHelper | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/worker/main_window/__init__.py` → p0427 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/worker/main_window/ui_setup.py` → p0428 | clases: WorkerMainWindowUISetup | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/worker/main_window/window.py` → p0429 | clases: WorkerMainWindow | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `controllers/worker/__init__.py` → p0101 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `controllers/worker/auth_manager.py` → p0102 | clases: WorkerAuthManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `controllers/worker/controller.py` → p0103 | clases: WorkerController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/management_manager.py` → p0104 | clases: WorkerManagementManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `controllers/worker/protocols.py` → p0105 | clases: IWorkerView, IWorkerService, IFabricacionService, IProductService, IWorkerModel, WorkerControllerProtocol | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `controllers/worker/task_manager.py` → p0106 | clases: WorkerTaskManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/worker/__init__.py` → p0424 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/worker/camera_config_dialog.py` → p0425 | clases: CameraConfigDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `ui/worker/camera_config_presenter.py` → p0426 | clases: CameraConfigPresenter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `analyze_ui.py` → p0049 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `app.py` → p0048 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `controllers/__init__.py` → p0054 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `controllers/app_controller.py` → p0055 | clases: AppController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/backup_controller.py` → p0056 | clases: BackupController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/backup_controller_io_manager.py` → p0057 | clases: BackupControllerIOContext, BackupIOManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `controllers/calculation_controller.py` → p0058 | clases: CalculationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/fabricacion_controller.py` → p0059 | clases: FabricacionController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/file_controller.py` → p0060 | clases: FileController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/hardware_controller.py` → p0061 | clases: HardwareController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/lote_controller.py` → p0062 | clases: LoteController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/machine_controller.py` → p0063 | clases: MachineController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/navigation_controller.py` → p0064 | clases: NavigationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/preproceso_controller.py` → p0065 | clases: PreprocesoController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/product_controller_v2.py` → p0066 | clases: ProductController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/report_controller.py` → p0067 | clases: ReportController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/report_export_helper.py` → p0068 | clases: ReportExportHelper | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `controllers/schedule_controller.py` → p0069 | clases: ScheduleController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/schedule_helpers.py` → p0070 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `controllers/schedule_ui_helper.py` → p0071 | clases: ScheduleUiOpsHelper | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `controllers/session_controller.py` → p0072 | clases: SessionController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `controllers/startup_controller.py` → p0073 | clases: StartupController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `controllers/ui_controller.py` → p0074 | clases: UIController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `controllers/ui_signals_controller.py` → p0075 | clases: UISignalsController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/ui_signals_controller_mixin.py` → p0076 | clases: UISignalsControllerMixin | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/__init__.py` → p0111 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/app_model.py` → p0112 | clases: AppModel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/application_state.py` → p0113 | clases: ApplicationState | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/constants.py` → p0114 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/define_flow_form_io.py` → p0115 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/define_flow_presenter_io.py` → p0116 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/definir_cantidades_dialog_io.py` → p0117 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/di_container.py` → p0118 | clases: ServiceLifecycle, ServiceRegistration, DIContainer | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/dtos.py` → p0119 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/dtos_catalog.py` → p0120 | clases: ProductDTO, SubfabricacionDTO, ProcesoMecanicoDTO, MaterialDTO, PilaDTO, MaterialStatsDTO, ComponenteDTO, FabricacionProductoDTO, PreprocesoDTO, FabricacionDTO, LoteDTO, ConfigurationDTO (+4) | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/dtos_flow_camera.py` → p0121 | clases: FlowTaskDataDTO, CanvasCyclicConnectionFlags, ProductFlowLibraryProductDTO, FlowTaskConfigDTO, ProductionFlowStepDTO, FlowCanvasTaskDTO, CameraConfigDTO, CameraDetailDTO, FlowItemDTO | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/dtos_models.py` → p0122 | clases: MachineDTO, MachineMaintenanceDTO, PreparationGroupDTO, PreparationStepDTO, WorkerDTO, WorkerAnnotationDTO, WorkerDetailDTO, AuthResponseDTO, BackupInfoDTO, SimulationResultTaskDTO, CalculationSubPartDTO, CalculationProductDTO (+11) | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/enhanced_flow_canvas_state_io.py` → p0123 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/enhanced_flow_presenter_io.py` → p0124 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/flow_canvas_io.py` → p0125 | clases: CanvasVisualConnection | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/flow_card_labels.py` → p0126 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/flow_dialog_bridges.py` → p0127 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/flow_graph_manager_io.py` → p0128 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/flow_inspector_context.py` → p0129 | clases: FlowInspectorTaskContext | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/holidays_config_io.py` → p0130 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/inspector_task_payload_io.py` → p0131 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/production_context.py` → p0132 | clases: ProductionStatus, ProductionContext | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/qr_generator.py` → p0133 | clases: QrGenerator | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/qt_log_handler.py` → p0135 | clases: _SignalEmitter, QtLogHandler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/reassignment_rule_dialog_io.py` → p0137 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/reports_dtos.py` → p0138 | clases: ResultadoBusquedaDTO, OrdenFabricacionResumenDTO, OrdenFabricacionDetalleDTO, PromedioTiempoDTO, TiempoTrabajadorDTO, IncidenciaResumenDTO, PuntoEvolucionDTO, UnidadTrabajoDTO, ResumenProductoDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/schedule_config.py` → p0140 | clases: ScheduleConfig | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/sync_service.py` → p0141 | clases: SyncService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `core/tracking_dtos.py` → p0142 | clases: FabricacionAsignadaDTO, IncidenciaAdjuntoDTO, IncidenciaLogDTO, PasoTrazabilidadDTO, TrabajoLogDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/ui_signals_wiring.py` → p0076 | clases: UISignalsWiring | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/__init__.py` → p0110 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/app_model.py` → p0111 | clases: AppModel | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/application_state.py` → p0112 | clases: ApplicationState | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/constants.py` → p0113 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/define_flow_form_io.py` → p0114 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/define_flow_presenter_io.py` → p0115 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/definir_cantidades_dialog_io.py` → p0116 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/di_container.py` → p0117 | clases: ServiceLifecycle, ServiceRegistration, DIContainer | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/dtos.py` → p0118 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/dtos_catalog.py` → p0119 | clases: ProductDTO, SubfabricacionDTO, ProcesoMecanicoDTO, MaterialDTO, PilaDTO, MaterialStatsDTO, ComponenteDTO, FabricacionProductoDTO, PreprocesoDTO, FabricacionDTO, LoteDTO, ConfigurationDTO (+4) | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/dtos_flow_camera.py` → p0120 | clases: FlowTaskDataDTO, CanvasCyclicConnectionFlags, ProductFlowLibraryProductDTO, FlowTaskConfigDTO, ProductionFlowStepDTO, FlowCanvasTaskDTO, CameraConfigDTO, CameraDetailDTO, FlowItemDTO | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/dtos_models.py` → p0121 | clases: MachineDTO, MachineMaintenanceDTO, PreparationGroupDTO, PreparationStepDTO, WorkerDTO, WorkerAnnotationDTO, WorkerDetailDTO, AuthResponseDTO, BackupInfoDTO, SimulationResultTaskDTO, CalculationSubPartDTO, CalculationProductDTO (+11) | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/enhanced_flow_canvas_state_io.py` → p0122 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/enhanced_flow_presenter_io.py` → p0123 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/flow_canvas_io.py` → p0124 | clases: CanvasVisualConnection | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/flow_card_labels.py` → p0125 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/flow_graph_manager_io.py` → p0126 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/flow_inspector_context.py` → p0127 | clases: FlowInspectorTaskContext | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/holidays_config_io.py` → p0128 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/inspector_task_payload_io.py` → p0129 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/production_context.py` → p0130 | clases: ProductionStatus, ProductionContext | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/qr_generator.py` → p0131 | clases: QrGenerator | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/qt_log_handler.py` → p0133 | clases: _SignalEmitter, QtLogHandler | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/quote_service.py` → p0135 | clases: QuoteService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/reassignment_rule_dialog_io.py` → p0136 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/reports_dtos.py` → p0137 | clases: ResultadoBusquedaDTO, OrdenFabricacionResumenDTO, OrdenFabricacionDetalleDTO, PromedioTiempoDTO, TiempoTrabajadorDTO, IncidenciaResumenDTO, PuntoEvolucionDTO, UnidadTrabajoDTO, ResumenProductoDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/schedule_config.py` → p0139 | clases: ScheduleConfig | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `core/sync_service.py` → p0140 | clases: SyncService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/tracking_dtos.py` → p0141 | clases: FabricacionAsignadaDTO, IncidenciaAdjuntoDTO, IncidenciaLogDTO, PasoTrazabilidadDTO, TrabajoLogDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `database/__init__.py` → p0250 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `database/config.py` → p0251 | clases: DatabaseConfig | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `database/database_manager.py` → p0252 | clases: DatabaseManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `database/database_manager.py` → p0252 | clases: DatabaseManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `features/__init__.py` → p0313 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `features/worker_controller.py` → p0314 | clases: WorkerController | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `features/worker_controller_io_mixin.py` → p0315 | clases: WorkerControllerIOMixin | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `features/worker_controller_io_manager.py` → p0315 | clases: WorkerIOManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `features/worker_db_sync.py` → p0316 | clases: WorkerDbSync | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `features/worker_incidence_dialog.py` → p0317 | clases: IncidenceDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `features/worker_validation_service.py` → p0318 | clases: WorkerValidationService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `generate_ui_report.py` → p0049 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `migrations/env.py` → p0495 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/__init__.py` → p0434 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/analyze_mixin.py` → p0435 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/analyze_pila_controller.py` → p0436 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/analyze_product_controller_coverage.py` → p0437 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/analyze_ui_state.py` → p0438 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/build_executable.py` → p0439 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/check_documentation_omissions.py` → p0440 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/check_typing_coverage.py` → p0441 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/codebase_analyzer.py` → p0442 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/coverage_focus.py` → p0443 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/detect_dead_code.py` → p0444 | clases: MethodExtractor | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/download_opencv_resources.py` → p0445 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/extract_test_quality_in_progress.py` → p0446 | clases: BacklogItem | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/generate_comprehensive_report.py` → p0447 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/generate_coverage_report.py` → p0448 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/generate_daniel_doc.py` → p0449 | clases: FileIndexInfo, DirIndexNode | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/generate_monolitos_finales.py` → p0450 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/init_database.py` → p0451 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/legacy_analyzer.py` → p0452 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/monolith_analyzer.py` → p0453 | clases: FileNode, GraphStats, _ImportCollector | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/print_summary.py` → p0454 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/profile_queries.py` → p0455 | clases: QueryCounter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/run_quality_audit.py` → p0456 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/security_audit_analyzer.py` → p0457 | clases: SecurityAuditAnalyzer | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/seed_data.py` → p0458 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/test_quality_analyzer.py` → p0459 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/track_docx_dependencies.py` → p0460 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/ui_dto_boundary_analyzer.py` → p0461 | clases: Finding | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/ui_dto_boundary_decision_report.py` → p0462 | clases: Decision | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/ui_dto_findings_catalog.py` → p0463 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/update_test_imports.py` → p0464 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/verify_migration.py` → p0465 | clases: CodeIssue | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/verify_qr_optimization.py` → p0466 | clases: TestQrScannerOptimization | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/verify_structure.py` → p0467 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `tools/__init__.py` → p0489 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `tools/analyze_app_controller.py` → p0490 | clases: AppControllerVisitor | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `features/worker_validation_service.py` → p0318 | clases: QRScannerProtocol, WorkerValidationService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `generate_ui_report.py` → p0050 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `migrations/env.py` → p0502 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/__init__.py` → p0433 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/analyze_mixin.py` → p0434 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/analyze_pila_controller.py` → p0435 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/analyze_product_controller_coverage.py` → p0436 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/analyze_ui_state.py` → p0437 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/audit_import_graph.py` → p0438 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/audit_module_docstrings.py` → p0439 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/build_executable.py` → p0440 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/check_documentation_omissions.py` → p0441 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/check_typing_coverage.py` → p0442 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/codebase_analyzer.py` → p0443 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/coverage_focus.py` → p0444 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/detect_dead_code.py` → p0445 | clases: MethodExtractor | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/doc_audit_common.py` → p0446 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/download_opencv_resources.py` → p0447 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/extract_test_quality_in_progress.py` → p0448 | clases: BacklogItem | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_comprehensive_report.py` → p0449 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_coverage_report.py` → p0450 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_daniel_doc.py` → p0451 | clases: FileIndexInfo, DirIndexNode | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_monolitos_finales.py` → p0452 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_quotes_db.py` → p0453 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/init_database.py` → p0454 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/inject_module_docstrings.py` → p0455 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/legacy_analyzer.py` → p0456 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/list_mypy_core_services_gaps.py` → p0457 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/monolith_analyzer.py` → p0458 | clases: FileNode, GraphStats, _ImportCollector | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/print_summary.py` → p0459 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/profile_queries.py` → p0460 | clases: QueryCounter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/reorder_docstring_before_future.py` → p0461 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/run_quality_audit.py` → p0462 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/security_audit_analyzer.py` → p0463 | clases: SecurityAuditAnalyzer | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/seed_data.py` → p0464 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/sync_worktree_to_icloud.py` → p0465 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/test_quality_analyzer.py` → p0466 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/track_docx_dependencies.py` → p0467 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/ui_dto_boundary_analyzer.py` → p0468 | clases: Finding | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/ui_dto_boundary_decision_report.py` → p0469 | clases: Decision | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/ui_dto_findings_catalog.py` → p0470 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/update_test_imports.py` → p0471 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/verify_migration.py` → p0472 | clases: CodeIssue | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/verify_qr_optimization.py` → p0473 | clases: TestQrScannerOptimization | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/verify_structure.py` → p0474 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `tools/__init__.py` → p0496 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `tools/analyze_app_controller.py` → p0497 | clases: AppControllerVisitor | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `ui/__init__.py` → p0322 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `ui/main_window.py` → p0323 | clases: MainView | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `ui/startup_screen.py` → p0324 | clases: StartupScreen | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
@@ -977,6 +983,8 @@ sequenceDiagram
 | requests | 2.32.0 |
 | concurrent-log-handler | 0.9.25 |
 | graphviz | 0.20.3 |
+| wikiquote | 0.1.17 |
+| wikipedia | 1.4.0 |
 | pytest | 8.4.2 |
 | pytest-cov | 6.0.0 |
 | pytest-html | 4.1.1 |
@@ -1080,13 +1088,13 @@ Cuando un archivo alcanza su **techo real** (`score optimizado = techo`), el ana
 
 | Métrica | Valor |
 |---|---|
-| Archivos analizados | 227 |
-| Actualizados (≥80 techo) | 227 |
+| Archivos analizados | 228 |
+| Actualizados (≥80 techo) | 228 |
 | En Progreso (50-79) | 0 |
 | Legacy / Pendiente (<50) | 0 |
 | Score absoluto medio | 75.9/100 |
 | Score optimizado medio | 77.8/100 |
-| Archivos en su techo real | 227/227 |
+| Archivos en su techo real | 228/228 |
 
 ### Detalle por Archivo
 
@@ -1099,6 +1107,7 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `__init__.py` | 100 | 100 ✅ | Actualizado | — |
 | `audit_report_generator.py` | 100 | 100 ✅ | Actualizado | — |
 | `test_iteration_repository.py` | 100 | 100 ✅ | Actualizado | — |
+| `test_app_model.py` | 100 | 100 ✅ | Actualizado | — |
 | `test_dashboard_widget.py` | 100 | 100 ✅ | Actualizado | — |
 | `test_pila_controller_comprehensive.py` | 100 | 100 ✅ | Actualizado | PilaService/ProductService/FabricacionService → create_autospec(); repositorios con MagicMock(spec=[métodos mínimos])... |
 | `test_calculate_times_widget.py` | 100 | 100 ✅ | Actualizado | — |
@@ -1146,7 +1155,6 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_backup_integration.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_audit_report_generator.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_features_worker_controller.py` | 85 | 85 ✅ | Actualizado | — |
-| `test_app_model.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_preparation_service.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_app_coverage.py` | 85 | 85 ✅ | Actualizado | Cobertura de app.py → `@patch('QApplication')` sin autospec (Qt inevitable) |
 | `test_label_manager.py` | 85 | 85 ✅ | Actualizado | python-docx sin stubs → `sys.modules['docx'] = MagicMock()` en módulo; `create_autospec(logging.Logger)` para logger;... |
@@ -1158,6 +1166,7 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_historial_widget.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_fabrication_dialogs_coverage.py` | 85 | 85 ✅ | Actualizado | CreateFabricacionDialog es QDialog (PyQt6) → MagicMock() inevitable para widgets; objetos Preproceso/Producto simulad... |
 | `test_machine_service.py` | 85 | 85 ✅ | Actualizado | MachineService puro Python → `create_autospec(MachineRepository)` para repositorio |
+| `test_reports_widgets.py` | 85 | 85 ✅ | Actualizado | StatCard, OrderListWidget, SmartSearchWidget, ReportsChartsWidget son QWidget/QFrame (PyQt6) → MagicMock() inevitable... |
 | `test_backup_controller.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_enhanced_flow_dialog.py` | 70 | 85 ✅ | Actualizado | — |
 | `test_phase5_di_injection.py` | 85 | 85 ✅ | Actualizado | — |
@@ -1241,7 +1250,6 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_lotes_widget.py` | 70 | 70 ✅ | Actualizado | — |
 | `test_dialogs_flow.py` | 70 | 70 ✅ | Actualizado | — |
 | `test_health_worker.py` | 70 | 70 ✅ | Actualizado | — |
-| `test_reports_widgets.py` | 70 | 70 ✅ | Actualizado | StatCard, OrderListWidget, SmartSearchWidget, ReportsChartsWidget son QWidget/QFrame (PyQt6) → MagicMock() inevitable... |
 | `test_fabrications_widget.py` | 70 | 70 ✅ | Actualizado | — |
 | `test_canvas_widgets_coverage.py` | 70 | 70 ✅ | Actualizado | CardWidget (×2) y CanvasWidget/ProductionFlowCanvas son QWidget/QLabel (PyQt6) → MagicMock() inevitable; CardWidget d... |
 | `test_prep_steps_widget.py` | 70 | 70 ✅ | Actualizado | — |
@@ -1284,6 +1292,7 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_log_terminal_widget.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_dialog_integration_smoke.py` | 50 | 50 ✅ | Actualizado | CycleEndConfigDialog, ReassignmentRuleDialog, DefinirCantidadesDialog son QDialog (PyQt6) → MagicMock() inevitable pa... |
 | `test_code_quality_config.py` | 50 | 50 ✅ | Actualizado | — |
+| `test_schedule_helpers.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_tracking_repository_coverage_fix.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_report_sheets.py` | 50 | 50 ✅ | Actualizado | Hojas de reporte con openpyxl → `create_autospec(Workbook)` para libro Excel |
 | `test_library_panel.py` | 50 | 50 ✅ | Actualizado | TaskLibraryPanel es QWidget (PyQt6) → MagicMock() inevitable para dependencias visuales; update_visual_state() parche... |
@@ -1395,8 +1404,8 @@ Descripción: Script para analizar la complejidad y estructura de los archivos d
 
 | Métrica | Valor |
 |---|---:|
-| Archivos `.py` en `controllers/` | 55 |
-| Incluidos en el cuerpo | 55 |
+| Archivos `.py` en `controllers/` | 53 |
+| Incluidos en el cuerpo | 53 |
 | Omitidos (docstrings/reglas) | 0 |
 | Clases detectadas (AST) | 62 |
 
@@ -1486,13 +1495,24 @@ archivos de base de datos SQLite.
 
 ---
 
-<div id='sec_controllers_backup_controller_io_mixin_py'>
+<div id='sec_controllers_backup_controller_io_manager_py'>
 
-### 📄 `controllers/backup_controller_io_mixin.py`
+### 📄 `controllers/backup_controller_io_manager.py`
 
 </div>
 
 Operaciones I/O de importación, exportación y sincronización para backups.
+
+``BackupController`` instancia ``BackupIOManager`` y delega en ``on_import_databases`` /
+``on_export_databases`` / ``on_sync_databases``; sin herencia múltiple.
+
+#### 🏛️ Clase `BackupControllerIOContext`
+
+Contrato mínimo que el I/O manager necesita del controlador (solo composición).
+
+#### 🏛️ Clase `BackupIOManager`
+
+Colaborador de composición para operaciones I/O de backup.
 
 ---
 
@@ -1606,6 +1626,7 @@ compatibles, la configuración de resolución y la integración con el escáner 
 
 - `__init__`: Inicializa el controlador de hardware. Args: db: Gestor de base de datos para acceder a la configuración de dispositivos. view: Referencia a la vista principal de la aplicación. logger: Instancia opcional para el registro de eventos de hardware.
 - `initialize_qr_scanner`: Inicializa el escáner QR configurando el dispositivo de captura de video. Este método busca la cámara preferida, la abre y vincula el objeto VideoCapture al QrScanner. Args: worker_controller: Opcional; instancia del controlador de operario para inyectar el scanner.
+- `_get_settings_page_with_camera_combo`: Obtiene la página de ajustes si expone `camera_combo`.
 - `detect_cameras`: Detecta cámaras y actualiza la UI de configuración.
 - `load_hardware_settings`: Carga la configuración de hardware guardada en la UI.
 - `save_hardware_settings`: Guarda la configuración de hardware con validación.
@@ -1779,13 +1800,17 @@ datos de simulación, históricos de piezas o registros de actividad.
 
 ---
 
-<div id='sec_controllers_report_controller_export_mixin_py'>
+<div id='sec_controllers_report_export_helper_py'>
 
-### 📄 `controllers/report_controller_export_mixin.py`
+### 📄 `controllers/report_export_helper.py`
 
 </div>
 
-Mixin de exportaciones (Excel/PDF) para `ReportController`.
+Exportaciones Excel/PDF desde la última simulación (composición sobre ReportController).
+
+#### 🏛️ Clase `ReportExportHelper`
+
+Delegado sin herencia múltiple; usa el controlador para estado y handle_error.
 
 ---
 
@@ -1815,9 +1840,9 @@ erradicando la herencia múltiple de mixins.
 - `on_remove_break_clicked`: Manejador para eliminar el descanso seleccionado de la lista de UI.
 - `on_edit_break_clicked`: Manejador para editar un descanso existente.
 - `on_add_break`: Método de compatibilidad para el flujo legacy de añadir descansos.
-- `add_break`: API para añadir descansos programáticamente (Legacy).
-- `delete_break`: API para eliminar descansos por índice (Legacy).
-- `save_work_hours`: API directa para guardar horas laborales (Legacy).
+- `add_break`: API para añadir descansos programáticamente.
+- `delete_break`: API para eliminar descansos por índice.
+- `save_work_hours`: API directa para guardar horas laborales.
 - `load_schedule_config`: Carga completa de la configuración (Horas, Descansos, Festivos).
 - `load_holidays`: Carga la lista de festivos desde la configuración y la vuelca en la UI.
 - `on_add_holiday`: Añade el día seleccionado en el calendario como festivo.
@@ -1840,34 +1865,10 @@ Se extraen funciones sin dependencia de UI para mantener el controlador pequeño
 
 - 🔧 `parse_break_text`: Parsea un texto `HH:mm - HH:mm` y devuelve (start, end) o None.
 - 🔧 `load_breaks_list`: Convierte JSON de breaks a lista normalizada de dicts.
+- 🔧 `break_display_lines_from_json`: Devuelve textos listos para QListWidget (capa de deserialización, sin tocar UI). Evita que el widget acceda con subscripts a dicts crudos del JSON.
 - 🔧 `normalize_holidays`: Normaliza holidays legacy (list[str] o list[dict]) a list[dict{date,desc}].
 - 🔧 `holidays_dates`: Extrae `date` de la lista normalizada.
 - 🔧 `dump_json`: Serializa JSON de forma consistente.
-
----
-
-<div id='sec_controllers_schedule_legacy_helper_py'>
-
-### 📄 `controllers/schedule_legacy_helper.py`
-
-</div>
-
-Nombre del Módulo: schedule_legacy_helper.py
-Descripción: Helper para la API legacy del ScheduleController.
-Proporciona compatibilidad con métodos antiguos de gestión de horarios y descansos.
-
-#### 🏛️ Clase `ScheduleLegacyApiHelper`
-
-Helper que encapsula la API legacy para reducir la deuda técnica en el controlador principal.
-Mantiene métodos puente y lógica de persistencia antigua.
-
-**Métodos Principales:**
-
-- `__init__`: Inicializa el helper con las dependencias necesarias. Args: db: DatabaseManager para persistencia. view: MainView para acceso a widgets. schedule_manager: Gestor de configuración de horarios. logger: Instancia de logger. controller: Referencia al ScheduleController (para delegar load_holidays).
-- `add_break`: Añade un descanso de forma programática (Legacy API).
-- `delete_break`: Elimina un descanso por índice (Legacy API).
-- `save_work_hours`: Guarda las horas de trabajo de forma directa (Legacy API).
-- `load_schedule_config`: Alias legacy: realiza la carga completa de horas, descansos y festivos.
 
 ---
 
@@ -1895,6 +1896,10 @@ Extraído de ScheduleController para mejorar la cohesión y reducir el tamaño d
 - `on_remove_break_clicked`: Elimina el descanso seleccionado actualmente en la lista de la UI.
 - `on_edit_break_clicked`: Permite editar un descanso existente abriendo el diálogo con los datos actuales.
 - `on_add_break`: Legacy helper: Abre un diálogo genérico para añadir un descanso.
+- `add_break`: Añade un descanso de forma programática (API legacy / tests).
+- `delete_break`: Elimina un descanso por índice (API legacy / tests).
+- `save_work_hours`: Guarda horas laborales y descansos en configuración (API legacy).
+- `load_schedule_config`: Carga horas y descansos en la UI y delega festivos al controlador.
 
 ---
 
@@ -1958,21 +1963,25 @@ Maneja la configuración de servicios, repositorios y sub-controladores.
 
 </div>
 
+Nombre del Módulo: ui_controller.py
+Descripción: Controlador central para la sincronización de la interfaz de usuario.
+
 #### 🏛️ Clase `UIController`
 
 Controlador de sincronización de la interfaz.
 
 Se encarga de mantener los widgets actualizados frente a cambios en los datos, 
-gestionar barras de progreso y sincronizar los widgets principales.
+gestionar barras de progreso y cargar elementos informativos como frases célebres.
 
 **Métodos Principales:**
 
-- `__init__`: Inicializa el controlador de UI. Args: view: Referencia a la interfaz principal. machine_service: Servicio de máquinas. worker_service: Servicio de trabajadores. report_service: Servicio de informes. product_service: Servicio de productos. worker_controller: Referencia al controlador de trabajadores. machine_controller: Referencia al controlador de máquinas. thread_pool: Pool de hilos para tareas asíncronas. logger: Instancia de logging.
+- `__init__`: Inicializa el controlador de UI. Args: view: Referencia a la interfaz principal. machine_service: Servicio de máquinas. worker_service: Servicio de trabajadores. report_service: Servicio de informes. product_service: Servicio de productos. worker_controller: Referencia al controlador de trabajadores. machine_controller: Referencia al controlador de máquinas. quote_service: Servicio de frases célebres. thread_pool: Pool de hilos para tareas asíncronas. logger: Instancia de logging.
 - `update_dashboard_view`: Actualiza la vista del dashboard.
 - `update_workers_view`: Actualiza la lista de trabajadores en la vista.
 - `update_machines_view`: Actualiza la lista de máquinas en la vista.
 - `update_simulation_progress`: Actualiza el valor de la barra de progreso en la UI. Args: value: Valor de progreso (0-100)
 - `on_data_changed`: Maneja eventos de cambio de datos, actualizando vistas relevantes.
+- `load_quote_for_home`: Anteriormente cargaba una frase de WikiQuote en el HomeWidget. El HomeWidget ahora muestra el resumen de salud del sistema en su lugar, por lo que este método ya no realiza ninguna acción.
 
 ---
 
@@ -1983,14 +1992,14 @@ gestionar barras de progreso y sincronizar los widgets principales.
 </div>
 
 Nombre del Módulo: ui_signals_controller.py
-Descripción: Centralizador de la interconexión mediante señales y slots. Desacopla 
+Descripción: Centralizador de la interconexión mediante señales y slots. Desacopla
              la lógica de los widgets de los controladores principales.
 
 #### 🏛️ Clase `UISignalsController`
 
 Controlador de señales y ranuras (signals & slots).
 
-Centraliza la conexión entre los eventos de la interfaz de usuario (clics, 
+Centraliza la conexión entre los eventos de la interfaz de usuario (clics,
 cambios de texto) y los métodos de negocio de los diversos controladores.
 
 **Métodos Principales:**
@@ -2000,13 +2009,21 @@ cambios de texto) y los métodos de negocio de los diversos controladores.
 
 ---
 
-<div id='sec_controllers_ui_signals_controller_mixin_py'>
+<div id='sec_controllers_ui_signals_wiring_py'>
 
-### 📄 `controllers/ui_signals_controller_mixin.py`
+### 📄 `controllers/ui_signals_wiring.py`
 
 </div>
 
-Mixin con conexiones de señales para UISignalsController.
+Cableado de señales Qt entre vista y controladores (composición; sin herencia múltiple).
+
+#### 🏛️ Clase `UISignalsWiring`
+
+Encapsula la conexión de widgets y slots; recibe app, vista y logger del controlador.
+
+**Métodos Principales:**
+
+- `run_import_tasks_from_csv_dialog`: Abre diálogo CSV y delega la importación en AppModel o TrackingRepository.
 
 ---
 
@@ -2051,6 +2068,10 @@ proporcionar una interfaz unificada de consulta de auditoría y bitácoras.
 ### 📄 `controllers/historial/interaction_manager.py`
 
 </div>
+
+Nombre del Módulo: interaction_manager.py (Historial)
+Descripción: Gestiona la lógica de interacción del usuario en la sección de historial,
+             como la selección de elementos y filtros por calendario.
 
 #### 🏛️ Clase `HistorialInteractionManager`
 
@@ -2268,7 +2289,7 @@ gestiona la búsqueda y filtrado de las mismas, y sincroniza sus preprocesos.
 
 **Métodos Principales:**
 
-- `__init__`: Inicializa el gestor de fabricaciones. Args: app: Referencia a la aplicación principal (AppController). view: Referencia a la vista principal (IProductView). fabricacion_service: Servicio lógico de fabricaciones (IFabricacionService). product_service: Servicio lógico de productos (IProductService). state: Estado compartido de la aplicación (ApplicationState). controller_ref: Referencia opcional al controlador.
+- `__init__`: Inicializa el gestor de fabricaciones. Args: app: Referencia a la aplicación principal (AppController). view: Referencia a la vista principal (IProductView). fabricacion_service: Servicio lógico de fabricaciones (IFabricacionService). product_facade: Fachada de catálogo de productos (IProductService). planning_facade: Fachada de planificación (datos para motor de cálculo). state: Estado compartido de la aplicación (ApplicationState). controller_ref: Referencia opcional al controlador.
 - `show_fabricacion_products`: Muestra el diálogo para asignar/editar productos de una fabricación.
 - `get_fabricacion_products_for_calculation`: Obtiene productos de la fabricación preparados para el motor de cálculo.
 - `show_create_fabricacion_dialog`: Muestra el diálogo para crear fabricación con preprocesos y productos.
@@ -2286,6 +2307,10 @@ gestiona la búsqueda y filtrado de las mismas, y sincroniza sus preprocesos.
 Nombre del Módulo: fabricacion_products_handler
 Descripción: Coordinación de productos asociados a fabricaciones (diálogo y datos
              para cálculo). Extraído de la antigua herencia por mixin (B4.5).
+
+#### 🏛️ Clase `IPlanningCalculationProvider`
+
+Solo la parte de planificación necesaria para armar DTOs de cálculo.
 
 #### 🏛️ Clase `FabricacionProductsHandler`
 
@@ -2376,26 +2401,11 @@ y la coordinación con los servicios de persistencia e iteraciones.
 
 **Métodos Principales:**
 
-- `__init__`: Inicializa el gestor de productos. Args: app: Referencia a la aplicación principal (AppController). model: Referencia al modelo de datos (IProductModel). view: Referencia a la vista principal (IProductView). product_service: Servicio lógico de productos (IProductService). state: Estado compartido de la aplicación (ApplicationState). controller_ref: Referencia opcional al controlador de productos.
-- `_log_audit`: Helper para registrar auditoría.
-- `_connect_products_signals`: Conecta las señales del widget de gestión de Productos.
-
----
-
-<div id='sec_controllers_product_product_manager_iteration_mixin_py'>
-
-### 📄 `controllers/product/product_manager_iteration_mixin.py`
-
-</div>
-
-Mixin con operaciones de iteraciones e imágenes de producto.
-
-#### 🏛️ Clase `ProductManagerIterationMixin`
-
-**Métodos Principales:**
-
+- `__init__`: Inicializa el gestor de productos. Args: app: Referencia a la aplicación principal (AppController). model: Referencia al modelo de datos (IProductModel). view: Referencia a la vista principal (IProductView). product_facade: Fachada de catálogo / iteraciones (cumple IProductService). state: Estado compartido de la aplicación (ApplicationState). controller_ref: Referencia opcional al controlador de productos.
 - `handle_add_product_iteration`: Gestiona la lógica para añadir una nueva iteración de producto.
 - `handle_add_iteration_image`: Añade una imagen a la galería de la iteración.
+- `_log_audit`: Helper para registrar auditoría.
+- `_connect_products_signals`: Conecta las señales del widget de gestión de Productos.
 
 ---
 
@@ -2479,6 +2489,8 @@ gestionando hilos de ejecución para evitar bloqueos y delegando tareas a los ma
 
 </div>
 
+Coordinación y señales del subsistema «editor_manager»: enlaza UI, servicios y persistencia para este ámbito de la aplicación Hipatia.
+
 #### 🏛️ Clase `SimulationEditorManager`
 
 Gestor para la gestión del Editor Visual de Flujo de Producción.
@@ -2496,7 +2508,7 @@ Utilidades de apoyo para `SimulationExecutionManager`.
 Estas funciones encapsulan bloques repetidos (construcción de scheduler,
 activación de botones y arranque de hilos) para mantener el manager pequeño.
 
-- 🔧 `build_scheduler`: Construye un scheduler a partir del estado actual de workers y máquinas.
+- 🔧 `build_scheduler`: Construye el motor de simulación a partir del estado actual de workers y máquinas.
 - 🔧 `set_planning_units`: Aplica unidades de producción al planning session.
 - 🔧 `enable_result_actions`: Habilita los botones de acciones disponibles tras resultados.
 - 🔧 `start_optimizer_thread`: Crea y arranca el hilo de optimización, registrándolo en controller_ref.
@@ -2523,6 +2535,7 @@ hilos de ejecución de cálculo manual y disparar el proceso de optimización.
 **Métodos Principales:**
 
 - `__init__`: Inicializa el gestor de ejecución. Args: app: Referencia a la aplicación principal. db: Gestor de base de datos. model: Modelo de la aplicación. view: Referencia a la vista principal. state: Estado compartido. schedule_manager: Gestor de horarios. controller_ref: Referencia al controlador de simulación.
+- `_prepare_large_visual_simulation`: Minimiza efectos visuales en simulaciones grandes para reducir carga de UI.
 
 ---
 
@@ -2532,14 +2545,16 @@ hilos de ejecución de cálculo manual y disparar el proceso de optimización.
 
 </div>
 
+Coordinación y señales del subsistema «optimizer_worker»: enlaza UI, servicios y persistencia para este ámbito de la aplicación Hipatia.
+
 #### 🏛️ Clase `OptimizerWorker`
 
 Worker para ejecutar el Optimizer en un hilo separado.
 
 **Métodos Principales:**
 
-- `run`: Ejecuta el bucle de optimización usando el NUEVO AdaptadorScheduler.
-- `_create_scheduler`: Crea y configura una instancia de AdaptadorScheduler.
+- `run`: Ejecuta el bucle de optimización usando `MotorDeEventos` directo.
+- `_create_scheduler`: Crea y configura una instancia de `MotorDeEventos`.
 
 ---
 
@@ -2561,7 +2576,7 @@ Descripción: Define los protocolos para asegurar la interoperabilidad entre el
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Coordinación y señales del subsistema «__init__»: enlaza UI, servicios y persistencia para este ámbito de la aplicación Hipatia.
 
 ---
 
@@ -2689,10 +2704,10 @@ Reemplaza al antiguo TaskMixin.
 
 | Métrica | Valor |
 |---|---:|
-| Archivos `.py` en `core/` | 133 |
-| Incluidos en el cuerpo | 133 |
+| Archivos `.py` en `core/` | 134 |
+| Incluidos en el cuerpo | 134 |
 | Omitidos (docstrings/reglas) | 0 |
-| Clases detectadas (AST) | 177 |
+| Clases detectadas (AST) | 180 |
 
 ```mermaid
 graph TD
@@ -2710,7 +2725,7 @@ graph TD
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 ---
 
@@ -2751,6 +2766,8 @@ lógica de negocio en servicios especializados y emitiendo señales de cambio.
 - `get_products_for_fabricacion`: Obtiene los productos asociados a una orden de fabricación.
 - `create_fabricacion_with_preprocesos`: Crea una fabricación y sus preprocesos asociados en una sola transacción.
 - `set_products_for_fabricacion`: Asigna una lista de productos a una fabricación específica.
+- `delete_product`: Elimina un producto del catálogo por su código.
+- `get_product_reports_dashboard`: Obtiene bundle completo de datos de reportes para el producto solicitado.
 
 ---
 
@@ -2930,6 +2947,8 @@ DTO para representar un ítem del flujo en la vista (Fase 12C).
 
 </div>
 
+Definiciones concretas de DTOs del dominio Hipatia.
+
 #### 🏛️ Clase `FileOperationResultDTO`
 
 Resultado de una operación de adjuntar o mover archivos.
@@ -3009,6 +3028,7 @@ Descripcion: Carga de flujo, biblioteca de productos y exportacion a dicts para
 Nombre del Módulo: flow_canvas_io
 Descripcion: Lectura de mapas de conexion del canvas de flujo desde capa no-UI,
              para que los widgets no usen .get/.[] sobre dicts en bucles de pintado.
+             Incluye acceso al cuerpo `data` de tareas canvas y flags de ciclo en `config`.
 
 #### 🏛️ Clase `CanvasVisualConnection`
 
@@ -3019,6 +3039,15 @@ Arista visual entre dos widgets del canvas (define-flow y production flow).
 - 🔧 `legacy_canvas_task_widget`: Widget asociado a una entrada `canvas_tasks[i]` del dialogo legacy.
 - 🔧 `legacy_canvas_task_config`: Subdict `config` de una tarea en canvas legacy.
 - 🔧 `legacy_canvas_task_is_cycle_start`: True si la tarea marca inicio de ciclo en el modelo legacy.
+- 🔧 `canvas_task_body`: Cuerpo `data` de una entrada `presenter.canvas_tasks[i]`.
+- 🔧 `canvas_task_display_name`: Nombre de tarea para listas de dialogo (`data` dict o DTO con `.name`).
+- 🔧 `flow_task_config_is_cycle_end_flag`: True si config marca fin de ciclo.
+- 🔧 `flow_task_config_is_cycle_start_flag`: True si config marca inicio de ciclo.
+- 🔧 `flow_task_config_cycle_return_to_index`: Indice de tarea a la que regresa el ciclo (`cycle_return_to_index` en config legacy).
+- 🔧 `cycle_end_dialog_configuration_values`: Par (is_cycle_end, return_to_index) del dict de `CycleEndConfigDialog.get_configuration`.
+- 🔧 `worker_line_config_display_name`: Nombre visible de una linea de trabajador en el canvas (clave `name`).
+- 🔧 `worker_line_config_reassignment_rule`: Regla de reasignacion asociada a la linea de trabajador, si existe.
+- 🔧 `worker_line_config_set_reassignment_rule`: Persiste la regla de reasignacion en la config mutable de la linea.
 - 🔧 `connection_widgets_pair`: Devuelve (start, end) tal como los guarda el modelo de conexiones del canvas.
 - 🔧 `connection_link_type`: Tipo de arista: 'normal' o 'cyclic'.
 - 🔧 `connection_cyclic_paint_flags`: Flags de pintado para aristas ciclicas (dict legacy o DTO).
@@ -3038,23 +3067,6 @@ Descripcion: Textos para tarjetas del canvas de flujo; lectura de mapas de tarea
 - 🔧 `flow_card_primary_html`: HTML principal nombre + duracion.
 - 🔧 `flow_card_task_id_str`: Identificador logico de la tarea para señales.
 - 🔧 `flow_card_with_workers_html`: Returns: (texto QLabel, tooltip)
-
----
-
-<div id='sec_core_flow_dialog_bridges_py'>
-
-### 📄 `core/flow_dialog_bridges.py`
-
-</div>
-
-Nombre del Módulo: flow_dialog_bridges
-Descripcion: Extraccion de campos desde dicts de dialogos y tareas del canvas,
-             para mantener ui/dialogs/production_flow sin accesos .get/[] innecesarios.
-
-- 🔧 `canvas_task_body`: Cuerpo `data` de una entrada `presenter.canvas_tasks[i]`.
-- 🔧 `canvas_task_display_name`: Nombre de tarea para listas de dialogo (`data` dict o DTO con `.name`).
-- 🔧 `flow_task_config_is_cycle_end_flag`: True si config marca fin de ciclo.
-- 🔧 `flow_task_config_is_cycle_start_flag`: True si config marca inicio de ciclo.
 
 ---
 
@@ -3127,6 +3139,8 @@ Descripcion: Lectura de filas task/config del inspector de flujo, fuera de ui/ (
 ### 📄 `core/production_context.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`production_context`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 #### 🏛️ Clase `ProductionStatus`
 
@@ -3262,6 +3276,26 @@ Attributes:
 
 ---
 
+<div id='sec_core_quote_service_py'>
+
+### 📄 `core/quote_service.py`
+
+</div>
+
+Lógica o utilidades del núcleo (`quote_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
+#### 🏛️ Clase `QuoteService`
+
+Servicio para mostrar frases célebres y enriquecerlas con datos de Wikipedia.
+
+**Métodos Principales:**
+
+- `_load_quotes`: Carga las frases del JSON local.
+- `get_random_quote`: Devuelve una frase aleatoria. Returns: Instancia de QuoteDTO con la frase y el autor.
+- `get_author_info`: Busca información del autor en Wikipedia (Bio + Imagen). Args: author_name: Nombre del autor a buscar. Returns: AuthorInfoDTO con el resumen e imagen, o None si no se encuentra.
+
+---
+
 <div id='sec_core_reassignment_rule_dialog_io_py'>
 
 ### 📄 `core/reassignment_rule_dialog_io.py`
@@ -3342,6 +3376,8 @@ Información general mostrada al seleccionar un producto.
 
 </div>
 
+Lógica o utilidades del núcleo (`schedule_config`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 #### 🏛️ Clase `ScheduleConfig`
 
 **Métodos Principales:**
@@ -3387,6 +3423,8 @@ Designed for USB-based sync workflow between disconnected machines.
 
 </div>
 
+Lógica o utilidades del núcleo (`tracking_dtos`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 #### 🏛️ Clase `FabricacionAsignadaDTO`
 
 DTO para fabricaciones asignadas a un trabajador.
@@ -3417,6 +3455,9 @@ DTO para el log principal de trabajo (Pasaporte).
 
 Bridges de compatibilidad para AppModel por dominio.
 
+Encapsulan la API legacy sobre :class:`core.facades.product_facade.ProductFacade`,
+:class:`core.facades.planning_facade.PlanningFacade` y ``SystemIntegrationService``.
+
 ---
 
 <div id='sec_core_app_model_bridges_compat_py'>
@@ -3425,11 +3466,11 @@ Bridges de compatibilidad para AppModel por dominio.
 
 </div>
 
-Puente de compatibilidad para la API legacy de AppModel.
+Puente de compatibilidad para la API legacy de reportes, lotes y sistema.
 
 #### 🏛️ Clase `AppModelCompatBridge`
 
-Agrupa delegadores legacy para mantener compatibilidad temporal.
+Reporting vía ``ReportService``; lotes/config/órdenes vía ``SystemIntegrationService``.
 
 ---
 
@@ -3439,11 +3480,11 @@ Agrupa delegadores legacy para mantener compatibilidad temporal.
 
 </div>
 
-Puente de compatibilidad para operaciones de planificación/pilas.
+Puente de compatibilidad para operaciones de planificación / pilas.
 
 #### 🏛️ Clase `AppModelPlanningBridge`
 
-Agrupa delegadores legacy del dominio de planificación.
+Delega en :class:`PlanningFacade` (API estable hacia planificación).
 
 ---
 
@@ -3453,11 +3494,11 @@ Agrupa delegadores legacy del dominio de planificación.
 
 </div>
 
-Puente de compatibilidad para operaciones de producto/iteraciones/materiales.
+Puente de compatibilidad para operaciones de producto / iteraciones / materiales.
 
 #### 🏛️ Clase `AppModelProductBridge`
 
-Agrupa delegadores legacy del dominio de producto.
+Delega en :class:`ProductFacade` (API estable hacia el dominio producto).
 
 ---
 
@@ -3466,6 +3507,8 @@ Agrupa delegadores legacy del dominio de producto.
 ### 📄 `core/camera_manager/__init__.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 - 🔧 `main`: Función principal para pruebas manuales.
 
@@ -3529,7 +3572,7 @@ Descripcion: Utilidades de plataforma para seleccionar backend de captura OpenCV
 
 </div>
 
-Fachadas de dominio para desacoplar AppModel.
+Fachadas de aplicación por dominio (encima de servicios / repos).
 
 ---
 
@@ -3539,11 +3582,11 @@ Fachadas de dominio para desacoplar AppModel.
 
 </div>
 
-Fachada de dominio de planificación (pilas y cálculo).
+Fachada de aplicación: pilas, bitácora y datos de cálculo.
 
 #### 🏛️ Clase `PlanningFacade`
 
-Agrupa operaciones del PilaService.
+Punto estable para planificación; delega en ``PilaService``.
 
 ---
 
@@ -3553,11 +3596,15 @@ Agrupa operaciones del PilaService.
 
 </div>
 
-Fachada de dominio de productos, iteraciones y materiales.
+Fachada de aplicación: catálogo, iteraciones y materiales.
 
 #### 🏛️ Clase `ProductFacade`
 
-Centraliza ProductService y accesos de iteración no encapsulados aún.
+Punto estable para el dominio producto; delega en ``ProductService``.
+
+**Métodos Principales:**
+
+- `service`: Acceso al servicio durante la migración (señales Qt, tests).
 
 ---
 
@@ -3727,7 +3774,7 @@ Ejecuta pytest -m unit en un subprocess y emite progreso línea a línea.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 ---
 
@@ -3748,6 +3795,8 @@ Descripcion: DTOs para representar árboles BOM importados desde A3RP.
 
 </div>
 
+Lógica o utilidades del núcleo (`ports`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 #### 🏛️ Clase `IBOMImporter`
 
 **Métodos Principales:**
@@ -3762,7 +3811,7 @@ Descripcion: DTOs para representar árboles BOM importados desde A3RP.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 ---
 
@@ -3815,7 +3864,7 @@ Atributos de columna esperados:
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 ---
 
@@ -3851,6 +3900,8 @@ Servicio encargado de importar un árbol BOM a la base de datos de Hipatia.
 
 </div>
 
+Lógica o utilidades del núcleo (`controller_interface`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 #### 🏛️ Clase `IController`
 
 Interface base para todos los controladores de la aplicación.
@@ -3870,6 +3921,8 @@ Establece un contrato estándar para inicialización, limpieza y manejo de error
 ### 📄 `core/interfaces/view_interface.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`view_interface`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 #### 🏛️ Clase `IView`
 
@@ -3895,6 +3948,8 @@ de la implementación concreta de PyQt.
 
 </div>
 
+Lógica o utilidades del núcleo (`worker_view_interface`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 #### 🏛️ Clase `IWorkerView`
 
 Interfaz abstracta para la vista del trabajador.
@@ -3915,7 +3970,7 @@ Interfaz abstracta para la vista del trabajador.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 ---
 
@@ -3986,6 +4041,8 @@ sin acoplarse a librerías específicas (como python-docx).
 
 </div>
 
+Lógica o utilidades del núcleo (`printer`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 - 🔧 `is_printer_available`: Comprueba si hay una impresora predeterminada configurada.
 - 🔧 `save_to_documents`: Guarda el documento en la carpeta de Documentos del usuario.
 - 🔧 `open_file_location`: Abre la ubicación del archivo en el explorador de archivos.
@@ -3999,7 +4056,7 @@ sin acoplarse a librerías específicas (como python-docx).
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 ---
 
@@ -4008,6 +4065,8 @@ sin acoplarse a librerías específicas (como python-docx).
 ### 📄 `core/qr_scanner/base.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`base`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 - 🔧 `validate_qr`: Valida que un QR tenga el formato correcto de trazabilidad.
 - 🔧 `get_qr_info`: Obtiene información de un QR de trazabilidad.
@@ -4045,6 +4104,8 @@ Descripción: Sistema de detección y decodificación de códigos QR en tiempo r
 
 </div>
 
+Lógica o utilidades del núcleo (`ui`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 - 🔧 `draw_qr_detection`: Dibuja indicadores visuales en el frame.
 
 ---
@@ -4071,6 +4132,8 @@ Descripción: Proporciona decoradores y utilidades para el control de acceso
 ### 📄 `core/security/password_service.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`password_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 #### 🏛️ Clase `PasswordService`
 
@@ -4203,6 +4266,8 @@ Funciones utilitarias para operación de backups.
 
 </div>
 
+Lógica o utilidades del núcleo (`calculation_audit`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 #### 🏛️ Clase `DecisionStatus`
 
 Define los estados visuales para las decisiones en la interfaz.
@@ -4220,6 +4285,8 @@ enriquecida con contexto para una mejor experiencia de usuario (UX).
 
 </div>
 
+Lógica o utilidades del núcleo (`calendar_helper`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 - 🔧 `set_schedule_config`: Establece la configuración de horario global para compatibilidad.
 - 🔧 `get_schedule_config`: Obtiene la configuración de horario global.
 
@@ -4230,6 +4297,8 @@ enriquecida con contexto para una mejor experiencia de usuario (UX).
 ### 📄 `core/services/data_importer.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`data_importer`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 #### 🏛️ Clase `Material`
 
@@ -4301,6 +4370,8 @@ Actúa como una capa de orquestación (Fase 11C/12C) que:
 
 </div>
 
+Lógica o utilidades del núcleo (`flow_builder_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 #### 🏛️ Clase `FlowBuilderService`
 
 Service responsible for constructing and refining production flows.
@@ -4317,6 +4388,8 @@ Service responsible for constructing and refining production flows.
 ### 📄 `core/services/flow_simulation_service.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`flow_simulation_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 #### 🏛️ Clase `SimulationSession`
 
@@ -4374,6 +4447,9 @@ Extraído de FabricacionService para cumplir con SRP.
 
 </div>
 
+Servicio de mantenimiento automatizado del sistema.
+Ejecuta tareas de limpieza y verificación en segundo plano para asegurar la higiene del sistema.
+
 #### 🏛️ Clase `MaintenanceWorker`
 
 Worker para ejecutar tareas de mantenimiento en segundo plano.
@@ -4398,6 +4474,8 @@ Servicio que orquesta tareas de mantenimiento:
 ### 📄 `core/services/pila_service.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`pila_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 #### 🏛️ Clase `PilaService`
 
@@ -4447,6 +4525,8 @@ Extraído de FabricacionService para cumplir con SRP.
 
 </div>
 
+Lógica o utilidades del núcleo (`product_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 #### 🏛️ Clase `ProductService`
 
 Servicio de dominio para gestionar la lógica relacionada con productos.
@@ -4457,23 +4537,8 @@ Maneja:
 
 **Métodos Principales:**
 
-- `add_product`: Valida y añade un producto usando el repositorio.
-
----
-
-<div id='sec_core_services_product_service_delegation_mixin_py'>
-
-### 📄 `core/services/product_service_delegation_mixin.py`
-
-</div>
-
-Mixin con delegaciones de iteraciones/materiales para ProductService.
-
-#### 🏛️ Clase `ProductServiceDelegationMixin`
-
-**Métodos Principales:**
-
 - `update_product_iteration`: Alias para compatibilidad con protocolos y controladores.
+- `add_product`: Valida y añade un producto usando el repositorio.
 
 ---
 
@@ -4503,10 +4568,16 @@ Gestiona el rate limiting para intentos de login.
 
 </div>
 
+Lógica o utilidades del núcleo (`report_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 #### 🏛️ Clase `ReportService`
 
 Servicio de dominio para gestionar Reportes y Estadísticas.
 Actúa como interfaz entre la UI/Controladores y el repositorio de reportes.
+
+**Métodos Principales:**
+
+- `get_product_dashboard`: Obtiene el bundle de dashboard para un producto en un contrato único.
 
 ---
 
@@ -4516,9 +4587,29 @@ Actúa como interfaz entre la UI/Controladores y el repositorio de reportes.
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
+Fachada de compatibilidad para estrategias de informes: reexporta interfaces y
+implementaciones desde core.services.reporting (Excel/PDF) sin acoplar
+importadores al subpaquete interno.
 
-**Contenido detectado:** módulo parseable con imports o configuración de paquete (sin clases/funciones documentables).
+---
+
+<div id='sec_core_services_system_integration_service_py'>
+
+### 📄 `core/services/system_integration_service.py`
+
+</div>
+
+Operaciones de sistema: lotes, configuración persistente y órdenes de tracking.
+
+Centraliza el acceso que antes hacía AppModel directamente contra repositorios.
+
+#### 🏛️ Clase `SystemIntegrationService`
+
+Fachada delgada sobre repos de lotes, config y tracking.
+
+**Métodos Principales:**
+
+- `lote_repo`: Acceso puntual al repo (p. ej. APIs aún no envueltas).
 
 ---
 
@@ -4527,6 +4618,8 @@ Actúa como interfaz entre la UI/Controladores y el repositorio de reportes.
 ### 📄 `core/services/temporal_storage.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`temporal_storage`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 #### 🏛️ Clase `RegistroTemporal`
 
@@ -4551,6 +4644,8 @@ CORREGIDO: Ahora es seguro para usar en múltiples hilos (thread-safe).
 ### 📄 `core/services/time_calculator.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`time_calculator`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 #### 🏛️ Clase `CalculadorDeTiempos`
 
@@ -4585,6 +4680,8 @@ precisión O(1) por salto sobre noches, fines de semana y festivos.
 ### 📄 `core/services/tracking_assignment_service.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`tracking_assignment_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 #### 🏛️ Clase `TrackingAssignmentService`
 
@@ -4633,7 +4730,7 @@ Extraído de FabricacionService para cumplir con SRP.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 ---
 
@@ -4653,6 +4750,8 @@ Descripcion: Hoja Excel de auditoría de decisiones de cálculo y eventos críti
 ### 📄 `core/services/report_sheets/base.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`base`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 #### 🏛️ Clase `ExcelSheetStrategy`
 
@@ -4690,6 +4789,8 @@ Descripcion: Hoja Excel para análisis de inactividad, bloqueos y cuellos de bot
 
 </div>
 
+Lógica o utilidades del núcleo (`graficas`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 #### 🏛️ Clase `GraficasSheet`
 
 Genera la hoja de gráficas y visualizaciones para el reporte Excel.
@@ -4724,6 +4825,8 @@ Descripcion: Hoja Excel con carga, tiempos y productividad por trabajador.
 
 </div>
 
+Lógica o utilidades del núcleo (`trabajo_paralelo`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 #### 🏛️ Clase `TrabajoParaleloSheet`
 
 Genera la hoja de análisis de trabajo paralelo por instancia para el reporte Excel.
@@ -4736,7 +4839,7 @@ Genera la hoja de análisis de trabajo paralelo por instancia para el reporte Ex
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 ---
 
@@ -4746,12 +4849,17 @@ Genera la hoja de análisis de trabajo paralelo por instancia para el reporte Ex
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
+========================================================================
+BASE DE REPORTING — ESTRATEGIAS DE GENERACIÓN DE INFORMES
+========================================================================
+Define las interfaces base (IReporteEstrategia) y el contexto
+(GeneradorDeInformes) para el patrón Strategy en la exportación de
+reportes.
 
-**Clases detectadas (sin docstring detallado):**
-
-- `IReporteEstrategia`
-- `GeneradorDeInformes`
+Desacopla la recolección de datos del formato de salida (Excel, PDF,
+etc.) para que la UI no dependa de los detalles de las librerías de
+ofimática.
+========================================================================
 
 ---
 
@@ -4760,6 +4868,8 @@ Genera la hoja de análisis de trabajo paralelo por instancia para el reporte Ex
 ### 📄 `core/services/reporting/excel_report_strategy.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`excel_report_strategy`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 #### 🏛️ Clase `ReportePilaFabricacionExcelMejorado`
 
@@ -4793,6 +4903,8 @@ Secciones reutilizables para reportes PDF de planificación.
 
 </div>
 
+Lógica o utilidades del núcleo (`pdf_report_strategy`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 #### 🏛️ Clase `ReporteHistorialFabricacion`
 
 Estrategia para generar un informe PDF de optimización, incluyendo
@@ -4806,7 +4918,7 @@ resumen ejecutivo, diagnóstico de cuellos de botella y log detallado.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 ---
 
@@ -4816,9 +4928,13 @@ resumen ejecutivo, diagnóstico de cuellos de botella y log detallado.
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Contenido detectado:** módulo parseable con imports o configuración de paquete (sin clases/funciones documentables).
+========================================================================
+MOTOR DE EVENTOS — PUNTO DE ENTRADA DEL PAQUETE
+========================================================================
+Fachada de compatibilidad (Fase 2.2): reexporta MotorDeEventos desde
+core.simulation.engine para orquestar el bucle de eventos de simulación
+sin acoplar importadores al subpaquete interno.
+========================================================================
 
 ---
 
@@ -4985,7 +5101,7 @@ Operaciones de instancias paralelas para `LineaTemporalTarea`.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 ---
 
@@ -5036,6 +5152,8 @@ Gestiona el bucle principal de la simulación y la cola de eventos.
 ### 📄 `core/simulation/engine/dependency_handler.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`dependency_handler`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 #### 🏛️ Clase `DependencyHandler`
 
@@ -5089,6 +5207,8 @@ Responsabilidades:
 
 </div>
 
+Lógica o utilidades del núcleo (`results_compiler`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 #### 🏛️ Clase `ResultsCompiler`
 
 Compila los resultados de la simulación y genera el log de auditoría.
@@ -5107,7 +5227,7 @@ Compila los resultados de la simulación y genera el log de auditoría.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 ---
 
@@ -5116,6 +5236,8 @@ Compila los resultados de la simulación y genera el log de auditoría.
 ### 📄 `core/simulation/simulation_events/base.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`base`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 #### 🏛️ Clase `EventoDeSimulacion`
 
@@ -5135,6 +5257,8 @@ prioridad y la lógica para ser procesado por el motor de eventos.
 ### 📄 `core/simulation/simulation_events/production.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`production`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 #### 🏛️ Clase `EventoInicioUnidad`
 
@@ -5156,6 +5280,8 @@ Evento que marca la finalización de una unidad, liberando recursos.
 
 </div>
 
+Lógica o utilidades del núcleo (`worker`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+
 #### 🏛️ Clase `EventoReasignacionTrabajador`
 
 Evento que reasigna un trabajador de una tarea a otra.
@@ -5175,11 +5301,33 @@ No genera nuevos eventos, solo registra la situación en el audit log.
 
 ---
 
+<div id='sec_core_utils_author_loader_py'>
+
+### 📄 `core/utils/author_loader.py`
+
+</div>
+
+Nombre del Módulo: author_loader.py
+Descripción: Utilidad para cargar dinámicamente información sobre los autores 
+             y colaboradores del proyecto.
+
+#### 🏛️ Clase `WorkerSignals`
+
+Señales para el worker de carga de info de autor.
+
+#### 🏛️ Clase `AuthorInfoLoader`
+
+Worker para cargar información de Wikipedia en segundo plano sin bloquear la UI.
+
+---
+
 <div id='sec_core_utils_helpers_py'>
 
 ### 📄 `core/utils/helpers.py`
 
 </div>
+
+Lógica o utilidades del núcleo (`helpers`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 
 - 🔧 `resource_path`: Get absolute path to resource, works for dev and for PyInstaller
 
@@ -5299,7 +5447,7 @@ graph TD
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 ---
 
@@ -5308,6 +5456,8 @@ graph TD
 ### 📄 `database/config.py`
 
 </div>
+
+Capa de datos (`config`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `DatabaseConfig`
 
@@ -5326,6 +5476,8 @@ graph TD
 ### 📄 `database/database_manager.py`
 
 </div>
+
+Capa de datos (`database_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `DatabaseManager`
 
@@ -5351,7 +5503,7 @@ utilizando SQLAlchemy.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 ---
 
@@ -5361,11 +5513,8 @@ utilizando SQLAlchemy.
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Clases detectadas (sin docstring detallado):**
-
-- `Base`
+Modelos ORM base (SQLAlchemy): DeclarativeBase, metadatos compartidos y tablas de
+enlace many-to-many entre productos, materiales y preprocesos.
 
 ---
 
@@ -5374,6 +5523,8 @@ utilizando SQLAlchemy.
 ### 📄 `database/models/fabrication.py`
 
 </div>
+
+Capa de datos (`fabrication`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `Fabricacion`
 
@@ -5413,6 +5564,8 @@ Relaciones:
 
 </div>
 
+Capa de datos (`inventory`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `Material`
 
 Representa un componente físico o materia prima.
@@ -5449,6 +5602,8 @@ una misma prioridad de entrega/procesamiento.
 
 </div>
 
+Capa de datos (`machine`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `Maquina`
 
 Representa un recurso físico (fresa, torno, etc.) en planta.
@@ -5476,6 +5631,8 @@ de primera pieza.
 ### 📄 `database/models/product.py`
 
 </div>
+
+Capa de datos (`product`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `Producto`
 
@@ -5646,6 +5803,8 @@ Adjunto asociado a una incidencia (archivo, tipo y metadatos).
 ### 📄 `database/models/worker.py`
 
 </div>
+
+Capa de datos (`worker`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `Trabajador`
 
@@ -5917,6 +6076,8 @@ Helpers de mapeo y normalización para `ProductRepository`.
 
 </div>
 
+Capa de datos (`protocols`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `RepositoryProtocol`
 
 Protocolo que define el contrato para los Mixins de Repositorio (BaseRepository).
@@ -6017,7 +6178,7 @@ Repositorio para consultas estadísticas de seguimiento.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 ---
 
@@ -6026,6 +6187,8 @@ Repositorio para consultas estadísticas de seguimiento.
 ### 📄 `database/repositories/machine/crud_manager.py`
 
 </div>
+
+Capa de datos (`crud_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `MachineCRUDManager`
 
@@ -6042,6 +6205,8 @@ maquinaria en la base de datos, convirtiéndolos automáticamente a DTOs.
 
 </div>
 
+Capa de datos (`maintenance_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `MachineMaintenanceManager`
 
 Gestor DAO para el historial de mantenimiento de máquinas.
@@ -6054,6 +6219,8 @@ Gestor DAO para el historial de mantenimiento de máquinas.
 
 </div>
 
+Capa de datos (`preparation_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `MachinePreparationManager`
 
 Gestor DAO para la configuración de preparación de máquinas.
@@ -6065,6 +6232,8 @@ Gestor DAO para la configuración de preparación de máquinas.
 ### 📄 `database/repositories/machine/repository.py`
 
 </div>
+
+Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `MachineRepository`
 
@@ -6085,6 +6254,8 @@ Implementa el patrón Fachada delegando en DAO Managers especializados.
 
 </div>
 
+Capa de datos (`stats_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `MachineStatsManager`
 
 Gestor DAO para estadísticas relacionadas con máquinas.
@@ -6097,7 +6268,7 @@ Gestor DAO para estadísticas relacionadas con máquinas.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 ---
 
@@ -6106,6 +6277,8 @@ Gestor DAO para estadísticas relacionadas con máquinas.
 ### 📄 `database/repositories/pila/pila_base_manager.py`
 
 </div>
+
+Capa de datos (`pila_base_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `PilaBaseManager`
 
@@ -6124,6 +6297,8 @@ Gestor de utilidades base para el dominio de Pilas (serialización de flujos).
 
 </div>
 
+Capa de datos (`pila_bitacora_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `PilaBitacoraManager`
 
 Gestor DAO para la bitácora diaria de seguimiento de pilas.
@@ -6140,6 +6315,8 @@ Gestor DAO para la bitácora diaria de seguimiento de pilas.
 
 </div>
 
+Capa de datos (`pila_crud_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `PilaCRUDManager`
 
 Gestor DAO para operaciones CRUD básicas de pilas.
@@ -6152,6 +6329,8 @@ Gestor DAO para operaciones CRUD básicas de pilas.
 
 </div>
 
+Capa de datos (`pila_workflow_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `PilaWorkflowManager`
 
 Gestor DAO para la lógica de negocio y persistencia de flujos de trabajo (Pilas).
@@ -6163,6 +6342,8 @@ Gestor DAO para la lógica de negocio y persistencia de flujos de trabajo (Pilas
 ### 📄 `database/repositories/pila/repository.py`
 
 </div>
+
+Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `PilaRepository`
 
@@ -6177,7 +6358,7 @@ Implementa el patrón Fachada delegando en DAO Managers especializados.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 ---
 
@@ -6186,6 +6367,8 @@ Implementa el patrón Fachada delegando en DAO Managers especializados.
 ### 📄 `database/repositories/preproceso/fabricacion_manager.py`
 
 </div>
+
+Capa de datos (`fabricacion_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `FabricacionManager`
 
@@ -6220,6 +6403,8 @@ operaciones de lectura y escritura se normalizan mediante `FabricacionDTO`.
 
 </div>
 
+Capa de datos (`preproceso_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `PreprocesoManager`
 
 Gestor DAO para la entidad Preproceso.
@@ -6241,6 +6426,8 @@ Hereda de BaseRepository para utilizar safe_execute.
 
 </div>
 
+Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `PreprocesoRepository`
 
 Gestiona las operaciones CRUD para los modelos Preproceso y Fabricacion
@@ -6260,7 +6447,7 @@ Implementa el patrón Fachada delegando en managers especializados.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 ---
 
@@ -6269,6 +6456,8 @@ Implementa el patrón Fachada delegando en managers especializados.
 ### 📄 `database/repositories/reports/reports_incidences_manager.py`
 
 </div>
+
+Capa de datos (`reports_incidences_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `ReportsIncidencesManager`
 
@@ -6282,6 +6471,8 @@ Gestor DAO para análisis de incidencias en reportes.
 
 </div>
 
+Capa de datos (`reports_orders_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `ReportsOrdersManager`
 
 Gestor DAO para consultas sobre órdenes de fabricación en reportes.
@@ -6293,6 +6484,8 @@ Gestor DAO para consultas sobre órdenes de fabricación en reportes.
 ### 📄 `database/repositories/reports/reports_products_manager.py`
 
 </div>
+
+Capa de datos (`reports_products_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `ReportsProductsManager`
 
@@ -6306,6 +6499,8 @@ Gestor DAO para resúmenes de productos en reportes.
 
 </div>
 
+Capa de datos (`reports_search_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `ReportsSearchManager`
 
 Gestor DAO para búsquedas transversales orientadas a reportes.
@@ -6317,6 +6512,8 @@ Gestor DAO para búsquedas transversales orientadas a reportes.
 ### 📄 `database/repositories/reports/reports_stats_manager.py`
 
 </div>
+
+Capa de datos (`reports_stats_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `ReportsStatsManager`
 
@@ -6330,10 +6527,16 @@ Gestor DAO para cálculos estadísticos complejos en reportes.
 
 </div>
 
+Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `ReportsRepository`
 
 Repositorio especializado en consultas de agregación y análisis para reportes.
 Implementa el patrón Fachada delegando en DAO Managers especializados.
+
+**Métodos Principales:**
+
+- `obtener_dashboard_producto`: Obtiene en una sola llamada lógica todos los datos del dashboard de un producto. Centraliza el contrato consumido por UI para reducir round-trips en capas superiores.
 
 ---
 
@@ -6342,6 +6545,8 @@ Implementa el patrón Fachada delegando en DAO Managers especializados.
 ### 📄 `database/repositories/tracking/core_manager.py`
 
 </div>
+
+Capa de datos (`core_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `TrackingCoreManager`
 
@@ -6354,6 +6559,8 @@ Gestor DAO para la gestión central de trabajos (obtención, creación, finaliza
 ### 📄 `database/repositories/tracking/mappers.py`
 
 </div>
+
+Capa de datos (`mappers`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `TrackingMapper`
 
@@ -6390,6 +6597,8 @@ a DTOs para la interfaz de trabajador y exportaciones.
 
 </div>
 
+Capa de datos (`steps_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `TrackingStepsManager`
 
 Gestor DAO para la gestión de pasos de trazabilidad.
@@ -6402,7 +6611,7 @@ Gestor DAO para la gestión de pasos de trazabilidad.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 ---
 
@@ -6411,6 +6620,8 @@ Gestor DAO para la gestión de pasos de trazabilidad.
 ### 📄 `database/repositories/worker/annotation_manager.py`
 
 </div>
+
+Capa de datos (`annotation_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `WorkerAnnotationManager`
 
@@ -6428,6 +6639,8 @@ Gestor DAO para la gestión de anotaciones de trabajadores.
 ### 📄 `database/repositories/worker/auth_manager.py`
 
 </div>
+
+Capa de datos (`auth_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `WorkerAuthManager`
 
@@ -6447,6 +6660,8 @@ Gestor DAO para la gestión de autenticación y credenciales de trabajadores.
 
 </div>
 
+Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+
 #### 🏛️ Clase `WorkerRepository`
 
 Repositorio para la gestión de trabajadores.
@@ -6459,6 +6674,8 @@ Implementa el patrón Fachada delegando en DAO Managers especializados.
 ### 📄 `database/repositories/worker/worker_manager.py`
 
 </div>
+
+Capa de datos (`worker_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 
 #### 🏛️ Clase `WorkerCoreManager`
 
@@ -6488,7 +6705,7 @@ Gestor DAO para la gestión de datos básicos de trabajadores.
 | Archivos `.py` en `features/` | 6 |
 | Incluidos en el cuerpo | 6 |
 | Omitidos (docstrings/reglas) | 0 |
-| Clases detectadas (AST) | 5 |
+| Clases detectadas (AST) | 6 |
 
 ```mermaid
 graph TD
@@ -6506,7 +6723,7 @@ graph TD
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Funcionalidad encapsulada (`__init__`): reglas de dominio o integración opcional usada por controladores o servicios.
 
 ---
 
@@ -6540,22 +6757,17 @@ Controlador para gestionar las operaciones de trabajadores.
 
 ---
 
-<div id='sec_features_worker_controller_io_mixin_py'>
+<div id='sec_features_worker_controller_io_manager_py'>
 
-### 📄 `features/worker_controller_io_mixin.py`
+### 📄 `features/worker_controller_io_manager.py`
 
 </div>
 
-Mixin de operaciones IO/UI para `WorkerController`.
+Operaciones IO/UI para `WorkerController`.
 
-#### 🏛️ Clase `WorkerControllerIOMixin`
+#### 🏛️ Clase `WorkerIOManager`
 
-**Métodos Principales:**
-
-- `_handle_generate_labels`: Maneja la generación e impresión de etiquetas QR.
-- `_process_label_document`: Gestiona la impresión o el guardado del documento.
-- `_handle_export_data`: Exporta datos a JSON.
-- `_handle_camera_config`: Configuración de cámara.
+Colaborador de composición para operaciones I/O del WorkerController.
 
 ---
 
@@ -6635,10 +6847,10 @@ Desacopla la lógica de decisión del controlador UI.
 
 | Métrica | Valor |
 |---|---:|
-| Archivos `.py` en `ui/` | 109 |
-| Incluidos en el cuerpo | 109 |
+| Archivos `.py` en `ui/` | 108 |
+| Incluidos en el cuerpo | 108 |
 | Omitidos (docstrings/reglas) | 0 |
-| Clases detectadas (AST) | 103 |
+| Clases detectadas (AST) | 102 |
 
 ```mermaid
 graph TD
@@ -6656,7 +6868,7 @@ graph TD
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 ---
 
@@ -6665,6 +6877,8 @@ graph TD
 ### 📄 `ui/main_window.py`
 
 </div>
+
+Interfaz PyQt6 (`main_window`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `MainView`
 
@@ -6890,6 +7104,8 @@ Dialog displayed at startup to select database connection mode.
 
 </div>
 
+Interfaz PyQt6 (`tracking_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `OrderSetupDialog`
 
 Dialog to setup the start of a production session.
@@ -6902,6 +7118,8 @@ Asks for the Order Number (OF) and the Total Quantity to produce.
 ### 📄 `ui/dialogs/utility_dialogs.py`
 
 </div>
+
+Interfaz PyQt6 (`utility_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `AddBreakDialog`
 
@@ -6960,7 +7178,7 @@ Diálogo para seleccionar múltiples trabajadores de una lista.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 ---
 
@@ -6969,6 +7187,8 @@ Diálogo para seleccionar múltiples trabajadores de una lista.
 ### 📄 `ui/dialogs/effects/golden_glow.py`
 
 </div>
+
+Interfaz PyQt6 (`golden_glow`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `GoldenGlowEffect`
 
@@ -6998,6 +7218,8 @@ Usa EventFilters en sus padres para recálculos morfológicos "Lazy" optimizados
 
 </div>
 
+Interfaz PyQt6 (`green_cycle`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `GreenCycleEffect`
 
 Widget que dibuja un aro verde con efecto neón para tareas intermedias del ciclo.
@@ -7014,6 +7236,8 @@ Widget que dibuja un aro verde con efecto neón para tareas intermedias del cicl
 
 </div>
 
+Interfaz PyQt6 (`mixed_gold_green`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `MixedGoldGreenEffect`
 
 Widget que dibuja un aro con efecto mixto dorado-verde para tareas finales de ciclo.
@@ -7029,6 +7253,8 @@ Widget que dibuja un aro con efecto mixto dorado-verde para tareas finales de ci
 ### 📄 `ui/dialogs/effects/processing_glow.py`
 
 </div>
+
+Interfaz PyQt6 (`processing_glow`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `ProcessingGlowEffect`
 
@@ -7057,6 +7283,8 @@ a golpe de latidos guiados por el `QEventLoop` del sistema, evitando atascos.
 
 </div>
 
+Interfaz PyQt6 (`progress`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `SimulationProgressEffect`
 
 Widget que dibuja un aro azulado grisáceo giratorio con efecto neón
@@ -7076,7 +7304,7 @@ para indicar que una tarjeta está siendo procesada por la simulación.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 ---
 
@@ -7085,6 +7313,8 @@ para indicar que una tarjeta está siendo procesada por la simulación.
 ### 📄 `ui/dialogs/fabrication/assignment_dialogs.py`
 
 </div>
+
+Interfaz PyQt6 (`assignment_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `AssignPreprocesosDialog`
 
@@ -7104,6 +7334,8 @@ Diálogo para asignar preprocesos a fabricaciones desde el menú de Preprocesos.
 ### 📄 `ui/dialogs/fabrication/bitacora_dialog.py`
 
 </div>
+
+Interfaz PyQt6 (`bitacora_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `BitacoraEntryDTO`
 
@@ -7130,6 +7362,8 @@ con un calendario interactivo.
 
 </div>
 
+Interfaz PyQt6 (`create_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `CreateFabricacionDialog`
 
 Diálogo especializado para la creación de nuevas Fabricaciones (Fase 12C).
@@ -7152,27 +7386,13 @@ en un objeto `FabricacionDTO`.
 
 ---
 
-<div id='sec_ui_dialogs_fabrication_create_dialog_compat_py'>
-
-### 📄 `ui/dialogs/fabrication/create_dialog_compat.py`
-
-</div>
-
-Capa de compatibilidad legacy para `CreateFabricacionDialog`.
-
-Mantiene la API histórica basada en preprocesos para tests/callers antiguos.
-
-#### 🏛️ Clase `CreateDialogCompatMixin`
-
-Compatibilidad con la versión anterior (sin productos).
-
----
-
 <div id='sec_ui_dialogs_fabrication_create_presenter_py'>
 
 ### 📄 `ui/dialogs/fabrication/create_presenter.py`
 
 </div>
+
+Interfaz PyQt6 (`create_presenter`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `CreateFabricacionPresenter`
 
@@ -7195,6 +7415,8 @@ Responsabilidades:
 ### 📄 `ui/dialogs/fabrication/input_dialogs.py`
 
 </div>
+
+Interfaz PyQt6 (`input_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `GetLoteInstanceParametersDialog`
 
@@ -7220,6 +7442,8 @@ Diálogo simple para solicitar el número de unidades a producir.
 
 </div>
 
+Interfaz PyQt6 (`persistence_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `SavePilaDialog`
 
 Diálogo para pedir nombre y descripción al guardar una pila.
@@ -7244,6 +7468,8 @@ Diálogo para mostrar y seleccionar pilas guardadas.
 
 </div>
 
+Interfaz PyQt6 (`products_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `ProductsSelectionDialog`
 
 Diálogo para asignar/editar productos de una fabricación existente.
@@ -7260,6 +7486,8 @@ Permite añadir, quitar y modificar cantidades.
 ### 📄 `ui/dialogs/fabrication/selection_dialogs.py`
 
 </div>
+
+Interfaz PyQt6 (`selection_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `PreprocesosSelectionDialog`
 
@@ -7288,7 +7516,7 @@ para añadir al cálculo de tiempos de una fabricación.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 ---
 
@@ -7297,6 +7525,8 @@ para añadir al cálculo de tiempos de una fabricación.
 ### 📄 `ui/dialogs/prep/prep_groups_dialog.py`
 
 </div>
+
+Interfaz PyQt6 (`prep_groups_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `PrepGroupsDialog`
 
@@ -7321,6 +7551,8 @@ Permite organizar fases de preparación en grupos lógicos.
 
 </div>
 
+Interfaz PyQt6 (`prep_steps_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `PrepStepsDialog`
 
 Diálogo para gestionar los pasos individuales de un grupo de preparación.
@@ -7341,6 +7573,8 @@ Permite visualizar, añadir, actualizar y eliminar pasos.
 ### 📄 `ui/dialogs/prep/preproceso_dialog.py`
 
 </div>
+
+Interfaz PyQt6 (`preproceso_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `PreprocesoDialog`
 
@@ -7364,7 +7598,7 @@ de materiales (componentes).
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 ---
 
@@ -7373,6 +7607,8 @@ de materiales (componentes).
 ### 📄 `ui/dialogs/product/add_iteration_dialog.py`
 
 </div>
+
+Interfaz PyQt6 (`add_iteration_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `AddIterationDialog`
 
@@ -7409,6 +7645,8 @@ Diálogo interactivo para previsualizar y supervisar el árbol BOM antes de impo
 
 </div>
 
+Interfaz PyQt6 (`procesos_mecanicos_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `ProcesosMecanicosDialog`
 
 Diálogo para gestionar los procesos mecánicos de un producto.
@@ -7430,6 +7668,8 @@ Diálogo para añadir un nuevo proceso mecánico.
 
 </div>
 
+Interfaz PyQt6 (`product_details_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `ProductDetailsDialog`
 
 Diálogo rediseñado que utiliza sub-widgets para gestionar Componentes e Iteraciones.
@@ -7445,6 +7685,8 @@ Diálogo rediseñado que utiliza sub-widgets para gestionar Componentes e Iterac
 ### 📄 `ui/dialogs/product/subfabricaciones_dialog.py`
 
 </div>
+
+Interfaz PyQt6 (`subfabricaciones_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `SubfabricacionesDialog`
 
@@ -7462,7 +7704,7 @@ Diálogo para gestionar (CRUD) la lista de sub-fabricaciones de un producto.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 ---
 
@@ -7482,6 +7724,8 @@ Re-exports de diálogos comunes del flujo de producción.
 
 </div>
 
+Interfaz PyQt6 (`cycle_end_config_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `CycleEndConfigDialog`
 
 Diálogo para configurar el fin de ciclo de una tarea.
@@ -7494,6 +7738,8 @@ Permite seleccionar a qué tarea de inicio de ciclo regresar.
 ### 📄 `ui/dialogs/production_flow/define_flow_dialog.py`
 
 </div>
+
+Interfaz PyQt6 (`define_flow_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `DefineProductionFlowDialog`
 
@@ -7521,6 +7767,8 @@ Diálogo orquestador para definir la secuencia de tareas, dependencias y trabaja
 ### 📄 `ui/dialogs/production_flow/define_flow_presenter.py`
 
 </div>
+
+Interfaz PyQt6 (`define_flow_presenter`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `DefineFlowPresenter`
 
@@ -7551,6 +7799,8 @@ de la vista (DefineProductionFlowDialog).
 
 </div>
 
+Interfaz PyQt6 (`definir_cantidades_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `DefinirCantidadesDialog`
 
 Diálogo para definir la cantidad a producir para cada tarea/grupo.
@@ -7562,6 +7812,10 @@ Diálogo para definir la cantidad a producir para cada tarea/grupo.
 ### 📄 `ui/dialogs/production_flow/enhanced_flow_dialog.py`
 
 </div>
+
+
+Interfaz PyQt6 (`enhanced_flow_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 
 #### 🏛️ Clase `EnhancedProductionFlowDialog`
 
@@ -7582,39 +7836,25 @@ Delegado en FlowGraphManager (UI Canvas) y EnhancedFlowPresenter (Lógica).
 
 </div>
 
+Interfaz PyQt6 (`enhanced_flow_presenter`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `EnhancedFlowPresenter`
 
 Presenter/Lógica para aislar el ensamblado de datos y configuraciones de la vista.
 
 ---
 
-<div id='sec_ui_dialogs_production_flow_enhanced_flow_presenter_state_py'>
+<div id='sec_ui_dialogs_production_flow_enhanced_flow_state_manager_py'>
 
-### 📄 `ui/dialogs/production_flow/enhanced_flow_presenter_state.py`
+### 📄 `ui/dialogs/production_flow/enhanced_flow_state_manager.py`
 
 </div>
 
-#### 🏛️ Clase `EnhancedFlowPresenterStateMixin`
+Interfaz PyQt6 (`enhanced_flow_state_manager`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
-Mixin: estado del canvas (CRUD), ciclos, preview y conexiones lógicas.
+#### 🏛️ Clase `EnhancedFlowStateManager`
 
-**Métodos Principales:**
-
-- `__init__`: Inicializa el mixin de estado. Este mixin asume que la clase concreta define `default_units`, `canvas_tasks` y otros atributos antes de usar los métodos.
-- `add_task`: Agrega una nueva tarea al estado lógico y devuelve su payload.
-- `remove_task`: Elimina una tarea y reajusta dependencias del resto de tareas.
-- `clear_tasks`: Limpia todo el estado lógico del canvas.
-- `get_task`: Devuelve el payload de una tarea por su índice.
-- `update_task_config`: Actualiza un valor de configuración de una tarea específica.
-- `apply_cycle_end_config`: Aplica fin de ciclo reconciliando `next_cyclic_task_index`.
-- `get_worker_config`: Busca la configuración de un trabajador específico en una tarea.
-- `get_inspector_data`: Prepara los datos necesarios para poblar el inspector.
-- `identify_last_tasks_in_cycles`: Identifica los índices de las tareas que cierran ciclos.
-- `start_simulation_preview`: Inicia una sesión de simulación para previsualización.
-- `get_next_simulation_step`: Obtiene el siguiente índice de tarea en la simulación.
-- `stop_simulation_preview`: Finaliza la sesión de simulación.
-- `get_simulation_progress_text`: Genera el texto informativo para el progreso de la simulación.
-- `get_logical_connections`: Calcula todas las conexiones lógicas (dependencias y ciclos) para una tarea.
+Colaborador de composición para estado del canvas y preview de simulación.
 
 ---
 
@@ -7623,6 +7863,8 @@ Mixin: estado del canvas (CRUD), ciclos, preview y conexiones lógicas.
 ### 📄 `ui/dialogs/production_flow/flow_action_handler.py`
 
 </div>
+
+Interfaz PyQt6 (`flow_action_handler`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `FlowActionHandler`
 
@@ -7662,6 +7904,8 @@ Carga/reconstrucción de estado y construcción/preparación de flujos (delegado
 
 </div>
 
+Interfaz PyQt6 (`flow_simulation_handler`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `FlowSimulationHandler`
 
 Gestiona la lógica de previsualización de simulación en el editor visual.
@@ -7682,6 +7926,8 @@ la interacción con el presenter y canvas.
 
 </div>
 
+Interfaz PyQt6 (`machine_resource_manager`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `MachineResourceManager`
 
 Gestiona la lógica de recursos de máquina y fases de preparación para DefineProductionFlowDialog.
@@ -7700,6 +7946,8 @@ Desacopla la carga dinámica de componentes de la UI del diálogo principal.
 
 </div>
 
+Interfaz PyQt6 (`reassignment_rule_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `ReassignmentRuleDialog`
 
 Diálogo para definir la regla de reasignación de un trabajador para una tarea.
@@ -7712,7 +7960,7 @@ Diálogo para definir la regla de reasignación de un trabajador para una tarea.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 ---
 
@@ -7722,9 +7970,13 @@ Diálogo para definir la regla de reasignación de un trabajador para una tarea.
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Contenido detectado:** módulo parseable con imports o configuración de paquete (sin clases/funciones documentables).
+========================================================================
+WIDGETS BASE DE INTERFAZ DE USUARIO
+========================================================================
+Clases base, configuración e imports comunes de los que heredan los
+widgets de la aplicación. Centraliza comportamientos estándar y
+utilidades gráficas compartidas.
+========================================================================
 
 ---
 
@@ -7733,6 +7985,8 @@ Diálogo para definir la regla de reasignación de un trabajador para una tarea.
 ### 📄 `ui/widgets/calculate_times_widget.py`
 
 </div>
+
+Interfaz PyQt6 (`calculate_times_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `CalculateTimesWidget`
 
@@ -7749,6 +8003,8 @@ Widget para la pantalla de cálculo de tiempos de fabricación.
 ### 📄 `ui/widgets/dashboard_widget.py`
 
 </div>
+
+Interfaz PyQt6 (`dashboard_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `DashboardWidget`
 
@@ -7792,6 +8048,8 @@ Widget específico para la gestión de Fabricaciones (CRUD).
 
 </div>
 
+Interfaz PyQt6 (`gestion_datos_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `GestionDatosWidget`
 
 Widget unificado que contiene pestañas para gestionar los datos
@@ -7805,6 +8063,8 @@ principales de la aplicación.
 
 </div>
 
+Interfaz PyQt6 (`help_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `HelpWidget`
 
 Widget para mostrar la página de ayuda 'Cómo Funciona'.
@@ -7816,6 +8076,8 @@ Widget para mostrar la página de ayuda 'Cómo Funciona'.
 ### 📄 `ui/widgets/historial_widget.py`
 
 </div>
+
+Interfaz PyQt6 (`historial_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `HistorialWidget`
 
@@ -7904,6 +8166,8 @@ Uso típico::
 
 </div>
 
+Interfaz PyQt6 (`lotes_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `DefinirLoteWidget`
 
 Widget para crear y editar plantillas de Lote.
@@ -7926,6 +8190,8 @@ Widget específico para editar y visualizar las plantillas de Lote.
 ### 📄 `ui/widgets/machines_widget.py`
 
 </div>
+
+Interfaz PyQt6 (`machines_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `MachinesWidget`
 
@@ -7988,6 +8254,8 @@ Panel lateral de navegación con botones categorizados y menú de operaciones.
 
 </div>
 
+Interfaz PyQt6 (`prep_steps_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `PrepStepsWidget`
 
 Widget para gestionar la base de datos de fases de preparación (CRUD).
@@ -8007,6 +8275,8 @@ Widget para gestionar la base de datos de fases de preparación (CRUD).
 
 </div>
 
+Interfaz PyQt6 (`preprocesos_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `PreprocesosWidget`
 
 Widget rediseñado para la gestión de Preprocesos.
@@ -8020,6 +8290,8 @@ Muestra una lista a la izquierda y los detalles del seleccionado a la derecha.
 
 </div>
 
+Módulo base para el widget de gestión de productos en la UI principal.
+
 #### 🏛️ Clase `ProductsWidget`
 
 Widget para editar y visualizar Productos.
@@ -8027,6 +8299,8 @@ Widget para editar y visualizar Productos.
 **Métodos Principales:**
 
 - `display_product_form`: Muestra el formulario para editar un producto o crear uno nuevo. Args: data: DTO del producto o código (si es nuevo). sub_data: Lista de subfabricaciones existentes. is_new: Si es True, configura el formulario para creación.
+
+- 🔧 `_subfabricacion_row_from_domain`: Serializa una subfabricación de dominio a dict para el formulario y persistencia.
 
 ---
 
@@ -8057,6 +8331,7 @@ Integra búsqueda inteligente, lista de órdenes y gráficas de análisis.
 **Métodos Principales:**
 
 - `__init__`: Inicializa el widget de reportes. Args: controller: Controlador de la aplicación
+- `_resolve_app_model`: Resuelve un modelo de reportes estable desde el controlador recibido. Acepta tanto un AppController (con .model) como un AppModel/servicio directo. Debe comprobarse `.model` antes que `search_reports_data`: con `MagicMock` sueltos, `hasattr(mock, "search_reports_data")` suele ser True por hijos autocreados y se tomaba el mock del controlador en lugar del `.model`.
 - `set_controller`: Establece el controlador para todos los sub-widgets. Args: controller: Controlador de la aplicación
 - `refresh`: Refresca el contenido del widget.
 
@@ -8099,6 +8374,8 @@ Orquesta la vista de horarios, descansos y parámetros del sistema.
 ### 📄 `ui/widgets/timeline_widget.py`
 
 </div>
+
+Interfaz PyQt6 (`timeline_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `TimelineVisualizationWidget`
 
@@ -8151,7 +8428,7 @@ Incluye un área de scroll para asegurar la visibilidad de los botones de acció
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 ---
 
@@ -8196,6 +8473,8 @@ Gestiona el listado de cambios y la galería de imágenes asociada.
 
 </div>
 
+Interfaz PyQt6 (`materials_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `ProductMaterialsWidget`
 
 Widget especializado en la gestión de la Lista de Materiales (Componentes) de un producto.
@@ -8212,7 +8491,7 @@ Widget especializado en la gestión de la Lista de Materiales (Componentes) de u
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 ---
 
@@ -8221,6 +8500,8 @@ Widget especializado en la gestión de la Lista de Materiales (Componentes) de u
 ### 📄 `ui/widgets/production_flow/define_control_panel.py`
 
 </div>
+
+Interfaz PyQt6 (`define_control_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `DefineControlPanel`
 
@@ -8239,6 +8520,10 @@ Encapsula la interfaz de configuración de tareas, condiciones de inicio y recur
 ### 📄 `ui/widgets/production_flow/flow_canvas.py`
 
 </div>
+
+
+Interfaz PyQt6 (`flow_canvas`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 
 #### 🏛️ Clase `ProductionFlowCanvas`
 
@@ -8314,6 +8599,8 @@ Centraliza la lógica de cálculo de rutas y renderizado.
 
 </div>
 
+Interfaz PyQt6 (`flow_display_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `FlowDisplayPanel`
 
 Panel derecho de DefineProductionFlowDialog.
@@ -8331,6 +8618,8 @@ Gestiona la visualización de la secuencia de tareas y las acciones sobre el flu
 ### 📄 `ui/widgets/production_flow/flow_graph_manager.py`
 
 </div>
+
+Interfaz PyQt6 (`flow_graph_manager`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `FlowGraphManager`
 
@@ -8362,6 +8651,8 @@ Gestiona la creación de widgets, el mapeo de IDs y la aplicación de efectos vi
 
 </div>
 
+Interfaz PyQt6 (`flow_item_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `FlowItemWidget`
 
 Widget especializado para representar un paso individual o un grupo 
@@ -8379,6 +8670,8 @@ en la lista de la pila de producción.
 
 </div>
 
+Interfaz PyQt6 (`flow_toolbar`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `FlowToolbarWidget`
 
 Barra de herramientas inferior para el Planificador Visual de Producción.
@@ -8395,6 +8688,8 @@ Gestiona las acciones principales (limpiar, cargar, guardar, calcular).
 ### 📄 `ui/widgets/production_flow/inspector_panel.py`
 
 </div>
+
+Interfaz PyQt6 (`inspector_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `ProductionTaskInspector`
 
@@ -8417,6 +8712,10 @@ seleccionada en el flujo de producción.
 ### 📄 `ui/widgets/production_flow/inspector_presenter.py`
 
 </div>
+
+
+Interfaz PyQt6 (`inspector_presenter`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 
 #### 🏛️ Clase `InspectorPresenter`
 
@@ -8467,6 +8766,8 @@ Referencias tipadas a los controles del inspector de tarea.
 
 </div>
 
+Interfaz PyQt6 (`library_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `TaskLibraryPanel`
 
 Panel lateral que muestra la biblioteca de tareas disponibles agrupadas por producto.
@@ -8486,7 +8787,7 @@ Permite arrastrar tareas al canvas.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 ---
 
@@ -8511,6 +8812,7 @@ Muestra estadísticas y gráficas para un producto seleccionado.
 
 **Métodos Principales:**
 
+- `_get_reports_model`: Obtiene una interfaz con métodos de reportes (AppModel o wrapper con .model).
 - `_create_placeholder_tabs`: Crea tabs con placeholders.
 - `update_charts`: Actualiza todas las gráficas para un producto. Args: producto_codigo: Código del producto
 - `_update_stats_cards`: Actualiza las tarjetas de estadísticas.
@@ -8554,6 +8856,7 @@ Tarjeta individual para mostrar resumen de una orden de fabricación.
 **Métodos Principales:**
 
 - `__init__`: Args: order_data: OrdenFabricacionResumenDTO
+- `set_selected`: Actualiza estilo visual para reflejar selección.
 - `mousePressEvent`: Emite señal al hacer clic.
 
 #### 🏛️ Clase `OrderListWidget`
@@ -8565,9 +8868,11 @@ Signals:
 
 **Métodos Principales:**
 
+- `_get_reports_model`: Obtiene una interfaz con métodos de reportes (AppModel o wrapper con .model).
 - `load_orders_for_product`: Carga las órdenes de fabricación de un producto. Args: producto_codigo: Código del producto
 - `_display_orders`: Muestra las órdenes en tarjetas.
 - `_clear_cards`: Elimina todas las tarjetas.
+- `select_order`: Marca visualmente una orden como seleccionada en la lista actual.
 - `set_controller`: Establece el controlador.
 - `clear`: Limpia el widget.
 
@@ -8578,6 +8883,8 @@ Signals:
 ### 📄 `ui/widgets/reports/smart_search.py`
 
 </div>
+
+Interfaz PyQt6 (`smart_search`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `SmartSearchWidget`
 
@@ -8613,6 +8920,8 @@ Tarjeta de estadística individual.
 
 </div>
 
+Interfaz PyQt6 (`camera_info_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `CameraInfoPanel`
 
 Panel para mostrar información detallada y estados de validación.
@@ -8628,6 +8937,8 @@ Panel para mostrar información detallada y estados de validación.
 ### 📄 `ui/widgets/worker/camera_selector_panel.py`
 
 </div>
+
+Interfaz PyQt6 (`camera_selector_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `CameraSelectorPanel`
 
@@ -8647,6 +8958,8 @@ Panel para la selección y detección de cámaras.
 
 </div>
 
+Interfaz PyQt6 (`worker_activity_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `WorkerActivityPanel`
 
 Panel que muestra el historial de tareas y logs de actividad de un trabajador.
@@ -8664,6 +8977,8 @@ Panel que muestra el historial de tareas y logs de actividad de un trabajador.
 ### 📄 `ui/widgets/worker/worker_details_panel.py`
 
 </div>
+
+Interfaz PyQt6 (`worker_details_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `WorkerDetailsPanel`
 
@@ -8686,6 +9001,8 @@ Panel que contiene el formulario de detalles y asignación de un trabajador.
 
 </div>
 
+Interfaz PyQt6 (`worker_incidence_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+
 #### 🏛️ Clase `WorkerIncidenceDialog`
 
 Diálogo para mostrar el detalle de las incidencias de un trabajador.
@@ -8702,7 +9019,7 @@ Diálogo para mostrar el detalle de las incidencias de un trabajador.
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 ---
 
@@ -8750,7 +9067,7 @@ Presentador que desacopla la lógica de CameraManager de la UI de configuración
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 ---
 
@@ -8759,6 +9076,8 @@ Presentador que desacopla la lógica de CameraManager de la UI de configuración
 ### 📄 `ui/worker/main_window/ui_setup.py`
 
 </div>
+
+Interfaz PyQt6 (`ui_setup`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `WorkerMainWindowUISetup`
 
@@ -8772,6 +9091,8 @@ para WorkerMainWindow.
 ### 📄 `ui/worker/main_window/window.py`
 
 </div>
+
+Interfaz PyQt6 (`window`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 
 #### 🏛️ Clase `WorkerMainWindow`
 
@@ -8796,8 +9117,8 @@ Ventana principal para el rol de trabajador.
 
 | Métrica | Valor |
 |---|---:|
-| Archivos `.py` en `scripts/` | 52 |
-| Incluidos en el cuerpo | 52 |
+| Archivos `.py` en `scripts/` | 60 |
+| Incluidos en el cuerpo | 60 |
 | Omitidos (docstrings/reglas) | 0 |
 | Clases detectadas (AST) | 24 |
 
@@ -8816,7 +9137,7 @@ graph TD
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Script ejecutable (`__init__`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -8826,11 +9147,8 @@ graph TD
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `analyze`
+Analiza un archivo Python de mixin o clase: lista atributos y llamadas vía self.*
+para planificar migración a composición (dependencias del mixin).
 
 ---
 
@@ -8840,11 +9158,7 @@ graph TD
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `analyze`
+Script ejecutable (`analyze_pila_controller`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -8854,13 +9168,7 @@ graph TD
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `get_methods_info`
-- `run_coverage`
-- `analyze_coverage`
+Script ejecutable (`analyze_product_controller_coverage`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -8870,13 +9178,33 @@ graph TD
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
+Script ejecutable (`analyze_ui_state`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
-**Funciones detectadas (sin docstring detallado):**
+---
 
-- `analyze_file`
-- `scan_directory`
-- `main`
+<div id='sec_scripts_audit_import_graph_py'>
+
+### 📄 `scripts/audit_import_graph.py`
+
+</div>
+
+Grafo de imports entre capas: controladores / servicios / database.
+
+Genera un informe Markdown (y JSON opcional) con aristas ``controllers.*``
+que importan ``core.services.*`` (y referencias cruzadas útiles para revisión).
+
+---
+
+<div id='sec_scripts_audit_module_docstrings_py'>
+
+### 📄 `scripts/audit_module_docstrings.py`
+
+</div>
+
+Auditoría de docstrings de módulo: lista archivos .py sin descripción útil al nivel de módulo.
+
+Salida: informe JSON bajo reports/ y resumen por stdout. Criterios alineados con
+doc_audit_common / generate_daniel_doc.py.
 
 ---
 
@@ -8885,6 +9213,8 @@ graph TD
 ### 📄 `scripts/build_executable.py`
 
 </div>
+
+Script ejecutable (`build_executable`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `clean_build_environment`: Limpia compilaciones anteriores para evitar basura o conflictos.
 - 🔧 `build_hipatia`: Ejecuta PyInstaller de forma programática con toda la configuración de Hipatia.
@@ -8913,13 +9243,7 @@ Descripción: Verifica automáticamente que la documentación técnica generada
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `get_typing_stats`
-- `analyze_directory`
-- `main`
+Script ejecutable (`check_typing_coverage`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -8929,13 +9253,7 @@ Descripción: Verifica automáticamente que la documentación técnica generada
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `is_ignored`
-- `analyze_file`
-- `main`
+Script ejecutable (`codebase_analyzer`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -8995,6 +9313,21 @@ Extrae todos los métodos de cada clase.
 
 ---
 
+<div id='sec_scripts_doc_audit_common_py'>
+
+### 📄 `scripts/doc_audit_common.py`
+
+</div>
+
+Criterios compartidos para auditoría de docstrings de módulo (Daniel doc + audit_module_docstrings).
+
+- 🔧 `module_docstring_raw`: Texto del docstring de módulo. Incluye el caso frecuente ``from __future__ ...`` seguido de un literal ``"""..."""``, que **no** expone ``ast.get_docstring`` pero es doc de módulo válido en tiempo de ejecución.
+- 🔧 `module_docstring_is_acceptable`: True si el módulo tiene docstring de módulo no trivial según FRASES_IGNORADAS. Equivale a 'doc_valid' en generate_daniel_doc para el nodo raíz.
+- 🔧 `parse_module`: Parsea un archivo UTF-8; devuelve (tree, None) o (None, mensaje de error).
+- 🔧 `summarize_module_for_audit`: Resumen para informes JSON (clases/funcs top-level sin depender del docstring).
+
+---
+
 <div id='sec_scripts_download_opencv_resources_py'>
 
 ### 📄 `scripts/download_opencv_resources.py`
@@ -9040,13 +9373,7 @@ Salidas:
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `run_script`
-- `run_mypy`
-- `generate_report`
+Script ejecutable (`generate_comprehensive_report`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9055,6 +9382,8 @@ Salidas:
 ### 📄 `scripts/generate_coverage_report.py`
 
 </div>
+
+Script ejecutable (`generate_coverage_report`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `run_coverage`: Runs pytest with coverage json report.
 - 🔧 `load_coverage_data`: Loads coverage.json.
@@ -9105,12 +9434,20 @@ Descripción: Genera documentación técnica completa de Hipatia en Markdown con
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
+Script ejecutable (`generate_monolitos_finales`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
-**Funciones detectadas (sin docstring detallado):**
+---
 
-- `generate_markdown`
-- `main`
+<div id='sec_scripts_generate_quotes_db_py'>
+
+### 📄 `scripts/generate_quotes_db.py`
+
+</div>
+
+Script ejecutable (`generate_quotes_db`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+
+- 🔧 `fetch_quotes`: Descarga frases de múltiples fuentes JSON.
+- 🔧 `generate_database`: Genera el fichero JSON final con las frases.
 
 ---
 
@@ -9120,7 +9457,27 @@ Descripción: Genera documentación técnica completa de Hipatia en Markdown con
 
 </div>
 
+Script ejecutable (`init_database`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+
 - 🔧 `init_database`: Inicializa la base de datos creando todas las tablas.
+
+---
+
+<div id='sec_scripts_inject_module_docstrings_py'>
+
+### 📄 `scripts/inject_module_docstrings.py`
+
+</div>
+
+Inyecta docstrings de módulo donde faltan (criterio doc_audit_common), sin tocar
+archivos que ya tienen docstring aceptable.
+
+Uso::
+
+    python3 scripts/inject_module_docstrings.py --dry-run
+    python3 scripts/inject_module_docstrings.py --apply
+
+- 🔧 `_describe_module`: Una o dos frases en español; suficientemente específicas para no caer en frases genéricas prohibidas.
 
 ---
 
@@ -9160,6 +9517,22 @@ Uso:
 
 ---
 
+<div id='sec_scripts_list_mypy_core_services_gaps_py'>
+
+### 📄 `scripts/list_mypy_core_services_gaps.py`
+
+</div>
+
+Lista módulos bajo ``core/services`` que aún no aparecen en ``mypy.ini`` dentro
+de un bloque ``[mypy-...]`` con ``disallow_untyped_defs = True``.
+
+Uso::
+
+    python3 scripts/list_mypy_core_services_gaps.py
+    python3 scripts/list_mypy_core_services_gaps.py --json reports/mypy_core_services_gaps.json
+
+---
+
 <div id='sec_scripts_monolith_analyzer_py'>
 
 ### 📄 `scripts/monolith_analyzer.py`
@@ -9195,9 +9568,7 @@ Uso:
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Contenido detectado:** módulo parseable con imports o configuración de paquete (sin clases/funciones documentables).
+Script ejecutable (`print_summary`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9207,7 +9578,23 @@ Uso:
 
 </div>
 
+Script ejecutable (`profile_queries`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+
 - 🔧 `profile_method`: Executes a method and counts SQL queries.
+
+---
+
+<div id='sec_scripts_reorder_docstring_before_future_py'>
+
+### 📄 `scripts/reorder_docstring_before_future.py`
+
+</div>
+
+Reordena el docstring de módulo inmediatamente **antes** del bloque ``from __future__``.
+
+Homogeneidad con PEP 236 (docstring antes de future). Idempotente si ya está bien ordenado.
+
+- 🔧 `reorder_source`: Devuelve texto reordenado o None si no aplica.
 
 ---
 
@@ -9217,18 +9604,7 @@ Uso:
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `print_header`
-- `run_command`
-- `analyze_mypy`
-- `analyze_tests_and_coverage`
-- `analyze_codebase`
-- `analyze_test_quality`
-- `generate_markdown_report`
-- `main`
+Script ejecutable (`run_quality_audit`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9264,7 +9640,26 @@ Analyzes code for security vulnerabilities.
 
 </div>
 
+Script ejecutable (`seed_data`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+
 - 🔧 `seed_data`: Inserta datos de prueba en la base de datos.
+
+---
+
+<div id='sec_scripts_sync_worktree_to_icloud_py'>
+
+### 📄 `scripts/sync_worktree_to_icloud.py`
+
+</div>
+
+Copia archivos modificados o sin seguimiento desde SOURCE_ROOT a HIPATIA_ICLOUD.
+
+Uso típico (macOS)::
+
+    export HIPATIA_ICLOUD="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion"
+    python3 scripts/sync_worktree_to_icloud.py
+
+El agente debe ejecutarlo tras cada lote de ediciones si el workspace no es ya iCloud.
 
 ---
 
@@ -9273,6 +9668,8 @@ Analyzes code for security vulnerabilities.
 ### 📄 `scripts/test_quality_analyzer.py`
 
 </div>
+
+Script ejecutable (`test_quality_analyzer`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `_is_whitelisted_patch`: Devuelve True si el target del patch está en la whitelist de inevitables.
 - 🔧 `_count_inevitable_patches`: Cuenta @patch sin autospec que son inevitables (builtins, Qt, OS).
@@ -9383,9 +9780,7 @@ Salida (por defecto):
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Contenido detectado:** módulo parseable con imports o configuración de paquete (sin clases/funciones documentables).
+Script ejecutable (`update_test_imports`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9429,11 +9824,7 @@ Represents a potential code issue found during verification.
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Clases detectadas (sin docstring detallado):**
-
-- `TestQrScannerOptimization`
+Script ejecutable (`verify_qr_optimization`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9443,12 +9834,7 @@ Represents a potential code issue found during verification.
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `check_structure`
-- `main`
+Script ejecutable (`verify_structure`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9457,6 +9843,8 @@ Represents a potential code issue found during verification.
 ### 📄 `scripts/analysis/analyze_codebase.py`
 
 </div>
+
+Script ejecutable (`analyze_codebase`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 #### 🏛️ Clase `FileStats`
 
@@ -9485,11 +9873,7 @@ Descripcion: Analizador AST ad-hoc para revisar tipado en métodos de un control
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `analyze_risk`
+Script ejecutable (`analyze_coverage_risks`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9498,6 +9882,8 @@ Descripcion: Analizador AST ad-hoc para revisar tipado en métodos de un control
 ### 📄 `scripts/analysis/analyze_db_usage.py`
 
 </div>
+
+Script ejecutable (`analyze_db_usage`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `analyze_file`: Analyzes a python file for DB related keywords and AST nodes.
 
@@ -9520,11 +9906,7 @@ Descripcion: Construye un grafo de dependencias Python y detecta hubs/acoplamien
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `analyze_file`
+Script ejecutable (`analyze_fabrication_dialogs`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9534,11 +9916,7 @@ Descripcion: Construye un grafo de dependencias Python y detecta hubs/acoplamien
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `check_loose_mocks`
+Script ejecutable (`analyze_loose_mocks`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9548,12 +9926,7 @@ Descripcion: Construye un grafo de dependencias Python y detecta hubs/acoplamien
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `analyze_directory`
-- `main`
+Script ejecutable (`analyze_refactoring_impact`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9612,12 +9985,7 @@ Ayuda a decidir si moverlos a `core/`, `ui/`, `tools/` o eliminarlos.
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `analyze_file`
-- `main`
+Script ejecutable (`analyze_structure`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9627,11 +9995,7 @@ Ayuda a decidir si moverlos a `core/`, `ui/`, `tools/` o eliminarlos.
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `search_usages`
+Script ejecutable (`analyze_tracking_impact`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9652,6 +10016,8 @@ Descripcion: Auditoría de cobertura de anotaciones de tipos por archivo/funció
 
 </div>
 
+Script ejecutable (`analyze_ui_structure`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+
 - 🔧 `analyze_file`: Analyzes a Python file and produces a markdown report.
 - 🔧 `analyze_class`: Analyzes a class node.
 - 🔧 `analyze_method_row`: Analyzes a method and adds a table row.
@@ -9665,6 +10031,8 @@ Descripcion: Auditoría de cobertura de anotaciones de tipos por archivo/funció
 
 </div>
 
+Script ejecutable (`detect_obsolete_code`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+
 - 🔧 `get_python_files`: Recursively find all Python files in the directory.
 - 🔧 `extract_definitions`: Extract class and function names defined in a file.
 - 🔧 `search_usages`: Count usages of target names in all files.
@@ -9677,6 +10045,8 @@ Descripcion: Auditoría de cobertura de anotaciones de tipos por archivo/funció
 ### 📄 `scripts/analysis/verify_naming_conventions.py`
 
 </div>
+
+Script ejecutable (`verify_naming_conventions`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `get_python_files`: Recursively find all Python files in the directory.
 - 🔧 `is_snake_case`: Check if string is snake_case.
@@ -9711,11 +10081,8 @@ IMPORTANTE: Ejecuta este script ANTES de añadir los nuevos modelos.
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `reset_admin_password`
+Script de mantenimiento: restablece o crea el usuario admin local en SQLite
+(montaje.db) con contraseña conocida; uso manual en entornos de desarrollo.
 
 ---
 
@@ -9749,7 +10116,7 @@ graph TD
 
 </div>
 
-> 📦 Archivo de paquete (`__init__.py`) incluido para trazabilidad del árbol de módulos.
+Herramienta de consola (`__init__`): análisis estático o asistencia al desarrollo.
 
 ---
 
@@ -9759,17 +10126,8 @@ graph TD
 
 </div>
 
-> ⚠️ Archivo incluido por detección AST: faltan docstrings descriptivos.
-
-**Clases detectadas (sin docstring detallado):**
-
-- `AppControllerVisitor`
-
-**Funciones detectadas (sin docstring detallado):**
-
-- `parse_documentation`
-- `find_external_usage`
-- `analyze`
+Herramienta de análisis AST: compara métodos y atributos de AppController con
+la documentación de nomenclatura en Markdown (informe de cobertura doc vs código).
 
 ---
 

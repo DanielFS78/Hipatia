@@ -45,7 +45,6 @@ class TestWidgetsModuleStructure:
             'WorkersWidget',
             'MachinesWidget',
             'PrepStepsWidget',
-            'AddProductWidget',
             'FabricationsWidget',
             'ProductsWidget',
             'CalculateTimesWidget',

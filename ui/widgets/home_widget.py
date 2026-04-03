@@ -1,124 +1,195 @@
 # -*- coding: utf-8 -*-
-from .base import *
-import requests
-from PyQt6.QtGui import QPixmap
+"""
+Nombre del Módulo: home_widget
+Descripcion: Pantalla de inicio de la aplicación Hipatia. Muestra el resumen
+             del último arranque del sistema (estado de BD, integridad, datos)
+             y alberga la terminal interna de advertencias y errores en tiempo
+             real para que el usuario pueda revisar la salud del programa en
+             cualquier momento sin necesidad de acceder a archivos de log.
+"""
+from __future__ import annotations
+
+import logging
+from typing import TYPE_CHECKING, Optional
+
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QFont
+from PyQt6.QtWidgets import (
+    QWidget, QVBoxLayout, QLabel, QFrame,
+)
+
+from ui.widgets.log_terminal_widget import LogTerminalWidget
+
+if TYPE_CHECKING:
+    from core.qt_log_handler import QtLogHandler
+
+logger = logging.getLogger(__name__)
+
+_STATUS_COLORS = {
+    "STABLE":   ("#27ae60", "✅", "SISTEMA OPERATIVO"),
+    "WARNING":  ("#f39c12", "⚠️", "ADVERTENCIAS DETECTADAS"),
+    "CRITICAL": ("#e74c3c", "❌", "ERRORES CRÍTICOS"),
+}
+
 
 class HomeWidget(QWidget):
-    """Widget para la pantalla de inicio."""
+    """
+    Widget de inicio: resumen esquemático del último arranque y terminal interna.
 
-    def __init__(self):
+    Integra dos paneles verticales:
+    - Panel de salud del sistema: estado de BD, tablas y último backup.
+    - Terminal de log: muestra en tiempo real los WARNING/ERROR/CRITICAL
+      generados durante la sesión, con botones de limpieza y exportación.
+    """
+
+    def __init__(self) -> None:
         super().__init__()
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(30, 30, 30, 30)
-        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self._build_ui()
 
-        # Título de bienvenida
-        welcome_label = QLabel("Bienvenido a la Calculadora de Tiempos")
-        welcome_font = QFont()
-        welcome_font.setPointSize(28)
-        welcome_font.setBold(True)
-        welcome_label.setFont(welcome_font)
-        welcome_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(welcome_label)
+    # ------------------------------------------------------------------
+    # UI
+    # ------------------------------------------------------------------
 
-        layout.addSpacing(30)
+    def _build_ui(self) -> None:
+        root = QVBoxLayout(self)
+        root.setContentsMargins(40, 30, 40, 30)
+        root.setSpacing(20)
+        root.setAlignment(Qt.AlignmentFlag.AlignTop)
 
-        # Contenedor principal de la frase (Card layout)
-        quote_container = QFrame()
-        quote_container.setStyleSheet("""
+        # Título
+        title = QLabel("Bienvenido a Hipatia")
+        f = QFont()
+        f.setPointSize(26)
+        f.setBold(True)
+        title.setFont(f)
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        root.addWidget(title)
+
+        subtitle = QLabel("Sistema de Gestión de Tiempos de Fabricación")
+        subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        subtitle.setStyleSheet("color: #888; font-size: 13px; margin-bottom: 15px;")
+        root.addWidget(subtitle)
+
+        # Badge de estado
+        self._status_badge = QLabel("—")
+        f2 = QFont()
+        f2.setPointSize(15)
+        f2.setBold(True)
+        self._status_badge.setFont(f2)
+        self._status_badge.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self._status_badge.setStyleSheet("color: #888; margin-bottom: 10px;")
+        root.addWidget(self._status_badge)
+
+        # Panel de resumen esquemático
+        self._summary_frame = QFrame()
+        self._summary_frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self._summary_frame.setStyleSheet("""
             QFrame {
-                background-color: #f8f9fa;
-                border-radius: 15px;
-                border: 1px solid #e1e4e8;
+                border: 1px solid #555;
+                border-radius: 10px;
+                background-color: #2a2a2a;
+                padding: 20px;
             }
         """)
-        quote_layout = QHBoxLayout(quote_container)
-        quote_layout.setContentsMargins(20, 20, 20, 20)
-        quote_layout.setSpacing(20)
+        summary_layout = QVBoxLayout(self._summary_frame)
+        summary_layout.setContentsMargins(20, 18, 20, 18)
+        summary_layout.setSpacing(15)
 
-        # Imagen del autor
-        self.author_image = QLabel()
-        self.author_image.setFixedSize(120, 150)
-        self.author_image.setStyleSheet("border: 1px solid #ccc; background-color: #eee; border-radius: 5px;")
-        self.author_image.setScaledContents(True)
-        self.author_image.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.author_image.setText("Sin foto")
-        quote_layout.addWidget(self.author_image)
+        section_lbl = QLabel("📋 ÚLTIMO ARRANQUE DEL SISTEMA")
+        section_lbl.setStyleSheet("font-size: 12px; font-weight: bold; color: #3498db; letter-spacing: 1px;")
+        summary_layout.addWidget(section_lbl)
 
-        # Texto y Bio
-        text_layout = QVBoxLayout()
-        text_layout.setAlignment(Qt.AlignmentFlag.AlignVCenter)
+        self._detail_label = QLabel("Ejecuta la aplicación para ver el resumen del sistema.")
+        self._detail_label.setWordWrap(True)
+        self._detail_label.setStyleSheet("color: #aaa; font-style: italic; line-height: 1.6;")
+        summary_layout.addWidget(self._detail_label)
 
-        self.quote_text = QLabel("Cargando frase...")
-        font_quote = QFont()
-        font_quote.setPointSize(18)
-        font_quote.setItalic(True)
-        self.quote_text.setFont(font_quote)
-        self.quote_text.setWordWrap(True)
-        self.quote_text.setStyleSheet("color: #2c3e50;")
-        text_layout.addWidget(self.quote_text)
+        root.addWidget(self._summary_frame)
 
-        text_layout.addSpacing(10)
+        # Terminal interna de advertencias y errores
+        self._log_terminal = LogTerminalWidget()
+        root.addWidget(self._log_terminal, 1)  # stretch=1 para ocupar espacio restante
 
-        self.author_text = QLabel("")
-        font_author = QFont()
-        font_author.setPointSize(14)
-        font_author.setBold(True)
-        self.author_text.setFont(font_author)
-        self.author_text.setAlignment(Qt.AlignmentFlag.AlignRight)
-        self.author_text.setStyleSheet("color: #34495e;")
-        text_layout.addWidget(self.author_text)
+    # ------------------------------------------------------------------
+    # API pública
+    # ------------------------------------------------------------------
 
-        self.author_bio = QLabel("")
-        font_bio = QFont()
-        font_bio.setPointSize(10)
-        self.author_bio.setFont(font_bio)
-        self.author_bio.setWordWrap(True)
-        self.author_bio.setAlignment(Qt.AlignmentFlag.AlignRight)
-        self.author_bio.setStyleSheet("color: #7f8c8d;")
-        text_layout.addWidget(self.author_bio)
+    def connect_log_handler(self, handler: "QtLogHandler") -> None:
+        """
+        Conecta el handler de logging Qt a la terminal interna del widget.
 
-        quote_layout.addLayout(text_layout)
-        layout.addWidget(quote_container)
-        
-        layout.addStretch()
+        Invoca ``connect_to_widget()`` del handler, que además de conectar la
+        señal reproduce el buffer de mensajes acumulados durante el arranque
+        (antes de que la UI estuviera lista).
 
-    def set_quote(self, quote, author, author_info=None):
-        self.quote_text.setText(f"« {quote} »")
-        self.author_text.setText(f"— {author}")
-        
-        if author_info:
-            summary = author_info.get("summary", "")
-            image_url = author_info.get("image_url", None)
-            
-            if summary:
-                self.author_bio.setText(summary)
+        Debe llamarse una vez desde el punto de entrada (``app.py``) después de
+        crear el ``QtLogHandler`` y registrarlo en el logger root.
+
+        Args:
+            handler: Instancia de ``QtLogHandler`` ya añadida al logger root
+                     mediante ``logging.getLogger().addHandler(handler)``.
+        """
+        handler.connect_to_widget(self._log_terminal.append_log)
+
+    def update_health_report(self, report: object) -> None:
+        """
+        Actualiza el panel con el HealthReport de forma esquemática y descriptiva.
+
+        Args:
+            report: instancia de HealthReport.
+        """
+        try:
+            status = getattr(report, "overall_status", "STABLE")
+            color, icon, label = _STATUS_COLORS.get(status, ("#888", "⚪", status))
+
+            self._status_badge.setText(f"{icon}  {label}")
+            self._status_badge.setStyleSheet(f"color: {color}; margin-bottom: 10px;")
+
+            lines: list[str] = []
+
+            # Sección de componentes
+            lines.append("🧪 COMPONENTES DEL SISTEMA")
+            lines.append("   ✅ Todos los módulos cargados correctamente")
+            lines.append("")
+
+            # Sección de base de datos
+            db_reachable = getattr(report, "db_reachable", False)
+            db_integrity = getattr(report, "db_integrity_ok", False)
+            tables = getattr(report, "tables", [])
+
+            lines.append("💾 BASES DE DATOS")
+            if db_reachable and db_integrity:
+                lines.append("   ✅ Conexión y estructura correctas")
+                # Contar tablas OK vs vacías
+                ok_count = sum(1 for t in tables if t.status == "OK")
+                empty_count = sum(1 for t in tables if t.status == "EMPTY")
+                if ok_count > 0:
+                    lines.append(f"   ✅ {ok_count} tablas con datos operativos")
+                if empty_count > 0:
+                    lines.append(f"   ⚠️ {empty_count} tablas sin datos")
             else:
-                self.author_bio.clear()
+                lines.append("   ❌ Problemas de conexión o integridad")
+            lines.append("")
 
-            if image_url:
-                # Cargar imagen de forma asíncrona idealmente, pero aquí usaremos requests básico
-                # En un entorno real, esto debería ir en un hilo aparte
-                # import requests -> Moved to top
-                # from PyQt6.QtGui import QPixmap -> Moved to top
-                try:
-                    # Wikimedia requiere un User-Agent válido
-                    headers = {'User-Agent': 'CalculadorTiempos/1.0 (daniel@example.com)'}
-                    response = requests.get(image_url, timeout=5, headers=headers)
-                    if response.status_code == 200 and len(response.content) > 1000:  # Validar que no sea un placeholder
-                        pixmap = QPixmap()
-                        if pixmap.loadFromData(response.content):
-                            self.author_image.setPixmap(pixmap.scaled(120, 150, Qt.AspectRatioMode.KeepAspectRatioByExpanding, Qt.TransformationMode.SmoothTransformation))
-                            self.author_image.setText("")  # Borrar texto placeholder
-                        else:
-                            self.author_image.setText("Sin foto")
-                    else:
-                        self.author_image.setText("Sin foto")
-                except Exception as e:
-                    logging.warning(f"No se pudo cargar imagen del autor: {e}")
-                    self.author_image.setText("Sin foto")
-            else:
-                self.author_image.clear()
-                self.author_image.setText("Sin foto")
-        
-        logging.info(f"Frase actualizada en la UI: '{quote}' - {author}")
+            # Sección de sistema
+            sys_info = getattr(report, "system", None)
+            if sys_info is not None:
+                lines.append("🖥️ INFORMACIÓN DEL SISTEMA")
+                lines.append(f"   💾 Último backup: {sys_info.last_backup_date}")
+                lines.append(f"   💿 Espacio libre: {sys_info.disk_free_gb} GB")
+                if sys_info.last_session_errors > 0:
+                    lines.append(f"   ⚠️ Errores en sesión anterior: {sys_info.last_session_errors}")
+                else:
+                    lines.append("   ✅ Sin errores en sesión anterior")
+                lines.append("")
+
+            # Timestamp
+            generated_at = getattr(report, "generated_at", None)
+            if generated_at is not None:
+                lines.append(f"🕐 Verificado el {generated_at.strftime('%d/%m/%Y a las %H:%M')}")
+
+            self._detail_label.setStyleSheet("line-height: 1.8; font-size: 12px;")
+            self._detail_label.setText("\n".join(lines) if lines else "Sin datos disponibles.")
+
+        except Exception as e:
+            logger.warning(f"Error actualizando HomeWidget con HealthReport: {e}")

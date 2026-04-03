@@ -1,4 +1,8 @@
 
+"""
+Script ejecutable (`verify_qr_optimization`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+"""
+
 import sys
 import os
 import unittest
@@ -22,14 +26,17 @@ class TestQrScannerOptimization(unittest.TestCase):
         scanner = QrScanner(mock_camera_manager, 0, mock_camera_object)
         
         # Check if WeChatQRCode was loaded
-        if scanner.use_wechat:
+        if scanner.detector.use_wechat:
             print("SUCCESS: WeChatQRCode is active.")
             print("Models found and loaded.")
         else:
             print("FAILURE: Fallback to standard QRCodeDetector.")
             print("Check if opencv-contrib-python is installed and models are in core/models/")
             
-        self.assertTrue(scanner.use_wechat, "WeChatQRCode should be active if models are present")
+        self.assertTrue(
+            scanner.detector.use_wechat,
+            "WeChatQRCode should be active if models are present",
+        )
 
         # Check standard properties
         self.assertTrue(scanner.is_camera_ready)

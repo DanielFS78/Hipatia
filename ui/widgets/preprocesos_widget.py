@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+Interfaz PyQt6 (`preprocesos_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+"""
+
 from .base import *
+from typing import Any
 
 class PreprocesosWidget(QWidget):
     """
@@ -8,25 +13,27 @@ class PreprocesosWidget(QWidget):
     """
     
     # Attributes for strict mocks
-    add_button = None
-    edit_button = None
-    delete_button = None
-    search_entry = None
-    preprocesos_list = None
-    preprocesos_data_cache = []
-    current_preproceso_id = None
+    add_button: Any = None
+    edit_button: Any = None
+    delete_button: Any = None
+    search_entry: Any = None
+    preprocesos_list: Any = None
+    preprocesos_data_cache: list[Any] = []
+    current_preproceso_id: Any = None
 
-    def __init__(self, controller=None):
+    def __init__(self, controller: Any = None) -> None:
         super().__init__()
-        self.controller = controller
+        from core.di_container import DIContainer
+        from controllers.product_controller_v2 import ProductController
+        self.preproceso_controller = DIContainer.get_instance().resolve(ProductController)
         self.preprocesos_data_cache = []
         self.current_preproceso_id = None
         self.setup_ui()
 
-    def set_controller(self, controller):
-        self.controller = controller
+    def set_controller(self, controller: Any) -> None:
+        pass # DI Injected
 
-    def setup_ui(self):
+    def setup_ui(self) -> None:
         main_layout = QHBoxLayout(self)
         main_layout.setContentsMargins(20, 20, 20, 20)
 
@@ -50,30 +57,30 @@ class PreprocesosWidget(QWidget):
         self.add_button.clicked.connect(self._on_add_clicked); self.edit_button.clicked.connect(self._on_edit_clicked)
         self.delete_button.clicked.connect(self._on_delete_clicked)
 
-    def load_preprocesos_data(self, data: list):
+    def load_preprocesos_data(self, data: list[Any]) -> None:
         self.preprocesos_data_cache = data; self.preprocesos_list.clear(); self._show_placeholder_details()
         for p in data:
             item = QListWidgetItem(f"{p.nombre} ({getattr(p, 'tiempo', 0)} min)")
             item.setData(Qt.ItemDataRole.UserRole, p.id); self.preprocesos_list.addItem(item)
         self._filter_list()
 
-    def _filter_list(self):
+    def _filter_list(self) -> None:
         txt = self.search_entry.text().lower()
         for i in range(self.preprocesos_list.count()):
             it = self.preprocesos_list.item(i); it.setHidden(txt not in it.text().lower())
 
-    def _clear_layout(self, layout):
+    def _clear_layout(self, layout: Any) -> None:
         while layout.count():
             c = layout.takeAt(0)
             if c.widget(): c.widget().deleteLater()
 
-    def _show_placeholder_details(self):
+    def _show_placeholder_details(self) -> None:
         self._clear_layout(self.details_layout); self.current_preproceso_id = None
         self.edit_button.setEnabled(False); self.delete_button.setEnabled(False)
         p = QLabel("Seleccione un preproceso de la lista."); p.setAlignment(Qt.AlignmentFlag.AlignCenter); p.setWordWrap(True)
         self.details_layout.addWidget(p); self.details_layout.addStretch()
 
-    def _on_item_selected(self, item):
+    def _on_item_selected(self, item: Any) -> None:
         self.current_preproceso_id = item.data(Qt.ItemDataRole.UserRole)
         sel = next((p for p in self.preprocesos_data_cache if p.id == self.current_preproceso_id), None)
         if not sel: self._show_placeholder_details(); return
@@ -83,15 +90,18 @@ class PreprocesosWidget(QWidget):
         ds = QTextEdit(sel.descripcion or 'Sin descripción.'); ds.setReadOnly(True)
         self.details_layout.addWidget(t); self.details_layout.addWidget(tm); self.details_layout.addWidget(QLabel("<b>Descripción:</b>")); self.details_layout.addWidget(ds, 1)
 
-    def _on_add_clicked(self):
-        if self.controller: self.controller.show_add_preproceso_dialog()
+    def _on_add_clicked(self) -> None:
+        if self.preproceso_controller:
+            self.preproceso_controller.show_add_preproceso_dialog()
 
-    def _on_edit_clicked(self):
-        if self.controller and self.current_preproceso_id:
+    def _on_edit_clicked(self) -> None:
+        if self.preproceso_controller and self.current_preproceso_id:
             sel = next((p for p in self.preprocesos_data_cache if p.id == self.current_preproceso_id), None)
-            if sel: self.controller.show_edit_preproceso_dialog(sel)
+            if sel:
+                self.preproceso_controller.show_edit_preproceso_dialog(sel)
 
-    def _on_delete_clicked(self):
-        if self.controller and self.current_preproceso_id:
+    def _on_delete_clicked(self) -> None:
+        if self.preproceso_controller and self.current_preproceso_id:
             sel = next((p for p in self.preprocesos_data_cache if p.id == self.current_preproceso_id), None)
-            if sel: self.controller.delete_preproceso(sel.id, sel.nombre)
+            if sel:
+                self.preproceso_controller.delete_preproceso(sel.id, sel.nombre)

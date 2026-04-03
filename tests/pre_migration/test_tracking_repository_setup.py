@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""Tests de setup de TrackingRepository: inicialización, sesión, DTOs y métodos esperados."""
 import pytest
 import os
 import sys
@@ -10,6 +12,9 @@ from sqlalchemy.orm import sessionmaker
 from database.models import Base
 from database.repositories.tracking_repository import TrackingRepository
 from core.tracking_dtos import TrabajoLogDTO, PasoTrazabilidadDTO, IncidenciaLogDTO
+
+pytestmark = pytest.mark.setup
+
 
 @pytest.fixture
 def db_session_factory():
@@ -51,8 +56,7 @@ def test_repository_has_expected_methods(tracking_repo):
         'registrar_incidencia',
         'obtener_trabajo_por_qr',
         'get_paso_activo_por_trabajador',
-        'obtener_trabajos_activos',
-        'get_fabricaciones_por_trabajador'
+        'obtener_trabajos_activos'
     ]
     for method in methods:
         assert hasattr(tracking_repo, method), f"TrackingRepository missing method: {method}"

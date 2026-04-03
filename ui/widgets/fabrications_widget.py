@@ -1,5 +1,15 @@
 # -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: FabricationsWidget
+Descripción: Componente de interfaz para la gestión (CRUD) de órdenes de fabricación y preprocesos.
+"""
+from __future__ import annotations
+
+from typing import Any, Dict, Iterable, Optional
+
 from .base import *
+from core.dtos import FabricacionDTO, PreprocesoDTO
+
 
 class FabricationsWidget(QWidget):
     """Widget específico para la gestión de Fabricaciones (CRUD)."""
@@ -9,11 +19,17 @@ class FabricationsWidget(QWidget):
     edit_preprocesos_signal = pyqtSignal(int)
     edit_products_signal = pyqtSignal(int)
 
-    def __init__(self, controller):
+    def __init__(self, controller: Any) -> None:
+        """
+        Inicializa el widget de fabricaciones.
+
+        Args:
+            controller: Controlador que gestiona la lógica de fabricaciones.
+        """
         super().__init__()
         self.controller = controller
-        self.current_fabricacion_id = None
-        self.form_widgets = {}
+        self.current_fabricacion_id: Optional[int] = None
+        self.form_widgets: Dict[str, Any] = {}
 
         main_layout = QHBoxLayout(self)
         left_panel = QFrame(); left_layout = QVBoxLayout(left_panel); left_panel.setMaximumWidth(450)
@@ -29,23 +45,30 @@ class FabricationsWidget(QWidget):
         self.clear_edit_area()
         self.create_button.clicked.connect(self.create_fabricacion_signal.emit)
 
-    def update_search_results(self, results):
+    def update_search_results(self, results: Iterable[FabricacionDTO]) -> None:
         self.results_list.clear()
         for fab in results:
             item = QListWidgetItem(f"{fab.codigo} | {fab.descripcion}")
             item.setData(Qt.ItemDataRole.UserRole, fab.id)
             self.results_list.addItem(item)
+    
+    def update_fabrications_table(self, results: Iterable[FabricacionDTO]) -> None:
+        """Bridge method para compatibilidad con FabricacionManager."""
+        self.update_search_results(results)
 
-    def clear_edit_area(self):
+    def clear_edit_area(self) -> None:
         while self.edit_area_container_layout.count():
             child = self.edit_area_container_layout.takeAt(0)
-            if child.widget(): child.widget().deleteLater()
+            if child is not None:
+                w = child.widget()
+                if w is not None:
+                    w.deleteLater()
         self.form_widgets = {}
         placeholder = QLabel("Seleccione una fabricación de la lista o cree una nueva.")
         placeholder.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.edit_area_container_layout.addWidget(placeholder)
 
-    def display_fabricacion_form(self, data, content):
+    def display_fabricacion_form(self, data: Any, content: Any) -> None:
         self.clear_edit_area()
         self.current_fabricacion_id = data.id
         form_layout = QFormLayout()
@@ -99,13 +122,17 @@ class FabricationsWidget(QWidget):
         button_layout.addStretch(); button_layout.addWidget(delete_btn); button_layout.addWidget(save_btn)
         self.edit_area_container_layout.addLayout(button_layout); self.edit_area_container_layout.addStretch()
 
-    def get_fabricacion_form_data(self):
+    def get_fabricacion_form_data(self) -> FabricacionDTO | None:
         if not self.form_widgets: return None
-        return {
-            "id": self.current_fabricacion_id,
-            "codigo": self.form_widgets.get('codigo').text() if self.form_widgets.get('codigo') else "",
-            "descripcion": self.form_widgets.get('descripcion').text() if self.form_widgets.get('descripcion') else ""
-        }
+        cod_widget = self.form_widgets.get('codigo')
+        desc_widget = self.form_widgets.get('descripcion')
+        return FabricacionDTO(
+            id=self.current_fabricacion_id or 0,
+            codigo=cod_widget.text() if cod_widget is not None else "",
+            descripcion=desc_widget.text() if desc_widget is not None else ""
+        )
 
-    def clear_all(self):
-        self.search_entry.clear(); self.results_list.clear(); self.clear_edit_area()
+    def clear_all(self) -> None:
+        self.search_entry.clear()
+        self.results_list.clear()
+        self.clear_edit_area()

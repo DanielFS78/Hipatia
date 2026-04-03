@@ -1,6 +1,18 @@
 # -*- coding: utf-8 -*-
+"""
+Interfaz PyQt6 (`calculate_times_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+"""
+from __future__ import annotations
+
 from .base import *
 from .timeline_widget import TimelineVisualizationWidget, TaskAnalysisPanel
+from typing import Any, TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from controllers.simulation.controller import SimulationController
+    from controllers.ui_signals_controller import UISignalsController
+    from core.dtos import LoteDTO, CalculationProductDTO, CalculationStepDTO
+
 
 class CalculateTimesWidget(QWidget):
     """Widget para la pantalla de cálculo de tiempos de fabricación."""
@@ -10,32 +22,36 @@ class CalculateTimesWidget(QWidget):
     clear_simulation_signal = pyqtSignal()
     go_home_signal = pyqtSignal()
 
-    def __init__(self, controller=None, parent=None):
+    def __init__(self, controller: Any = None, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self.logger = logging.getLogger(__name__)
-        self.controller = controller
-        self.planning_session = []
-        self.last_pila_id = None
-        self.last_results = []
-        self.last_audit = []
+        from core.di_container import DIContainer
+        from controllers.simulation.controller import SimulationController
+        from controllers.ui_signals_controller import UISignalsController
+        self.simulation_controller: "SimulationController" = DIContainer.get_instance().resolve(SimulationController)
+        self.ui_signals_controller: "UISignalsController" = DIContainer.get_instance().resolve(UISignalsController)
+        self.planning_session: list[Any] = []
+        self.last_pila_id: Any = None
+        self.last_results: list[Any] = []
+        self.last_audit: list[Any] = []
 
-    def showEvent(self, event):
+    def showEvent(self, event: Any) -> None:
         super().showEvent(event)
         if not hasattr(self, '_ui_setup_complete'):
             try:
                 self.setup_ui()
                 self._ui_setup_complete = True
                 self.logger.info("✅ UI de CalculateTimesWidget inicializada correctamente")
-                if hasattr(self, '_pending_signal_connection') and self.controller:
+                if hasattr(self, '_pending_signal_connection') and self.ui_signals_controller:
                     if not hasattr(self, '_signals_connected'):
-                        self.controller._connect_calculate_signals()
+                        self.ui_signals_controller.connect_calculate_signals()
             except Exception as e:
                 self.logger.error(f"Error crítico en setup_ui: {e}", exc_info=True)
 
-    def set_controller(self, controller):
-        self.controller = controller
+    def set_controller(self, controller: Any) -> None:
+        pass # Ignored, DI injected
 
-    def setup_ui(self):
+    def setup_ui(self) -> None:
         main_layout = QHBoxLayout(self)
         left_panel = QFrame(self); left_layout = QVBoxLayout(left_panel); left_panel.setMaximumWidth(450)
 
@@ -50,7 +66,8 @@ class CalculateTimesWidget(QWidget):
         self.pila_content_table = QTableWidget(self); self.pila_content_table.setColumnCount(4)
         self.pila_content_table.setHorizontalHeaderLabels(["Identificador", "Plantilla Base", "Unidades", "Fecha Límite"])
         header = self.pila_content_table.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch); header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        if header is not None:
+            header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch); header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
         self.pila_content_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         self.remove_item_button = QPushButton("Quitar Seleccionado", self)
         content_layout.addWidget(self.pila_content_table); content_layout.addWidget(self.remove_item_button, alignment=Qt.AlignmentFlag.AlignRight)
@@ -95,50 +112,61 @@ class CalculateTimesWidget(QWidget):
 
         if hasattr(self.timeline_widget, 'task_selected'): self.timeline_widget.task_selected.connect(self.task_analysis_panel.displayTask)
 
-    def _setup_table(self):
+    def _setup_table(self) -> None:
         self.results_table.setColumnCount(8); self.results_table.setHorizontalHeaderLabels(["Tarea", "Departamento", "Inicio", "Fin", "Duración (min)", "Días Lab.", "Trabajador", "Máquina"])
-        self.results_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch); self.results_table.horizontalHeader().setSectionResizeMode(6, QHeaderView.ResizeMode.Stretch)
+        header = self.results_table.horizontalHeader()
+        if header is not None:
+            header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch); header.setSectionResizeMode(6, QHeaderView.ResizeMode.Stretch)
         self.results_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers); self.results_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
 
-    def show_progress(self):
+    def show_progress(self) -> None:
         self.progress_bar.setValue(0); self.progress_bar.setVisible(True)
 
 
-    def hide_progress(self):
+    def hide_progress(self) -> None:
         self.progress_bar.setVisible(False)
 
 
-    def update_progress(self, value): self.progress_bar.setValue(value)
+    def update_progress(self, value: int) -> None: self.progress_bar.setValue(value)
 
-    def set_progress_status(self, message, value=None):
+    def set_progress_status(self, message: str, value: int | None = None) -> None:
         self.progress_bar.setFormat(message)
         if value is not None: self.progress_bar.setValue(value)
 
-    def enable_result_actions(self):
+    def enable_result_actions(self) -> None:
         for b in [self.save_pila_button, self.export_button, self.export_pdf_button, self.export_log_button, self.clear_button, self.go_home_button]: b.setEnabled(True)
 
-    def get_pila_for_calculation(self):
-        pila_data = {"productos": {}, "fabricaciones": {}}
+    def get_pila_for_calculation(self) -> dict[str, dict[str, Any]]:
+        from core.dtos import CalculationProductDTO, CalculationStepDTO
+        pila_data: dict[str, dict[str, Any]] = {"productos": {}, "fabricaciones": {}}
         for item in self.planning_session:
-            if "pila_de_calculo_directa" in item:
-                pd = item["pila_de_calculo_directa"]
-                pila_data["productos"].update(pd.get("productos", {})); pila_data["fabricaciones"].update(pd.get("fabricaciones", {}))
-            elif item.get("lote_template_id"):
-                lid = item["lote_template_id"]
-                try:
-                    if self.controller and hasattr(self.controller, 'model'):
-                        det = self.controller.model.lote_repo.get_lote_details(lid)
-                        if det:
-                            for p in det.productos:
-                                if p.codigo not in pila_data["productos"]: pila_data["productos"][p.codigo] = {"codigo": p.codigo, "descripcion": p.descripcion}
-                            for f in det.fabricaciones:
-                                if str(f.id) not in pila_data["fabricaciones"]:
-                                    fi = self.controller.model.db.get_fabricacion_by_id(f.id); fd = fi.descripcion if fi else ''
-                                    pila_data["fabricaciones"][str(f.id)] = {"id": f.id, "codigo": f.codigo, "descripcion": fd}
-                except Exception as e: self.logger.error(f"Error detalles lote {lid}: {e}")
+            if isinstance(item, CalculationProductDTO):
+                # Es un preproceso o producto directo añadido a la pila
+                if item.codigo not in pila_data["productos"]:
+                    pila_data["productos"][item.codigo] = {"codigo": item.codigo, "descripcion": item.descripcion}
+            elif isinstance(item, CalculationStepDTO):
+                if item.pila_de_calculo_directa:
+                    pd = item.pila_de_calculo_directa
+                    pila_data["productos"].update(pd.get("productos", {})); pila_data["fabricaciones"].update(pd.get("fabricaciones", {}))
+                elif item.lote_template_id:
+                    lid = item.lote_template_id
+                    try:
+                        if self.simulation_controller and hasattr(self.simulation_controller, 'model'):
+                            det: Optional["LoteDTO"] = self.simulation_controller.model.get_lote_details(lid)
+                            if det:
+                                if det.productos is not None:
+                                    for p in det.productos:
+                                        if p.codigo not in pila_data["productos"]: pila_data["productos"][p.codigo] = {"codigo": p.codigo, "descripcion": p.descripcion}
+                                if det.fabricaciones is not None:
+                                    for f in det.fabricaciones:
+                                        if str(f.id) not in pila_data["fabricaciones"]:
+                                            ctrl: Any = self.simulation_controller
+                                            fi = ctrl.model.get_fabricacion_by_id(f.id); fd = fi.descripcion if fi else ''
+                                            pila_data["fabricaciones"][str(f.id)] = {"id": f.id, "codigo": f.codigo, "descripcion": fd}
+                    except Exception as e: self.logger.error(f"Error detalles lote {lid}: {e}")
         return pila_data
 
-    def _display_audit_log(self, audit_log):
+    def _display_audit_log(self, audit_log: list[Any]) -> None:
         self.audit_log_display.clear(); self.audit_log_display.setUpdatesEnabled(False)
         cursor = self.audit_log_display.textCursor()
         for i, decision in enumerate(audit_log):
@@ -151,17 +179,36 @@ class CalculateTimesWidget(QWidget):
             if i % 200 == 0: QApplication.processEvents()
         self.audit_log_display.setUpdatesEnabled(True)
 
-    def _update_plan_display(self):
+    def _update_plan_display(self) -> None:
+        from core.dtos import CalculationProductDTO, CalculationStepDTO
         self.pila_content_table.blockSignals(True); self.pila_content_table.setRowCount(0)
         for i, item in enumerate(self.planning_session):
             r = self.pila_content_table.rowCount(); self.pila_content_table.insertRow(r)
-            ti = QTableWidgetItem(item.get("identificador", "N/A")); ti.setData(Qt.ItemDataRole.UserRole, i)
-            dl = item.get("deadline"); dls = dl.strftime('%d/%m/%Y') if dl else "N/A"
-            self.pila_content_table.setItem(r, 0, ti); self.pila_content_table.setItem(r, 1, QTableWidgetItem(item.get("lote_codigo", "N/A")))
-            self.pila_content_table.setItem(r, 2, QTableWidgetItem(str(item.get("unidades", 0)))); self.pila_content_table.setItem(r, 3, QTableWidgetItem(dls))
+            
+            # Extraer datos según tipo
+            if isinstance(item, CalculationProductDTO):
+                identificador = item.fabricacion_id or "N/A"
+                lote_codigo = item.codigo
+                unidades = item.units_for_this_instance
+                deadline = item.deadline
+            elif isinstance(item, CalculationStepDTO):
+                identificador = item.identificador
+                lote_codigo = item.lote_codigo
+                unidades = item.unidades
+                deadline = item.deadline
+            else:
+                identificador = "N/A"
+                lote_codigo = "N/A"
+                unidades = 0
+                deadline = None
+
+            ti = QTableWidgetItem(str(identificador)); ti.setData(Qt.ItemDataRole.UserRole, i)
+            dls = deadline.strftime('%d/%m/%Y') if deadline else "N/A"
+            self.pila_content_table.setItem(r, 0, ti); self.pila_content_table.setItem(r, 1, QTableWidgetItem(str(lote_codigo)))
+            self.pila_content_table.setItem(r, 2, QTableWidgetItem(str(unidades))); self.pila_content_table.setItem(r, 3, QTableWidgetItem(dls))
         self.pila_content_table.blockSignals(False)
 
-    def display_simulation_results(self, results, audit_log):
+    def display_simulation_results(self, results: list[Any], audit_log: list[Any]) -> None:
         self.last_results = results; self.last_audit = audit_log
         self.results_table.setRowCount(len(results))
         for row, d in enumerate(results):
@@ -176,14 +223,26 @@ class CalculateTimesWidget(QWidget):
             self.timeline_label.setVisible(True); self.timeline_widget.setVisible(True); self.timeline_widget.setData(results, audit_log)
         for b in [self.export_pdf_button, self.save_pila_button, self.export_log_button, self.clear_button, self.go_home_button]: b.setEnabled(bool(results))
 
-    def clear_all(self):
+    def add_step_to_pila(self, step_data: CalculationProductDTO | CalculationStepDTO) -> bool:
+        """Añade un paso (tarea/preproceso) a la pila manualmente."""
+        from core.dtos import CalculationStepDTO
+        if not step_data:
+            return False
+        self.planning_session.append(step_data)
+        self._update_plan_display()
+        return True
+
+    def clear_all(self) -> None:
         self.planning_session = []; self.last_pila_id = None; self.last_results = []; self.last_audit = []
         self.lote_search_entry.clear(); self.lote_search_results.clear(); self._update_plan_display()
         self.results_table.setRowCount(0); self.timeline_widget.setData([], []); self.audit_log_display.clear()
         self.task_analysis_panel.header_label.setText("Seleccione una tarea del gráfico"); self.task_analysis_panel.header_label.setStyleSheet("")
         while self.task_analysis_panel.log_vbox.count():
             c = self.task_analysis_panel.log_vbox.takeAt(0)
-            if c.widget(): c.widget().deleteLater()
+            if c is not None:
+                w = c.widget()
+                if w is not None:
+                    w.deleteLater()
         for b in [self.save_pila_button, self.manage_bitacora_button, self.export_button, self.export_pdf_button, self.export_log_button, self.clear_button, self.go_home_button]: b.setEnabled(False)
         self.load_pila_button.setEnabled(True)
 

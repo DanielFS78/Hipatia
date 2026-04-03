@@ -1,4 +1,4 @@
-
+"""Tests de integración para persistencia de configuración."""
 import pytest
 from unittest.mock import MagicMock
 from database.repositories.configuration_repository import ConfigurationRepository
@@ -7,7 +7,8 @@ from database.models import Configuration
 @pytest.fixture
 def session_no_close(session):
     original_close = session.close
-    session.close = MagicMock()
+    # No "mock_session": mantener sesión real; solo evitar cierre.
+    session.close = lambda: None
     yield session
     session.close = original_close
 

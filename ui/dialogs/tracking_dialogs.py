@@ -1,15 +1,20 @@
+"""
+Interfaz PyQt6 (`tracking_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+"""
+
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QLabel, QLineEdit, QSpinBox, 
     QDialogButtonBox, QFormLayout
 )
 from PyQt6.QtCore import Qt
+from typing import Any
 
 class OrderSetupDialog(QDialog):
     """
     Dialog to setup the start of a production session.
     Asks for the Order Number (OF) and the Total Quantity to produce.
     """
-    def __init__(self, parent=None, default_order=""):
+    def __init__(self, parent: Any = None, default_order: str = "") -> None:
         super().__init__(parent)
         self.setWindowTitle("Iniciar Nueva Producción")
         self.setModal(True)
@@ -44,7 +49,7 @@ class OrderSetupDialog(QDialog):
         buttons.rejected.connect(self.reject)
         layout.addWidget(buttons)
 
-    def get_data(self):
+    def get_data(self) -> dict[str, Any]:
         return {
             "order_number": self.order_input.text().strip().upper(),
             "total_units": self.quantity_spin.value()

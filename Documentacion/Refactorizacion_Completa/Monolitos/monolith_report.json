@@ -1,0 +1,4800 @@
+{
+  "generated_at": "2026-03-19T14:24:16",
+  "repo_root": "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion",
+  "scan_dirs": [
+    "controllers",
+    "core",
+    "database",
+    "features",
+    "ui"
+  ],
+  "min_loc": 400,
+  "top": 200,
+  "graph": {
+    "nodes": {
+      "controllers/__init__.py": {
+        "rel_path": "controllers/__init__.py",
+        "loc": 51,
+        "imports": [
+          "controllers.app_controller",
+          "controllers.backup_controller",
+          "controllers.calculation_controller",
+          "controllers.fabricacion_controller",
+          "controllers.file_controller",
+          "controllers.hardware_controller",
+          "controllers.historial.controller",
+          "controllers.lote_controller",
+          "controllers.machine_controller",
+          "controllers.navigation_controller",
+          "controllers.pila.controller",
+          "controllers.preproceso_controller",
+          "controllers.product_controller_v2",
+          "controllers.report_controller",
+          "controllers.schedule_controller",
+          "controllers.session_controller",
+          "controllers.simulation.controller",
+          "controllers.startup_controller",
+          "controllers.ui_controller",
+          "controllers.worker.controller"
+        ]
+      },
+      "controllers/app_controller.py": {
+        "rel_path": "controllers/app_controller.py",
+        "loc": 281,
+        "imports": [
+          "PyQt6.QtCore",
+          "__future__",
+          "controllers.startup_controller",
+          "controllers.ui_signals_controller",
+          "core.app_model",
+          "core.di_container",
+          "core.interfaces.controller_interface",
+          "core.interfaces.view_interface",
+          "core.schedule_config",
+          "core.utils.helpers",
+          "logging",
+          "os",
+          "sys",
+          "typing"
+        ]
+      },
+      "controllers/backup_controller.py": {
+        "rel_path": "controllers/backup_controller.py",
+        "loc": 169,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "controllers.backup_controller_io_mixin",
+          "core.utils.helpers",
+          "datetime",
+          "logging",
+          "os",
+          "shutil",
+          "sys",
+          "typing",
+          "ui.dialogs.backup_restore_dialog",
+          "zipfile"
+        ]
+      },
+      "controllers/backup_controller_io_mixin.py": {
+        "rel_path": "controllers/backup_controller_io_mixin.py",
+        "loc": 135,
+        "imports": [
+          "__future__",
+          "controllers.backup_controller",
+          "database.database_manager",
+          "datetime",
+          "os",
+          "typing",
+          "ui.dialogs",
+          "zipfile"
+        ]
+      },
+      "controllers/calculation_controller.py": {
+        "rel_path": "controllers/calculation_controller.py",
+        "loc": 275,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "__future__",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/fabricacion_controller.py": {
+        "rel_path": "controllers/fabricacion_controller.py",
+        "loc": 90,
+        "imports": [
+          "PyQt6.QtCore",
+          "__future__",
+          "database.database_manager",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/file_controller.py": {
+        "rel_path": "controllers/file_controller.py",
+        "loc": 156,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "database.database_manager",
+          "json",
+          "logging",
+          "os",
+          "shutil",
+          "typing"
+        ]
+      },
+      "controllers/hardware_controller.py": {
+        "rel_path": "controllers/hardware_controller.py",
+        "loc": 265,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "core.camera_manager",
+          "core.qr_scanner",
+          "cv2",
+          "logging",
+          "typing",
+          "ui.widgets"
+        ]
+      },
+      "controllers/historial/__init__.py": {
+        "rel_path": "controllers/historial/__init__.py",
+        "loc": 8,
+        "imports": [
+          "controller"
+        ]
+      },
+      "controllers/historial/controller.py": {
+        "rel_path": "controllers/historial/controller.py",
+        "loc": 72,
+        "imports": [
+          "__future__",
+          "interaction_manager",
+          "logging",
+          "report_manager",
+          "typing",
+          "view_manager"
+        ]
+      },
+      "controllers/historial/interaction_manager.py": {
+        "rel_path": "controllers/historial/interaction_manager.py",
+        "loc": 121,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "datetime",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/historial/protocols.py": {
+        "rel_path": "controllers/historial/protocols.py",
+        "loc": 17,
+        "imports": [
+          "typing"
+        ]
+      },
+      "controllers/historial/report_manager.py": {
+        "rel_path": "controllers/historial/report_manager.py",
+        "loc": 78,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "core.services.report_strategy",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/historial/view_manager.py": {
+        "rel_path": "controllers/historial/view_manager.py",
+        "loc": 169,
+        "imports": [
+          "PyQt6.QtCharts",
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "collections",
+          "datetime",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/lote_controller.py": {
+        "rel_path": "controllers/lote_controller.py",
+        "loc": 97,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "database.database_manager",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/machine_controller.py": {
+        "rel_path": "controllers/machine_controller.py",
+        "loc": 158,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "core.security.access_control",
+          "core.security.security_service",
+          "datetime",
+          "logging",
+          "typing",
+          "ui.dialogs.prep.prep_groups_dialog"
+        ]
+      },
+      "controllers/navigation_controller.py": {
+        "rel_path": "controllers/navigation_controller.py",
+        "loc": 194,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "core.interfaces.controller_interface",
+          "core.utils.ui_scaler",
+          "logging",
+          "typing",
+          "ui.widgets.calculate_times_widget",
+          "ui.widgets.gestion_datos_widget",
+          "ui.widgets.lotes_widget"
+        ]
+      },
+      "controllers/pila/controller.py": {
+        "rel_path": "controllers/pila/controller.py",
+        "loc": 149,
+        "imports": [
+          "PyQt6.QtCore",
+          "__future__",
+          "controllers.pila.lote_manager",
+          "controllers.pila.pila_manager",
+          "controllers.pila.protocols",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/pila/lote_manager.py": {
+        "rel_path": "controllers/pila/lote_manager.py",
+        "loc": 150,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "controllers.pila.protocols",
+          "core",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/pila/pila_manager.py": {
+        "rel_path": "controllers/pila/pila_manager.py",
+        "loc": 158,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "controllers.pila.protocols",
+          "core.dtos",
+          "core.services.time_calculator",
+          "datetime",
+          "logging",
+          "typing",
+          "ui.dialogs"
+        ]
+      },
+      "controllers/pila/protocols.py": {
+        "rel_path": "controllers/pila/protocols.py",
+        "loc": 44,
+        "imports": [
+          "core.dtos",
+          "typing"
+        ]
+      },
+      "controllers/preproceso_controller.py": {
+        "rel_path": "controllers/preproceso_controller.py",
+        "loc": 145,
+        "imports": [
+          "PyQt6.QtCore",
+          "__future__",
+          "database.database_manager",
+          "database.repositories",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/product/__init__.py": {
+        "rel_path": "controllers/product/__init__.py",
+        "loc": 6,
+        "imports": []
+      },
+      "controllers/product/fabricacion_manager.py": {
+        "rel_path": "controllers/product/fabricacion_manager.py",
+        "loc": 200,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "fabricacion_manager_products_mixin",
+          "logging",
+          "protocols",
+          "typing",
+          "ui.dialogs"
+        ]
+      },
+      "controllers/product/fabricacion_manager_products_mixin.py": {
+        "rel_path": "controllers/product/fabricacion_manager_products_mixin.py",
+        "loc": 82,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "__future__",
+          "controllers.product",
+          "typing"
+        ]
+      },
+      "controllers/product/material_manager.py": {
+        "rel_path": "controllers/product/material_manager.py",
+        "loc": 124,
+        "imports": [
+          "core.services.data_importer",
+          "logging",
+          "os",
+          "protocols",
+          "typing"
+        ]
+      },
+      "controllers/product/preproceso_manager.py": {
+        "rel_path": "controllers/product/preproceso_manager.py",
+        "loc": 103,
+        "imports": [
+          "PyQt6.QtCore",
+          "core.security.access_control",
+          "core.security.security_service",
+          "logging",
+          "protocols",
+          "typing",
+          "ui.dialogs"
+        ]
+      },
+      "controllers/product/product_controller_v2_delegation_mixin.py": {
+        "rel_path": "controllers/product/product_controller_v2_delegation_mixin.py",
+        "loc": 93,
+        "imports": [
+          "__future__",
+          "typing"
+        ]
+      },
+      "controllers/product/product_manager.py": {
+        "rel_path": "controllers/product/product_manager.py",
+        "loc": 253,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "core.security.access_control",
+          "core.security.security_service",
+          "core.validation.validator_service",
+          "logging",
+          "os",
+          "product_manager_iteration_mixin",
+          "protocols",
+          "typing",
+          "ui.dialogs",
+          "ui.widgets"
+        ]
+      },
+      "controllers/product/product_manager_iteration_mixin.py": {
+        "rel_path": "controllers/product/product_manager_iteration_mixin.py",
+        "loc": 53,
+        "imports": [
+          "__future__",
+          "typing",
+          "uuid"
+        ]
+      },
+      "controllers/product/protocols.py": {
+        "rel_path": "controllers/product/protocols.py",
+        "loc": 101,
+        "imports": [
+          "__future__",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/product_controller_v2.py": {
+        "rel_path": "controllers/product_controller_v2.py",
+        "loc": 66,
+        "imports": [
+          "PyQt6.QtCore",
+          "core.application_state",
+          "core.di_container",
+          "logging",
+          "product.fabricacion_manager",
+          "product.material_manager",
+          "product.preproceso_manager",
+          "product.product_controller_v2_delegation_mixin",
+          "product.product_manager",
+          "product.protocols",
+          "typing"
+        ]
+      },
+      "controllers/report_controller.py": {
+        "rel_path": "controllers/report_controller.py",
+        "loc": 219,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "controllers.report_controller_export_mixin",
+          "core.interfaces.controller_interface",
+          "core.services.report_strategy",
+          "datetime",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/report_controller_export_mixin.py": {
+        "rel_path": "controllers/report_controller_export_mixin.py",
+        "loc": 105,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "__future__",
+          "controllers.report_controller",
+          "datetime",
+          "typing"
+        ]
+      },
+      "controllers/schedule_controller.py": {
+        "rel_path": "controllers/schedule_controller.py",
+        "loc": 121,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "controllers.schedule_helpers",
+          "controllers.schedule_legacy_api",
+          "controllers.schedule_ui_ops",
+          "json",
+          "logging",
+          "typing",
+          "ui.dialogs"
+        ]
+      },
+      "controllers/schedule_helpers.py": {
+        "rel_path": "controllers/schedule_helpers.py",
+        "loc": 61,
+        "imports": [
+          "__future__",
+          "json",
+          "typing"
+        ]
+      },
+      "controllers/schedule_legacy_api.py": {
+        "rel_path": "controllers/schedule_legacy_api.py",
+        "loc": 65,
+        "imports": [
+          "PyQt6.QtCore",
+          "__future__",
+          "json",
+          "typing"
+        ]
+      },
+      "controllers/schedule_ui_ops.py": {
+        "rel_path": "controllers/schedule_ui_ops.py",
+        "loc": 155,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "controllers.schedule_controller",
+          "controllers.schedule_helpers",
+          "json",
+          "typing"
+        ]
+      },
+      "controllers/session_controller.py": {
+        "rel_path": "controllers/session_controller.py",
+        "loc": 221,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "__future__",
+          "core.dtos",
+          "core.security.access_control",
+          "core.security.security_service",
+          "core.services.audit_logger",
+          "core.services.rate_limiter",
+          "dataclasses",
+          "features.worker_controller",
+          "logging",
+          "sys",
+          "typing",
+          "ui.dialogs",
+          "ui.worker.main_window.window"
+        ]
+      },
+      "controllers/simulation/__init__.py": {
+        "rel_path": "controllers/simulation/__init__.py",
+        "loc": 8,
+        "imports": [
+          "controller"
+        ]
+      },
+      "controllers/simulation/controller.py": {
+        "rel_path": "controllers/simulation/controller.py",
+        "loc": 130,
+        "imports": [
+          "PyQt6.QtCore",
+          "__future__",
+          "controller_delegation_mixin",
+          "core.application_state",
+          "core.di_container",
+          "core.services.flow_builder_service",
+          "core.simulation.simulation_engine",
+          "editor_manager",
+          "execution_manager",
+          "logging",
+          "optimizer_worker",
+          "typing"
+        ]
+      },
+      "controllers/simulation/controller_delegation_mixin.py": {
+        "rel_path": "controllers/simulation/controller_delegation_mixin.py",
+        "loc": 31,
+        "imports": [
+          "__future__",
+          "typing"
+        ]
+      },
+      "controllers/simulation/editor_manager.py": {
+        "rel_path": "controllers/simulation/editor_manager.py",
+        "loc": 89,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "__future__",
+          "logging",
+          "typing",
+          "ui.dialogs"
+        ]
+      },
+      "controllers/simulation/execution_helpers.py": {
+        "rel_path": "controllers/simulation/execution_helpers.py",
+        "loc": 70,
+        "imports": [
+          "__future__",
+          "datetime",
+          "typing"
+        ]
+      },
+      "controllers/simulation/execution_manager.py": {
+        "rel_path": "controllers/simulation/execution_manager.py",
+        "loc": 238,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "core.services.time_calculator",
+          "core.simulation.simulation_adapter",
+          "core.simulation.simulation_engine",
+          "datetime",
+          "execution_helpers",
+          "logging",
+          "optimizer_worker",
+          "typing",
+          "ui.dialogs"
+        ]
+      },
+      "controllers/simulation/optimizer_worker.py": {
+        "rel_path": "controllers/simulation/optimizer_worker.py",
+        "loc": 81,
+        "imports": [
+          "PyQt6.QtCore",
+          "__future__",
+          "core.services.flow_builder_service",
+          "core.services.time_calculator",
+          "core.simulation.simulation_adapter",
+          "datetime",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/simulation/protocols.py": {
+        "rel_path": "controllers/simulation/protocols.py",
+        "loc": 26,
+        "imports": [
+          "PyQt6.QtCore",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/startup_controller.py": {
+        "rel_path": "controllers/startup_controller.py",
+        "loc": 239,
+        "imports": [
+          "PyQt6.QtCore",
+          "__future__",
+          "controllers.backup_controller",
+          "controllers.calculation_controller",
+          "controllers.fabricacion_controller",
+          "controllers.file_controller",
+          "controllers.hardware_controller",
+          "controllers.historial.controller",
+          "controllers.lote_controller",
+          "controllers.machine_controller",
+          "controllers.navigation_controller",
+          "controllers.pila.controller",
+          "controllers.preproceso_controller",
+          "controllers.product_controller_v2",
+          "controllers.report_controller",
+          "controllers.schedule_controller",
+          "controllers.session_controller",
+          "controllers.simulation.controller",
+          "controllers.ui_controller",
+          "controllers.ui_signals_controller",
+          "controllers.worker.controller",
+          "core.application_state",
+          "core.di_container",
+          "core.interfaces.view_interface",
+          "core.label_manager",
+          "core.qr_generator",
+          "core.quote_service",
+          "core.security.access_control",
+          "core.security.security_service",
+          "core.services.audit_logger",
+          "core.services.backup_service",
+          "core.services.maintenance_service",
+          "core.services.rate_limiter",
+          "database.repositories",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/ui_controller.py": {
+        "rel_path": "controllers/ui_controller.py",
+        "loc": 121,
+        "imports": [
+          "PyQt6.QtCore",
+          "__future__",
+          "core.quote_service",
+          "core.services.machine_service",
+          "core.services.product_service",
+          "core.services.report_service",
+          "core.services.worker_service",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/ui_signals_controller.py": {
+        "rel_path": "controllers/ui_signals_controller.py",
+        "loc": 66,
+        "imports": [
+          "PyQt6.QtCore",
+          "__future__",
+          "controllers.ui_signals_controller_mixin",
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/ui_signals_controller_mixin.py": {
+        "rel_path": "controllers/ui_signals_controller_mixin.py",
+        "loc": 122,
+        "imports": [
+          "__future__",
+          "typing"
+        ]
+      },
+      "controllers/worker/__init__.py": {
+        "rel_path": "controllers/worker/__init__.py",
+        "loc": 3,
+        "imports": [
+          "controller"
+        ]
+      },
+      "controllers/worker/auth_manager.py": {
+        "rel_path": "controllers/worker/auth_manager.py",
+        "loc": 79,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "core.security.access_control",
+          "core.security.password_service",
+          "core.security.security_service",
+          "protocols",
+          "typing",
+          "ui.dialogs"
+        ]
+      },
+      "controllers/worker/controller.py": {
+        "rel_path": "controllers/worker/controller.py",
+        "loc": 127,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "auth_manager",
+          "features.worker_controller",
+          "logging",
+          "management_manager",
+          "protocols",
+          "sys",
+          "task_manager",
+          "typing",
+          "ui.widgets",
+          "ui.worker.main_window.window"
+        ]
+      },
+      "controllers/worker/management_manager.py": {
+        "rel_path": "controllers/worker/management_manager.py",
+        "loc": 182,
+        "imports": [
+          "PyQt6.QtCore",
+          "core.security.access_control",
+          "core.security.password_service",
+          "core.security.security_service",
+          "logging",
+          "protocols",
+          "typing",
+          "ui.widgets",
+          "ui.widgets.workers_widget"
+        ]
+      },
+      "controllers/worker/protocols.py": {
+        "rel_path": "controllers/worker/protocols.py",
+        "loc": 62,
+        "imports": [
+          "logging",
+          "typing"
+        ]
+      },
+      "controllers/worker/task_manager.py": {
+        "rel_path": "controllers/worker/task_manager.py",
+        "loc": 107,
+        "imports": [
+          "core",
+          "core.security.access_control",
+          "core.security.security_service",
+          "logging",
+          "protocols",
+          "typing",
+          "ui.widgets",
+          "ui.widgets.workers_widget"
+        ]
+      },
+      "core/__init__.py": {
+        "rel_path": "core/__init__.py",
+        "loc": 0,
+        "imports": []
+      },
+      "core/app_model.py": {
+        "rel_path": "core/app_model.py",
+        "loc": 193,
+        "imports": [
+          "PyQt6.QtCore",
+          "core.app_model_fabricacion_mixin",
+          "core.app_model_legacy_repos_mixin",
+          "core.app_model_pila_mixin",
+          "core.app_model_product_mixin",
+          "core.app_model_reports_mixin",
+          "core.app_model_resources_mixin",
+          "core.dtos",
+          "core.reports_dtos",
+          "core.services.fabricacion_service",
+          "core.services.machine_service",
+          "core.services.pila_service",
+          "core.services.preparation_service",
+          "core.services.product_service",
+          "core.services.report_service",
+          "core.services.tracking_assignment_service",
+          "core.services.worker_service",
+          "core.tracking_dtos",
+          "database.database_manager",
+          "datetime",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/app_model_fabricacion_mixin.py": {
+        "rel_path": "core/app_model_fabricacion_mixin.py",
+        "loc": 62,
+        "imports": [
+          "__future__",
+          "core.dtos",
+          "typing"
+        ]
+      },
+      "core/app_model_legacy_repos_mixin.py": {
+        "rel_path": "core/app_model_legacy_repos_mixin.py",
+        "loc": 27,
+        "imports": [
+          "__future__",
+          "core.dtos",
+          "typing"
+        ]
+      },
+      "core/app_model_pila_mixin.py": {
+        "rel_path": "core/app_model_pila_mixin.py",
+        "loc": 49,
+        "imports": [
+          "__future__",
+          "core.dtos",
+          "datetime",
+          "typing"
+        ]
+      },
+      "core/app_model_product_mixin.py": {
+        "rel_path": "core/app_model_product_mixin.py",
+        "loc": 68,
+        "imports": [
+          "__future__",
+          "core.dtos",
+          "typing"
+        ]
+      },
+      "core/app_model_reports_mixin.py": {
+        "rel_path": "core/app_model_reports_mixin.py",
+        "loc": 39,
+        "imports": [
+          "__future__",
+          "core.reports_dtos",
+          "typing"
+        ]
+      },
+      "core/app_model_resources_mixin.py": {
+        "rel_path": "core/app_model_resources_mixin.py",
+        "loc": 134,
+        "imports": [
+          "__future__",
+          "core.dtos",
+          "datetime",
+          "typing"
+        ]
+      },
+      "core/application_state.py": {
+        "rel_path": "core/application_state.py",
+        "loc": 64,
+        "imports": [
+          "logging",
+          "typing"
+        ]
+      },
+      "core/camera_manager/__init__.py": {
+        "rel_path": "core/camera_manager/__init__.py",
+        "loc": 57,
+        "imports": [
+          "base",
+          "cv2",
+          "logging",
+          "manager"
+        ]
+      },
+      "core/camera_manager/base.py": {
+        "rel_path": "core/camera_manager/base.py",
+        "loc": 32,
+        "imports": [
+          "cv2",
+          "dataclasses",
+          "enum",
+          "typing"
+        ]
+      },
+      "core/camera_manager/detector.py": {
+        "rel_path": "core/camera_manager/detector.py",
+        "loc": 87,
+        "imports": [
+          "base",
+          "cv2",
+          "logging",
+          "platform",
+          "time",
+          "typing"
+        ]
+      },
+      "core/camera_manager/manager.py": {
+        "rel_path": "core/camera_manager/manager.py",
+        "loc": 97,
+        "imports": [
+          "base",
+          "cv2",
+          "detector",
+          "logging",
+          "platform",
+          "time",
+          "typing",
+          "utils"
+        ]
+      },
+      "core/camera_manager/utils.py": {
+        "rel_path": "core/camera_manager/utils.py",
+        "loc": 9,
+        "imports": [
+          "base",
+          "platform"
+        ]
+      },
+      "core/constants.py": {
+        "rel_path": "core/constants.py",
+        "loc": 34,
+        "imports": [
+          "typing"
+        ]
+      },
+      "core/di_container.py": {
+        "rel_path": "core/di_container.py",
+        "loc": 84,
+        "imports": [
+          "logging",
+          "typing"
+        ]
+      },
+      "core/dtos.py": {
+        "rel_path": "core/dtos.py",
+        "loc": 75,
+        "imports": [
+          "core.dtos_models"
+        ]
+      },
+      "core/dtos_catalog.py": {
+        "rel_path": "core/dtos_catalog.py",
+        "loc": 111,
+        "imports": [
+          "dataclasses",
+          "datetime",
+          "typing"
+        ]
+      },
+      "core/dtos_flow_camera.py": {
+        "rel_path": "core/dtos_flow_camera.py",
+        "loc": 59,
+        "imports": [
+          "dataclasses",
+          "datetime",
+          "typing"
+        ]
+      },
+      "core/dtos_models.py": {
+        "rel_path": "core/dtos_models.py",
+        "loc": 135,
+        "imports": [
+          "core.dtos_catalog",
+          "core.dtos_flow_camera",
+          "dataclasses",
+          "datetime"
+        ]
+      },
+      "core/health/__init__.py": {
+        "rel_path": "core/health/__init__.py",
+        "loc": 6,
+        "imports": []
+      },
+      "core/health/constants.py": {
+        "rel_path": "core/health/constants.py",
+        "loc": 21,
+        "imports": []
+      },
+      "core/health/health_checker.py": {
+        "rel_path": "core/health/health_checker.py",
+        "loc": 233,
+        "imports": [
+          "__future__",
+          "constants",
+          "dataclasses",
+          "datetime",
+          "logging",
+          "os",
+          "shutil",
+          "sqlalchemy",
+          "typing"
+        ]
+      },
+      "core/health/health_worker.py": {
+        "rel_path": "core/health/health_worker.py",
+        "loc": 60,
+        "imports": [
+          "PyQt6.QtCore",
+          "__future__",
+          "health_checker",
+          "test_runner"
+        ]
+      },
+      "core/health/test_runner.py": {
+        "rel_path": "core/health/test_runner.py",
+        "loc": 126,
+        "imports": [
+          "__future__",
+          "health_checker",
+          "json",
+          "logging",
+          "pathlib",
+          "re",
+          "subprocess",
+          "sys",
+          "time",
+          "typing"
+        ]
+      },
+      "core/interfaces/controller_interface.py": {
+        "rel_path": "core/interfaces/controller_interface.py",
+        "loc": 40,
+        "imports": [
+          "PyQt6.QtCore",
+          "abc",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/interfaces/view_interface.py": {
+        "rel_path": "core/interfaces/view_interface.py",
+        "loc": 37,
+        "imports": [
+          "abc",
+          "typing"
+        ]
+      },
+      "core/interfaces/worker_view_interface.py": {
+        "rel_path": "core/interfaces/worker_view_interface.py",
+        "loc": 40,
+        "imports": [
+          "abc",
+          "core.interfaces.controller_interface",
+          "typing"
+        ]
+      },
+      "core/label_manager/__init__.py": {
+        "rel_path": "core/label_manager/__init__.py",
+        "loc": 20,
+        "imports": [
+          "base",
+          "docx",
+          "manager",
+          "pathlib",
+          "typing"
+        ]
+      },
+      "core/label_manager/base.py": {
+        "rel_path": "core/label_manager/base.py",
+        "loc": 19,
+        "imports": [
+          "logging",
+          "pathlib"
+        ]
+      },
+      "core/label_manager/generator.py": {
+        "rel_path": "core/label_manager/generator.py",
+        "loc": 57,
+        "imports": [
+          "datetime",
+          "docx.shared",
+          "io",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/label_manager/manager.py": {
+        "rel_path": "core/label_manager/manager.py",
+        "loc": 144,
+        "imports": [
+          "base",
+          "datetime",
+          "logging",
+          "os",
+          "pathlib",
+          "tempfile",
+          "typing"
+        ]
+      },
+      "core/label_manager/printer.py": {
+        "rel_path": "core/label_manager/printer.py",
+        "loc": 77,
+        "imports": [
+          "logging",
+          "os",
+          "pathlib",
+          "platform",
+          "shutil",
+          "subprocess",
+          "typing"
+        ]
+      },
+      "core/production_context.py": {
+        "rel_path": "core/production_context.py",
+        "loc": 62,
+        "imports": [
+          "dataclasses",
+          "typing"
+        ]
+      },
+      "core/qr_generator.py": {
+        "rel_path": "core/qr_generator.py",
+        "loc": 269,
+        "imports": [
+          "PIL",
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "datetime",
+          "hashlib",
+          "io",
+          "logging",
+          "qrcode",
+          "typing",
+          "uuid"
+        ]
+      },
+      "core/qr_scanner/__init__.py": {
+        "rel_path": "core/qr_scanner/__init__.py",
+        "loc": 11,
+        "imports": [
+          "base",
+          "detector",
+          "scanner"
+        ]
+      },
+      "core/qr_scanner/base.py": {
+        "rel_path": "core/qr_scanner/base.py",
+        "loc": 29,
+        "imports": [
+          "datetime",
+          "logging",
+          "re",
+          "typing"
+        ]
+      },
+      "core/qr_scanner/detector.py": {
+        "rel_path": "core/qr_scanner/detector.py",
+        "loc": 64,
+        "imports": [
+          "cv2",
+          "logging",
+          "os",
+          "typing",
+          "unittest.mock"
+        ]
+      },
+      "core/qr_scanner/scanner.py": {
+        "rel_path": "core/qr_scanner/scanner.py",
+        "loc": 87,
+        "imports": [
+          "base",
+          "cv2",
+          "datetime",
+          "detector",
+          "logging",
+          "typing",
+          "ui"
+        ]
+      },
+      "core/qr_scanner/ui.py": {
+        "rel_path": "core/qr_scanner/ui.py",
+        "loc": 31,
+        "imports": [
+          "cv2",
+          "typing",
+          "unittest.mock"
+        ]
+      },
+      "core/quote_service.py": {
+        "rel_path": "core/quote_service.py",
+        "loc": 92,
+        "imports": [
+          "concurrent.futures",
+          "datetime",
+          "json",
+          "logging",
+          "os",
+          "random",
+          "typing",
+          "wikipedia"
+        ]
+      },
+      "core/reports_dtos.py": {
+        "rel_path": "core/reports_dtos.py",
+        "loc": 128,
+        "imports": [
+          "dataclasses",
+          "datetime",
+          "typing"
+        ]
+      },
+      "core/schedule_config.py": {
+        "rel_path": "core/schedule_config.py",
+        "loc": 131,
+        "imports": [
+          "datetime",
+          "json",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/security/access_control.py": {
+        "rel_path": "core/security/access_control.py",
+        "loc": 98,
+        "imports": [
+          "core.security.security_exceptions",
+          "core.security.security_service",
+          "functools",
+          "logging",
+          "os",
+          "typing",
+          "unittest.mock"
+        ]
+      },
+      "core/security/password_service.py": {
+        "rel_path": "core/security/password_service.py",
+        "loc": 68,
+        "imports": [
+          "bcrypt",
+          "logging",
+          "re"
+        ]
+      },
+      "core/security/security_exceptions.py": {
+        "rel_path": "core/security/security_exceptions.py",
+        "loc": 13,
+        "imports": []
+      },
+      "core/security/security_service.py": {
+        "rel_path": "core/security/security_service.py",
+        "loc": 106,
+        "imports": [
+          "enum",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/services/audit_logger.py": {
+        "rel_path": "core/services/audit_logger.py",
+        "loc": 140,
+        "imports": [
+          "database.models",
+          "datetime",
+          "logging",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "core/services/backup_service.py": {
+        "rel_path": "core/services/backup_service.py",
+        "loc": 234,
+        "imports": [
+          "core.dtos",
+          "datetime",
+          "hashlib",
+          "logging",
+          "os",
+          "pathlib",
+          "shutil",
+          "sys",
+          "tarfile",
+          "typing"
+        ]
+      },
+      "core/services/backup_utils.py": {
+        "rel_path": "core/services/backup_utils.py",
+        "loc": 50,
+        "imports": [
+          "__future__",
+          "hashlib",
+          "pathlib",
+          "shutil",
+          "tarfile",
+          "typing"
+        ]
+      },
+      "core/services/calculation_audit.py": {
+        "rel_path": "core/services/calculation_audit.py",
+        "loc": 30,
+        "imports": [
+          "dataclasses",
+          "datetime",
+          "enum",
+          "typing"
+        ]
+      },
+      "core/services/calendar_helper.py": {
+        "rel_path": "core/services/calendar_helper.py",
+        "loc": 9,
+        "imports": [
+          "typing"
+        ]
+      },
+      "core/services/data_importer.py": {
+        "rel_path": "core/services/data_importer.py",
+        "loc": 77,
+        "imports": [
+          "abc",
+          "logging",
+          "os",
+          "pandas"
+        ]
+      },
+      "core/services/fabricacion_service.py": {
+        "rel_path": "core/services/fabricacion_service.py",
+        "loc": 97,
+        "imports": [
+          "PyQt6.QtCore",
+          "core.dtos",
+          "database.database_manager",
+          "dataclasses",
+          "datetime",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/services/flow_builder_service.py": {
+        "rel_path": "core/services/flow_builder_service.py",
+        "loc": 50,
+        "imports": [
+          "copy",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/services/flow_simulation_service.py": {
+        "rel_path": "core/services/flow_simulation_service.py",
+        "loc": 155,
+        "imports": [
+          "__future__",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/services/machine_service.py": {
+        "rel_path": "core/services/machine_service.py",
+        "loc": 72,
+        "imports": [
+          "PyQt6.QtCore",
+          "core.dtos",
+          "database.database_manager",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/services/maintenance_service.py": {
+        "rel_path": "core/services/maintenance_service.py",
+        "loc": 63,
+        "imports": [
+          "PyQt6.QtCore",
+          "__future__",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/services/pila_service.py": {
+        "rel_path": "core/services/pila_service.py",
+        "loc": 220,
+        "imports": [
+          "PyQt6.QtCore",
+          "core.dtos",
+          "database.database_manager",
+          "dataclasses",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/services/preparation_service.py": {
+        "rel_path": "core/services/preparation_service.py",
+        "loc": 54,
+        "imports": [
+          "core.dtos",
+          "database.database_manager",
+          "typing"
+        ]
+      },
+      "core/services/product_service.py": {
+        "rel_path": "core/services/product_service.py",
+        "loc": 75,
+        "imports": [
+          "PyQt6.QtCore",
+          "core.dtos",
+          "core.services.product_service_delegation_mixin",
+          "database.database_manager",
+          "dataclasses",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/services/product_service_delegation_mixin.py": {
+        "rel_path": "core/services/product_service_delegation_mixin.py",
+        "loc": 65,
+        "imports": [
+          "__future__",
+          "core.dtos",
+          "typing"
+        ]
+      },
+      "core/services/rate_limiter.py": {
+        "rel_path": "core/services/rate_limiter.py",
+        "loc": 109,
+        "imports": [
+          "database.models",
+          "datetime",
+          "logging",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "core/services/report_service.py": {
+        "rel_path": "core/services/report_service.py",
+        "loc": 39,
+        "imports": [
+          "PyQt6.QtCore",
+          "core.reports_dtos",
+          "database.database_manager",
+          "typing"
+        ]
+      },
+      "core/services/report_sheets/__init__.py": {
+        "rel_path": "core/services/report_sheets/__init__.py",
+        "loc": 19,
+        "imports": [
+          "audit",
+          "base",
+          "cronograma",
+          "cuellos_botella",
+          "graficas",
+          "resumen",
+          "trabajadores",
+          "trabajo_paralelo"
+        ]
+      },
+      "core/services/report_sheets/audit.py": {
+        "rel_path": "core/services/report_sheets/audit.py",
+        "loc": 53,
+        "imports": [
+          "base",
+          "core.services.calculation_audit",
+          "datetime",
+          "openpyxl",
+          "openpyxl.styles",
+          "typing"
+        ]
+      },
+      "core/services/report_sheets/base.py": {
+        "rel_path": "core/services/report_sheets/base.py",
+        "loc": 13,
+        "imports": [
+          "abc",
+          "logging",
+          "openpyxl"
+        ]
+      },
+      "core/services/report_sheets/cronograma.py": {
+        "rel_path": "core/services/report_sheets/cronograma.py",
+        "loc": 47,
+        "imports": [
+          "base",
+          "collections",
+          "datetime",
+          "openpyxl",
+          "openpyxl.styles",
+          "typing"
+        ]
+      },
+      "core/services/report_sheets/cuellos_botella.py": {
+        "rel_path": "core/services/report_sheets/cuellos_botella.py",
+        "loc": 56,
+        "imports": [
+          "base",
+          "core.services.calculation_audit",
+          "datetime",
+          "openpyxl",
+          "openpyxl.styles",
+          "re",
+          "typing"
+        ]
+      },
+      "core/services/report_sheets/graficas.py": {
+        "rel_path": "core/services/report_sheets/graficas.py",
+        "loc": 159,
+        "imports": [
+          "base",
+          "collections",
+          "openpyxl",
+          "openpyxl.chart",
+          "openpyxl.chart.label",
+          "openpyxl.styles",
+          "typing"
+        ]
+      },
+      "core/services/report_sheets/resumen.py": {
+        "rel_path": "core/services/report_sheets/resumen.py",
+        "loc": 112,
+        "imports": [
+          "base",
+          "collections",
+          "datetime",
+          "openpyxl",
+          "openpyxl.styles",
+          "openpyxl.utils",
+          "typing"
+        ]
+      },
+      "core/services/report_sheets/trabajadores.py": {
+        "rel_path": "core/services/report_sheets/trabajadores.py",
+        "loc": 60,
+        "imports": [
+          "base",
+          "collections",
+          "datetime",
+          "openpyxl",
+          "openpyxl.styles",
+          "typing"
+        ]
+      },
+      "core/services/report_sheets/trabajo_paralelo.py": {
+        "rel_path": "core/services/report_sheets/trabajo_paralelo.py",
+        "loc": 73,
+        "imports": [
+          "base",
+          "collections",
+          "datetime",
+          "openpyxl",
+          "openpyxl.styles",
+          "openpyxl.utils",
+          "typing"
+        ]
+      },
+      "core/services/report_strategy.py": {
+        "rel_path": "core/services/report_strategy.py",
+        "loc": 14,
+        "imports": [
+          "core.services.reporting.base",
+          "core.services.reporting.excel_report_strategy",
+          "core.services.reporting.pdf_report_strategy"
+        ]
+      },
+      "core/services/reporting/__init__.py": {
+        "rel_path": "core/services/reporting/__init__.py",
+        "loc": 0,
+        "imports": []
+      },
+      "core/services/reporting/base.py": {
+        "rel_path": "core/services/reporting/base.py",
+        "loc": 20,
+        "imports": [
+          "abc",
+          "excel_report_strategy",
+          "typing"
+        ]
+      },
+      "core/services/reporting/excel_report_strategy.py": {
+        "rel_path": "core/services/reporting/excel_report_strategy.py",
+        "loc": 249,
+        "imports": [
+          "__future__",
+          "base",
+          "collections",
+          "core.services.calculation_audit",
+          "core.services.report_sheets",
+          "core.services.time_calculator",
+          "datetime",
+          "logging",
+          "openpyxl",
+          "openpyxl.chart",
+          "openpyxl.chart.label",
+          "openpyxl.styles",
+          "openpyxl.utils",
+          "typing"
+        ]
+      },
+      "core/services/reporting/pdf_report_sections.py": {
+        "rel_path": "core/services/reporting/pdf_report_sections.py",
+        "loc": 133,
+        "imports": [
+          "__future__",
+          "reportlab.lib",
+          "reportlab.lib.units",
+          "reportlab.platypus"
+        ]
+      },
+      "core/services/reporting/pdf_report_strategy.py": {
+        "rel_path": "core/services/reporting/pdf_report_strategy.py",
+        "loc": 218,
+        "imports": [
+          "__future__",
+          "base",
+          "collections",
+          "core.services.time_calculator",
+          "datetime",
+          "logging",
+          "pdf_report_sections",
+          "reportlab.lib",
+          "reportlab.lib.pagesizes",
+          "reportlab.lib.styles",
+          "reportlab.lib.units",
+          "reportlab.platypus",
+          "typing"
+        ]
+      },
+      "core/services/temporal_storage.py": {
+        "rel_path": "core/services/temporal_storage.py",
+        "loc": 164,
+        "imports": [
+          "core.simulation.simulation_events",
+          "datetime",
+          "enum",
+          "json",
+          "logging",
+          "os",
+          "sqlite3",
+          "threading",
+          "typing"
+        ]
+      },
+      "core/services/time_calculator.py": {
+        "rel_path": "core/services/time_calculator.py",
+        "loc": 161,
+        "imports": [
+          "datetime",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/services/tracking_assignment_service.py": {
+        "rel_path": "core/services/tracking_assignment_service.py",
+        "loc": 87,
+        "imports": [
+          "core.dtos",
+          "core.tracking_dtos",
+          "database.database_manager",
+          "database.models",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "core/services/worker_service.py": {
+        "rel_path": "core/services/worker_service.py",
+        "loc": 185,
+        "imports": [
+          "PyQt6.QtCore",
+          "core.dtos",
+          "core.services.tracking_assignment_service",
+          "core.tracking_dtos",
+          "database.database_manager",
+          "dataclasses",
+          "datetime",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/simulation/__init__.py": {
+        "rel_path": "core/simulation/__init__.py",
+        "loc": 1,
+        "imports": []
+      },
+      "core/simulation/engine/__init__.py": {
+        "rel_path": "core/simulation/engine/__init__.py",
+        "loc": 1,
+        "imports": []
+      },
+      "core/simulation/engine/base.py": {
+        "rel_path": "core/simulation/engine/base.py",
+        "loc": 24,
+        "imports": [
+          "dataclasses",
+          "datetime",
+          "logging",
+          "timeline_task",
+          "typing"
+        ]
+      },
+      "core/simulation/engine/core_runner.py": {
+        "rel_path": "core/simulation/engine/core_runner.py",
+        "loc": 76,
+        "imports": [
+          "datetime",
+          "heapq",
+          "logging",
+          "os",
+          "pickle",
+          "threading",
+          "time",
+          "typing"
+        ]
+      },
+      "core/simulation/engine/dependency_handler.py": {
+        "rel_path": "core/simulation/engine/dependency_handler.py",
+        "loc": 103,
+        "imports": [
+          "datetime",
+          "logging",
+          "simulation_events",
+          "typing"
+        ]
+      },
+      "core/simulation/engine/motor.py": {
+        "rel_path": "core/simulation/engine/motor.py",
+        "loc": 199,
+        "imports": [
+          "__future__",
+          "base",
+          "core.services.calculation_audit",
+          "core.services.temporal_storage",
+          "core_runner",
+          "datetime",
+          "dependency_handler",
+          "heapq",
+          "logging",
+          "os",
+          "resource_manager",
+          "results_compiler",
+          "simulation_events",
+          "tempfile",
+          "threading",
+          "time",
+          "timeline_task",
+          "typing"
+        ]
+      },
+      "core/simulation/engine/results_compiler.py": {
+        "rel_path": "core/simulation/engine/results_compiler.py",
+        "loc": 142,
+        "imports": [
+          "core.services.calculation_audit",
+          "datetime",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/simulation/event_engine.py": {
+        "rel_path": "core/simulation/event_engine.py",
+        "loc": 6,
+        "imports": [
+          "engine.motor"
+        ]
+      },
+      "core/simulation/resource_manager.py": {
+        "rel_path": "core/simulation/resource_manager.py",
+        "loc": 155,
+        "imports": [
+          "core.services.time_calculator",
+          "dataclasses",
+          "datetime",
+          "logging",
+          "simulation_events",
+          "threading",
+          "typing"
+        ]
+      },
+      "core/simulation/simulation_adapter.py": {
+        "rel_path": "core/simulation/simulation_adapter.py",
+        "loc": 199,
+        "imports": [
+          "core.services.calculation_audit",
+          "core.services.time_calculator",
+          "datetime",
+          "event_engine",
+          "heapq",
+          "json",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/simulation/simulation_engine.py": {
+        "rel_path": "core/simulation/simulation_engine.py",
+        "loc": 274,
+        "imports": [
+          "PyQt6.QtCore",
+          "core.services.calculation_audit",
+          "core.services.calendar_helper",
+          "core.services.time_calculator",
+          "datetime",
+          "enum",
+          "heapq",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/simulation/simulation_events/__init__.py": {
+        "rel_path": "core/simulation/simulation_events/__init__.py",
+        "loc": 12,
+        "imports": [
+          "base",
+          "production",
+          "worker"
+        ]
+      },
+      "core/simulation/simulation_events/base.py": {
+        "rel_path": "core/simulation/simulation_events/base.py",
+        "loc": 27,
+        "imports": [
+          "dataclasses",
+          "datetime",
+          "typing"
+        ]
+      },
+      "core/simulation/simulation_events/production.py": {
+        "rel_path": "core/simulation/simulation_events/production.py",
+        "loc": 247,
+        "imports": [
+          "base",
+          "core.services.calculation_audit",
+          "dataclasses",
+          "datetime",
+          "typing",
+          "worker"
+        ]
+      },
+      "core/simulation/simulation_events/worker.py": {
+        "rel_path": "core/simulation/simulation_events/worker.py",
+        "loc": 106,
+        "imports": [
+          "base",
+          "core.services.calculation_audit",
+          "dataclasses",
+          "typing"
+        ]
+      },
+      "core/simulation/timeline_task.py": {
+        "rel_path": "core/simulation/timeline_task.py",
+        "loc": 225,
+        "imports": [
+          "core.services.time_calculator",
+          "datetime",
+          "logging",
+          "resource_manager",
+          "simulation_events",
+          "timeline_task_parallel",
+          "typing",
+          "uuid"
+        ]
+      },
+      "core/simulation/timeline_task_parallel.py": {
+        "rel_path": "core/simulation/timeline_task_parallel.py",
+        "loc": 102,
+        "imports": [
+          "__future__",
+          "datetime",
+          "simulation_events",
+          "typing",
+          "uuid"
+        ]
+      },
+      "core/sync_service.py": {
+        "rel_path": "core/sync_service.py",
+        "loc": 202,
+        "imports": [
+          "database.models",
+          "datetime",
+          "logging",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "core/tracking_dtos.py": {
+        "rel_path": "core/tracking_dtos.py",
+        "loc": 66,
+        "imports": [
+          "core.dtos",
+          "dataclasses",
+          "datetime",
+          "typing"
+        ]
+      },
+      "core/utils/author_loader.py": {
+        "rel_path": "core/utils/author_loader.py",
+        "loc": 27,
+        "imports": [
+          "PyQt6.QtCore",
+          "core.quote_service"
+        ]
+      },
+      "core/utils/helpers.py": {
+        "rel_path": "core/utils/helpers.py",
+        "loc": 11,
+        "imports": [
+          "os",
+          "sys"
+        ]
+      },
+      "core/utils/pila_serializer.py": {
+        "rel_path": "core/utils/pila_serializer.py",
+        "loc": 139,
+        "imports": [
+          "datetime",
+          "decimal",
+          "json",
+          "logging",
+          "typing"
+        ]
+      },
+      "core/utils/ui_scaler.py": {
+        "rel_path": "core/utils/ui_scaler.py",
+        "loc": 132,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "logging",
+          "math",
+          "typing"
+        ]
+      },
+      "core/utils/visualization.py": {
+        "rel_path": "core/utils/visualization.py",
+        "loc": 103,
+        "imports": [
+          "core.constants",
+          "datetime",
+          "graphviz",
+          "logging",
+          "os",
+          "typing"
+        ]
+      },
+      "core/validation/validator_service.py": {
+        "rel_path": "core/validation/validator_service.py",
+        "loc": 51,
+        "imports": [
+          "dataclasses",
+          "re",
+          "typing"
+        ]
+      },
+      "database/__init__.py": {
+        "rel_path": "database/__init__.py",
+        "loc": 0,
+        "imports": []
+      },
+      "database/config.py": {
+        "rel_path": "database/config.py",
+        "loc": 56,
+        "imports": [
+          "dotenv",
+          "os",
+          "pathlib",
+          "typing"
+        ]
+      },
+      "database/database_manager.py": {
+        "rel_path": "database/database_manager.py",
+        "loc": 176,
+        "imports": [
+          "config",
+          "core.dtos",
+          "core.sync_service",
+          "logging",
+          "models",
+          "repositories",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/models/__init__.py": {
+        "rel_path": "database/models/__init__.py",
+        "loc": 90,
+        "imports": [
+          "base",
+          "fabrication",
+          "inventory",
+          "machine",
+          "product",
+          "security",
+          "tracking",
+          "worker"
+        ]
+      },
+      "database/models/base.py": {
+        "rel_path": "database/models/base.py",
+        "loc": 55,
+        "imports": [
+          "datetime",
+          "sqlalchemy",
+          "sqlalchemy.orm"
+        ]
+      },
+      "database/models/fabrication.py": {
+        "rel_path": "database/models/fabrication.py",
+        "loc": 57,
+        "imports": [
+          "base",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/models/inventory.py": {
+        "rel_path": "database/models/inventory.py",
+        "loc": 97,
+        "imports": [
+          "base",
+          "datetime",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/models/machine.py": {
+        "rel_path": "database/models/machine.py",
+        "loc": 69,
+        "imports": [
+          "base",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/models/product.py": {
+        "rel_path": "database/models/product.py",
+        "loc": 169,
+        "imports": [
+          "base",
+          "datetime",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/models/security.py": {
+        "rel_path": "database/models/security.py",
+        "loc": 37,
+        "imports": [
+          "base",
+          "datetime",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/models/tracking.py": {
+        "rel_path": "database/models/tracking.py",
+        "loc": 84,
+        "imports": [
+          "base",
+          "datetime",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/models/worker.py": {
+        "rel_path": "database/models/worker.py",
+        "loc": 49,
+        "imports": [
+          "base",
+          "datetime",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/__init__.py": {
+        "rel_path": "database/repositories/__init__.py",
+        "loc": 32,
+        "imports": [
+          "base",
+          "configuration_repository",
+          "iteration_repository",
+          "label_counter_repository",
+          "lote_repository",
+          "machine",
+          "material_repository",
+          "pila",
+          "preproceso",
+          "product_repository",
+          "reports",
+          "tracking_repository",
+          "worker"
+        ]
+      },
+      "database/repositories/base.py": {
+        "rel_path": "database/repositories/base.py",
+        "loc": 75,
+        "imports": [
+          "logging",
+          "sqlalchemy.exc",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/configuration_repository.py": {
+        "rel_path": "database/repositories/configuration_repository.py",
+        "loc": 138,
+        "imports": [
+          "base",
+          "datetime",
+          "json",
+          "models",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/incidencia_repository.py": {
+        "rel_path": "database/repositories/incidencia_repository.py",
+        "loc": 217,
+        "imports": [
+          "core.tracking_dtos",
+          "database.models",
+          "database.repositories.base",
+          "datetime",
+          "logging",
+          "os",
+          "sqlalchemy.exc",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/iteration_repository.py": {
+        "rel_path": "database/repositories/iteration_repository.py",
+        "loc": 75,
+        "imports": [
+          "base",
+          "core.dtos",
+          "iteration_repository_crud_mixin",
+          "iteration_repository_helpers",
+          "iteration_repository_images_mixin",
+          "models",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/iteration_repository_crud_mixin.py": {
+        "rel_path": "database/repositories/iteration_repository_crud_mixin.py",
+        "loc": 103,
+        "imports": [
+          "__future__",
+          "models",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/iteration_repository_helpers.py": {
+        "rel_path": "database/repositories/iteration_repository_helpers.py",
+        "loc": 29,
+        "imports": [
+          "__future__",
+          "core.dtos",
+          "datetime",
+          "typing"
+        ]
+      },
+      "database/repositories/iteration_repository_images_mixin.py": {
+        "rel_path": "database/repositories/iteration_repository_images_mixin.py",
+        "loc": 41,
+        "imports": [
+          "__future__",
+          "core.dtos",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/label_counter_repository.py": {
+        "rel_path": "database/repositories/label_counter_repository.py",
+        "loc": 64,
+        "imports": [
+          "core.dtos",
+          "database.models",
+          "database.repositories.base",
+          "sqlalchemy.exc",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/lote_repository.py": {
+        "rel_path": "database/repositories/lote_repository.py",
+        "loc": 107,
+        "imports": [
+          "base",
+          "core.dtos",
+          "datetime",
+          "models",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/machine/__init__.py": {
+        "rel_path": "database/repositories/machine/__init__.py",
+        "loc": 3,
+        "imports": [
+          "repository"
+        ]
+      },
+      "database/repositories/machine/crud_manager.py": {
+        "rel_path": "database/repositories/machine/crud_manager.py",
+        "loc": 74,
+        "imports": [
+          "base",
+          "core.dtos",
+          "models",
+          "sqlalchemy.exc",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/machine/maintenance_manager.py": {
+        "rel_path": "database/repositories/machine/maintenance_manager.py",
+        "loc": 20,
+        "imports": [
+          "base",
+          "core.dtos",
+          "datetime",
+          "models",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/machine/preparation_manager.py": {
+        "rel_path": "database/repositories/machine/preparation_manager.py",
+        "loc": 71,
+        "imports": [
+          "base",
+          "core.dtos",
+          "models",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/machine/repository.py": {
+        "rel_path": "database/repositories/machine/repository.py",
+        "loc": 90,
+        "imports": [
+          "base",
+          "core.dtos",
+          "crud_manager",
+          "maintenance_manager",
+          "preparation_manager",
+          "sqlalchemy.orm",
+          "stats_manager",
+          "typing"
+        ]
+      },
+      "database/repositories/machine/stats_manager.py": {
+        "rel_path": "database/repositories/machine/stats_manager.py",
+        "loc": 14,
+        "imports": [
+          "base",
+          "models",
+          "sqlalchemy",
+          "typing"
+        ]
+      },
+      "database/repositories/material_repository.py": {
+        "rel_path": "database/repositories/material_repository.py",
+        "loc": 152,
+        "imports": [
+          "base",
+          "core.dtos",
+          "material_repository_links_mixin",
+          "models",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/material_repository_links_mixin.py": {
+        "rel_path": "database/repositories/material_repository_links_mixin.py",
+        "loc": 84,
+        "imports": [
+          "__future__",
+          "models",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/pila/__init__.py": {
+        "rel_path": "database/repositories/pila/__init__.py",
+        "loc": 3,
+        "imports": [
+          "repository"
+        ]
+      },
+      "database/repositories/pila/pila_base_manager.py": {
+        "rel_path": "database/repositories/pila/pila_base_manager.py",
+        "loc": 33,
+        "imports": [
+          "base",
+          "typing",
+          "uuid"
+        ]
+      },
+      "database/repositories/pila/pila_bitacora_manager.py": {
+        "rel_path": "database/repositories/pila/pila_bitacora_manager.py",
+        "loc": 43,
+        "imports": [
+          "base",
+          "datetime",
+          "models",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/pila/pila_crud_manager.py": {
+        "rel_path": "database/repositories/pila/pila_crud_manager.py",
+        "loc": 64,
+        "imports": [
+          "base",
+          "core.dtos",
+          "datetime",
+          "json",
+          "models",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/pila/pila_workflow_manager.py": {
+        "rel_path": "database/repositories/pila/pila_workflow_manager.py",
+        "loc": 96,
+        "imports": [
+          "base",
+          "copy",
+          "core.dtos",
+          "core.utils.pila_serializer",
+          "datetime",
+          "json",
+          "models",
+          "pila_base_manager",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/pila/repository.py": {
+        "rel_path": "database/repositories/pila/repository.py",
+        "loc": 63,
+        "imports": [
+          "base",
+          "core.dtos",
+          "pila_base_manager",
+          "pila_bitacora_manager",
+          "pila_crud_manager",
+          "pila_workflow_manager",
+          "typing"
+        ]
+      },
+      "database/repositories/preproceso/__init__.py": {
+        "rel_path": "database/repositories/preproceso/__init__.py",
+        "loc": 3,
+        "imports": [
+          "repository"
+        ]
+      },
+      "database/repositories/preproceso/fabricacion_manager.py": {
+        "rel_path": "database/repositories/preproceso/fabricacion_manager.py",
+        "loc": 174,
+        "imports": [
+          "base",
+          "core.dtos",
+          "models",
+          "sqlalchemy",
+          "sqlalchemy.exc",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/preproceso/preproceso_manager.py": {
+        "rel_path": "database/repositories/preproceso/preproceso_manager.py",
+        "loc": 87,
+        "imports": [
+          "base",
+          "core.dtos",
+          "models",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/preproceso/repository.py": {
+        "rel_path": "database/repositories/preproceso/repository.py",
+        "loc": 70,
+        "imports": [
+          "base",
+          "core.dtos",
+          "fabricacion_manager",
+          "preproceso_manager",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/product_repository.py": {
+        "rel_path": "database/repositories/product_repository.py",
+        "loc": 245,
+        "imports": [
+          "base",
+          "core.dtos",
+          "models",
+          "models.base",
+          "product_repository_fabricacion_mixin",
+          "product_repository_helpers",
+          "sqlalchemy",
+          "sqlalchemy.exc",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/product_repository_fabricacion_mixin.py": {
+        "rel_path": "database/repositories/product_repository_fabricacion_mixin.py",
+        "loc": 26,
+        "imports": [
+          "__future__",
+          "core.dtos",
+          "models",
+          "models.base",
+          "product_repository_helpers",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/product_repository_helpers.py": {
+        "rel_path": "database/repositories/product_repository_helpers.py",
+        "loc": 43,
+        "imports": [
+          "__future__",
+          "core.dtos",
+          "typing"
+        ]
+      },
+      "database/repositories/protocols.py": {
+        "rel_path": "database/repositories/protocols.py",
+        "loc": 21,
+        "imports": [
+          "logging",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/reports/__init__.py": {
+        "rel_path": "database/repositories/reports/__init__.py",
+        "loc": 3,
+        "imports": [
+          "repository"
+        ]
+      },
+      "database/repositories/reports/reports_incidences_manager.py": {
+        "rel_path": "database/repositories/reports/reports_incidences_manager.py",
+        "loc": 18,
+        "imports": [
+          "base",
+          "core.reports_dtos",
+          "models",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/reports/reports_orders_manager.py": {
+        "rel_path": "database/repositories/reports/reports_orders_manager.py",
+        "loc": 49,
+        "imports": [
+          "base",
+          "core.reports_dtos",
+          "datetime",
+          "models",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/reports/reports_products_manager.py": {
+        "rel_path": "database/repositories/reports/reports_products_manager.py",
+        "loc": 22,
+        "imports": [
+          "base",
+          "core.reports_dtos",
+          "models",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/reports/reports_search_manager.py": {
+        "rel_path": "database/repositories/reports/reports_search_manager.py",
+        "loc": 26,
+        "imports": [
+          "base",
+          "core.reports_dtos",
+          "datetime",
+          "models",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/reports/reports_stats_manager.py": {
+        "rel_path": "database/repositories/reports/reports_stats_manager.py",
+        "loc": 52,
+        "imports": [
+          "base",
+          "core.reports_dtos",
+          "datetime",
+          "models",
+          "sqlalchemy",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/reports/repository.py": {
+        "rel_path": "database/repositories/reports/repository.py",
+        "loc": 59,
+        "imports": [
+          "base",
+          "core.reports_dtos",
+          "logging",
+          "reports_incidences_manager",
+          "reports_orders_manager",
+          "reports_products_manager",
+          "reports_search_manager",
+          "reports_stats_manager",
+          "typing"
+        ]
+      },
+      "database/repositories/tracking/core_manager.py": {
+        "rel_path": "database/repositories/tracking/core_manager.py",
+        "loc": 220,
+        "imports": [
+          "base",
+          "core.tracking_dtos",
+          "database.models",
+          "datetime",
+          "logging",
+          "mappers",
+          "sqlalchemy.exc",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/tracking/mappers.py": {
+        "rel_path": "database/repositories/tracking/mappers.py",
+        "loc": 62,
+        "imports": [
+          "core.tracking_dtos",
+          "database.models",
+          "datetime",
+          "typing"
+        ]
+      },
+      "database/repositories/tracking/queries_manager.py": {
+        "rel_path": "database/repositories/tracking/queries_manager.py",
+        "loc": 75,
+        "imports": [
+          "base",
+          "database.models",
+          "datetime",
+          "logging",
+          "sqlalchemy.exc",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/tracking/steps_manager.py": {
+        "rel_path": "database/repositories/tracking/steps_manager.py",
+        "loc": 90,
+        "imports": [
+          "base",
+          "core.tracking_dtos",
+          "database.models",
+          "datetime",
+          "logging",
+          "mappers",
+          "sqlalchemy.exc",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/tracking_log_repository.py": {
+        "rel_path": "database/repositories/tracking_log_repository.py",
+        "loc": 82,
+        "imports": [
+          "database.repositories.base",
+          "logging",
+          "tracking.core_manager",
+          "tracking.mappers",
+          "tracking.queries_manager",
+          "tracking.steps_manager",
+          "typing"
+        ]
+      },
+      "database/repositories/tracking_repository.py": {
+        "rel_path": "database/repositories/tracking_repository.py",
+        "loc": 113,
+        "imports": [
+          "base",
+          "core.tracking_dtos",
+          "database.models",
+          "database.repositories.incidencia_repository",
+          "database.repositories.tracking_log_repository",
+          "database.repositories.tracking_stats_repository",
+          "datetime",
+          "logging",
+          "typing"
+        ]
+      },
+      "database/repositories/tracking_stats_repository.py": {
+        "rel_path": "database/repositories/tracking_stats_repository.py",
+        "loc": 122,
+        "imports": [
+          "database.models",
+          "database.repositories.base",
+          "datetime",
+          "logging",
+          "sqlalchemy",
+          "sqlalchemy.exc",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/worker/__init__.py": {
+        "rel_path": "database/repositories/worker/__init__.py",
+        "loc": 3,
+        "imports": [
+          "repository"
+        ]
+      },
+      "database/repositories/worker/annotation_manager.py": {
+        "rel_path": "database/repositories/worker/annotation_manager.py",
+        "loc": 39,
+        "imports": [
+          "base",
+          "core.dtos",
+          "datetime",
+          "models",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/worker/auth_manager.py": {
+        "rel_path": "database/repositories/worker/auth_manager.py",
+        "loc": 53,
+        "imports": [
+          "base",
+          "core.dtos",
+          "core.security.password_service",
+          "models",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "database/repositories/worker/repository.py": {
+        "rel_path": "database/repositories/worker/repository.py",
+        "loc": 43,
+        "imports": [
+          "annotation_manager",
+          "auth_manager",
+          "base",
+          "core.dtos",
+          "sqlalchemy.orm",
+          "typing",
+          "worker_manager"
+        ]
+      },
+      "database/repositories/worker/worker_manager.py": {
+        "rel_path": "database/repositories/worker/worker_manager.py",
+        "loc": 121,
+        "imports": [
+          "base",
+          "core.dtos",
+          "models",
+          "sqlalchemy.exc",
+          "sqlalchemy.orm",
+          "typing"
+        ]
+      },
+      "features/__init__.py": {
+        "rel_path": "features/__init__.py",
+        "loc": 0,
+        "imports": []
+      },
+      "features/worker_controller.py": {
+        "rel_path": "features/worker_controller.py",
+        "loc": 206,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "core.camera_manager",
+          "core.interfaces.worker_view_interface",
+          "core.production_context",
+          "cv2",
+          "features.worker_controller_io_mixin",
+          "features.worker_db_sync",
+          "features.worker_incidence_dialog",
+          "features.worker_validation_service",
+          "logging",
+          "sys",
+          "typing",
+          "ui.dialogs.tracking_dialogs",
+          "unittest.mock"
+        ]
+      },
+      "features/worker_controller_io_mixin.py": {
+        "rel_path": "features/worker_controller_io_mixin.py",
+        "loc": 118,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "__future__",
+          "core.qr_scanner",
+          "cv2",
+          "datetime",
+          "json",
+          "shutil",
+          "subprocess",
+          "typing",
+          "ui.worker.camera_config_dialog"
+        ]
+      },
+      "features/worker_db_sync.py": {
+        "rel_path": "features/worker_db_sync.py",
+        "loc": 121,
+        "imports": [
+          "datetime",
+          "logging",
+          "typing"
+        ]
+      },
+      "features/worker_incidence_dialog.py": {
+        "rel_path": "features/worker_incidence_dialog.py",
+        "loc": 66,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "__future__",
+          "typing"
+        ]
+      },
+      "features/worker_validation_service.py": {
+        "rel_path": "features/worker_validation_service.py",
+        "loc": 43,
+        "imports": [
+          "logging",
+          "typing"
+        ]
+      },
+      "ui/__init__.py": {
+        "rel_path": "ui/__init__.py",
+        "loc": 2,
+        "imports": []
+      },
+      "ui/dialogs/__init__.py": {
+        "rel_path": "ui/dialogs/__init__.py",
+        "loc": 84,
+        "imports": [
+          "canvas_widgets",
+          "effects",
+          "fabrication.assignment_dialogs",
+          "fabrication.bitacora_dialog",
+          "fabrication.create_dialog",
+          "fabrication.input_dialogs",
+          "fabrication.persistence_dialogs",
+          "fabrication.products_dialog",
+          "fabrication.selection_dialogs",
+          "prep",
+          "product",
+          "production_flow",
+          "utility_dialogs"
+        ]
+      },
+      "ui/dialogs/backup_restore_dialog.py": {
+        "rel_path": "ui/dialogs/backup_restore_dialog.py",
+        "loc": 238,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "core.dtos",
+          "core.services.backup_service",
+          "datetime",
+          "logging",
+          "pathlib",
+          "typing"
+        ]
+      },
+      "ui/dialogs/canvas_widget.py": {
+        "rel_path": "ui/dialogs/canvas_widget.py",
+        "loc": 243,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "math",
+          "typing"
+        ]
+      },
+      "ui/dialogs/canvas_widgets.py": {
+        "rel_path": "ui/dialogs/canvas_widgets.py",
+        "loc": 8,
+        "imports": [
+          "canvas_widget",
+          "card_widget"
+        ]
+      },
+      "ui/dialogs/card_widget.py": {
+        "rel_path": "ui/dialogs/card_widget.py",
+        "loc": 80,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "core.dtos",
+          "typing"
+        ]
+      },
+      "ui/dialogs/connection_dialog.py": {
+        "rel_path": "ui/dialogs/connection_dialog.py",
+        "loc": 115,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "logging",
+          "sys",
+          "typing"
+        ]
+      },
+      "ui/dialogs/effects/__init__.py": {
+        "rel_path": "ui/dialogs/effects/__init__.py",
+        "loc": 12,
+        "imports": [
+          "golden_glow",
+          "green_cycle",
+          "mixed_gold_green",
+          "processing_glow",
+          "progress"
+        ]
+      },
+      "ui/dialogs/effects/golden_glow.py": {
+        "rel_path": "ui/dialogs/effects/golden_glow.py",
+        "loc": 154,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/dialogs/effects/green_cycle.py": {
+        "rel_path": "ui/dialogs/effects/green_cycle.py",
+        "loc": 84,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/dialogs/effects/mixed_gold_green.py": {
+        "rel_path": "ui/dialogs/effects/mixed_gold_green.py",
+        "loc": 94,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/dialogs/effects/processing_glow.py": {
+        "rel_path": "ui/dialogs/effects/processing_glow.py",
+        "loc": 85,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/dialogs/effects/progress.py": {
+        "rel_path": "ui/dialogs/effects/progress.py",
+        "loc": 68,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/dialogs/fabrication/__init__.py": {
+        "rel_path": "ui/dialogs/fabrication/__init__.py",
+        "loc": 8,
+        "imports": [
+          "assignment_dialogs",
+          "bitacora_dialog",
+          "create_dialog",
+          "input_dialogs",
+          "persistence_dialogs",
+          "products_dialog",
+          "selection_dialogs"
+        ]
+      },
+      "ui/dialogs/fabrication/assignment_dialogs.py": {
+        "rel_path": "ui/dialogs/fabrication/assignment_dialogs.py",
+        "loc": 130,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/dialogs/fabrication/bitacora_dialog.py": {
+        "rel_path": "ui/dialogs/fabrication/bitacora_dialog.py",
+        "loc": 194,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "core.dtos",
+          "datetime",
+          "logging",
+          "typing"
+        ]
+      },
+      "ui/dialogs/fabrication/create_dialog.py": {
+        "rel_path": "ui/dialogs/fabrication/create_dialog.py",
+        "loc": 226,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "typing",
+          "ui.dialogs.fabrication.create_dialog_compat",
+          "ui.dialogs.fabrication.create_presenter"
+        ]
+      },
+      "ui/dialogs/fabrication/create_dialog_compat.py": {
+        "rel_path": "ui/dialogs/fabrication/create_dialog_compat.py",
+        "loc": 43,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "__future__",
+          "typing"
+        ]
+      },
+      "ui/dialogs/fabrication/create_presenter.py": {
+        "rel_path": "ui/dialogs/fabrication/create_presenter.py",
+        "loc": 72,
+        "imports": [
+          "typing"
+        ]
+      },
+      "ui/dialogs/fabrication/input_dialogs.py": {
+        "rel_path": "ui/dialogs/fabrication/input_dialogs.py",
+        "loc": 100,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "datetime",
+          "typing"
+        ]
+      },
+      "ui/dialogs/fabrication/persistence_dialogs.py": {
+        "rel_path": "ui/dialogs/fabrication/persistence_dialogs.py",
+        "loc": 83,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/dialogs/fabrication/products_dialog.py": {
+        "rel_path": "ui/dialogs/fabrication/products_dialog.py",
+        "loc": 164,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/dialogs/fabrication/selection_dialogs.py": {
+        "rel_path": "ui/dialogs/fabrication/selection_dialogs.py",
+        "loc": 180,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "core.dtos",
+          "typing"
+        ]
+      },
+      "ui/dialogs/prep/__init__.py": {
+        "rel_path": "ui/dialogs/prep/__init__.py",
+        "loc": 8,
+        "imports": [
+          "prep_groups_dialog",
+          "prep_steps_dialog",
+          "preproceso_dialog"
+        ]
+      },
+      "ui/dialogs/prep/prep_groups_dialog.py": {
+        "rel_path": "ui/dialogs/prep/prep_groups_dialog.py",
+        "loc": 189,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "core.services.time_calculator",
+          "datetime",
+          "logging",
+          "os",
+          "prep_steps_dialog"
+        ]
+      },
+      "ui/dialogs/prep/prep_steps_dialog.py": {
+        "rel_path": "ui/dialogs/prep/prep_steps_dialog.py",
+        "loc": 188,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "core.services.time_calculator",
+          "datetime",
+          "logging",
+          "os"
+        ]
+      },
+      "ui/dialogs/prep/preproceso_dialog.py": {
+        "rel_path": "ui/dialogs/prep/preproceso_dialog.py",
+        "loc": 219,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "core.services.time_calculator",
+          "datetime",
+          "logging",
+          "os",
+          "typing"
+        ]
+      },
+      "ui/dialogs/product/__init__.py": {
+        "rel_path": "ui/dialogs/product/__init__.py",
+        "loc": 11,
+        "imports": [
+          "add_iteration_dialog",
+          "procesos_mecanicos_dialog",
+          "product_details_dialog",
+          "subfabricaciones_dialog"
+        ]
+      },
+      "ui/dialogs/product/add_iteration_dialog.py": {
+        "rel_path": "ui/dialogs/product/add_iteration_dialog.py",
+        "loc": 57,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "logging",
+          "os",
+          "typing"
+        ]
+      },
+      "ui/dialogs/product/procesos_mecanicos_dialog.py": {
+        "rel_path": "ui/dialogs/product/procesos_mecanicos_dialog.py",
+        "loc": 211,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "copy",
+          "core.dtos",
+          "core.services.time_calculator",
+          "datetime",
+          "logging",
+          "math",
+          "os",
+          "uuid"
+        ]
+      },
+      "ui/dialogs/product/product_details_dialog.py": {
+        "rel_path": "ui/dialogs/product/product_details_dialog.py",
+        "loc": 48,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "__future__",
+          "logging",
+          "typing",
+          "ui.widgets.product"
+        ]
+      },
+      "ui/dialogs/product/subfabricaciones_dialog.py": {
+        "rel_path": "ui/dialogs/product/subfabricaciones_dialog.py",
+        "loc": 197,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "copy",
+          "core.dtos",
+          "core.services.time_calculator",
+          "datetime",
+          "logging",
+          "math",
+          "os",
+          "uuid"
+        ]
+      },
+      "ui/dialogs/production_flow/__init__.py": {
+        "rel_path": "ui/dialogs/production_flow/__init__.py",
+        "loc": 3,
+        "imports": [
+          "common_dialogs",
+          "define_flow_dialog",
+          "enhanced_flow_dialog"
+        ]
+      },
+      "ui/dialogs/production_flow/common_dialogs.py": {
+        "rel_path": "ui/dialogs/production_flow/common_dialogs.py",
+        "loc": 15,
+        "imports": [
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "cycle_end_config_dialog",
+          "definir_cantidades_dialog",
+          "reassignment_rule_dialog"
+        ]
+      },
+      "ui/dialogs/production_flow/cycle_end_config_dialog.py": {
+        "rel_path": "ui/dialogs/production_flow/cycle_end_config_dialog.py",
+        "loc": 129,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "typing"
+        ]
+      },
+      "ui/dialogs/production_flow/define_flow_dialog.py": {
+        "rel_path": "ui/dialogs/production_flow/define_flow_dialog.py",
+        "loc": 236,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "core.dtos",
+          "logging",
+          "typing",
+          "ui.dialogs.fabrication.persistence_dialogs",
+          "ui.dialogs.production_flow.define_flow_presenter",
+          "ui.dialogs.production_flow.machine_resource_manager",
+          "ui.dialogs.utility_dialogs",
+          "ui.widgets.production_flow.define_control_panel",
+          "ui.widgets.production_flow.flow_display_panel"
+        ]
+      },
+      "ui/dialogs/production_flow/define_flow_presenter.py": {
+        "rel_path": "ui/dialogs/production_flow/define_flow_presenter.py",
+        "loc": 262,
+        "imports": [
+          "core.dtos",
+          "datetime",
+          "logging",
+          "math",
+          "typing"
+        ]
+      },
+      "ui/dialogs/production_flow/definir_cantidades_dialog.py": {
+        "rel_path": "ui/dialogs/production_flow/definir_cantidades_dialog.py",
+        "loc": 56,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "typing"
+        ]
+      },
+      "ui/dialogs/production_flow/enhanced_flow_dialog.py": {
+        "rel_path": "ui/dialogs/production_flow/enhanced_flow_dialog.py",
+        "loc": 143,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "common_dialogs",
+          "core.services.flow_simulation_service",
+          "datetime",
+          "enhanced_flow_presenter",
+          "flow_action_handler",
+          "flow_simulation_handler",
+          "logging",
+          "typing",
+          "ui.widgets.production_flow.flow_canvas",
+          "ui.widgets.production_flow.flow_graph_manager",
+          "ui.widgets.production_flow.flow_toolbar",
+          "ui.widgets.production_flow.inspector_panel",
+          "ui.widgets.production_flow.library_panel"
+        ]
+      },
+      "ui/dialogs/production_flow/enhanced_flow_presenter.py": {
+        "rel_path": "ui/dialogs/production_flow/enhanced_flow_presenter.py",
+        "loc": 16,
+        "imports": [
+          "__future__",
+          "enhanced_flow_presenter_builder",
+          "enhanced_flow_presenter_state",
+          "logging",
+          "typing"
+        ]
+      },
+      "ui/dialogs/production_flow/enhanced_flow_presenter_builder.py": {
+        "rel_path": "ui/dialogs/production_flow/enhanced_flow_presenter_builder.py",
+        "loc": 178,
+        "imports": [
+          "__future__",
+          "datetime",
+          "typing"
+        ]
+      },
+      "ui/dialogs/production_flow/enhanced_flow_presenter_state.py": {
+        "rel_path": "ui/dialogs/production_flow/enhanced_flow_presenter_state.py",
+        "loc": 154,
+        "imports": [
+          "__future__",
+          "datetime",
+          "typing"
+        ]
+      },
+      "ui/dialogs/production_flow/flow_action_handler.py": {
+        "rel_path": "ui/dialogs/production_flow/flow_action_handler.py",
+        "loc": 87,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "common_dialogs",
+          "typing"
+        ]
+      },
+      "ui/dialogs/production_flow/flow_simulation_handler.py": {
+        "rel_path": "ui/dialogs/production_flow/flow_simulation_handler.py",
+        "loc": 81,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "typing"
+        ]
+      },
+      "ui/dialogs/production_flow/machine_resource_manager.py": {
+        "rel_path": "ui/dialogs/production_flow/machine_resource_manager.py",
+        "loc": 80,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/dialogs/production_flow/reassignment_rule_dialog.py": {
+        "rel_path": "ui/dialogs/production_flow/reassignment_rule_dialog.py",
+        "loc": 107,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "__future__",
+          "typing"
+        ]
+      },
+      "ui/dialogs/tracking_dialogs.py": {
+        "rel_path": "ui/dialogs/tracking_dialogs.py",
+        "loc": 42,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/dialogs/utility_dialogs.py": {
+        "rel_path": "ui/dialogs/utility_dialogs.py",
+        "loc": 227,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "copy",
+          "core.services.time_calculator",
+          "datetime",
+          "logging",
+          "math",
+          "os",
+          "typing",
+          "uuid"
+        ]
+      },
+      "ui/main_window.py": {
+        "rel_path": "ui/main_window.py",
+        "loc": 208,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "core.interfaces.view_interface",
+          "core.utils.helpers",
+          "core.utils.ui_scaler",
+          "logging",
+          "os",
+          "sys",
+          "typing",
+          "ui.widgets",
+          "ui.widgets.main_header",
+          "ui.widgets.main_nav_panel"
+        ]
+      },
+      "ui/startup_screen.py": {
+        "rel_path": "ui/startup_screen.py",
+        "loc": 223,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "core.health.health_checker",
+          "core.health.health_worker",
+          "datetime",
+          "logging",
+          "typing",
+          "ui.startup_screen_constants",
+          "ui.startup_screen_report",
+          "ui.startup_screen_ui"
+        ]
+      },
+      "ui/startup_screen_constants.py": {
+        "rel_path": "ui/startup_screen_constants.py",
+        "loc": 13,
+        "imports": []
+      },
+      "ui/startup_screen_report.py": {
+        "rel_path": "ui/startup_screen_report.py",
+        "loc": 90,
+        "imports": [
+          "__future__",
+          "datetime",
+          "os",
+          "typing"
+        ]
+      },
+      "ui/startup_screen_ui.py": {
+        "rel_path": "ui/startup_screen_ui.py",
+        "loc": 182,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "typing"
+        ]
+      },
+      "ui/widgets/__init__.py": {
+        "rel_path": "ui/widgets/__init__.py",
+        "loc": 44,
+        "imports": [
+          "calculate_times_widget",
+          "dashboard_widget",
+          "fabrications_widget",
+          "gestion_datos_widget",
+          "help_widget",
+          "historial_widget",
+          "home_widget",
+          "lotes_widget",
+          "machines_widget",
+          "prep_steps_widget",
+          "preprocesos_widget",
+          "products_widget",
+          "reportes_widget",
+          "settings_widget",
+          "timeline_widget",
+          "workers_widget"
+        ]
+      },
+      "ui/widgets/base.py": {
+        "rel_path": "ui/widgets/base.py",
+        "loc": 26,
+        "imports": [
+          "PyQt6.QtCharts",
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "datetime",
+          "logging"
+        ]
+      },
+      "ui/widgets/calculate_times_widget.py": {
+        "rel_path": "ui/widgets/calculate_times_widget.py",
+        "loc": 185,
+        "imports": [
+          "base",
+          "controllers.simulation.controller",
+          "controllers.ui_signals_controller",
+          "core.di_container",
+          "timeline_widget",
+          "typing"
+        ]
+      },
+      "ui/widgets/dashboard_widget.py": {
+        "rel_path": "ui/widgets/dashboard_widget.py",
+        "loc": 111,
+        "imports": [
+          "base",
+          "typing"
+        ]
+      },
+      "ui/widgets/fabrications_widget.py": {
+        "rel_path": "ui/widgets/fabrications_widget.py",
+        "loc": 114,
+        "imports": [
+          "base"
+        ]
+      },
+      "ui/widgets/gestion_datos_widget.py": {
+        "rel_path": "ui/widgets/gestion_datos_widget.py",
+        "loc": 60,
+        "imports": [
+          "base",
+          "fabrications_widget",
+          "lotes_widget",
+          "machines_widget",
+          "products_widget",
+          "typing",
+          "workers_widget"
+        ]
+      },
+      "ui/widgets/help_widget.py": {
+        "rel_path": "ui/widgets/help_widget.py",
+        "loc": 21,
+        "imports": [
+          "base"
+        ]
+      },
+      "ui/widgets/historial_widget.py": {
+        "rel_path": "ui/widgets/historial_widget.py",
+        "loc": 119,
+        "imports": [
+          "base",
+          "controllers.historial.controller",
+          "core.di_container",
+          "typing"
+        ]
+      },
+      "ui/widgets/home_widget.py": {
+        "rel_path": "ui/widgets/home_widget.py",
+        "loc": 133,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "logging",
+          "typing"
+        ]
+      },
+      "ui/widgets/lotes_widget.py": {
+        "rel_path": "ui/widgets/lotes_widget.py",
+        "loc": 166,
+        "imports": [
+          "base",
+          "controllers.lote_controller",
+          "core.di_container",
+          "logging",
+          "typing"
+        ]
+      },
+      "ui/widgets/machines_widget.py": {
+        "rel_path": "ui/widgets/machines_widget.py",
+        "loc": 161,
+        "imports": [
+          "base",
+          "controllers.machine_controller",
+          "core.di_container",
+          "typing"
+        ]
+      },
+      "ui/widgets/main_header.py": {
+        "rel_path": "ui/widgets/main_header.py",
+        "loc": 40,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/widgets/main_nav_panel.py": {
+        "rel_path": "ui/widgets/main_nav_panel.py",
+        "loc": 123,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "logging",
+          "typing"
+        ]
+      },
+      "ui/widgets/prep_steps_widget.py": {
+        "rel_path": "ui/widgets/prep_steps_widget.py",
+        "loc": 142,
+        "imports": [
+          "base",
+          "typing"
+        ]
+      },
+      "ui/widgets/preprocesos_widget.py": {
+        "rel_path": "ui/widgets/preprocesos_widget.py",
+        "loc": 86,
+        "imports": [
+          "base",
+          "controllers.product_controller_v2",
+          "core.di_container",
+          "typing"
+        ]
+      },
+      "ui/widgets/product/__init__.py": {
+        "rel_path": "ui/widgets/product/__init__.py",
+        "loc": 4,
+        "imports": [
+          "iterations_widget",
+          "materials_widget"
+        ]
+      },
+      "ui/widgets/product/iterations_widget.py": {
+        "rel_path": "ui/widgets/product/iterations_widget.py",
+        "loc": 212,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "datetime",
+          "logging",
+          "os",
+          "typing",
+          "ui.dialogs.product.add_iteration_dialog",
+          "ui.widgets.product.iterations_widget_gallery_mixin"
+        ]
+      },
+      "ui/widgets/product/iterations_widget_gallery_mixin.py": {
+        "rel_path": "ui/widgets/product/iterations_widget_gallery_mixin.py",
+        "loc": 79,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "typing",
+          "ui.widgets.product"
+        ]
+      },
+      "ui/widgets/product/materials_widget.py": {
+        "rel_path": "ui/widgets/product/materials_widget.py",
+        "loc": 108,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "logging",
+          "typing"
+        ]
+      },
+      "ui/widgets/production_flow/__init__.py": {
+        "rel_path": "ui/widgets/production_flow/__init__.py",
+        "loc": 0,
+        "imports": []
+      },
+      "ui/widgets/production_flow/define_control_panel.py": {
+        "rel_path": "ui/widgets/production_flow/define_control_panel.py",
+        "loc": 209,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "core.dtos",
+          "logging",
+          "typing"
+        ]
+      },
+      "ui/widgets/production_flow/flow_canvas.py": {
+        "rel_path": "ui/widgets/production_flow/flow_canvas.py",
+        "loc": 89,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "flow_card_widget",
+          "flow_connection_painter",
+          "typing"
+        ]
+      },
+      "ui/widgets/production_flow/flow_card_widget.py": {
+        "rel_path": "ui/widgets/production_flow/flow_card_widget.py",
+        "loc": 105,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "typing"
+        ]
+      },
+      "ui/widgets/production_flow/flow_connection_painter.py": {
+        "rel_path": "ui/widgets/production_flow/flow_connection_painter.py",
+        "loc": 133,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "math",
+          "typing"
+        ]
+      },
+      "ui/widgets/production_flow/flow_display_panel.py": {
+        "rel_path": "ui/widgets/production_flow/flow_display_panel.py",
+        "loc": 70,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "typing",
+          "ui.widgets.production_flow.flow_item_widget"
+        ]
+      },
+      "ui/widgets/production_flow/flow_graph_manager.py": {
+        "rel_path": "ui/widgets/production_flow/flow_graph_manager.py",
+        "loc": 223,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "logging",
+          "typing",
+          "ui.dialogs.effects",
+          "ui.widgets.production_flow.flow_canvas",
+          "ui.widgets.production_flow.flow_card_widget"
+        ]
+      },
+      "ui/widgets/production_flow/flow_item_widget.py": {
+        "rel_path": "ui/widgets/production_flow/flow_item_widget.py",
+        "loc": 83,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/widgets/production_flow/flow_toolbar.py": {
+        "rel_path": "ui/widgets/production_flow/flow_toolbar.py",
+        "loc": 50,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "typing"
+        ]
+      },
+      "ui/widgets/production_flow/inspector_panel.py": {
+        "rel_path": "ui/widgets/production_flow/inspector_panel.py",
+        "loc": 132,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "logging",
+          "typing",
+          "ui.widgets.production_flow.inspector_presenter",
+          "ui.widgets.production_flow.inspector_task_loader",
+          "ui.widgets.production_flow.inspector_ui"
+        ]
+      },
+      "ui/widgets/production_flow/inspector_presenter.py": {
+        "rel_path": "ui/widgets/production_flow/inspector_presenter.py",
+        "loc": 79,
+        "imports": [
+          "typing"
+        ]
+      },
+      "ui/widgets/production_flow/inspector_task_loader.py": {
+        "rel_path": "ui/widgets/production_flow/inspector_task_loader.py",
+        "loc": 77,
+        "imports": [
+          "PyQt6.QtCore",
+          "__future__",
+          "datetime",
+          "typing"
+        ]
+      },
+      "ui/widgets/production_flow/inspector_ui.py": {
+        "rel_path": "ui/widgets/production_flow/inspector_ui.py",
+        "loc": 192,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "__future__",
+          "typing"
+        ]
+      },
+      "ui/widgets/production_flow/library_panel.py": {
+        "rel_path": "ui/widgets/production_flow/library_panel.py",
+        "loc": 97,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/widgets/products_widget.py": {
+        "rel_path": "ui/widgets/products_widget.py",
+        "loc": 235,
+        "imports": [
+          "base",
+          "controllers.product_controller_v2",
+          "core.di_container",
+          "typing"
+        ]
+      },
+      "ui/widgets/reportes_widget.py": {
+        "rel_path": "ui/widgets/reportes_widget.py",
+        "loc": 172,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "controllers.report_controller",
+          "core.di_container",
+          "logging",
+          "reports.charts_container",
+          "reports.order_list",
+          "reports.smart_search"
+        ]
+      },
+      "ui/widgets/reports/__init__.py": {
+        "rel_path": "ui/widgets/reports/__init__.py",
+        "loc": 1,
+        "imports": [
+          "smart_search"
+        ]
+      },
+      "ui/widgets/reports/charts_container.py": {
+        "rel_path": "ui/widgets/reports/charts_container.py",
+        "loc": 246,
+        "imports": [
+          "PyQt6.QtCharts",
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "logging",
+          "typing",
+          "ui.widgets.reports.charts_renderers",
+          "ui.widgets.reports.stat_card"
+        ]
+      },
+      "ui/widgets/reports/charts_renderers.py": {
+        "rel_path": "ui/widgets/reports/charts_renderers.py",
+        "loc": 36,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "__future__",
+          "typing"
+        ]
+      },
+      "ui/widgets/reports/order_list.py": {
+        "rel_path": "ui/widgets/reports/order_list.py",
+        "loc": 214,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "datetime",
+          "logging",
+          "typing"
+        ]
+      },
+      "ui/widgets/reports/smart_search.py": {
+        "rel_path": "ui/widgets/reports/smart_search.py",
+        "loc": 142,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "logging",
+          "typing"
+        ]
+      },
+      "ui/widgets/reports/stat_card.py": {
+        "rel_path": "ui/widgets/reports/stat_card.py",
+        "loc": 29,
+        "imports": [
+          "PyQt6.QtWidgets"
+        ]
+      },
+      "ui/widgets/settings_widget.py": {
+        "rel_path": "ui/widgets/settings_widget.py",
+        "loc": 167,
+        "imports": [
+          "base",
+          "controllers.app_controller",
+          "controllers.schedule_controller",
+          "core.di_container",
+          "logging",
+          "typing",
+          "ui.widgets.settings_widget_schedule_mixin"
+        ]
+      },
+      "ui/widgets/settings_widget_schedule_mixin.py": {
+        "rel_path": "ui/widgets/settings_widget_schedule_mixin.py",
+        "loc": 154,
+        "imports": [
+          "base",
+          "json",
+          "logging",
+          "typing",
+          "ui.widgets"
+        ]
+      },
+      "ui/widgets/timeline_widget.py": {
+        "rel_path": "ui/widgets/timeline_widget.py",
+        "loc": 204,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "base",
+          "math",
+          "typing"
+        ]
+      },
+      "ui/widgets/worker/camera_info_panel.py": {
+        "rel_path": "ui/widgets/worker/camera_info_panel.py",
+        "loc": 40,
+        "imports": [
+          "PyQt6.QtWidgets",
+          "core.dtos",
+          "typing"
+        ]
+      },
+      "ui/widgets/worker/camera_selector_panel.py": {
+        "rel_path": "ui/widgets/worker/camera_selector_panel.py",
+        "loc": 74,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "core.dtos",
+          "typing"
+        ]
+      },
+      "ui/widgets/worker/worker_activity_panel.py": {
+        "rel_path": "ui/widgets/worker/worker_activity_panel.py",
+        "loc": 118,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "datetime",
+          "typing"
+        ]
+      },
+      "ui/widgets/worker/worker_details_panel.py": {
+        "rel_path": "ui/widgets/worker/worker_details_panel.py",
+        "loc": 152,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/widgets/worker/worker_incidence_dialog.py": {
+        "rel_path": "ui/widgets/worker/worker_incidence_dialog.py",
+        "loc": 53,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "datetime",
+          "typing"
+        ]
+      },
+      "ui/widgets/workers_widget.py": {
+        "rel_path": "ui/widgets/workers_widget.py",
+        "loc": 138,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "base",
+          "controllers.worker.controller",
+          "core.di_container",
+          "typing",
+          "ui.widgets.worker.worker_activity_panel",
+          "ui.widgets.worker.worker_details_panel",
+          "ui.widgets.worker.worker_incidence_dialog"
+        ]
+      },
+      "ui/worker/__init__.py": {
+        "rel_path": "ui/worker/__init__.py",
+        "loc": 0,
+        "imports": []
+      },
+      "ui/worker/camera_config_dialog.py": {
+        "rel_path": "ui/worker/camera_config_dialog.py",
+        "loc": 146,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "core.camera_manager",
+          "core.dtos",
+          "logging",
+          "typing",
+          "ui.widgets.worker.camera_info_panel",
+          "ui.widgets.worker.camera_selector_panel",
+          "ui.worker.camera_config_presenter"
+        ]
+      },
+      "ui/worker/camera_config_presenter.py": {
+        "rel_path": "ui/worker/camera_config_presenter.py",
+        "loc": 80,
+        "imports": [
+          "core.camera_manager",
+          "core.dtos",
+          "logging",
+          "typing"
+        ]
+      },
+      "ui/worker/main_window/__init__.py": {
+        "rel_path": "ui/worker/main_window/__init__.py",
+        "loc": 3,
+        "imports": [
+          "window"
+        ]
+      },
+      "ui/worker/main_window/ui_setup.py": {
+        "rel_path": "ui/worker/main_window/ui_setup.py",
+        "loc": 233,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtGui",
+          "PyQt6.QtWidgets",
+          "typing"
+        ]
+      },
+      "ui/worker/main_window/window.py": {
+        "rel_path": "ui/worker/main_window/window.py",
+        "loc": 175,
+        "imports": [
+          "PyQt6.QtCore",
+          "PyQt6.QtWidgets",
+          "core.interfaces.worker_view_interface",
+          "core.utils.ui_scaler",
+          "logging",
+          "typing",
+          "ui_setup"
+        ]
+      }
+    },
+    "edges": {
+      "controllers/__init__.py": [
+        "controllers/app_controller.py",
+        "controllers/backup_controller.py",
+        "controllers/calculation_controller.py",
+        "controllers/fabricacion_controller.py",
+        "controllers/file_controller.py",
+        "controllers/hardware_controller.py",
+        "controllers/historial/controller.py",
+        "controllers/lote_controller.py",
+        "controllers/machine_controller.py",
+        "controllers/navigation_controller.py",
+        "controllers/pila/controller.py",
+        "controllers/preproceso_controller.py",
+        "controllers/product_controller_v2.py",
+        "controllers/report_controller.py",
+        "controllers/schedule_controller.py",
+        "controllers/session_controller.py",
+        "controllers/simulation/controller.py",
+        "controllers/startup_controller.py",
+        "controllers/ui_controller.py",
+        "controllers/worker/controller.py"
+      ],
+      "controllers/app_controller.py": [
+        "controllers/startup_controller.py",
+        "controllers/ui_signals_controller.py",
+        "core/app_model.py",
+        "core/di_container.py",
+        "core/interfaces/controller_interface.py",
+        "core/interfaces/view_interface.py",
+        "core/schedule_config.py",
+        "core/utils/helpers.py"
+      ],
+      "controllers/backup_controller.py": [
+        "controllers/backup_controller_io_mixin.py",
+        "core/utils/helpers.py",
+        "ui/dialogs/backup_restore_dialog.py"
+      ],
+      "controllers/backup_controller_io_mixin.py": [
+        "controllers/backup_controller.py",
+        "database/database_manager.py"
+      ],
+      "controllers/calculation_controller.py": [],
+      "controllers/fabricacion_controller.py": [
+        "database/database_manager.py"
+      ],
+      "controllers/file_controller.py": [
+        "database/database_manager.py"
+      ],
+      "controllers/hardware_controller.py": [],
+      "controllers/historial/__init__.py": [],
+      "controllers/historial/controller.py": [],
+      "controllers/historial/interaction_manager.py": [],
+      "controllers/historial/protocols.py": [],
+      "controllers/historial/report_manager.py": [
+        "core/services/report_strategy.py"
+      ],
+      "controllers/historial/view_manager.py": [],
+      "controllers/lote_controller.py": [
+        "database/database_manager.py"
+      ],
+      "controllers/machine_controller.py": [
+        "core/security/access_control.py",
+        "core/security/security_service.py",
+        "ui/dialogs/prep/prep_groups_dialog.py"
+      ],
+      "controllers/navigation_controller.py": [
+        "core/interfaces/controller_interface.py",
+        "core/utils/ui_scaler.py",
+        "ui/widgets/calculate_times_widget.py",
+        "ui/widgets/gestion_datos_widget.py",
+        "ui/widgets/lotes_widget.py"
+      ],
+      "controllers/pila/controller.py": [
+        "controllers/pila/lote_manager.py",
+        "controllers/pila/pila_manager.py",
+        "controllers/pila/protocols.py"
+      ],
+      "controllers/pila/lote_manager.py": [
+        "controllers/pila/protocols.py"
+      ],
+      "controllers/pila/pila_manager.py": [
+        "controllers/pila/protocols.py",
+        "core/dtos.py",
+        "core/services/time_calculator.py"
+      ],
+      "controllers/pila/protocols.py": [
+        "core/dtos.py"
+      ],
+      "controllers/preproceso_controller.py": [
+        "database/database_manager.py"
+      ],
+      "controllers/product/__init__.py": [],
+      "controllers/product/fabricacion_manager.py": [],
+      "controllers/product/fabricacion_manager_products_mixin.py": [],
+      "controllers/product/material_manager.py": [
+        "core/services/data_importer.py"
+      ],
+      "controllers/product/preproceso_manager.py": [
+        "core/security/access_control.py",
+        "core/security/security_service.py"
+      ],
+      "controllers/product/product_controller_v2_delegation_mixin.py": [],
+      "controllers/product/product_manager.py": [
+        "core/security/access_control.py",
+        "core/security/security_service.py",
+        "core/validation/validator_service.py"
+      ],
+      "controllers/product/product_manager_iteration_mixin.py": [],
+      "controllers/product/protocols.py": [],
+      "controllers/product_controller_v2.py": [
+        "core/application_state.py",
+        "core/di_container.py"
+      ],
+      "controllers/report_controller.py": [
+        "controllers/report_controller_export_mixin.py",
+        "core/interfaces/controller_interface.py",
+        "core/services/report_strategy.py"
+      ],
+      "controllers/report_controller_export_mixin.py": [
+        "controllers/report_controller.py"
+      ],
+      "controllers/schedule_controller.py": [
+        "controllers/schedule_helpers.py",
+        "controllers/schedule_legacy_api.py",
+        "controllers/schedule_ui_ops.py"
+      ],
+      "controllers/schedule_helpers.py": [],
+      "controllers/schedule_legacy_api.py": [],
+      "controllers/schedule_ui_ops.py": [
+        "controllers/schedule_controller.py",
+        "controllers/schedule_helpers.py"
+      ],
+      "controllers/session_controller.py": [
+        "core/dtos.py",
+        "core/security/access_control.py",
+        "core/security/security_service.py",
+        "core/services/audit_logger.py",
+        "core/services/rate_limiter.py",
+        "features/worker_controller.py",
+        "ui/worker/main_window/window.py"
+      ],
+      "controllers/simulation/__init__.py": [],
+      "controllers/simulation/controller.py": [
+        "core/application_state.py",
+        "core/di_container.py",
+        "core/services/flow_builder_service.py",
+        "core/simulation/simulation_engine.py"
+      ],
+      "controllers/simulation/controller_delegation_mixin.py": [],
+      "controllers/simulation/editor_manager.py": [],
+      "controllers/simulation/execution_helpers.py": [],
+      "controllers/simulation/execution_manager.py": [
+        "core/services/time_calculator.py",
+        "core/simulation/simulation_adapter.py",
+        "core/simulation/simulation_engine.py"
+      ],
+      "controllers/simulation/optimizer_worker.py": [
+        "core/services/flow_builder_service.py",
+        "core/services/time_calculator.py",
+        "core/simulation/simulation_adapter.py"
+      ],
+      "controllers/simulation/protocols.py": [],
+      "controllers/startup_controller.py": [
+        "controllers/backup_controller.py",
+        "controllers/calculation_controller.py",
+        "controllers/fabricacion_controller.py",
+        "controllers/file_controller.py",
+        "controllers/hardware_controller.py",
+        "controllers/historial/controller.py",
+        "controllers/lote_controller.py",
+        "controllers/machine_controller.py",
+        "controllers/navigation_controller.py",
+        "controllers/pila/controller.py",
+        "controllers/preproceso_controller.py",
+        "controllers/product_controller_v2.py",
+        "controllers/report_controller.py",
+        "controllers/schedule_controller.py",
+        "controllers/session_controller.py",
+        "controllers/simulation/controller.py",
+        "controllers/ui_controller.py",
+        "controllers/ui_signals_controller.py",
+        "controllers/worker/controller.py",
+        "core/application_state.py",
+        "core/di_container.py",
+        "core/interfaces/view_interface.py",
+        "core/qr_generator.py",
+        "core/quote_service.py",
+        "core/security/access_control.py",
+        "core/security/security_service.py",
+        "core/services/audit_logger.py",
+        "core/services/backup_service.py",
+        "core/services/maintenance_service.py",
+        "core/services/rate_limiter.py"
+      ],
+      "controllers/ui_controller.py": [
+        "core/quote_service.py",
+        "core/services/machine_service.py",
+        "core/services/product_service.py",
+        "core/services/report_service.py",
+        "core/services/worker_service.py"
+      ],
+      "controllers/ui_signals_controller.py": [
+        "controllers/ui_signals_controller_mixin.py"
+      ],
+      "controllers/ui_signals_controller_mixin.py": [],
+      "controllers/worker/__init__.py": [],
+      "controllers/worker/auth_manager.py": [
+        "core/security/access_control.py",
+        "core/security/password_service.py",
+        "core/security/security_service.py"
+      ],
+      "controllers/worker/controller.py": [
+        "features/worker_controller.py",
+        "ui/worker/main_window/window.py"
+      ],
+      "controllers/worker/management_manager.py": [
+        "core/security/access_control.py",
+        "core/security/password_service.py",
+        "core/security/security_service.py",
+        "ui/widgets/workers_widget.py"
+      ],
+      "controllers/worker/protocols.py": [],
+      "controllers/worker/task_manager.py": [
+        "core/security/access_control.py",
+        "core/security/security_service.py",
+        "ui/widgets/workers_widget.py"
+      ],
+      "core/__init__.py": [],
+      "core/app_model.py": [
+        "core/app_model_fabricacion_mixin.py",
+        "core/app_model_legacy_repos_mixin.py",
+        "core/app_model_pila_mixin.py",
+        "core/app_model_product_mixin.py",
+        "core/app_model_reports_mixin.py",
+        "core/app_model_resources_mixin.py",
+        "core/dtos.py",
+        "core/reports_dtos.py",
+        "core/services/fabricacion_service.py",
+        "core/services/machine_service.py",
+        "core/services/pila_service.py",
+        "core/services/preparation_service.py",
+        "core/services/product_service.py",
+        "core/services/report_service.py",
+        "core/services/tracking_assignment_service.py",
+        "core/services/worker_service.py",
+        "core/tracking_dtos.py",
+        "database/database_manager.py"
+      ],
+      "core/app_model_fabricacion_mixin.py": [
+        "core/dtos.py"
+      ],
+      "core/app_model_legacy_repos_mixin.py": [
+        "core/dtos.py"
+      ],
+      "core/app_model_pila_mixin.py": [
+        "core/dtos.py"
+      ],
+      "core/app_model_product_mixin.py": [
+        "core/dtos.py"
+      ],
+      "core/app_model_reports_mixin.py": [
+        "core/reports_dtos.py"
+      ],
+      "core/app_model_resources_mixin.py": [
+        "core/dtos.py"
+      ],
+      "core/application_state.py": [],
+      "core/camera_manager/__init__.py": [],
+      "core/camera_manager/base.py": [],
+      "core/camera_manager/detector.py": [],
+      "core/camera_manager/manager.py": [],
+      "core/camera_manager/utils.py": [],
+      "core/constants.py": [],
+      "core/di_container.py": [],
+      "core/dtos.py": [
+        "core/dtos_models.py"
+      ],
+      "core/dtos_catalog.py": [],
+      "core/dtos_flow_camera.py": [],
+      "core/dtos_models.py": [
+        "core/dtos_catalog.py",
+        "core/dtos_flow_camera.py"
+      ],
+      "core/health/__init__.py": [],
+      "core/health/constants.py": [],
+      "core/health/health_checker.py": [],
+      "core/health/health_worker.py": [],
+      "core/health/test_runner.py": [],
+      "core/interfaces/controller_interface.py": [],
+      "core/interfaces/view_interface.py": [],
+      "core/interfaces/worker_view_interface.py": [
+        "core/interfaces/controller_interface.py"
+      ],
+      "core/label_manager/__init__.py": [],
+      "core/label_manager/base.py": [],
+      "core/label_manager/generator.py": [],
+      "core/label_manager/manager.py": [],
+      "core/label_manager/printer.py": [],
+      "core/production_context.py": [],
+      "core/qr_generator.py": [],
+      "core/qr_scanner/__init__.py": [],
+      "core/qr_scanner/base.py": [],
+      "core/qr_scanner/detector.py": [],
+      "core/qr_scanner/scanner.py": [],
+      "core/qr_scanner/ui.py": [],
+      "core/quote_service.py": [],
+      "core/reports_dtos.py": [],
+      "core/schedule_config.py": [],
+      "core/security/access_control.py": [
+        "core/security/security_exceptions.py",
+        "core/security/security_service.py"
+      ],
+      "core/security/password_service.py": [],
+      "core/security/security_exceptions.py": [],
+      "core/security/security_service.py": [],
+      "core/services/audit_logger.py": [],
+      "core/services/backup_service.py": [
+        "core/dtos.py"
+      ],
+      "core/services/backup_utils.py": [],
+      "core/services/calculation_audit.py": [],
+      "core/services/calendar_helper.py": [],
+      "core/services/data_importer.py": [],
+      "core/services/fabricacion_service.py": [
+        "core/dtos.py",
+        "database/database_manager.py"
+      ],
+      "core/services/flow_builder_service.py": [],
+      "core/services/flow_simulation_service.py": [],
+      "core/services/machine_service.py": [
+        "core/dtos.py",
+        "database/database_manager.py"
+      ],
+      "core/services/maintenance_service.py": [],
+      "core/services/pila_service.py": [
+        "core/dtos.py",
+        "database/database_manager.py"
+      ],
+      "core/services/preparation_service.py": [
+        "core/dtos.py",
+        "database/database_manager.py"
+      ],
+      "core/services/product_service.py": [
+        "core/dtos.py",
+        "core/services/product_service_delegation_mixin.py",
+        "database/database_manager.py"
+      ],
+      "core/services/product_service_delegation_mixin.py": [
+        "core/dtos.py"
+      ],
+      "core/services/rate_limiter.py": [],
+      "core/services/report_service.py": [
+        "core/reports_dtos.py",
+        "database/database_manager.py"
+      ],
+      "core/services/report_sheets/__init__.py": [],
+      "core/services/report_sheets/audit.py": [
+        "core/services/calculation_audit.py"
+      ],
+      "core/services/report_sheets/base.py": [],
+      "core/services/report_sheets/cronograma.py": [],
+      "core/services/report_sheets/cuellos_botella.py": [
+        "core/services/calculation_audit.py"
+      ],
+      "core/services/report_sheets/graficas.py": [],
+      "core/services/report_sheets/resumen.py": [],
+      "core/services/report_sheets/trabajadores.py": [],
+      "core/services/report_sheets/trabajo_paralelo.py": [],
+      "core/services/report_strategy.py": [
+        "core/services/reporting/base.py",
+        "core/services/reporting/excel_report_strategy.py",
+        "core/services/reporting/pdf_report_strategy.py"
+      ],
+      "core/services/reporting/__init__.py": [],
+      "core/services/reporting/base.py": [],
+      "core/services/reporting/excel_report_strategy.py": [
+        "core/services/calculation_audit.py",
+        "core/services/time_calculator.py"
+      ],
+      "core/services/reporting/pdf_report_sections.py": [],
+      "core/services/reporting/pdf_report_strategy.py": [
+        "core/services/time_calculator.py"
+      ],
+      "core/services/temporal_storage.py": [],
+      "core/services/time_calculator.py": [],
+      "core/services/tracking_assignment_service.py": [
+        "core/dtos.py",
+        "core/tracking_dtos.py",
+        "database/database_manager.py"
+      ],
+      "core/services/worker_service.py": [
+        "core/dtos.py",
+        "core/services/tracking_assignment_service.py",
+        "core/tracking_dtos.py",
+        "database/database_manager.py"
+      ],
+      "core/simulation/__init__.py": [],
+      "core/simulation/engine/__init__.py": [],
+      "core/simulation/engine/base.py": [],
+      "core/simulation/engine/core_runner.py": [],
+      "core/simulation/engine/dependency_handler.py": [],
+      "core/simulation/engine/motor.py": [
+        "core/services/calculation_audit.py",
+        "core/services/temporal_storage.py"
+      ],
+      "core/simulation/engine/results_compiler.py": [
+        "core/services/calculation_audit.py"
+      ],
+      "core/simulation/event_engine.py": [],
+      "core/simulation/resource_manager.py": [
+        "core/services/time_calculator.py"
+      ],
+      "core/simulation/simulation_adapter.py": [
+        "core/services/calculation_audit.py",
+        "core/services/time_calculator.py"
+      ],
+      "core/simulation/simulation_engine.py": [
+        "core/services/calculation_audit.py",
+        "core/services/calendar_helper.py",
+        "core/services/time_calculator.py"
+      ],
+      "core/simulation/simulation_events/__init__.py": [],
+      "core/simulation/simulation_events/base.py": [],
+      "core/simulation/simulation_events/production.py": [
+        "core/services/calculation_audit.py"
+      ],
+      "core/simulation/simulation_events/worker.py": [
+        "core/services/calculation_audit.py"
+      ],
+      "core/simulation/timeline_task.py": [
+        "core/services/time_calculator.py"
+      ],
+      "core/simulation/timeline_task_parallel.py": [],
+      "core/sync_service.py": [],
+      "core/tracking_dtos.py": [
+        "core/dtos.py"
+      ],
+      "core/utils/author_loader.py": [
+        "core/quote_service.py"
+      ],
+      "core/utils/helpers.py": [],
+      "core/utils/pila_serializer.py": [],
+      "core/utils/ui_scaler.py": [],
+      "core/utils/visualization.py": [
+        "core/constants.py"
+      ],
+      "core/validation/validator_service.py": [],
+      "database/__init__.py": [],
+      "database/config.py": [],
+      "database/database_manager.py": [
+        "core/dtos.py",
+        "core/sync_service.py"
+      ],
+      "database/models/__init__.py": [],
+      "database/models/base.py": [],
+      "database/models/fabrication.py": [],
+      "database/models/inventory.py": [],
+      "database/models/machine.py": [],
+      "database/models/product.py": [],
+      "database/models/security.py": [],
+      "database/models/tracking.py": [],
+      "database/models/worker.py": [],
+      "database/repositories/__init__.py": [],
+      "database/repositories/base.py": [],
+      "database/repositories/configuration_repository.py": [],
+      "database/repositories/incidencia_repository.py": [
+        "core/tracking_dtos.py",
+        "database/repositories/base.py"
+      ],
+      "database/repositories/iteration_repository.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/iteration_repository_crud_mixin.py": [],
+      "database/repositories/iteration_repository_helpers.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/iteration_repository_images_mixin.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/label_counter_repository.py": [
+        "core/dtos.py",
+        "database/repositories/base.py"
+      ],
+      "database/repositories/lote_repository.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/machine/__init__.py": [],
+      "database/repositories/machine/crud_manager.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/machine/maintenance_manager.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/machine/preparation_manager.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/machine/repository.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/machine/stats_manager.py": [],
+      "database/repositories/material_repository.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/material_repository_links_mixin.py": [],
+      "database/repositories/pila/__init__.py": [],
+      "database/repositories/pila/pila_base_manager.py": [],
+      "database/repositories/pila/pila_bitacora_manager.py": [],
+      "database/repositories/pila/pila_crud_manager.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/pila/pila_workflow_manager.py": [
+        "core/dtos.py",
+        "core/utils/pila_serializer.py"
+      ],
+      "database/repositories/pila/repository.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/preproceso/__init__.py": [],
+      "database/repositories/preproceso/fabricacion_manager.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/preproceso/preproceso_manager.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/preproceso/repository.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/product_repository.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/product_repository_fabricacion_mixin.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/product_repository_helpers.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/protocols.py": [],
+      "database/repositories/reports/__init__.py": [],
+      "database/repositories/reports/reports_incidences_manager.py": [
+        "core/reports_dtos.py"
+      ],
+      "database/repositories/reports/reports_orders_manager.py": [
+        "core/reports_dtos.py"
+      ],
+      "database/repositories/reports/reports_products_manager.py": [
+        "core/reports_dtos.py"
+      ],
+      "database/repositories/reports/reports_search_manager.py": [
+        "core/reports_dtos.py"
+      ],
+      "database/repositories/reports/reports_stats_manager.py": [
+        "core/reports_dtos.py"
+      ],
+      "database/repositories/reports/repository.py": [
+        "core/reports_dtos.py"
+      ],
+      "database/repositories/tracking/core_manager.py": [
+        "core/tracking_dtos.py"
+      ],
+      "database/repositories/tracking/mappers.py": [
+        "core/tracking_dtos.py"
+      ],
+      "database/repositories/tracking/queries_manager.py": [],
+      "database/repositories/tracking/steps_manager.py": [
+        "core/tracking_dtos.py"
+      ],
+      "database/repositories/tracking_log_repository.py": [
+        "database/repositories/base.py"
+      ],
+      "database/repositories/tracking_repository.py": [
+        "core/tracking_dtos.py",
+        "database/repositories/incidencia_repository.py",
+        "database/repositories/tracking_log_repository.py",
+        "database/repositories/tracking_stats_repository.py"
+      ],
+      "database/repositories/tracking_stats_repository.py": [
+        "database/repositories/base.py"
+      ],
+      "database/repositories/worker/__init__.py": [],
+      "database/repositories/worker/annotation_manager.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/worker/auth_manager.py": [
+        "core/dtos.py",
+        "core/security/password_service.py"
+      ],
+      "database/repositories/worker/repository.py": [
+        "core/dtos.py"
+      ],
+      "database/repositories/worker/worker_manager.py": [
+        "core/dtos.py"
+      ],
+      "features/__init__.py": [],
+      "features/worker_controller.py": [
+        "core/interfaces/worker_view_interface.py",
+        "core/production_context.py",
+        "features/worker_controller_io_mixin.py",
+        "features/worker_db_sync.py",
+        "features/worker_incidence_dialog.py",
+        "features/worker_validation_service.py",
+        "ui/dialogs/tracking_dialogs.py"
+      ],
+      "features/worker_controller_io_mixin.py": [
+        "ui/worker/camera_config_dialog.py"
+      ],
+      "features/worker_db_sync.py": [],
+      "features/worker_incidence_dialog.py": [],
+      "features/worker_validation_service.py": [],
+      "ui/__init__.py": [],
+      "ui/dialogs/__init__.py": [],
+      "ui/dialogs/backup_restore_dialog.py": [
+        "core/dtos.py",
+        "core/services/backup_service.py"
+      ],
+      "ui/dialogs/canvas_widget.py": [],
+      "ui/dialogs/canvas_widgets.py": [],
+      "ui/dialogs/card_widget.py": [
+        "core/dtos.py"
+      ],
+      "ui/dialogs/connection_dialog.py": [],
+      "ui/dialogs/effects/__init__.py": [],
+      "ui/dialogs/effects/golden_glow.py": [],
+      "ui/dialogs/effects/green_cycle.py": [],
+      "ui/dialogs/effects/mixed_gold_green.py": [],
+      "ui/dialogs/effects/processing_glow.py": [],
+      "ui/dialogs/effects/progress.py": [],
+      "ui/dialogs/fabrication/__init__.py": [],
+      "ui/dialogs/fabrication/assignment_dialogs.py": [],
+      "ui/dialogs/fabrication/bitacora_dialog.py": [
+        "core/dtos.py"
+      ],
+      "ui/dialogs/fabrication/create_dialog.py": [
+        "ui/dialogs/fabrication/create_dialog_compat.py",
+        "ui/dialogs/fabrication/create_presenter.py"
+      ],
+      "ui/dialogs/fabrication/create_dialog_compat.py": [],
+      "ui/dialogs/fabrication/create_presenter.py": [],
+      "ui/dialogs/fabrication/input_dialogs.py": [],
+      "ui/dialogs/fabrication/persistence_dialogs.py": [],
+      "ui/dialogs/fabrication/products_dialog.py": [],
+      "ui/dialogs/fabrication/selection_dialogs.py": [
+        "core/dtos.py"
+      ],
+      "ui/dialogs/prep/__init__.py": [],
+      "ui/dialogs/prep/prep_groups_dialog.py": [
+        "core/services/time_calculator.py"
+      ],
+      "ui/dialogs/prep/prep_steps_dialog.py": [
+        "core/services/time_calculator.py"
+      ],
+      "ui/dialogs/prep/preproceso_dialog.py": [
+        "core/services/time_calculator.py"
+      ],
+      "ui/dialogs/product/__init__.py": [],
+      "ui/dialogs/product/add_iteration_dialog.py": [],
+      "ui/dialogs/product/procesos_mecanicos_dialog.py": [
+        "core/dtos.py",
+        "core/services/time_calculator.py"
+      ],
+      "ui/dialogs/product/product_details_dialog.py": [],
+      "ui/dialogs/product/subfabricaciones_dialog.py": [
+        "core/dtos.py",
+        "core/services/time_calculator.py"
+      ],
+      "ui/dialogs/production_flow/__init__.py": [],
+      "ui/dialogs/production_flow/common_dialogs.py": [],
+      "ui/dialogs/production_flow/cycle_end_config_dialog.py": [],
+      "ui/dialogs/production_flow/define_flow_dialog.py": [
+        "core/dtos.py",
+        "ui/dialogs/fabrication/persistence_dialogs.py",
+        "ui/dialogs/production_flow/define_flow_presenter.py",
+        "ui/dialogs/production_flow/machine_resource_manager.py",
+        "ui/dialogs/utility_dialogs.py",
+        "ui/widgets/production_flow/define_control_panel.py",
+        "ui/widgets/production_flow/flow_display_panel.py"
+      ],
+      "ui/dialogs/production_flow/define_flow_presenter.py": [
+        "core/dtos.py"
+      ],
+      "ui/dialogs/production_flow/definir_cantidades_dialog.py": [],
+      "ui/dialogs/production_flow/enhanced_flow_dialog.py": [
+        "core/services/flow_simulation_service.py",
+        "ui/widgets/production_flow/flow_canvas.py",
+        "ui/widgets/production_flow/flow_graph_manager.py",
+        "ui/widgets/production_flow/flow_toolbar.py",
+        "ui/widgets/production_flow/inspector_panel.py",
+        "ui/widgets/production_flow/library_panel.py"
+      ],
+      "ui/dialogs/production_flow/enhanced_flow_presenter.py": [],
+      "ui/dialogs/production_flow/enhanced_flow_presenter_builder.py": [],
+      "ui/dialogs/production_flow/enhanced_flow_presenter_state.py": [],
+      "ui/dialogs/production_flow/flow_action_handler.py": [],
+      "ui/dialogs/production_flow/flow_simulation_handler.py": [],
+      "ui/dialogs/production_flow/machine_resource_manager.py": [],
+      "ui/dialogs/production_flow/reassignment_rule_dialog.py": [],
+      "ui/dialogs/tracking_dialogs.py": [],
+      "ui/dialogs/utility_dialogs.py": [
+        "core/services/time_calculator.py"
+      ],
+      "ui/main_window.py": [
+        "core/interfaces/view_interface.py",
+        "core/utils/helpers.py",
+        "core/utils/ui_scaler.py",
+        "ui/widgets/main_header.py",
+        "ui/widgets/main_nav_panel.py"
+      ],
+      "ui/startup_screen.py": [
+        "core/health/health_checker.py",
+        "core/health/health_worker.py",
+        "ui/startup_screen_constants.py",
+        "ui/startup_screen_report.py",
+        "ui/startup_screen_ui.py"
+      ],
+      "ui/startup_screen_constants.py": [],
+      "ui/startup_screen_report.py": [],
+      "ui/startup_screen_ui.py": [],
+      "ui/widgets/__init__.py": [],
+      "ui/widgets/base.py": [],
+      "ui/widgets/calculate_times_widget.py": [
+        "controllers/simulation/controller.py",
+        "controllers/ui_signals_controller.py",
+        "core/di_container.py"
+      ],
+      "ui/widgets/dashboard_widget.py": [],
+      "ui/widgets/fabrications_widget.py": [],
+      "ui/widgets/gestion_datos_widget.py": [],
+      "ui/widgets/help_widget.py": [],
+      "ui/widgets/historial_widget.py": [
+        "controllers/historial/controller.py",
+        "core/di_container.py"
+      ],
+      "ui/widgets/home_widget.py": [],
+      "ui/widgets/lotes_widget.py": [
+        "controllers/lote_controller.py",
+        "core/di_container.py"
+      ],
+      "ui/widgets/machines_widget.py": [
+        "controllers/machine_controller.py",
+        "core/di_container.py"
+      ],
+      "ui/widgets/main_header.py": [],
+      "ui/widgets/main_nav_panel.py": [],
+      "ui/widgets/prep_steps_widget.py": [],
+      "ui/widgets/preprocesos_widget.py": [
+        "controllers/product_controller_v2.py",
+        "core/di_container.py"
+      ],
+      "ui/widgets/product/__init__.py": [],
+      "ui/widgets/product/iterations_widget.py": [
+        "ui/dialogs/product/add_iteration_dialog.py",
+        "ui/widgets/product/iterations_widget_gallery_mixin.py"
+      ],
+      "ui/widgets/product/iterations_widget_gallery_mixin.py": [],
+      "ui/widgets/product/materials_widget.py": [],
+      "ui/widgets/production_flow/__init__.py": [],
+      "ui/widgets/production_flow/define_control_panel.py": [
+        "core/dtos.py"
+      ],
+      "ui/widgets/production_flow/flow_canvas.py": [],
+      "ui/widgets/production_flow/flow_card_widget.py": [],
+      "ui/widgets/production_flow/flow_connection_painter.py": [],
+      "ui/widgets/production_flow/flow_display_panel.py": [
+        "ui/widgets/production_flow/flow_item_widget.py"
+      ],
+      "ui/widgets/production_flow/flow_graph_manager.py": [
+        "ui/widgets/production_flow/flow_canvas.py",
+        "ui/widgets/production_flow/flow_card_widget.py"
+      ],
+      "ui/widgets/production_flow/flow_item_widget.py": [],
+      "ui/widgets/production_flow/flow_toolbar.py": [],
+      "ui/widgets/production_flow/inspector_panel.py": [
+        "ui/widgets/production_flow/inspector_presenter.py",
+        "ui/widgets/production_flow/inspector_task_loader.py",
+        "ui/widgets/production_flow/inspector_ui.py"
+      ],
+      "ui/widgets/production_flow/inspector_presenter.py": [],
+      "ui/widgets/production_flow/inspector_task_loader.py": [],
+      "ui/widgets/production_flow/inspector_ui.py": [],
+      "ui/widgets/production_flow/library_panel.py": [],
+      "ui/widgets/products_widget.py": [
+        "controllers/product_controller_v2.py",
+        "core/di_container.py"
+      ],
+      "ui/widgets/reportes_widget.py": [
+        "controllers/report_controller.py",
+        "core/di_container.py"
+      ],
+      "ui/widgets/reports/__init__.py": [],
+      "ui/widgets/reports/charts_container.py": [
+        "ui/widgets/reports/charts_renderers.py",
+        "ui/widgets/reports/stat_card.py"
+      ],
+      "ui/widgets/reports/charts_renderers.py": [],
+      "ui/widgets/reports/order_list.py": [],
+      "ui/widgets/reports/smart_search.py": [],
+      "ui/widgets/reports/stat_card.py": [],
+      "ui/widgets/settings_widget.py": [
+        "controllers/app_controller.py",
+        "controllers/schedule_controller.py",
+        "core/di_container.py",
+        "ui/widgets/settings_widget_schedule_mixin.py"
+      ],
+      "ui/widgets/settings_widget_schedule_mixin.py": [],
+      "ui/widgets/timeline_widget.py": [],
+      "ui/widgets/worker/camera_info_panel.py": [
+        "core/dtos.py"
+      ],
+      "ui/widgets/worker/camera_selector_panel.py": [
+        "core/dtos.py"
+      ],
+      "ui/widgets/worker/worker_activity_panel.py": [],
+      "ui/widgets/worker/worker_details_panel.py": [],
+      "ui/widgets/worker/worker_incidence_dialog.py": [],
+      "ui/widgets/workers_widget.py": [
+        "controllers/worker/controller.py",
+        "core/di_container.py",
+        "ui/widgets/worker/worker_activity_panel.py",
+        "ui/widgets/worker/worker_details_panel.py",
+        "ui/widgets/worker/worker_incidence_dialog.py"
+      ],
+      "ui/worker/__init__.py": [],
+      "ui/worker/camera_config_dialog.py": [
+        "core/dtos.py",
+        "ui/widgets/worker/camera_info_panel.py",
+        "ui/widgets/worker/camera_selector_panel.py",
+        "ui/worker/camera_config_presenter.py"
+      ],
+      "ui/worker/camera_config_presenter.py": [
+        "core/dtos.py"
+      ],
+      "ui/worker/main_window/__init__.py": [],
+      "ui/worker/main_window/ui_setup.py": [],
+      "ui/worker/main_window/window.py": [
+        "core/interfaces/worker_view_interface.py",
+        "core/utils/ui_scaler.py"
+      ]
+    }
+  },
+  "stats": {
+    "nodes": 343,
+    "edges": 347,
+    "scc_count": 340,
+    "cyclic_scc_count": 3
+  },
+  "ranked_monoliths": [],
+  "cyclic_sccs": [
+    [
+      "controllers/backup_controller.py",
+      "controllers/backup_controller_io_mixin.py"
+    ],
+    [
+      "controllers/report_controller.py",
+      "controllers/report_controller_export_mixin.py"
+    ],
+    [
+      "controllers/schedule_controller.py",
+      "controllers/schedule_ui_ops.py"
+    ]
+  ]
+}

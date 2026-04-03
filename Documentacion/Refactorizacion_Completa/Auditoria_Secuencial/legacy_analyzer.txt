@@ -1,0 +1,3 @@
+JSON: /Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/Documentacion/Refactorizacion_Completa/Legacy/legacy_report.json
+MD:   /Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion/Documentacion/Refactorizacion_Completa/Legacy/legacy_report.md
+Total ítems legacy: 32

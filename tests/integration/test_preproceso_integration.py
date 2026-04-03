@@ -1,5 +1,8 @@
+"""Tests de integración para PreprocesoRepository."""
 import pytest
 from database.models import Preproceso, Fabricacion, Material
+from typing import Any
+from core.dtos import PreprocesoDTO, FabricacionDTO
 
 @pytest.mark.integration
 class TestPreprocesoIntegration:
@@ -16,19 +19,20 @@ class TestPreprocesoIntegration:
         
         # 2. Crear Preproceso usando los IDs de materiales creados
         repo = repos["preproceso"]
-        data = {
-            "nombre": "Preproceso Integrado",
-            "descripcion": "Test Integración",
-            "tiempo": 30.0,
-            "componentes_ids": [m1.id, m2.id]
-        }
-        repo.create_preproceso(data)
+        dto = PreprocesoDTO(
+            id=0,
+            nombre="Preproceso Integrado",
+            descripcion="Test Integración",
+            tiempo=30.0,
+            componentes_ids=[m1.id, m2.id]
+        )
+        repo.create_preproceso(dto)
         
         # 3. Verificar que la relación se persistió
         preproceso = session.query(Preproceso).filter_by(nombre="Preproceso Integrado").first()
         assert len(preproceso.materiales) == 2
         
-        # 4. Verificar recuperación mediante repositorio (método legacy que devuelve tuplas)
+        # 4. Verificar recuperación mediante repositorio (método histórico que devuelve tuplas)
         componentes = repo.get_preproceso_components(preproceso.id)
         assert len(componentes) == 2
         # Ordenado por descripcion: Integrated Mat 1, Integrated Mat 2
@@ -45,18 +49,23 @@ class TestPreprocesoIntegration:
         repo = repos["preproceso"]
         
         # Act: Crear con preprocesos
-        data = {"codigo": "FAB-INT", "descripcion": "Fab Integration"}
-        data["preprocesos_ids"] = [p1.id, p2.id]
-        repo.create_fabricacion_with_preprocesos(data)
+        dto = FabricacionDTO(
+            id=0,
+            codigo="FAB-INT",
+            descripcion="Fab Integration",
+            preprocesos_ids=[p1.id, p2.id]
+        )
+        repo.create_fabricacion_with_preprocesos(dto)
         
         # Assert: Verificar
-        fab_dto = repo.get_fabricacion_by_id(
-            session.query(Fabricacion).filter_by(codigo="FAB-INT").first().id
-        )
+        fab = session.query(Fabricacion).filter_by(codigo="FAB-INT").first()
+        assert fab is not None
+        fab_dto = repo.get_fabricacion_by_id(fab.id)
         assert len(fab_dto.preprocesos) == 2
         
         # Act: Actualizar (quitar un preproceso)
-        repo.update_fabricacion_and_preprocesos(fab_dto.id, data, [p1.id])
+        dto.codigo = "FAB-INT" # El código debe mantenerse
+        repo.update_fabricacion_and_preprocesos(fab_dto.id, dto, [p1.id])
         
         # Assert
         fab_dto_updated = repo.get_fabricacion_by_id(fab_dto.id)

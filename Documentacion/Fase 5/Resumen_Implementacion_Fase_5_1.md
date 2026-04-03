@@ -1,5 +1,33 @@
 # Resumen de Implementación - Fase 5.1
 
+## Corrección de estado (Abr 2026)
+
+### Arquitectura backend real
+
+- Repositorio de reportes modular en `database/repositories/reports/`.
+- Fachada: `repository.py` (`ReportsRepository`) delegando en managers especializados.
+- Servicio de dominio: `core/services/report_service.py`.
+- Delegación desde `core/app_model.py` con métodos de reportes.
+
+### Mejoras backend añadidas durante optimización integral
+
+- `reports_stats_manager.py`:
+  - cálculo de `desviacion_estandar` por fórmula agregada (`avg(x^2) - avg(x)^2`) para evitar cargas masivas en memoria.
+- `reports_search_manager.py`:
+  - normalización de query (`strip/lower`)
+  - límite seguro (capado)
+  - reparto de cupo productos/órdenes
+  - ordenación determinista por última actividad.
+- Nuevo agregado de dashboard:
+  - `ReportsRepository.obtener_dashboard_producto()`
+  - `ReportService.get_product_dashboard()`
+  - `AppModel.get_product_reports_dashboard()`
+
+### Tests backend actualizados
+
+- `tests/unit/test_reports_repository.py` incluye cobertura para bundle agregado.
+- `tests/unit/test_reports_infrastructure.py` incluye delegación de `get_product_reports_dashboard`.
+
 **Fecha:** 30 de Diciembre de 2025  
 **Objetivo:** Infraestructura de Datos (Backend) para el módulo de Reportes de Producción.
 

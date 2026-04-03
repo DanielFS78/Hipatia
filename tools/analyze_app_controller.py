@@ -1,3 +1,8 @@
+"""
+Herramienta de análisis AST: compara métodos y atributos de AppController con
+la documentación de nomenclatura en Markdown (informe de cobertura doc vs código).
+"""
+
 import ast
 import os
 import re
