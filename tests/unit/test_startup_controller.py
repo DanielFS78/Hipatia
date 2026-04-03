@@ -23,6 +23,21 @@ def mock_app_controller():
         return object()
     model.db.SessionLocal = _session_local
     model.db.tracking_repo = MagicMock(spec=[])
+    # Atributos leídos por StartupController._init_services (mismo patrón que AppModel)
+    for attr in (
+        "product_service",
+        "pila_service",
+        "worker_service",
+        "machine_service",
+        "preparation_service",
+        "fabricacion_service",
+        "report_service",
+        "tracking_assignment_service",
+        "product_facade",
+        "planning_facade",
+        "system_integration",
+    ):
+        setattr(model, attr, MagicMock(spec=[]))
     
     view = MagicMock(spec=[])
     schedule_manager = MagicMock(spec=ScheduleConfig)

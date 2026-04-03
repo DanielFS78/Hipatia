@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Tests unitarios Fase 5: wiring de servicios vía AppModel (fuente única para los controladores)."""
+"""Tests unitarios Fase 5: wiring de servicios inyectados en controladores (sin pasar por AppModel donde aplica)."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ pytestmark = pytest.mark.unit
 
 
 def _build_app_stub() -> Any:
-    """Stub mínimo de AppController con modelo que expone servicios."""
+    """Stub mínimo de AppController."""
     system_integration = SimpleNamespace(
         lote_repo=SimpleNamespace(),
         preproceso_repo=SimpleNamespace(),
@@ -43,33 +43,29 @@ def _build_app_stub() -> Any:
     )
 
 
-def test_calculation_controller_uses_model_pila_service() -> None:
-    """CalculationController toma pila_service desde app.model."""
+def test_calculation_controller_uses_injected_pila_service() -> None:
+    """CalculationController recibe pila_service por constructor."""
     app = _build_app_stub()
     injected = object()
-    app.model.pila_service = injected
 
-    ctrl = CalculationController(app)
+    ctrl = CalculationController(app, injected)
 
     assert ctrl.pila_service is injected
 
 
 @patch("controllers.simulation.controller.SimulationExecutionManager", autospec=True)
 @patch("controllers.simulation.controller.SimulationEditorManager", autospec=True)
-def test_simulation_controller_uses_model_services(mock_editor, mock_execution) -> None:
-    """SimulationController enlaza worker/machine/pila desde app.model."""
+def test_simulation_controller_uses_injected_services(mock_editor, mock_execution) -> None:
+    """SimulationController enlaza worker/machine/pila inyectados."""
     from controllers.simulation.controller import SimulationController
 
     app = _build_app_stub()
     w, m, p = object(), object(), object()
-    app.model.worker_service = w
-    app.model.machine_service = m
-    app.model.pila_service = p
 
     with patch("core.di_container.DIContainer.get_instance", autospec=True) as get_instance:
         get_instance.return_value = SimpleNamespace(resolve=lambda _k: SimpleNamespace())
 
-        ctrl = SimulationController(app)
+        ctrl = SimulationController(app, w, m, p)
 
     assert ctrl.worker_service is w
     assert ctrl.machine_service is m
@@ -81,44 +77,59 @@ def test_simulation_controller_uses_model_services(mock_editor, mock_execution) 
 @patch("controllers.worker.controller.WorkerManagementManager", autospec=True)
 @patch("controllers.worker.controller.WorkerAuthManager", autospec=True)
 @patch("controllers.worker.controller.WorkerTaskManager", autospec=True)
-def test_worker_controller_propagates_model_services(mock_task, mock_auth, mock_management) -> None:
-    """WorkerController pasa model.worker_service (y fabricación) a los managers."""
+def test_worker_controller_propagates_injected_services(mock_task, mock_auth, mock_management) -> None:
+    """WorkerController pasa servicios explícitos a los managers."""
     from controllers.worker.controller import WorkerController
 
     app = _build_app_stub()
     injected_worker = object()
     injected_fabricacion = object()
-    app.model.worker_service = injected_worker
-    app.model.fabricacion_service = injected_fabricacion
+    injected_product = object()
+    sig = SimpleNamespace(connect=lambda *_a, **_k: None)
 
-    ctrl = WorkerController(app)
+    ctrl = WorkerController(
+        app_controller=app,
+        view=app.view,
+        worker_service=injected_worker,
+        product_service=injected_product,
+        fabricacion_service=injected_fabricacion,
+        workers_changed_signal=sig,
+    )
 
-    assert cast(Any, ctrl).model is app.model
+    assert ctrl.worker_service is injected_worker
     assert mock_management.call_args.kwargs["worker_service"] is injected_worker
     assert mock_management.call_args.kwargs["fabricacion_service"] is injected_fabricacion
     assert mock_auth.call_args.kwargs["worker_service"] is injected_worker
     assert mock_task.call_args.kwargs["worker_service"] is injected_worker
+    assert mock_task.call_args.kwargs["product_service"] is injected_product
 
 
 @patch("controllers.product_controller_v2.ProductManager", autospec=True)
 @patch("controllers.product_controller_v2.FabricacionManager", autospec=True)
 @patch("controllers.product_controller_v2.PreprocesoManager", autospec=True)
 @patch("controllers.product_controller_v2.MaterialManager", autospec=True)
-def test_product_controller_uses_model_services(_mm, _pm, _fm, _prm) -> None:
-    """ProductController lee product/fabricacion/material desde app.model."""
+def test_product_controller_uses_injected_services(_mm, _pm, _fm, _prm) -> None:
+    """ProductController recibe facades y servicios por constructor."""
     from controllers.product_controller_v2 import ProductController
 
     app = _build_app_stub()
-    ps, fs, ms = object(), object(), object()
-    app.model.product_service = ps
-    app.model.product_facade = SimpleNamespace(service=ps)
-    app.model.fabricacion_service = fs
-    app.model.material_service = ms
+    ps, fs, ms, mac = object(), object(), object(), object()
+    pf = SimpleNamespace(service=ps)
+    plf = SimpleNamespace()
+    st = SimpleNamespace()
 
-    with patch("core.di_container.DIContainer.get_instance", autospec=True) as get_instance:
-        get_instance.return_value = SimpleNamespace(resolve=lambda _k: SimpleNamespace())
-
-        ctrl = ProductController(app)
+    ctrl = ProductController(
+        app_shell=app,
+        db=app.db,
+        product_model=app.model,
+        view=app.view,
+        product_facade=pf,
+        fabricacion_service=fs,
+        planning_facade=plf,
+        material_service=ms,
+        machine_service=mac,
+        state=st,
+    )
 
     assert ctrl.model is app.model
     assert ctrl.product_facade.service is ps
@@ -129,20 +140,27 @@ def test_product_controller_uses_model_services(_mm, _pm, _fm, _prm) -> None:
 
 @patch("controllers.pila.controller.LoteManager", autospec=True)
 @patch("controllers.pila.controller.PilaManager", autospec=True)
-def test_pila_controller_propagates_model_services(mock_pila_manager, mock_lote_manager) -> None:
-    """PilaController reenvía servicios del modelo a LoteManager y PilaManager."""
+def test_pila_controller_propagates_injected_services(mock_pila_manager, mock_lote_manager) -> None:
+    """PilaController reenvía servicios inyectados a LoteManager y PilaManager."""
     from controllers.pila.controller import PilaController
 
     app = _build_app_stub()
     ps, fs, pilas = object(), object(), object()
-    app.model.product_service = ps
-    app.model.fabricacion_service = fs
-    app.model.pila_service = pilas
+    si = app.model.system_integration
 
-    ctrl = PilaController(app)
+    ctrl = PilaController(
+        app_controller=app,
+        view=app.view,
+        system_integration=si,
+        product_service=ps,
+        fabricacion_service=fs,
+        pila_service=pilas,
+        state=app.state,
+        schedule_manager=app.schedule_manager,
+    )
 
     assert ctrl.app is app
     assert mock_lote_manager.call_args.kwargs["product_service"] is ps
     assert mock_lote_manager.call_args.kwargs["fab_service"] is fs
-    assert mock_lote_manager.call_args.kwargs["db"] is app.model.system_integration
+    assert mock_lote_manager.call_args.kwargs["db"] is si
     assert mock_pila_manager.call_args.kwargs["pila_service"] is pilas

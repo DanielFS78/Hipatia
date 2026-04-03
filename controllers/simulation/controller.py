@@ -18,7 +18,6 @@ from .optimizer_worker import OptimizerWorker
 if TYPE_CHECKING:
     from controllers.app_controller import AppController
     from database.database_manager import DatabaseManager
-    from core.app_model import AppModel
     from core.schedule_config import ScheduleConfig
     from core.dtos import ProductionFlowStepDTO
 
@@ -32,7 +31,6 @@ class SimulationController(QObject):
     """
     app: AppController
     db: DatabaseManager
-    model: AppModel
     view: Any
     schedule_manager: ScheduleConfig
     logger: logging.Logger
@@ -41,23 +39,31 @@ class SimulationController(QObject):
     worker: Optional[Union[OptimizerWorker, SimulationWorker]]
     state: Any # ApplicationState
 
-    def __init__(self, app_controller: "AppController") -> None:
+    def __init__(
+        self,
+        app_controller: "AppController",
+        worker_service: Any,
+        machine_service: Any,
+        pila_service: Any,
+    ) -> None:
         """
         Inicializa el controlador de simulaciones.
 
         Args:
             app_controller: Referencia al controlador principal de la aplicación.
+            worker_service: Servicio de trabajadores (inyectado).
+            machine_service: Servicio de máquinas (inyectado).
+            pila_service: Servicio de pilas (inyectado).
         """
         super().__init__()
         self.app = app_controller
         self.db: "DatabaseManager" = app_controller.db
-        
-        # Servicios
-        self.worker_service = app_controller.model.worker_service
-        self.machine_service = app_controller.model.machine_service
-        self.pila_service = app_controller.model.pila_service
-        
-        self.view: Any = app_controller.view 
+
+        self.worker_service = worker_service
+        self.machine_service = machine_service
+        self.pila_service = pila_service
+
+        self.view: Any = app_controller.view
         self.schedule_manager: "ScheduleConfig" = app_controller.schedule_manager
         self.logger = logging.getLogger("EvolucionTiemposApp")
         self.flow_builder = FlowBuilderService()
@@ -69,12 +75,26 @@ class SimulationController(QObject):
         from core.application_state import ApplicationState
         self.state = DIContainer.get_instance().resolve(ApplicationState)
 
-        # Composición de gestores
         self.execution_manager = SimulationExecutionManager(
-            self.app, self.db, self.app.model, self.view, self.state, self.schedule_manager, self
+            self.app,
+            self.db,
+            self.worker_service,
+            self.machine_service,
+            self.pila_service,
+            self.view,
+            self.state,
+            self.schedule_manager,
+            self,
         )
         self.editor_manager = SimulationEditorManager(
-            self.app, self.db, self.app.model, self.view, self.state, self.schedule_manager, self
+            self.app,
+            self.db,
+            self.worker_service,
+            self.pila_service,
+            self.view,
+            self.state,
+            self.schedule_manager,
+            self,
         )
 
     # Delegación de SimulationExecutionManager

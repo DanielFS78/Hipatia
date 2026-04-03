@@ -59,7 +59,11 @@ class TestWidgetControllerIntegration:
         mock_model.fabricacion_service = MagicMock(spec=[])
         mock_model.report_service = MagicMock(spec=[])
         mock_model.preparation_service = MagicMock(spec=[])
-        
+        mock_model.tracking_assignment_service = MagicMock(spec=[])
+        mock_model.product_facade = MagicMock(spec=[])
+        mock_model.planning_facade = MagicMock(spec=[])
+        mock_model.system_integration = MagicMock(spec=[])
+
         from sqlalchemy.orm import Session
         mock_db.SessionLocal = MagicMock(spec=[])
         mock_view = MagicMock(spec=MainView)

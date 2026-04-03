@@ -33,14 +33,27 @@ class SimulationExecutionManager:
     hilos de ejecución de cálculo manual y disparar el proceso de optimización.
     """
 
-    def __init__(self, app: Any, db: Any, model: Any, view: Any, state: Any, schedule_manager: Any, controller_ref: SimulationController):
+    def __init__(
+        self,
+        app: Any,
+        db: Any,
+        worker_service: Any,
+        machine_service: Any,
+        pila_service: Any,
+        view: Any,
+        state: Any,
+        schedule_manager: Any,
+        controller_ref: SimulationController,
+    ):
         """
         Inicializa el gestor de ejecución.
 
         Args:
             app: Referencia a la aplicación principal.
             db: Gestor de base de datos.
-            model: Modelo de la aplicación.
+            worker_service: Servicio de trabajadores.
+            machine_service: Servicio de máquinas.
+            pila_service: Servicio de pilas.
             view: Referencia a la vista principal.
             state: Estado compartido.
             schedule_manager: Gestor de horarios.
@@ -48,17 +61,15 @@ class SimulationExecutionManager:
         """
         self.app = app
         self.db = db
-        self.model = model
         self.view = view
         self.state = state
         self.schedule_manager = schedule_manager
         self.controller_ref = controller_ref
         self.logger = logging.getLogger("EvolucionTiemposApp")
-        
-        # Servicios ruteados
-        self.worker_service = model.worker_service
-        self.machine_service = model.machine_service
-        self.pila_service = model.pila_service
+
+        self.worker_service = worker_service
+        self.machine_service = machine_service
+        self.pila_service = pila_service
 
     def _prepare_large_visual_simulation(self, flow_dialog: Any, task_count: int) -> None:
         """Minimiza efectos visuales en simulaciones grandes para reducir carga de UI."""

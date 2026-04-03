@@ -18,6 +18,19 @@ if TYPE_CHECKING:
 
 from core.di_container import DIContainer, ServiceLifecycle
 
+# Domain services & facades (singletons viven en AppModel; se exponen en DI)
+from core.services.product_service import ProductService
+from core.services.pila_service import PilaService
+from core.services.worker_service import WorkerService
+from core.services.machine_service import MachineService
+from core.services.preparation_service import PreparationService
+from core.services.fabricacion_service import FabricacionService
+from core.services.report_service import ReportService
+from core.services.tracking_assignment_service import TrackingAssignmentService
+from core.facades import ProductFacade, PlanningFacade
+from core.services.system_integration_service import SystemIntegrationService
+from core.application_state import ApplicationState
+
 # Services
 from core.qr_generator import QrGenerator
 from core.label_manager import LabelManager
@@ -49,6 +62,7 @@ from controllers.lote_controller import LoteController
 from controllers.ui_controller import UIController
 from controllers.navigation_controller import NavigationController
 from controllers.ui_signals_controller import UISignalsController
+from controllers.pila.protocols import IPilaView
 
 
 class StartupController:
@@ -101,6 +115,20 @@ class StartupController:
         self.container.register(type(self.model), self.model, lifecycle=ServiceLifecycle.SINGLETON)
         self.container.register(type(self.model.db), self.model.db, lifecycle=ServiceLifecycle.SINGLETON)
         self.container.register(type(self.schedule_manager), self.schedule_manager, lifecycle=ServiceLifecycle.SINGLETON)
+
+        # Dominio (misma instancia que AppModel; resolución por tipo sin pasar por la fachada)
+        m = self.model
+        self.container.register(ProductService, m.product_service, lifecycle=ServiceLifecycle.SINGLETON)
+        self.container.register(PilaService, m.pila_service, lifecycle=ServiceLifecycle.SINGLETON)
+        self.container.register(WorkerService, m.worker_service, lifecycle=ServiceLifecycle.SINGLETON)
+        self.container.register(MachineService, m.machine_service, lifecycle=ServiceLifecycle.SINGLETON)
+        self.container.register(PreparationService, m.preparation_service, lifecycle=ServiceLifecycle.SINGLETON)
+        self.container.register(FabricacionService, m.fabricacion_service, lifecycle=ServiceLifecycle.SINGLETON)
+        self.container.register(ReportService, m.report_service, lifecycle=ServiceLifecycle.SINGLETON)
+        self.container.register(TrackingAssignmentService, m.tracking_assignment_service, lifecycle=ServiceLifecycle.SINGLETON)
+        self.container.register(ProductFacade, m.product_facade, lifecycle=ServiceLifecycle.SINGLETON)
+        self.container.register(PlanningFacade, m.planning_facade, lifecycle=ServiceLifecycle.SINGLETON)
+        self.container.register(SystemIntegrationService, m.system_integration, lifecycle=ServiceLifecycle.SINGLETON)
         
         # 1. QrGenerator
         self.app.qr_generator = QrGenerator()
@@ -223,11 +251,45 @@ class StartupController:
         self.container.register(MachineController, factory=lambda: MachineController(self.model.machine_service, self.view, self.logger))
         
         # Controllers that depend on AppController
-        self.container.register(CalculationController, factory=lambda: CalculationController(self.app))
-        self.container.register(ProductController, factory=lambda: ProductController(self.app))
-        self.container.register(WorkerController, factory=lambda: WorkerController(self.app))
-        self.container.register(PilaController, factory=lambda: PilaController(self.app))
-        self.container.register(SimulationController, factory=lambda: SimulationController(self.app))
+        self.container.register(CalculationController, factory=lambda: CalculationController(
+            self.app, self.container.resolve(PilaService)
+        ))
+        self.container.register(ProductController, factory=lambda: ProductController(
+            app_shell=self.app,
+            db=self.model.db,
+            product_model=self.model,
+            view=self.view,
+            product_facade=self.container.resolve(ProductFacade),
+            fabricacion_service=self.container.resolve(FabricacionService),
+            planning_facade=self.container.resolve(PlanningFacade),
+            material_service=self.container.resolve(ProductService),
+            machine_service=self.container.resolve(MachineService),
+            state=self.container.resolve(ApplicationState),
+        ))
+        self.container.register(WorkerController, factory=lambda: WorkerController(
+            app_controller=self.app,
+            view=self.view,
+            worker_service=self.container.resolve(WorkerService),
+            product_service=self.container.resolve(ProductService),
+            fabricacion_service=self.container.resolve(FabricacionService),
+            workers_changed_signal=self.model.workers_changed_signal,
+        ))
+        self.container.register(PilaController, factory=lambda: PilaController(
+            app_controller=self.app,
+            view=cast(IPilaView, self.view),
+            system_integration=self.container.resolve(SystemIntegrationService),
+            product_service=self.container.resolve(ProductService),
+            fabricacion_service=self.container.resolve(FabricacionService),
+            pila_service=self.container.resolve(PilaService),
+            state=self.app.state,
+            schedule_manager=self.schedule_manager,
+        ))
+        self.container.register(SimulationController, factory=lambda: SimulationController(
+            self.app,
+            self.container.resolve(WorkerService),
+            self.container.resolve(MachineService),
+            self.container.resolve(PilaService),
+        ))
         self.container.register(HistorialController, factory=lambda: HistorialController(
             self.model.db, self.model.pila_service, self.model.worker_service, cast('MainView', self.view), self.logger
         ))
@@ -235,7 +297,9 @@ class StartupController:
         self.container.register(ScheduleController, factory=lambda: ScheduleController(
             self.model.db, self.view, self.schedule_manager, self.logger
         ))
-        self.container.register(SessionController, factory=lambda: SessionController(self.app))
+        self.container.register(SessionController, factory=lambda: SessionController(
+            self.app, self.app.db, self.container.resolve(WorkerService)
+        ))
         
         # Resolve instances and attach to AppController
         self.app.backup_controller = self.container.resolve(BackupController)

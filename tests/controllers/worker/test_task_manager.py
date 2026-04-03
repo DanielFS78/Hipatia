@@ -7,7 +7,7 @@ de productos dentro del contexto del gestor de tareas.
 import pytest
 from unittest.mock import MagicMock, ANY, patch
 from controllers.worker.task_manager import WorkerTaskManager
-from controllers.worker.protocols import IWorkerView, IWorkerService, IWorkerModel, WorkerControllerProtocol
+from controllers.worker.protocols import IWorkerView, IWorkerService, IProductService, WorkerControllerProtocol
 from core.security.access_control import set_security_service
 from core.security.security_service import SecurityService
 
@@ -53,12 +53,9 @@ class TestWorkerTaskManager:
         return MagicMock(spec=IWorkerService)
 
     @pytest.fixture
-    def mock_model(self):
-        """Crea un mock del modelo de la aplicación."""
-        model = MagicMock(spec=IWorkerModel)
-        model.product_service = MagicMock(spec=["search_products"])
-        model.worker_service = MagicMock(spec=[])
-        return model
+    def mock_product_service(self):
+        """Servicio de producto para búsqueda en asignación."""
+        return MagicMock(spec=IProductService)
 
     @pytest.fixture
     def mock_controller(self):
@@ -73,20 +70,26 @@ class TestWorkerTaskManager:
         return MagicMock(spec=[])
 
     @pytest.fixture
-    def manager(self, mock_app, mock_model, mock_view, mock_service, mock_controller):
+    def manager(self, mock_app, mock_product_service, mock_view, mock_service, mock_controller):
         """Instancia WorkerTaskManager con sus dependencias."""
-        return WorkerTaskManager(app=mock_app, model=mock_model, view=mock_view, worker_service=mock_service, controller_ref=mock_controller)
+        return WorkerTaskManager(
+            app=mock_app,
+            view=mock_view,
+            worker_service=mock_service,
+            product_service=mock_product_service,
+            controller_ref=mock_controller,
+        )
 
-    def test_search_products(self, manager, mock_view, mock_model):
+    def test_search_products(self, manager, mock_view, mock_product_service):
         """Prueba que el cambio en la búsqueda de productos actualiza los resultados."""
         # Configurar data
-        mock_model.product_service.search_products.return_value = [{'codigo': 'P1'}]
+        mock_product_service.search_products.return_value = [{'codigo': 'P1'}]
         
         # Ejecutar (con texto suficientemente largo según constants)
         manager._on_worker_product_search_changed("PRODUCTO_LARGO")
         
         # Verificar
-        mock_model.product_service.search_products.assert_called_once_with("PRODUCTO_LARGO")
+        mock_product_service.search_products.assert_called_once_with("PRODUCTO_LARGO")
         # Verificar en el tab anidado
         mock_view.pages["gestion_datos"].trabajadores_tab.update_product_search_results.assert_called_once_with([{'codigo': 'P1'}])
 

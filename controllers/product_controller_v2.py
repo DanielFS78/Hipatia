@@ -7,9 +7,17 @@ Descripción: Controlador centralizado para la gestión de productos, fabricacio
 import logging
 from typing import Any, List, Dict, Tuple
 from PyQt6.QtCore import QObject
+
+from core.application_state import ApplicationState
+
+from .product.application_shell import IApplicationShell
 from .product.protocols import (
-    ProductControllerProtocol, IProductView, IProductModel, 
-    IProductService, IFabricacionService, IMaterialService
+    ProductControllerProtocol,
+    IProductView,
+    IProductModel,
+    IProductService,
+    IFabricacionService,
+    IMaterialService,
 )
 from .product.product_manager import ProductManager
 from .product.fabricacion_manager import FabricacionManager
@@ -33,41 +41,64 @@ class ProductController(QObject):
     logger: logging.Logger
     state: Any
     
-    def __init__(self, app_controller: Any) -> None:
+    def __init__(
+        self,
+        app_shell: IApplicationShell,
+        db: Any,
+        product_model: IProductModel,
+        view: IProductView,
+        product_facade: Any,
+        fabricacion_service: IFabricacionService,
+        planning_facade: Any,
+        material_service: IMaterialService,
+        machine_service: Any,
+        state: ApplicationState,
+    ) -> None:
         """
-        Inicializa el controlador de productos V2.
+        Inicializa el controlador de productos V2 con dependencias explícitas.
 
         Args:
-            app_controller: Referencia al controlador principal de la aplicación.
+            app_shell: Hub (IApplicationShell): adjuntos, sesión, ui_controller.
+            db: DatabaseManager.
+            product_model: Fachada AppModel / protocolo IProductModel (repos y delegación restante).
+            view: Vista principal.
+            product_facade: ProductFacade del dominio.
+            fabricacion_service: Servicio de fabricaciones.
+            planning_facade: PlanningFacade (pila / cálculo).
+            material_service: Servicio de materiales (alias frecuente: product_service).
+            machine_service: Servicio de máquinas.
+            state: ApplicationState compartido.
         """
-        # Inicialización de QObject requerida para señales
         super().__init__()
-        
-        self.app = app_controller
-        self.db = app_controller.db
-        self.model = app_controller.model
-        self.view = app_controller.view
-        self.product_facade = app_controller.model.product_facade
-        self.product_service = self.product_facade.service
-        self.fabricacion_service = app_controller.model.fabricacion_service
-        self.material_service = app_controller.model.material_service
-        self.ui_controller = app_controller.ui_controller
+
+        self.app = app_shell
+        self.db = db
+        self.model = product_model
+        self.view = view
+        self.product_facade = product_facade
+        self.product_service = product_facade.service
+        self.fabricacion_service = fabricacion_service
+        self.material_service = material_service
+        self.ui_controller = app_shell.ui_controller
         self.logger = logging.getLogger("EvolucionTiemposApp")
-        
-        from core.di_container import DIContainer
-        from core.application_state import ApplicationState
-        self.state = DIContainer.get_instance().resolve(ApplicationState)
-        
+        self.state = state
+
         self.logger.info(">>> PRODUCT CONTROLLER V2 (REFACTORIZADO) CARGADO <<<")
 
-        # Instanciar Gestores (Composición)
-        self.product_manager = ProductManager(self.app, self.model, self.view, self.product_facade, self.state, self)
+        self.product_manager = ProductManager(
+            self.app,
+            machine_service,
+            self.view,
+            self.product_facade,
+            self.state,
+            self,
+        )
         self.fabricacion_manager = FabricacionManager(
             self.app,
             self.view,
             self.fabricacion_service,
             self.product_facade,
-            self.model.planning_facade,
+            planning_facade,
             self.state,
             self,
         )

@@ -241,7 +241,10 @@ class AppController(IController):
              prod_tab = gestion_datos.productos_tab
              if hasattr(prod_tab, "clear_all"): prod_tab.clear_all()
              if hasattr(prod_tab, "update_search_results"):
-                 all_products = self.model.search_products("")
+                 if self.product_controller is not None:
+                     all_products = self.product_controller.product_service.search_products("")
+                 else:
+                     all_products = self.model.product_service.search_products("")
                  prod_tab.update_search_results(all_products)
 
     # --- Compatibilidad y delegación (API estable absorbida en esta clase) ---
@@ -310,7 +313,11 @@ class AppController(IController):
             self.navigation_controller.on_nav_button_clicked(name)
 
     def handle_attach_file(
-        self, target_dir: str, name_prefix: str, source_path: str, category: str = "general"
+        self,
+        target_dir: str,
+        name_prefix: str | int,
+        source_path: str,
+        category: str = "general",
     ) -> "FileOperationResultDTO":
         """Delega la adjunción de archivos al FileController."""
         from core.dtos import FileOperationResultDTO

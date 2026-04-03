@@ -11,7 +11,7 @@ from ui.widgets import GestionDatosWidget
 from core.security.access_control import require_permission
 from core.security.security_service import Permission
 
-from .protocols import IWorkerView, IWorkerService, IFabricacionService, IWorkerModel
+from .protocols import IWorkerView, IWorkerService, IFabricacionService
 
 from ui.widgets.workers_widget import WorkersWidget
 
@@ -19,19 +19,17 @@ class WorkerManagementManager:
     """
     Gestor para la administración de trabajadores (CRUD).
     """
-    def __init__(self, app: Any, model: IWorkerModel, view: IWorkerView, worker_service: IWorkerService, fabricacion_service: Optional[IFabricacionService] = None):
+    def __init__(self, app: Any, view: IWorkerView, worker_service: IWorkerService, fabricacion_service: Optional[IFabricacionService] = None):
         """
         Inicializa el gestor de administración de trabajadores.
 
         Args:
             app: Instancia del controlador principal.
-            model: Referencia al modelo de datos general.
             view: Interfaz de usuario.
             worker_service: Servicio lógico de gestión de trabajadores.
             fabricacion_service: Servicio opcional para gestión de fabricaciones.
         """
         self.app = app
-        self.model = model
         self.view = view
         self.worker_service = worker_service
         self.fabricacion_service = fabricacion_service

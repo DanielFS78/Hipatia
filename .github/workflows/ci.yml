@@ -1,0 +1,83 @@
+# CI: misma línea de Python que README + mypy.ini (3.11 mínimo, 3.12 referencia).
+name: CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests (headless Qt)
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: python -m pytest tests -q --tb=no --timeout=30
+
+  # Tipado estático (misma referencia que mypy.ini: python 3.12)
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run mypy
+        run: |
+          python -m mypy app.py core controllers database features ui
+
+  # Cobertura en una sola corrida (3.12); sube JSON para descarga / update_readme_metrics local
+  coverage-report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Pytest with coverage JSON
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: |
+          python -m pytest tests --cov=. --cov-report=json --cov-fail-under=0 -q --tb=no --timeout=30
+
+      - name: Upload coverage.json
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-json
+          path: coverage.json
+          retention-days: 14
+          if-no-files-found: error

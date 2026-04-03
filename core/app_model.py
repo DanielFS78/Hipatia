@@ -35,8 +35,6 @@ from core.services.tracking_assignment_service import TrackingAssignmentService
 from core.tracking_dtos import FabricacionAsignadaDTO, TrabajoLogDTO
 from core.facades import PlanningFacade, ProductFacade
 from core.services.system_integration_service import SystemIntegrationService
-
-
 class AppModel(QObject):
     """
     Modelo unificado de la aplicación (Fachada).
@@ -44,6 +42,21 @@ class AppModel(QObject):
     Proporciona un punto de entrada único para los controladores, delegando la 
     lógica de negocio en servicios especializados y emitiendo señales de cambio.
     """
+
+    db: DatabaseManager
+    product_service: ProductService
+    pila_service: PilaService
+    worker_service: WorkerService
+    machine_service: MachineService
+    preparation_service: PreparationService
+    fabricacion_service: FabricacionService
+    report_service: ReportService
+    tracking_assignment_service: TrackingAssignmentService
+    material_service: ProductService
+    product_facade: ProductFacade
+    planning_facade: PlanningFacade
+    system_integration: SystemIntegrationService
+
     # Re-emit signals from services for compatibility
     product_added_signal = pyqtSignal(str)
     product_updated_signal = pyqtSignal()
@@ -110,9 +123,6 @@ class AppModel(QObject):
     def get_all_workers(self, include_inactive: bool = False) -> list[WorkerDTO]:
         return self.worker_service.get_all_workers(include_inactive)
 
-    def get_latest_workers(self, limit: int = 10) -> list[WorkerDTO]:
-        return self.worker_service.get_latest_workers(limit)
-        
     def get_worker_details(self, worker_id: int) -> WorkerDetailDTO | None:
         return self.worker_service.get_worker_details(worker_id)
 
@@ -175,9 +185,6 @@ class AppModel(QObject):
 
     def get_all_machines(self, include_inactive: bool = False) -> list[MachineDTO]:
         return self.machine_service.get_all_machines(include_inactive)
-        
-    def get_latest_machines(self, limit: int = 10) -> list[MachineDTO]:
-        return self.machine_service.get_latest_machines(limit)
 
     def get_machines_by_process_type(self, tipo_proceso: str) -> list[MachineDTO]:
         return self.machine_service.get_machines_by_process_type(tipo_proceso)

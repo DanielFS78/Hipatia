@@ -1,20 +1,35 @@
 # Proyecto Hipatia
 
+[![CI](https://github.com/DanielFS78/Hipatia/actions/workflows/ci.yml/badge.svg)](https://github.com/DanielFS78/Hipatia/actions/workflows/ci.yml)
+
 Sistema de gestión de producción industrial con simulador de flujos, trazabilidad de lotes,
 gestión de máquinas y trabajadores, y generación de informes. Desarrollado en Python con PyQt6.
 
 ---
 
-## Estado del Proyecto (2026-03-15)
+## Estado del proyecto y métricas
+
+<!-- HIPATIA_METRICS_BEGIN -->
+
+> **Regeneración:** `python scripts/update_readme_metrics.py`  
+> **Datos:** `test_reports/compliance_data.json` vía `python scripts/test_quality_analyzer.py`; `coverage.json` vía `pytest tests --cov=. --cov-report=json` (archivo en `.gitignore`).
 
 | Métrica | Valor |
 |---------|-------|
-| Score de calidad de tests | 38.0 / 100 (optimizado: 41.4) |
-| Cobertura global | 97.3% |
-| Tests ejecutándose | 201 archivos, 0 fallos |
-| Archivos en techo de calidad | 66 / 201 |
+| Fecha de referencia | 2026-04-03 |
+| Python usado al generar | 3.13.5 |
+| Casos de test recogidos (pytest) | 2650 |
+| Archivos `test_*.py` (sin copias `* N.py`) | 216 |
+| Cobertura global (`pytest tests --cov=.`) | 86.2% |
+| Score calidad medio (absoluto → techo medio) | 75.9 → 77.8 |
+| Entradas en analizador de calidad | 228 |
+| Entradas marcadas «en techo» | 228 / 228 |
+| …de ellas, archivos `test_*.py` en techo | 216 |
 
-**Fase activa:** Fase 2 — Eliminación de Antipatrones de Testing (Grupo B)
+<!-- HIPATIA_METRICS_END -->
+
+
+**Plan de mejora de calidad:** `.agents/skills/plan_mejora_calidad/SKILL.md`
 
 ---
 
@@ -46,6 +61,9 @@ python run_tests.py
 # Regenerar documentación técnica
 python scripts/generate_daniel_doc.py
 
+# Actualizar tabla de métricas del README (tras analyzer y/o cobertura)
+python scripts/update_readme_metrics.py
+
 # Validar que no existan archivos omitidos en documentación
 python scripts/check_documentation_omissions.py
 ```
@@ -54,16 +72,25 @@ python scripts/check_documentation_omissions.py
 
 ## Stack tecnológico
 
-- Python 3.11 + PyQt6 (interfaz de usuario)
+- **Python 3.11+** (tipado con mypy usando `python_version = 3.12`; **CI en GitHub:** 3.11 y 3.12)
+- **PyQt6** (interfaz de usuario)
 - PostgreSQL + SQLAlchemy (persistencia)
 - pytest + coverage (testing)
 - Ver `Documentacion/Analisis_Inicial/ANALISIS_TECNOLOGIAS.md` para análisis completo
+
+### Integración continua
+
+- Workflow: [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
+  - **tests:** `pytest` en **Python 3.11 y 3.12**, `QT_QPA_PLATFORM=offscreen`.
+  - **mypy:** Python 3.12, `mypy app.py core controllers database features ui` (alineado con `mypy.ini`).
+  - **coverage-report:** Python 3.12, suite completa con `--cov-report=json`; el artefacto **`coverage-json`** contiene `coverage.json` (descarga desde la pestaña *Actions* → run → *Artifacts*; útil para alinear métricas sin commitear el archivo).
+- Si el badge anterior no carga (fork u otro remoto), ignóralo o ajusta la URL del repositorio.
 
 ---
 
 ## Onboarding e instalación (entorno local)
 
-1. Crear y activar entorno virtual (`python3 -m venv .venv`).
+1. Crear y activar entorno virtual (`python3.12 -m venv .venv` o **3.11+**).
 2. Instalar dependencias (`pip install -r requirements.txt`).
 3. Inicializar configuración (`cp .env.example .env` y ajustar rutas/credenciales).
 4. Verificar acceso a base de datos y recursos (`python scripts/verify_qr_optimization.py` y `python tests/utils/check_db.py`).

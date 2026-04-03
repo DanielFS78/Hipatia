@@ -126,9 +126,10 @@ class WorkersWidget(QWidget):
         self.right_tabs.setTabVisible(1, True)
 
         if self.current_worker_id and self.worker_controller:
-            history, _ = self.worker_controller.model.get_worker_history(self.current_worker_id)
+            ws = self.worker_controller.worker_service
+            history, _ = ws.get_worker_history(self.current_worker_id)
             self.activity_panel.populate_history(history)
-            logs = self.worker_controller.model.get_worker_activity_log(self.current_worker_id)
+            logs = ws.get_worker_activity_log(self.current_worker_id)
             self.activity_panel.populate_activity_log(logs)
 
     def show_add_new_form(self) -> None:

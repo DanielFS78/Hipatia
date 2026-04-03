@@ -11,7 +11,7 @@ from core.security.access_control import require_permission
 from core.security.security_service import Permission
 from core import constants
 
-from .protocols import IWorkerView, IWorkerService, IWorkerModel, WorkerControllerProtocol
+from .protocols import IWorkerView, IWorkerService, IProductService, WorkerControllerProtocol
 
 from ui.widgets.workers_widget import WorkersWidget
 
@@ -19,12 +19,19 @@ class WorkerTaskManager:
     """
     Gestor para la asignación y cancelación de tareas a trabajadores.
     """
-    def __init__(self, app: Any, model: IWorkerModel, view: IWorkerView, worker_service: IWorkerService, controller_ref: WorkerControllerProtocol):
+    def __init__(
+        self,
+        app: Any,
+        view: IWorkerView,
+        worker_service: IWorkerService,
+        product_service: IProductService,
+        controller_ref: WorkerControllerProtocol,
+    ):
         self.app = app
-        self.model = model
         self.view = view
         self.worker_service = worker_service
-        self.controller = controller_ref # Para acceder a logger y otros métodos si hace falta
+        self.product_service = product_service
+        self.controller = controller_ref  # p.ej. management_manager vía protocolo
         self.logger = logging.getLogger("EvolucionTiemposApp")
 
     def _on_worker_product_search_changed(self, text: str) -> None:
@@ -41,7 +48,7 @@ class WorkerTaskManager:
             workers_page.update_product_search_results([])
             return
 
-        results = self.model.product_service.search_products(text)
+        results = self.product_service.search_products(text)
         workers_page.update_product_search_results(results)
 
     @require_permission(Permission.CREATE_FABRICATION)

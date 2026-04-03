@@ -22,25 +22,35 @@ class PilaController(QObject):
     Controlador Fachada para Pilas y Lotes.
     Implementa Composición sobre Herencia delegando en Gestores.
     """
-    def __init__(self, app_controller: 'AppController') -> None:
+    def __init__(
+        self,
+        app_controller: "AppController",
+        view: IPilaView,
+        system_integration: Any,
+        product_service: Any,
+        fabricacion_service: Any,
+        pila_service: Any,
+        state: Any,
+        schedule_manager: Any,
+    ) -> None:
         super().__init__()
         self.app = app_controller
+        self._system_integration = system_integration
         self.logger = logging.getLogger("EvolucionTiemposApp")
 
-        # Inyección de Gestores
         self.lote_manager = LoteManager(
-            view=cast(IPilaView, app_controller.view),
-            db=app_controller.model.system_integration,
-            product_service=app_controller.model.product_service,
-            fab_service=app_controller.model.fabricacion_service
+            view=view,
+            db=system_integration,
+            product_service=product_service,
+            fab_service=fabricacion_service,
         )
-        
+
         self.pila_manager = PilaManager(
-            view=cast(IPilaView, app_controller.view),
-            pila_service=app_controller.model.pila_service,
-            state=app_controller.state,
-            schedule_manager=app_controller.schedule_manager,
-            app_ref=app_controller
+            view=view,
+            pila_service=pila_service,
+            state=state,
+            schedule_manager=schedule_manager,
+            app_ref=app_controller,
         )
 
     # --- Delegación de Lotes ---
@@ -139,7 +149,7 @@ class PilaController(QObject):
         """
         # Delegar a repositorio vía db
         try:
-            fab_dto = self.app.model.system_integration.preproceso_repo.get_fabricacion_by_id(
+            fab_dto = self._system_integration.preproceso_repo.get_fabricacion_by_id(
                 fabricacion_id
             )
             if not fab_dto or not fab_dto.preprocesos: return []
@@ -181,7 +191,7 @@ class PilaController(QObject):
         Carga los detalles del lote y los muestra en el formulario de edición.
         """
         lote_id = item.data(32) # UserRole
-        lote_data = self.app.model.system_integration.get_lote_details(lote_id)
+        lote_data = self._system_integration.get_lote_details(lote_id)
         gestion_page = self.app.view.pages.get("gestion_datos")
         if lote_data and gestion_page:
              gestion_page.lotes_tab.display_lote_details(lote_data)

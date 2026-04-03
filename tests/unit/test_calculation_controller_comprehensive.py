@@ -71,6 +71,8 @@ def _make_app(**extra_spec) -> MagicMock:
             'on_nav_button_clicked', '_on_nav_button_clicked', 'report_controller'] + list(extra_spec.keys())
     mock_app = MagicMock(spec=spec)
     mock_app.model = MagicMock(spec=['pila_service'])
+    mock_app.model.pila_service = MagicMock(spec=['pilas_changed_signal'])
+    mock_app.model.pila_service.pilas_changed_signal = MagicMock(spec=['connect'])
     mock_app.view = MagicMock(spec=['pages', 'show_message'])
     mock_app.view.pages = {}
     return mock_app
@@ -86,7 +88,7 @@ class TestCalculationControllerInit:
     def test_init_creates_dependencies(self) -> None:
         """Verifica que __init__ configura correctamente las dependencias."""
         mock_app = _make_app()
-        controller = CalculationController(mock_app)
+        controller = CalculationController(mock_app, mock_app.model.pila_service)
 
         assert controller.app is mock_app
         assert controller.db is mock_app.db
@@ -122,7 +124,7 @@ class TestConnectCalculateSignals:
         ])
         mock_app.simulation_controller = MagicMock(spec=['_on_define_flow_clicked', '_on_clear_simulation'])
         mock_app.report_controller = MagicMock(spec=['on_export_to_excel_clicked'])
-        return CalculationController(mock_app)
+        return CalculationController(mock_app, mock_app.model.pila_service)
 
     def test_connect_signals_not_calculate_widget(self, controller: CalculationController) -> None:
         """Retorno temprano cuando calc_page no es CalculateTimesWidget."""
@@ -238,7 +240,7 @@ class TestNavigationMethods:
         """CalculationController con simulation_controller mockeado."""
         mock_app = _make_app()
         mock_app.simulation_controller = MagicMock(spec=['_on_clear_simulation'])
-        return CalculationController(mock_app)
+        return CalculationController(mock_app, mock_app.model.pila_service)
 
     def test_on_go_home_and_reset_calc_with_sim_ctrl(self, controller: CalculationController) -> None:
         """Llama a simulation_controller y navega a home."""
@@ -290,7 +292,7 @@ class TestExportMethods:
     def controller(self) -> CalculationController:
         """CalculationController con view mockeada."""
         mock_app = _make_app()
-        return CalculationController(mock_app)
+        return CalculationController(mock_app, mock_app.model.pila_service)
 
     def test_on_export_audit_log_no_widget(self, controller: CalculationController) -> None:
         """Muestra mensaje de error cuando el widget no está disponible."""
@@ -389,7 +391,7 @@ class TestPreprocesosMethods:
         mock_app.db = MagicMock(spec=['preproceso_repo'])
         mock_app.db.preproceso_repo = MagicMock(spec=['get_products_for_fabricacion'])
         mock_app.model.pila_service = MagicMock(spec=['get_data_for_calculation'])
-        return CalculationController(mock_app)
+        return CalculationController(mock_app, mock_app.model.pila_service)
 
     def test_get_fabricacion_products_for_calculation_success(
         self, controller: CalculationController
@@ -544,7 +546,7 @@ class TestAuxiliaryMethods:
     def controller(self) -> CalculationController:
         """CalculationController con view mockeada."""
         mock_app = _make_app()
-        return CalculationController(mock_app)
+        return CalculationController(mock_app, mock_app.model.pila_service)
 
     def test_update_lote_content_table_no_widget(self, controller: CalculationController) -> None:
         """No lanza excepción cuando el widget no es CalculateTimesWidget."""

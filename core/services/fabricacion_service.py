@@ -14,6 +14,7 @@ from PyQt6.QtCore import QObject, pyqtSignal
 from core.dtos import PreprocesoDTO, FabricacionDTO, FabricacionProductoDTO
 from database.database_manager import DatabaseManager
 
+
 class FabricacionService(QObject):
     """
     Servicio de dominio para la gestión centralizada de Fabricaciones y Preprocesos.

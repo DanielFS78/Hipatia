@@ -58,13 +58,22 @@ def mock_app() -> MagicMock:
     auth_ctrl = MagicMock()
     auth_ctrl.current_user = mock_user
     app.session_controller = auth_ctrl
+    app.model.workers_changed_signal = MagicMock()
+    app.model.workers_changed_signal.connect = MagicMock()
     return app
 
 
 @pytest.fixture
 def ctrl(mock_app: MagicMock) -> WorkerController:
     """WorkerController instanciado con mock_app."""
-    return WorkerController(mock_app)
+    return WorkerController(
+        app_controller=mock_app,
+        view=mock_app.view,
+        worker_service=mock_app.model.worker_service,
+        product_service=mock_app.model.product_service,
+        fabricacion_service=mock_app.model.fabricacion_service,
+        workers_changed_signal=mock_app.model.workers_changed_signal,
+    )
 
 
 @pytest.fixture
@@ -105,7 +114,10 @@ def gestion_with_workers(mock_workers_page: MagicMock, mock_app: MagicMock) -> M
 class TestInit:
     def test_init_assigns_attributes(self, ctrl: WorkerController, mock_app: MagicMock) -> None:
         assert ctrl.app is mock_app
-        assert ctrl.model is mock_app.model
+        assert ctrl.worker_service is mock_app.model.worker_service
+        assert ctrl.product_service is mock_app.model.product_service
+        assert ctrl.fabricacion_service is mock_app.model.fabricacion_service
+        assert ctrl.workers_changed_signal is mock_app.model.workers_changed_signal
         assert ctrl.view is mock_app.view
         assert ctrl.worker_window is None
         assert ctrl.worker_feature_controller is None
@@ -634,7 +646,7 @@ class TestOnCancelTaskClicked:
         mock_workers_page.current_worker_id = 5
         mock_app.view.show_confirmation_dialog.return_value = True
         mock_app.model.worker_service.actualizar_estado_asignacion.return_value = True
-        mock_app.model.get_worker_history.return_value = ([], [])
+        mock_app.model.worker_service.get_worker_history.return_value = ([], [])
 
         ctrl.task_manager._on_cancel_task_clicked(1)
         args = mock_app.view.show_message.call_args[0]

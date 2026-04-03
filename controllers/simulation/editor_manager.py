@@ -17,19 +17,27 @@ class SimulationEditorManager:
     Gestor para la gestión del Editor Visual de Flujo de Producción.
     """
 
-    def __init__(self, app: Any, db: Any, model: Any, view: Any, state: Any, schedule_manager: Any, controller_ref: SimulationController):
+    def __init__(
+        self,
+        app: Any,
+        db: Any,
+        worker_service: Any,
+        pila_service: Any,
+        view: Any,
+        state: Any,
+        schedule_manager: Any,
+        controller_ref: SimulationController,
+    ):
         self.app = app
         self.db = db
-        self.model = model
         self.view = view
         self.state = state
         self.schedule_manager = schedule_manager
         self.controller_ref = controller_ref
         self.logger = logging.getLogger("EvolucionTiemposApp")
-        
-        # Servicios
-        self.worker_service = model.worker_service
-        self.pila_service = model.pila_service
+
+        self.worker_service = worker_service
+        self.pila_service = pila_service
 
     def on_define_flow_clicked(self) -> None:
         calc_page_widget = self.view.pages.get("calculate")

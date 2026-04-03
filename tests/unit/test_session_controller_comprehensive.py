@@ -37,7 +37,7 @@ class TestSessionControllerInit:
         
         with patch('controllers.session_controller.RateLimiter', autospec=True) as MockRL, \
              patch('controllers.session_controller.AuditLogger', autospec=True) as MockAL:
-            ctrl = SessionController(mock_app)
+            ctrl = SessionController(mock_app, mock_app.model.db, mock_app.model.worker_service)
         
         assert ctrl.app is mock_app
         assert ctrl.db is mock_app.model.db
@@ -69,7 +69,7 @@ class TestHandleLogin:
 
         with patch('controllers.session_controller.RateLimiter', autospec=True), \
              patch('controllers.session_controller.AuditLogger', autospec=True):
-            ctrl = SessionController(mock_app)
+            ctrl = SessionController(mock_app, mock_app.model.db, mock_app.model.worker_service)
 
         ctrl.rate_limiter = MagicMock(spec=['is_blocked', 'check_and_record_attempt'])
         ctrl.rate_limiter.is_blocked.return_value = False
@@ -173,7 +173,7 @@ class TestLogout:
 
         with patch('controllers.session_controller.RateLimiter', autospec=True), \
              patch('controllers.session_controller.AuditLogger', autospec=True):
-            ctrl = SessionController(mock_app)
+            ctrl = SessionController(mock_app, mock_app.model.db, mock_app.model.worker_service)
 
         ctrl.rate_limiter = MagicMock(spec=['is_blocked', 'check_and_record_attempt'])
         ctrl.audit_logger = MagicMock(spec=['log_login'])
@@ -219,7 +219,7 @@ class TestUpdateUiForRole:
 
         with patch('controllers.session_controller.RateLimiter', autospec=True), \
              patch('controllers.session_controller.AuditLogger', autospec=True):
-            ctrl = SessionController(mock_app)
+            ctrl = SessionController(mock_app, mock_app.model.db, mock_app.model.worker_service)
 
         ctrl.rate_limiter = MagicMock(spec=['is_blocked', 'check_and_record_attempt'])
         ctrl.audit_logger = MagicMock(spec=['log_login'])
@@ -282,7 +282,7 @@ class TestLaunchWorkerInterface:
 
         with patch('controllers.session_controller.RateLimiter', autospec=True), \
              patch('controllers.session_controller.AuditLogger', autospec=True):
-            ctrl = SessionController(mock_app)
+            ctrl = SessionController(mock_app, mock_app.model.db, mock_app.model.worker_service)
 
         ctrl.rate_limiter = MagicMock(spec=['is_blocked', 'check_and_record_attempt'])
         ctrl.audit_logger = MagicMock(spec=['log_login'])

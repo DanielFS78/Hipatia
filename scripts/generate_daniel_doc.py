@@ -1708,7 +1708,10 @@ def generate_markdown(page_map: dict[str, int] | None = None) -> None:
         # ── 7. INSTALACIÓN Y DESPLIEGUE ─────────────────────────────────────
         md.write("## Instalacion y Despliegue\n\n")
         md.write("### Requisitos base\n\n")
-        md.write("- Python 3.11 o superior\n")
+        md.write(
+            "- Python 3.11 o superior; CI en 3.11 y 3.12 (`.github/workflows/ci.yml`); "
+            "referencia de tipado mypy `python_version = 3.12`; `.python-version` recomienda 3.12 para pyenv.\n"
+        )
         md.write("- Entorno virtual (`venv`) recomendado\n")
         md.write("- Dependencias instaladas desde `requirements.txt`\n\n")
         md.write("### Instalación local (desarrollo)\n\n")

@@ -14,6 +14,7 @@ from .fabricacion_products_handler import (
     FabricacionProductsHandler,
     IPlanningCalculationProvider,
 )
+from .application_shell import IApplicationShell
 from .protocols import ProductControllerProtocol, IProductView, IProductService, IFabricacionService
 
 
@@ -26,20 +27,20 @@ class FabricacionManager:
     """
 
     def __init__(
-        self, 
-        app: Any, 
-        view: IProductView, 
-        fabricacion_service: IFabricacionService, 
+        self,
+        app: IApplicationShell,
+        view: IProductView,
+        fabricacion_service: IFabricacionService,
         product_facade: IProductService,
         planning_facade: IPlanningCalculationProvider,
-        state: Any, 
-        controller_ref: Optional[ProductControllerProtocol] = None
+        state: Any,
+        controller_ref: Optional[ProductControllerProtocol] = None,
     ) -> None:
         """
         Inicializa el gestor de fabricaciones.
 
         Args:
-            app: Referencia a la aplicación principal (AppController).
+            app: Shell del hub (auditoría, refresco UI).
             view: Referencia a la vista principal (IProductView).
             fabricacion_service: Servicio lógico de fabricaciones (IFabricacionService).
             product_facade: Fachada de catálogo de productos (IProductService).

@@ -42,16 +42,18 @@ class SessionController:
     worker_window: Optional[Any]
     worker_feature_controller: Optional[Any]
 
-    def __init__(self, app_controller: AppController) -> None:
+    def __init__(self, app_controller: AppController, db: Any, worker_service: Any) -> None:
         """
         Inicializa el controlador de sesión.
 
         Args:
             app_controller: Referencia al controlador principal de la aplicación.
+            db: DatabaseManager (misma instancia que expone AppController).
+            worker_service: Servicio de trabajadores (inyectado).
         """
         self.app = app_controller
-        self.db = app_controller.model.db
-        self.worker_service = app_controller.model.worker_service
+        self.db = db
+        self.worker_service = worker_service
         self.view = app_controller.view
         self.security_service = app_controller.security_service
         self.logger = logging.getLogger("EvolucionTiemposApp.Session")

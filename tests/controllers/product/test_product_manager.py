@@ -32,28 +32,23 @@ def mock_service():
     return MagicMock(spec=ProductService)
 
 @pytest.fixture
-def mock_model():
-    """Crea un mock del modelo de la aplicación."""
-    from app import AppModel
-    return MagicMock(spec=AppModel)
-
-@pytest.fixture
 def mock_controller():
     """Crea un mock del controlador referente."""
     return MagicMock(spec=[])
 
 @pytest.fixture
-def manager(mock_model, mock_view, mock_service, mock_controller):
+def manager(mock_view, mock_service, mock_controller):
     """Instancia ProductManager con mocks."""
     app = MagicMock(spec=['ui_controller'])
     app.ui_controller = MagicMock(spec=['on_data_changed'])
+    machine_service = MagicMock(spec=[])
     return ProductManager(
         app=app,
-        model=mock_model,
+        machine_service=machine_service,
         view=mock_view,
         product_facade=mock_service,
         state=MagicMock(spec=['selected_product']),
-        controller_ref=mock_controller
+        controller_ref=mock_controller,
     )
 
 def test_on_product_search_changed(manager, mock_view, mock_service):

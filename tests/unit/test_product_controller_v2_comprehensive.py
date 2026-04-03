@@ -94,21 +94,27 @@ class TestProductControllerV2Comprehensive:
     @pytest.fixture
     def controller(self, mock_app):
         """Instancia del ProductController para pruebas con aislamiento total."""
-        # Necesitamos mockear el DIContainer para ApplicationState
-        with patch("core.di_container.DIContainer.get_instance", autospec=True) as mock_di:
-            mock_di.return_value.resolve.return_value = mock_app.state
-            # Mock de logger para evitar ruido
-            with patch("controllers.product_controller_v2.logging.getLogger", autospec=True):
-                import logging
-                ctrl = ProductController(mock_app)
-                
-                # Inyección de mocks en managers internos si es necesario
-                ctrl.product_manager.logger = create_autospec(logging.Logger)
-                ctrl.fabricacion_manager.logger = create_autospec(logging.Logger)
-                ctrl.preproceso_manager.logger = create_autospec(logging.Logger)
-                ctrl.material_manager.logger = create_autospec(logging.Logger)
-                
-                return ctrl
+        with patch("controllers.product_controller_v2.logging.getLogger", autospec=True):
+            import logging
+            ctrl = ProductController(
+                app_shell=mock_app,
+                db=mock_app.db,
+                product_model=mock_app.model,
+                view=mock_app.view,
+                product_facade=mock_app.model.product_facade,
+                fabricacion_service=mock_app.model.fabricacion_service,
+                planning_facade=mock_app.model.planning_facade,
+                material_service=mock_app.model.material_service,
+                machine_service=mock_app.model.machine_service,
+                state=mock_app.state,
+            )
+
+            ctrl.product_manager.logger = create_autospec(logging.Logger)
+            ctrl.fabricacion_manager.logger = create_autospec(logging.Logger)
+            ctrl.preproceso_manager.logger = create_autospec(logging.Logger)
+            ctrl.material_manager.logger = create_autospec(logging.Logger)
+
+            return ctrl
 
     @pytest.fixture
     def mock_dependencies(self, controller):

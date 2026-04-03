@@ -26,13 +26,16 @@ def _make_worker_dto(worker_id=1, nombre="Juan Pérez", activo=True):
 
 @pytest.fixture
 def controller():
-    """Controller mock con model y métodos necesarios."""
+    """Mock de WorkerController resuelto por DI (WorkersWidget ignora el arg del ctor)."""
     from core.di_container import DIContainer
     from controllers.worker.controller import WorkerController
-    ctrl = MagicMock(spec=["model"])
-    ctrl.model = MagicMock(spec=["get_worker_history", "get_worker_activity_log"])
-    ctrl.model.get_worker_history.return_value = ([], [])
-    ctrl.model.get_worker_activity_log.return_value = []
+
+    worker_service = MagicMock(spec=["get_worker_history", "get_worker_activity_log"])
+    worker_service.get_worker_history.return_value = ([], [])
+    worker_service.get_worker_activity_log.return_value = []
+
+    ctrl = MagicMock(spec=WorkerController)
+    ctrl.worker_service = worker_service
     DIContainer.get_instance().register(WorkerController, instance=ctrl)
     return ctrl
 

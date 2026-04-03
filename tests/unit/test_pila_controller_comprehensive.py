@@ -80,7 +80,16 @@ class TestPilaControllerComprehensive:
     @pytest.fixture
     def controller(self, mock_app):
         with patch('core.di_container.DIContainer.get_instance'):
-            ctrl = PilaController(mock_app)
+            ctrl = PilaController(
+                app_controller=mock_app,
+                view=mock_app.view,
+                system_integration=mock_app.model.system_integration,
+                product_service=mock_app.model.product_service,
+                fabricacion_service=mock_app.model.fabricacion_service,
+                pila_service=mock_app.model.pila_service,
+                state=mock_app.state,
+                schedule_manager=mock_app.schedule_manager,
+            )
             cast(Any, ctrl).state = MagicMock(spec=['current_user', 'is_authenticated'])
             return ctrl
 

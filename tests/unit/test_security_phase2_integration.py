@@ -41,6 +41,8 @@ def mock_app_integration():
     app.model.worker_service = MagicMock(spec=["add_worker"])
     app.model.fabricacion_service = MagicMock(spec=[])
     app.model.material_service = MagicMock(spec=[])
+    app.model.machine_service = MagicMock(spec=["get_all_machines"])
+    app.model.workers_changed_signal = MagicMock(spec=["connect"])
     app.view = MagicMock(spec=["pages", "get_page", "show_message", "get_products_tab", "show_confirmation_dialog"])
     app.view.pages = {}
     app.db = MagicMock(spec=[])
@@ -62,7 +64,20 @@ class TestAuditIntegration:
             # Importar LOCALMENTE dentro del parche
             from controllers.product_controller_v2 import ProductController
 
-            controller = ProductController(mock_app_integration)
+            state = MagicMock()
+            state.active_dialogs = {}
+            controller = ProductController(
+                app_shell=mock_app_integration,
+                db=mock_app_integration.db,
+                product_model=mock_app_integration.model,
+                view=mock_app_integration.view,
+                product_facade=mock_app_integration.model.product_facade,
+                fabricacion_service=mock_app_integration.model.fabricacion_service,
+                planning_facade=mock_app_integration.model.planning_facade,
+                material_service=mock_app_integration.model.material_service,
+                machine_service=mock_app_integration.model.machine_service,
+                state=state,
+            )
 
             # 2. Configurar mocks para la creación en el SERVICIO
             mock_app_integration.model.product_service.add_product.return_value = "SUCCESS"
@@ -109,7 +124,14 @@ class TestAuditIntegration:
 
     def test_worker_creation_audited(self, mock_app_integration):
         """Verifica que crear un trabajador genera un log de auditoría."""
-        controller = WorkerController(mock_app_integration)
+        controller = WorkerController(
+            app_controller=mock_app_integration,
+            view=mock_app_integration.view,
+            worker_service=mock_app_integration.model.worker_service,
+            product_service=mock_app_integration.model.product_service,
+            fabricacion_service=mock_app_integration.model.fabricacion_service,
+            workers_changed_signal=mock_app_integration.model.workers_changed_signal,
+        )
         
         # Setup mocks en el SERVICIO
         mock_app_integration.model.worker_service.add_worker.return_value = True
@@ -142,7 +164,14 @@ class TestAuditIntegration:
 
     def test_password_complexity_enforcement_in_controller(self, mock_app_integration):
         """Verifica que el controlador rechaza contraseñas débiles antes de llamar al modelo."""
-        controller = WorkerController(mock_app_integration)
+        controller = WorkerController(
+            app_controller=mock_app_integration,
+            view=mock_app_integration.view,
+            worker_service=mock_app_integration.model.worker_service,
+            product_service=mock_app_integration.model.product_service,
+            fabricacion_service=mock_app_integration.model.fabricacion_service,
+            workers_changed_signal=mock_app_integration.model.workers_changed_signal,
+        )
         
         # Setup mocks con contraseña débil
         mock_workers_page = MagicMock(spec=["get_form_data", "current_worker_id"])

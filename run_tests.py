@@ -393,10 +393,12 @@ def main() -> None:
         print(f"\n{Colors.FAIL}{Colors.BOLD}❌ SE DETECTARON FALLOS EN LA SUITE DE TESTS "
               f"({failed_count} archivos con fallos){Colors.ENDC}")
 
-    # Limpieza
-    coverage_file = root_dir / "coverage.json"
-    if coverage_file.exists():
-        coverage_file.unlink()
+    if test_result_ok:
+        print(
+            f"\n{Colors.OKCYAN}📄 Para refrescar la tabla de métricas del README: "
+            f"`python scripts/update_readme_metrics.py`{Colors.ENDC} "
+            f"(usa `coverage.json` y `test_reports/compliance_data.json` generados arriba)."
+        )
 
 
 if __name__ == "__main__":

@@ -20,7 +20,8 @@ from core.validation.validator_service import ValidatorService
 from ui.dialogs import SubfabricacionesDialog, ProcesosMecanicosDialog, ProductDetailsDialog
 from ui.widgets import GestionDatosWidget
 
-from .protocols import ProductControllerProtocol, IProductView, IProductModel, IProductService
+from .application_shell import IApplicationShell
+from .protocols import ProductControllerProtocol, IProductView, IProductService
 
 class ProductManager:
     """
@@ -31,27 +32,27 @@ class ProductManager:
     """
 
     def __init__(
-        self, 
-        app: Any, 
-        model: IProductModel, 
-        view: IProductView, 
-        product_facade: IProductService, 
-        state: Any, 
-        controller_ref: Optional[ProductControllerProtocol] = None
+        self,
+        app: IApplicationShell,
+        machine_service: Any,
+        view: IProductView,
+        product_facade: IProductService,
+        state: Any,
+        controller_ref: Optional[ProductControllerProtocol] = None,
     ) -> None:
         """
         Inicializa el gestor de productos.
 
         Args:
-            app: Referencia a la aplicación principal (AppController).
-            model: Referencia al modelo de datos (IProductModel).
+            app: Shell del hub (adjuntos, sesión, UI).
+            machine_service: Servicio de máquinas para listados en diálogos.
             view: Referencia a la vista principal (IProductView).
             product_facade: Fachada de catálogo / iteraciones (cumple IProductService).
             state: Estado compartido de la aplicación (ApplicationState).
             controller_ref: Referencia opcional al controlador de productos.
         """
         self.app = app
-        self.model = model
+        self.machine_service = machine_service
         self.view = view
         self.product_facade = product_facade
         self.state = state
@@ -367,7 +368,7 @@ class ProductManager:
             if not edit_page or not hasattr(edit_page, 'current_subfabricaciones'):
                 self.view.show_message("Error", "No se ha seleccionado un producto.", "warning")
                 return
-            available_machines = self.model.machine_service.get_all_machines(include_inactive=False)
+            available_machines = self.machine_service.get_all_machines(include_inactive=False)
             current_subs = edit_page.current_subfabricaciones
             dialog = SubfabricacionesDialog(current_subs, available_machines, cast(QWidget, self.view))
             if dialog.exec() == QDialog.DialogCode.Accepted:

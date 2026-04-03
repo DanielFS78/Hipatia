@@ -13,9 +13,10 @@ from core.dtos import FlowTaskDataDTO, FlowTaskConfigDTO, ProductionFlowStepDTO
 
 
 def _make_model() -> Any:
-    model = MagicMock(spec=["db", "search_products"])
+    model = MagicMock(spec=["db", "product_service"])
     model.db = MagicMock(spec=[])
-    model.search_products = MagicMock(return_value=["P1"])
+    model.product_service = MagicMock(spec=["search_products"])
+    model.product_service.search_products = MagicMock(return_value=["P1"])
     return model
 
 
@@ -185,12 +186,20 @@ def test_on_data_changed_branches(controller: AppController) -> None:
     gestion = MagicMock(spec=["productos_tab"])
     gestion.productos_tab = prod_tab
     cast(Any, controller.view).get_page.return_value = gestion
-    cast(Any, controller.model).search_products.return_value = ["P1", "P2"]
+    cast(Any, controller.model).product_service.search_products.return_value = ["P1", "P2"]
 
     controller.on_data_changed()
     controller.ui_controller.on_data_changed.assert_called_once_with()
     prod_tab.clear_all.assert_called_once_with()
     prod_tab.update_search_results.assert_called_once_with(["P1", "P2"])
+
+    controller.ui_controller.on_data_changed.reset_mock()
+    prod_tab.update_search_results.reset_mock()
+    controller.product_controller = MagicMock(spec=["product_service"])
+    cast(Any, controller.product_controller).product_service.search_products.return_value = ["via_pc"]
+    controller.on_data_changed()
+    controller.ui_controller.on_data_changed.assert_called_once_with()
+    prod_tab.update_search_results.assert_called_once_with(["via_pc"])
 
     # Sin ui_controller ni gestión, no debe fallar
     controller.ui_controller = None

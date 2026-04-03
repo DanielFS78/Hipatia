@@ -39,7 +39,8 @@ def mock_app():
     app.model.fabricacion_service = app.model
     app.model.material_service = app.model
     app.model.worker_service = app.model
-    
+    app.model.machine_service = MagicMock(spec=["get_all_machines"])
+
     # Redirigir métodos de conveniencia al diccionario de páginas
     def get_page_mock(name): return app.view.pages.get(name)
     app.view.get_page.side_effect = get_page_mock
@@ -66,16 +67,24 @@ def mock_state():
 @pytest.fixture
 def controller(mock_app, mock_state):
     """Instancia del ProductController con dependencias mockeadas."""
-    # Parchear DIContainer para devolver nuestro mock_state
-    with patch("core.di_container.DIContainer.get_instance") as mock_di:
-        mock_di.return_value.resolve.return_value = mock_state
-        ctrl = ProductController(mock_app)
-        ctrl.logger = MagicMock()
-        ctrl.product_manager.logger = MagicMock()
-        ctrl.fabricacion_manager.logger = MagicMock()
-        ctrl.preproceso_manager.logger = MagicMock()
-        ctrl.material_manager.logger = MagicMock()
-        return ctrl
+    ctrl = ProductController(
+        app_shell=mock_app,
+        db=mock_app.db,
+        product_model=mock_app.model,
+        view=mock_app.view,
+        product_facade=mock_app.model.product_facade,
+        fabricacion_service=mock_app.model.fabricacion_service,
+        planning_facade=mock_app.model.planning_facade,
+        material_service=mock_app.model.material_service,
+        machine_service=mock_app.model.machine_service,
+        state=mock_state,
+    )
+    ctrl.logger = MagicMock()
+    ctrl.product_manager.logger = MagicMock()
+    ctrl.fabricacion_manager.logger = MagicMock()
+    ctrl.preproceso_manager.logger = MagicMock()
+    ctrl.material_manager.logger = MagicMock()
+    return ctrl
 
 @pytest.mark.unit
 class TestProductControllerPreprocesos:

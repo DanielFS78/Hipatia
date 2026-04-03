@@ -193,6 +193,14 @@ class WorkerService(QObject):
         """Obtiene el log de actividad detallado de un trabajador."""
         return self.tracking_repo.get_trabajo_logs_por_trabajador(worker_id)
 
+    def actualizar_estado_asignacion(
+        self, trabajador_id: int, fabricacion_id: int, nuevo_estado: str
+    ) -> bool:
+        """Actualiza el estado de una fabricación asignada a un trabajador (seguimiento)."""
+        return self.tracking_assignment_service.actualizar_estado_asignacion(
+            trabajador_id, fabricacion_id, nuevo_estado
+        )
+
     def get_worker_load_stats(self) -> dict[str, Any]:
         """
         Calcula la carga de trabajo (duración total de tareas) por trabajador

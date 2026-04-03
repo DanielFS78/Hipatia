@@ -26,16 +26,17 @@ class CalculationController:
     señales y procesar las operaciones sobre la pila de preprocesos.
     """
     
-    def __init__(self, app_controller: AppController) -> None:
+    def __init__(self, app_controller: "AppController", pila_service: Any) -> None:
         """
         Inicializa el CalculationController.
-        
+
         Args:
             app_controller: Referencia al AppController principal.
+            pila_service: Servicio de pilas (inyectado).
         """
         self.app = app_controller
         self.db = app_controller.db
-        self.pila_service = app_controller.model.pila_service
+        self.pila_service = pila_service
         self.view = app_controller.view
         self.logger = logging.getLogger("EvolucionTiemposApp")
         self.logger.info(">>> CALCULATION CONTROLLER LOADED <<<")

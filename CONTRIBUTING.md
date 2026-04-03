@@ -20,12 +20,12 @@ If you are auditing this code, please focus on:
     ```bash
     pip install -r requirements.txt
     ```
-    *Note: Validated on Python 3.12+* sOn macOS usually requires `brew install pyqt@6`.
+    *Note: CI runs on Python 3.11 and 3.12; local 3.13+ is fine if tests pass.* On macOS you may need `brew install pyqt@6`.
 3.  **Run Tests**:
     ```bash
     python run_tests.py
     ```
-    Ensure all ~1136 tests pass before proposing changes.
+    Ensure the full suite passes (see `README.md` metrics for current test count; regenerate with `python scripts/update_readme_metrics.py`).
 
 ## 🐛 Reporting Issues
 

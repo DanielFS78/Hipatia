@@ -7,7 +7,7 @@ la actualización de la vista, selección de operarios y adición de nuevos regi
 import pytest
 from unittest.mock import MagicMock, ANY, patch
 from controllers.worker.management_manager import WorkerManagementManager
-from controllers.worker.protocols import IWorkerView, IWorkerService, IWorkerModel
+from controllers.worker.protocols import IWorkerView, IWorkerService
 from core.dtos import WorkerFormDataDTO
 from core.security.access_control import set_security_service
 from core.security.security_service import SecurityService
@@ -50,14 +50,6 @@ class TestWorkerManagementManager:
         return MagicMock(spec=IWorkerService)
 
     @pytest.fixture
-    def mock_model(self):
-        """Crea un mock del modelo de trabajadores."""
-        model = MagicMock(spec=IWorkerModel)
-        model.product_service = MagicMock(spec=[])
-        model.worker_service = MagicMock(spec=[])
-        return model
-
-    @pytest.fixture
     def mock_app(self):
         """Crea un mock de la aplicación principal."""
         app = MagicMock(spec=["current_user"])
@@ -67,9 +59,14 @@ class TestWorkerManagementManager:
         return app
 
     @pytest.fixture
-    def manager(self, mock_app, mock_model, mock_view, mock_service):
+    def manager(self, mock_app, mock_view, mock_service):
         """Instancia WorkerManagementManager con sus dependencias."""
-        return WorkerManagementManager(app=mock_app, model=mock_model, view=mock_view, worker_service=mock_service)
+        return WorkerManagementManager(
+            app=mock_app,
+            view=mock_view,
+            worker_service=mock_service,
+            fabricacion_service=None,
+        )
 
     def test_update_workers_view(self, manager, mock_view, mock_service):
         """Prueba que el refresco de la vista carga todos los trabajadores correctamente."""

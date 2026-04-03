@@ -62,7 +62,12 @@ def controller(mock_app):
         mock_container.resolve.return_value = mock_app.state
         mock_di_instance.return_value = mock_container
 
-        ctrl = SimulationController(mock_app)
+        ctrl = SimulationController(
+            mock_app,
+            mock_app.model.worker_service,
+            mock_app.model.machine_service,
+            mock_app.model.pila_service,
+        )
         ctrl.logger = MagicMock(spec=['info', 'error', 'warning', 'critical'])
         ctrl.execution_manager.logger = MagicMock(spec=['info', 'error', 'warning', 'critical'])
         ctrl.editor_manager.logger = MagicMock(spec=['info', 'error', 'warning', 'critical'])

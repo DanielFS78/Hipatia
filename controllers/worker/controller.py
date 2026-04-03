@@ -22,7 +22,7 @@ try:
 except ImportError:  # pragma: no cover
     FeatureWorkerController = None  # type: ignore[assignment,misc]
 
-from .protocols import WorkerControllerProtocol, IWorkerView, IWorkerModel
+from .protocols import WorkerControllerProtocol, IWorkerView, IWorkerService, IProductService, IFabricacionService
 
 class WorkerController(QObject):
     """
@@ -31,39 +31,52 @@ class WorkerController(QObject):
     Implementa WorkerControllerProtocol (Fachada).
     """
     
-    def __init__(self, app_controller: Any) -> None:
+    def __init__(
+        self,
+        app_controller: Any,
+        view: IWorkerView,
+        worker_service: IWorkerService,
+        product_service: IProductService,
+        fabricacion_service: Optional[IFabricacionService],
+        workers_changed_signal: Any,
+    ) -> None:
         """
         Inicializa el controlador de trabajadores inyectando dependencias.
 
         Args:
-            app_controller: Controlador principal de la aplicación.
+            app_controller: Controlador principal (sesión, QR, navegación).
+            view: Vista principal (protocolo IWorkerView).
+            worker_service: Servicio de dominio de trabajadores.
+            product_service: Búsqueda de productos en asignación de tareas.
+            fabricacion_service: Órdenes de fabricación para autocompletado.
+            workers_changed_signal: Señal re-emitida por AppModel al cambiar trabajadores.
         """
         super().__init__()
         self.app = app_controller
-        self.model: IWorkerModel = app_controller.model
-        self.view: IWorkerView = app_controller.view
+        self.view = view
+        self.worker_service = worker_service
+        self.product_service = product_service
+        self.fabricacion_service = fabricacion_service
+        self.workers_changed_signal = workers_changed_signal
         self.logger = logging.getLogger("EvolucionTiemposApp")
-        
-        # Instanciar Gestores (Composición)
-        # Se inyectan las dependencias requeridas por sus protocolos
+
         self.management_manager = WorkerManagementManager(
-            app=self.app, 
-            model=self.model, 
-            view=self.view, 
-            worker_service=self.model.worker_service, 
-            fabricacion_service=getattr(self.model, 'fabricacion_service', None)
+            app=self.app,
+            view=self.view,
+            worker_service=self.worker_service,
+            fabricacion_service=self.fabricacion_service,
         )
         self.auth_manager = WorkerAuthManager(
-            app=self.app, 
-            view=self.view, 
-            worker_service=self.model.worker_service
+            app=self.app,
+            view=self.view,
+            worker_service=self.worker_service,
         )
         self.task_manager = WorkerTaskManager(
             app=self.app,
-            model=self.model, 
-            view=self.view, 
-            worker_service=self.model.worker_service, 
-            controller_ref=self
+            view=self.view,
+            worker_service=self.worker_service,
+            product_service=self.product_service,
+            controller_ref=self,
         )
         
         self.worker_window: Optional[WorkerMainWindow] = None
@@ -135,7 +148,7 @@ class WorkerController(QObject):
             workers_page.save_signal.connect(self.management_manager._on_save_worker_clicked)
             workers_page.delete_signal.connect(self.management_manager._on_delete_worker_clicked)
             workers_page.change_password_signal.connect(self.auth_manager._on_change_worker_password_clicked)
-            self.model.workers_changed_signal.connect(self.management_manager.update_workers_view)
+            self.workers_changed_signal.connect(self.management_manager.update_workers_view)
             workers_page.product_search_signal.connect(self.task_manager._on_worker_product_search_changed)
             workers_page.assign_task_signal.connect(self.task_manager._on_assign_task_to_worker_clicked)
             workers_page.cancel_task_signal.connect(self.task_manager._on_cancel_task_clicked)
