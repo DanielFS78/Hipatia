@@ -10,7 +10,8 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from typing import Optional, Dict, Any, List
 from typing import cast
 from core.interfaces.worker_view_interface import IWorkerView
-from .ui_setup import WorkerMainWindowUISetup
+from .ui_manager import WorkerMainWindowUIManager
+
 
 class WorkerMainWindow(QMainWindow, IWorkerView):
     """
@@ -28,7 +29,7 @@ class WorkerMainWindow(QMainWindow, IWorkerView):
     end_task_requested = pyqtSignal(dict)
     register_incidence_requested = pyqtSignal(dict)
 
-    # Atributos UI inicializados por WorkerMainWindowUISetup._setup_ui(self)
+    # Atributos UI inicializados por WorkerMainWindowUIManager.setup_main_window()
     stacked_widget: Any
     tasks_list: Any
     details_stack: Any
@@ -44,28 +45,10 @@ class WorkerMainWindow(QMainWindow, IWorkerView):
         self.logger = logging.getLogger("EvolucionTiemposApp.WorkerMainWindow")
 
         self.current_selected_task = None
-        self._setup_ui()
+        self._ui_manager = WorkerMainWindowUIManager(self)
+        self._ui_manager.setup_main_window()
 
         self.logger.info(f"WorkerMainWindow inicializada para {getattr(current_user, 'nombre_completo', 'Usuario')}")
-
-    # Wrappers de composición para evitar herencia múltiple con mixin de UI.
-    def _setup_ui(self) -> None:
-        WorkerMainWindowUISetup._setup_ui(self)
-
-    def _create_header(self) -> Any:
-        return WorkerMainWindowUISetup._create_header(self)
-
-    def _create_footer(self) -> Any:
-        return WorkerMainWindowUISetup._create_footer(self)
-
-    def _create_initial_screens(self) -> None:
-        WorkerMainWindowUISetup._create_initial_screens(self)
-
-    def _create_dashboard_screen(self) -> Any:
-        return WorkerMainWindowUISetup._create_dashboard_screen(self)
-
-    def _create_task_actions_widget(self) -> Any:
-        return WorkerMainWindowUISetup._create_task_actions_widget(self)
 
     def enable_action_buttons(self, enabled: bool) -> None:
         """Habilita o deshabilita los botones de control de tareas."""
