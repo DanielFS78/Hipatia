@@ -201,6 +201,16 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Sync iCloud:** N/A (workspace = iCloud)
 - **Fecha cierre:** 2026-04-03
 
+## ITEM 004 (lote D — paso 2) — `database.repositories.tracking`
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `database/repositories/tracking/core_manager.py`, `steps_manager.py`, `queries_manager.py`, `mappers.py`, `mypy.ini` (bloque `[mypy-database.repositories.tracking.*]`).
+- **Cambio:** `disallow_untyped_defs = True` para los cuatro módulos; en `TrackingQueriesManager.get_data_for_export`, anotación de `_to_dict(obj: object) -> Dict[str, Any]` y `data` como `Dict[str, Any]` para cumplir mypy estricto. Sin cambio de comportamiento.
+- **Gates:** mypy global OK (673 archivos); pytest focal tracking (p. ej. `test_tracking_repository_*`, `test_tracking_assignment_service`, `test_tracking_exceptions`) OK; `generate_daniel_doc.py` OK; `check_documentation_omissions.py` → omitidos=0.
+- **Sync iCloud:** N/A (workspace = iCloud)
+- **Fecha cierre:** 2026-04-03
+
 ## Siguiente ítem sugerido
 
-- **ITEM 004 (lote D — paso 2):** endurecer `database.repositories.tracking` (`core_manager`, `steps_manager`, `queries_manager`, `mappers`) con `disallow_untyped_defs` en `mypy.ini`, alineado con `TrackingRepository` ya estricto; o continuar con otro paquete `database/` sin bloque explícito según `priorizacion.md`.
+- **ITEM 004 (lote D — paso 3):** tipar `database.repositories.tracking_repository` (`session_factory` como `Callable[[], Session]` en lugar de `Any`) y endurecer en `mypy.ini` si aún cae bajo `database.*` laxo; u otros `database/repositories/*.py` sin bloque explícito (`protocols.py`, `*_helpers.py`).

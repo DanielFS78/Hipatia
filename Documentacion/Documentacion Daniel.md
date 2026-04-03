@@ -1,6 +1,6 @@
 # Documentación Técnica: Hipatia
 
-> Generado automáticamente el 2026-04-03 18:56:12
+> Generado automáticamente el 2026-04-03 19:11:51
 
 ---
 
@@ -206,10 +206,10 @@ Leyenda:
     - `database/repositories/reports/reports_stats_manager.py` → p0298 | clases: ReportsStatsManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
     - `database/repositories/reports/repository.py` → p0299 | clases: ReportsRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - tracking/
-    - `database/repositories/tracking/core_manager.py` → p0300 | clases: TrackingCoreManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `database/repositories/tracking/mappers.py` → p0301 | clases: TrackingMapper | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `database/repositories/tracking/queries_manager.py` → p0302 | clases: TrackingQueriesManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `database/repositories/tracking/steps_manager.py` → p0303 | clases: TrackingStepsManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `database/repositories/tracking/core_manager.py` → p0300 | clases: TrackingCoreManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/tracking/mappers.py` → p0301 | clases: TrackingMapper | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/tracking/queries_manager.py` → p0302 | clases: TrackingQueriesManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/tracking/steps_manager.py` → p0303 | clases: TrackingStepsManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - worker/
     - `database/repositories/worker/__init__.py` → p0304 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
     - `database/repositories/worker/annotation_manager.py` → p0305 | clases: WorkerAnnotationManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)

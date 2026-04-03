@@ -26,8 +26,8 @@ class TrackingQueriesManager(BaseRepository):
     """
 
     def get_data_for_export(self, trabajador_id: int, since_date: datetime) -> List[Dict[str, Any]]:
-        def _to_dict(obj):
-            data = {}
+        def _to_dict(obj: object) -> Dict[str, Any]:
+            data: Dict[str, Any] = {}
             for key in dir(obj):
                 if not key.startswith('_') and key not in ['metadata', 'registry']:
                     try:
