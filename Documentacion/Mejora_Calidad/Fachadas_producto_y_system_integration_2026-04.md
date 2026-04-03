@@ -47,10 +47,6 @@ La ruta de destino es siempre la **misma ruta relativa** dentro del árbol Hipat
 | --- | --- |
 | `Documentacion/Mejora_Calidad/Fachadas_producto_y_system_integration_2026-04.md` | `$HIPATIA_ICLOUD/Documentacion/Mejora_Calidad/Fachadas_producto_y_system_integration_2026-04.md` |
 | `core/app_model.py` | `$HIPATIA_ICLOUD/core/app_model.py` |
-| `core/app_model_bridges/__init__.py` | `$HIPATIA_ICLOUD/core/app_model_bridges/__init__.py` |
-| `core/app_model_bridges/compat.py` | `$HIPATIA_ICLOUD/core/app_model_bridges/compat.py` |
-| `core/app_model_bridges/planning.py` | `$HIPATIA_ICLOUD/core/app_model_bridges/planning.py` |
-| `core/app_model_bridges/product.py` | `$HIPATIA_ICLOUD/core/app_model_bridges/product.py` |
 | `core/facades/__init__.py` | `$HIPATIA_ICLOUD/core/facades/__init__.py` |
 | `core/facades/planning_facade.py` | `$HIPATIA_ICLOUD/core/facades/planning_facade.py` |
 | `core/facades/product_facade.py` | `$HIPATIA_ICLOUD/core/facades/product_facade.py` |

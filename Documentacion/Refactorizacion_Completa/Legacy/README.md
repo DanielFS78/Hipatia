@@ -16,7 +16,7 @@ python3 scripts/legacy_analyzer.py
 ## Skills relacionadas
 
 - `.agents/skills/fase_legacy/SKILL.md` — Definición de legacy y checklist.
-- `.agents/skills/fase_legacy_autopilot/SKILL.md` — Agente autónomo que recorre ítems, aplica cambios y ejecuta tests.
+- `.agents/skills/plan_mejora_calidad/SKILL.md` — Hub del plan de calidad (fases cerradas; vigilancia y tests).
 
 ## Categorías detectadas
 

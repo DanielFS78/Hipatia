@@ -80,5 +80,4 @@ Antes de dar por cerrado **cada** ítem:
 |---------|------|
 | Plan de Mejora de Calidad | `.agents/skills/plan_mejora_calidad/SKILL.md` |
 | Estándar documentación | `.agents/skills/estandar_documentacion/SKILL.md` |
-| Refactorización MCP (Fase 8 aliases) | `.agents/skills/refactorizacion_mcp/SKILL.md` |
 | Informe legacy | `Documentacion/Refactorizacion_Completa/Legacy/legacy_report.md` |

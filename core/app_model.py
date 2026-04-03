@@ -34,11 +34,6 @@ from core.services.report_service import ReportService
 from core.services.tracking_assignment_service import TrackingAssignmentService
 from core.tracking_dtos import FabricacionAsignadaDTO, TrabajoLogDTO
 from core.facades import PlanningFacade, ProductFacade
-from core.app_model_bridges import (
-    AppModelCompatBridge,
-    AppModelPlanningBridge,
-    AppModelProductBridge,
-)
 from core.services.system_integration_service import SystemIntegrationService
 
 
@@ -89,11 +84,6 @@ class AppModel(QObject):
         self.planning_facade = PlanningFacade(self.pila_service)
         self.system_integration = SystemIntegrationService(self.db)
 
-        # Puentes: mantienen la API legacy de AppModel sobre las fachadas / servicios
-        self._product_bridge = AppModelProductBridge(self.product_facade)
-        self._planning_bridge = AppModelPlanningBridge(self.planning_facade)
-        self._compat_bridge = AppModelCompatBridge(self.report_service, self.system_integration)
-        
         # Inicialización de Repositorios
         # NOTA: Las propiedades directas a repos (self.product_repo, etc)
         # se han eliminado en la Fase 11C. Los controladores deben usar
@@ -112,8 +102,6 @@ class AppModel(QObject):
         
         self.worker_service.workers_changed_signal.connect(self.workers_changed_signal)
         self.machine_service.machines_changed_signal.connect(self.machines_changed_signal)
-
-    # Producto / pilas / reportes básicos viven en core.app_model_bridges (ver _product_bridge, etc.).
 
     # =========================================================================
     # DELEGACIÓN A FABRICACION SERVICE (Trabajadores, Máquinas)
@@ -363,30 +351,30 @@ class AppModel(QObject):
         return self.db.preproceso_repo.delete_fabricacion(fabricacion_id)
 
     # =========================================================================
-    # DELEGACIÓN A PRODUCT BRIDGE (Productos, Iteraciones, Materiales)
+    # DELEGACIÓN A PRODUCT FACADE (Productos, Iteraciones, Materiales)
     # =========================================================================
 
     def search_products(self, query: str) -> list[ProductDTO]:
-        return self._product_bridge.search_products(query)
+        return self.product_facade.search_products(query)
 
     def get_latest_products(self, limit: int = 10) -> list[ProductDTO]:
-        return self._product_bridge.get_latest_products(limit)
+        return self.product_facade.get_latest_products(limit)
 
     def get_product_details(self, codigo: str) -> ProductDetailsDTO:
-        return self._product_bridge.get_product_details(codigo)
+        return self.product_facade.get_product_details(codigo)
 
     def add_product(self, data: dict[str, Any], sub_data: list[Any] | None = None) -> str:
-        return self._product_bridge.add_product(data, sub_data)
+        return self.product_facade.add_product(data, sub_data)
 
     def update_product(self, codigo_original: str, data: dict[str, Any], subfabricaciones: list[Any] | None = None) -> bool:
-        return self._product_bridge.update_product(codigo_original, data, subfabricaciones)
+        return self.product_facade.update_product(codigo_original, data, subfabricaciones)
 
     def delete_product(self, codigo: str) -> bool:
         """Elimina un producto del catálogo por su código."""
-        return self._product_bridge.delete_product(codigo)
+        return self.product_facade.delete_product(codigo)
 
     def get_product_iterations(self, codigo_producto: str) -> list[ProductIterationDTO]:
-        return self._product_bridge.get_product_iterations(codigo_producto)
+        return self.product_facade.get_product_iterations(codigo_producto)
 
     def add_product_iteration(
         self,
@@ -398,67 +386,67 @@ class AppModel(QObject):
         ruta_imagen: str | None = None,
         ruta_plano: str | None = None,
     ) -> int | None:
-        return self._product_bridge.add_product_iteration(
+        return self.product_facade.add_product_iteration(
             codigo_producto, responsable, descripcion, tipo_fallo, materiales_list, ruta_imagen, ruta_plano
         )
 
     def update_product_iteration_details(self, iteracion_id: int, responsable: str, descripcion: str, tipo_fallo: str) -> bool:
-        return self._product_bridge.update_product_iteration_details(iteracion_id, responsable, descripcion, tipo_fallo)
+        return self.product_facade.update_product_iteration_details(iteracion_id, responsable, descripcion, tipo_fallo)
 
     def add_iteration_image(self, iteracion_id: int, ruta_imagen: str) -> bool:
-        return self._product_bridge.add_iteration_image(iteracion_id, ruta_imagen)
+        return self.product_facade.add_iteration_image(iteracion_id, ruta_imagen)
 
     def get_product_iterations_by_id_or_similar(self, iteracion_id: int) -> ProductIterationDTO | None:
-        return self._product_bridge.get_product_iterations_by_id_or_similar(iteracion_id)
+        return self.product_facade.get_product_iterations_by_id_or_similar(iteracion_id)
 
     def delete_iteration_image(self, image_id: int) -> bool:
-        return self._product_bridge.delete_iteration_image(image_id)
+        return self.product_facade.delete_iteration_image(image_id)
 
     def get_materials_for_product(self, producto_codigo: str) -> list[MaterialDTO]:
-        return self._product_bridge.get_materials_for_product(producto_codigo)
+        return self.product_facade.get_materials_for_product(producto_codigo)
 
     def add_material_to_iteration(self, iteracion_id: int, codigo: str, descripcion: str) -> int | None:
-        return self._product_bridge.add_material_to_iteration(iteracion_id, codigo, descripcion)
+        return self.product_facade.add_material_to_iteration(iteracion_id, codigo, descripcion)
 
     def get_all_materials_for_selection(self) -> list[MaterialDTO]:
-        return self._product_bridge.get_all_materials_for_selection()
+        return self.product_facade.get_all_materials_for_selection()
 
     def update_material(self, material_id: int, nuevo_codigo: str, nueva_descripcion: str) -> bool:
-        return self._product_bridge.update_material(material_id, nuevo_codigo, nueva_descripcion)
+        return self.product_facade.update_material(material_id, nuevo_codigo, nueva_descripcion)
 
     def delete_material_link(self, iteracion_id: int, material_id: int) -> bool:
-        return self._product_bridge.delete_material_link(iteracion_id, material_id)
+        return self.product_facade.delete_material_link(iteracion_id, material_id)
 
     def add_material(self, codigo: str, descripcion: str) -> int | None:
-        return self._product_bridge.add_material(codigo, descripcion)
+        return self.product_facade.add_material(codigo, descripcion)
 
     def delete_material(self, material_id: int) -> bool:
-        return self._product_bridge.delete_material(material_id)
+        return self.product_facade.delete_material(material_id)
 
     def delete_product_iteration(self, iteracion_id: int) -> bool:
-        return self._product_bridge.delete_product_iteration(iteracion_id)
+        return self.product_facade.delete_product_iteration(iteracion_id)
 
     def link_material_to_product(self, producto_codigo: str, material_id: int) -> bool:
-        return self._product_bridge.link_material_to_product(producto_codigo, material_id)
+        return self.product_facade.link_material_to_product(producto_codigo, material_id)
 
     def unlink_material_from_product(self, producto_codigo: str, material_id: int) -> bool:
-        return self._product_bridge.unlink_material_from_product(producto_codigo, material_id)
+        return self.product_facade.unlink_material_from_product(producto_codigo, material_id)
 
     def get_all_iterations_with_dates(self) -> list[ProductIterationDTO]:
-        return self._product_bridge.get_all_iterations_with_dates()
+        return self.product_facade.get_all_iterations_with_dates()
 
     # =========================================================================
-    # DELEGACIÓN A PLANNING BRIDGE (Pilas, Diario, Cálculo)
+    # DELEGACIÓN A PLANNING FACADE (Pilas, Diario, Cálculo)
     # =========================================================================
 
     def get_all_pilas(self) -> list[PilaDTO]:
-        return self._planning_bridge.get_all_pilas()
+        return self.planning_facade.get_all_pilas()
 
     def get_all_pilas_with_dates(self) -> list[PilaDTO]:
-        return self._planning_bridge.get_all_pilas_with_dates()
+        return self.planning_facade.get_all_pilas_with_dates()
 
     def load_pila(self, pila_id: int) -> tuple[PilaDTO | None, dict[Any, Any] | None, list[Any] | None, list[Any] | None]:
-        return self._planning_bridge.load_pila(pila_id)
+        return self.planning_facade.load_pila(pila_id)
 
     def save_pila(
         self,
@@ -470,7 +458,7 @@ class AppModel(QObject):
         producto_origen_codigo: str | None = None,
         unidades: int = 1,
     ) -> str | bool | int:
-        return self._planning_bridge.save_pila(
+        return self.planning_facade.save_pila(
             nombre,
             descripcion,
             pila_de_calculo,
@@ -481,26 +469,26 @@ class AppModel(QObject):
         )
 
     def delete_pila(self, pila_id: int) -> bool:
-        return self._planning_bridge.delete_pila(pila_id)
+        return self.planning_facade.delete_pila(pila_id)
 
     def get_diario_bitacora(self, pila_id: int) -> tuple[int | None, list[Any]]:
-        return self._planning_bridge.get_diario_bitacora(pila_id)
+        return self.planning_facade.get_diario_bitacora(pila_id)
 
     def add_diario_evento(
         self, pila_id: int, fecha: date, dia_numero: int, plan_previsto: str, trabajo_realizado: str, notas: str
     ) -> bool:
-        return self._planning_bridge.add_diario_evento(
+        return self.planning_facade.add_diario_evento(
             pila_id, fecha, dia_numero, plan_previsto, trabajo_realizado, notas
         )
 
     def create_diario_bitacora(self, pila_id: int) -> bool:
-        return self._planning_bridge.create_diario_bitacora(pila_id)
+        return self.planning_facade.create_diario_bitacora(pila_id)
 
     def get_data_for_calculation(self, producto_codigo: str) -> list[CalculationProductDTO]:
-        return self._planning_bridge.get_data_for_calculation(producto_codigo)
+        return self.planning_facade.get_data_for_calculation(producto_codigo)
 
     def get_data_for_calculation_from_session(self, planning_session: list[CalculationProductDTO | dict[str, Any]]) -> list[CalculationProductDTO]:
-        return self._planning_bridge.get_data_for_calculation_from_session(planning_session)
+        return self.planning_facade.get_data_for_calculation_from_session(planning_session)
 
     # =========================================================================
     # DELEGACIÓN A REPORT SERVICE (resto de reporting)
@@ -514,53 +502,53 @@ class AppModel(QObject):
         return self.report_service.get_product_dashboard(product_code, evolution_days)
 
     # =========================================================================
-    # DELEGACIÓN A COMPAT BRIDGE (reportes tabulares, lotes, config, órdenes tracking)
+    # REPORT SERVICE + SYSTEM INTEGRATION (reportes tabulares, lotes, config, órdenes)
     # =========================================================================
 
     def search_reports_data(self, query: str) -> list[ResultadoBusquedaDTO]:
-        return self._compat_bridge.search_reports_data(query)
+        return self.report_service.search_reports_data(query)
 
     def get_orders_for_product(self, product_code: str) -> list[OrdenFabricacionResumenDTO]:
-        return self._compat_bridge.get_orders_for_product(product_code)
+        return self.report_service.get_orders_for_product(product_code)
 
     def get_order_details(self, order_id: str) -> OrdenFabricacionDetalleDTO | None:
-        return self._compat_bridge.get_order_details(order_id)
+        return self.report_service.get_order_details(order_id)
 
     def get_product_time_stats(self, product_code: str) -> PromedioTiempoDTO | None:
-        return self._compat_bridge.get_product_time_stats(product_code)
+        return self.report_service.get_product_time_stats(product_code)
 
     def get_worker_time_stats(self, product_code: str) -> list[TiempoTrabajadorDTO]:
-        return self._compat_bridge.get_worker_time_stats(product_code)
+        return self.report_service.get_worker_time_stats(product_code)
 
     def get_incidents_stats(self, product_code: str) -> list[IncidenciaResumenDTO]:
-        return self._compat_bridge.get_incidents_stats(product_code)
+        return self.report_service.get_incidents_stats(product_code)
 
     def get_evolution_stats(self, product_code: str, days: int = 30) -> list[PuntoEvolucionDTO]:
-        return self._compat_bridge.get_evolution_stats(product_code, days)
+        return self.report_service.get_evolution_stats(product_code, days)
 
     def get_product_summary(self, product_code: str) -> ResumenProductoDTO | None:
-        return self._compat_bridge.get_product_summary(product_code)
+        return self.report_service.get_product_summary(product_code)
 
     def search_lotes(self, query: str) -> list[Any]:
-        return self._compat_bridge.search_lotes(query)
+        return self.system_integration.search_lotes(query)
 
     def create_lote(self, data: dict[str, Any]) -> int | None:
-        return self._compat_bridge.create_lote(data)
+        return self.system_integration.create_lote(data)
 
     def get_lote_details(self, lote_id: int) -> LoteDTO | None:
-        return self._compat_bridge.get_lote_details(lote_id)
+        return self.system_integration.get_lote_details(lote_id)
 
     def update_lote(self, lote_id: int, data: dict[str, Any]) -> bool:
-        return self._compat_bridge.update_lote(lote_id, data)
+        return self.system_integration.update_lote(lote_id, data)
 
     def delete_lote(self, lote_id: int) -> bool:
-        return self._compat_bridge.delete_lote(lote_id)
+        return self.system_integration.delete_lote(lote_id)
 
     def config_get_setting(self, key: str, default: str) -> str:
-        return self._compat_bridge.config_get_setting(key, default)
+        return self.system_integration.config_get_setting(key, default)
 
     def config_set_setting(self, key: str, value: str) -> bool:
-        return self._compat_bridge.config_set_setting(key, value)
+        return self.system_integration.config_set_setting(key, value)
 
     def get_all_ordenes_fabricacion(self) -> list[str]:
-        return self._compat_bridge.get_all_ordenes_fabricacion()
+        return self.system_integration.get_all_ordenes_fabricacion()

@@ -21,12 +21,12 @@
 ## Inventario retirado del runtime
 
 - `core/simulation/simulation_adapter.py` (`AdaptadorScheduler`) ya no forma parte del código ejecutable.
-- `core/simulation/event_engine.py` (reexport de `MotorDeEventos`) **eliminado** (2026-04): importar solo `from core.simulation.engine.motor import MotorDeEventos`.
+- `core/simulation/event_engine.py` sigue siendo reexport opcional de `MotorDeEventos`; la ruta canónica es `core.simulation.engine.motor`.
 - El scheduler activo de simulación se construye desde `controllers/simulation/execution_helpers.py` y `optimizer_worker.py` usando `MotorDeEventos` directo.
 
 ## No existe en este árbol
 
-- Paquete `core/app_model_bridges/` ni fachadas `ProductFacade` / `PlanningFacade` bajo ese nombre: si reaparecen en otro clon, la migración es inyectar servicios/fachadas en controladores y borrar el puente cuando no queden importadores.
+- El paquete `core/app_model_bridges/` fue eliminado del repo activo; `AppModel` delega directamente en `ProductFacade`, `PlanningFacade`, `ReportService` y `SystemIntegrationService`.
 
 ## Riesgos si no se gestiona retiro incremental
 
@@ -39,7 +39,7 @@
 1. **Fase 1 (actual):** consolidar puentes necesarios y eliminar mixins de delegación ya migrados.
 2. **Fase 2:** ~~mover utilidades de `flow_dialog_bridges`~~ **Hecho** (ITEM 003 B → `flow_canvas_io`).
 3. **Fase 3:** retirar adaptadores de compatibilidad de UI cuando tests y callers usen API DTO-first exclusivamente.
-4. **Fase 4:** regenerar documentación técnica y validar ausencia de referencias obsoletas (`AdaptadorScheduler`).
+4. **Fase 4:** regenerar documentación (`generate_daniel_doc.py`) tras cambios; retirar skills/autopilots obsoletos del índice `.agents/skills/SKILL_INDEX.md`.
 
 ## Criterio de retiro por puente
 

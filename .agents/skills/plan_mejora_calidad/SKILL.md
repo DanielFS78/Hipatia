@@ -47,7 +47,7 @@ description: Hub central del plan de mejora de calidad del proyecto Hipatia. Def
 | **6** | Configuración de CI/CD | ✅ COMPLETADA | Calidad asegurada con `run_tests.py` y analizadores en local; pipeline CI en servidor queda como mejora opcional futura |
 | **7** | Documentación Técnica de Arquitectura | ✅ COMPLETADA | `generate_daniel_doc.py`, `Documentacion/`, estándar en `estandar_documentacion` |
 
-**Nota:** Las fases 3–7 se coordinan con el plan de refactorización global (MCP) en `.agents/skills/refactorizacion_mcp/SKILL.md`. La **Fase 12C** quedó cerrada en 2026-03-20; vigilancia del catálogo: `python3 scripts/ui_dto_findings_catalog.py`.
+**Nota:** Plan de refactorización histórico (MCP) archivado y retirado del repo. La **Fase 12C** quedó cerrada en 2026-03-20; vigilancia del catálogo: `python3 scripts/ui_dto_findings_catalog.py`.
 
 ---
 
@@ -195,5 +195,4 @@ El plan de fases está **cerrado**. Lo siguiente es **vigilancia** y mejora opci
 
 - **Fase 12C — Sanear Frontera UI/DTO:** ✅ cerrada (2026-03-20). Referencia y mantenimiento: `.agents/skills/fase12c_sanear_frontera_ui/SKILL.md`; regresiones: `python3 scripts/ui_dto_findings_catalog.py`.
 - **Tipado estricto (Mypy):** auditoría global `python3 -m mypy . --config-file mypy.ini`.
-- `.agents/skills/refactorizacion_mcp/SKILL.md` (plan maestro **cerrado**; skills de fase siguen sirviendo para mantenimiento puntual).
 - `.agents/skills/estandar_documentacion/SKILL.md` (docstrings + generación de documentación)

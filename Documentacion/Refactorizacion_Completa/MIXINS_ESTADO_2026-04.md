@@ -15,7 +15,7 @@ Registro único para evitar divergencia entre clones (worktree Cursor vs iCloud)
 ## Otros ítems del plan
 
 - `core/simulation/simulation_adapter.py`: **no** presente en este árbol (cierre: ya retirado o nunca existió aquí).
-- `core/simulation/event_engine.py`: **eliminado**; punto de entrada del motor: `core.simulation.engine.motor.MotorDeEventos`.
+- `core/simulation/event_engine.py`: reexport de `MotorDeEventos`; entrada canónica del motor: `core.simulation.engine.motor.MotorDeEventos`.
 - `controllers/backup_controller_io_mixin.py`: **no** existe; composición vía `BackupIOManager` (`backup_controller_io_manager.py`).
 
 ## Mypy — brecha `core.services`

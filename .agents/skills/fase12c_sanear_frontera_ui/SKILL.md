@@ -22,7 +22,7 @@ en rutas de `ui/` cuando el objeto debería ser un DTO.
 
 | Recurso | Ruta |
 |---------|------|
-| Plan maestro | `.agents/skills/refactorizacion_mcp/SKILL.md` |
+| Plan de calidad (hub) | `.agents/skills/plan_mejora_calidad/SKILL.md` |
 | Docstrings / doc generada | `.agents/skills/estandar_documentacion/SKILL.md` |
 | Testing | `.agents/skills/strict_testing/SKILL.md` y skills de testing |
 | Guía del catálogo | `Documentacion/Refactorizacion_Completa/Fase_12C/README_catalogo_ui_dto.md` |

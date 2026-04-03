@@ -88,9 +88,10 @@ def generate_markdown(data):
     return "\n".join(lines)
 
 def main():
+    """Genera bajo demanda `Documentacion/Monolitos_finales.md` (no versionado por defecto)."""
     root = "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion"
     json_path = "/tmp/top_75_analysis.json"
-    dest_dir = os.path.join(root, "documentacion")
+    dest_dir = os.path.join(root, "Documentacion")
     dest_path = os.path.join(dest_dir, "Monolitos_finales.md")
     
     if not os.path.exists(dest_dir):
