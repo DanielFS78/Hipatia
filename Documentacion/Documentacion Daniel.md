@@ -1,6 +1,6 @@
 # Documentación Técnica: Hipatia
 
-> Generado automáticamente el 2026-04-03 16:28:11
+> Generado automáticamente el 2026-04-03 18:56:12
 
 ---
 
@@ -198,13 +198,13 @@ Leyenda:
     - `database/repositories/preproceso/preproceso_manager.py` → p0291 | clases: PreprocesoManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
     - `database/repositories/preproceso/repository.py` → p0292 | clases: PreprocesoRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - reports/
-    - `database/repositories/reports/__init__.py` → p0293 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `database/repositories/reports/reports_incidences_manager.py` → p0294 | clases: ReportsIncidencesManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `database/repositories/reports/reports_orders_manager.py` → p0295 | clases: ReportsOrdersManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `database/repositories/reports/reports_products_manager.py` → p0296 | clases: ReportsProductsManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `database/repositories/reports/reports_search_manager.py` → p0297 | clases: ReportsSearchManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `database/repositories/reports/reports_stats_manager.py` → p0298 | clases: ReportsStatsManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `database/repositories/reports/repository.py` → p0299 | clases: ReportsRepository | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `database/repositories/reports/__init__.py` → p0293 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/reports/reports_incidences_manager.py` → p0294 | clases: ReportsIncidencesManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/reports/reports_orders_manager.py` → p0295 | clases: ReportsOrdersManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/reports/reports_products_manager.py` → p0296 | clases: ReportsProductsManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/reports/reports_search_manager.py` → p0297 | clases: ReportsSearchManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/reports/reports_stats_manager.py` → p0298 | clases: ReportsStatsManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/reports/repository.py` → p0299 | clases: ReportsRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - tracking/
     - `database/repositories/tracking/core_manager.py` → p0300 | clases: TrackingCoreManager | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
     - `database/repositories/tracking/mappers.py` → p0301 | clases: TrackingMapper | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
@@ -651,15 +651,14 @@ graph TD
     ROOT --> features["🔌 features"]
     ROOT --> scripts["🛠️ scripts"]
     scripts --> scripts_analysis["analysis/"]
-    scripts --> scripts_legacy["legacy/"]
     scripts --> scripts_maintenance["maintenance/"]
     ROOT --> tests["🧪 tests"]
     tests --> tests_controllers["controllers/"]
     tests --> tests_db["db/"]
     tests --> tests_debugging["debugging/"]
     tests --> tests_e2e["e2e/"]
-    tests --> tests_e2e_flows["e2e_flows/"]
     tests --> tests_integration["integration/"]
+    tests --> tests_logic["logic/"]
     ROOT --> migrations["📦 migrations"]
     migrations --> migrations_versions["versions/"]
 ```

@@ -13,7 +13,7 @@ from core.reports_dtos import (ResultadoBusquedaDTO, OrdenFabricacionResumenDTO,
 from database.database_manager import DatabaseManager
 
 if TYPE_CHECKING:
-    from database.repositories.reports_repository import ReportsRepository
+    from database.repositories.reports import ReportsRepository
 
 class ReportService(QObject):
     """

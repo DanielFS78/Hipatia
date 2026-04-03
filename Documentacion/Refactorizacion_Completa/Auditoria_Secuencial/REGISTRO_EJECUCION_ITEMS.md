@@ -190,6 +190,17 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Sync iCloud:** OK — `mypy.ini`, `core/services/product_service.py`, `core/app_model.py`, `REGISTRO_EJECUCION_ITEMS.md`, `Documentacion/Documentacion Daniel.md`, `Documentacion/Documentacion Daniel.pdf`.
 - **Fecha cierre:** 2026-04-02
 
+## ITEM 004 (lote D — paso 1) — `database.repositories.reports`
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `database/repositories/reports/repository.py`, `reports_search_manager.py`, `reports_incidences_manager.py`, `reports_orders_manager.py`, `reports_products_manager.py`, `reports_stats_manager.py`, `mypy.ini` (bloque endurecido); corrección de imports inexistentes `database.repositories.reports_repository` → `database.repositories.reports` en `core/services/report_service.py` y `scripts/profile_queries.py`.
+- **Cambio:** `ReportsRepository` con `session_factory: Callable[[], Session]`, delegación con firmas explícitas (sin `*args/**kwargs`); `-> None` en `_sync_managers`; cierres internos de managers con tipo de retorno; `tiene_incidencias` vía `len(t.incidencias or [])`; `producto_descripcion` con `or ""` donde aplica.
+- **Scripts ejecutados:** `mypy` (focal + global), `pytest` (`test_reports_repository`, `test_reports_infrastructure`), `run_tests.py`, `generate_daniel_doc.py`, `check_documentation_omissions.py`.
+- **Gates post-refactor:** mypy global OK (673 archivos); pytest global OK (`run_tests.py` — todos los tests pasados); docs → omitidos=0.
+- **Sync iCloud:** N/A (workspace = iCloud)
+- **Fecha cierre:** 2026-04-03
+
 ## Siguiente ítem sugerido
 
-- **ITEM 004 (lote D o cierre de cola P2):** re-ejecutar `check_typing_coverage.py`; el «Top Untyped» reciente ya no lista `core/` / `database/` en las primeras entradas (cobertura global ~95,5%). Siguiente paso: elegir por prioridad (`priorizacion.md`) — p. ej. endurecer otro módulo de producto que aún aparezca al filtrar prefijos, **P0 ciclos** `app_controller`, o **P3** legacy — documentar el ítem elegido aquí antes de implementar.
+- **ITEM 004 (lote D — paso 2):** endurecer `database.repositories.tracking` (`core_manager`, `steps_manager`, `queries_manager`, `mappers`) con `disallow_untyped_defs` en `mypy.ini`, alineado con `TrackingRepository` ya estricto; o continuar con otro paquete `database/` sin bloque explícito según `priorizacion.md`.

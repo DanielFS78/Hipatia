@@ -15,7 +15,7 @@ import time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from database.database_manager import DatabaseManager
-from database.repositories.reports_repository import ReportsRepository
+from database.repositories.reports import ReportsRepository
 from database.repositories.product_repository import ProductRepository
 from database.models import Producto, TrabajoLog, Fabricacion
 
