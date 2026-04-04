@@ -246,6 +246,14 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Gates:** `mypy .` OK (676 archivos); pytest focal machine + preparation + report_sheets + report_strategy + tracking_assignment + fabricación OK.
 - **Fecha cierre:** 2026-04-04
 
+## ITEM 004 (lote D — paso 7) — raíz `features`/`ui`, efectos, `core.protocols`, `core.facades`, `core`
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `mypy.ini` — `disallow_untyped_defs` explícito para módulos `features` (paquete), `ui` (paquete), `ui.dialogs.effects.*`, `core.protocols.*`, `core.facades` (solo `__init__` del subpaquete), `core` (solo `__init__` raíz). Sin cambios de runtime; el código ya cumplía al activar los bloques.
+- **Gates:** `mypy .` OK (676 archivos); pytest focal `test_visual_effects` + setup efectos en `test_dialogs_setup` OK.
+- **Fecha cierre:** 2026-04-04
+
 ## Siguiente ítem sugerido
 
-- **ITEM 004 (lote D — paso 7):** revisar módulos `ui.*` o `features.*` aún solo bajo `[mypy-ui.*]` / `[mypy-features.*]` laxos, o `core/utils` sin bloque explícito, según impacto y `check_typing_coverage`.
+- **ITEM 004 (lote D — paso 8):** endurecer subpaquetes `ui` o `core` aún laxos por herencia de `[mypy-ui.*]` / `[mypy-core.*]` (p. ej. `ui.startup_screen*`, `core.health.*`, `core.camera_manager.*`, `core/interfaces`) priorizando módulos pequeños o de bajo acoplamiento; validar con `mypy .` tras cada bloque.

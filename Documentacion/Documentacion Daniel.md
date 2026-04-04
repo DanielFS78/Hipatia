@@ -1,6 +1,6 @@
 # Documentación Técnica: Hipatia
 
-> Generado automáticamente el 2026-04-04 12:40:03
+> Generado automáticamente el 2026-04-04 12:42:56
 
 ---
 
@@ -46,12 +46,12 @@ Leyenda:
   - `core/camera_manager/utils.py` → p0145 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - dialogs/
   - effects/
-    - `ui/dialogs/effects/__init__.py` → p0332 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/effects/golden_glow.py` → p0333 | clases: GoldenGlowEffect | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/effects/green_cycle.py` → p0334 | clases: GreenCycleEffect | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/effects/mixed_gold_green.py` → p0335 | clases: MixedGoldGreenEffect | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/effects/processing_glow.py` → p0336 | clases: ProcessingGlowEffect | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-    - `ui/dialogs/effects/progress.py` → p0337 | clases: SimulationProgressEffect | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+    - `ui/dialogs/effects/__init__.py` → p0332 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/golden_glow.py` → p0333 | clases: GoldenGlowEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/green_cycle.py` → p0334 | clases: GreenCycleEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/mixed_gold_green.py` → p0335 | clases: MixedGoldGreenEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/processing_glow.py` → p0336 | clases: ProcessingGlowEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/progress.py` → p0337 | clases: SimulationProgressEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - fabrication/
     - `ui/dialogs/fabrication/__init__.py` → p0338 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
     - `ui/dialogs/fabrication/assignment_dialogs.py` → p0339 | clases: AssignPreprocesosDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
@@ -100,7 +100,7 @@ Leyenda:
   - `ui/dialogs/tracking_dialogs.py` → p0330 | clases: OrderSetupDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `ui/dialogs/utility_dialogs.py` → p0331 | clases: AddBreakDialog, LoginDialog, ChangePasswordDialog, SyncDialog, SeleccionarHojasExcelDialog, MultiWorkerSelectionDialog | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - facades/
-  - `core/facades/__init__.py` → p0146 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/facades/__init__.py` → p0146 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/facades/planning_facade.py` → p0147 | clases: PlanningFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `core/facades/product_facade.py` → p0148 | clases: ProductFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `core/facades/production_facade.py` → p0149 | clases: ProductionFacade | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
@@ -171,8 +171,8 @@ Leyenda:
   - `controllers/product/product_manager.py` → p0091 | clases: ProductManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `controllers/product/protocols.py` → p0092 | clases: IProductView, IProductModel, ProductControllerProtocol | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - protocols/
-  - `core/protocols/__init__.py` → p0174 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `core/protocols/domain.py` → p0175 | clases: IProductService, IFabricacionService, IMaterialService | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `core/protocols/__init__.py` → p0174 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/protocols/domain.py` → p0175 | clases: IProductService, IFabricacionService, IMaterialService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - qr_scanner/
   - `core/qr_scanner/__init__.py` → p0176 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
   - `core/qr_scanner/base.py` → p0177 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
