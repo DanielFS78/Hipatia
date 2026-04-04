@@ -11,7 +11,7 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtGui import QTextCharFormat, QColor
 from PyQt6.QtCore import Qt
-from typing import Dict, Any, List, Optional, TYPE_CHECKING
+from typing import Dict, Any, List, Optional, TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from core.services.time_calculator import CalculadorDeTiempos
@@ -21,6 +21,7 @@ if TYPE_CHECKING:
 from core.di_container import DIContainer
 from core.dtos import SimulationResultTaskDTO
 from ui.dialogs.fabrication.dialog_dependencies import resolve_pila_service
+from ui.dialogs.fabrication.ui_dialog_protocols import ShowsUserMessage
 
 class BitacoraEntryDTO:
     """DTO de entrada del diario de bitácora (plan/realizado/notas)."""
@@ -46,6 +47,7 @@ class FabricacionBitacoraDialog(QDialog):
         parent: Optional["QWidget"] = None,
         *,
         pila_service: Any | None = None,
+        user_messaging: ShowsUserMessage | None = None,
     ) -> None:
         super().__init__(parent)
         self.time_calculator = time_calculator  # Guardamos la instancia del calculador
@@ -55,6 +57,11 @@ class FabricacionBitacoraDialog(QDialog):
         self.simulation_results = simulation_results
         self.controller = controller
         self.logger = logging.getLogger("EvolucionTiemposApp")
+        self._user_messaging: ShowsUserMessage = (
+            user_messaging
+            if user_messaging is not None
+            else cast(ShowsUserMessage, controller.view)
+        )
 
         if pila_service is not None:
             self._pila_service = pila_service
@@ -239,8 +246,11 @@ class FabricacionBitacoraDialog(QDialog):
         notas = self.notes_entry.toPlainText().strip()
 
         if not realizado:
-            self.controller.view.show_message("Campo Requerido",
-                                                  "El campo 'Trabajo Realizado' no puede estar vacío.", "warning")
+            self._user_messaging.show_message(
+                "Campo Requerido",
+                "El campo 'Trabajo Realizado' no puede estar vacío.",
+                "warning",
+            )
             return
 
         day_number = (self.selected_date - self.pila_start_date).days + 1
@@ -256,8 +266,13 @@ class FabricacionBitacoraDialog(QDialog):
             )
 
         if success:
-            self.controller.view.show_message("Éxito", "La entrada del día se ha guardado correctamente.", "info")
+            self._user_messaging.show_message(
+                "Éxito", "La entrada del día se ha guardado correctamente.", "info"
+            )
             self._load_and_process_data()
         else:
-            self.controller.view.show_message("Error", "No se pudo guardar la entrada en la base de datos.",
-                                                  "critical")
+            self._user_messaging.show_message(
+                "Error",
+                "No se pudo guardar la entrada en la base de datos.",
+                "critical",
+            )

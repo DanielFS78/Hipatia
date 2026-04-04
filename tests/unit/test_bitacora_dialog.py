@@ -2,11 +2,12 @@
 Tests para ui/dialogs/fabrication/bitacora_dialog.py — Subfase 6.D.1
 """
 import pytest
-from unittest.mock import ANY, MagicMock, patch
+from unittest.mock import ANY, MagicMock, create_autospec, patch
 from datetime import date, datetime, timedelta
 from typing import Any
 from PyQt6.QtCore import Qt
 from ui.dialogs.fabrication.bitacora_dialog import FabricacionBitacoraDialog
+from ui.dialogs.fabrication.ui_dialog_protocols import ShowsUserMessage
 from core.dtos import SimulationResultTaskDTO
 
 pytestmark = pytest.mark.unit
@@ -155,6 +156,22 @@ class TestFabricacionBitacoraDialog:
         dialog._on_calendar_date_selected()
         assert dialog.real_entry.toPlainText() == ""
         assert dialog.save_entry_button.isEnabled() == True
+
+    def test_user_messaging_injected_skips_controller_view(self, qtbot, mock_dependencies):
+        ctrl, calc = mock_dependencies
+        msg = create_autospec(ShowsUserMessage, instance=True)
+        dialog = FabricacionBitacoraDialog(
+            1, "Pila 1", [], ctrl, calc, user_messaging=msg
+        )
+        qtbot.addWidget(dialog)
+        dialog.real_entry.setPlainText("")
+        dialog._add_diario_evento()
+        msg.show_message.assert_called_once_with(
+            "Campo Requerido",
+            "El campo 'Trabajo Realizado' no puede estar vacío.",
+            "warning",
+        )
+        ctrl.view.show_message.assert_not_called()
 
     def test_add_diario_evento_empty_realizado(self, qtbot, mock_dependencies):
         ctrl, calc = mock_dependencies

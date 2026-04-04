@@ -10,3 +10,10 @@ class OpensFabricacionPreprocesos(Protocol):
 
     def show_fabricacion_preprocesos(self, fabricacion_id: int) -> None:
         ...
+
+
+class ShowsUserMessage(Protocol):
+    """Muestra mensajes al usuario (alineado con `IView.show_message` / `MainView`)."""
+
+    def show_message(self, title: str, message: str, level: str = "info") -> None:
+        ...

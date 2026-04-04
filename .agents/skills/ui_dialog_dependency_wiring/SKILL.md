@@ -11,7 +11,7 @@ Reducir resolución dispersa (DI + `product_controller` + `model`) en diálogos 
 
 1. Módulo compartido [`ui/dialogs/fabrication/dialog_dependencies.py`](../../../ui/dialogs/fabrication/dialog_dependencies.py) (`resolve_fabricacion_service`, `resolve_pila_service`).
 2. Parámetros opcionales `pila_service` / `fabricacion_service` en constructores cuando aplique.
-3. Protocolos en [`ui/dialogs/fabrication/ui_dialog_protocols.py`](../../../ui/dialogs/fabrication/ui_dialog_protocols.py) (capa UI para evitar import cíclico con `controllers`).
+3. Protocolos en [`ui/dialogs/fabrication/ui_dialog_protocols.py`](../../../ui/dialogs/fabrication/ui_dialog_protocols.py) (capa UI para evitar import cíclico con `controllers`): `OpensFabricacionPreprocesos`, `ShowsUserMessage` (bitácora: `user_messaging=` opcional).
 4. Fallback a `model.*` documentado para tests y arranques sin servicios; ver sección **Fallback** abajo.
 
 ## Orden de trabajo

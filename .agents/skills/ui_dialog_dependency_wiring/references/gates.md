@@ -12,7 +12,7 @@ python3 -m pytest tests/unit/test_fabrication_dialogs.py tests/unit/test_bitacor
 
 ```bash
 python3 -m pytest tests/unit/test_dialog_dependencies.py tests/unit/test_fabrication_dialogs.py tests/unit/test_bitacora_dialog.py -q
-python3 -m mypy ui/dialogs/fabrication/dialog_dependencies.py ui/dialogs/fabrication/assignment_dialogs.py ui/dialogs/fabrication/bitacora_dialog.py --config-file=mypy.ini
+python3 -m mypy ui/dialogs/fabrication/dialog_dependencies.py ui/dialogs/fabrication/assignment_dialogs.py ui/dialogs/fabrication/bitacora_dialog.py ui/dialogs/fabrication/ui_dialog_protocols.py --config-file=mypy.ini
 ```
 
 ## Fase 2 (constructores con inyección opcional)
@@ -32,8 +32,8 @@ python3 -m mypy controllers/pila/pila_manager.py --config-file=mypy.ini
 ## Fase 4 (Protocol)
 
 ```bash
-python3 -m pytest tests/unit/test_fabrication_dialogs.py -q
-python3 -m mypy ui/dialogs/fabrication/assignment_dialogs.py ui/dialogs/fabrication/ui_dialog_protocols.py --config-file=mypy.ini
+python3 -m pytest tests/unit/test_fabrication_dialogs.py tests/unit/test_bitacora_dialog.py -q
+python3 -m mypy ui/dialogs/fabrication/assignment_dialogs.py ui/dialogs/fabrication/bitacora_dialog.py ui/dialogs/fabrication/ui_dialog_protocols.py --config-file=mypy.ini
 ```
 
 ## Fase 5–6 (cierre / production_flow)
