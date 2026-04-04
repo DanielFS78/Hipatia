@@ -40,34 +40,35 @@ class TestDefinirLoteWidget:
         assert widget.lote_controller is ctrl
 
     def test_populate_fabrications_list(self, widget):
-        """Carga fabricaciones excluyendo TASK-*."""
+        """Carga fabricaciones excluyendo TASK-* (vía FabricacionService, no model)."""
         fab1 = MagicMock(spec=["codigo", "descripcion", "id"]); fab1.codigo = "FAB-1"; fab1.descripcion = "Fab 1"; fab1.id = 1
         fab2 = MagicMock(spec=["codigo", "descripcion", "id"]); fab2.codigo = "TASK-AUTO"; fab2.descripcion = "Auto"; fab2.id = 2
+        fs = MagicMock(spec=["search_fabricaciones"])
+        fs.search_fabricaciones.return_value = [fab1, fab2]
+        widget._fabricacion_service = fs
         ctrl = MagicMock(spec=["model"])
-        ctrl.model = MagicMock(spec=["search_fabricaciones"])
-        ctrl.model.search_fabricaciones.return_value = [fab1, fab2]
         widget.lote_controller = ctrl
         widget.populate_fabrications_list()
         assert widget.fab_results.count() == 1
+        fs.search_fabricaciones.assert_called_once_with("")
 
     def test_populate_fabrications_list_no_controller(self, widget):
         """Sin controlador no hace nada."""
-        widget.controller = None
+        widget.lote_controller = None
         widget.populate_fabrications_list()
-        # Sin controlador, la lista no debe tener items cargados
         assert widget.fab_results.count() == 0
 
     def test_populate_fabrications_list_error(self, widget):
         """Error en carga no crashea."""
-        ctrl = MagicMock(spec=["model"])
-        ctrl.model = MagicMock(spec=["search_fabricaciones"])
-        ctrl.model.search_fabricaciones.side_effect = Exception("DB")
-        widget.controller = ctrl
+        fs = MagicMock(spec=["search_fabricaciones"])
+        fs.search_fabricaciones.side_effect = Exception("DB")
+        widget._fabricacion_service = fs
+        widget.lote_controller = MagicMock(spec=["model"])
         try:
             widget.populate_fabrications_list()
         except Exception:
             pytest.fail("populate_fabrications_list no debería propagar excepciones")
-        assert widget.fab_results.count() >= 0  # widget sigue en estado válido
+        assert widget.fab_results.count() >= 0
 
     def test_filter_fabrications(self, widget):
         """Filtra fabricaciones por texto."""
@@ -78,14 +79,15 @@ class TestDefinirLoteWidget:
         assert widget.fab_results.item(1).isHidden()
 
     def test_populate_products_list(self, widget):
-        """Carga productos correctamente."""
+        """Carga productos correctamente (vía ProductService, no model)."""
         prod = MagicMock(spec=["codigo", "descripcion"]); prod.codigo = "P1"; prod.descripcion = "Prod 1"
-        ctrl = MagicMock(spec=["model"])
-        ctrl.model = MagicMock(spec=["search_products"])
-        ctrl.model.search_products.return_value = [prod]
-        widget.lote_controller = ctrl
+        ps = MagicMock(spec=["search_products"])
+        ps.search_products.return_value = [prod]
+        widget._product_service = ps
+        widget.lote_controller = MagicMock(spec=["model"])
         widget.populate_products_list()
         assert widget.product_results.count() == 1
+        ps.search_products.assert_called_once_with("")
 
     def test_populate_products_list_no_controller(self, widget):
         """Sin controlador no hace nada."""
@@ -95,15 +97,15 @@ class TestDefinirLoteWidget:
 
     def test_populate_products_list_error(self, widget):
         """Error en carga no crashea."""
-        ctrl = MagicMock(spec=["model"])
-        ctrl.model = MagicMock(spec=["search_products"])
-        ctrl.model.search_products.side_effect = Exception("DB")
-        widget.lote_controller = ctrl
+        ps = MagicMock(spec=["search_products"])
+        ps.search_products.side_effect = Exception("DB")
+        widget._product_service = ps
+        widget.lote_controller = MagicMock(spec=["model"])
         try:
             widget.populate_products_list()
         except Exception:
             pytest.fail("populate_products_list no debería propagar excepciones")
-        assert widget.product_results.count() >= 0  # widget sigue en estado válido
+        assert widget.product_results.count() >= 0
 
     def test_filter_products(self, widget):
         """Filtra productos por texto (el source tiene un bug conocido con main_layout en l.127)."""
