@@ -456,13 +456,14 @@ class TestPreprocesoDialog:
     def mock_controller(self):
         ctrl = MagicMock(
             spec=[
-                "model",
+                "material_service",
                 "view",
                 "handle_create_material",
                 "handle_update_material",
                 "handle_delete_material",
             ]
         )
+        ctrl.material_service = MagicMock(spec=["get_all_materials_for_selection"])
         return ctrl
 
     # --- Inicialización ---
@@ -542,7 +543,7 @@ class TestPreprocesoDialog:
         dlg = PreprocesoDialog(None, [], mock_controller, None)
         
         m1 = _make_material_dto(id=1, codigo_componente="M1", descripcion_componente="Desc M1")
-        mock_controller.model.get_all_materials_for_selection.return_value = [m1]
+        mock_controller.material_service.get_all_materials_for_selection.return_value = [m1]
         
         dlg._refresh_data()
         

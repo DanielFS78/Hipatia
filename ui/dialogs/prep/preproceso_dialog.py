@@ -156,7 +156,7 @@ class PreprocesoDialog(QDialog):
         """
         if not self.controller:
             return
-        self.all_materials = list(self.controller.model.get_all_materials_for_selection())
+        self.all_materials = list(self.controller.material_service.get_all_materials_for_selection())
         
         # Guardamos la selección actual para restaurarla (si es que aún existen los items)
         # Nota: assigned_material_ids ya rastrea lo que queremos que esté seleccionado.

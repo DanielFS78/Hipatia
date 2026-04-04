@@ -17,7 +17,12 @@ class DefinirLoteWidget(QWidget):
         super().__init__()
         from core.di_container import DIContainer
         from controllers.lote_controller import LoteController
-        self.lote_controller = DIContainer.get_instance().resolve(LoteController)
+        from core.services.product_service import ProductService
+        from core.services.fabricacion_service import FabricacionService
+        _c = DIContainer.get_instance()
+        self.lote_controller = _c.resolve(LoteController)
+        self._product_service = _c.resolve(ProductService) if _c.is_registered(ProductService) else None
+        self._fabricacion_service = _c.resolve(FabricacionService) if _c.is_registered(FabricacionService) else None
         self.current_lote_id = None
         self.lote_content: dict[str, set[Any]] = {"products": set(), "fabrications": set()}
         self.setup_ui()
@@ -72,9 +77,9 @@ class DefinirLoteWidget(QWidget):
         
         self.fab_results.clear()
         try:
-            # Usar search_fabricaciones("") para obtener todas
-            ctrl: Any = self.lote_controller
-            fabrications = ctrl.model.search_fabricaciones("")
+            if self._fabricacion_service is None:
+                return
+            fabrications = self._fabricacion_service.search_fabricaciones("")
             for fab in fabrications:
                 # Filtrar las fabricaciones que sean tareas de trabajadores (empiezan por TASK-)
                 if fab.codigo and fab.codigo.startswith("TASK-"):
@@ -110,9 +115,9 @@ class DefinirLoteWidget(QWidget):
         
         self.product_results.clear()
         try:
-            # CORREGIDO: Usar search_products("") si get_all_products no existe directamente
-            ctrl: Any = self.lote_controller
-            products = ctrl.model.search_products("")
+            if self._product_service is None:
+                return
+            products = self._product_service.search_products("")
             for product in products:
                 # product es un objeto ProductDTO
                 text = f"{product.codigo} - {product.descripcion}"

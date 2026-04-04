@@ -159,7 +159,9 @@ class ProductIterationsWidget(QWidget):
             return
 
         try:
-            self.current_iterations = self.controller.model.get_product_iterations(self.current_producto_codigo)
+            self.current_iterations = self.controller.product_service.get_product_iterations(
+                self.current_producto_codigo
+            )
             self._refresh_list()
         except Exception as e:
             if hasattr(self, "logger"):
@@ -328,7 +330,7 @@ class ProductIterationsWidget(QWidget):
     def refresh_gallery(self, iteracion_id: int) -> None:
         """Actualiza la vista de miniaturas de la galería."""
         self.gallery_list.clear()
-        images = self.controller.model.get_iteration_images(iteracion_id)
+        images = self.controller.db.get_iteration_images(iteracion_id)
 
         for img in images:
             item = QListWidgetItem()

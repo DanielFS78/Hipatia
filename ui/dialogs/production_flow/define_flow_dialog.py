@@ -16,6 +16,10 @@ from ui.widgets.production_flow.flow_display_panel import FlowDisplayPanel
 from ui.dialogs.production_flow.machine_resource_manager import MachineResourceManager
 from core.define_flow_form_io import define_form_data_to_flow_task_config
 from core.dtos import ProductionFlowStepDTO, FlowTaskDataDTO
+from core.di_container import DIContainer
+from core.services.machine_service import MachineService
+from core.services.preparation_service import PreparationService
+from core.services.fabricacion_service import FabricacionService
 
 if TYPE_CHECKING:
     from controllers.app_controller import AppController
@@ -43,11 +47,21 @@ class DefineProductionFlowDialog(QDialog):
         # Compatibilidad con tests/consumidores legacy que inspeccionan este atributo.
         self.schedule_config = schedule_config
         
-        self.presenter = DefineFlowPresenter(
-            model=controller.model if controller else None,
-            schedule_config=schedule_config,
-            default_units=units
-        )
+        _c = DIContainer.get_instance()
+        _use_services = _c.is_registered(MachineService) and _c.is_registered(PreparationService)
+        _presenter_kw: dict[str, Any] = {
+            "schedule_config": schedule_config,
+            "default_units": units,
+        }
+        if _use_services:
+            _presenter_kw["machine_service"] = _c.resolve(MachineService)
+            _presenter_kw["preparation_service"] = _c.resolve(PreparationService)
+            if _c.is_registered(FabricacionService):
+                _presenter_kw["fabricacion_service"] = _c.resolve(FabricacionService)
+            _presenter_kw["model"] = None
+        else:
+            _presenter_kw["model"] = controller.model if controller else None
+        self.presenter = DefineFlowPresenter(**_presenter_kw)
         self.task_data_by_product = self.presenter.prepare_task_data(tasks_data)
         self.editing_index: Optional[int] = None
 

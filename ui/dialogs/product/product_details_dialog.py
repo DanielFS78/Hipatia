@@ -25,7 +25,8 @@ class ProductDetailsDialog(QDialog):
 
         # Obtener descripción para el título
         try:
-            prod_data, _, _ = self.controller.model.get_product_details(self.product_code)
+            details = self.controller.product_facade.get_product_details(self.product_code)
+            prod_data = details.producto if details else None
             prod_desc = prod_data.descripcion if prod_data else ""
         except Exception:
             prod_desc = ""

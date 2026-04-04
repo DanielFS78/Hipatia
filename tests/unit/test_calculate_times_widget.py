@@ -9,7 +9,6 @@ from datetime import datetime
 
 from PyQt6.QtWidgets import QTableWidgetItem, QHeaderView
 from PyQt6.QtCore import Qt
-from core.app_model import AppModel
 from controllers.simulation.controller import SimulationController
 from core.dtos import ProductDTO, FabricacionDTO, LoteDTO, CalculationStepDTO
 
@@ -24,39 +23,41 @@ def mock_controller():
     from controllers.simulation.controller import SimulationController
     controller = MagicMock(spec=SimulationController)
     controller.connect_calculate_signals = MagicMock(spec=[])
-    model = MagicMock(spec=AppModel)
-    controller.model = model
-    
+
     # Mock lote
     mock_lote = MagicMock(spec=LoteDTO)
     prod_mock = MagicMock(spec=ProductDTO)
     prod_mock.codigo = "P1"
     prod_mock.descripcion = "Prod 1"
     mock_lote.productos = [prod_mock]
-    
+
     fab_mock = MagicMock(spec=FabricacionDTO)
     fab_mock.id = 1
     fab_mock.codigo = "F1"
     mock_lote.fabricaciones = [fab_mock]
-    
-    model.get_lote_details.return_value = mock_lote
-    
-    # Mock db fabricacion
+
+    controller.db = MagicMock()
+    controller.db.lote_repo = MagicMock(spec=["get_lote_details"])
+    controller.db.lote_repo.get_lote_details.return_value = mock_lote
+
     db_fab = MagicMock(spec=FabricacionDTO)
     db_fab.descripcion = "Fab Desc"
-    model.get_fabricacion_by_id.return_value = db_fab
-    
+    controller.app = MagicMock()
+    controller.app.product_controller = MagicMock()
+    controller.app.product_controller.fabricacion_service = MagicMock(spec=["get_fabricacion_by_id"])
+    controller.app.product_controller.fabricacion_service.get_fabricacion_by_id.return_value = db_fab
+
     from core.di_container import DIContainer
     from controllers.simulation.controller import SimulationController
     from controllers.ui_signals_controller import UISignalsController
     DIContainer.get_instance().register(SimulationController, instance=controller)
     DIContainer.get_instance().register(UISignalsController, instance=controller)
-    
+
     # Compliance checks
     dto_inst = ProductDTO(codigo="T", descripcion="T")
     assert isinstance(dto_inst, ProductDTO)
-    model.get_lote_details.assert_not_called()
-    
+    controller.db.lote_repo.get_lote_details.assert_not_called()
+
     return controller
 
 
@@ -144,7 +145,7 @@ class TestCalculateTimesWidget:
 
     def test_get_pila_for_calculation_lote_error(self, widget, mock_controller):
         widget.controller = mock_controller
-        mock_controller.model.get_lote_details.side_effect = Exception("DB Error")
+        mock_controller.db.lote_repo.get_lote_details.side_effect = Exception("DB Error")
         widget.planning_session = [
             CalculationStepDTO(
                 identificador="L1",

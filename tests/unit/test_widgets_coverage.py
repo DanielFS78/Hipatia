@@ -195,9 +195,9 @@ class TestWidgetsRealExecution:
         """update_search_results de productos debe ejecutar su lógica."""
         widget = MagicMock(spec=ProductsWidget)
         widget.results_list = MagicMock(spec=["clear", "addItem", "blockSignals"])
-        widget.product_controller = MagicMock(spec=["model"])
-        widget.product_controller.model = MagicMock(spec=["get_product_iterations"])
-        widget.product_controller.model.get_product_iterations.return_value = []
+        widget.product_controller = MagicMock(spec=["product_service"])
+        widget.product_controller.product_service = MagicMock(spec=["get_product_iterations"])
+        widget.product_controller.product_service.get_product_iterations.return_value = []
         
         p1 = MagicMock(codigo="P-001", descripcion="Prod 1")
         with patch('ui.widgets.products_widget.QListWidgetItem'):

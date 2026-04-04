@@ -151,18 +151,31 @@ class CalculateTimesWidget(QWidget):
                 elif item.lote_template_id:
                     lid = item.lote_template_id
                     try:
-                        if self.simulation_controller and hasattr(self.simulation_controller, 'model'):
-                            det: Optional["LoteDTO"] = self.simulation_controller.model.get_lote_details(lid)
-                            if det:
-                                if det.productos is not None:
-                                    for p in det.productos:
-                                        if p.codigo not in pila_data["productos"]: pila_data["productos"][p.codigo] = {"codigo": p.codigo, "descripcion": p.descripcion}
-                                if det.fabricaciones is not None:
-                                    for f in det.fabricaciones:
-                                        if str(f.id) not in pila_data["fabricaciones"]:
-                                            ctrl: Any = self.simulation_controller
-                                            fi = ctrl.model.get_fabricacion_by_id(f.id); fd = fi.descripcion if fi else ''
-                                            pila_data["fabricaciones"][str(f.id)] = {"id": f.id, "codigo": f.codigo, "descripcion": fd}
+                        sc = self.simulation_controller
+                        if not sc:
+                            continue
+                        det: Optional["LoteDTO"] = None
+                        if getattr(sc, "db", None) and getattr(sc.db, "lote_repo", None) is not None:
+                            det = sc.db.lote_repo.get_lote_details(lid)
+                        elif getattr(sc, "model", None) is not None:
+                            det = getattr(sc, "model").get_lote_details(lid)
+                        if det:
+                            if det.productos is not None:
+                                for p in det.productos:
+                                    if p.codigo not in pila_data["productos"]: pila_data["productos"][p.codigo] = {"codigo": p.codigo, "descripcion": p.descripcion}
+                            if det.fabricaciones is not None:
+                                for f in det.fabricaciones:
+                                    if str(f.id) not in pila_data["fabricaciones"]:
+                                        fi = None
+                                        app = getattr(sc, "app", None)
+                                        pc = getattr(app, "product_controller", None) if app else None
+                                        fs = getattr(pc, "fabricacion_service", None) if pc else None
+                                        if fs is not None:
+                                            fi = fs.get_fabricacion_by_id(f.id)
+                                        elif getattr(sc, "model", None) is not None:
+                                            fi = getattr(sc, "model").get_fabricacion_by_id(f.id)
+                                        fd = fi.descripcion if fi else ''
+                                        pila_data["fabricaciones"][str(f.id)] = {"id": f.id, "codigo": f.codigo, "descripcion": fd}
                     except Exception as e: self.logger.error(f"Error detalles lote {lid}: {e}")
         return pila_data
 

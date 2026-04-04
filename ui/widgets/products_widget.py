@@ -92,7 +92,11 @@ class ProductsWidget(QWidget):
         results_list = self.results_list
         results_list.clear()
         for product in results:
-            iterations = self.product_controller.model.get_product_iterations(product.codigo) if self.product_controller else []
+            iterations = (
+                self.product_controller.product_service.get_product_iterations(product.codigo)
+                if self.product_controller
+                else []
+            )
             item_text = f"📜 {product.codigo} | {product.descripcion}" if iterations else f"{product.codigo} | {product.descripcion}"
             item = QListWidgetItem(item_text); item.setData(Qt.ItemDataRole.UserRole, product.codigo)
             results_list.addItem(item)

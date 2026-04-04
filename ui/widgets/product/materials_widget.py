@@ -67,7 +67,7 @@ class ProductMaterialsWidget(QWidget):
         """Carga la lista de materiales del producto en la tabla."""
         self.materials_table.setRowCount(0)
         try:
-            materials = self.controller.model.get_materials_for_product(self.product_code)
+            materials = self.controller.material_service.get_materials_for_product(self.product_code)
             for mat in materials:
                 row_pos = self.materials_table.rowCount()
                 self.materials_table.insertRow(row_pos)

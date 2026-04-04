@@ -28,6 +28,10 @@ class FlowActionHandler:
         self.presenter = presenter
         self.graph_manager = graph_manager
         self.controller = controller
+        from core.di_container import DIContainer
+        from core.services.pila_service import PilaService
+        _c = DIContainer.get_instance()
+        self._pila_service: Any = _c.resolve(PilaService) if _c.is_registered(PilaService) else None
 
     def handle_cycle_end(self, selected_index: Optional[int], simulation_service: Any) -> None:
         if selected_index is None: return
@@ -75,14 +79,20 @@ class FlowActionHandler:
         return -1 # Marcador de no cambio
 
     def load_saved_pila(self, flow_loader_callback: Any) -> None:
-        pilas = self.controller.model.get_all_pilas()
+        if self._pila_service is not None:
+            pilas = self._pila_service.get_all_pilas()
+        else:
+            pilas = self.controller.model.get_all_pilas()
         if not pilas: return
         
         items = [f"{p.nombre} (ID: {p.id})" for p in pilas]
         item, ok = QInputDialog.getItem(self.parent, "Cargar Pila", "Seleccione:", items, 0, False)
         if ok and item:
             pila_id = pilas[items.index(item)].id
-            _, _, flow, _ = self.controller.model.load_pila(pila_id)
+            if self._pila_service is not None:
+                _, _, flow, _ = self._pila_service.load_pila(pila_id)
+            else:
+                _, _, flow, _ = self.controller.model.load_pila(pila_id)
             if flow: flow_loader_callback(flow)
 
     def save_pila_only(self) -> None:
