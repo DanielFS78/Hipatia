@@ -16,7 +16,7 @@ Fuente de verdad del avance del plan **wiring de dependencias en diálogos UI**.
 | 8 | `DefineProductionFlowDialog` + `resolve_fabricacion_service` | `define_flow_dialog.py` | Hecho | 2026-04-04 | 6e73d1b | Misma prioridad DI → PC → `model.fabricacion_service` que assignment | `pytest tests/unit/test_define_flow_dialog.py tests/unit/test_define_flow_dialog_edge.py -q` |
 | 9 | Inyección explícita Fab + API única pilas | `preprocesos_widget.py`, `flow_action_handler.py` | Hecho | 2026-04-04 | 240e826 | `AssignPreprocesosDialog` recibe `fabricacion_service` desde `resolve_*`; `load_saved_pila` usa `_pila_list_load_api()` | `pytest tests/unit/test_preprocesos_widget.py tests/unit/ui/production_flow/test_flow_action_handler.py -q` |
 | 10 | `DefinirLoteWidget` + `resolve_fabricacion_service` | `lotes_widget.py` | Hecho | 2026-04-04 | d9fc9b0 | `__init__`/`set_controller` con AppController: misma prioridad que diálogos; fallback DI si resolve es None | `pytest tests/unit/test_lotes_widget.py -q` |
-| 11 | Setup AST: excluir `typing.Protocol` del check `__init__` | `tests/setup/test_dialogs_setup.py` | Hecho | 2026-04-04 | 7b855a5 | `OpensFabricacionPreprocesos` / `ShowsUserMessage` no tienen `__init__` en cuerpo AST | `pytest tests/setup/test_dialogs_setup.py -q` |
+| 11 | Setup AST: excluir `typing.Protocol` del check `__init__` | `tests/setup/test_dialogs_setup.py` | Hecho | 2026-04-04 | 87f30fe | `OpensFabricacionPreprocesos` / `ShowsUserMessage` no tienen `__init__` en cuerpo AST | `pytest tests/setup/test_dialogs_setup.py -q` |
 
 ## Inventario rápido (Fase 0)
 

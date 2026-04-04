@@ -228,7 +228,6 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Alcance:** `database/repositories/tracking_stats_repository.py`, `mypy.ini` (bloque dedicado; retirado del trío satélite).
 - **Cambio:** Retornos `obtener_estadisticas_*` → `Dict[str, Any]` (alineado con `TrackingRepository`); import `Any`; bloque mypy explícito para el módulo.
 - **Gates:** mypy focal + pytest focal tracking stats/excepciones.
-- **Commit:** 7b855a5
 - **Fecha cierre:** 2026-04-04
 
 ## Siguiente ítem sugerido
