@@ -9,7 +9,9 @@ from unittest.mock import MagicMock, patch, ANY
 import pytest
 
 from controllers.app_controller import AppController
+from core.di_container import DIContainer
 from core.dtos import FlowTaskDataDTO, FlowTaskConfigDTO, ProductionFlowStepDTO
+from core.services.product_service import ProductService
 
 
 def _make_model() -> Any:
@@ -205,4 +207,24 @@ def test_on_data_changed_branches(controller: AppController) -> None:
     controller.ui_controller = None
     cast(Any, controller.view).get_page.return_value = None
     controller.on_data_changed()
+
+
+@pytest.mark.unit
+def test_on_data_changed_uses_di_product_service_when_registered(controller: AppController) -> None:
+    """Si ProductService está en el DI y no hay product_controller, se usa el contenedor."""
+    controller.ui_controller = MagicMock(spec=["on_data_changed"])
+    prod_tab = MagicMock(spec=["clear_all", "update_search_results"])
+    gestion = MagicMock(spec=["productos_tab"])
+    gestion.productos_tab = prod_tab
+    cast(Any, controller.view).get_page.return_value = gestion
+    cast(Any, controller.model).product_service.search_products.return_value = ["from_model"]
+
+    mock_ps = MagicMock(spec=["search_products"])
+    mock_ps.search_products.return_value = ["from_di"]
+    DIContainer.get_instance().register(ProductService, mock_ps)
+    controller.product_controller = None
+
+    controller.on_data_changed()
+    prod_tab.update_search_results.assert_called_once_with(["from_di"])
+    cast(Any, controller.model).product_service.search_products.assert_not_called()
 

@@ -73,6 +73,18 @@ class TestSmartSearchWidget:
         assert widget.results_list.count() == 1
         assert not widget.results_list.isHidden()
 
+    def test_perform_search_prefers_report_service(self, qtbot):
+        """Si hay ReportService inyectado, no se usa app_model para la búsqueda."""
+        model = MagicMock(spec=["search_reports_data"])
+        rs = MagicMock(spec=["search_reports_data"])
+        rs.search_reports_data.return_value = [_make_result(codigo="RS")]
+        w = SmartSearchWidget(app_model=model, report_service=rs)
+        qtbot.addWidget(w)
+        w.search_input.setText("ab")
+        w._perform_search()
+        rs.search_reports_data.assert_called_once_with("ab")
+        model.search_reports_data.assert_not_called()
+
     def test_perform_search_error(self, widget):
         """Error en búsqueda no crashea."""
         widget.app_model.search_reports_data.side_effect = Exception("DB Error")

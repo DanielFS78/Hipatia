@@ -85,7 +85,7 @@ Cada tarea individual sigue este flujo de 6 pasos. **Sin excepciones.**
 | B3 | Absorber mixins de repositorios (4 mixins) | `.agents/skills/migracion_mixins_composicion/SKILL.md` §Prioridad 3 | ✅ Completada | 🟢 BAJA |
 | B4 | Absorber/delegar mixins de UI (2 mixins) | `.agents/skills/migracion_mixins_composicion/SKILL.md` §Prioridad 4 | ✅ Completada | 🟢 BAJA |
 | B4.5 | Limpieza Final de Mixins (Composición sobre Herencia) | `.agents/skills/migracion_mixins_composicion/SKILL.md` | ✅ Completada | 🟡 MEDIA |
-| B5 | Reducir God Object AppModel — inyectar servicios directos | `.agents/skills/reduccion_god_objects/SKILL.md` | ⬜ Pendiente | 🟡 MEDIA |
+| B5 | Reducir God Object AppModel — inyectar servicios directos | `.agents/skills/reduccion_god_objects/SKILL.md` | ✅ **Completada (definitiva)** | 🟡 MEDIA |
 
 ### Bloque C — Preparación para Windows (producción)
 
@@ -111,6 +111,29 @@ Esta tarea aborda los mixins remanentes que rompen la directriz de **composició
 - **`FabricacionManagerProductsMixin`**: ✅ sustituido por **`FabricacionProductsHandler`** (`controllers/product/fabricacion_products_handler.py`), compuesto desde `FabricacionManager`.
 - **`AppControllerCompatMixin`**: ✅ métodos absorbidos en **`AppController`** (`controllers/app_controller.py`); archivo mixin eliminado.
 - **`EnhancedFlowPresenterBuilderMixin`**: ✅ sustituido por **`FlowBuilder`** (`ui/dialogs/production_flow/flow_builder.py`), instanciado por `EnhancedFlowPresenter`; API pública del presentador sin cambios.
+
+#### Detalle Tarea B5: Reducir fachada AppModel — **FINALIZADA (sin subtareas abiertas)**
+
+**Estado:** la tarea B5 del coordinador está **cerrada de forma definitiva**. No debe figurar como «pendiente» ni «en curso» en ningún otro documento. La **tabla canónica** de «qué queda fuera y por qué» vive en `.agents/skills/reduccion_god_objects/SKILL.md` → sección **«Estado de la tarea B5 (coordinador producción): FINALIZADA»** (tabla + regla para el agente).
+
+**Alcance entregado (bloque B):**
+
+- **Controladores:** `AppController` usa `ProductService` y (en reportes) el stack usa `ReportService` del DI cuando está registrado; fallback coherente a `AppModel` / `model.product_service`. `config_get_setting` / `config_set_setting` en fallback usan `self.db`.
+- **Reportes UI:** `ReportesWidget` + `SmartSearchWidget` priorizan `ReportService` vía `controller.container`.
+- **Flujo:** `DefineProductionFlowDialog` + `DefineFlowPresenter` con `MachineService` / `PreparationService` desde el DI cuando el contenedor los tiene.
+
+**Fuera de alcance de B5 (resumen; motivación detallada en la skill):**
+
+| Fuera de alcance | Motivo breve |
+|------------------|--------------|
+| Borrar en bloque los delegadores de `AppModel` | Solo poda método a método con `rg` sin consumidores |
+| Quitar fallbacks `controller.model.*` en bitácora / preprocesos | Plan propio en `ui_dialog_dependency_wiring` (fallback documentado) |
+| Mover señales Qt fuera de `AppModel` | Decisión de arquitectura; sería otra tarea |
+| `get_dashboard_stats` y orquestación multi-servicio | Rediseño de caso de uso, no alcance B5 |
+| Sustituir todo el bootstrap por DI puro | `StartupController` sigue compuesto desde el modelo |
+| Inyectar `ReportService` en cada sub-widget de reportes | Opcional; B5 cerró el borde principal |
+
+**Trabajo futuro** (no es B5): podas puntuales de `AppModel`, nuevos widgets con DI desde el inicio, o ampliar `ui_dialog_dependency_wiring` según su REGISTRO.
 
 ---
 
@@ -162,7 +185,7 @@ A1 → A2 → B1 → B2 → B3 → B4 → B4.5 → B5 → C1 → C2 → C3 → C
 | TODOs funcionales | 1 |
 | Archivos .bak_monolith | 10 (eliminar con A1) |
 | Mixins tipo A (fragmentadores) | 14 (migrar con B1-B4) |
-| Métodos delegadores AppModel | 148 (reducir con B5) |
+| Métodos delegadores AppModel | ~148 (B5 cerrado: acceso directo donde aplica; poda solo sin consumidores) |
 
 ---
 
@@ -181,6 +204,6 @@ A1 → A2 → B1 → B2 → B3 → B4 → B4.5 → B5 → C1 → C2 → C3 → C
 
 ## Última Actualización
 
-- **Fecha:** 2026-03-29
-- **Estado:** B1, B2, B3 y B4 completadas. Código estabilizado tras absorción de mixins.
-- **Próxima tarea:** B5 (Reducir God Object AppModel — WorkerController)
+- **Fecha:** 2026-04-04
+- **Estado:** Bloque B completo (incl. B5). Siguiente prioridad: **C1** (paths Windows).
+- **Próxima tarea:** C1 — Auditar paths del sistema de archivos para compatibilidad Windows

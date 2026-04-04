@@ -21,7 +21,7 @@ Actualizado: 2026-04. Se retiraron **autopilots** y el hub histórico **refactor
 | `preparacion_windows` | DPI, Qt, PyInstaller |
 | `ui_pyqt_layout_freezes` | Congelaciones UI PyQt6 |
 | `limpieza_proyecto` | Artefactos antes de empaquetar |
-| `reduccion_god_objects` | Reducir fachada AppModel |
+| `reduccion_god_objects` | AppModel / B5 **finalizada**; exclusión de alcance en la skill; mantenimiento y podas opcionales |
 | `ui_dialog_dependency_wiring` | Wiring DI en diálogos UI (FabricacionService, PilaService); REGISTRO + gates |
 | `references/sync_icloud_continuo.md` | Sync worktree → iCloud; `scripts/sync_worktree_to_icloud.py` |
 

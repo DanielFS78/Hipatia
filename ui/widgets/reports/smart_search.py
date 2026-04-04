@@ -23,9 +23,16 @@ class SmartSearchWidget(QWidget):
     # Señal emitida cuando se limpia la búsqueda
     search_cleared = pyqtSignal()
 
-    def __init__(self, app_model: Any, parent: Any = None) -> None:
+    def __init__(
+        self,
+        app_model: Any,
+        parent: Any = None,
+        *,
+        report_service: Any = None,
+    ) -> None:
         super().__init__(parent)
         self.app_model = app_model
+        self._report_service = report_service
         self.logger = logging.getLogger("EvolucionTiemposApp.SmartSearch")
         self._last_query_executed: str = ""
         
@@ -118,14 +125,15 @@ class SmartSearchWidget(QWidget):
         if query.lower() == self._last_query_executed:
             return
         
-        if not self.app_model:
-            self.logger.warning("No hay AppModel configurado para buscar.")
+        api = self._report_api()
+        if not api:
+            self.logger.warning("No hay servicio de reportes ni AppModel configurado para buscar.")
             return
 
         self.logger.info(f"Buscando: {query}")
         
         try:
-            results = self.app_model.search_reports_data(query)
+            results = api.search_reports_data(query)
             self._last_query_executed = query.lower()
             self._update_results_list(results)
         except Exception as e:
@@ -165,6 +173,15 @@ class SmartSearchWidget(QWidget):
             self.results_list.hide()
             # self.search_input.setText(dto.codigo) # Feedback visual
 
+    def _report_api(self) -> Any:
+        if self._report_service is not None:
+            return self._report_service
+        return self.app_model
+
+    def set_report_service(self, report_service: Any) -> None:
+        """Prioridad sobre `app_model` cuando el DI expone ReportService (B5)."""
+        self._report_service = report_service
+
     def clear_search(self) -> None:
         """Limpia el campo de búsqueda y resultados."""
         self._last_query_executed = ""
@@ -181,5 +198,5 @@ class SmartSearchWidget(QWidget):
         if hasattr(controller, "search_reports_data"):
             self.app_model = controller
             return
-        if hasattr(controller, 'model'):
+        if hasattr(controller, "model"):
             self.app_model = controller.model

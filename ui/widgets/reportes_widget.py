@@ -24,6 +24,8 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont
 
+from core.services.report_service import ReportService
+
 # Importar widgets de reportes
 from .reports.smart_search import SmartSearchWidget
 from .reports.order_list import OrderListWidget
@@ -59,6 +61,7 @@ class ReportesWidget(QWidget):
         super().__init__()
         self.controller = controller
         self.app_model = self._resolve_app_model(controller)
+        self._report_service = self._resolve_report_service(controller)
         self.report_controller = controller  # Compatibilidad histórica
         self.logger = logging.getLogger("EvolucionTiemposApp.ReportesWidget")
         
@@ -85,7 +88,10 @@ class ReportesWidget(QWidget):
         left_layout.setSpacing(0)
         
         # Widget de búsqueda inteligente
-        self.search_widget = SmartSearchWidget(app_model=self.app_model)
+        self.search_widget = SmartSearchWidget(
+            app_model=self.app_model,
+            report_service=self._report_service,
+        )
         left_layout.addWidget(self.search_widget)
         
         main_layout.addWidget(left_panel)
@@ -147,6 +153,20 @@ class ReportesWidget(QWidget):
         if hasattr(controller, "search_reports_data"):
             return controller
         return None
+
+    @staticmethod
+    def _resolve_report_service(controller: Any) -> Any:
+        if controller is None:
+            return None
+        container = getattr(controller, "container", None)
+        if container is not None and container.is_registered(ReportService):
+            return container.resolve(ReportService)
+        return None
+
+    def _report_api(self) -> Any:
+        if self._report_service is not None:
+            return self._report_service
+        return self.app_model
     
     def _on_search_result_selected(self, tipo: str, codigo: str) -> None:
         """
@@ -169,8 +189,9 @@ class ReportesWidget(QWidget):
         elif tipo == 'orden':
             # Si es una orden, primero buscar el producto asociado
             try:
-                if self.app_model:
-                    detalle = self.app_model.get_order_details(codigo)
+                api = self._report_api()
+                if api:
+                    detalle = api.get_order_details(codigo)
                     if detalle:
                         if self.orders_widget is not None:
                             self.orders_widget.load_orders_for_product(detalle.producto_codigo)
@@ -195,11 +216,12 @@ class ReportesWidget(QWidget):
             orden_fabricacion: Identificador de la orden
         """
         self.logger.info(f"Orden seleccionada: {orden_fabricacion}")
-        if not self.app_model or self.orders_widget is None:
+        api = self._report_api()
+        if not api or self.orders_widget is None:
             return
         try:
-            detalle = self.app_model.get_order_details(orden_fabricacion)
-            unidades = self.app_model.get_order_units(orden_fabricacion)
+            detalle = api.get_order_details(orden_fabricacion)
+            unidades = api.get_order_units(orden_fabricacion)
             if not detalle:
                 self.orders_widget.status_label.setText("No se encontraron detalles para la orden seleccionada")
                 self.orders_widget.status_label.show()
@@ -223,9 +245,11 @@ class ReportesWidget(QWidget):
         """
         self.controller = controller
         self.app_model = self._resolve_app_model(controller)
+        self._report_service = self._resolve_report_service(controller)
         model_target = self.app_model if self.app_model is not None else controller
         if self.search_widget is not None:
             self.search_widget.set_controller(model_target)
+            self.search_widget.set_report_service(self._report_service)
         if self.orders_widget is not None:
             self.orders_widget.set_controller(model_target)
         if self.charts_widget is not None:

@@ -286,6 +286,27 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Gates:** `mypy .` OK (676 archivos); pytest focal `test_products_widget`, `test_qr_scanner`, `test_worker_main_window` OK.
 - **Fecha cierre:** 2026-04-04
 
+## ITEM 005 (B5 — iteración 1) — `AppController.on_data_changed` y `ProductService` vía DI
+
+- **Estado:** Completado
+- **Prioridad:** P2 (Bloque B — `plan_produccion_coordinador`)
+- **Alcance:** `controllers/app_controller.py`
+- **Cambio:** Tras `product_controller`, si el contenedor tiene `ProductService` registrado, se usa `container.resolve(ProductService).search_products("")` en lugar de `model.product_service` (misma instancia que en startup; sin consumidores nuevos que eliminar de `AppModel`).
+- **Gates:** `pytest` focal `test_app_controller_orchestration`; `mypy` sobre `controllers/app_controller.py`.
+- **Fecha cierre:** 2026-04-04
+
+## ITEM 006 (B5 — cierre) — `ReportService` en reportes UI + `AppController` config vía `db`
+
+- **Estado:** Completado (**tarea B5 del coordinador FINALIZADA**; sin continuación bajo el nombre B5)
+- **Prioridad:** P2
+- **Alcance:** `ui/widgets/reportes_widget.py`, `ui/widgets/reports/smart_search.py`, `controllers/app_controller.py`, tests `test_smart_search`, `test_reportes_widget`.
+- **Cambio:** `ReportesWidget._resolve_report_service` + `_report_api()`; `SmartSearchWidget` acepta `report_service=` y `set_report_service`; búsqueda y detalle de orden usan el mismo `ReportService` que el DI cuando `AppController.container` lo tiene registrado. Fallback a `AppModel` sin DI. `config_get_setting` / `config_set_setting` usan `self.db` en la rama sin `ScheduleController`.
+- **Cierre Bloque B:** `plan_produccion_coordinador` marca B5 **Completada (definitiva)**. `DefineProductionFlowDialog` ya usaba servicios DI en el presenter (sin cambio en este ítem).
+- **Qué queda fuera de B5 y por qué (canónico):** `.agents/skills/reduccion_god_objects/SKILL.md` → sección **«Estado de la tarea B5 — FINALIZADA»** (tabla). Incluye: poda masiva de `AppModel`, fallbacks de `ui_dialog_dependency_wiring`, señales en `AppModel`, orquestación multi-servicio, bootstrap, sub-widgets de reportes.
+- **Gates:** `pytest` focal reportes + smart_search + app_controller orchestration + `test_reports_widgets`; `mypy` sobre los tres módulos de producto tocados.
+- **Fecha cierre:** 2026-04-04
+
 ## Siguiente ítem sugerido
 
-- **Mantenimiento:** nuevos módulos bajo `ui`/`core` deben añadirse a `mypy.ini` o cumplir el patrón ya estricto. **Huecos típicos restantes** respecto a `[mypy-ui.*]` / `[mypy-controllers.*]` laxos: solo lo no cubierto por patrones más específicos (revisar con `mypy .` al introducir código). **Lote D (repositorios + servicios + UI densa + widgets + qr_scanner):** cerrado a efectos prácticos para el árbol de producto.
+- **Bloque C (producción Windows):** C1 paths — ver `.agents/skills/plan_produccion_coordinador/SKILL.md`.
+- **Mantenimiento mypy:** nuevos módulos bajo `ui`/`core` deben añadirse a `mypy.ini` o cumplir el patrón ya estricto. **Huecos típicos restantes** respecto a `[mypy-ui.*]` / `[mypy-controllers.*]` laxos: solo lo no cubierto por patrones más específicos (revisar con `mypy .` al introducir código). **Lote D (repositorios + servicios + UI densa + widgets + qr_scanner):** cerrado a efectos prácticos para el árbol de producto.
