@@ -12,6 +12,7 @@ Fuente de verdad del avance del plan **wiring de dependencias en diálogos UI**.
 | 5 | Documentación fallback | SKILL.md, REGISTRO | Hecho | 2026-04-03 | — | Ramas `model.*` documentadas como fallback tests/legacy | — |
 | 6 | `flow_action_handler` + deps pila | `flow_action_handler.py` | Hecho | 2026-04-03 | — | Usa `resolve_pila_service` compartido con bitácora | ver gates.md |
 | 7 | Call site `AssignPreprocesosDialog` | `preprocesos_widget.py` | Hecho | 2026-04-04 | 2f65583 | Botón en pestaña Preprocesos; `set_controller` guarda `AppController` | `pytest tests/unit/test_preprocesos_widget.py -q` |
+| 8 | `DefineProductionFlowDialog` + `resolve_fabricacion_service` | `define_flow_dialog.py` | Hecho | 2026-04-04 | — | Misma prioridad DI → PC → `model.fabricacion_service` que assignment | `pytest tests/unit/test_define_flow_dialog.py tests/unit/test_define_flow_dialog_edge.py -q` |
 
 ## Inventario rápido (Fase 0)
 

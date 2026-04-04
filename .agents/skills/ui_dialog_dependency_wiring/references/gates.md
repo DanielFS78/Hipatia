@@ -39,8 +39,8 @@ python3 -m mypy ui/dialogs/fabrication/assignment_dialogs.py ui/dialogs/fabricat
 ## Fase 5–6 (cierre / production_flow)
 
 ```bash
-python3 -m pytest tests/unit/ui/production_flow/test_flow_action_handler.py tests/unit/test_define_flow_dialog.py -q
-python3 -m mypy ui/dialogs/production_flow/flow_action_handler.py ui/dialogs/fabrication/dialog_dependencies.py --config-file=mypy.ini
+python3 -m pytest tests/unit/ui/production_flow/test_flow_action_handler.py tests/unit/test_define_flow_dialog.py tests/unit/test_define_flow_dialog_edge.py -q
+python3 -m mypy ui/dialogs/production_flow/flow_action_handler.py ui/dialogs/production_flow/define_flow_dialog.py ui/dialogs/fabrication/dialog_dependencies.py --config-file=mypy.ini
 ```
 
 ## Call site AssignPreprocesos (fase 7 / seguimiento)

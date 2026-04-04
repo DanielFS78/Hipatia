@@ -19,7 +19,7 @@ from core.dtos import ProductionFlowStepDTO, FlowTaskDataDTO
 from core.di_container import DIContainer
 from core.services.machine_service import MachineService
 from core.services.preparation_service import PreparationService
-from core.services.fabricacion_service import FabricacionService
+from ui.dialogs.fabrication.dialog_dependencies import resolve_fabricacion_service
 
 if TYPE_CHECKING:
     from controllers.app_controller import AppController
@@ -56,13 +56,9 @@ class DefineProductionFlowDialog(QDialog):
         if _use_services:
             _presenter_kw["machine_service"] = _c.resolve(MachineService)
             _presenter_kw["preparation_service"] = _c.resolve(PreparationService)
-            if _c.is_registered(FabricacionService):
-                _presenter_kw["fabricacion_service"] = _c.resolve(FabricacionService)
-            else:
-                pc = getattr(controller, "product_controller", None) if controller else None
-                fs = getattr(pc, "fabricacion_service", None) if pc is not None else None
-                if fs is not None:
-                    _presenter_kw["fabricacion_service"] = fs
+            fs = resolve_fabricacion_service(controller, _c)
+            if fs is not None:
+                _presenter_kw["fabricacion_service"] = fs
             _presenter_kw["model"] = None
         else:
             m = controller.model if controller else None
