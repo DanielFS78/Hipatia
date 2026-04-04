@@ -11,6 +11,8 @@ from typing import Any, cast
 from PyQt6.QtCore import QObject, pyqtSignal
 from database.database_manager import DatabaseManager
 from core.dtos import CalculationProductDTO
+from core.interfaces.view_interface import IView
+from controllers.product.protocols import IFabricacionControllerDelegate
 
 
 class FabricacionController(QObject):
@@ -25,7 +27,13 @@ class FabricacionController(QObject):
     fabricacion_created = pyqtSignal(int)  # ID de fabricación creada
     fabricaciones_updated = pyqtSignal()
     
-    def __init__(self, db_manager: DatabaseManager, view: Any, product_controller: Any, logger: logging.Logger) -> None:
+    def __init__(
+        self,
+        db_manager: DatabaseManager,
+        view: IView,
+        product_controller: IFabricacionControllerDelegate,
+        logger: logging.Logger,
+    ) -> None:
         """
         Inicializa el controlador de fabricaciones.
 
@@ -37,8 +45,8 @@ class FabricacionController(QObject):
         """
         super().__init__()
         self.db: DatabaseManager = db_manager
-        self.view: Any = view
-        self.product_controller: Any = product_controller
+        self.view: IView = view
+        self.product_controller: IFabricacionControllerDelegate = product_controller
         self.logger: logging.Logger = logger
         
     def connect_signals(self) -> None:
@@ -59,7 +67,7 @@ class FabricacionController(QObject):
             text: Texto de búsqueda
         """
         # Delegado a ProductControllerV2
-        return cast(list[Any], self.product_controller.search_fabricaciones(text))
+        return self.product_controller.search_fabricaciones(text)
         
     def show_fabricacion_preprocesos(self, fabricacion_id: int) -> None:
         """

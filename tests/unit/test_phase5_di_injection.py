@@ -13,6 +13,14 @@ from controllers.calculation_controller import CalculationController
 from controllers.worker.protocols import IWorkerService
 from core.application_state import ApplicationState
 from core.protocols import IFabricacionService, IMaterialService, IProductService
+from core.schedule_config import ScheduleConfig
+from controllers.pila.protocols import (
+    IPilaView,
+    IPilaDatabase,
+    IProductService as IPilaProductService,
+    IFabricacionService as IPilaFabricacionService,
+    IPilaService,
+)
 
 
 pytestmark = pytest.mark.unit
@@ -153,13 +161,13 @@ def test_pila_controller_propagates_injected_services(mock_pila_manager, mock_lo
 
     ctrl = PilaController(
         app_controller=app,
-        view=app.view,
-        system_integration=si,
-        product_service=ps,
-        fabricacion_service=fs,
-        pila_service=pilas,
-        state=app.state,
-        schedule_manager=app.schedule_manager,
+        view=cast(IPilaView, app.view),
+        system_integration=cast(IPilaDatabase, si),
+        product_service=cast(IPilaProductService, ps),
+        fabricacion_service=cast(IPilaFabricacionService, fs),
+        pila_service=cast(IPilaService, pilas),
+        state=cast(ApplicationState, app.state),
+        schedule_manager=cast(ScheduleConfig, app.schedule_manager),
     )
 
     assert ctrl.app is app

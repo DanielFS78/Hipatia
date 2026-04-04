@@ -40,6 +40,7 @@ _MODULE = "controllers.backup_controller"
 class DummyDB:
     def __init__(self):
         self.db_url = "sqlite:///ruta/falsa/base.db"
+        self.db_path = ""
         self.close = MagicMock(spec=[])
         self.compare_with_db = MagicMock(spec=[], return_value={})
         self.apply_sync_changes = MagicMock(spec=[], return_value=0)

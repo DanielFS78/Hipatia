@@ -24,6 +24,7 @@ __all__ = [
     "IMaterialService",
     "IProductModel",
     "ProductControllerProtocol",
+    "IFabricacionControllerDelegate",
 ]
 
 
@@ -70,6 +71,20 @@ class IProductModel(Protocol):
     def update_iteration_file_path(self, iteration_id: int, key: str, final_path: str) -> bool: ...
 
     def get_product_iterations(self, codigo_producto: str) -> List[ProductIterationDTO]: ...
+
+
+class IFabricacionControllerDelegate(Protocol):
+    """Subconjunto de `ProductController` usado por `FabricacionController` (delegación UI)."""
+
+    def show_create_fabricacion_dialog(self) -> None: ...
+
+    def search_fabricaciones(self, text: str) -> list[Any]: ...
+
+    def show_fabricacion_preprocesos(self, fabricacion_id: int) -> None: ...
+
+    def _refresh_fabricaciones_list(self) -> None: ...
+
+    def get_fabricacion_products_for_calculation(self, fabricacion_id: int) -> list[Any]: ...
 
 
 class ProductControllerProtocol(Protocol):

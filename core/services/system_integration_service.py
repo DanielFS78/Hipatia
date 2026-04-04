@@ -27,7 +27,7 @@ class SystemIntegrationService:
     def preproceso_repo(self) -> Any:
         return self._db.preproceso_repo
 
-    def search_lotes(self, query: str) -> list[Any]:
+    def search_lotes(self, query: str) -> list[LoteDTO]:
         return self._db.lote_repo.search_lotes(query)
 
     def create_lote(self, data: dict[str, Any]) -> int | None:

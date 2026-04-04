@@ -7,15 +7,20 @@ Maneja la lógica de interacción con widgets y diálogos de configuración de h
 
 from __future__ import annotations
 import json
-from typing import Any, TYPE_CHECKING
+import logging
+from typing import TYPE_CHECKING, cast
 from PyQt6.QtCore import QTime
-from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QFormLayout, QTimeEdit
+from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QFormLayout, QTimeEdit, QWidget
 
 from controllers.schedule_helpers import load_breaks_list, parse_break_text
 import controllers.schedule_controller as schedule_controller
 
 if TYPE_CHECKING:
-    import logging
+    from controllers.schedule_controller import ScheduleController
+
+from database.database_manager import DatabaseManager
+from core.schedule_config import ScheduleConfig
+from core.interfaces.view_interface import IView
 
 class ScheduleUiOpsHelper:
     """
@@ -23,7 +28,14 @@ class ScheduleUiOpsHelper:
     Extraído de ScheduleController para mejorar la cohesión y reducir el tamaño del controlador.
     """
 
-    def __init__(self, db: Any, view: Any, schedule_manager: Any, logger: Any, controller: Any) -> None:
+    def __init__(
+        self,
+        db: DatabaseManager,
+        view: IView,
+        schedule_manager: ScheduleConfig,
+        logger: logging.Logger,
+        controller: ScheduleController,
+    ) -> None:
         """
         Inicializa el helper con las dependencias necesarias.
 
@@ -174,7 +186,7 @@ class ScheduleUiOpsHelper:
 
     def on_add_break(self) -> None:
         """Legacy helper: Abre un diálogo genérico para añadir un descanso."""
-        dialog = schedule_controller.QDialog(self.view)
+        dialog = schedule_controller.QDialog(cast(QWidget | None, self.view))
         dialog.setWindowTitle("Añadir Descanso")
         layout = schedule_controller.QFormLayout(dialog)
 

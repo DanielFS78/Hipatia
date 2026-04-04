@@ -48,7 +48,10 @@ class PreprocesoController(QObject):
     def preproceso_repo(self) -> PreprocesoRepository:
         """Lazy initialization del repositorio de preprocesos."""
         if self._preproceso_repo is None:
-            self._preproceso_repo = PreprocesoRepository(self.db.SessionLocal)  # type: ignore[arg-type]
+            sf = self.db.SessionLocal
+            if sf is None:
+                raise RuntimeError("SessionLocal no inicializado en DatabaseManager")
+            self._preproceso_repo = PreprocesoRepository(sf)
         return self._preproceso_repo
         
     def connect_signals(self) -> None:

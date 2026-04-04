@@ -6,14 +6,13 @@ Descripción: Orquestador del arranque de la aplicación. Se encarga de instanci
 """
 from __future__ import annotations
 import logging
-from typing import TYPE_CHECKING, Any, Dict, Optional, Callable, cast
+from typing import TYPE_CHECKING, Any, Dict, Optional, cast
 from PyQt6.QtCore import QObject, QThreadPool
 
 if TYPE_CHECKING:
     from controllers.app_controller import AppController
     from core.app_model import AppModel
     from core.schedule_config import ScheduleConfig
-    from ui.main_view import MainView
 
 from core.di_container import DIContainer, ServiceLifecycle
 from database.database_manager import DatabaseManager
@@ -39,6 +38,8 @@ from core.security.access_control import set_security_service
 from core.quote_service import QuoteService
 from database.repositories import LabelCounterRepository
 from core.interfaces.view_interface import IView
+from ui.main_window import MainView
+from controllers.product.protocols import IFabricacionControllerDelegate
 
 # Controllers
 from controllers.backup_controller import BackupController
@@ -148,9 +149,9 @@ class StartupController:
 
         self.app.tracking_repo = self.model.db.tracking_repo
         
-        if self.model.db.SessionLocal:
-             session_factory = cast(Callable[[], Any], self.model.db.SessionLocal)
-             self.app.label_counter_repo = LabelCounterRepository(session_factory)
+        sf_lc = self.model.db.SessionLocal
+        if sf_lc is not None:
+             self.app.label_counter_repo = LabelCounterRepository(sf_lc)
         else:
              self.logger.critical("DB SessionLocal es None durante el arranque")
              raise RuntimeError("Base de datos no inicializada")
@@ -173,10 +174,10 @@ class StartupController:
         self.app.backup_service = BackupService(data_dir="data")
         self.container.register(BackupService, self.app.backup_service, lifecycle=ServiceLifecycle.SINGLETON)
 
-        if self.model.db.SessionLocal:
-             session_factory = cast(Callable[[], Any], self.model.db.SessionLocal)
-             rate_limiter = RateLimiter(session_factory)
-             audit_logger = AuditLogger(session_factory)
+        sf_maint = self.model.db.SessionLocal
+        if sf_maint is not None:
+             rate_limiter = RateLimiter(sf_maint)
+             audit_logger = AuditLogger(sf_maint)
              self.app.audit_logger = audit_logger  
              
              self.app.maintenance_service = MaintenanceService(rate_limiter, audit_logger, self.app.backup_service)
@@ -239,7 +240,11 @@ class StartupController:
         # Registro de factorías
         # Por defecto los controladores son SINGLETON para esta sesión de la app
         self.container.register(BackupController, factory=lambda: BackupController(
-            self.container.resolve(DatabaseManager), self.view, self.logger, self.app.backup_service, self.app.audit_logger
+            self.container.resolve(DatabaseManager),
+            cast(MainView, self.view),
+            self.logger,
+            self.app.backup_service,
+            self.app.audit_logger,
         ))
         # ReportController with direct services
         self.container.register(ReportController, factory=lambda: ReportController(
@@ -292,7 +297,7 @@ class StartupController:
             product_service=self.container.resolve(ProductService),
             fabricacion_service=self.container.resolve(FabricacionService),
             pila_service=self.container.resolve(PilaService),
-            state=self.app.state,
+            state=self.container.resolve(ApplicationState),
             schedule_manager=self.schedule_manager,
         ))
         self.container.register(SimulationController, factory=lambda: SimulationController(
@@ -343,7 +348,10 @@ class StartupController:
             logger=self.logger
         ))
         self.container.register(FabricacionController, factory=lambda: FabricacionController(
-            self.container.resolve(DatabaseManager), self.view, self.app.product_controller, self.app.logger
+            self.container.resolve(DatabaseManager),
+            self.view,
+            cast(IFabricacionControllerDelegate, self.app.product_controller),
+            self.app.logger,
         ))
         self.container.register(LoteController, factory=lambda: LoteController(
             self.container.resolve(DatabaseManager), self.view, self.app.pila_controller, self.app.logger

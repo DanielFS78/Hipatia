@@ -11,13 +11,32 @@ import shutil
 import sys
 import zipfile
 import logging
-from typing import Any, Callable
+from typing import Any, Callable, Protocol
 from datetime import datetime
 from PyQt6.QtCore import QObject
 from PyQt6.QtWidgets import QFileDialog, QApplication, QDialog
 
 from core.utils.helpers import resource_path
+from core.services.backup_service import BackupService
+from core.services.audit_logger import AuditLogger
+from database.database_manager import DatabaseManager
+from ui.main_window import MainView
 from controllers.backup_controller_io_manager import BackupIOManager
+
+
+class IBackupControllerDatabase(Protocol):
+    """Contrato mínimo de BD para backup/sync (incluye dobles de test ligeros)."""
+
+    db_url: Any
+
+    @property
+    def db_path(self) -> str: ...
+
+    def close(self) -> None: ...
+
+    def compare_with_db(self, foreign_db_path: str) -> Any: ...
+
+    def apply_sync_changes(self, selected_changes: Any) -> int: ...
 
 
 class BackupController(QObject):
@@ -29,7 +48,14 @@ class BackupController(QObject):
     archivos de base de datos SQLite.
     """
 
-    def __init__(self, db: Any, view: Any, logger: logging.Logger, backup_service: Any = None, audit_logger: Any = None) -> None:
+    def __init__(
+        self,
+        db: DatabaseManager | IBackupControllerDatabase,
+        view: MainView,
+        logger: logging.Logger,
+        backup_service: BackupService | None = None,
+        audit_logger: AuditLogger | None = None,
+    ) -> None:
         """
         Inicializa el controlador de backups.
 
@@ -41,11 +67,11 @@ class BackupController(QObject):
             audit_logger: Servicio de auditoría para registrar acciones de usuario (opcional).
         """
         super().__init__()
-        self.db: Any = db
-        self.view: Any = view
+        self.db: DatabaseManager | IBackupControllerDatabase = db
+        self.view: MainView = view
         self.logger: logging.Logger = logger
-        self.backup_service: Any = backup_service
-        self.audit_logger: Any = audit_logger
+        self.backup_service: BackupService | None = backup_service
+        self.audit_logger: AuditLogger | None = audit_logger
         self._db_io = BackupIOManager(self)
 
     def on_import_databases(self, on_success_callback: Callable[[], None] | None = None) -> None:

@@ -8,10 +8,19 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING, List, Dict, Any, Optional, cast
 from PyQt6.QtCore import QObject
+from PyQt6.QtWidgets import QListWidgetItem
 
 from controllers.pila.lote_manager import LoteManager
 from controllers.pila.pila_manager import PilaManager
-from controllers.pila.protocols import IPilaView
+from controllers.pila.protocols import (
+    IPilaView,
+    IPilaDatabase,
+    IProductService,
+    IFabricacionService,
+    IPilaService,
+)
+from core.application_state import ApplicationState
+from core.schedule_config import ScheduleConfig
 from core.dtos import CalculationStepDTO
 
 if TYPE_CHECKING:
@@ -26,12 +35,12 @@ class PilaController(QObject):
         self,
         app_controller: "AppController",
         view: IPilaView,
-        system_integration: Any,
-        product_service: Any,
-        fabricacion_service: Any,
-        pila_service: Any,
-        state: Any,
-        schedule_manager: Any,
+        system_integration: IPilaDatabase,
+        product_service: IProductService,
+        fabricacion_service: IFabricacionService,
+        pila_service: IPilaService,
+        state: ApplicationState,
+        schedule_manager: ScheduleConfig,
     ) -> None:
         super().__init__()
         self.app = app_controller
@@ -185,7 +194,7 @@ class PilaController(QObject):
         save_signal.connect(self._on_update_lote_template_clicked)
         delete_signal.connect(self._on_delete_lote_template_clicked)
 
-    def _on_lote_management_result_selected(self, item: Any) -> None:
+    def _on_lote_management_result_selected(self, item: QListWidgetItem) -> None:
         """
         Maneja la selección de un lote en la lista de resultados de gestión.
         Carga los detalles del lote y los muestra en el formulario de edición.

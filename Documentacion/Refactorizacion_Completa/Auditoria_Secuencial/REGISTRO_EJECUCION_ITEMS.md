@@ -306,6 +306,24 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Gates:** `pytest` focal reportes + smart_search + app_controller orchestration + `test_reports_widgets`; `mypy` sobre los tres módulos de producto tocados.
 - **Fecha cierre:** 2026-04-04
 
+## ITEM 007 — `DatabaseManager.SessionLocal` tipado + borde repo/sesión
+
+- **Estado:** Completado
+- **Prioridad:** P1 (datos / arranque / seguridad)
+- **Alcance:** `database/database_manager.py` (`SessionLocal: Callable[[], Session] | None`); `controllers/preproceso_controller.py` (retirado `# type: ignore[arg-type]`; guard si `SessionLocal` es `None`); `controllers/session_controller.py` (mismo guard antes de `RateLimiter`/`AuditLogger`); `controllers/startup_controller.py` (narrowing explícito `is not None` en lugar de `cast(Callable[[], Any], …)`).
+- **Gates:** `mypy app.py core controllers database features ui tests` OK; pytest focal `test_preproceso_controller_comprehensive`, `test_database_manager_full`, `test_startup_controller`, `test_session_controller_comprehensive` OK.
+- **Docs:** La referencia técnica generada (`Documentacion Daniel.md`/PDF) se actualizó en la misma sincronización que ITEM 008 (`generate_daniel_doc.py`).
+- **Fecha cierre:** 2026-04-03
+
+## ITEM 008 — Tipado estricto en controladores críticos + `flow_card_widget`
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `IFabricacionControllerDelegate` en `controllers/product/protocols.py`; `FabricacionController` (`IView` + delegate); `ScheduleController` / `ScheduleUiOpsHelper` (`DatabaseManager`, `IView`, `ScheduleConfig`; `QDialog` con `cast(QWidget, …)`); `BackupController` + `IBackupControllerDatabase`, `MainView`, `BackupService`/`AuditLogger`; `backup_controller_io_manager` (`MainView`, `AuditLogger`, `statusBar` nulable); `PilaController` (`IPilaDatabase`, servicios pila, `ApplicationState`, `ScheduleConfig`, `QListWidgetItem`); `SystemIntegrationService.search_lotes` → `list[LoteDTO]`; `flow_card_widget` (`QMouseEvent | None`, `isinstance(parent, QWidget)`); `startup_controller` (`cast(MainView)`, `cast(IFabricacionControllerDelegate)`, `resolve(ApplicationState)` para Pila); tests `test_schedule_controller_comprehensive` (`Any` en fixtures), `test_phase5_di_injection` (casts pila), `DummyDB.db_path`.
+- **Gates:** `mypy app.py core controllers database features ui tests` OK; pytest focal fabricación + schedule + backup + phase5 + pila OK.
+- **Docs (sincronización posterior):** `python3 scripts/generate_daniel_doc.py` → `Documentacion/Documentacion Daniel.md` + `.pdf`; `python3 scripts/check_documentation_omissions.py` → omitidos=0.
+- **Fecha cierre:** 2026-04-03
+
 ## Siguiente ítem sugerido
 
 - **Bloque C (producción Windows):** C1 paths — ver `.agents/skills/plan_produccion_coordinador/SKILL.md`.

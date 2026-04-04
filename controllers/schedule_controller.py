@@ -6,7 +6,7 @@ Gestiona la configuración de horarios laborales, descansos y festivos mediante 
 """
 from __future__ import annotations
 import logging
-from typing import Any, Optional, TYPE_CHECKING, cast
+from typing import Optional, TYPE_CHECKING, cast
 from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QFormLayout, QTimeEdit
 from PyQt6.QtCore import QTime, QObject
 
@@ -25,13 +25,23 @@ from controllers.schedule_helpers import (
 if TYPE_CHECKING:
     from ui.widgets.settings_widget import SettingsWidget
 
+from database.database_manager import DatabaseManager
+from core.schedule_config import ScheduleConfig
+from core.interfaces.view_interface import IView
+
 class ScheduleController(QObject):
     """
     Controlador de horarios y descansos.
     Utiliza composición para delegar la lógica de UI y API legacy en helpers especializados.
     """
 
-    def __init__(self, db: Any, view: Any, schedule_manager: Any, logger: Optional[logging.Logger] = None) -> None:
+    def __init__(
+        self,
+        db: DatabaseManager,
+        view: IView,
+        schedule_manager: ScheduleConfig,
+        logger: Optional[logging.Logger] = None,
+    ) -> None:
         """
         Inicializa el controlador y sus componentes delegados.
 
@@ -42,16 +52,16 @@ class ScheduleController(QObject):
             logger: Logger opcional para registro.
         """
         super().__init__()
-        self.db = db
-        self.view = view
-        self.schedule_manager = schedule_manager
+        self.db: DatabaseManager = db
+        self.view: IView = view
+        self.schedule_manager: ScheduleConfig = schedule_manager
         self.logger = logger or logging.getLogger(__name__)
 
         # Composición: Instanciación de Helpers
         self.ui_helper = ScheduleUiOpsHelper(self.db, self.view, self.schedule_manager, self.logger, controller=self)
 
     @property
-    def model(self) -> Any:
+    def model(self) -> ScheduleController:
         """Propiedad puente para compatibilidad con el sistema de widgets antiguos."""
         return self
 
@@ -171,7 +181,7 @@ class ScheduleController(QObject):
 
     def config_set_setting(self, key: str, value: str) -> bool:
         """Establece o actualiza un ajuste de configuración."""
-        return cast(bool, self.db.config_repo.set_setting(key, value))
+        return bool(self.db.config_repo.set_setting(key, value))
 
     def reload_config(self) -> None:
         """Recarga la configuración global de horarios en el sistema."""

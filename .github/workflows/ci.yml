@@ -56,8 +56,9 @@ jobs:
 
       - name: Run mypy
         run: |
-          # app → módulo `app` endurecido en mypy.ini ([mypy-app]); resto vía globs por paquete
-          python -m mypy app.py core controllers database features ui
+          # app → módulo `app` endurecido en mypy.ini ([mypy-app]); resto vía globs por paquete.
+          # tests/: reglas relajadas en mypy.ini ([mypy-tests…], scripts/tools ignore_errors).
+          python -m mypy app.py core controllers database features ui tests
 
   # Cobertura en una sola corrida (3.12); sube JSON para descarga / update_readme_metrics local
   coverage-report:

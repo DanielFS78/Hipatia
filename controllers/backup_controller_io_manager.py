@@ -14,14 +14,17 @@ import zipfile
 from datetime import datetime
 from typing import Any, Callable, Protocol
 
+from core.services.audit_logger import AuditLogger
+from ui.main_window import MainView
+
 
 class BackupControllerIOContext(Protocol):
     """Contrato mínimo que el I/O manager necesita del controlador (solo composición)."""
 
-    view: Any
+    view: MainView
     db: Any
     logger: logging.Logger
-    audit_logger: Any | None
+    audit_logger: AuditLogger | None
 
     def _get_db_path(self) -> str: ...
 
@@ -45,7 +48,9 @@ class BackupIOManager:
         if controller.view.show_confirmation_dialog(
             "Confirmar", "<b>¡ADVERTENCIA!</b> Esto sobrescribirá los datos actuales. ¿Continuar?"
         ):
-            controller.view.statusBar().showMessage("Importando datos, por favor espere...")
+            sb = controller.view.statusBar()
+            if sb is not None:
+                sb.showMessage("Importando datos, por favor espere...")
             backup_controller_module.QApplication.processEvents()
             controller.db.close()
             current_user = "Unknown"

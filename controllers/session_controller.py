@@ -59,8 +59,11 @@ class SessionController:
         self.logger = logging.getLogger("EvolucionTiemposApp.Session")
         
         # Inicializar servicios de seguridad
-        self.rate_limiter = RateLimiter(self.db.SessionLocal)
-        self.audit_logger = AuditLogger(self.db.SessionLocal)
+        sf = self.db.SessionLocal
+        if sf is None:
+            raise RuntimeError("SessionLocal no inicializado en DatabaseManager")
+        self.rate_limiter = RateLimiter(sf)
+        self.audit_logger = AuditLogger(sf)
         
         self.current_user: Optional[AuthResponseDTO] = None
         self.worker_window = None
