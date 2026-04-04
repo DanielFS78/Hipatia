@@ -50,6 +50,13 @@ python3 -m pytest tests/unit/test_preprocesos_widget.py -q
 python3 -m mypy ui/widgets/preprocesos_widget.py --config-file=mypy.ini
 ```
 
+## Definir lote / FabricacionService (fase 10)
+
+```bash
+python3 -m pytest tests/unit/test_lotes_widget.py -q
+python3 -m mypy ui/widgets/lotes_widget.py --config-file=mypy.ini
+```
+
 ## Cierre recomendado (tras completar fases)
 
 ```bash

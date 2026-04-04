@@ -26,6 +26,7 @@ Reducir resolución dispersa (DI + `product_controller` + `model`) en diálogos 
 - **Bitácora**: si no hay `PilaService` inyectado ni resuelto por DI/`model.pila_service`, se usa `controller.model.get_diario_bitacora` / `add_diario_evento` (tests con mock mínimo de `model`).
 - **AssignPreprocesos**: si `resolve_fabricacion_service` devuelve `None`, `get_preprocesos_by_fabricacion` vía `controller.model`.
 - **`FlowActionHandler.load_saved_pila`**: `_pila_list_load_api()` devuelve `PilaService` resuelto o `controller.model` para `get_all_pilas` / `load_pila` (misma semántica que antes, sin duplicar ramas).
+- **`DefinirLoteWidget`**: con `AppController` en `__init__` o `set_controller`, `FabricacionService` vía `resolve_fabricacion_service`; si `resolve` devuelve `None`, se mantiene el obtenido solo por DI al construir (si estaba registrado).
 
 ## Skills relacionadas
 

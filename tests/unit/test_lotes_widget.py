@@ -30,7 +30,7 @@ class TestDefinirLoteWidget:
         assert widget.lote_content == {"products": set(), "fabrications": set()}
 
     def test_set_controller(self, widget):
-        """set_controllercarga datos automáticamente."""
+        """set_controller guarda app controller y refresca listas si hay lote_controller."""
         ctrl = MagicMock(spec=["model"])
         ctrl.model = MagicMock(spec=["search_fabricaciones", "search_products"])
         ctrl.model.search_fabricaciones.return_value = []
@@ -38,6 +38,32 @@ class TestDefinirLoteWidget:
         widget.lote_controller = ctrl
         widget.set_controller(ctrl)
         assert widget.lote_controller is ctrl
+        assert widget._app_controller is ctrl
+
+    def test_set_controller_updates_fabricacion_via_resolve(self, widget):
+        """Si resolve_fabricacion_service devuelve instancia, sustituye _fabricacion_service."""
+        sentinel = MagicMock(spec=["search_fabricaciones"])
+        sentinel.search_fabricaciones.return_value = []
+        app = MagicMock(spec=["product_controller", "model"])
+        widget.lote_controller = MagicMock(spec=[])
+        with patch(
+            "ui.dialogs.fabrication.dialog_dependencies.resolve_fabricacion_service",
+            return_value=sentinel,
+        ):
+            widget.set_controller(app)
+        assert widget._fabricacion_service is sentinel
+
+    def test_set_controller_keeps_fabricacion_when_resolve_returns_none(self, widget):
+        """Si resolve devuelve None, no borra un FabricacionService ya asignado."""
+        keep = MagicMock(spec=["search_fabricaciones"])
+        widget._fabricacion_service = keep
+        widget.lote_controller = MagicMock(spec=[])
+        with patch(
+            "ui.dialogs.fabrication.dialog_dependencies.resolve_fabricacion_service",
+            return_value=None,
+        ):
+            widget.set_controller(MagicMock(spec=["product_controller", "model"]))
+        assert widget._fabricacion_service is keep
 
     def test_populate_fabrications_list(self, widget):
         """Carga fabricaciones excluyendo TASK-* (vía FabricacionService, no model)."""

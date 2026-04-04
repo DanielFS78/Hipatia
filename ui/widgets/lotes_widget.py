@@ -19,10 +19,19 @@ class DefinirLoteWidget(QWidget):
         from controllers.lote_controller import LoteController
         from core.services.product_service import ProductService
         from core.services.fabricacion_service import FabricacionService
+        from ui.dialogs.fabrication.dialog_dependencies import resolve_fabricacion_service
+
         _c = DIContainer.get_instance()
         self.lote_controller = _c.resolve(LoteController)
         self._product_service = _c.resolve(ProductService) if _c.is_registered(ProductService) else None
-        self._fabricacion_service = _c.resolve(FabricacionService) if _c.is_registered(FabricacionService) else None
+        self._app_controller: Any = controller
+        self._fabricacion_service: Any = None
+        if controller is not None:
+            fs = resolve_fabricacion_service(controller, _c)
+            if fs is not None:
+                self._fabricacion_service = fs
+        if self._fabricacion_service is None and _c.is_registered(FabricacionService):
+            self._fabricacion_service = _c.resolve(FabricacionService)
         self.current_lote_id = None
         self.lote_content: dict[str, set[Any]] = {"products": set(), "fabrications": set()}
         self.setup_ui()
@@ -66,7 +75,13 @@ class DefinirLoteWidget(QWidget):
         right_l.addWidget(sb); main_layout.addWidget(right_p, 1)
 
     def set_controller(self, controller: Any) -> None:
-        pass # Injected
+        from core.di_container import DIContainer
+        from ui.dialogs.fabrication.dialog_dependencies import resolve_fabricacion_service
+
+        self._app_controller = controller
+        fs = resolve_fabricacion_service(controller, DIContainer.get_instance()) if controller is not None else None
+        if fs is not None:
+            self._fabricacion_service = fs
         if self.lote_controller:
             self.populate_products_list()
             self.populate_fabrications_list()
