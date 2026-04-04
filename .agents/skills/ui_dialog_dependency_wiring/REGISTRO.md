@@ -9,7 +9,7 @@ Fuente de verdad del avance del plan **wiring de dependencias en diálogos UI**.
 | 2 | Inyección opcional constructores | bitacora, assignment | Hecho | 2026-04-03 | — | `pila_service=`, `fabricacion_service=` | ver gates.md |
 | 3 | Call site bitácora | `pila_manager.py` | Hecho | 2026-04-03 | — | Pasa `pila_service=self._pila_service` | ver gates.md |
 | 4 | Protocol `OpensFabricacionPreprocesos` | `ui/dialogs/fabrication/ui_dialog_protocols.py`, assignment | Hecho | 2026-04-03 | — | En UI para evitar import cíclico `controllers`→`ui.dialogs`; `AppController` por defecto | ver gates.md |
-| 4b | Protocol `ShowsUserMessage` + bitácora | `ui_dialog_protocols.py`, `bitacora_dialog.py` | Hecho | 2026-04-04 | — | `user_messaging=` opcional; por defecto `controller.view` | `pytest tests/unit/test_bitacora_dialog.py -q` |
+| 4b | Protocol `ShowsUserMessage` + bitácora | `ui_dialog_protocols.py`, `bitacora_dialog.py` | Hecho | 2026-04-04 | d31a857 | `user_messaging=` opcional; por defecto `controller.view` | `pytest tests/unit/test_bitacora_dialog.py -q` |
 | 5 | Documentación fallback | SKILL.md, REGISTRO | Hecho | 2026-04-03 | — | Ramas `model.*` documentadas como fallback tests/legacy | — |
 | 6 | `flow_action_handler` + deps pila | `flow_action_handler.py` | Hecho | 2026-04-03 | — | Usa `resolve_pila_service` compartido con bitácora | ver gates.md |
 | 7 | Call site `AssignPreprocesosDialog` | `preprocesos_widget.py` | Hecho | 2026-04-04 | 2f65583 | Botón en pestaña Preprocesos; `set_controller` guarda `AppController` | `pytest tests/unit/test_preprocesos_widget.py -q` |
