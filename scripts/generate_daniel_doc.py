@@ -185,12 +185,16 @@ graph TD
         WS[WorkerService]
         PS[ProductService]
         FS[FabricacionService]
+        PLS[PilaService]
+        RS[ReportService]
         LM[LabelManager]
         QR[QrGenerator]
         SS[SimulationEngine]
         AM --> WS
         AM --> PS
         AM --> FS
+        AM --> PLS
+        AM --> RS
         AM --> LM
         LM --> QR
     end
@@ -1226,6 +1230,10 @@ _TESTING_DECISIONS: dict[str, str] = {
     "test_smart_search.py": (
         "SmartSearch puro Python → `create_autospec` para índice; sin dependencias externas"
     ),
+    "test_bitacora_dialog.py": (
+        "FabricacionBitacoraDialog (Qt) → mock `controller.model.planning_facade` o `pila_service`; "
+        "ya no se asertan llamadas a `AppModel.get_diario_bitacora`"
+    ),
     "test_scheduler_logic.py": (
         "Lógica de planificación pura → tests sin mocks, solo DTOs reales"
     ),
@@ -1243,9 +1251,6 @@ _TESTING_DECISIONS: dict[str, str] = {
     ),
     "test_reportes_widget.py": (
         "Widget de reportes Qt → `MagicMock()` para widgets; `create_autospec` para ReportService"
-    ),
-    "test_reports_widgets.py": (
-        "Widgets de reportes Qt → `MagicMock()` inevitable para componentes visuales"
     ),
     "test_report_sheets.py": (
         "Hojas de reporte con openpyxl → `create_autospec(Workbook)` para libro Excel"
@@ -1283,8 +1288,8 @@ _TESTING_DECISIONS: dict[str, str] = {
     ),
     "test_reports_widgets.py": (
         "StatCard, OrderListWidget, SmartSearchWidget, ReportsChartsWidget son QWidget/QFrame (PyQt6) → "
-        "MagicMock() inevitable; isVisible() siempre False en headless aunque se llame show(); "
-        "tests verifican count() o atributos internos en lugar de visibilidad"
+        "MagicMock() inevitable; isVisible() False en headless; "
+        "OrderList/Charts pueden mockear `report_service` o `controller.model` según `_get_reports_model`"
     ),
     "test_canvas_widgets_coverage.py": (
         "CardWidget (×2) y CanvasWidget/ProductionFlowCanvas son QWidget/QLabel (PyQt6) → "
@@ -1295,7 +1300,11 @@ _TESTING_DECISIONS: dict[str, str] = {
         "DefineProductionFlowDialog depende de DefineControlPanel (QWidget) → sustituido por "
         "FakeControlPanel(QWidget) real con señales como objetos FakeSignal (connect/emit vacíos) "
         "porque pyqtSignal no se puede instanciar fuera de QObject; "
-        "DefineFlowPresenter es Python puro → MagicMock() estándar"
+        "DefineFlowPresenter sin `model`: tests usan `machine_service`/`preparation_service` en el mock del `controller.model`"
+    ),
+    "test_define_flow_presenter.py": (
+        "DefineFlowPresenter lógica pura → `create_autospec(MachineService)` / mocks de "
+        "`PreparationService` para consultas de dominio; ya no se asigna `presenter.model = AppModel`"
     ),
     # ── Fase A: archivos del Grupo A corregidos (2026-03-15) ─────────────────
     "test_pila_controller_comprehensive.py": (

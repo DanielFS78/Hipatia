@@ -8,10 +8,7 @@ from PyQt6.QtWidgets import (
     QPushButton
 )
 from PyQt6.QtCore import Qt
-from typing import List, Set, Dict, Any, Optional, TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from database.models import Preproceso # Assuming data model exists or using generic Any
+from typing import List, Set, Dict, Any, Optional
 
 from core.dtos import CalculationProductDTO
 

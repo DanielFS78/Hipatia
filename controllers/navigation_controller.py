@@ -11,11 +11,12 @@ from PyQt6.QtCore import QObject, pyqtSignal, QTimer
 from core.interfaces.controller_interface import IController
 from core.utils.ui_scaler import UIScaler
 
+from controllers.ui_class_loader import ui_class
+
 if TYPE_CHECKING:
     from core.services.product_service import ProductService
     from controllers.app_controller import AppController
     from core.interfaces.view_interface import IView
-    from ui.widgets.calculate_times_widget import CalculateTimesWidget
 
 
 class NavigationController(IController):
@@ -147,14 +148,14 @@ class NavigationController(IController):
                 setattr(calc_page, "planning_session", [])
                 
                 # Usar QTimer para diferir la actualización de la UI
-                from ui.widgets.calculate_times_widget import CalculateTimesWidget
+                CalculateTimesWidget = ui_class("ui.widgets.calculate_times_widget", "CalculateTimesWidget")
                 if isinstance(calc_page, CalculateTimesWidget):
                     QTimer.singleShot(0, lambda: self.safe_update_calculate_page(calc_page))
         elif name == "historial":
             if self.app.historial_controller:
                 self.app.historial_controller.update_view()
         elif name == "definir_lote":
-            from ui.widgets.lotes_widget import DefinirLoteWidget
+            DefinirLoteWidget = ui_class("ui.widgets.lotes_widget", "DefinirLoteWidget")
             lote_page = self.view.pages.get("definir_lote")
             if isinstance(lote_page, DefinirLoteWidget):
                 lote_page.clear_form()
@@ -168,7 +169,7 @@ class NavigationController(IController):
             if self.app.lote_controller:
                 self.app.lote_controller.update_lotes_view()
             
-            from ui.widgets.gestion_datos_widget import GestionDatosWidget
+            GestionDatosWidget = ui_class("ui.widgets.gestion_datos_widget", "GestionDatosWidget")
             gestion_datos = self.view.pages.get("gestion_datos")
             if isinstance(gestion_datos, GestionDatosWidget):
                 prod_tab = gestion_datos.productos_tab
@@ -182,7 +183,7 @@ class NavigationController(IController):
                 
         self.page_changed.emit(name)
         
-    def safe_update_calculate_page(self, calc_page: CalculateTimesWidget) -> None:
+    def safe_update_calculate_page(self, calc_page: Any) -> None:
         """
         Actualiza la página de cálculo de forma segura, con manejo de errores.
         Este método se llama diferido para dar tiempo a Qt a estabilizar los widgets.

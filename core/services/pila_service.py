@@ -91,8 +91,7 @@ class PilaService(QObject):
         """
         Alias de compatibilidad para el nombre histórico del método.
 
-        La UI y `AppModel` usan `add_diario_evento`, pero el método canónico del servicio es
-        `add_diario_entry`.
+        La UI usa `add_diario_evento`; el método canónico del servicio es `add_diario_entry`.
         """
         return self.add_diario_entry(pila_id, fecha, dia_numero, plan_previsto, trabajo_realizado, notas)
 

@@ -5,7 +5,7 @@ Fuente de verdad del avance del plan **wiring de dependencias en diálogos UI**.
 | Fase | Ítem | Archivos | Estado | Fecha | Commit | Notas | Tests ejecutados |
 |------|------|----------|--------|-------|--------|-------|------------------|
 | 0 | Baseline + inventario | REGISTRO, skill | Hecho | 2026-04-03 | 8f7be47 | AssignPreprocesosDialog: sin call site en app; solo tests + export público. Mantener API; enlazar menú = trabajo futuro opcional. | `pytest tests/unit -q` (2399 OK) |
-| 1 | `dialog_dependencies` + refactor diálogos | `ui/dialogs/fabrication/dialog_dependencies.py`, assignment, bitacora, `test_dialog_dependencies.py` | Hecho | 2026-04-03 | — | Prioridades DI → product_controller → model.fabricacion_service / model.pila_service | ver gates.md |
+| 1 | `dialog_dependencies` + refactor diálogos | `ui/dialogs/fabrication/dialog_dependencies.py`, assignment, bitacora, `test_dialog_dependencies.py` | Hecho | 2026-04-03 | — | Prioridades DI → `pila_controller.pila_service` → `model.pila_service`; Fabricacion: DI → PC → `model.fabricacion_service` | ver gates.md |
 | 2 | Inyección opcional constructores | bitacora, assignment | Hecho | 2026-04-03 | — | `pila_service=`, `fabricacion_service=` | ver gates.md |
 | 3 | Call site bitácora | `pila_manager.py` | Hecho | 2026-04-03 | — | Pasa `pila_service=self._pila_service` | ver gates.md |
 | 4 | Protocol `OpensFabricacionPreprocesos` | `ui/dialogs/fabrication/ui_dialog_protocols.py`, assignment | Hecho | 2026-04-03 | — | En UI para evitar import cíclico `controllers`→`ui.dialogs`; `AppController` por defecto | ver gates.md |
@@ -17,6 +17,9 @@ Fuente de verdad del avance del plan **wiring de dependencias en diálogos UI**.
 | 9 | Inyección explícita Fab + API única pilas | `preprocesos_widget.py`, `flow_action_handler.py` | Hecho | 2026-04-04 | 240e826 | `AssignPreprocesosDialog` recibe `fabricacion_service` desde `resolve_*`; `load_saved_pila` usa `_pila_list_load_api()` | `pytest tests/unit/test_preprocesos_widget.py tests/unit/ui/production_flow/test_flow_action_handler.py -q` |
 | 10 | `DefinirLoteWidget` + `resolve_fabricacion_service` | `lotes_widget.py` | Hecho | 2026-04-04 | d9fc9b0 | `__init__`/`set_controller` con AppController: misma prioridad que diálogos; fallback DI si resolve es None | `pytest tests/unit/test_lotes_widget.py -q` |
 | 11 | Setup AST: excluir `typing.Protocol` del check `__init__` | `tests/setup/test_dialogs_setup.py` | Hecho | 2026-04-04 | 87f30fe | `OpensFabricacionPreprocesos` / `ShowsUserMessage` no tienen `__init__` en cuerpo AST | `pytest tests/setup/test_dialogs_setup.py -q` |
+| 12 | Bitácora sin `AppModel.get_diario_*` | `core/app_model.py`, `bitacora_dialog.py`, tests | Hecho | 2026-04-03 | — | Backend `planning_facade` o `PilaService`; delegadores de bitácora podados | `pytest tests/unit/test_bitacora_dialog.py -q` |
+| 13 | `DefineFlowPresenter` sin `model` | `define_flow_presenter.py`, `define_flow_dialog.py`, tests | Hecho | 2026-04-03 | — | Solo servicios inyectados/resueltos | `pytest tests/unit/test_define_flow_presenter.py tests/unit/test_define_flow_dialog.py -q` |
+| 14 | Reportes: sub-widgets + `ReportService` | `reportes_widget.py`, `order_list.py`, `charts_container.py` | Hecho | 2026-04-03 | — | `report_service=` + `set_report_service`; `controller=AppController` | `pytest tests/unit/test_reportes_widget.py tests/unit/test_reports_widgets.py -q` |
 
 ## Inventario rápido (Fase 0)
 

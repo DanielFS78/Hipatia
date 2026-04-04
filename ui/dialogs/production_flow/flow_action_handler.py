@@ -1,5 +1,8 @@
 """
-Interfaz PyQt6 (`flow_action_handler`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Acciones del diálogo de flujo visual (ciclos, guardar/cargar pila, biblioteca).
+
+``load_saved_pila`` obtiene API de pilas vía ``resolve_pila_service``; si no hay servicio,
+usa ``model.planning_facade`` y en último término ``model`` (``get_all_pilas`` / ``load_pila``).
 """
 from __future__ import annotations
 
@@ -34,10 +37,14 @@ class FlowActionHandler:
         self._pila_service: Any = resolve_pila_service(controller, DIContainer.get_instance())
 
     def _pila_list_load_api(self) -> Any:
-        """`PilaService` resuelto o `controller.model` (tests / arranque sin servicio inyectado)."""
+        """`PilaService` resuelto; si no, `planning_facade` o modelo completo como último recurso."""
         if self._pila_service is not None:
             return self._pila_service
-        return self.controller.model
+        mod = getattr(self.controller, "model", None)
+        pf = getattr(mod, "planning_facade", None) if mod is not None else None
+        if pf is not None:
+            return pf
+        return mod
 
     def handle_cycle_end(self, selected_index: Optional[int], simulation_service: Any) -> None:
         if selected_index is None: return

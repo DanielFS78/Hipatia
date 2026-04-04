@@ -15,7 +15,6 @@ from PyQt6.QtWidgets import QFileDialog, QWidget
 if TYPE_CHECKING:
     from controllers.app_controller import AppController
     from PyQt6.QtWidgets import QListWidgetItem
-    from ui.widgets.calculate_times_widget import CalculateTimesWidget
 
 
 class CalculationController:
@@ -262,7 +261,7 @@ class CalculationController:
             except Exception as e:
                 self.logger.error(f"Error actualizando tabla de contenido de lote: {e}")
 
-    def update_calculate_page_lists(self, calc_page: Optional[CalculateTimesWidget] = None) -> None:
+    def update_calculate_page_lists(self, calc_page: Optional[Any] = None) -> None:
         """
         Actualiza las listas de la página de cálculo.
         
@@ -281,7 +280,7 @@ class CalculationController:
             except Exception as e:
                 self.logger.error(f"Error actualizando listas de cálculo: {e}")
 
-    def safe_update_calculate_page(self, calc_page: Optional[CalculateTimesWidget]) -> None:
+    def safe_update_calculate_page(self, calc_page: Optional[Any]) -> None:
         """
         Actualiza la página de cálculo de forma segura, con manejo de errores.
         Este método se llama diferido para dar tiempo a Qt a estabilizar los widgets.

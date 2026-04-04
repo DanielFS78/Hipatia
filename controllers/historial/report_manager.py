@@ -6,16 +6,13 @@ Descripción: Gestor encargado de la generación de informes PDF para el histori
 """
 from __future__ import annotations
 import logging
-from typing import Any, TYPE_CHECKING
+from typing import Any
 from PyQt6.QtWidgets import QFileDialog
 from core.services.report_strategy import (
     GeneradorDeInformes,
     ReporteHistorialFabricacion,
     ReporteHistorialIteracion
 )
-
-if TYPE_CHECKING:
-    from ui.main_window import MainView
 
 class HistorialReportManager:
     """
@@ -25,7 +22,7 @@ class HistorialReportManager:
     y disparar la generación de documentos PDF.
     """
 
-    def __init__(self, db: Any, pila_service: Any, worker_service: Any, view: MainView, controller_ref: Any = None):
+    def __init__(self, db: Any, pila_service: Any, worker_service: Any, view: Any, controller_ref: Any = None):
         """
         Inicializa el HistorialReportManager.
 

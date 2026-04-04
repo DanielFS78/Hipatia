@@ -6,6 +6,8 @@ CHARTS CONTAINER WIDGET - Contenedor de Gráficas de Análisis
 Widget contenedor que muestra múltiples gráficas de análisis para
 un producto seleccionado: tiempo promedio, evolución temporal,
 tiempos por trabajador y patrón de incidencias.
+
+Datos: ``report_service=`` opcional con la misma prioridad que en ``OrderListWidget``.
 ========================================================================
 """
 import logging
@@ -48,9 +50,16 @@ class ReportsChartsWidget(QWidget):
         }
     """
     
-    def __init__(self, controller: Any = None, parent: Any = None) -> None:
+    def __init__(
+        self,
+        controller: Any = None,
+        parent: Any = None,
+        *,
+        report_service: Any = None,
+    ) -> None:
         super().__init__(parent)
         self.controller = controller
+        self._report_service = report_service
         self.logger = logging.getLogger("EvolucionTiemposApp.ReportsChartsWidget")
         self._current_producto: str | None = None
         self._tab_titles = ["📈 Evolución", "👥 Por Trabajador", "⚠️ Incidencias"]
@@ -62,7 +71,9 @@ class ReportsChartsWidget(QWidget):
         self._setup_ui()
 
     def _get_reports_model(self) -> Any:
-        """Obtiene una interfaz con métodos de reportes (AppModel o wrapper con .model)."""
+        """Prioriza `ReportService` inyectado; si no, controlador o `controller.model`."""
+        if self._report_service is not None:
+            return self._report_service
         if self.controller is None:
             return None
         if hasattr(self.controller, "get_product_time_stats"):
@@ -307,6 +318,9 @@ class ReportsChartsWidget(QWidget):
     def set_controller(self, controller: Any) -> None:
         """Establece el controlador."""
         self.controller = controller
+
+    def set_report_service(self, report_service: Any) -> None:
+        self._report_service = report_service
     
     def clear(self) -> None:
         """Limpia el widget."""

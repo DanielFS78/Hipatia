@@ -10,6 +10,10 @@ Estructura:
 - Panel Izquierdo: Búsqueda inteligente
 - Panel Derecho Superior: Lista de órdenes de fabricación
 - Panel Derecho Inferior: Gráficas y análisis
+
+``ReportService`` del ``DIContainer`` del controlador (si está registrado) se pasa a
+``SmartSearchWidget``, ``OrderListWidget`` y ``ReportsChartsWidget``; las listas y gráficas
+usan ``controller=AppController`` y priorizan ese servicio frente a ``controller.model``.
 ========================================================================
 """
 from __future__ import annotations
@@ -34,9 +38,10 @@ from .reports.charts_container import ReportsChartsWidget
 
 class ReportesWidget(QWidget):
     """
-    Widget principal para el módulo de Reportes de Producción.
-    
-    Integra búsqueda inteligente, lista de órdenes y gráficas de análisis.
+    Módulo de reportes: búsqueda, órdenes por producto y gráficas.
+
+    Resuelve ``ReportService`` desde ``controller.container`` cuando existe; los sub-widgets
+    reciben el ``AppController`` y el servicio para no depender solo de la fachada ``AppModel``.
     """
     
     STYLE_MAIN = """
@@ -112,11 +117,17 @@ class ReportesWidget(QWidget):
         """)
         
         # Panel de órdenes de fabricación
-        self.orders_widget = OrderListWidget(controller=self.app_model)
+        self.orders_widget = OrderListWidget(
+            controller=self.controller,
+            report_service=self._report_service,
+        )
         right_splitter.addWidget(self.orders_widget)
         
         # Panel de gráficas
-        self.charts_widget = ReportsChartsWidget(controller=self.app_model)
+        self.charts_widget = ReportsChartsWidget(
+            controller=self.controller,
+            report_service=self._report_service,
+        )
         right_splitter.addWidget(self.charts_widget)
         
         # Establecer tamaños iniciales (40% órdenes, 60% gráficas)
@@ -138,12 +149,11 @@ class ReportesWidget(QWidget):
     @staticmethod
     def _resolve_app_model(controller: Any) -> Any:
         """
-        Resuelve un modelo de reportes estable desde el controlador recibido.
-        Acepta tanto un AppController (con .model) como un AppModel/servicio directo.
+        Objeto con API de reportes para ``SmartSearchWidget`` (fallback si no hay ``ReportService``).
 
-        Debe comprobarse `.model` antes que `search_reports_data`: con `MagicMock`
-        sueltos, `hasattr(mock, "search_reports_data")` suele ser True por hijos
-        autocreados y se tomaba el mock del controlador en lugar del `.model`.
+        Si el controlador tiene ``.model``, se usa ese ``AppModel``; si el propio controlador
+        expone ``search_reports_data``, se usa como API. Comprobar ``.model`` antes que
+        ``search_reports_data`` evita falsos positivos con ``MagicMock`` en tests.
         """
         if controller is None:
             return None
@@ -251,9 +261,11 @@ class ReportesWidget(QWidget):
             self.search_widget.set_controller(model_target)
             self.search_widget.set_report_service(self._report_service)
         if self.orders_widget is not None:
-            self.orders_widget.set_controller(model_target)
+            self.orders_widget.set_controller(self.controller)
+            self.orders_widget.set_report_service(self._report_service)
         if self.charts_widget is not None:
-            self.charts_widget.set_controller(model_target)
+            self.charts_widget.set_controller(self.controller)
+            self.charts_widget.set_report_service(self._report_service)
     
     def refresh(self) -> None:
         """Refresca el contenido del widget."""

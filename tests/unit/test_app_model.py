@@ -139,24 +139,7 @@ class TestAppModel:
         assert app_model.product_service.delete_product_iteration.call_count == 1
         app_model.product_service.delete_product_iteration.assert_called_once_with(1)
 
-    # --- Pilas / Bitácora (delegadas a pila_service) ---
-
-    def test_get_diario_bitacora(self, app_model):
-        app_model.get_diario_bitacora(1)
-        assert app_model.pila_service.get_diario_bitacora.call_count == 1
-        app_model.pila_service.get_diario_bitacora.assert_called_once_with(1)
-
-    def test_add_diario_evento(self, app_model):
-        app_model.add_diario_evento(1, "2025-01-01", 1, "Plan", "Real", "Notas")
-        assert app_model.pila_service.add_diario_evento.call_count == 1
-        app_model.pila_service.add_diario_evento.assert_called_once_with(
-            1, "2025-01-01", 1, "Plan", "Real", "Notas"
-        )
-
-    def test_create_diario_bitacora(self, app_model):
-        app_model.create_diario_bitacora(1)
-        assert app_model.pila_service.create_diario_bitacora.call_count == 1
-        app_model.pila_service.create_diario_bitacora.assert_called_once_with(1)
+    # --- Pilas (delegadas a planning_facade / pila_service vía facade) ---
 
     def test_save_pila_success(self, app_model):
         app_model.pila_service.save_pila.return_value = 1

@@ -13,7 +13,9 @@ from typing import List, Protocol, cast
 from PyQt6.QtWidgets import QDialog, QWidget
 
 from core.dtos import CalculationProductDTO
-from ui.dialogs import ProductsSelectionDialog
+from controllers.ui_class_loader import ui_class
+
+ProductsSelectionDialog = ui_class("ui.dialogs", "ProductsSelectionDialog")
 
 from .protocols import IProductView, IProductService, IFabricacionService
 

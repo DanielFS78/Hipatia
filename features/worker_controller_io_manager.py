@@ -3,17 +3,21 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any
+from typing import Any, Callable, Optional
 
-import cv2
 from PyQt6.QtWidgets import QFileDialog, QInputDialog, QMessageBox
 
 
 class WorkerIOManager:
     """Colaborador de composición para operaciones I/O del WorkerController."""
 
-    def __init__(self, controller: Any) -> None:
+    def __init__(
+        self,
+        controller: Any,
+        camera_config_runner: Optional[Callable[[], None]] = None,
+    ) -> None:
         self.controller = controller
+        self._camera_config_runner = camera_config_runner
 
     def _handle_generate_labels(self, task_data: dict[str, Any]) -> None:
         controller = self.controller
@@ -107,26 +111,9 @@ class WorkerIOManager:
             controller.logger.error(f"Error export: {e}", exc_info=True)
 
     def _handle_camera_config(self) -> None:
-        controller = self.controller
-        try:
-            from core.qr_scanner import QrScanner
-            from ui.worker.camera_config_dialog import CameraConfigDialog
-
-            idx = controller.qr_scanner.camera_index if controller.qr_scanner else 0
-            if idx is None:
-                idx = 0
-            dialog = CameraConfigDialog(controller.camera_manager, idx, None)
-            if dialog.exec() == dialog.DialogCode.Accepted:
-                new_idx = dialog.get_selected_camera()
-                if new_idx is None:
-                    new_idx = 0
-                if controller.qr_scanner:
-                    controller.qr_scanner.release_camera()
-                cap = cv2.VideoCapture(new_idx, controller.camera_manager.get_system_backend().value)
-                cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-                cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-                controller.qr_scanner = QrScanner(controller.camera_manager, new_idx, cap)
-                controller.db_manager.config_repo.set_setting("camera_index", str(new_idx))
-                QMessageBox.information(None, "OK", "Cámara actualizada.")
-        except Exception as e:
-            controller.logger.error(f"Error cámara: {e}", exc_info=True)
+        if self._camera_config_runner is not None:
+            self._camera_config_runner()
+            return
+        self.controller.logger.warning(
+            "camera_config_runner no inyectado; configuración de cámara omitida."
+        )

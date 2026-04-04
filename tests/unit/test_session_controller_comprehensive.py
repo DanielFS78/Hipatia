@@ -317,6 +317,7 @@ class TestLaunchWorkerInterface:
             label_manager=controller.app.label_manager,
             qr_generator=controller.app.qr_generator,
             label_counter_repo=controller.app.label_counter_repo,
+            camera_config_runner=ANY,
         )
         assert MockWorkerController.return_value.initialize.call_count == 1
         MockWorkerController.return_value.initialize.assert_called_once_with()

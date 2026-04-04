@@ -7,12 +7,9 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime, date, timedelta
-from typing import Any, List, Tuple, TYPE_CHECKING
+from typing import Any, List, Tuple
 from PyQt6.QtCore import Qt, QDate
 from PyQt6.QtWidgets import QListWidgetItem
-
-if TYPE_CHECKING:
-    from ui.main_window import MainView
 
 class HistorialInteractionManager:
     """
@@ -22,7 +19,7 @@ class HistorialInteractionManager:
     iteraciones o fabricaciones, actualizando los detalles y resaltando fechas.
     """
 
-    def __init__(self, db: Any, pila_service: Any, view: MainView, controller_ref: Any = None):
+    def __init__(self, db: Any, pila_service: Any, view: Any, controller_ref: Any = None):
         self.db = db
         self.pila_service = pila_service
         self.view = view

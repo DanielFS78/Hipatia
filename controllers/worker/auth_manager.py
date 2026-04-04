@@ -6,8 +6,10 @@ Descripción: Gestor encargado de la seguridad y autenticación de trabajadores,
 """
 from typing import TYPE_CHECKING, Any
 from PyQt6.QtWidgets import QDialog
-from ui.dialogs import ChangePasswordDialog
+from controllers.ui_class_loader import ui_class
 from core.security.access_control import require_permission
+
+ChangePasswordDialog = ui_class("ui.dialogs", "ChangePasswordDialog")
 from core.security.security_service import Permission
 
 from .protocols import IWorkerView, IWorkerService

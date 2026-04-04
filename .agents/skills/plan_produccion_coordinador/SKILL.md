@@ -119,19 +119,19 @@ Esta tarea aborda los mixins remanentes que rompen la directriz de **composició
 **Alcance entregado (bloque B):**
 
 - **Controladores:** `AppController` usa `ProductService` y (en reportes) el stack usa `ReportService` del DI cuando está registrado; fallback coherente a `AppModel` / `model.product_service`. `config_get_setting` / `config_set_setting` en fallback usan `self.db`.
-- **Reportes UI:** `ReportesWidget` + `SmartSearchWidget` priorizan `ReportService` vía `controller.container`.
-- **Flujo:** `DefineProductionFlowDialog` + `DefineFlowPresenter` con `MachineService` / `PreparationService` desde el DI cuando el contenedor los tiene.
+- **Reportes UI:** `ReportesWidget` resuelve `ReportService` del contenedor y lo pasa a `SmartSearchWidget`, `OrderListWidget` y `ReportsChartsWidget` (listas/gráficas usan `AppController` + servicio).
+- **Flujo:** `DefineProductionFlowDialog` construye `DefineFlowPresenter` solo con servicios (`MachineService`, `PreparationService`, `FabricacionService`); el presenter no referencia `AppModel`.
 
 **Fuera de alcance de B5 (resumen; motivación detallada en la skill):**
 
 | Fuera de alcance | Motivo breve |
 |------------------|--------------|
 | Borrar en bloque los delegadores de `AppModel` | Solo poda método a método con `rg` sin consumidores |
-| Quitar fallbacks `controller.model.*` en bitácora / preprocesos | Plan propio en `ui_dialog_dependency_wiring` (fallback documentado) |
+| Bitácora sin delegadores en `AppModel` | Resolución vía `PilaService` / `planning_facade`; ver `ui_dialog_dependency_wiring` |
 | Mover señales Qt fuera de `AppModel` | Decisión de arquitectura; sería otra tarea |
 | `get_dashboard_stats` y orquestación multi-servicio | Rediseño de caso de uso, no alcance B5 |
 | Sustituir todo el bootstrap por DI puro | `StartupController` sigue compuesto desde el modelo |
-| Inyectar `ReportService` en cada sub-widget de reportes | Opcional; B5 cerró el borde principal |
+| Más widgets con DI explícito | Opcional; órdenes/gráficas ya reciben `report_service` desde `ReportesWidget` |
 
 **Trabajo futuro** (no es B5): podas puntuales de `AppModel`, nuevos widgets con DI desde el inicio, o ampliar `ui_dialog_dependency_wiring` según su REGISTRO.
 

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`smart_search`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Búsqueda con autocompletado en el módulo de reportes.
+
+La consulta usa ``report_service`` si se inyectó o ``set_report_service``; si no, el objeto
+``app_model`` pasado al constructor (típicamente ``AppModel`` vía ``ReportesWidget``).
 """
 
 import logging
@@ -118,7 +121,7 @@ class SmartSearchWidget(QWidget):
         self.debounce_timer.start()
 
     def _perform_search(self) -> None:
-        """Ejecuta la búsqueda contra el AppModel."""
+        """Ejecuta la búsqueda contra ``ReportService`` o el fallback ``app_model``."""
         query = self.search_input.text().strip()
         if not query:
             return
@@ -127,7 +130,7 @@ class SmartSearchWidget(QWidget):
         
         api = self._report_api()
         if not api:
-            self.logger.warning("No hay servicio de reportes ni AppModel configurado para buscar.")
+            self.logger.warning("No hay ReportService ni API de búsqueda (app_model) configurada.")
             return
 
         self.logger.info(f"Buscando: {query}")

@@ -1,7 +1,7 @@
 # core/qr_scanner/ui.py
 
 """
-Lógica o utilidades del núcleo (`ui`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Dibujo de overlays QR sobre frames OpenCV (`core.qr_scanner`, no el paquete de interfaz `ui/`).
 """
 
 from typing import Any, Optional

@@ -1,5 +1,10 @@
 """
-Interfaz PyQt6 (`bitacora_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Diálogo de bitácora de pilas (`FabricacionBitacoraDialog`).
+
+Resolución de datos (orden): ``pila_service`` inyectado (p. ej. desde ``pila_manager``) →
+``resolve_pila_service`` (DI → ``pila_controller.pila_service`` → ``model.pila_service``) →
+``model.planning_facade`` (misma API: ``get_diario_bitacora``, ``add_diario_evento``).
+No se usan delegadores eliminados de ``AppModel`` para bitácora.
 """
 
 import logging
@@ -33,8 +38,9 @@ class BitacoraEntryDTO:
 
 class FabricacionBitacoraDialog(QDialog):
     """
-    Diálogo para gestionar el diario de bitácora de una pila de fabricación
-    con un calendario interactivo.
+    Diario de bitácora por pila (calendario + entradas plan/realizado/notas).
+
+    Persistencia vía ``_bitacora_backend`` (``PilaService`` o ``PlanningFacade``), no vía fachada ``AppModel``.
     """
 
     def __init__(
@@ -64,9 +70,12 @@ class FabricacionBitacoraDialog(QDialog):
         )
 
         if pila_service is not None:
-            self._pila_service = pila_service
+            self._bitacora_backend: Any = pila_service
         else:
-            self._pila_service = resolve_pila_service(controller, DIContainer.get_instance())
+            self._bitacora_backend = resolve_pila_service(controller, DIContainer.get_instance())
+        if self._bitacora_backend is None:
+            mod = getattr(controller, "model", None)
+            self._bitacora_backend = getattr(mod, "planning_facade", None) if mod is not None else None
 
         self.pila_start_date: date = self.simulation_results[0].Inicio.date() if self.simulation_results else date.today()
         self.selected_date: date = date.today()
@@ -129,11 +138,12 @@ class FabricacionBitacoraDialog(QDialog):
     def _load_and_process_data(self) -> None:
         """Carga los datos iniciales, formatea el calendario y selecciona el día actual."""
 
-        # 1. Cargar entradas existentes desde la BD
-        if self._pila_service is not None:
-            _, entries = self._pila_service.get_diario_bitacora(self.pila_id)
+        # 1. Cargar entradas existentes desde la BD (PilaService, PlanningFacade o inyectado)
+        if self._bitacora_backend is None:
+            self.logger.error("Bitácora: sin PilaService ni planning_facade; no se cargan entradas.")
+            entries = []
         else:
-            _, entries = self.controller.model.get_diario_bitacora(self.pila_id)
+            _, entries = self._bitacora_backend.get_diario_bitacora(self.pila_id)
         self.bitacora_entries = {}
         for entry_data in entries:
             entry_date_source = entry_data[0]
@@ -255,15 +265,17 @@ class FabricacionBitacoraDialog(QDialog):
 
         day_number = (self.selected_date - self.pila_start_date).days + 1
 
-        # Pasamos el objeto de fecha directamente, sin convertirlo a texto
-        if self._pila_service is not None:
-            success = self._pila_service.add_diario_evento(
-                self.pila_id, self.selected_date, day_number, plan, realizado, notas
+        if self._bitacora_backend is None:
+            self._user_messaging.show_message(
+                "Error",
+                "No hay servicio de pilas disponible para guardar la bitácora.",
+                "critical",
             )
-        else:
-            success = self.controller.model.add_diario_evento(
-                self.pila_id, self.selected_date, day_number, plan, realizado, notas
-            )
+            return
+
+        success = self._bitacora_backend.add_diario_evento(
+            self.pila_id, self.selected_date, day_number, plan, realizado, notas
+        )
 
         if success:
             self._user_messaging.show_message(

@@ -10,8 +10,10 @@ from typing import Any, Optional
 from PyQt6.QtCore import QObject
 from PyQt6.QtWidgets import QMessageBox
 
-from ui.worker.main_window.window import WorkerMainWindow
-from ui.widgets import GestionDatosWidget, WorkersWidget
+from controllers.ui_class_loader import ui_class
+
+WorkerMainWindow = ui_class("ui.worker.main_window.window", "WorkerMainWindow")
+
 from .management_manager import WorkerManagementManager
 from .auth_manager import WorkerAuthManager
 from .task_manager import WorkerTaskManager
@@ -23,6 +25,7 @@ except ImportError:  # pragma: no cover
     FeatureWorkerController = None  # type: ignore[assignment,misc]
 
 from .protocols import WorkerControllerProtocol, IWorkerView, IWorkerService, IProductService, IFabricacionService
+from .worker_camera_config import run_worker_camera_config_dialog
 
 class WorkerController(QObject):
     """
@@ -79,7 +82,7 @@ class WorkerController(QObject):
             controller_ref=self,
         )
         
-        self.worker_window: Optional[WorkerMainWindow] = None
+        self.worker_window: Optional[Any] = None
         self.worker_feature_controller: Any = None
         self.qr_scanner: Any = None
 
@@ -109,7 +112,8 @@ class WorkerController(QObject):
                     tracking_repo=self.app.tracking_repo,
                     label_manager=self.app.label_manager,
                     qr_generator=self.app.qr_generator,
-                    label_counter_repo=self.app.label_counter_repo
+                    label_counter_repo=self.app.label_counter_repo,
+                    camera_config_runner=lambda: self._run_worker_camera_config(),
                 )
                 self.worker_feature_controller.initialize()
                 self.worker_window.show()
@@ -132,6 +136,15 @@ class WorkerController(QObject):
             QMessageBox.critical(None, "Error", f"No se pudo iniciar la interfaz de trabajador.\n\nError: {e}")
             sys.exit(1)
 
+    def _run_worker_camera_config(self) -> None:
+        if self.worker_feature_controller is None or self.worker_window is None:
+            return
+        run_worker_camera_config_dialog(
+            self.worker_feature_controller,
+            self.worker_window,
+            self.logger,
+        )
+
     def _connect_workers_signals(self) -> None:
         gestion_datos_page = self.view.pages.get("gestion_datos")
         if gestion_datos_page is None:
@@ -142,7 +155,7 @@ class WorkerController(QObject):
         workers_page = gestion_datos_page.trabajadores_tab
         if not workers_page:
             return
-        if isinstance(workers_page, WorkersWidget):
+        if hasattr(workers_page, "workers_list"):
             workers_page.workers_list.itemClicked.connect(self.management_manager._on_worker_selected_in_list)
             workers_page.add_button.clicked.connect(workers_page.show_add_new_form)
             workers_page.save_signal.connect(self.management_manager._on_save_worker_clicked)

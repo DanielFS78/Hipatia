@@ -8,8 +8,12 @@ import logging
 from typing import Any, List, Dict, Optional, Tuple, TYPE_CHECKING, cast
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QDialog, QWidget
-from ui.dialogs import CreateFabricacionDialog, PreprocesosSelectionDialog, ProductsSelectionDialog
 from core.dtos import FabricacionDTO, PreprocesoDTO, CalculationProductDTO
+from controllers.ui_class_loader import ui_class
+
+CreateFabricacionDialog = ui_class("ui.dialogs", "CreateFabricacionDialog")
+PreprocesosSelectionDialog = ui_class("ui.dialogs", "PreprocesosSelectionDialog")
+
 from .fabricacion_products_handler import (
     FabricacionProductsHandler,
     IPlanningCalculationProvider,
@@ -228,7 +232,7 @@ class FabricacionManager:
             all_preprocesos = self.fabricacion_service.get_all_preprocesos_with_components()
             assigned_preprocesos = self.fabricacion_service.get_preprocesos_by_fabricacion(fabricacion_id)
             assigned_ids = [p.id for p in assigned_preprocesos]
-            
+
             dialog = PreprocesosSelectionDialog(fabricacion_tuple, all_preprocesos, assigned_ids, cast(QWidget, self.view))
             if dialog.exec() == QDialog.DialogCode.Accepted:
                 if self.fabricacion_service.update_fabricacion_preprocesos(fabricacion_id, dialog.get_selected_preprocesos()):

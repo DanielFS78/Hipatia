@@ -22,8 +22,6 @@ if TYPE_CHECKING:
     from core.services.machine_service import MachineService
     from core.interfaces.view_interface import IView
     from core.dtos import MachineDTO
-    from ui.widgets.gestion_datos_widget import GestionDatosWidget
-    from ui.dialogs.prep.prep_groups_dialog import PrepGroupsDialog
 
 class MachineController(QObject):
     """
@@ -179,7 +177,9 @@ class MachineController(QObject):
             machine_id: ID único de la máquina.
             machine_name: Nombre descriptivo de la máquina.
         """
-        from ui.dialogs.prep.prep_groups_dialog import PrepGroupsDialog
+        from controllers.ui_class_loader import ui_class
+
+        PrepGroupsDialog = ui_class("ui.dialogs.prep.prep_groups_dialog", "PrepGroupsDialog")
         dialog = PrepGroupsDialog(
             machine_id,
             machine_name,

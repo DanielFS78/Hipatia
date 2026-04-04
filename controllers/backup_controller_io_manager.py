@@ -15,13 +15,12 @@ from datetime import datetime
 from typing import Any, Callable, Protocol
 
 from core.services.audit_logger import AuditLogger
-from ui.main_window import MainView
 
 
 class BackupControllerIOContext(Protocol):
     """Contrato mínimo que el I/O manager necesita del controlador (solo composición)."""
 
-    view: MainView
+    view: Any
     db: Any
     logger: logging.Logger
     audit_logger: AuditLogger | None
@@ -155,7 +154,9 @@ class BackupIOManager:
             controller.view.show_message("Sincronización", "No se encontraron diferencias entre las bases de datos.", "info")
             return
 
-        from ui.dialogs import SyncDialog
+        from controllers.ui_class_loader import ui_class
+
+        SyncDialog = ui_class("ui.dialogs", "SyncDialog")
 
         dialog = SyncDialog(differences, controller.view)
         if dialog.exec() == backup_controller_module.QDialog.DialogCode.Accepted:

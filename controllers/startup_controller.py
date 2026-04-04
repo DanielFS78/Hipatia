@@ -38,7 +38,6 @@ from core.security.access_control import set_security_service
 from core.quote_service import QuoteService
 from database.repositories import LabelCounterRepository
 from core.interfaces.view_interface import IView
-from ui.main_window import MainView
 from controllers.product.protocols import IFabricacionControllerDelegate
 
 # Controllers
@@ -241,7 +240,7 @@ class StartupController:
         # Por defecto los controladores son SINGLETON para esta sesión de la app
         self.container.register(BackupController, factory=lambda: BackupController(
             self.container.resolve(DatabaseManager),
-            cast(MainView, self.view),
+            cast(Any, self.view),
             self.logger,
             self.app.backup_service,
             self.app.audit_logger,
@@ -310,7 +309,7 @@ class StartupController:
             self.container.resolve(DatabaseManager),
             self.container.resolve(PilaService),
             self.container.resolve(WorkerService),
-            cast('MainView', self.view),
+            cast(Any, self.view),
             self.logger,
         ))
         

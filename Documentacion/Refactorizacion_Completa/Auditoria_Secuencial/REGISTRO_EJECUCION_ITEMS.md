@@ -324,7 +324,150 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Docs (sincronización posterior):** `python3 scripts/generate_daniel_doc.py` → `Documentacion/Documentacion Daniel.md` + `.pdf`; `python3 scripts/check_documentation_omissions.py` → omitidos=0.
 - **Fecha cierre:** 2026-04-03
 
+## ITEM 009 — Herramienta y skill de arquitectura por capas (`architecture_layer_edges` + `ANALISIS_CAPAS`)
+
+- **Estado:** Completado
+- **Prioridad:** P2 (herramienta y documentación; sin P0 de arranque derivado solo del grafo)
+- **Alcance:** `scripts/architecture_layer_edges.py`, `tests/unit/test_architecture_layer_edges.py`, `Documentacion/Refactorizacion_Completa/Arquitectura_Dependencias/ANALISIS_CAPAS.md` y snapshots, `.agents/skills/arquitectura_dependencias_hipatia/`, `.cursor/agents/hipatia-arquitectura-dependencias.md`, `SKILL_INDEX.md`, docstring de `audit_import_graph.py`.
+- **Cambio:** Análisis AST de imports entre prefijos de capa; salida MD + JSON; tests del parser; informe maestro con P0/P1/P2 y backlog; skill operativa con `references/gates.md` y plantilla REGISTRO; agente Cursor dedicado.
+- **Gates:** `pytest tests/unit/test_architecture_layer_edges.py` OK; `mypy app.py core controllers database features ui tests` OK en el cierre del ítem; `generate_daniel_doc.py` + `check_documentation_omissions.py` → omitidos=0.
+- **Fecha cierre:** 2026-04-04
+
+## ITEM 010 — Opt-1: quitar falsa arista `core`→`ui` en `qr_scanner.scanner`
+
+- **Estado:** Completado
+- **Prioridad:** P1 (arquitectura por capas)
+- **Alcance:** `core/qr_scanner/scanner.py`
+- **Cambio:** Sustituir `from .ui import draw_qr_detection` por `from core.qr_scanner.ui import draw_qr_detection`. El import relativo `.ui` se registraba en el AST como el paquete top-level `ui`; el módulo real es `core.qr_scanner.ui` (OpenCV, sin widgets Qt).
+- **Gates:** `pytest` focal `test_qr_scanner`, `test_hardware_controller` OK; `mypy core/qr_scanner/scanner.py` OK; `architecture_layer_edges.py` → sección `core`→`ui` con **0 aristas**.
+- **Progreso:** `PROGRESO_OPTIMIZACION_CAPAS.md` — Opt-1 → completada.
+- **Fecha cierre:** 2026-04-05
+
+## ITEM 011 — Opt-2: retirar imports `database` en diálogos de fabricación (`create_dialog`, `selection_dialogs`)
+
+- **Estado:** Completado
+- **Prioridad:** P1 (frontera capas ui/database)
+- **Alcance:** `ui/dialogs/fabrication/create_dialog.py`, `ui/dialogs/fabrication/selection_dialogs.py`, `tests/unit/test_ui_opt2_fabrication_dialogs_boundary.py` (nuevo).
+- **Cambio:** Eliminados bloques `TYPE_CHECKING` que importaban `database.models`; el analizador AST y `architecture_layer_edges` contaban esas aristas como `ui`→`database` aunque solo fueran tipos. El diálogo ya usaba `List[Any]` / objetos duck-typed en runtime; sin dependencia real del ORM en la capa UI.
+- **Tests:** `test_create_dialog`, `test_fabrication_dialogs`, `test_ui_opt2_fabrication_dialogs_boundary`, `test_dialogs_setup` OK; asserts AST sin imports `database`.
+- **Gates:** `mypy` OK (603 archivos); `ui_dto_boundary_analyzer` → 0 hallazgos; `architecture_layer_edges` → `ui`→`database` **0 aristas**; `generate_daniel_doc` + `check_documentation_omissions` → omitidos=0.
+- **Progreso:** `PROGRESO_OPTIMIZACION_CAPAS.md` — Opt-2 → completada.
+- **Fecha cierre:** 2026-04-05
+
+## ITEM 012 — Opt-3: eliminar `features`→`ui` (worker + cámara + import muerto)
+
+- **Estado:** Completado
+- **Prioridad:** P1
+- **Alcance:** `features/worker_controller.py`, `features/worker_controller_io_manager.py`, `controllers/worker/controller.py`, `controllers/worker/worker_camera_config.py` (nuevo), `controllers/session_controller.py`, tests asociados.
+- **Cambio:** Retirado import no usado `OrderSetupDialog` desde `ui.dialogs.tracking_dialogs`. La configuración de cámara que importaba `CameraConfigDialog` se extrajo a `run_worker_camera_config_dialog` en controllers e inyección `camera_config_runner` en `FeatureWorkerController` (lambda desde `WorkerController` y `SessionController`).
+- **Gates:** pytest focal + `test_ui_opt3_features_no_ui_imports`; `mypy` OK; `ui_dto_boundary_analyzer` → 0; `architecture_layer_edges` → `features`→`ui` **0 aristas**.
+- **Progreso:** Opt-3 → completada.
+- **Fecha cierre:** 2026-04-05
+
+## ITEM 013 — Opt-4 (lote 1): `calculation_controller` sin import AST a `ui`
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `controllers/calculation_controller.py`, `tests/unit/test_controllers_opt4_calculation_no_ui_import.py`.
+- **Cambio:** Retirado `TYPE_CHECKING` → `ui.widgets.calculate_times_widget`; anotaciones `calc_page` como `Optional[Any]`. Sin cambio de runtime; el analizador AST dejaba de contar una arista `controllers`→`ui` por el bloque de tipos.
+- **Gates:** pytest `test_calculation_controller_comprehensive` + test de frontera; mypy global OK; `architecture_layer_edges` → **55** aristas `controllers`→`ui` (antes 56); `check_documentation_omissions` → omitidos=0.
+- **Docs:** `ANALISIS_CAPAS.md` §1.1 (qué se documenta por ítem vs hitos mayores).
+- **Progreso:** Opt-4 — primer sub-ítem en `PROGRESO_OPTIMIZACION_CAPAS.md`.
+- **Fecha cierre:** 2026-04-05
+
+## ITEM 014 — Opt-5 (poda 1): retirar `get_all_prep_steps` de `AppModel`
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `core/app_model.py`.
+- **Cambio:** Eliminado el delegador `get_all_prep_steps` (cero referencias `model.` / `app_model` fuera de la clase; la API equivalente sigue en `SystemFacade` → `PreparationService`).
+- **Gates:** pytest `-k app_model` → 48 passed; mypy global OK (607 archivos); `check_documentation_omissions` → omitidos=0.
+- **Progreso:** Opt-5 en curso — primer sub-ítem en `PROGRESO_OPTIMIZACION_CAPAS.md`; Opt-4 cerrada para este sprint con backlog de **55** aristas `controllers`→`ui` (Opt-4b).
+- **Fecha cierre:** 2026-04-03
+
+## ITEM 015 — Opt-5 (poda 2): retirar `get_all_ordenes_fabricacion` de `AppModel`
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `core/app_model.py`.
+- **Cambio:** Eliminado el delegador `get_all_ordenes_fabricacion` (cero llamadas `model.*` / `app_model.*`; producción usa `FabricacionService` / `tracking_repo`; API equivalente en `SystemFacade`).
+- **Gates:** pytest `-k app_model` → 48 passed; mypy global OK (607 archivos); `check_documentation_omissions` → omitidos=0.
+- **Progreso:** Opt-5 — sub-ítem Opt-5b en `PROGRESO_OPTIMIZACION_CAPAS.md`.
+- **Fecha cierre:** 2026-04-03
+
+## ITEM 016 — Opt-5 (poda 3): retirar CRUD lote vía `AppModel` (salvo `get_lote_details`)
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `core/app_model.py`.
+- **Cambio:** Eliminados `search_lotes`, `create_lote`, `update_lote`, `delete_lote` (cero consumidores `model.*`; `LoteManager` usa el adaptador `_db` / `SystemIntegrationService`; `calculate_times_widget` sigue pudiendo usar `model.get_lote_details`).
+- **Gates:** pytest `-k "app_model or lote"` → 132 passed; mypy global OK (607 archivos); `check_documentation_omissions` → omitidos=0.
+- **Progreso:** Opt-5 — sub-ítem Opt-5c en `PROGRESO_OPTIMIZACION_CAPAS.md`.
+- **Fecha cierre:** 2026-04-03
+
+## ITEM 017 — Opt-5 (poda 4): iteraciones / imágenes sin delegación en `AppModel`
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `core/app_model.py`, `controllers/product/protocols.py` (`IProductModel`).
+- **Cambio:** Eliminados `get_iteration_images`, `update_iteration_file_path` (solo `db`; la UI usa `controller.db` / `product_facade`), `get_product_iterations_by_id_or_similar` y `get_all_iterations_with_dates` (solo `product_facade` sin consumidores `model.*`). Retirado `update_iteration_file_path` del protocolo `IProductModel` para alinear tipos con `AppModel`. Import `IterationImageDTO` innecesario en `app_model`.
+- **Gates:** pytest focal `-k "app_model or product_controller_preprocesos or product_dialogs_coverage or historial_controller or app_startup_integration"` → 239 passed; mypy global OK (607 archivos); `check_documentation_omissions` → omitidos=0.
+- **Progreso:** Opt-5 — sub-ítem Opt-5d en `PROGRESO_OPTIMIZACION_CAPAS.md`.
+- **Fecha cierre:** 2026-04-03
+
+## ITEM 018 — Opt-5 (poda 5): catálogo y trabajador vía servicios, no vía `AppModel`
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `core/app_model.py`.
+- **Cambio:** Eliminados `get_latest_products` (solo `product_facade`, sin `model.*`), `get_worker_history` y `get_worker_activity_log` (UI y `TaskManager` usan `WorkerService` inyectado). Retirado import huérfano `WorkerAnnotationDTO`.
+- **Gates:** pytest `-k "app_model or worker_controller or workers_widget or worker_service"` → 146 passed; mypy global OK (607 archivos); `check_documentation_omissions` → omitidos=0.
+- **Progreso:** Opt-5 — sub-ítem Opt-5e en `PROGRESO_OPTIMIZACION_CAPAS.md`.
+- **Fecha cierre:** 2026-04-03
+
+## ITEM 019 — Opt-5 (poda 6 / cierre ciclo): delegadores ya cubiertos por servicios inyectados
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `core/app_model.py`.
+- **Cambio:** Retirados del hub los métodos que solo reenviaban a `worker_service`, `machine_service`, `preparation_service`, `product_facade`, `planning_facade` o `system_integration` **sin** referencias `model.<método>` / `getattr(..., "model")` en UI, controladores o tests (criterio `rg` ampliado). Incluye: `get_worker_details`, `authenticate_user`, `update_user_password`, `actualizar_estado_asignacion`, `asignar_trabajador_a_fabricacion`, `desasignar_trabajador_de_fabricacion`, `update_machine`, `delete_machine`, `update_prep_step`, `delete_prep_step`, `get_group_details`, `get_prep_step_details`, `get_prep_step_details_by_ids`, `update_product_iteration_details`, `delete_material_link`, `get_all_pilas_with_dates`, `config_get_setting`, `config_set_setting`. Se mantienen p. ej. `get_fabricaciones_por_trabajador`, `assign_task_to_worker`, `get_lote_details`. Eliminado import `WorkerDetailDTO` al quedar sin uso.
+- **Verificación cíclica:** script de patrones `model.*` / `getattr(..., "model")` sobre los 77 métodos restantes → **0** candidatos adicionales; Opt-5 cerrada bajo este criterio hasta nueva migración DI explícita.
+- **Gates:** pytest global → 2696 passed; mypy global OK (607 archivos); `check_documentation_omissions` → omitidos=0.
+- **Progreso:** Opt-5 → **completada** (poda por consumidores 0); ver `PROGRESO_OPTIMIZACION_CAPAS.md`.
+- **Fecha cierre:** 2026-04-03
+
+## ITEM 020 — Opt-4b (lote 2): menos aristas `controllers`→`ui` (TYPE_CHECKING / `Any`)
+
+- **Estado:** Completado
+- **Prioridad:** P2 (opcional)
+- **Alcance:** `controllers/lote_controller.py`, `controllers/report_controller.py`, `controllers/ui_controller.py`, `controllers/machine_controller.py`.
+- **Cambio:** Eliminados imports `ui` muertos o solo tipado (`lote_controller`, `ui_controller`). En `report_controller`, `view` y `historial_widget` tipados como `Any` para evitar imports `ui` en AST. En `machine_controller`, retirados imports `ui` bajo `TYPE_CHECKING` (sigue el import en tiempo de ejecución de `PrepGroupsDialog`). Informe `architecture_layer_edges`: **55 → 49** aristas `controllers`→`ui` (el grafo deduplica por módulo destino).
+- **Gates:** pytest `-k "report_controller or lote_controller or machine_controller or ui_controller or opt4"` → 84 passed; mypy `core controllers database ui features` → sin errores; `check_documentation_omissions` → omitidos=0.
+- **Progreso:** Opt-4b en `PROGRESO_OPTIMIZACION_CAPAS.md`; `ANALISIS_CAPAS.md` actualizado.
+- **Fecha cierre:** 2026-04-03
+
+## ITEM 021 — Opt-4b (cierre): cero aristas AST `controllers`→`ui`
+
+- **Estado:** Completado
+- **Prioridad:** P2 (opcional / arquitectura)
+- **Alcance:** Todo `controllers/**/*.py`, nuevo `controllers/ui_class_loader.py`, tests (`test_opt4_ast_guard_no_static_ui_imports.py`, ajustes `test_schedule_controller_comprehensive`, `scripts/test_quality_analyzer.py`).
+- **Cambio:** Sustituidos los `import`/`from ui…` estáticos por `importlib.import_module` vía `ui_class_loader.ui_class` (sin caché, compatible con parches de tests en `ui.dialogs.*`). Referencias a nivel de módulo donde los tests parchean `controllers.*.Dialog`; resolución perezosa en `show_backup_restore_dialog` para parches a `ui.dialogs.backup_restore_dialog`. Tipos `MainView`/`SettingsWidget` sustituidos por `Any` o duck typing donde aplica. `navigation_controller` usa `ui_class` en ramas para `isinstance`.
+- **Informe:** `architecture_layer_edges` → **0** aristas `controllers`→`ui` (matriz y lista de advertencias vacías para ese par).
+- **Gates:** pytest global → **2696** passed; mypy `core controllers database ui features` → 362 archivos OK; `check_documentation_omissions` → omitidos=0.
+- **Progreso:** Opt-4 y Opt-4b → **completadas** en `PROGRESO_OPTIMIZACION_CAPAS.md`; `ANALISIS_CAPAS.md` actualizado.
+- **Fecha cierre:** 2026-04-03
+
+## ITEM 022 — Sincronización documentación interna + `generate_daniel_doc` (2026-04-03)
+
+- **Estado:** Completado
+- **Prioridad:** P2 (trazabilidad / informe Daniel)
+- **Alcance:** Docstrings de módulos UI tocados por reducción de `AppModel` en el borde (bitácora, `DefineFlowPresenter`, `FlowActionHandler`, `ReportesWidget` y widgets `reports/*`, `dialog_dependencies`); skills `.agents/skills/ui_dialog_dependency_wiring/` (SKILL + REGISTRO filas 12–14), `reduccion_god_objects`, `plan_produccion_coordinador`; `Documentacion/Refactorización UI/Analisis_y_Plan_Refactorizacion.md`; `scripts/generate_daniel_doc.py` (diagrama Core con `PilaService`/`ReportService`, hints `test_bitacora_dialog`, `test_define_flow_presenter`, `test_reports_widgets` unificado).
+- **Salida:** `python3 scripts/generate_daniel_doc.py` regenera `Documentacion/Documentacion Daniel.md` y PDF sin referencias a delegadores de bitácora eliminados en `AppModel`.
+- **Fecha cierre:** 2026-04-03
+
 ## Siguiente ítem sugerido
 
+- **Mantenimiento:** no reintroducir imports estáticos `ui` en `controllers/` (fallará `test_opt4_ast_guard_no_static_ui_imports`).
+- **Reducción adicional de `AppModel`:** solo con **migración explícita** a servicios/fachadas inyectados (no poda ciega: los métodos restantes tienen al menos un uso vía `model` en tests o UI).
 - **Bloque C (producción Windows):** C1 paths — ver `.agents/skills/plan_produccion_coordinador/SKILL.md`.
 - **Mantenimiento mypy:** nuevos módulos bajo `ui`/`core` deben añadirse a `mypy.ini` o cumplir el patrón ya estricto. **Huecos típicos restantes** respecto a `[mypy-ui.*]` / `[mypy-controllers.*]` laxos: solo lo no cubierto por patrones más específicos (revisar con `mypy .` al introducir código). **Lote D (repositorios + servicios + UI densa + widgets + qr_scanner):** cerrado a efectos prácticos para el árbol de producto.

@@ -9,18 +9,18 @@ description: Guía de arquitectura y mantenimiento sobre AppModel. La tarea coor
 
 La fila **B5** en `.agents/skills/plan_produccion_coordinador/SKILL.md` está **cerrada de forma definitiva**. No hay subtareas pendientes bajo el epígrafe «B5»; lo que sigue en la lista del coordinador es el **Bloque C** (Windows).
 
-**Qué cubría B5 (hecho):** priorizar **servicios registrados en `DIContainer`** frente a `AppModel` en los puntos acordados (`AppController.on_data_changed` + `ProductService`, reportes UI + `ReportService`, config temprana vía `self.db`, y el cableado previo de `DefineProductionFlowDialog` / `DefineFlowPresenter` con servicios desde el DI).
+**Qué cubría B5 (hecho):** priorizar **servicios registrados en `DIContainer`** frente a `AppModel` en los puntos acordados (`AppController.on_data_changed` + `ProductService`, reportes UI + `ReportService`, config temprana vía `self.db`, y `DefineProductionFlowDialog` / `DefineFlowPresenter` con servicios desde DI o extraídos de `model.*_service` sin pasar `AppModel` al presenter).
 
 **Qué queda fuera del alcance de B5 (y por qué):**
 
 | Fuera de alcance | Qué es concretamente | Por qué no forma parte de B5 | Dónde queda documentado / regla |
 |------------------|----------------------|------------------------------|----------------------------------|
 | Poda masiva de `AppModel` | Siguen existiendo muchos métodos delegadores (~orden cientos de líneas de API en `core/app_model.py`) | B5 era **reducir dependencia en el uso**, no borrar la fachada entera; eliminar métodos solo con **`rg` = 0 consumidores** en repo | Esta skill, §Fase 2–3; REGISTRO ítems 005–006 |
-| Fallback `controller.model.*` en diálogos de fabricación | p. ej. `get_diario_bitacora`, `add_diario_evento`, `get_preprocesos_by_fabricacion` cuando no hay servicio resuelto | Plan **explícito** de wiring por fases con fallback para tests y arranque sin DI completo | `.agents/skills/ui_dialog_dependency_wiring/SKILL.md` + `REGISTRO.md` (Fase 5 Fallback) |
+| Fallback en diálogos de fabricación | Bitácora → `planning_facade` / servicios; preprocesos → `model.get_preprocesos_by_fabricacion` si no hay `FabricacionService` | Plan en **ui_dialog_dependency_wiring** (Fase 5) | `.agents/skills/ui_dialog_dependency_wiring/SKILL.md` + `REGISTRO.md` |
 | Señales Qt y conexión desde controladores | p. ej. `app.model.machines_changed_signal`, `product_deleted_signal` | Arquitectura acordada: **señales permanecen en `AppModel`** (o un hub futuro sería **otra** tarea) | Esta skill, §Regla 3 |
 | Orquestación multi-servicio en `AppModel` | p. ej. `get_dashboard_stats` y métodos que combinan varios servicios | No son delegación de una línea; rediseñarlos es **nuevo caso de uso**, no cierre de B5 | §Fase 3 «Mínimo razonable» |
 | Bootstrap de arranque | `StartupController` lee `self.model.db`, registra instancias que viven en `AppModel` | El **compositor raíz** sigue construyendo el grafo; B5 no sustituyó el bootstrap completo | `controllers/startup_controller.py` |
-| Sub-widgets de reportes que reciben `controller=` | `OrderListWidget`, `ReportsChartsWidget` siguen usando un objeto con API de reportes (a menudo el mismo `AppModel`) | Contrato UI estable; B5 centró el **borde** en `ReportesWidget`/`SmartSearchWidget`; profundizar sería **ítem opcional** posterior | `ui/widgets/reportes_widget.py` |
+| Sub-widgets de reportes | `OrderListWidget` / `ReportsChartsWidget` reciben `controller=AppController` y `report_service=` cuando el DI expone `ReportService` | Completado como seguimiento de diseño (2026-04): prioridad servicio sobre `controller.model` | `ui/widgets/reportes_widget.py`, `ui/widgets/reports/order_list.py`, `charts_container.py` |
 
 **Para el agente o desarrollador:** si aparece la duda «¿B5 sigue abierta?» → **No.** Cualquier mejora adicional es **mantenimiento opcional** (poda puntual de `AppModel`, más DI en un widget concreto) y debe ir con su propio ítem en `REGISTRO_EJECUCION_ITEMS.md` o issue, no como «continuación de B5».
 

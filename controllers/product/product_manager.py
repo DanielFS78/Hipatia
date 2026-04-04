@@ -13,12 +13,15 @@ from PyQt6.QtWidgets import QDialog, QWidget, QMessageBox, QFileDialog
 from core.dtos import ProductDetailsDTO
 from core.import_manager.adapters.a3rp_excel_adapter import A3RPExcelAdapter
 from core.import_manager.services.bom_import_service import BOMImportService
-from ui.dialogs.product.bom_import_preview_dialog import BOMImportPreviewDialog
 from core.security.access_control import require_permission
 from core.security.security_service import Permission
 from core.validation.validator_service import ValidatorService
-from ui.dialogs import SubfabricacionesDialog, ProcesosMecanicosDialog, ProductDetailsDialog
-from ui.widgets import GestionDatosWidget
+from controllers.ui_class_loader import ui_class
+
+BOMImportPreviewDialog = ui_class("ui.dialogs.product.bom_import_preview_dialog", "BOMImportPreviewDialog")
+ProductDetailsDialog = ui_class("ui.dialogs", "ProductDetailsDialog")
+SubfabricacionesDialog = ui_class("ui.dialogs", "SubfabricacionesDialog")
+ProcesosMecanicosDialog = ui_class("ui.dialogs", "ProcesosMecanicosDialog")
 
 from .application_shell import IApplicationShell
 from .protocols import ProductControllerProtocol, IProductView, IProductService

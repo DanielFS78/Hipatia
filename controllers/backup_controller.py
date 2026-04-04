@@ -20,8 +20,8 @@ from core.utils.helpers import resource_path
 from core.services.backup_service import BackupService
 from core.services.audit_logger import AuditLogger
 from database.database_manager import DatabaseManager
-from ui.main_window import MainView
 from controllers.backup_controller_io_manager import BackupIOManager
+from controllers.ui_class_loader import ui_class
 
 
 class IBackupControllerDatabase(Protocol):
@@ -51,7 +51,7 @@ class BackupController(QObject):
     def __init__(
         self,
         db: DatabaseManager | IBackupControllerDatabase,
-        view: MainView,
+        view: Any,
         logger: logging.Logger,
         backup_service: BackupService | None = None,
         audit_logger: AuditLogger | None = None,
@@ -68,7 +68,7 @@ class BackupController(QObject):
         """
         super().__init__()
         self.db: DatabaseManager | IBackupControllerDatabase = db
-        self.view: MainView = view
+        self.view: Any = view
         self.logger: logging.Logger = logger
         self.backup_service: BackupService | None = backup_service
         self.audit_logger: AuditLogger | None = audit_logger
@@ -89,8 +89,7 @@ class BackupController(QObject):
             self.logger.error("BackupService no inicializado.")
             return
 
-        from ui.dialogs.backup_restore_dialog import BackupRestoreDialog
-        # Pass audit_logger to the dialog
+        BackupRestoreDialog = ui_class("ui.dialogs.backup_restore_dialog", "BackupRestoreDialog")
         dialog = BackupRestoreDialog(self.backup_service, self.view, self.audit_logger)
         dialog.exec()
 

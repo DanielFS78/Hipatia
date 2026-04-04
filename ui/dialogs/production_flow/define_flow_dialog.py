@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`define_flow_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Diálogo «Definir / editar pila de producción» (árbol de tareas + flujo + guardado).
+
+Construye ``DefineFlowPresenter`` solo con servicios de dominio (``MachineService``,
+``PreparationService``, ``FabricacionService``) resueltos por DI o extraídos de ``controller.model``;
+el presenter no mantiene referencia a ``AppModel``.
 """
 
 import logging
@@ -48,29 +52,28 @@ class DefineProductionFlowDialog(QDialog):
         self.schedule_config = schedule_config
         
         _c = DIContainer.get_instance()
-        _use_services = _c.is_registered(MachineService) and _c.is_registered(PreparationService)
         _presenter_kw: dict[str, Any] = {
             "schedule_config": schedule_config,
             "default_units": units,
         }
-        if _use_services:
+        if _c.is_registered(MachineService):
             _presenter_kw["machine_service"] = _c.resolve(MachineService)
+        if _c.is_registered(PreparationService):
             _presenter_kw["preparation_service"] = _c.resolve(PreparationService)
-            fs = resolve_fabricacion_service(controller, _c)
-            if fs is not None:
-                _presenter_kw["fabricacion_service"] = fs
-            _presenter_kw["model"] = None
-        else:
-            m = controller.model if controller else None
-            _presenter_kw["model"] = m
-            # Misma frontera que con DI: servicios colgando de AppModel (sin registrar tipos en el contenedor).
-            if m is not None:
+        fs = resolve_fabricacion_service(controller, _c)
+        if fs is not None:
+            _presenter_kw["fabricacion_service"] = fs
+        m = controller.model if controller else None
+        if m is not None:
+            if "machine_service" not in _presenter_kw:
                 ms = getattr(m, "machine_service", None)
                 if ms is not None:
                     _presenter_kw["machine_service"] = ms
+            if "preparation_service" not in _presenter_kw:
                 prep = getattr(m, "preparation_service", None)
                 if prep is not None:
                     _presenter_kw["preparation_service"] = prep
+            if "fabricacion_service" not in _presenter_kw:
                 fab = getattr(m, "fabricacion_service", None)
                 if fab is not None:
                     _presenter_kw["fabricacion_service"] = fab

@@ -100,9 +100,11 @@ class TestOnAddBreakClicked:
         """ScheduleController con dependencias mockeadas."""
         return _make_controller()
 
-    @patch("controllers.schedule_controller.AddBreakDialog")
-    def test_add_break_accepted(self, MockDlg: MagicMock, ctrl: Any) -> None:
+    @patch("controllers.schedule_controller.get_add_break_dialog_class")
+    def test_add_break_accepted(self, mock_get_cls: MagicMock, ctrl: Any) -> None:
         """Aceptar el dialogo guarda el descanso y recarga la configuracion."""
+        MockDlg = MagicMock(spec=[])
+        mock_get_cls.return_value = MockDlg
         inst = MockDlg.return_value
         inst.exec.return_value = QDialog.DialogCode.Accepted
         inst.get_times.return_value = {"start": "10:00", "end": "10:30"}
@@ -117,9 +119,11 @@ class TestOnAddBreakClicked:
         ctrl.schedule_manager.reload_config.assert_called_once_with()
         mock_load.assert_called_once_with()
 
-    @patch("controllers.schedule_controller.AddBreakDialog")
-    def test_add_break_cancelled(self, MockDlg: MagicMock, ctrl: Any) -> None:
+    @patch("controllers.schedule_controller.get_add_break_dialog_class")
+    def test_add_break_cancelled(self, mock_get_cls: MagicMock, ctrl: Any) -> None:
         """Cancelar el dialogo no guarda nada."""
+        MockDlg = MagicMock(spec=[])
+        mock_get_cls.return_value = MockDlg
         inst = MockDlg.return_value
         inst.exec.return_value = QDialog.DialogCode.Rejected
 
@@ -248,8 +252,8 @@ class TestOnEditBreakClicked:
             "Error", "No se pudo leer la hora del descanso seleccionado.", "critical"
         )
 
-    @patch("controllers.schedule_controller.AddBreakDialog")
-    def test_edit_break_accepted(self, MockDlg: MagicMock, ctrl: Any) -> None:
+    @patch("controllers.schedule_controller.get_add_break_dialog_class")
+    def test_edit_break_accepted(self, mock_get_cls: MagicMock, ctrl: Any) -> None:
         """Editar y confirmar actualiza el item y guarda."""
         mock_page = _make_settings_page()
         mock_item = MagicMock(spec=['text', 'setText'])
@@ -257,6 +261,8 @@ class TestOnEditBreakClicked:
         mock_page.breaks_list.selectedItems.return_value = [mock_item]
         ctrl.view.pages = {"settings": mock_page}
 
+        MockDlg = MagicMock(spec=[])
+        mock_get_cls.return_value = MockDlg
         inst = MockDlg.return_value
         inst.exec.return_value = QDialog.DialogCode.Accepted
         inst.get_times.return_value = {"start": "11:00", "end": "11:30"}
@@ -272,8 +278,8 @@ class TestOnEditBreakClicked:
         ctrl.view.show_message.assert_called_with("Éxito", "Descanso actualizado correctamente.", "info")
         mock_page._update_break_buttons_state.assert_called_once_with()
 
-    @patch("controllers.schedule_controller.AddBreakDialog")
-    def test_edit_break_cancelled(self, MockDlg: MagicMock, ctrl: Any) -> None:
+    @patch("controllers.schedule_controller.get_add_break_dialog_class")
+    def test_edit_break_cancelled(self, mock_get_cls: MagicMock, ctrl: Any) -> None:
         """Cancelar la edicion no modifica el item."""
         mock_page = _make_settings_page()
         mock_item = MagicMock(spec=['text', 'setText'])
@@ -281,6 +287,8 @@ class TestOnEditBreakClicked:
         mock_page.breaks_list.selectedItems.return_value = [mock_item]
         ctrl.view.pages = {"settings": mock_page}
 
+        MockDlg = MagicMock(spec=[])
+        mock_get_cls.return_value = MockDlg
         inst = MockDlg.return_value
         inst.exec.return_value = QDialog.DialogCode.Rejected
 

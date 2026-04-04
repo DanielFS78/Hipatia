@@ -1,6 +1,6 @@
 # Documentación Técnica: Hipatia
 
-> Generado automáticamente el 2026-04-04 15:08:36
+> Generado automáticamente el 2026-04-04 18:55:01
 
 ---
 
@@ -10,8 +10,8 @@
 
 | Métrica | Valor |
 |---|---:|
-| Archivos `.py` listados en el índice | 430 |
-| Incluidos en el cuerpo (tienen bloque en el PDF) | 430 |
+| Archivos `.py` listados en el índice | 433 |
+| Incluidos en el cuerpo (tienen bloque en el PDF) | 433 |
 | Omitidos (reglas de docstrings/otros) | 0 |
 
 Leyenda:
@@ -22,482 +22,485 @@ Leyenda:
 - `Mypy Parcial`: el proyecto usa una configuración gradual allí; se prioriza estabilidad/coste de esfuerzo.
 
 - analysis/
-  - `scripts/analysis/analyze_codebase.py` → p0472 | clases: FileStats, DirectorySummary | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_controller.py` → p0473 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_coverage_risks.py` → p0474 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_db_usage.py` → p0475 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_dependencies.py` → p0476 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_fabrication_dialogs.py` → p0477 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_loose_mocks.py` → p0478 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_refactoring_impact.py` → p0479 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_repository_connections.py` → p0480 | clases: FileAnalysisResult, RepoUsageData, ProjectAnalysisResult, RepositoryConnectionAnalyzer | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_root_files.py` → p0481 | clases: DefinitionsDict, DefinitionsPayload, ErrorPayload, MissingResult, RootFileAnalysis | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_structure.py` → p0482 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_tracking_impact.py` → p0483 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_typing_deep.py` → p0484 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_ui_structure.py` → p0485 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/detect_obsolete_code.py` → p0486 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/verify_naming_conventions.py` → p0487 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_codebase.py` → p0477 | clases: FileStats, DirectorySummary | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_controller.py` → p0478 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_coverage_risks.py` → p0479 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_db_usage.py` → p0480 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_dependencies.py` → p0481 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_fabrication_dialogs.py` → p0482 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_loose_mocks.py` → p0483 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_refactoring_impact.py` → p0484 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_repository_connections.py` → p0485 | clases: FileAnalysisResult, RepoUsageData, ProjectAnalysisResult, RepositoryConnectionAnalyzer | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_root_files.py` → p0486 | clases: DefinitionsDict, DefinitionsPayload, ErrorPayload, MissingResult, RootFileAnalysis | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_structure.py` → p0487 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_tracking_impact.py` → p0488 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_typing_deep.py` → p0489 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_ui_structure.py` → p0490 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/detect_obsolete_code.py` → p0491 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/verify_naming_conventions.py` → p0492 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - camera_manager/
-  - `core/camera_manager/__init__.py` → p0139 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/camera_manager/base.py` → p0140 | clases: CameraBackend, CameraInfo | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/camera_manager/detector.py` → p0141 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/camera_manager/manager.py` → p0142 | clases: CameraManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/camera_manager/utils.py` → p0143 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/camera_manager/__init__.py` → p0143 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/camera_manager/base.py` → p0144 | clases: CameraBackend, CameraInfo | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/camera_manager/detector.py` → p0145 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/camera_manager/manager.py` → p0146 | clases: CameraManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/camera_manager/utils.py` → p0147 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - dialogs/
   - effects/
-    - `ui/dialogs/effects/__init__.py` → p0330 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/effects/golden_glow.py` → p0331 | clases: GoldenGlowEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/effects/green_cycle.py` → p0332 | clases: GreenCycleEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/effects/mixed_gold_green.py` → p0333 | clases: MixedGoldGreenEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/effects/processing_glow.py` → p0334 | clases: ProcessingGlowEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/effects/progress.py` → p0335 | clases: SimulationProgressEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/__init__.py` → p0334 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/golden_glow.py` → p0335 | clases: GoldenGlowEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/green_cycle.py` → p0336 | clases: GreenCycleEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/mixed_gold_green.py` → p0337 | clases: MixedGoldGreenEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/processing_glow.py` → p0338 | clases: ProcessingGlowEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/progress.py` → p0339 | clases: SimulationProgressEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - fabrication/
-    - `ui/dialogs/fabrication/__init__.py` → p0336 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/assignment_dialogs.py` → p0337 | clases: AssignPreprocesosDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/bitacora_dialog.py` → p0338 | clases: BitacoraEntryDTO, FabricacionBitacoraDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/create_dialog.py` → p0339 | clases: CreateFabricacionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/create_presenter.py` → p0340 | clases: CreateFabricacionPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/dialog_dependencies.py` → p0341 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/input_dialogs.py` → p0342 | clases: GetLoteInstanceParametersDialog, GetOptimizationParametersDialog, GetUnitsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/persistence_dialogs.py` → p0343 | clases: SavePilaDialog, LoadPilaDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/products_dialog.py` → p0344 | clases: ProductsSelectionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/selection_dialogs.py` → p0345 | clases: PreprocesosSelectionDialog, PreprocesosForCalculationDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/ui_dialog_protocols.py` → p0346 | clases: OpensFabricacionPreprocesos, ShowsUserMessage | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/__init__.py` → p0340 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/assignment_dialogs.py` → p0341 | clases: AssignPreprocesosDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/bitacora_dialog.py` → p0342 | clases: BitacoraEntryDTO, FabricacionBitacoraDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/create_dialog.py` → p0343 | clases: CreateFabricacionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/create_presenter.py` → p0344 | clases: CreateFabricacionPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/dialog_dependencies.py` → p0345 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/input_dialogs.py` → p0346 | clases: GetLoteInstanceParametersDialog, GetOptimizationParametersDialog, GetUnitsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/persistence_dialogs.py` → p0347 | clases: SavePilaDialog, LoadPilaDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/products_dialog.py` → p0348 | clases: ProductsSelectionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/selection_dialogs.py` → p0349 | clases: PreprocesosSelectionDialog, PreprocesosForCalculationDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/ui_dialog_protocols.py` → p0350 | clases: OpensFabricacionPreprocesos, ShowsUserMessage | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - prep/
-    - `ui/dialogs/prep/__init__.py` → p0347 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/prep/prep_groups_dialog.py` → p0348 | clases: PrepGroupsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/prep/prep_steps_dialog.py` → p0349 | clases: PrepStepsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/prep/preproceso_dialog.py` → p0350 | clases: PreprocesoDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/prep/__init__.py` → p0351 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/prep/prep_groups_dialog.py` → p0352 | clases: PrepGroupsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/prep/prep_steps_dialog.py` → p0353 | clases: PrepStepsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/prep/preproceso_dialog.py` → p0354 | clases: PreprocesoDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - product/
-    - `ui/dialogs/product/__init__.py` → p0351 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/product/add_iteration_dialog.py` → p0352 | clases: AddIterationDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/product/bom_import_preview_dialog.py` → p0353 | clases: BOMImportPreviewDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/product/procesos_mecanicos_dialog.py` → p0354 | clases: ProcesosMecanicosDialog, AddProcesoMecanicoDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/product/product_details_dialog.py` → p0355 | clases: ProductDetailsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/product/subfabricaciones_dialog.py` → p0356 | clases: SubfabricacionesDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/product/__init__.py` → p0355 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/product/add_iteration_dialog.py` → p0356 | clases: AddIterationDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/product/bom_import_preview_dialog.py` → p0357 | clases: BOMImportPreviewDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/product/procesos_mecanicos_dialog.py` → p0358 | clases: ProcesosMecanicosDialog, AddProcesoMecanicoDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/product/product_details_dialog.py` → p0359 | clases: ProductDetailsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/product/subfabricaciones_dialog.py` → p0360 | clases: SubfabricacionesDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - production_flow/
-    - `ui/dialogs/production_flow/__init__.py` → p0357 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/common_dialogs.py` → p0358 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/cycle_end_config_dialog.py` → p0359 | clases: CycleEndConfigDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/define_flow_dialog.py` → p0360 | clases: DefineProductionFlowDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/define_flow_presenter.py` → p0361 | clases: DefineFlowPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/definir_cantidades_dialog.py` → p0362 | clases: DefinirCantidadesDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/enhanced_flow_dialog.py` → p0363 | clases: EnhancedProductionFlowDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/enhanced_flow_presenter.py` → p0364 | clases: EnhancedFlowPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/enhanced_flow_state_manager.py` → p0365 | clases: EnhancedFlowStateManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/flow_action_handler.py` → p0366 | clases: FlowActionHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/flow_builder.py` → p0367 | clases: FlowBuilder | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/flow_simulation_handler.py` → p0368 | clases: FlowSimulationHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/machine_resource_manager.py` → p0369 | clases: MachineResourceManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/reassignment_rule_dialog.py` → p0370 | clases: ReassignmentRuleDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/dialogs/__init__.py` → p0322 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/dialogs/backup_restore_dialog.py` → p0323 | clases: BackupRestoreDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/dialogs/canvas_widget.py` → p0324 | clases: CanvasWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/dialogs/canvas_widgets.py` → p0325 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/dialogs/card_widget.py` → p0326 | clases: CardWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/dialogs/connection_dialog.py` → p0327 | clases: ConnectionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/dialogs/tracking_dialogs.py` → p0328 | clases: OrderSetupDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/dialogs/utility_dialogs.py` → p0329 | clases: AddBreakDialog, LoginDialog, ChangePasswordDialog, SyncDialog, SeleccionarHojasExcelDialog, MultiWorkerSelectionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/__init__.py` → p0361 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/common_dialogs.py` → p0362 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/cycle_end_config_dialog.py` → p0363 | clases: CycleEndConfigDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/define_flow_dialog.py` → p0364 | clases: DefineProductionFlowDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/define_flow_presenter.py` → p0365 | clases: DefineFlowPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/definir_cantidades_dialog.py` → p0366 | clases: DefinirCantidadesDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/enhanced_flow_dialog.py` → p0367 | clases: EnhancedProductionFlowDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/enhanced_flow_presenter.py` → p0368 | clases: EnhancedFlowPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/enhanced_flow_state_manager.py` → p0369 | clases: EnhancedFlowStateManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/flow_action_handler.py` → p0370 | clases: FlowActionHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/flow_builder.py` → p0371 | clases: FlowBuilder | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/flow_simulation_handler.py` → p0372 | clases: FlowSimulationHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/machine_resource_manager.py` → p0373 | clases: MachineResourceManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/reassignment_rule_dialog.py` → p0374 | clases: ReassignmentRuleDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/dialogs/__init__.py` → p0326 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/dialogs/backup_restore_dialog.py` → p0327 | clases: BackupRestoreDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/dialogs/canvas_widget.py` → p0328 | clases: CanvasWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/dialogs/canvas_widgets.py` → p0329 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/dialogs/card_widget.py` → p0330 | clases: CardWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/dialogs/connection_dialog.py` → p0331 | clases: ConnectionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/dialogs/tracking_dialogs.py` → p0332 | clases: OrderSetupDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/dialogs/utility_dialogs.py` → p0333 | clases: AddBreakDialog, LoginDialog, ChangePasswordDialog, SyncDialog, SeleccionarHojasExcelDialog, MultiWorkerSelectionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - facades/
-  - `core/facades/__init__.py` → p0144 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/facades/planning_facade.py` → p0145 | clases: PlanningFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/facades/product_facade.py` → p0146 | clases: ProductFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/facades/production_facade.py` → p0147 | clases: ProductionFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/facades/reporting_facade.py` → p0148 | clases: ReportingFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/facades/system_facade.py` → p0149 | clases: SystemFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/facades/workforce_facade.py` → p0150 | clases: WorkforceFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/facades/__init__.py` → p0148 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/facades/planning_facade.py` → p0149 | clases: PlanningFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/facades/product_facade.py` → p0150 | clases: ProductFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/facades/production_facade.py` → p0151 | clases: ProductionFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/facades/reporting_facade.py` → p0152 | clases: ReportingFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/facades/system_facade.py` → p0153 | clases: SystemFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/facades/workforce_facade.py` → p0154 | clases: WorkforceFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - hardware/
-  - `tools/hardware/detect_cameras.py` → p0495 | clases: CameraInfo | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `tools/hardware/detect_cameras.py` → p0500 | clases: CameraInfo | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - health/
-  - `core/health/__init__.py` → p0151 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/health/constants.py` → p0152 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/health/health_checker.py` → p0153 | clases: TableHealth, SystemHealth, TestResults, HealthReport, DatabaseHealthChecker | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/health/health_worker.py` → p0154 | clases: HealthCheckWorker | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/health/test_runner.py` → p0155 | clases: TestRunner | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/health/__init__.py` → p0155 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/health/constants.py` → p0156 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/health/health_checker.py` → p0157 | clases: TableHealth, SystemHealth, TestResults, HealthReport, DatabaseHealthChecker | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/health/health_worker.py` → p0158 | clases: HealthCheckWorker | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/health/test_runner.py` → p0159 | clases: TestRunner | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - historial/
-  - `controllers/historial/__init__.py` → p0073 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/historial/controller.py` → p0074 | clases: HistorialController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/historial/interaction_manager.py` → p0075 | clases: HistorialInteractionManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/historial/protocols.py` → p0076 | clases: HistorialControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/historial/report_manager.py` → p0077 | clases: HistorialReportManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/historial/view_manager.py` → p0078 | clases: HistorialViewManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/historial/__init__.py` → p0076 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/historial/controller.py` → p0077 | clases: HistorialController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/historial/interaction_manager.py` → p0078 | clases: HistorialInteractionManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/historial/protocols.py` → p0079 | clases: HistorialControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/historial/report_manager.py` → p0080 | clases: HistorialReportManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/historial/view_manager.py` → p0081 | clases: HistorialViewManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - import_manager/
   - adapters/
-    - `core/import_manager/adapters/__init__.py` → p0159 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/import_manager/adapters/a3rp_csv_adapter.py` → p0160 | clases: A3RPCSVAdapter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/import_manager/adapters/a3rp_excel_adapter.py` → p0161 | clases: A3RPExcelAdapter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/import_manager/adapters/__init__.py` → p0163 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/import_manager/adapters/a3rp_csv_adapter.py` → p0164 | clases: A3RPCSVAdapter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/import_manager/adapters/a3rp_excel_adapter.py` → p0165 | clases: A3RPExcelAdapter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - services/
-    - `core/import_manager/services/__init__.py` → p0162 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/import_manager/services/bom_import_service.py` → p0163 | clases: BOMImportService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/import_manager/__init__.py` → p0156 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/import_manager/dto.py` → p0157 | clases: BOMNodeDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/import_manager/ports.py` → p0158 | clases: IBOMImporter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/import_manager/services/__init__.py` → p0166 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/import_manager/services/bom_import_service.py` → p0167 | clases: BOMImportService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/import_manager/__init__.py` → p0160 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/import_manager/dto.py` → p0161 | clases: BOMNodeDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/import_manager/ports.py` → p0162 | clases: IBOMImporter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - interfaces/
-  - `core/interfaces/controller_interface.py` → p0164 | clases: QABCMeta, IController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/interfaces/view_interface.py` → p0165 | clases: IView | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/interfaces/worker_view_interface.py` → p0166 | clases: IWorkerView | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/interfaces/controller_interface.py` → p0168 | clases: QABCMeta, IController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/interfaces/view_interface.py` → p0169 | clases: IView | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/interfaces/worker_view_interface.py` → p0170 | clases: IWorkerView | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - label_manager/
-  - `core/label_manager/__init__.py` → p0167 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/label_manager/base.py` → p0168 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/label_manager/manager.py` → p0169 | clases: LabelManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/label_manager/ports.py` → p0170 | clases: IDocumentGenerator | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/label_manager/printer.py` → p0171 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/label_manager/__init__.py` → p0171 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/label_manager/base.py` → p0172 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/label_manager/manager.py` → p0173 | clases: LabelManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/label_manager/ports.py` → p0174 | clases: IDocumentGenerator | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/label_manager/printer.py` → p0175 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - maintenance/
-  - `scripts/maintenance/backup_database.py` → p0488 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/maintenance/reset_admin.py` → p0489 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/maintenance/backup_database.py` → p0493 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/maintenance/reset_admin.py` → p0494 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - models/
-  - `database/models/__init__.py` → p0247 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/models/base.py` → p0248 | clases: Base | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/models/fabrication.py` → p0249 | clases: Fabricacion, FabricacionContador | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/models/inventory.py` → p0250 | clases: Material, Pila, PasoPila, DiarioBitacora, EntradaDiario, Lote | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/models/machine.py` → p0251 | clases: Maquina, MachineMaintenanc, GrupoPreparacion, PreparacionPaso | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/models/product.py` → p0252 | clases: Producto, Preproceso, Subfabricacion, ProcesoMecanico, ProductIteration | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/models/security.py` → p0254 | clases: Configuration, LoginAttempt, AuditLog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/models/tracking.py` → p0255 | clases: TrabajoLog, PasoTrazabilidad, IncidenciaLog, IncidenciaAdjunto | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/models/worker.py` → p0256 | clases: Trabajador, TrabajadorPilaAnotacion | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/models/__init__.py` → p0251 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/models/base.py` → p0252 | clases: Base | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/models/fabrication.py` → p0253 | clases: Fabricacion, FabricacionContador | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/models/inventory.py` → p0254 | clases: Material, Pila, PasoPila, DiarioBitacora, EntradaDiario, Lote | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/models/machine.py` → p0255 | clases: Maquina, MachineMaintenanc, GrupoPreparacion, PreparacionPaso | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/models/product.py` → p0256 | clases: Producto, Preproceso, Subfabricacion, ProcesoMecanico, ProductIteration | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/models/security.py` → p0258 | clases: Configuration, LoginAttempt, AuditLog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/models/tracking.py` → p0259 | clases: TrabajoLog, PasoTrazabilidad, IncidenciaLog, IncidenciaAdjunto | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/models/worker.py` → p0260 | clases: Trabajador, TrabajadorPilaAnotacion | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - pila/
-  - `controllers/pila/controller.py` → p0079 | clases: PilaController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/pila/lote_manager.py` → p0080 | clases: LoteManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/pila/pila_manager.py` → p0081 | clases: PilaManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/pila/protocols.py` → p0082 | clases: IPilaView, IPilaDatabase, IPilaService, IProductService, IFabricacionService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/pila/controller.py` → p0082 | clases: PilaController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/pila/lote_manager.py` → p0083 | clases: LoteManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/pila/pila_manager.py` → p0084 | clases: PilaManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/pila/protocols.py` → p0085 | clases: IPilaView, IPilaDatabase, IPilaService, IProductService, IFabricacionService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - product/
-  - `controllers/product/__init__.py` → p0083 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/product/application_shell.py` → p0084 | clases: IApplicationShell | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/product/fabricacion_manager.py` → p0085 | clases: FabricacionManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/product/fabricacion_products_handler.py` → p0086 | clases: IPlanningCalculationProvider, FabricacionProductsHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/product/material_manager.py` → p0087 | clases: MaterialManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/product/preproceso_manager.py` → p0088 | clases: PreprocesoManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/product/product_manager.py` → p0089 | clases: ProductManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/product/protocols.py` → p0090 | clases: IProductView, IProductModel, IFabricacionControllerDelegate, ProductControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/__init__.py` → p0086 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/application_shell.py` → p0087 | clases: IApplicationShell | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/fabricacion_manager.py` → p0088 | clases: FabricacionManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/fabricacion_products_handler.py` → p0089 | clases: IPlanningCalculationProvider, FabricacionProductsHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/material_manager.py` → p0090 | clases: MaterialManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/preproceso_manager.py` → p0091 | clases: PreprocesoManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/product_manager.py` → p0092 | clases: ProductManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/protocols.py` → p0093 | clases: IProductView, IProductModel, IFabricacionControllerDelegate, ProductControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - protocols/
-  - `core/protocols/__init__.py` → p0172 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/protocols/domain.py` → p0173 | clases: IProductService, IFabricacionService, IMaterialService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/protocols/__init__.py` → p0176 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/protocols/domain.py` → p0177 | clases: IProductService, IFabricacionService, IMaterialService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - qr_scanner/
-  - `core/qr_scanner/__init__.py` → p0174 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/qr_scanner/base.py` → p0175 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/qr_scanner/detector.py` → p0176 | clases: QRDetector | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/qr_scanner/scanner.py` → p0177 | clases: QrScanner, QrScannerCallback | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/qr_scanner/ui.py` → p0178 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/qr_scanner/__init__.py` → p0178 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/qr_scanner/base.py` → p0179 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/qr_scanner/detector.py` → p0180 | clases: QRDetector | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/qr_scanner/scanner.py` → p0181 | clases: QrScanner, QrScannerCallback | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/qr_scanner/ui.py` → p0182 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - repositories/
   - machine/
-    - `database/repositories/machine/__init__.py` → p0272 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/machine/crud_manager.py` → p0273 | clases: MachineCRUDManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/machine/maintenance_manager.py` → p0274 | clases: MachineMaintenanceManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/machine/preparation_manager.py` → p0275 | clases: MachinePreparationManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/machine/repository.py` → p0276 | clases: MachineRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/machine/stats_manager.py` → p0277 | clases: MachineStatsManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/machine/__init__.py` → p0276 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/machine/crud_manager.py` → p0277 | clases: MachineCRUDManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/machine/maintenance_manager.py` → p0278 | clases: MachineMaintenanceManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/machine/preparation_manager.py` → p0279 | clases: MachinePreparationManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/machine/repository.py` → p0280 | clases: MachineRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/machine/stats_manager.py` → p0281 | clases: MachineStatsManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - pila/
-    - `database/repositories/pila/__init__.py` → p0278 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/pila/pila_base_manager.py` → p0279 | clases: PilaBaseManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/pila/pila_bitacora_manager.py` → p0280 | clases: PilaBitacoraManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/pila/pila_crud_manager.py` → p0281 | clases: PilaCRUDManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/pila/pila_workflow_manager.py` → p0282 | clases: PilaWorkflowManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/pila/repository.py` → p0283 | clases: PilaRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/pila/__init__.py` → p0282 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/pila/pila_base_manager.py` → p0283 | clases: PilaBaseManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/pila/pila_bitacora_manager.py` → p0284 | clases: PilaBitacoraManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/pila/pila_crud_manager.py` → p0285 | clases: PilaCRUDManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/pila/pila_workflow_manager.py` → p0286 | clases: PilaWorkflowManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/pila/repository.py` → p0287 | clases: PilaRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - preproceso/
-    - `database/repositories/preproceso/__init__.py` → p0284 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/preproceso/fabricacion_manager.py` → p0285 | clases: FabricacionManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/preproceso/preproceso_manager.py` → p0286 | clases: PreprocesoManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/preproceso/repository.py` → p0287 | clases: PreprocesoRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/preproceso/__init__.py` → p0288 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/preproceso/fabricacion_manager.py` → p0289 | clases: FabricacionManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/preproceso/preproceso_manager.py` → p0290 | clases: PreprocesoManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/preproceso/repository.py` → p0291 | clases: PreprocesoRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - reports/
-    - `database/repositories/reports/__init__.py` → p0288 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/reports/reports_incidences_manager.py` → p0289 | clases: ReportsIncidencesManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/reports/reports_orders_manager.py` → p0290 | clases: ReportsOrdersManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/reports/reports_products_manager.py` → p0291 | clases: ReportsProductsManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/reports/reports_search_manager.py` → p0292 | clases: ReportsSearchManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/reports/reports_stats_manager.py` → p0293 | clases: ReportsStatsManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/reports/repository.py` → p0294 | clases: ReportsRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/reports/__init__.py` → p0292 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/reports/reports_incidences_manager.py` → p0293 | clases: ReportsIncidencesManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/reports/reports_orders_manager.py` → p0294 | clases: ReportsOrdersManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/reports/reports_products_manager.py` → p0295 | clases: ReportsProductsManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/reports/reports_search_manager.py` → p0296 | clases: ReportsSearchManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/reports/reports_stats_manager.py` → p0297 | clases: ReportsStatsManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/reports/repository.py` → p0298 | clases: ReportsRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - tracking/
-    - `database/repositories/tracking/core_manager.py` → p0295 | clases: TrackingCoreManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/tracking/mappers.py` → p0296 | clases: TrackingMapper | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/tracking/queries_manager.py` → p0297 | clases: TrackingQueriesManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/tracking/steps_manager.py` → p0298 | clases: TrackingStepsManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/tracking/core_manager.py` → p0299 | clases: TrackingCoreManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/tracking/mappers.py` → p0300 | clases: TrackingMapper | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/tracking/queries_manager.py` → p0301 | clases: TrackingQueriesManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/tracking/steps_manager.py` → p0302 | clases: TrackingStepsManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - worker/
-    - `database/repositories/worker/__init__.py` → p0299 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/worker/annotation_manager.py` → p0300 | clases: WorkerAnnotationManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/worker/auth_manager.py` → p0301 | clases: WorkerAuthManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/worker/repository.py` → p0302 | clases: WorkerRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `database/repositories/worker/worker_manager.py` → p0303 | clases: WorkerCoreManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/__init__.py` → p0257 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/base.py` → p0258 | clases: BaseRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/configuration_repository.py` → p0259 | clases: ConfigurationRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/incidencia_repository.py` → p0260 | clases: IncidenciaRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/iteration_repository.py` → p0261 | clases: IterationRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/iteration_repository_helpers.py` → p0262 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/label_counter_repository.py` → p0263 | clases: LabelCounterRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/lote_repository.py` → p0264 | clases: LoteRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/material_repository.py` → p0265 | clases: MaterialRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/product_repository.py` → p0266 | clases: ProductRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/product_repository_helpers.py` → p0267 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/protocols.py` → p0268 | clases: RepositoryProtocol, PilaRepositoryProtocol, TrackingRepositoryProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/tracking_log_repository.py` → p0269 | clases: TrackingLogRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/tracking_repository.py` → p0270 | clases: TrackingRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `database/repositories/tracking_stats_repository.py` → p0271 | clases: TrackingStatsRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/worker/__init__.py` → p0303 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/worker/annotation_manager.py` → p0304 | clases: WorkerAnnotationManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/worker/auth_manager.py` → p0305 | clases: WorkerAuthManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/worker/repository.py` → p0306 | clases: WorkerRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `database/repositories/worker/worker_manager.py` → p0307 | clases: WorkerCoreManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/__init__.py` → p0261 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/base.py` → p0262 | clases: BaseRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/configuration_repository.py` → p0263 | clases: ConfigurationRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/incidencia_repository.py` → p0264 | clases: IncidenciaRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/iteration_repository.py` → p0265 | clases: IterationRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/iteration_repository_helpers.py` → p0266 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/label_counter_repository.py` → p0267 | clases: LabelCounterRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/lote_repository.py` → p0268 | clases: LoteRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/material_repository.py` → p0269 | clases: MaterialRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/product_repository.py` → p0270 | clases: ProductRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/product_repository_helpers.py` → p0271 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/protocols.py` → p0272 | clases: RepositoryProtocol, PilaRepositoryProtocol, TrackingRepositoryProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/tracking_log_repository.py` → p0273 | clases: TrackingLogRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/tracking_repository.py` → p0274 | clases: TrackingRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `database/repositories/tracking_stats_repository.py` → p0275 | clases: TrackingStatsRepository | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - security/
-  - `core/security/access_control.py` → p0179 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/security/password_service.py` → p0180 | clases: PasswordService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/security/security_exceptions.py` → p0181 | clases: SecurityError, SecurityServiceNotInitializedError, InsufficientPermissionsError, RateLimitExceededError | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/security/security_service.py` → p0182 | clases: UserRole, Permission, SecurityService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/security/access_control.py` → p0183 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/security/password_service.py` → p0184 | clases: PasswordService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/security/security_exceptions.py` → p0185 | clases: SecurityError, SecurityServiceNotInitializedError, InsufficientPermissionsError, RateLimitExceededError | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/security/security_service.py` → p0186 | clases: UserRole, Permission, SecurityService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - services/
   - report_sheets/
-    - `core/services/report_sheets/__init__.py` → p0205 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/services/report_sheets/audit.py` → p0206 | clases: AuditSheet | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/services/report_sheets/base.py` → p0207 | clases: ExcelSheetStrategy | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/services/report_sheets/cronograma.py` → p0208 | clases: CronogramaSheet | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/services/report_sheets/cuellos_botella.py` → p0209 | clases: CuellosBotollaSheet | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/services/report_sheets/graficas.py` → p0210 | clases: GraficasSheet | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/services/report_sheets/resumen.py` → p0211 | clases: ResumenEjecutivoSheet | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/services/report_sheets/trabajadores.py` → p0212 | clases: AnalisisTrabajadoresSheet | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/services/report_sheets/trabajo_paralelo.py` → p0213 | clases: TrabajoParaleloSheet | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/report_sheets/__init__.py` → p0209 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/report_sheets/audit.py` → p0210 | clases: AuditSheet | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/report_sheets/base.py` → p0211 | clases: ExcelSheetStrategy | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/report_sheets/cronograma.py` → p0212 | clases: CronogramaSheet | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/report_sheets/cuellos_botella.py` → p0213 | clases: CuellosBotollaSheet | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/report_sheets/graficas.py` → p0214 | clases: GraficasSheet | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/report_sheets/resumen.py` → p0215 | clases: ResumenEjecutivoSheet | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/report_sheets/trabajadores.py` → p0216 | clases: AnalisisTrabajadoresSheet | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/report_sheets/trabajo_paralelo.py` → p0217 | clases: TrabajoParaleloSheet | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - reporting/
-    - `core/services/reporting/__init__.py` → p0214 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/services/reporting/base.py` → p0215 | clases: IReporteEstrategia, GeneradorDeInformes | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/services/reporting/excel_report_strategy.py` → p0216 | clases: ReportePilaFabricacionExcelMejorado | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/services/reporting/pdf_report_sections.py` → p0217 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/services/reporting/pdf_report_strategy.py` → p0218 | clases: ReporteHistorialFabricacion, ReporteHistorialIteracion | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/audit_logger.py` → p0183 | clases: AuditLogger | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/backup_service.py` → p0184 | clases: BackupService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/backup_utils.py` → p0185 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/calculation_audit.py` → p0186 | clases: DecisionStatus, CalculationDecision | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/calendar_helper.py` → p0187 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/data_importer.py` → p0188 | clases: Material, IMaterialImporter, ExcelMaterialImporter, MaterialImporterFactory | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/fabricacion_service.py` → p0189 | clases: FabricacionService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/flow_builder_service.py` → p0190 | clases: FlowBuilderService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/flow_simulation_service.py` → p0191 | clases: SimulationSession, FlowSimulationService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/machine_service.py` → p0192 | clases: MachineService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/maintenance_service.py` → p0193 | clases: MaintenanceWorker, MaintenanceService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/pila_service.py` → p0194 | clases: PilaService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/preparation_service.py` → p0195 | clases: PreparationService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/product_service.py` → p0196 | clases: ProductService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/rate_limiter.py` → p0197 | clases: RateLimiter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/report_service.py` → p0198 | clases: ReportService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/report_strategy.py` → p0199 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/system_integration_service.py` → p0200 | clases: SystemIntegrationService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/temporal_storage.py` → p0201 | clases: RegistroTemporal | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/time_calculator.py` → p0202 | clases: CalculadorDeTiempos | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/tracking_assignment_service.py` → p0203 | clases: TrackingAssignmentService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/services/worker_service.py` → p0204 | clases: WorkerService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/reporting/__init__.py` → p0218 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/reporting/base.py` → p0219 | clases: IReporteEstrategia, GeneradorDeInformes | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/reporting/excel_report_strategy.py` → p0220 | clases: ReportePilaFabricacionExcelMejorado | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/reporting/pdf_report_sections.py` → p0221 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/services/reporting/pdf_report_strategy.py` → p0222 | clases: ReporteHistorialFabricacion, ReporteHistorialIteracion | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/audit_logger.py` → p0187 | clases: AuditLogger | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/backup_service.py` → p0188 | clases: BackupService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/backup_utils.py` → p0189 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/calculation_audit.py` → p0190 | clases: DecisionStatus, CalculationDecision | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/calendar_helper.py` → p0191 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/data_importer.py` → p0192 | clases: Material, IMaterialImporter, ExcelMaterialImporter, MaterialImporterFactory | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/fabricacion_service.py` → p0193 | clases: FabricacionService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/flow_builder_service.py` → p0194 | clases: FlowBuilderService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/flow_simulation_service.py` → p0195 | clases: SimulationSession, FlowSimulationService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/machine_service.py` → p0196 | clases: MachineService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/maintenance_service.py` → p0197 | clases: MaintenanceWorker, MaintenanceService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/pila_service.py` → p0198 | clases: PilaService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/preparation_service.py` → p0199 | clases: PreparationService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/product_service.py` → p0200 | clases: ProductService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/rate_limiter.py` → p0201 | clases: RateLimiter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/report_service.py` → p0202 | clases: ReportService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/report_strategy.py` → p0203 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/system_integration_service.py` → p0204 | clases: SystemIntegrationService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/temporal_storage.py` → p0205 | clases: RegistroTemporal | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/time_calculator.py` → p0206 | clases: CalculadorDeTiempos | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/tracking_assignment_service.py` → p0207 | clases: TrackingAssignmentService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/services/worker_service.py` → p0208 | clases: WorkerService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - simulation/
   - engine/
-    - `core/simulation/engine/__init__.py` → p0225 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/simulation/engine/base.py` → p0226 | clases: SimulationState | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/simulation/engine/core_runner.py` → p0227 | clases: CoreSimulationRunner | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/simulation/engine/dependency_handler.py` → p0228 | clases: DependencyHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/simulation/engine/motor.py` → p0229 | clases: MotorDeEventos | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/simulation/engine/results_compiler.py` → p0230 | clases: ResultsCompiler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/simulation/engine/__init__.py` → p0229 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/simulation/engine/base.py` → p0230 | clases: SimulationState | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/simulation/engine/core_runner.py` → p0231 | clases: CoreSimulationRunner | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/simulation/engine/dependency_handler.py` → p0232 | clases: DependencyHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/simulation/engine/motor.py` → p0233 | clases: MotorDeEventos | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/simulation/engine/results_compiler.py` → p0234 | clases: ResultsCompiler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - simulation_events/
-    - `core/simulation/simulation_events/__init__.py` → p0231 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/simulation/simulation_events/base.py` → p0232 | clases: EventoDeSimulacion | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/simulation/simulation_events/production.py` → p0233 | clases: EventoInicioUnidad, EventoFinUnidad | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `core/simulation/simulation_events/worker.py` → p0234 | clases: EventoReasignacionTrabajador, EventoTiempoInactivo | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/__init__.py` → p0091 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/controller.py` → p0092 | clases: SimulationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/editor_manager.py` → p0093 | clases: SimulationEditorManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/execution_helpers.py` → p0094 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/execution_manager.py` → p0095 | clases: SimulationExecutionManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/optimizer_worker.py` → p0096 | clases: OptimizerWorker | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/protocols.py` → p0097 | clases: SimulationControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/simulation/__init__.py` → p0219 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/simulation/event_engine.py` → p0220 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/simulation/resource_manager.py` → p0221 | clases: IntervaloOcupacion, ReglaReasignacion, GestorDeRecursos | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/simulation/simulation_engine.py` → p0222 | clases: SimulationWorker, Optimizer | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/simulation/timeline_task.py` → p0223 | clases: LineaTemporalTarea | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/simulation/timeline_task_parallel.py` → p0224 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/simulation/simulation_events/__init__.py` → p0235 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/simulation/simulation_events/base.py` → p0236 | clases: EventoDeSimulacion | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/simulation/simulation_events/production.py` → p0237 | clases: EventoInicioUnidad, EventoFinUnidad | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `core/simulation/simulation_events/worker.py` → p0238 | clases: EventoReasignacionTrabajador, EventoTiempoInactivo | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/__init__.py` → p0094 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/controller.py` → p0095 | clases: SimulationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/editor_manager.py` → p0096 | clases: SimulationEditorManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/execution_helpers.py` → p0097 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/execution_manager.py` → p0098 | clases: SimulationExecutionManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/optimizer_worker.py` → p0099 | clases: OptimizerWorker | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/protocols.py` → p0100 | clases: SimulationControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/simulation/__init__.py` → p0223 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/simulation/event_engine.py` → p0224 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/simulation/resource_manager.py` → p0225 | clases: IntervaloOcupacion, ReglaReasignacion, GestorDeRecursos | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/simulation/simulation_engine.py` → p0226 | clases: SimulationWorker, Optimizer | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/simulation/timeline_task.py` → p0227 | clases: LineaTemporalTarea | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/simulation/timeline_task_parallel.py` → p0228 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - utils/
-  - `core/utils/author_loader.py` → p0235 | clases: WorkerSignals, AuthorInfoLoader | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/utils/helpers.py` → p0236 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/utils/pila_serializer.py` → p0237 | clases: PilaJSONEncoder | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/utils/ui_scaler.py` → p0238 | clases: UIScaler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/utils/visualization.py` → p0239 | clases: VisualizationGenerator | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/utils/author_loader.py` → p0239 | clases: WorkerSignals, AuthorInfoLoader | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/utils/helpers.py` → p0240 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/utils/pila_serializer.py` → p0241 | clases: PilaJSONEncoder | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/utils/ui_scaler.py` → p0242 | clases: UIScaler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/utils/visualization.py` → p0243 | clases: VisualizationGenerator | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - validation/
-  - `core/validation/validator_service.py` → p0240 | clases: ValidationResult, ValidatorService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/validation/validator_service.py` → p0244 | clases: ValidationResult, ValidatorService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - versions/
-  - `migrations/versions/a195b5f170d2_add_security_tables.py` → p0500 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `migrations/versions/c1444b2546d3_initial_clean_migration.py` → p0501 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `migrations/versions/a195b5f170d2_add_security_tables.py` → p0505 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `migrations/versions/c1444b2546d3_initial_clean_migration.py` → p0506 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - widgets/
   - product/
-    - `ui/widgets/product/__init__.py` → p0392 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/product/iterations_widget.py` → p0393 | clases: ProductIterationsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/product/materials_widget.py` → p0394 | clases: ProductMaterialsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/product/__init__.py` → p0396 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/product/iterations_widget.py` → p0397 | clases: ProductIterationsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/product/materials_widget.py` → p0398 | clases: ProductMaterialsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - production_flow/
-    - `ui/widgets/production_flow/__init__.py` → p0395 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/define_control_panel.py` → p0396 | clases: DefineControlPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/flow_canvas.py` → p0397 | clases: ProductionFlowCanvas | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/flow_card_widget.py` → p0398 | clases: FlowCardWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/flow_connection_painter.py` → p0399 | clases: FlowConnectionPainter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/flow_display_panel.py` → p0400 | clases: FlowDisplayPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/flow_graph_manager.py` → p0401 | clases: FlowGraphManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/flow_item_widget.py` → p0402 | clases: FlowItemWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/flow_toolbar.py` → p0403 | clases: FlowToolbarWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/inspector_panel.py` → p0404 | clases: ProductionTaskInspector | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/inspector_presenter.py` → p0405 | clases: InspectorPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/inspector_task_loader.py` → p0406 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/inspector_ui.py` → p0407 | clases: InspectorWidgets | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/library_panel.py` → p0408 | clases: TaskLibraryPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/__init__.py` → p0399 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/define_control_panel.py` → p0400 | clases: DefineControlPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/flow_canvas.py` → p0401 | clases: ProductionFlowCanvas | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/flow_card_widget.py` → p0402 | clases: FlowCardWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/flow_connection_painter.py` → p0403 | clases: FlowConnectionPainter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/flow_display_panel.py` → p0404 | clases: FlowDisplayPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/flow_graph_manager.py` → p0405 | clases: FlowGraphManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/flow_item_widget.py` → p0406 | clases: FlowItemWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/flow_toolbar.py` → p0407 | clases: FlowToolbarWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/inspector_panel.py` → p0408 | clases: ProductionTaskInspector | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/inspector_presenter.py` → p0409 | clases: InspectorPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/inspector_task_loader.py` → p0410 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/inspector_ui.py` → p0411 | clases: InspectorWidgets | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/library_panel.py` → p0412 | clases: TaskLibraryPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - reports/
-    - `ui/widgets/reports/__init__.py` → p0409 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/reports/charts_container.py` → p0410 | clases: ReportsChartsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/reports/charts_renderers.py` → p0411 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/reports/order_list.py` → p0412 | clases: OrderCard, OrderListWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/reports/smart_search.py` → p0413 | clases: SmartSearchWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/reports/stat_card.py` → p0414 | clases: StatCard | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/reports/__init__.py` → p0413 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/reports/charts_container.py` → p0414 | clases: ReportsChartsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/reports/charts_renderers.py` → p0415 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/reports/order_list.py` → p0416 | clases: OrderCard, OrderListWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/reports/smart_search.py` → p0417 | clases: SmartSearchWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/reports/stat_card.py` → p0418 | clases: StatCard | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - worker/
-    - `ui/widgets/worker/camera_info_panel.py` → p0415 | clases: CameraInfoPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/worker/camera_selector_panel.py` → p0416 | clases: CameraSelectorPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/worker/worker_activity_panel.py` → p0417 | clases: WorkerActivityPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/worker/worker_details_panel.py` → p0418 | clases: WorkerDetailsPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/worker/worker_incidence_dialog.py` → p0419 | clases: WorkerIncidenceDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/__init__.py` → p0371 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/base.py` → p0372 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/calculate_times_widget.py` → p0373 | clases: CalculateTimesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/dashboard_widget.py` → p0374 | clases: DashboardWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/fabrications_widget.py` → p0375 | clases: FabricationsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/gestion_datos_widget.py` → p0376 | clases: GestionDatosWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/help_widget.py` → p0377 | clases: HelpWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/historial_widget.py` → p0378 | clases: HistorialWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/home_widget.py` → p0379 | clases: HomeWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/log_terminal_widget.py` → p0380 | clases: LogTerminalWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/lotes_widget.py` → p0381 | clases: DefinirLoteWidget, LotesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/machines_widget.py` → p0382 | clases: MachinesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/main_header.py` → p0383 | clases: MainHeader | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/main_nav_panel.py` → p0384 | clases: MainNavPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/prep_steps_widget.py` → p0385 | clases: PrepStepsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/preprocesos_widget.py` → p0386 | clases: PreprocesosWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/products_widget.py` → p0387 | clases: ProductsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/reportes_widget.py` → p0388 | clases: ReportesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/settings_widget.py` → p0389 | clases: SettingsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/timeline_widget.py` → p0390 | clases: TimelineVisualizationWidget, TaskAnalysisPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/workers_widget.py` → p0391 | clases: WorkersWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/worker/camera_info_panel.py` → p0419 | clases: CameraInfoPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/worker/camera_selector_panel.py` → p0420 | clases: CameraSelectorPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/worker/worker_activity_panel.py` → p0421 | clases: WorkerActivityPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/worker/worker_details_panel.py` → p0422 | clases: WorkerDetailsPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/worker/worker_incidence_dialog.py` → p0423 | clases: WorkerIncidenceDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/__init__.py` → p0375 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/base.py` → p0376 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/calculate_times_widget.py` → p0377 | clases: CalculateTimesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/dashboard_widget.py` → p0378 | clases: DashboardWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/fabrications_widget.py` → p0379 | clases: FabricationsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/gestion_datos_widget.py` → p0380 | clases: GestionDatosWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/help_widget.py` → p0381 | clases: HelpWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/historial_widget.py` → p0382 | clases: HistorialWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/home_widget.py` → p0383 | clases: HomeWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/log_terminal_widget.py` → p0384 | clases: LogTerminalWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/lotes_widget.py` → p0385 | clases: DefinirLoteWidget, LotesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/machines_widget.py` → p0386 | clases: MachinesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/main_header.py` → p0387 | clases: MainHeader | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/main_nav_panel.py` → p0388 | clases: MainNavPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/prep_steps_widget.py` → p0389 | clases: PrepStepsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/preprocesos_widget.py` → p0390 | clases: PreprocesosWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/products_widget.py` → p0391 | clases: ProductsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/reportes_widget.py` → p0392 | clases: ReportesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/settings_widget.py` → p0393 | clases: SettingsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/timeline_widget.py` → p0394 | clases: TimelineVisualizationWidget, TaskAnalysisPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/workers_widget.py` → p0395 | clases: WorkersWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - worker/
   - main_window/
-    - `ui/worker/main_window/__init__.py` → p0423 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/worker/main_window/ui_manager.py` → p0424 | clases: WorkerMainWindowUIManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/worker/main_window/window.py` → p0425 | clases: WorkerMainWindow | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/worker/__init__.py` → p0098 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/worker/auth_manager.py` → p0099 | clases: WorkerAuthManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/worker/controller.py` → p0100 | clases: WorkerController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/worker/management_manager.py` → p0101 | clases: WorkerManagementManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/worker/protocols.py` → p0102 | clases: IWorkerView, IWorkerService, IWorkerModel, WorkerControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/worker/task_manager.py` → p0103 | clases: WorkerTaskManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/worker/__init__.py` → p0420 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/worker/camera_config_dialog.py` → p0421 | clases: CameraConfigDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/worker/camera_config_presenter.py` → p0422 | clases: CameraConfigPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `analyze_ui.py` → p0045 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `app.py` → p0044 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/__init__.py` → p0050 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/app_controller.py` → p0051 | clases: AppController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/backup_controller.py` → p0052 | clases: IBackupControllerDatabase, BackupController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/backup_controller_io_manager.py` → p0053 | clases: BackupControllerIOContext, BackupIOManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/calculation_controller.py` → p0054 | clases: CalculationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/fabricacion_controller.py` → p0055 | clases: FabricacionController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/file_controller.py` → p0056 | clases: FileController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/hardware_controller.py` → p0057 | clases: HardwareController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/lote_controller.py` → p0058 | clases: LoteController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/machine_controller.py` → p0059 | clases: MachineController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/navigation_controller.py` → p0060 | clases: NavigationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/preproceso_controller.py` → p0061 | clases: PreprocesoController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/product_controller_v2.py` → p0062 | clases: ProductController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/report_controller.py` → p0063 | clases: ReportController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/report_export_helper.py` → p0064 | clases: ReportExportHelper | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/schedule_controller.py` → p0065 | clases: ScheduleController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/schedule_helpers.py` → p0066 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/schedule_ui_helper.py` → p0067 | clases: ScheduleUiOpsHelper | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/session_controller.py` → p0068 | clases: SessionController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/startup_controller.py` → p0069 | clases: StartupController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/ui_controller.py` → p0070 | clases: UIController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/ui_signals_controller.py` → p0071 | clases: UISignalsController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/ui_signals_wiring.py` → p0072 | clases: UISignalsWiring | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/__init__.py` → p0107 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/app_model.py` → p0108 | clases: AppModel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/application_state.py` → p0109 | clases: ApplicationState | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/constants.py` → p0110 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/define_flow_form_io.py` → p0111 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/define_flow_presenter_io.py` → p0112 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/definir_cantidades_dialog_io.py` → p0113 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/di_container.py` → p0114 | clases: ServiceLifecycle, ServiceRegistration, DIContainer | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/dtos.py` → p0115 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/dtos_catalog.py` → p0116 | clases: ProductDTO, SubfabricacionDTO, ProcesoMecanicoDTO, MaterialDTO, PilaDTO, MaterialStatsDTO, ComponenteDTO, FabricacionProductoDTO, PreprocesoDTO, FabricacionDTO, LoteDTO, ConfigurationDTO (+4) | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/dtos_flow_camera.py` → p0117 | clases: FlowTaskDataDTO, CanvasCyclicConnectionFlags, ProductFlowLibraryProductDTO, FlowTaskConfigDTO, ProductionFlowStepDTO, FlowCanvasTaskDTO, CameraConfigDTO, CameraDetailDTO, FlowItemDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/dtos_models.py` → p0118 | clases: MachineDTO, MachineMaintenanceDTO, PreparationGroupDTO, PreparationStepDTO, WorkerDTO, WorkerAnnotationDTO, WorkerDetailDTO, AuthResponseDTO, BackupInfoDTO, SimulationResultTaskDTO, CalculationSubPartDTO, CalculationProductDTO (+11) | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/enhanced_flow_canvas_state_io.py` → p0119 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/enhanced_flow_presenter_io.py` → p0120 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/flow_canvas_io.py` → p0121 | clases: CanvasVisualConnection | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/flow_card_labels.py` → p0122 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/flow_graph_manager_io.py` → p0123 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/flow_inspector_context.py` → p0124 | clases: FlowInspectorTaskContext | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/holidays_config_io.py` → p0125 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/inspector_task_payload_io.py` → p0126 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/production_context.py` → p0127 | clases: ProductionStatus, ProductionContext | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/qr_generator.py` → p0128 | clases: QrGenerator | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/qt_log_handler.py` → p0130 | clases: _SignalEmitter, QtLogHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/quote_service.py` → p0132 | clases: QuoteService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/reassignment_rule_dialog_io.py` → p0133 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/reports_dtos.py` → p0134 | clases: ResultadoBusquedaDTO, OrdenFabricacionResumenDTO, OrdenFabricacionDetalleDTO, PromedioTiempoDTO, TiempoTrabajadorDTO, IncidenciaResumenDTO, PuntoEvolucionDTO, UnidadTrabajoDTO, ResumenProductoDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/schedule_config.py` → p0136 | clases: ScheduleConfig | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/sync_service.py` → p0137 | clases: SyncService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/tracking_dtos.py` → p0138 | clases: FabricacionAsignadaDTO, IncidenciaAdjuntoDTO, IncidenciaLogDTO, PasoTrazabilidadDTO, TrabajoLogDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `database/__init__.py` → p0244 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `database/config.py` → p0245 | clases: DatabaseConfig | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `database/database_manager.py` → p0246 | clases: DatabaseManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `features/__init__.py` → p0307 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `features/worker_controller.py` → p0308 | clases: WorkerController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `features/worker_controller_io_manager.py` → p0309 | clases: WorkerIOManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `features/worker_db_sync.py` → p0310 | clases: WorkerDbSync | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `features/worker_incidence_dialog.py` → p0311 | clases: IncidenceDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `features/worker_validation_service.py` → p0312 | clases: QRScannerProtocol, WorkerValidationService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `generate_ui_report.py` → p0046 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `migrations/env.py` → p0499 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/__init__.py` → p0429 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/analyze_mixin.py` → p0430 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/analyze_pila_controller.py` → p0431 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/analyze_product_controller_coverage.py` → p0432 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/analyze_ui_state.py` → p0433 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/audit_import_graph.py` → p0434 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/audit_module_docstrings.py` → p0435 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/build_executable.py` → p0436 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/check_documentation_omissions.py` → p0437 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/check_typing_coverage.py` → p0438 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/codebase_analyzer.py` → p0439 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/coverage_focus.py` → p0440 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/detect_dead_code.py` → p0441 | clases: MethodExtractor | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/doc_audit_common.py` → p0442 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/download_opencv_resources.py` → p0443 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/extract_test_quality_in_progress.py` → p0444 | clases: BacklogItem | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/generate_comprehensive_report.py` → p0445 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/generate_coverage_report.py` → p0446 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/generate_daniel_doc.py` → p0447 | clases: FileIndexInfo, DirIndexNode | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/generate_monolitos_finales.py` → p0448 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/generate_quotes_db.py` → p0449 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/init_database.py` → p0450 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/inject_module_docstrings.py` → p0451 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/legacy_analyzer.py` → p0452 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/list_mypy_core_services_gaps.py` → p0453 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/monolith_analyzer.py` → p0454 | clases: FileNode, GraphStats, _ImportCollector | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/print_summary.py` → p0455 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/profile_queries.py` → p0456 | clases: QueryCounter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/reorder_docstring_before_future.py` → p0457 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/run_quality_audit.py` → p0458 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/security_audit_analyzer.py` → p0459 | clases: SecurityAuditAnalyzer | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/seed_data.py` → p0460 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/sync_worktree_to_icloud.py` → p0461 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/test_quality_analyzer.py` → p0462 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/track_docx_dependencies.py` → p0463 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/ui_dto_boundary_analyzer.py` → p0464 | clases: Finding | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/ui_dto_boundary_decision_report.py` → p0465 | clases: Decision | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/ui_dto_findings_catalog.py` → p0466 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/update_readme_metrics.py` → p0467 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/update_test_imports.py` → p0468 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/verify_migration.py` → p0469 | clases: CodeIssue | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/verify_qr_optimization.py` → p0470 | clases: TestQrScannerOptimization | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/verify_structure.py` → p0471 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `tools/__init__.py` → p0493 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `tools/analyze_app_controller.py` → p0494 | clases: AppControllerVisitor | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `ui/__init__.py` → p0316 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `ui/main_window.py` → p0317 | clases: MainView | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `ui/startup_screen.py` → p0318 | clases: StartupScreen | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `ui/startup_screen_constants.py` → p0319 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `ui/startup_screen_report.py` → p0320 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `ui/startup_screen_ui.py` → p0321 | clases: StartupSectionWidgets | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/worker/main_window/__init__.py` → p0427 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/worker/main_window/ui_manager.py` → p0428 | clases: WorkerMainWindowUIManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/worker/main_window/window.py` → p0429 | clases: WorkerMainWindow | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/__init__.py` → p0101 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/auth_manager.py` → p0102 | clases: WorkerAuthManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/controller.py` → p0103 | clases: WorkerController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/management_manager.py` → p0104 | clases: WorkerManagementManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/protocols.py` → p0105 | clases: IWorkerView, IWorkerService, IWorkerModel, WorkerControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/task_manager.py` → p0106 | clases: WorkerTaskManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/worker_camera_config.py` → p0107 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/worker/__init__.py` → p0424 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/worker/camera_config_dialog.py` → p0425 | clases: CameraConfigDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/worker/camera_config_presenter.py` → p0426 | clases: CameraConfigPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `analyze_ui.py` → p0047 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `app.py` → p0046 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/__init__.py` → p0052 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/app_controller.py` → p0053 | clases: AppController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/backup_controller.py` → p0054 | clases: IBackupControllerDatabase, BackupController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/backup_controller_io_manager.py` → p0055 | clases: BackupControllerIOContext, BackupIOManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/calculation_controller.py` → p0056 | clases: CalculationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/fabricacion_controller.py` → p0057 | clases: FabricacionController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/file_controller.py` → p0058 | clases: FileController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/hardware_controller.py` → p0059 | clases: HardwareController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/lote_controller.py` → p0060 | clases: LoteController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/machine_controller.py` → p0061 | clases: MachineController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/navigation_controller.py` → p0062 | clases: NavigationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/preproceso_controller.py` → p0063 | clases: PreprocesoController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/product_controller_v2.py` → p0064 | clases: ProductController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/report_controller.py` → p0065 | clases: ReportController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/report_export_helper.py` → p0066 | clases: ReportExportHelper | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/schedule_controller.py` → p0067 | clases: ScheduleController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/schedule_helpers.py` → p0068 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/schedule_ui_helper.py` → p0069 | clases: ScheduleUiOpsHelper | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/session_controller.py` → p0070 | clases: SessionController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/startup_controller.py` → p0071 | clases: StartupController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/ui_class_loader.py` → p0072 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/ui_controller.py` → p0073 | clases: UIController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/ui_signals_controller.py` → p0074 | clases: UISignalsController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/ui_signals_wiring.py` → p0075 | clases: UISignalsWiring | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/__init__.py` → p0111 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/app_model.py` → p0112 | clases: AppModel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/application_state.py` → p0113 | clases: ApplicationState | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/constants.py` → p0114 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/define_flow_form_io.py` → p0115 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/define_flow_presenter_io.py` → p0116 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/definir_cantidades_dialog_io.py` → p0117 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/di_container.py` → p0118 | clases: ServiceLifecycle, ServiceRegistration, DIContainer | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/dtos.py` → p0119 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/dtos_catalog.py` → p0120 | clases: ProductDTO, SubfabricacionDTO, ProcesoMecanicoDTO, MaterialDTO, PilaDTO, MaterialStatsDTO, ComponenteDTO, FabricacionProductoDTO, PreprocesoDTO, FabricacionDTO, LoteDTO, ConfigurationDTO (+4) | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/dtos_flow_camera.py` → p0121 | clases: FlowTaskDataDTO, CanvasCyclicConnectionFlags, ProductFlowLibraryProductDTO, FlowTaskConfigDTO, ProductionFlowStepDTO, FlowCanvasTaskDTO, CameraConfigDTO, CameraDetailDTO, FlowItemDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/dtos_models.py` → p0122 | clases: MachineDTO, MachineMaintenanceDTO, PreparationGroupDTO, PreparationStepDTO, WorkerDTO, WorkerAnnotationDTO, WorkerDetailDTO, AuthResponseDTO, BackupInfoDTO, SimulationResultTaskDTO, CalculationSubPartDTO, CalculationProductDTO (+11) | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/enhanced_flow_canvas_state_io.py` → p0123 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/enhanced_flow_presenter_io.py` → p0124 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/flow_canvas_io.py` → p0125 | clases: CanvasVisualConnection | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/flow_card_labels.py` → p0126 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/flow_graph_manager_io.py` → p0127 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/flow_inspector_context.py` → p0128 | clases: FlowInspectorTaskContext | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/holidays_config_io.py` → p0129 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/inspector_task_payload_io.py` → p0130 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/production_context.py` → p0131 | clases: ProductionStatus, ProductionContext | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/qr_generator.py` → p0132 | clases: QrGenerator | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/qt_log_handler.py` → p0134 | clases: _SignalEmitter, QtLogHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/quote_service.py` → p0136 | clases: QuoteService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/reassignment_rule_dialog_io.py` → p0137 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/reports_dtos.py` → p0138 | clases: ResultadoBusquedaDTO, OrdenFabricacionResumenDTO, OrdenFabricacionDetalleDTO, PromedioTiempoDTO, TiempoTrabajadorDTO, IncidenciaResumenDTO, PuntoEvolucionDTO, UnidadTrabajoDTO, ResumenProductoDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/schedule_config.py` → p0140 | clases: ScheduleConfig | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/sync_service.py` → p0141 | clases: SyncService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/tracking_dtos.py` → p0142 | clases: FabricacionAsignadaDTO, IncidenciaAdjuntoDTO, IncidenciaLogDTO, PasoTrazabilidadDTO, TrabajoLogDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `database/__init__.py` → p0248 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `database/config.py` → p0249 | clases: DatabaseConfig | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `database/database_manager.py` → p0250 | clases: DatabaseManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `features/__init__.py` → p0311 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `features/worker_controller.py` → p0312 | clases: WorkerController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `features/worker_controller_io_manager.py` → p0313 | clases: WorkerIOManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `features/worker_db_sync.py` → p0314 | clases: WorkerDbSync | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `features/worker_incidence_dialog.py` → p0315 | clases: IncidenceDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `features/worker_validation_service.py` → p0316 | clases: QRScannerProtocol, WorkerValidationService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `generate_ui_report.py` → p0048 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `migrations/env.py` → p0504 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/__init__.py` → p0433 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/analyze_mixin.py` → p0434 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/analyze_pila_controller.py` → p0435 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/analyze_product_controller_coverage.py` → p0436 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/analyze_ui_state.py` → p0437 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/architecture_layer_edges.py` → p0438 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/audit_import_graph.py` → p0439 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/audit_module_docstrings.py` → p0440 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/build_executable.py` → p0441 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/check_documentation_omissions.py` → p0442 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/check_typing_coverage.py` → p0443 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/codebase_analyzer.py` → p0444 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/coverage_focus.py` → p0445 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/detect_dead_code.py` → p0446 | clases: MethodExtractor | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/doc_audit_common.py` → p0447 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/download_opencv_resources.py` → p0448 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/extract_test_quality_in_progress.py` → p0449 | clases: BacklogItem | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_comprehensive_report.py` → p0450 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_coverage_report.py` → p0451 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_daniel_doc.py` → p0452 | clases: FileIndexInfo, DirIndexNode | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_monolitos_finales.py` → p0453 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_quotes_db.py` → p0454 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/init_database.py` → p0455 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/inject_module_docstrings.py` → p0456 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/legacy_analyzer.py` → p0457 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/list_mypy_core_services_gaps.py` → p0458 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/monolith_analyzer.py` → p0459 | clases: FileNode, GraphStats, _ImportCollector | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/print_summary.py` → p0460 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/profile_queries.py` → p0461 | clases: QueryCounter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/reorder_docstring_before_future.py` → p0462 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/run_quality_audit.py` → p0463 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/security_audit_analyzer.py` → p0464 | clases: SecurityAuditAnalyzer | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/seed_data.py` → p0465 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/sync_worktree_to_icloud.py` → p0466 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/test_quality_analyzer.py` → p0467 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/track_docx_dependencies.py` → p0468 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/ui_dto_boundary_analyzer.py` → p0469 | clases: Finding | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/ui_dto_boundary_decision_report.py` → p0470 | clases: Decision | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/ui_dto_findings_catalog.py` → p0471 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/update_readme_metrics.py` → p0472 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/update_test_imports.py` → p0473 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/verify_migration.py` → p0474 | clases: CodeIssue | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/verify_qr_optimization.py` → p0475 | clases: TestQrScannerOptimization | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/verify_structure.py` → p0476 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `tools/__init__.py` → p0498 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `tools/analyze_app_controller.py` → p0499 | clases: AppControllerVisitor | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `ui/__init__.py` → p0320 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `ui/main_window.py` → p0321 | clases: MainView | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `ui/startup_screen.py` → p0322 | clases: StartupScreen | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `ui/startup_screen_constants.py` → p0323 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `ui/startup_screen_report.py` → p0324 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `ui/startup_screen_ui.py` → p0325 | clases: StartupSectionWidgets | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 
 ---
 
@@ -566,12 +569,16 @@ graph TD
         WS[WorkerService]
         PS[ProductService]
         FS[FabricacionService]
+        PLS[PilaService]
+        RS[ReportService]
         LM[LabelManager]
         QR[QrGenerator]
         SS[SimulationEngine]
         AM --> WS
         AM --> PS
         AM --> FS
+        AM --> PLS
+        AM --> RS
         AM --> LM
         LM --> QR
     end
@@ -1089,13 +1096,13 @@ Cuando un archivo alcanza su **techo real** (`score optimizado = techo`), el ana
 
 | Métrica | Valor |
 |---|---|
-| Archivos analizados | 229 |
-| Actualizados (≥80 techo) | 229 |
-| En Progreso (50-79) | 0 |
-| Legacy / Pendiente (<50) | 0 |
-| Score absoluto medio | 76.0/100 |
-| Score optimizado medio | 78.0/100 |
-| Archivos en su techo real | 229/229 |
+| Archivos analizados | 234 |
+| Actualizados (≥80 techo) | 231 |
+| En Progreso (50-79) | 1 |
+| Legacy / Pendiente (<50) | 2 |
+| Score absoluto medio | 75.2/100 |
+| Score optimizado medio | 77.1/100 |
+| Archivos en su techo real | 230/234 |
 
 ### Detalle por Archivo
 
@@ -1155,7 +1162,6 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_cycle_reproduction.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_backup_integration.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_audit_report_generator.py` | 85 | 85 ✅ | Actualizado | — |
-| `test_features_worker_controller.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_preparation_service.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_app_coverage.py` | 85 | 85 ✅ | Actualizado | Cobertura de app.py → `@patch('QApplication')` sin autospec (Qt inevitable) |
 | `test_label_manager.py` | 85 | 85 ✅ | Actualizado | python-docx sin stubs → `sys.modules['docx'] = MagicMock()` en módulo; `create_autospec(logging.Logger)` para logger;... |
@@ -1199,7 +1205,7 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_create_fabricacion_dialog.py` | 80 | 85 ✅ | Actualizado | — |
 | `test_visual_effects.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_worker_service.py` | 85 | 85 ✅ | Actualizado | — |
-| `test_define_flow_presenter.py` | 85 | 85 ✅ | Actualizado | — |
+| `test_define_flow_presenter.py` | 85 | 85 ✅ | Actualizado | DefineFlowPresenter lógica pura → `create_autospec(MachineService)` / mocks de `PreparationService` para consultas de... |
 | `test_app_model_coverage.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_widgets_dashboard.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_reportes_widget.py` | 85 | 85 ✅ | Actualizado | Widget de reportes Qt → `MagicMock()` para widgets; `create_autospec` para ReportService |
@@ -1210,14 +1216,13 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_worker_db_sync.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_machine_controller.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_flow_canvas.py` | 85 | 85 ✅ | Actualizado | — |
-| `test_bitacora_dialog.py` | 85 | 85 ✅ | Actualizado | — |
+| `test_bitacora_dialog.py` | 85 | 85 ✅ | Actualizado | FabricacionBitacoraDialog (Qt) → mock `controller.model.planning_facade` o `pila_service`; ya no se asertan llamadas ... |
 | `test_backup_controller_comprehensive.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_product_repository.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_hardware_controller.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_event_engine_comprehensive.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_timeline_widget.py` | 85 | 85 ✅ | Actualizado | TimelineWidget Qt puro → todos los mocks `MagicMock()` inevitables |
 | `test_flow_builder_service.py` | 85 | 85 ✅ | Actualizado | — |
-| `test_schedule_controller_comprehensive.py` | 73 | 85 ✅ | Actualizado | ScheduleController con QDialog inline → factories con spec mínimo; `@patch` de clases Qt sin autospec |
 | `test_file_controller.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_dialogs.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_workers_widget.py` | 85 | 85 ✅ | Actualizado | — |
@@ -1246,6 +1251,7 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_management_manager.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_auth_manager.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_task_manager.py` | 85 | 85 ✅ | Actualizado | — |
+| `test_features_worker_controller.py` | 82 | 82  | Actualizado | — |
 | `test_sync_service.py` | 80 | 80 ✅ | Actualizado | SyncService con threading → `create_autospec` para repositorios; `MagicMock()` para objetos de hilo |
 | `test_main_window.py` | 75 | 75 ✅ | Actualizado | — |
 | `test_app_startup_integration.py` | 75 | 75 ✅ | Actualizado | — |
@@ -1278,6 +1284,7 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_lote_repository.py` | 65 | 65 ✅ | Actualizado | — |
 | `test_password_service.py` | 65 | 65 ✅ | Actualizado | — |
 | `test_worker_repository.py` | 65 | 65 ✅ | Actualizado | — |
+| `test_schedule_controller_comprehensive.py` | 53 | 65  | En Progreso | ScheduleController con QDialog inline → factories con spec mínimo; `@patch` de clases Qt sin autospec |
 | `test_detect_dead_code.py` | 65 | 65 ✅ | Actualizado | — |
 | `test_reports_integration.py` | 65 | 65 ✅ | Actualizado | — |
 | `test_iteration_integration.py` | 65 | 65 ✅ | Actualizado | — |
@@ -1290,10 +1297,12 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_common_production_dialogs.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_inspector_presenter.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_connection_dialog_comprehensive.py` | 50 | 50 ✅ | Actualizado | — |
+| `test_architecture_layer_edges.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_qt_log_handler.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_help_widget.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_log_terminal_widget.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_dialog_integration_smoke.py` | 50 | 50 ✅ | Actualizado | CycleEndConfigDialog, ReassignmentRuleDialog, DefinirCantidadesDialog son QDialog (PyQt6) → MagicMock() inevitable pa... |
+| `test_ui_opt3_features_no_ui_imports.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_code_quality_config.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_schedule_helpers.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_tracking_repository_coverage_fix.py` | 50 | 50 ✅ | Actualizado | — |
@@ -1306,6 +1315,7 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_fabrication_module_structure.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_tracking_dialogs.py` | 50 | 50 ✅ | Actualizado | Diálogos de tracking Qt → `MagicMock()` para widgets; `create_autospec` para servicios |
 | `test_create_presenter.py` | 50 | 50 ✅ | Actualizado | — |
+| `test_ui_opt2_fabrication_dialogs_boundary.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_machine_integration.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_worker_integration.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_configuration_integration.py` | 50 | 50 ✅ | Actualizado | — |
@@ -1331,7 +1341,9 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_main_nav_panel.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_flow_simulation_handler.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_bom_import_preview_dialog.py` | 40 | 40 ✅ | Actualizado | — |
+| `test_opt4_ast_guard_no_static_ui_imports.py` | 50 | 50  | Actualizado | — |
 | `test_bom_importer.py` | 25 | 25 ✅ | Actualizado | — |
+| `test_worker_camera_config.py` | 25 | 25  | Legacy / Pendiente | — |
 
 ---
 
@@ -1406,8 +1418,8 @@ Descripción: Script para analizar la complejidad y estructura de los archivos d
 
 | Métrica | Valor |
 |---|---:|
-| Archivos `.py` en `controllers/` | 54 |
-| Incluidos en el cuerpo | 54 |
+| Archivos `.py` en `controllers/` | 56 |
+| Incluidos en el cuerpo | 56 |
 | Omitidos (docstrings/reglas) | 0 |
 | Clases detectadas (AST) | 60 |
 
@@ -1856,6 +1868,8 @@ Utiliza composición para delegar la lógica de UI y API legacy en helpers espec
 - `config_set_setting`: Establece o actualiza un ajuste de configuración.
 - `reload_config`: Recarga la configuración global de horarios en el sistema.
 
+- 🔧 `get_add_break_dialog_class`: Clase del diálogo de descansos (carga diferida; sin import estático `ui`).
+
 ---
 
 <div id='sec_controllers_schedule_helpers_py'>
@@ -1959,6 +1973,21 @@ Maneja la configuración de servicios, repositorios y sub-controladores.
 - `_check_scheduled_tasks`: Verifica si hay tareas programadas para ejecutar en este momento.
 - `_init_state`: Inicializa el estado global de la aplicación (ApplicationState).
 - `_init_controllers`: Inicializa todos los controladores de la aplicación usando el contenedor. Utiliza fábricas (lambdas) para permitir la instanciación diferida y ciclos de vida.
+
+---
+
+<div id='sec_controllers_ui_class_loader_py'>
+
+### 📄 `controllers/ui_class_loader.py`
+
+</div>
+
+Resolución de clases del paquete `ui` sin `import ui.*` en el AST.
+
+El informe `architecture_layer_edges` solo cuenta `import` / `import from` estáticos;
+`importlib.import_module` evita aristas `controllers`→`ui` manteniendo el mismo comportamiento en runtime.
+
+- 🔧 `ui_class`: Devuelve un atributo (típicamente una clase QWidget/QDialog) de un submódulo `ui`. Sin caché inter-test: los tests pueden parchear ``ui.dialogs.*`` o el nombre reexportado en el módulo controlador antes de cada llamada.
 
 ---
 
@@ -2702,6 +2731,18 @@ Gestor para la asignación y cancelación de tareas a trabajadores.
 
 ---
 
+<div id='sec_controllers_worker_worker_camera_config_py'>
+
+### 📄 `controllers/worker/worker_camera_config.py`
+
+</div>
+
+Diálogo de configuración de cámara para la interfaz operario (controllers + ui; no features).
+
+- 🔧 `run_worker_camera_config_dialog`: Abre `CameraConfigDialog` y actualiza `QrScanner` en el feature controller.
+
+---
+
 <div class='pagebreak'></div>
 
 <div id='folder_core'>
@@ -2759,12 +2800,9 @@ lógica de negocio en servicios especializados y emitiendo señales de cambio.
 - `__init__`: Inicializa el modelo de la aplicación. Args: db_manager: Gestor de conexión a la base de datos.
 - `_connect_service_signals`: Conecta las señales de los servicios a las señales del AppModel (Bridge).
 - `get_dashboard_stats`: Obtiene estadísticas consolidadas para el dashboard. Delega a los servicios correspondientes.
-- `delete_machine`: Elimina una máquina del registro.
 - `get_prep_info_for_product`: Delega en PreparationService (grupo y máquina por defecto para el producto).
 - `get_latest_fabricaciones`: Obtiene las últimas órdenes de fabricación creadas.
 - `search_fabricaciones`: Busca órdenes de fabricación por código o descripción.
-- `get_iteration_images`: Obtiene las imágenes adicionales vinculadas a una iteración de producto.
-- `update_iteration_file_path`: Actualiza la ruta de almacenamiento de archivos adjuntos (planos/imágenes).
 - `create_fabricacion`: Crea una nueva orden de fabricación básica.
 - `update_fabricacion_preprocesos`: Vincula un conjunto de preprocesos a una fabricación.
 - `create_preproceso`: Crea un nuevo preproceso en el sistema.
@@ -4094,7 +4132,7 @@ Descripción: Sistema de detección y decodificación de códigos QR en tiempo r
 
 </div>
 
-Lógica o utilidades del núcleo (`ui`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Dibujo de overlays QR sobre frames OpenCV (`core.qr_scanner`, no el paquete de interfaz `ui/`).
 
 - 🔧 `draw_qr_detection`: Dibuja indicadores visuales en el frame.
 
@@ -4473,7 +4511,7 @@ Servicio de dominio para gestionar Pilas de fabricación y Simulaciones.
 
 **Métodos Principales:**
 
-- `add_diario_evento`: Alias de compatibilidad para el nombre histórico del método. La UI y `AppModel` usan `add_diario_evento`, pero el método canónico del servicio es `add_diario_entry`.
+- `add_diario_evento`: Alias de compatibilidad para el nombre histórico del método. La UI usa `add_diario_evento`; el método canónico del servicio es `add_diario_entry`.
 - `get_data_for_calculation`: Obtiene datos de un producto estructurados en DTOs para el motor de cálculo.
 - `get_data_for_calculation_from_session`: Recopila las tareas para todos los lotes de la sesión, convirtiéndolos a DTOs.
 
@@ -7306,7 +7344,12 @@ Diálogo para asignar preprocesos a fabricaciones desde el menú de Preprocesos.
 
 </div>
 
-Interfaz PyQt6 (`bitacora_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Diálogo de bitácora de pilas (`FabricacionBitacoraDialog`).
+
+Resolución de datos (orden): ``pila_service`` inyectado (p. ej. desde ``pila_manager``) →
+``resolve_pila_service`` (DI → ``pila_controller.pila_service`` → ``model.pila_service``) →
+``model.planning_facade`` (misma API: ``get_diario_bitacora``, ``add_diario_evento``).
+No se usan delegadores eliminados de ``AppModel`` para bitácora.
 
 #### 🏛️ Clase `BitacoraEntryDTO`
 
@@ -7314,8 +7357,9 @@ DTO de entrada del diario de bitácora (plan/realizado/notas).
 
 #### 🏛️ Clase `FabricacionBitacoraDialog`
 
-Diálogo para gestionar el diario de bitácora de una pila de fabricación
-con un calendario interactivo.
+Diario de bitácora por pila (calendario + entradas plan/realizado/notas).
+
+Persistencia vía ``_bitacora_backend`` (``PilaService`` o ``PlanningFacade``), no vía fachada ``AppModel``.
 
 **Métodos Principales:**
 
@@ -7389,9 +7433,13 @@ Responsabilidades:
 
 Resolución centralizada de servicios para diálogos de fabricación.
 
-Prioridad fija (testeable vía `resolve_fabricacion_service` / `resolve_pila_service`):
-- **FabricacionService**: DI registrado → `product_controller.fabricacion_service` → `model.fabricacion_service`.
-- **PilaService**: DI registrado → `model.pila_service`.
+Prioridad fija (testeable vía ``resolve_fabricacion_service`` / ``resolve_pila_service``):
+
+- **FabricacionService**: DI registrado → ``product_controller.fabricacion_service`` → ``model.fabricacion_service``.
+- **PilaService**: DI registrado → ``pila_controller.pila_service`` → ``model.pila_service``.
+
+La bitácora y ``FlowActionHandler`` reutilizan ``resolve_pila_service``; si sigue siendo ``None``,
+la UI puede usar ``model.planning_facade`` (no métodos de bitácora en ``AppModel``).
 
 - 🔧 `resolve_fabricacion_service`: Resuelve `FabricacionService` para UI sin duplicar reglas en cada diálogo.
 - 🔧 `resolve_pila_service`: Resuelve `PilaService` para UI (bitácora, flujo de producción, etc.).
@@ -7745,7 +7793,11 @@ Permite seleccionar a qué tarea de inicio de ciclo regresar.
 
 </div>
 
-Interfaz PyQt6 (`define_flow_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Diálogo «Definir / editar pila de producción» (árbol de tareas + flujo + guardado).
+
+Construye ``DefineFlowPresenter`` solo con servicios de dominio (``MachineService``,
+``PreparationService``, ``FabricacionService``) resueltos por DI o extraídos de ``controller.model``;
+el presenter no mantiene referencia a ``AppModel``.
 
 #### 🏛️ Clase `DefineProductionFlowDialog`
 
@@ -7774,7 +7826,11 @@ Diálogo orquestador para definir la secuencia de tareas, dependencias y trabaja
 
 </div>
 
-Interfaz PyQt6 (`define_flow_presenter`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Presenter del diálogo «Definir pila de producción» (lógica pura, sin Qt).
+
+Consultas de dominio solo a través de ``machine_service``, ``preparation_service`` y
+``fabricacion_service`` inyectados o resueltos en ``DefineProductionFlowDialog`` (DI o atributos
+en ``AppModel``). No recibe ni usa ``AppModel`` como fachada.
 
 #### 🏛️ Clase `DefineFlowPresenter`
 
@@ -7872,7 +7928,10 @@ Colaborador de composición para estado del canvas y preview de simulación.
 
 </div>
 
-Interfaz PyQt6 (`flow_action_handler`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Acciones del diálogo de flujo visual (ciclos, guardar/cargar pila, biblioteca).
+
+``load_saved_pila`` obtiene API de pilas vía ``resolve_pila_service``; si no hay servicio,
+usa ``model.planning_facade`` y en último término ``model`` (``get_all_pilas`` / ``load_pila``).
 
 #### 🏛️ Clase `FlowActionHandler`
 
@@ -7881,7 +7940,7 @@ y persistencia (guardar/cargar) del diálogo visual.
 
 **Métodos Principales:**
 
-- `_pila_list_load_api`: `PilaService` resuelto o `controller.model` (tests / arranque sin servicio inyectado).
+- `_pila_list_load_api`: `PilaService` resuelto; si no, `planning_facade` o modelo completo como último recurso.
 - `initialize_library`: Prepara y carga los datos en el panel de la biblioteca.
 - `setup_floating_widgets`: Crea y configura el botón de previsualización y la etiqueta de estado.
 
@@ -8333,18 +8392,23 @@ Estructura:
 - Panel Izquierdo: Búsqueda inteligente
 - Panel Derecho Superior: Lista de órdenes de fabricación
 - Panel Derecho Inferior: Gráficas y análisis
+
+``ReportService`` del ``DIContainer`` del controlador (si está registrado) se pasa a
+``SmartSearchWidget``, ``OrderListWidget`` y ``ReportsChartsWidget``; las listas y gráficas
+usan ``controller=AppController`` y priorizan ese servicio frente a ``controller.model``.
 ========================================================================
 
 #### 🏛️ Clase `ReportesWidget`
 
-Widget principal para el módulo de Reportes de Producción.
+Módulo de reportes: búsqueda, órdenes por producto y gráficas.
 
-Integra búsqueda inteligente, lista de órdenes y gráficas de análisis.
+Resuelve ``ReportService`` desde ``controller.container`` cuando existe; los sub-widgets
+reciben el ``AppController`` y el servicio para no depender solo de la fachada ``AppModel``.
 
 **Métodos Principales:**
 
 - `__init__`: Inicializa el widget de reportes. Args: controller: Controlador de la aplicación
-- `_resolve_app_model`: Resuelve un modelo de reportes estable desde el controlador recibido. Acepta tanto un AppController (con .model) como un AppModel/servicio directo. Debe comprobarse `.model` antes que `search_reports_data`: con `MagicMock` sueltos, `hasattr(mock, "search_reports_data")` suele ser True por hijos autocreados y se tomaba el mock del controlador en lugar del `.model`.
+- `_resolve_app_model`: Objeto con API de reportes para ``SmartSearchWidget`` (fallback si no hay ``ReportService``). Si el controlador tiene ``.model``, se usa ese ``AppModel``; si el propio controlador expone ``search_reports_data``, se usa como API. Comprobar ``.model`` antes que ``search_reports_data`` evita falsos positivos con ``MagicMock`` en tests.
 - `set_controller`: Establece el controlador para todos los sub-widgets. Args: controller: Controlador de la aplicación
 - `refresh`: Refresca el contenido del widget.
 
@@ -8816,6 +8880,8 @@ CHARTS CONTAINER WIDGET - Contenedor de Gráficas de Análisis
 Widget contenedor que muestra múltiples gráficas de análisis para
 un producto seleccionado: tiempo promedio, evolución temporal,
 tiempos por trabajador y patrón de incidencias.
+
+Datos: ``report_service=`` opcional con la misma prioridad que en ``OrderListWidget``.
 ========================================================================
 
 #### 🏛️ Clase `ReportsChartsWidget`
@@ -8825,7 +8891,7 @@ Muestra estadísticas y gráficas para un producto seleccionado.
 
 **Métodos Principales:**
 
-- `_get_reports_model`: Obtiene una interfaz con métodos de reportes (AppModel o wrapper con .model).
+- `_get_reports_model`: Prioriza `ReportService` inyectado; si no, controlador o `controller.model`.
 - `_create_placeholder_tabs`: Crea tabs con placeholders.
 - `update_charts`: Actualiza todas las gráficas para un producto. Args: producto_codigo: Código del producto
 - `_update_stats_cards`: Actualiza las tarjetas de estadísticas.
@@ -8860,6 +8926,9 @@ ORDER LIST WIDGET - Widget de Lista de Órdenes de Fabricación
 ========================================================================
 Widget que muestra las órdenes de fabricación de un producto,
 con información resumida y opción de expandir para ver detalles.
+
+Datos: parámetro opcional ``report_service=`` (prioridad en ``_get_reports_model``); si es
+``None``, se usa ``controller`` o ``controller.model`` como antes.
 ========================================================================
 
 #### 🏛️ Clase `OrderCard`
@@ -8881,7 +8950,7 @@ Signals:
 
 **Métodos Principales:**
 
-- `_get_reports_model`: Obtiene una interfaz con métodos de reportes (AppModel o wrapper con .model).
+- `_get_reports_model`: Prioriza `ReportService` inyectado; si no, controlador o `controller.model`.
 - `load_orders_for_product`: Carga las órdenes de fabricación de un producto. Args: producto_codigo: Código del producto
 - `_display_orders`: Muestra las órdenes en tarjetas.
 - `_clear_cards`: Elimina todas las tarjetas.
@@ -8897,7 +8966,10 @@ Signals:
 
 </div>
 
-Interfaz PyQt6 (`smart_search`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Búsqueda con autocompletado en el módulo de reportes.
+
+La consulta usa ``report_service`` si se inyectó o ``set_report_service``; si no, el objeto
+``app_model`` pasado al constructor (típicamente ``AppModel`` vía ``ReportesWidget``).
 
 #### 🏛️ Clase `SmartSearchWidget`
 
@@ -8906,7 +8978,7 @@ filtrado en tiempo real para el módulo de reportes.
 
 **Métodos Principales:**
 
-- `_perform_search`: Ejecuta la búsqueda contra el AppModel.
+- `_perform_search`: Ejecuta la búsqueda contra ``ReportService`` o el fallback ``app_model``.
 - `_update_results_list`: Actualiza la lista visual de resultados.
 - `set_report_service`: Prioridad sobre `app_model` cuando el DI expone ReportService (B5).
 - `clear_search`: Limpia el campo de búsqueda y resultados.
@@ -9134,8 +9206,8 @@ Ventana principal para el rol de trabajador.
 
 | Métrica | Valor |
 |---|---:|
-| Archivos `.py` en `scripts/` | 61 |
-| Incluidos en el cuerpo | 61 |
+| Archivos `.py` en `scripts/` | 62 |
+| Incluidos en el cuerpo | 62 |
 | Omitidos (docstrings/reglas) | 0 |
 | Clases detectadas (AST) | 24 |
 
@@ -9199,6 +9271,29 @@ Script ejecutable (`analyze_ui_state`): automatización, informes o mantenimient
 
 ---
 
+<div id='sec_scripts_architecture_layer_edges_py'>
+
+### 📄 `scripts/architecture_layer_edges.py`
+
+</div>
+
+Grafo de imports entre capas de primer nivel (ui, controllers, core, database, features).
+
+Escanea AST de todos los .py bajo esos directorios, clasifica aristas por capa origen/destino,
+lista violaciones de arquitectura (reglas del plan Hipatia) y detecta ciclos simples
+entre capas (2- y 3-ciclos explícitos).
+
+Uso:
+  python3 scripts/architecture_layer_edges.py
+  python3 scripts/architecture_layer_edges.py --json reports/architecture_layer_edges.json
+
+- 🔧 `collect_import_targets`: Nombres de módulo completos importados (sin relativos).
+- 🔧 `scan_layers`: module_name -> conjunto de strings importados (módulos).
+- 🔧 `build_layer_edge_list`: (from_layer, to_layer) -> [(source_module, imported_module), ...].
+- 🔧 `find_simple_cycles`: 2-ciclos y 3-ciclos entre capas (suficiente para N pequeño).
+
+---
+
 <div id='sec_scripts_audit_import_graph_py'>
 
 ### 📄 `scripts/audit_import_graph.py`
@@ -9209,6 +9304,9 @@ Grafo de imports entre capas: controladores / servicios / database.
 
 Genera un informe Markdown (y JSON opcional) con aristas ``controllers.*``
 que importan ``core.services.*`` (y referencias cruzadas útiles para revisión).
+
+Para el mapa **completo** por capa (``ui``, ``database``, ``core``, ``controllers``,
+``features``), violaciones y ciclos simples, usar ``scripts/architecture_layer_edges.py``.
 
 ---
 

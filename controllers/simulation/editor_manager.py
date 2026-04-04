@@ -7,7 +7,9 @@ from __future__ import annotations
 import logging
 from typing import List, Dict, Any, TYPE_CHECKING
 from PyQt6.QtWidgets import QApplication
-from ui.dialogs import EnhancedProductionFlowDialog, LoadPilaDialog
+from controllers.ui_class_loader import ui_class
+
+EnhancedProductionFlowDialog = ui_class("ui.dialogs", "EnhancedProductionFlowDialog")
 
 if TYPE_CHECKING:
     from .controller import SimulationController

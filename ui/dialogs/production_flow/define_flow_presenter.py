@@ -1,5 +1,9 @@
 """
-Interfaz PyQt6 (`define_flow_presenter`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Presenter del diálogo «Definir pila de producción» (lógica pura, sin Qt).
+
+Consultas de dominio solo a través de ``machine_service``, ``preparation_service`` y
+``fabricacion_service`` inyectados o resueltos en ``DefineProductionFlowDialog`` (DI o atributos
+en ``AppModel``). No recibe ni usa ``AppModel`` como fachada.
 """
 
 import logging
@@ -30,7 +34,6 @@ from core.dtos import (
 )
 
 if TYPE_CHECKING:
-    from core.app_model import AppModel
     from core.config import ScheduleConfig
 
 from core.services.machine_service import MachineService
@@ -57,7 +60,6 @@ class DefineFlowPresenter:
     
     def __init__(
         self,
-        model: Optional[Any] = None,
         schedule_config: Optional[Any] = None,
         default_units: int = 1,
         *,
@@ -66,7 +68,6 @@ class DefineFlowPresenter:
         fabricacion_service: FabricacionService | None = None,
     ) -> None:
         self.logger = logging.getLogger("EvolucionTiemposApp.DefineFlowPresenter")
-        self.model = model
         self.machine_service = machine_service
         self.preparation_service = preparation_service
         self.fabricacion_service = fabricacion_service
@@ -174,8 +175,6 @@ class DefineFlowPresenter:
             return []
         if self.machine_service is not None:
             return cast(List[Any], self.machine_service.get_machines_by_process_type(process_type))
-        if self.model is not None:
-            return cast(List[Any], self.model.get_machines_by_process_type(process_type))
         return []
 
     def get_prep_info(self, product_code: str) -> tuple[Optional[Any], Optional[Any]]:
@@ -187,38 +186,24 @@ class DefineFlowPresenter:
         ):
             raw = self.fabricacion_service.get_prep_info_for_product(product_code)
             return _normalize_prep_info_response(raw)
-        if self.model is not None:
-            raw = self.model.get_prep_info_for_product(product_code)
-            return _normalize_prep_info_response(raw)
         return None, None
 
     def get_prep_steps_for_machine(self, machine_id: int) -> List[Any]:
         """Obtiene todas las fases de preparación asociadas a una máquina."""
-        if self.preparation_service is not None:
-            groups = self.preparation_service.get_groups_for_machine(machine_id)
-        elif self.model is not None:
-            groups = self.model.get_groups_for_machine(machine_id)
-        else:
+        if self.preparation_service is None:
             return []
+        groups = self.preparation_service.get_groups_for_machine(machine_id)
         all_steps = []
-        legacy_model = self.model
         for group in groups:
-            if self.preparation_service is not None:
-                steps = self.preparation_service.get_steps_for_group(group.id)
-            elif legacy_model is not None:
-                steps = legacy_model.get_steps_for_group(group.id)
-            else:
-                steps = []
+            steps = self.preparation_service.get_steps_for_group(group.id)
             all_steps.extend(steps)
         return all_steps
 
     def get_default_step_ids(self, group_id: int) -> List[int]:
         """Obtiene los IDs de los pasos pertenecientes a un grupo."""
-        if self.preparation_service is not None:
-            return [step.id for step in self.preparation_service.get_steps_for_group(group_id)]
-        if self.model is not None:
-            return [step.id for step in self.model.get_steps_for_group(group_id)]
-        return []
+        if self.preparation_service is None:
+            return []
+        return [step.id for step in self.preparation_service.get_steps_for_group(group_id)]
 
     def get_step_view_model(self, index: int) -> FlowItemDTO:
         """
@@ -244,14 +229,11 @@ class DefineFlowPresenter:
         # Paso individual
         task = step.task
         machine_name = "Sin máquina"
-        if step.config.machine_id and (self.machine_service is not None or self.model is not None):
-            if self.machine_service is not None:
-                all_machines = self.machine_service.get_all_machines(include_inactive=True)
-            elif self.model is not None:
-                all_machines = self.model.get_all_machines(include_inactive=True)
-            else:
-                all_machines = []
+        if step.config.machine_id and self.machine_service is not None:
+            all_machines = self.machine_service.get_all_machines(include_inactive=True)
             machine_name = next((m.nombre for m in all_machines if m.id == step.config.machine_id), "Desconocida")
+        elif step.config.machine_id:
+            machine_name = "Desconocida"
         elif not task.requiere_maquina_tipo:
             machine_name = "No requiere máquina"
 

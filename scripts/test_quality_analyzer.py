@@ -113,7 +113,7 @@ _EXTERNAL_PATCH_WHITELIST = {
     "controllers.schedule_controller.QFormLayout",
     "controllers.schedule_controller.QTimeEdit",
     "controllers.schedule_controller.QDialogButtonBox",
-    "controllers.schedule_controller.AddBreakDialog",
+    "controllers.schedule_controller.get_add_break_dialog_class",
     "controllers.calculation_controller.QFileDialog",
     "controllers.calculation_controller.getattr",
 }

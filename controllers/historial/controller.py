@@ -13,7 +13,6 @@ from .report_manager import HistorialReportManager
 
 if TYPE_CHECKING:
     from core.app_model import AppModel
-    from ui.main_window import MainView
 
 class HistorialController:
     """
@@ -23,7 +22,7 @@ class HistorialController:
     proporcionar una interfaz unificada de consulta de auditoría y bitácoras.
     """
 
-    def __init__(self, db: Any, pila_service: Any, worker_service: Any, view: MainView, logger: Optional[logging.Logger] = None) -> None:
+    def __init__(self, db: Any, pila_service: Any, worker_service: Any, view: Any, logger: Optional[logging.Logger] = None) -> None:
         """
         Inicializa el controlador y compone sus gestores.
 

@@ -82,10 +82,25 @@ def test_resolve_fabricacion_returns_none_when_missing() -> None:
 def test_resolve_pila_prefers_di() -> None:
     svc = create_autospec(PilaService, instance=True)
     container = _container_registered(PilaService, svc)
-    ctrl = MagicMock(spec=["model"])
+    ctrl = MagicMock(spec=["model", "pila_controller"])
     ctrl.model = None
+    ctrl.pila_controller = None
     assert resolve_pila_service(ctrl, container) is svc
     container.resolve.assert_called_once_with(PilaService)
+
+
+def test_resolve_pila_pila_controller_before_model() -> None:
+    container = _container_not_registered()
+    pc_ps = create_autospec(PilaService, instance=True)
+    mod_ps = create_autospec(PilaService, instance=True)
+    pila_ctrl = MagicMock(spec=["pila_service"])
+    pila_ctrl.pila_service = pc_ps
+    mod = MagicMock(spec=["pila_service"])
+    mod.pila_service = mod_ps
+    ctrl = MagicMock(spec=["model", "pila_controller"])
+    ctrl.pila_controller = pila_ctrl
+    ctrl.model = mod
+    assert resolve_pila_service(ctrl, container) is pc_ps
 
 
 def test_resolve_pila_model_fallback() -> None:
@@ -93,14 +108,18 @@ def test_resolve_pila_model_fallback() -> None:
     ps = create_autospec(PilaService, instance=True)
     mod = MagicMock(spec=["pila_service"])
     mod.pila_service = ps
-    ctrl = MagicMock(spec=["model"])
+    ctrl = MagicMock(spec=["model", "pila_controller"])
+    ctrl.pila_controller = MagicMock(spec=["pila_service"])
+    ctrl.pila_controller.pila_service = None
     ctrl.model = mod
     assert resolve_pila_service(ctrl, container) is ps
 
 
 def test_resolve_pila_returns_none_when_missing() -> None:
     container = _container_not_registered()
-    ctrl = MagicMock(spec=["model"])
+    ctrl = MagicMock(spec=["model", "pila_controller"])
+    ctrl.pila_controller = MagicMock(spec=["pila_service"])
+    ctrl.pila_controller.pila_service = None
     ctrl.model = MagicMock(spec=["pila_service"])
     ctrl.model.pila_service = None
     assert resolve_pila_service(ctrl, container) is None

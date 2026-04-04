@@ -6,14 +6,11 @@ Descripción: Gestor de asignación de tareas. Permite buscar productos y asigna
 """
 import logging
 from typing import TYPE_CHECKING, Any
-from ui.widgets import GestionDatosWidget
 from core.security.access_control import require_permission
 from core.security.security_service import Permission
 from core import constants
 
 from .protocols import IWorkerView, IWorkerService, IProductService, WorkerControllerProtocol
-
-from ui.widgets.workers_widget import WorkersWidget
 
 class WorkerTaskManager:
     """

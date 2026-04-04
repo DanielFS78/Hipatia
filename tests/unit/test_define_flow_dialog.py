@@ -42,18 +42,28 @@ def dialog_data():
     workers = ["W1", "W2"]
     units = 10
     controller = MagicMock(spec=["model", "handle_save_flow_only"])
-    controller.model = MagicMock(
+    ms = MagicMock(
         spec=[
-            "get_prep_info_for_product",
             "get_machines_by_process_type",
             "get_all_machines",
+        ]
+    )
+    ms.get_machines_by_process_type.return_value = []
+    ms.get_all_machines.return_value = []
+    prep = MagicMock(
+        spec=[
+            "get_prep_info_for_product",
             "get_groups_for_machine",
             "get_steps_for_group",
         ]
     )
-    controller.model.get_prep_info_for_product.return_value = (None, None)
-    controller.model.get_all_machines.return_value = []
-    controller.model.get_groups_for_machine.return_value = []
+    prep.get_prep_info_for_product.return_value = (None, None)
+    prep.get_groups_for_machine.return_value = []
+    controller.model = MagicMock(spec=["machine_service", "preparation_service", "fabricacion_service"])
+    controller.model.machine_service = ms
+    controller.model.preparation_service = prep
+    controller.model.fabricacion_service = MagicMock(spec=["get_prep_info_for_product"])
+    controller.model.fabricacion_service.get_prep_info_for_product.return_value = (None, None)
     schedule_config = SimpleNamespace(WORK_START_TIME=time(8, 0))
     return tasks, workers, units, controller, schedule_config
 
@@ -99,23 +109,15 @@ class TestDefineProductionFlowDialog:
                 "machine_service",
                 "preparation_service",
                 "fabricacion_service",
-                "get_prep_info_for_product",
-                "get_machines_by_process_type",
-                "get_all_machines",
-                "get_groups_for_machine",
-                "get_steps_for_group",
             ]
         )
         controller.model.machine_service = ms
         controller.model.preparation_service = prep
         controller.model.fabricacion_service = fab
-        controller.model.get_prep_info_for_product.return_value = (None, None)
-        controller.model.get_all_machines.return_value = []
-        controller.model.get_groups_for_machine.return_value = []
 
         dialog = DefineProductionFlowDialog(tasks, workers, units, controller, schedule_config)
         qtbot.addWidget(dialog)
-        assert dialog.presenter.model is controller.model
+        assert not hasattr(dialog.presenter, "model")
         assert dialog.presenter.machine_service is ms
         assert dialog.presenter.preparation_service is prep
         assert dialog.presenter.fabricacion_service is fab
@@ -135,7 +137,7 @@ class TestDefineProductionFlowDialog:
 
         dialog = DefineProductionFlowDialog(tasks, workers, units, controller, schedule_config)
         qtbot.addWidget(dialog)
-        assert dialog.presenter.model is None
+        assert not hasattr(dialog.presenter, "model")
         assert dialog.presenter.fabricacion_service is fab
 
     def test_init_with_existing_flow(self, qtbot, dialog_data, mock_dependencies):
@@ -291,7 +293,7 @@ class TestDefineProductionFlowDialog:
         # Mock de máquina y pasos de prep
         mock_machine = MagicMock(id=1, nombre="M1")
         mock_step = MagicMock(id=10, nombre="Prep 1", tiempo_fase=5)
-        controller.model.get_machines_by_process_type.return_value = [mock_machine]
+        controller.model.machine_service.get_machines_by_process_type.return_value = [mock_machine]
         dialog.presenter.get_prep_steps_for_machine = MagicMock(return_value=[mock_step])  # type: ignore[method-assign]
         dialog.presenter.get_default_step_ids = MagicMock(return_value=[10])  # type: ignore[method-assign]
         

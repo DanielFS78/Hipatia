@@ -103,7 +103,7 @@ class ScheduleUiOpsHelper:
 
     def on_add_break_clicked(self) -> None:
         """Abre el diálogo especializado para añadir un nuevo descanso horaro."""
-        dialog = schedule_controller.AddBreakDialog(self.view)
+        dialog = schedule_controller.get_add_break_dialog_class()(self.view)
         if dialog.exec() == QDialog.DialogCode.Accepted:
             new_break = dialog.get_times()
             breaks_json = self.db.config_repo.get_setting("breaks", "[]")
@@ -170,7 +170,7 @@ class ScheduleUiOpsHelper:
         current_start_time = QTime.fromString(current_start_str, "HH:mm")
         current_end_time = QTime.fromString(current_end_str, "HH:mm")
 
-        dialog = schedule_controller.AddBreakDialog(self.view)
+        dialog = schedule_controller.get_add_break_dialog_class()(self.view)
         dialog.start_time_edit.setTime(current_start_time)
         dialog.end_time_edit.setTime(current_end_time)
 

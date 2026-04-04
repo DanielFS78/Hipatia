@@ -9,8 +9,10 @@ from typing import List, Dict, Any, Optional, Tuple, TYPE_CHECKING
 from PyQt6.QtCore import Qt
 from core.security.access_control import require_permission
 from core.security.security_service import Permission
-from ui.dialogs import PreprocesoDialog
 from core.dtos import PreprocesoDTO
+from controllers.ui_class_loader import ui_class
+
+PreprocesoDialog = ui_class("ui.dialogs", "PreprocesoDialog")
 
 from .protocols import ProductControllerProtocol, IProductView, IFabricacionService, IMaterialService
 

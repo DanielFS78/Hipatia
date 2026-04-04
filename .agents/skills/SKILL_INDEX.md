@@ -8,6 +8,7 @@ Actualizado: 2026-04. Se retiraron **autopilots** y el hub histórico **refactor
 |-------|-----|
 | `plan_mejora_calidad` | Hub del plan de calidad; leer primero en sesiones de mejora |
 | `ejecucion_secuencial_calidad` | Auditoría por ítems, gates, REGISTRO |
+| `arquitectura_dependencias_hipatia` | Mapa de imports, informes `reports/`, fases Opt-0–Opt-5 y `Documentacion/.../PROGRESO_OPTIMIZACION_CAPAS.md`, remedios acotados; «continúa optimización» |
 | `strict_testing` | Dashboard / mocks estrictos |
 | `testing_antipatrones` | Falsos positivos |
 | `testing_fixtures_y_mocks` | Fixtures, autospec, DummyModel |
@@ -37,4 +38,4 @@ Actualizado: 2026-04. Se retiraron **autopilots** y el hub histórico **refactor
 
 **Monolitos:** informes bajo demanda con `python3 scripts/monolith_analyzer.py` — ver `Documentacion/Refactorizacion_Completa/Monolitos/PLAN_MONOLITOS.md`.
 
-**Scripts útiles:** `scripts/audit_module_docstrings.py`, `scripts/audit_import_graph.py` → salidas habituales bajo `reports/` (ignorado en git si aplica).
+**Scripts útiles:** `scripts/audit_module_docstrings.py`, `scripts/audit_import_graph.py`, `scripts/architecture_layer_edges.py` → salidas habituales bajo `reports/` (ignorado en git si aplica).

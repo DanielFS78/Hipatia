@@ -12,7 +12,7 @@ Reducir resolución dispersa (DI + `product_controller` + `model`) en diálogos 
 1. Módulo compartido [`ui/dialogs/fabrication/dialog_dependencies.py`](../../../ui/dialogs/fabrication/dialog_dependencies.py) (`resolve_fabricacion_service`, `resolve_pila_service`).
 2. Parámetros opcionales `pila_service` / `fabricacion_service` en constructores cuando aplique.
 3. Protocolos en [`ui/dialogs/fabrication/ui_dialog_protocols.py`](../../../ui/dialogs/fabrication/ui_dialog_protocols.py) (capa UI para evitar import cíclico con `controllers`): `OpensFabricacionPreprocesos`, `ShowsUserMessage` (bitácora: `user_messaging=` opcional).
-4. Fallback a `model.*` documentado para tests y arranques sin servicios; ver sección **Fallback** abajo.
+4. Fallback a `model.planning_facade` / `model.*` documentado para tests y arranques sin servicios; ver **Fallback** abajo.
 
 ## Orden de trabajo
 
@@ -21,11 +21,11 @@ Reducir resolución dispersa (DI + `product_controller` + `model`) en diálogos 
 3. Un ítem o PR pequeño por vez; tras cambios, pytest + mypy del scope indicado en gates.
 4. Marcar filas en REGISTRO (`Estado`, `Commit`, `Tests ejecutados`).
 
-## Fallback a AppModel (Fase 5)
+## Fallback a fachada / modelo (Fase 5)
 
-- **Bitácora**: si no hay `PilaService` inyectado ni resuelto por DI/`model.pila_service`, se usa `controller.model.get_diario_bitacora` / `add_diario_evento` (tests con mock mínimo de `model`).
+- **Bitácora**: backend `_bitacora_backend` = `pila_service` inyectado → `resolve_pila_service` (DI → `pila_controller.pila_service` → `model.pila_service`) → `model.planning_facade` (`get_diario_bitacora` / `add_diario_evento`). Los delegadores de bitácora en `AppModel` fueron eliminados; no usar `model.get_diario_bitacora`.
 - **AssignPreprocesos**: si `resolve_fabricacion_service` devuelve `None`, `get_preprocesos_by_fabricacion` vía `controller.model`.
-- **`FlowActionHandler.load_saved_pila`**: `_pila_list_load_api()` devuelve `PilaService` resuelto o `controller.model` para `get_all_pilas` / `load_pila` (misma semántica que antes, sin duplicar ramas).
+- **`FlowActionHandler.load_saved_pila`**: `_pila_list_load_api()` = `PilaService` resuelto → `model.planning_facade` → `model` (`get_all_pilas` / `load_pila`).
 - **`DefinirLoteWidget`**: con `AppController` en `__init__` o `set_controller`, `FabricacionService` vía `resolve_fabricacion_service`; si `resolve` devuelve `None`, se mantiene el obtenido solo por DI al construir (si estaba registrado).
 
 ## Skills relacionadas

@@ -242,6 +242,8 @@ Diálogo para asignar preprocesos a fabricaciones desde el menú de Preprocesos.
 Diálogo para gestionar el diario de bitácora de una pila de fabricación
 con un calendario interactivo.
 
+**Datos (2026-04):** persistencia mediante `_bitacora_backend` (`PilaService` inyectado desde `pila_manager`, o `resolve_pila_service`, o `model.planning_facade`). Ya no existen en `AppModel` los delegadores `get_diario_bitacora` / `add_diario_evento` / `create_diario_bitacora`.
+
 **Métodos:**
 - `_load_and_process_data`: Carga los datos iniciales, formatea el calendario y selecciona el día actual.
 - `_highlight_work_days`: Resalta en el calendario los días con trabajo planificado.
@@ -506,6 +508,8 @@ Diálogo para definir la secuencia de tareas, dependencias y trabajadores.
 #### 🏛 Clase: `DefineFlowPresenter`
 Presenter/Lógica para aislar el ensamblado de datos y configuraciones 
 de la vista (DefineProductionFlowDialog).
+
+**Datos (2026-04):** consultas de máquinas y preparación solo vía `machine_service`, `preparation_service` y `fabricacion_service` (resueltos en el diálogo). No mantiene referencia a `AppModel`.
 
 **Métodos:**
 - `prepare_task_data`: Organiza la lista plana de tareas primarias en un diccionario agrupado por producto.
@@ -939,6 +943,8 @@ Widget principal para el módulo de Reportes de Producción.
 
 Integra búsqueda inteligente, lista de órdenes y gráficas de análisis.
 
+**Datos (2026-04):** si `controller.container` tiene `ReportService` registrado, se pasa a `SmartSearchWidget`, `OrderListWidget` y `ReportsChartsWidget`; órdenes y gráficas usan `controller=AppController` y priorizan el servicio sobre `controller.model`.
+
 **Métodos:**
 - `__init__`: Inicializa el widget de reportes.  Args:     controller: Controlador de la aplicación
 - `_setup_ui`: Configura la interfaz de usuario.
@@ -971,6 +977,8 @@ Tarjeta de estadística individual.
 #### 🏛 Clase: `ReportsChartsWidget`
 Widget contenedor para las gráficas de análisis.
 Muestra estadísticas y gráficas para un producto seleccionado.
+
+**Datos (2026-04):** parámetro opcional `report_service=`; `set_report_service` al actualizar el controlador.
 
 **Métodos:**
 - `_setup_ui`: Configura la interfaz.
@@ -1011,6 +1019,8 @@ Widget que muestra lista de órdenes de fabricación.
 Signals:
     order_selected(str): Emitido cuando se selecciona una orden.
 
+**Datos (2026-04):** `report_service=` opcional; `set_report_service`.
+
 **Métodos:**
 - `_setup_ui`: Configura la interfaz del widget.
 - `load_orders_for_product`: Carga las órdenes de fabricación de un producto.  Args:     producto_codigo: Código del producto
@@ -1032,7 +1042,7 @@ filtrado en tiempo real para el módulo de reportes.
 
 **Métodos:**
 - `_on_text_changed`: Maneja el cambio de texto con debounce.
-- `_perform_search`: Ejecuta la búsqueda contra el AppModel.
+- `_perform_search`: Ejecuta la búsqueda contra `ReportService` (si está configurado) o el fallback `app_model`.
 - `_update_results_list`: Actualiza la lista visual de resultados.
 - `_on_item_clicked`: Maneja el clic en un resultado.
 - `clear_search`: Limpia el campo de búsqueda y resultados.

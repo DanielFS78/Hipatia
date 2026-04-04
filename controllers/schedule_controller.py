@@ -6,12 +6,9 @@ Gestiona la configuración de horarios laborales, descansos y festivos mediante 
 """
 from __future__ import annotations
 import logging
-from typing import Optional, TYPE_CHECKING, cast
+from typing import Any, Optional, cast
 from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QFormLayout, QTimeEdit
 from PyQt6.QtCore import QTime, QObject
-
-# Import lookup para permitir parcheo en tests y uso en helpers
-from ui.dialogs import AddBreakDialog
 
 # Nuevos Helpers por Composición
 from controllers.schedule_ui_helper import ScheduleUiOpsHelper
@@ -22,12 +19,17 @@ from controllers.schedule_helpers import (
     normalize_holidays,
 )
 
-if TYPE_CHECKING:
-    from ui.widgets.settings_widget import SettingsWidget
-
 from database.database_manager import DatabaseManager
 from core.schedule_config import ScheduleConfig
 from core.interfaces.view_interface import IView
+
+
+def get_add_break_dialog_class() -> Any:
+    """Clase del diálogo de descansos (carga diferida; sin import estático `ui`)."""
+    from controllers.ui_class_loader import ui_class
+
+    return ui_class("ui.dialogs", "AddBreakDialog")
+
 
 class ScheduleController(QObject):
     """

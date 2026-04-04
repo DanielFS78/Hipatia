@@ -3,6 +3,7 @@ from datetime import datetime
 from unittest.mock import MagicMock, patch, ANY
 from PyQt6.QtWidgets import QDialog
 from features.worker_controller import WorkerController
+from features.worker_controller_io_manager import WorkerIOManager
 
 pytestmark = pytest.mark.unit
 
@@ -64,6 +65,23 @@ def controller(current_user, mock_db_manager, mock_main_window):
     ctrl.qr_generator.generate_unique_id.return_value = "QR-UNIQ"
     ctrl.label_counter_repo = MagicMock(spec=["get_next_unit_range"])
     return ctrl
+
+class TestWorkerIOManagerCameraConfig:
+    """Delegación de configuración de cámara al runner inyectado (sin features→ui)."""
+
+    def test_handle_camera_config_calls_runner_when_set(self, controller, mock_main_window):
+        runner = MagicMock(spec=["__call__"])
+        controller.io_manager = WorkerIOManager(controller, camera_config_runner=runner)
+        controller.io_manager._handle_camera_config()
+        runner.assert_called_once_with()
+
+    def test_handle_camera_config_logs_when_runner_missing(self, controller, mock_main_window):
+        with patch.object(controller.logger, "warning") as mock_warn:
+            controller.io_manager._handle_camera_config()
+        mock_warn.assert_called_once_with(
+            "camera_config_runner no inyectado; configuración de cámara omitida."
+        )
+
 
 class TestWorkerControllerHandlers:
     """Tests para los manejadores de señales del controlador."""
