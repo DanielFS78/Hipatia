@@ -221,6 +221,16 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Sync iCloud:** N/A (workspace = iCloud)
 - **Fecha cierre:** 2026-04-03
 
+## ITEM 004 (lote D — paso 4) — `tracking_stats_repository`
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `database/repositories/tracking_stats_repository.py`, `mypy.ini` (bloque dedicado; retirado del trío satélite).
+- **Cambio:** Retornos `obtener_estadisticas_*` → `Dict[str, Any]` (alineado con `TrackingRepository`); import `Any`; bloque mypy explícito para el módulo.
+- **Gates:** mypy focal + pytest focal tracking stats/excepciones.
+- **Commit:** 7b855a5
+- **Fecha cierre:** 2026-04-04
+
 ## Siguiente ítem sugerido
 
-- **ITEM 004 (lote D — paso 4):** endurecer `database.repositories.tracking_stats_repository` (`-> Dict` → `Dict[str, Any]` u otro tipo concreto) y/o `database/repositories/__init__.py` si conviene `disallow_untyped_defs`; continuar con módulos `database/` o `core/services` aún solo bajo `*.` laxo según `check_typing_coverage` / impacto.
+- **ITEM 004 (lote D — paso 5):** revisar `database/repositories/__init__.py` o siguiente repositorio satélite (`incidencia_repository`, `label_counter_repository`) para cobertura de tipos / `disallow_untyped_defs` ya agrupado; continuar con módulos `database/` o `core/services` aún solo bajo `*.` laxo según `check_typing_coverage` / impacto.

@@ -261,8 +261,10 @@ class TestDialogsRequiredMethods:
                     f"{class_name} debe tener método {required_method}"
 
     def test_all_dialogs_have_init(self, dialogs_classes):
-        """Todas las clases deben tener __init__."""
+        """Todas las clases concretas deben tener __init__ (no aplica a typing.Protocol)."""
         for class_name, class_info in dialogs_classes.items():
+            if "Protocol" in class_info["bases"]:
+                continue
             assert "__init__" in class_info["methods"], \
                 f"{class_name} debe tener método __init__"
 
