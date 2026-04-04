@@ -56,6 +56,7 @@ jobs:
 
       - name: Run mypy
         run: |
+          # app → módulo `app` endurecido en mypy.ini ([mypy-app]); resto vía globs por paquete
           python -m mypy app.py core controllers database features ui
 
   # Cobertura en una sola corrida (3.12); sube JSON para descarga / update_readme_metrics local

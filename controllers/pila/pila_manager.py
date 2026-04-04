@@ -12,7 +12,7 @@ from PyQt6.QtWidgets import QDialog, QWidget
 from controllers.pila.protocols import IPilaView, IPilaService
 from ui.dialogs import LoadPilaDialog, SavePilaDialog, FabricacionBitacoraDialog
 from core.services.time_calculator import CalculadorDeTiempos
-from core.dtos import SimulationResultTaskDTO, CalculationStepDTO
+from core.dtos import CalculationStepDTO, PilaDTO, SimulationResultTaskDTO
 
 class PilaManager:
     """
@@ -72,7 +72,14 @@ class PilaManager:
             else:
                 self._view.show_message("Error", "No se pudo eliminar la pila.", "critical")
 
-    def _apply_loaded_pila_to_ui(self, meta_data, pila_de_calculo, production_flow, results, pila_id) -> None:
+    def _apply_loaded_pila_to_ui(
+        self,
+        meta_data: PilaDTO,
+        pila_de_calculo: Dict[str, Any],
+        production_flow: List[Any],
+        results: List[Any],
+        pila_id: int,
+    ) -> None:
         """Actualiza el estado de la aplicación y la UI con los datos cargados."""
         calc_page = self._view.pages.get("calculate")
         if not calc_page: return

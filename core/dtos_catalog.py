@@ -74,7 +74,7 @@ class FabricacionProductoDTO:
     cantidad: int
     descripcion: str = ""
     
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if self.cantidad < 1:
             self.cantidad = 1
 

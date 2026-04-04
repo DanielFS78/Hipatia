@@ -58,7 +58,7 @@ class ScheduleConfig:
             self.HOLIDAYS = []
             self.logger.warning(f"Error cargando configuración, usando valores por defecto: {e}")
 
-    def __getstate__(self):
+    def __getstate__(self) -> Dict[str, Any]:
         """
         Prepara el estado del objeto para ser 'pickled' (guardado).
         Excluimos los atributos que no se pueden guardar, como el logger y el gestor de BD.
@@ -71,7 +71,7 @@ class ScheduleConfig:
             del state['logger']
         return state
 
-    def __setstate__(self, state):
+    def __setstate__(self, state: Dict[str, Any]) -> None:
         """
         Restaura el estado del objeto al ser 'unpickled' (cargado).
         """
