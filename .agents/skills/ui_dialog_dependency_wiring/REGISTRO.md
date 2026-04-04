@@ -14,7 +14,7 @@ Fuente de verdad del avance del plan **wiring de dependencias en diálogos UI**.
 | 7 | Call site `AssignPreprocesosDialog` | `preprocesos_widget.py` | Hecho | 2026-04-04 | 2f65583 | Botón en pestaña Preprocesos; `set_controller` guarda `AppController` | `pytest tests/unit/test_preprocesos_widget.py -q` |
 | 8 | `DefineProductionFlowDialog` + `resolve_fabricacion_service` | `define_flow_dialog.py` | Hecho | 2026-04-04 | 6e73d1b | Misma prioridad DI → PC → `model.fabricacion_service` que assignment | `pytest tests/unit/test_define_flow_dialog.py tests/unit/test_define_flow_dialog_edge.py -q` |
 | 9 | Inyección explícita Fab + API única pilas | `preprocesos_widget.py`, `flow_action_handler.py` | Hecho | 2026-04-04 | 240e826 | `AssignPreprocesosDialog` recibe `fabricacion_service` desde `resolve_*`; `load_saved_pila` usa `_pila_list_load_api()` | `pytest tests/unit/test_preprocesos_widget.py tests/unit/ui/production_flow/test_flow_action_handler.py -q` |
-| 10 | `DefinirLoteWidget` + `resolve_fabricacion_service` | `lotes_widget.py` | Hecho | 2026-04-04 | — | `__init__`/`set_controller` con AppController: misma prioridad que diálogos; fallback DI si resolve es None | `pytest tests/unit/test_lotes_widget.py -q` |
+| 10 | `DefinirLoteWidget` + `resolve_fabricacion_service` | `lotes_widget.py` | Hecho | 2026-04-04 | d9fc9b0 | `__init__`/`set_controller` con AppController: misma prioridad que diálogos; fallback DI si resolve es None | `pytest tests/unit/test_lotes_widget.py -q` |
 
 ## Inventario rápido (Fase 0)
 
