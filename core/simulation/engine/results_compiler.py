@@ -139,7 +139,7 @@ class ResultsCompiler:
         audit_log.sort(key=lambda x: x.timestamp if hasattr(x, 'timestamp') else datetime.min)
         return audit_log
 
-    def _generar_descripcion(self, tipo_evento: str, datos: Dict[str, Any], task_info: Dict[str, Any]) -> tuple:
+    def _generar_descripcion(self, tipo_evento: str, datos: Dict[str, Any], task_info: Dict[str, Any]) -> tuple[str, str, str, DecisionStatus]:
         """Genera descripciones específicas para cada tipo de evento."""
         task_name = task_info.get('name', 'Tarea')
         if tipo_evento == 'INICIO_UNIDAD':

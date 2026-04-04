@@ -32,7 +32,7 @@ class ProductRepository(BaseRepository):
     Maneja la persistencia de artículos, escandallos y relaciones de fabricación.
     """
 
-    def add_product(self, data: dict, sub_data: list | None = None) -> bool:
+    def add_product(self, data: dict[str, Any], sub_data: list[Any] | None = None) -> bool:
         """Añade un producto, subfabricaciones y procesos mecánicos."""
 
         def _operation(session: Session) -> bool:
@@ -89,7 +89,7 @@ class ProductRepository(BaseRepository):
 
         return self.safe_execute(_operation) or False
 
-    def update_product(self, codigo_original: str, data: dict, sub_data: list | None = None) -> bool:
+    def update_product(self, codigo_original: str, data: dict[str, Any], sub_data: list[Any] | None = None) -> bool:
         """Actualiza un producto, subfabricaciones y procesos mecánicos."""
 
         def _operation(session: Session) -> bool:

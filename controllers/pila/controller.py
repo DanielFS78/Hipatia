@@ -137,7 +137,7 @@ class PilaController(QObject):
         if not calc_page.planning_session:
             calc_page.define_flow_button.setEnabled(False)
 
-    def get_preprocesos_for_fabricacion(self, fabricacion_id: int) -> list:
+    def get_preprocesos_for_fabricacion(self, fabricacion_id: int) -> list[dict[str, Any]]:
         """
         Obtiene los preprocesos asociados a una fabricación específica.
 

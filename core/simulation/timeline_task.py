@@ -59,7 +59,7 @@ class LineaTemporalTarea:
         self.trabajadores_asignados: List[str] = []  # Será una lista agregada de todos los trabajadores
 
         # NUEVO: Estructura para trabajo paralelo
-        self.instancias_activas: List[Dict] = []
+        self.instancias_activas: List[Dict[str, Any]] = []
         # Cada diccionario en la lista tendrá esta estructura:
         # {
         #     'id_instancia': str (uuid),
