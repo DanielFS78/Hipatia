@@ -33,6 +33,12 @@ class FlowActionHandler:
 
         self._pila_service: Any = resolve_pila_service(controller, DIContainer.get_instance())
 
+    def _pila_list_load_api(self) -> Any:
+        """`PilaService` resuelto o `controller.model` (tests / arranque sin servicio inyectado)."""
+        if self._pila_service is not None:
+            return self._pila_service
+        return self.controller.model
+
     def handle_cycle_end(self, selected_index: Optional[int], simulation_service: Any) -> None:
         if selected_index is None: return
         dialog = CycleEndConfigDialog(selected_index, self.presenter.canvas_tasks, self.parent)
@@ -79,21 +85,18 @@ class FlowActionHandler:
         return -1 # Marcador de no cambio
 
     def load_saved_pila(self, flow_loader_callback: Any) -> None:
-        if self._pila_service is not None:
-            pilas = self._pila_service.get_all_pilas()
-        else:
-            pilas = self.controller.model.get_all_pilas()
-        if not pilas: return
-        
+        api = self._pila_list_load_api()
+        pilas = api.get_all_pilas()
+        if not pilas:
+            return
+
         items = [f"{p.nombre} (ID: {p.id})" for p in pilas]
         item, ok = QInputDialog.getItem(self.parent, "Cargar Pila", "Seleccione:", items, 0, False)
         if ok and item:
             pila_id = pilas[items.index(item)].id
-            if self._pila_service is not None:
-                _, _, flow, _ = self._pila_service.load_pila(pila_id)
-            else:
-                _, _, flow, _ = self.controller.model.load_pila(pila_id)
-            if flow: flow_loader_callback(flow)
+            _, _, flow, _ = api.load_pila(pila_id)
+            if flow:
+                flow_loader_callback(flow)
 
     def save_pila_only(self) -> None:
         nombre, ok = QInputDialog.getText(self.parent, "Guardar", "Nombre:")

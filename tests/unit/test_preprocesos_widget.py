@@ -6,6 +6,8 @@ botones añadir/editar/eliminar y comportamiento sin controlador. Mocks con spec
 """
 import pytest
 from unittest.mock import MagicMock, patch
+
+from core.di_container import DIContainer
 from PyQt6.QtWidgets import QListWidgetItem
 from PyQt6.QtCore import Qt
 
@@ -137,13 +139,20 @@ class TestPreprocesosWidget:
         widget._on_assign_to_fabricaciones_clicked()
 
     def test_assign_to_fabricaciones_opens_dialog(self, widget):
-        """Con AppController se instancia y ejecuta AssignPreprocesosDialog."""
+        """Con AppController se resuelve FabricacionService y se inyecta en el diálogo."""
         app_ctrl = MagicMock(spec=["show_fabricacion_preprocesos"])
         widget.set_controller(app_ctrl)
+        sentinel = MagicMock(spec=[])
         with patch(
             "ui.dialogs.fabrication.assignment_dialogs.AssignPreprocesosDialog",
-        ) as MockDlg:
+        ) as MockDlg, patch(
+            "ui.dialogs.fabrication.dialog_dependencies.resolve_fabricacion_service",
+            return_value=sentinel,
+        ) as mock_res:
             inst = MockDlg.return_value
             widget._on_assign_to_fabricaciones_clicked()
-            MockDlg.assert_called_once_with(app_ctrl, widget)
+            mock_res.assert_called_once_with(app_ctrl, DIContainer.get_instance())
+            MockDlg.assert_called_once_with(
+                app_ctrl, widget, fabricacion_service=sentinel
+            )
             inst.exec.assert_called_once_with()

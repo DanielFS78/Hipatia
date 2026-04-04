@@ -119,7 +119,14 @@ class PreprocesosWidget(QWidget):
     def _on_assign_to_fabricaciones_clicked(self) -> None:
         if not self._app_controller:
             return
+        from core.di_container import DIContainer
         from ui.dialogs.fabrication.assignment_dialogs import AssignPreprocesosDialog
+        from ui.dialogs.fabrication.dialog_dependencies import resolve_fabricacion_service
 
-        dlg = AssignPreprocesosDialog(self._app_controller, self)
+        fs = resolve_fabricacion_service(self._app_controller, DIContainer.get_instance())
+        dlg = AssignPreprocesosDialog(
+            self._app_controller,
+            self,
+            fabricacion_service=fs,
+        )
         dlg.exec()
