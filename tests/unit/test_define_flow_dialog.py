@@ -6,6 +6,9 @@ from PyQt6.QtWidgets import QMessageBox, QDialog
 from PyQt6.QtCore import Qt
 from types import SimpleNamespace
 
+from core.di_container import DIContainer
+from core.services.machine_service import MachineService
+from core.services.preparation_service import PreparationService
 from ui.dialogs.production_flow.define_flow_dialog import DefineProductionFlowDialog
 from core.dtos import WorkerDTO, FlowTaskDataDTO, FlowTaskConfigDTO, ProductionFlowStepDTO
 from datetime import date
@@ -72,6 +75,24 @@ class TestDefineProductionFlowDialog:
         assert len(dialog.presenter.get_production_flow()) == 0
         assert dialog.presenter is not None
         assert "P1" in dialog.task_data_by_product
+
+    def test_init_uses_product_controller_fabricacion_when_di_has_machine_prep_only(
+        self, qtbot, dialog_data, mock_dependencies
+    ):
+        """Si DI tiene Machine+Preparation pero no FabricacionService, usar product_controller."""
+        tasks, workers, units, controller, schedule_config = dialog_data
+        container = DIContainer.get_instance()
+        container.register(MachineService, instance=MagicMock(spec=MachineService))
+        container.register(PreparationService, instance=MagicMock(spec=PreparationService))
+        fab = MagicMock(spec=["get_prep_info_for_product"])
+        pc = MagicMock(spec=["fabricacion_service"])
+        pc.fabricacion_service = fab
+        controller.product_controller = pc
+
+        dialog = DefineProductionFlowDialog(tasks, workers, units, controller, schedule_config)
+        qtbot.addWidget(dialog)
+        assert dialog.presenter.model is None
+        assert dialog.presenter.fabricacion_service is fab
 
     def test_init_with_existing_flow(self, qtbot, dialog_data, mock_dependencies):
         tasks, workers, units, controller, schedule_config = dialog_data

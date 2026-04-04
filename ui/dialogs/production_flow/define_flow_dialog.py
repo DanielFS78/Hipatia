@@ -58,6 +58,11 @@ class DefineProductionFlowDialog(QDialog):
             _presenter_kw["preparation_service"] = _c.resolve(PreparationService)
             if _c.is_registered(FabricacionService):
                 _presenter_kw["fabricacion_service"] = _c.resolve(FabricacionService)
+            else:
+                pc = getattr(controller, "product_controller", None) if controller else None
+                fs = getattr(pc, "fabricacion_service", None) if pc is not None else None
+                if fs is not None:
+                    _presenter_kw["fabricacion_service"] = fs
             _presenter_kw["model"] = None
         else:
             _presenter_kw["model"] = controller.model if controller else None
