@@ -1,6 +1,6 @@
 ---
 description: Refactor de wiring DI en diálogos UI (FabricacionService, PilaService). Leer skill y REGISTRO antes de editar.
-globs: ui/dialogs/**/*.py, controllers/pila/pila_manager.py
+globs: ui/dialogs/**/*.py, ui/widgets/lotes_widget.py, ui/widgets/preprocesos_widget.py, controllers/pila/pila_manager.py
 alwaysApply: false
 ---
 
