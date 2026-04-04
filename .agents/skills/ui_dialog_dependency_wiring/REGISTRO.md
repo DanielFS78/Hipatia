@@ -4,7 +4,7 @@ Fuente de verdad del avance del plan **wiring de dependencias en diálogos UI**.
 
 | Fase | Ítem | Archivos | Estado | Fecha | Commit | Notas | Tests ejecutados |
 |------|------|----------|--------|-------|--------|-------|------------------|
-| 0 | Baseline + inventario | REGISTRO, skill | Hecho | 2026-04-03 | 3ee4667 | AssignPreprocesosDialog: sin call site en app; solo tests + export público. Mantener API; enlazar menú = trabajo futuro opcional. | `pytest tests/unit -q` (2399 OK) |
+| 0 | Baseline + inventario | REGISTRO, skill | Hecho | 2026-04-03 | 8f7be47 | AssignPreprocesosDialog: sin call site en app; solo tests + export público. Mantener API; enlazar menú = trabajo futuro opcional. | `pytest tests/unit -q` (2399 OK) |
 | 1 | `dialog_dependencies` + refactor diálogos | `ui/dialogs/fabrication/dialog_dependencies.py`, assignment, bitacora, `test_dialog_dependencies.py` | Hecho | 2026-04-03 | — | Prioridades DI → product_controller → model.fabricacion_service / model.pila_service | ver gates.md |
 | 2 | Inyección opcional constructores | bitacora, assignment | Hecho | 2026-04-03 | — | `pila_service=`, `fabricacion_service=` | ver gates.md |
 | 3 | Call site bitácora | `pila_manager.py` | Hecho | 2026-04-03 | — | Pasa `pila_service=self._pila_service` | ver gates.md |
