@@ -270,6 +270,14 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Gates:** `mypy .` OK (676 archivos); pytest focal simulación + main_window + worker_main_window + bom_import + label_manager OK.
 - **Fecha cierre:** 2026-04-04
 
+## ITEM 004 (lote D — paso 10) — `core.*_io` restantes + ampliación `ui.dialogs` / widgets flujo e informes
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `mypy.ini` — nueve módulos `core` `*_io` (además de `flow_canvas_io` ya listado): `define_flow_presenter_io`, `define_flow_form_io`, `inspector_task_payload_io`, `enhanced_flow_canvas_state_io`, `enhanced_flow_presenter_io`, `reassignment_rule_dialog_io`, `definir_cantidades_dialog_io`, `holidays_config_io`, `flow_graph_manager_io`; `ui.dialogs.fabrication.*`, `production_flow.*`, `product.*`, `prep.*`; diálogos sueltos (`tracking_dialogs`, `utility_dialogs`, `connection_dialog`, `backup_restore_dialog`, `card_widget`, `canvas_widgets`, `canvas_widget`); `ui.widgets.reports.*`, `ui.widgets.production_flow.*`. `BOMImportPreviewDialog.__init__`: `parent: Optional[QWidget]`.
+- **Gates:** `mypy .` OK (676 archivos); pytest focal BOM preview + define_flow + canvas + fabrication_dialogs OK.
+- **Fecha cierre:** 2026-04-04
+
 ## Siguiente ítem sugerido
 
-- **ITEM 004 (lote D — paso 10):** módulos `core`/`ui` aún laxos (p. ej. `core.*_io` sueltos fuera de bloques, `ui.dialogs` por subpaquete no cubierto, `features.__init__` ya estricto pero revisar `tests` bajo política distinta); o cierre de lote D con auditoría de `mypy.ini` vs árbol real (`scripts/` excluidos).
+- **ITEM 004 (lote D — cierre opcional / paso 11):** endurecer el resto de `ui.widgets.*` no cubierto (p. ej. `home_widget`, `dashboard`, `products_widget`, ya parcialmente en ITEM 004 previo para `fabrications_widget`/`reportes_widget`) o `core/qr_scanner` (salvo `scanner` ya estricto); mantener lotes pequeños. Alternativa: declarar **lote D mypy** suficiente para CI y usar solo mantenimiento al añadir módulos nuevos.

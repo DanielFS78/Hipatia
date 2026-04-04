@@ -6,9 +6,19 @@ Muestra un árbol jerárquico (QTreeWidget) que representa la estructura A3RP.
 Permite al usuario marcar/desmarcar qué nodos desea importar como subfabricaciones.
 """
 
+from typing import Optional
+
 from PyQt6.QtWidgets import (
-    QDialog, QVBoxLayout, QTreeWidget, QTreeWidgetItem, 
-    QPushButton, QHBoxLayout, QLabel, QHeaderView, QFrame
+    QDialog,
+    QFrame,
+    QHBoxLayout,
+    QHeaderView,
+    QLabel,
+    QPushButton,
+    QTreeWidget,
+    QTreeWidgetItem,
+    QVBoxLayout,
+    QWidget,
 )
 from PyQt6.QtCore import Qt
 from core.import_manager.dto import BOMNodeDTO
@@ -19,7 +29,7 @@ class BOMImportPreviewDialog(QDialog):
     Diálogo interactivo para previsualizar y supervisar el árbol BOM antes de importar.
     """
     
-    def __init__(self, root_node: BOMNodeDTO, parent=None) -> None:
+    def __init__(self, root_node: BOMNodeDTO, parent: Optional[QWidget] = None) -> None:
         super().__init__(parent)
         self.root_node = root_node
         self.setWindowTitle("Supervisión de Importación de Estructura A3RP")
