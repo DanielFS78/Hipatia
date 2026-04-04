@@ -1,6 +1,6 @@
 # Documentación Técnica: Hipatia
 
-> Generado automáticamente el 2026-04-04 12:30:18
+> Generado automáticamente el 2026-04-04 12:34:23
 
 ---
 

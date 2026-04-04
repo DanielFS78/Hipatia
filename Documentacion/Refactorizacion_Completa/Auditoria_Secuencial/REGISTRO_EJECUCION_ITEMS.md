@@ -230,6 +230,14 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Gates:** mypy focal + pytest focal tracking stats/excepciones.
 - **Fecha cierre:** 2026-04-04
 
+## ITEM 004 (lote D — paso 5) — `repositories.__init__` + satélites mypy
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `database/repositories/__init__.py` (`__all__` alineado con imports públicos: `LoteRepository`, `LabelCounterRepository`), `mypy.ini` (bloque dedicado `database.repositories.__init__`; `label_counter_repository` e `incidencia_repository` en bloques separados), `incidencia_repository.py` (import `cast` no usado retirado).
+- **Gates:** `mypy database/repositories` OK; pytest focal label_counter + tracking OK.
+- **Fecha cierre:** 2026-04-04
+
 ## Siguiente ítem sugerido
 
-- **ITEM 004 (lote D — paso 5):** revisar `database/repositories/__init__.py` o siguiente repositorio satélite (`incidencia_repository`, `label_counter_repository`) para cobertura de tipos / `disallow_untyped_defs` ya agrupado; continuar con módulos `database/` o `core/services` aún solo bajo `*.` laxo según `check_typing_coverage` / impacto.
+- **ITEM 004 (lote D — paso 6):** según `check_typing_coverage` / `mypy.ini`, siguiente módulo `database/` o `core/services` aún bajo patrón `*.` laxo; o endurecer otro subpaquete de repositorios si el analizador lo marca.

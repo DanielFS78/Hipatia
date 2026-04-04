@@ -8,7 +8,7 @@ Repositorio para la gestión de incidencias y adjuntos.
 import os
 import logging
 from datetime import datetime, timezone
-from typing import Callable, Optional, List, cast
+from typing import Callable, List, Optional
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import SQLAlchemyError
 
