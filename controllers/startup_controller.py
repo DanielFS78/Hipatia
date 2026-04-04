@@ -241,15 +241,17 @@ class StartupController:
         self.container.register(BackupController, factory=lambda: BackupController(self.model.db, self.view, self.logger, self.app.backup_service, self.app.audit_logger))
         # ReportController with direct services
         self.container.register(ReportController, factory=lambda: ReportController(
-            db=self.model.db, view=self.view, 
-            worker_service=self.model.worker_service, 
-            product_service=self.model.product_service,
-            pila_service=self.model.pila_service, 
-            schedule_manager=self.schedule_manager, 
+            db=self.model.db, view=self.view,
+            worker_service=self.container.resolve(WorkerService),
+            product_service=self.container.resolve(ProductService),
+            pila_service=self.container.resolve(PilaService),
+            schedule_manager=self.schedule_manager,
             logger=self.logger
         ))
         self.container.register(HardwareController, factory=lambda: HardwareController(self.model.db, self.view, self.logger))
-        self.container.register(MachineController, factory=lambda: MachineController(self.model.machine_service, self.view, self.logger))
+        self.container.register(MachineController, factory=lambda: MachineController(
+            self.container.resolve(MachineService), self.view, self.logger
+        ))
         
         # Controllers that depend on AppController
         self.container.register(CalculationController, factory=lambda: CalculationController(
@@ -292,7 +294,11 @@ class StartupController:
             self.container.resolve(PilaService),
         ))
         self.container.register(HistorialController, factory=lambda: HistorialController(
-            self.model.db, self.model.pila_service, self.model.worker_service, cast('MainView', self.view), self.logger
+            self.model.db,
+            self.container.resolve(PilaService),
+            self.container.resolve(WorkerService),
+            cast('MainView', self.view),
+            self.logger,
         ))
         
         self.container.register(ScheduleController, factory=lambda: ScheduleController(
@@ -325,7 +331,7 @@ class StartupController:
         self.container.register(PreprocesoController, factory=lambda: PreprocesoController(
             db_manager=self.model.db,
             view=self.view,
-            fabricacion_service=self.model.fabricacion_service,
+            fabricacion_service=self.container.resolve(FabricacionService),
             logger=self.logger
         ))
         self.container.register(FabricacionController, factory=lambda: FabricacionController(
@@ -335,19 +341,19 @@ class StartupController:
             self.model.db, self.view, self.app.pila_controller, self.app.logger
         ))
         self.container.register(UIController, factory=lambda: UIController(
-            self.view, 
-            self.model.machine_service, 
-            self.model.worker_service,
-            self.model.report_service,
-            self.model.product_service,
-            self.app.worker_controller, 
+            self.view,
+            self.container.resolve(MachineService),
+            self.container.resolve(WorkerService),
+            self.container.resolve(ReportService),
+            self.container.resolve(ProductService),
+            self.app.worker_controller,
             self.app.machine_controller,
-            cast('QuoteService', self.app.quote_service), 
-            cast('QThreadPool', self.app.thread_pool), 
+            cast('QuoteService', self.app.quote_service),
+            cast('QThreadPool', self.app.thread_pool),
             self.app.logger
         ))
         self.container.register(NavigationController, factory=lambda: NavigationController(
-            self.app, self.view, self.model.product_service, self.app.logger
+            self.app, self.view, self.container.resolve(ProductService), self.app.logger
         ))
         self.container.register(UISignalsController, factory=lambda: UISignalsController(self.app))
 
