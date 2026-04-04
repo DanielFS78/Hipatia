@@ -227,7 +227,7 @@ class ReportePilaFabricacionExcelMejorado(IReporteEstrategia):
             self.logger.error(f"Error al guardar el archivo Excel: {e}", exc_info=True)
             return False
 
-    def _crear_hoja_trabajo_paralelo(self, wb, all_results):
+    def _crear_hoja_trabajo_paralelo(self, wb: Workbook, all_results: list[dict[str, Any]]) -> None:
         ws = wb.create_sheet("Trabajo Paralelo")
         ws['A1'] = "ANÁLISIS DE TRABAJO PARALELO POR INSTANCIA"
         ws['A1'].font = Font(size=14, bold=True, color="FFFFFF")
@@ -259,10 +259,16 @@ class ReportePilaFabricacionExcelMejorado(IReporteEstrategia):
             registros.sort(key=lambda x: x.get('Inicio', datetime.min))
             tarea = registros[0].get('Tarea', 'N/A')
             trabajadores = registros[0].get('Lista Trabajadores', [])
-            unidad_inicial = min(r.get('Numero Unidad', 0) for r in registros)
-            unidad_final = max(r.get('Numero Unidad', 0) for r in registros)
-            inicio = min(r.get('Inicio') for r in registros if r.get('Inicio'))
-            fin = max(r.get('Fin') for r in registros if r.get('Fin'))
+            unidad_inicial = min(int(r.get('Numero Unidad', 0) or 0) for r in registros)
+            unidad_final = max(int(r.get('Numero Unidad', 0) or 0) for r in registros)
+            inicios: list[datetime] = [
+                v for r in registros for v in (r.get('Inicio'),) if isinstance(v, datetime)
+            ]
+            fines: list[datetime] = [
+                v for r in registros for v in (r.get('Fin'),) if isinstance(v, datetime)
+            ]
+            inicio = min(inicios) if inicios else None
+            fin = max(fines) if fines else None
             duracion_total = sum(r.get('Duracion (min)', 0) for r in registros)
             row_data = [tarea, inst_id[:8], ", ".join(trabajadores), unidad_inicial, unidad_final, inicio.strftime('%d/%m/%Y %H:%M') if inicio else 'N/A', fin.strftime('%d/%m/%Y %H:%M') if fin else 'N/A', round(duracion_total, 2)]
             ws.append(row_data)

@@ -24,6 +24,7 @@ class TestPreparationService:
                 "get_steps_for_group",
                 "add_prep_step",
                 "get_prep_step_details",
+                "get_prep_step_details_by_ids",
             ]
         )
         return db
@@ -84,3 +85,16 @@ class TestPreparationService:
         
         assert result == mock_step
         mock_db.machine_repo.get_prep_step_details.assert_called_once_with(1)
+
+    def test_get_prep_step_details_by_ids(self, service, mock_db):
+        """Delega al repositorio de máquinas el mapa id → paso."""
+        mock_map = {
+            1: PreparationStepDTO(id=1, nombre="A", tiempo_fase=1.0, descripcion="", es_diario=False),
+            2: PreparationStepDTO(id=2, nombre="B", tiempo_fase=2.0, descripcion="", es_diario=False),
+        }
+        mock_db.machine_repo.get_prep_step_details_by_ids.return_value = mock_map
+
+        result = service.get_prep_step_details_by_ids([1, 2])
+
+        assert result == mock_map
+        mock_db.machine_repo.get_prep_step_details_by_ids.assert_called_once_with([1, 2])

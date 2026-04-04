@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
+from typing import Any, Mapping, MutableSequence, Sequence
+
 from reportlab.lib import colors
 from reportlab.lib.units import inch
 from reportlab.platypus import Paragraph, Spacer, Table, TableStyle
 
 
-def add_diagnostics_section(story, audit, styles) -> None:
+def add_diagnostics_section(
+    story: MutableSequence[Any], audit: Sequence[Any], styles: Mapping[str, Any]
+) -> None:
     """Añade diagnósticos de recursos e inactividad al PDF."""
     resource_warnings = [d for d in audit if d.decision_type == "ESPERA POR RECURSO"]
     story.append(Paragraph("Cuellos de Botella de Recursos (Máquinas/Trabajadores)", styles["h3"]))
@@ -75,7 +79,9 @@ def add_diagnostics_section(story, audit, styles) -> None:
     story.append(table)
 
 
-def add_sequential_group_diagnostics_section(story, audit, styles) -> None:
+def add_sequential_group_diagnostics_section(
+    story: MutableSequence[Any], audit: Sequence[Any], styles: Mapping[str, Any]
+) -> None:
     """Añade diagnóstico de grupos secuenciales."""
     story.append(Paragraph("Análisis de Grupos de Trabajo Secuencial", styles["h3"]))
     group_events = [d for d in audit if "GRUPO_SECUENCIAL" in d.decision_type]
@@ -122,7 +128,9 @@ def add_sequential_group_diagnostics_section(story, audit, styles) -> None:
     story.append(table)
 
 
-def add_audit_log_table_section(story, audit, styles) -> None:
+def add_audit_log_table_section(
+    story: MutableSequence[Any], audit: Sequence[Any], styles: Mapping[str, Any]
+) -> None:
     """Añade tabla detallada de auditoría."""
     data = [["Hora", "Elemento", "Evento y Detalle", "Estado"]]
     body_style = styles["BodyText"]

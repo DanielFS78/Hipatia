@@ -7,6 +7,7 @@ from typing import Any, Optional, Tuple
 
 from core.dtos import PreparationGroupDTO, PreparationStepDTO
 from database.database_manager import DatabaseManager
+from database.repositories.machine import MachineRepository
 
 class PreparationService:
     """
@@ -18,7 +19,7 @@ class PreparationService:
         self._db = db_manager
 
     @property
-    def machine_repo(self):
+    def machine_repo(self) -> MachineRepository:
         return self._db.machine_repo
 
     def get_groups_for_machine(self, machine_id: int) -> list[PreparationGroupDTO]:

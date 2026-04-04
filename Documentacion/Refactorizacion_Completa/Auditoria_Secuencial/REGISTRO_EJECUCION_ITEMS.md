@@ -238,6 +238,14 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Gates:** `mypy database/repositories` OK; pytest focal label_counter + tracking OK.
 - **Fecha cierre:** 2026-04-04
 
+## ITEM 004 (lote D — paso 6) — servicios dominio + report_sheets + raíz `database`
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `mypy.ini` (`database`, `database.config`, bloque servicios fabricación/pila/máquina/preparación/tracking_assignment/system_integration/flow_*; `core.services.report_sheets.*`; `reporting.excel_report_strategy` + `pdf_report_sections`). Ajustes de anotación en esos módulos; `get_prep_step_details_by_ids` implementado en `MachinePreparationManager` / `MachineRepository` (faltaba en capa datos; `PreparationService` ya lo delegaba). Tests en `test_machine_repository`, `test_preparation_service`.
+- **Gates:** `mypy .` OK (676 archivos); pytest focal machine + preparation + report_sheets + report_strategy + tracking_assignment + fabricación OK.
+- **Fecha cierre:** 2026-04-04
+
 ## Siguiente ítem sugerido
 
-- **ITEM 004 (lote D — paso 6):** según `check_typing_coverage` / `mypy.ini`, siguiente módulo `database/` o `core/services` aún bajo patrón `*.` laxo; o endurecer otro subpaquete de repositorios si el analizador lo marca.
+- **ITEM 004 (lote D — paso 7):** revisar módulos `ui.*` o `features.*` aún solo bajo `[mypy-ui.*]` / `[mypy-features.*]` laxos, o `core/utils` sin bloque explícito, según impacto y `check_typing_coverage`.

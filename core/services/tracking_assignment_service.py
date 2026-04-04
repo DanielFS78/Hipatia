@@ -31,7 +31,7 @@ class TrackingAssignmentService:
         return self._db.tracking_repo.get_fabricaciones_por_trabajador(trabajador_id)
 
     def actualizar_estado_asignacion(self, trabajador_id: int, fabricacion_id: int, nuevo_estado: str) -> bool:
-        def _operation(session: Session, **kwargs) -> bool:
+        def _operation(session: Session, **_kwargs: Any) -> bool:
             update_stmt = trabajador_fabricacion_link.update().where(
                 and_(
                     trabajador_fabricacion_link.c.trabajador_id == trabajador_id,
@@ -46,7 +46,7 @@ class TrackingAssignmentService:
         return self._db.tracking_repo.safe_execute(_operation, default_value=False) or False
 
     def asignar_trabajador_a_fabricacion(self, trabajador_id: int, fabricacion_id: int) -> bool:
-        def _operation(session: Session, **kwargs) -> bool:
+        def _operation(session: Session, **_kwargs: Any) -> bool:
             trabajador = session.query(Trabajador).filter_by(id=trabajador_id).first()
             fabricacion = session.query(Fabricacion).filter_by(id=fabricacion_id).first()
             if not trabajador or not fabricacion:
@@ -59,7 +59,7 @@ class TrackingAssignmentService:
         return self._db.tracking_repo.safe_execute(_operation, default_value=False, commit=True) or False
 
     def desasignar_trabajador_de_fabricacion(self, trabajador_id: int, fabricacion_id: int) -> bool:
-        def _operation(session: Session, **kwargs) -> bool:
+        def _operation(session: Session, **_kwargs: Any) -> bool:
             trabajador = session.query(Trabajador).filter_by(id=trabajador_id).first()
             fabricacion = session.query(Fabricacion).filter_by(id=fabricacion_id).first()
             if not trabajador or not fabricacion:

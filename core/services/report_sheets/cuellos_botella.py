@@ -62,6 +62,6 @@ class CuellosBotollaSheet(ExcelSheetStrategy):
         widths = {'A':13, 'B':15, 'C':18, 'D':10, 'E':18, 'F':10, 'G':18, 'H':10, 'I':25, 'J':13, 'K':13, 'L':10, 'M':10, 'N':12}
         for l, w in widths.items(): ws.column_dimensions[l].width = w
 
-    def _extract_unit(self, text):
+    def _extract_unit(self, text: object) -> str:
         match = re.search(r'U(\d+)', str(text))
         return match.group(1) if match else 'N/A'

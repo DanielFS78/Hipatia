@@ -173,6 +173,9 @@ class MachineRepository(BaseRepository):
     def get_prep_step_details(self, step_id: int) -> Optional[PreparationStepDTO]:
         return self.preparation.get_prep_step_details(step_id)
 
+    def get_prep_step_details_by_ids(self, step_ids: List[int]) -> Dict[int, PreparationStepDTO]:
+        return self.preparation.get_prep_step_details_by_ids(step_ids)
+
     # Delegación: MachineStatsManager
     def get_machine_usage_stats(self) -> List[Tuple[str, float]]:
         return self.stats.get_machine_usage_stats()

@@ -14,6 +14,7 @@ from core.dtos import (
     CalculationProductDTO, CalculationSubPartDTO
 )
 from database.database_manager import DatabaseManager
+from database.repositories.pila import PilaRepository
 
 class PilaService(QObject):
     """
@@ -29,7 +30,7 @@ class PilaService(QObject):
         self.logger = logging.getLogger("PilaService")
 
     @property
-    def pila_repo(self):
+    def pila_repo(self) -> PilaRepository:
         return self.db.pila_repo
 
     def get_all_pilas(self) -> list[PilaDTO]:

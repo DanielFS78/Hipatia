@@ -534,6 +534,22 @@ class TestMachinePrepStep:
         assert steps[0].nombre == "S1"
         assert steps[1].es_diario == True # S2 es diario
 
+    def test_get_prep_step_details_by_ids(self, machine_repo_test, session_no_close):
+        """Varios IDs devuelven un mapa con los DTO existentes."""
+        m = Maquina(nombre="M", departamento="D", tipo_proceso="P")
+        session_no_close.add(m)
+        session_no_close.commit()
+        g_id = machine_repo_test.add_prep_group(m.id, "G", "D", None)
+        s1 = machine_repo_test.add_prep_step(g_id, "S1", 10, "D1", False)
+        s2 = machine_repo_test.add_prep_step(g_id, "S2", 20, "D2", True)
+
+        by_id = machine_repo_test.get_prep_step_details_by_ids([s1, s2, 99999])
+
+        assert set(by_id.keys()) == {s1, s2}
+        assert by_id[s1].nombre == "S1" and by_id[s1].descripcion == "D1"
+        assert by_id[s2].nombre == "S2" and by_id[s2].es_diario is True
+        assert machine_repo_test.get_prep_step_details_by_ids([]) == {}
+
     def test_delete_prep_step(self, machine_repo_test, session_no_close):
         """Prueba eliminar un paso individual."""
         m = Maquina(nombre="M", departamento="D", tipo_proceso="P")

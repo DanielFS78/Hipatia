@@ -108,3 +108,23 @@ class MachinePreparationManager(BaseRepository):
             if not p: return None
             return PreparationStepDTO(id=int(p.id or 0), nombre=p.nombre or "", tiempo_fase=float(p.tiempo_fase or 0.0), descripcion=p.descripcion or "", es_diario=bool(p.es_diario))
         return cast(Optional[PreparationStepDTO], self.safe_execute(_operation))
+
+    def get_prep_step_details_by_ids(self, step_ids: List[int]) -> Dict[int, PreparationStepDTO]:
+        if not step_ids:
+            return {}
+
+        def _operation(session: Session) -> Dict[int, PreparationStepDTO]:
+            pasos = session.query(PreparacionPaso).filter(PreparacionPaso.id.in_(step_ids)).all()
+            out: Dict[int, PreparationStepDTO] = {}
+            for p in pasos:
+                pid = int(p.id or 0)
+                out[pid] = PreparationStepDTO(
+                    id=pid,
+                    nombre=p.nombre or "",
+                    tiempo_fase=float(p.tiempo_fase or 0.0),
+                    descripcion=p.descripcion or "",
+                    es_diario=bool(p.es_diario),
+                )
+            return out
+
+        return self.safe_execute(_operation) or {}
