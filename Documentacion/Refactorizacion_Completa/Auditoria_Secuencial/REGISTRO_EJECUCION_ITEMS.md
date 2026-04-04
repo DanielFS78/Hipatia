@@ -254,6 +254,14 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Gates:** `mypy .` OK (676 archivos); pytest focal `test_visual_effects` + setup efectos en `test_dialogs_setup` OK.
 - **Fecha cierre:** 2026-04-04
 
+## ITEM 004 (lote D — paso 8) — `core.health`, `core.interfaces`, startup UI, `camera_manager`
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `mypy.ini` — `core.health.*`, `core.interfaces.*`, `ui.startup_screen` + constantes/report/ui auxiliares, `core.camera_manager.*`. Ajustes de tipos en `camera_manager/__init__.py` (`quick_detect_cameras` → `List[CameraInfo]`, índices y `validate_camera_index` → `bool`) y `detector._get_cv2` → `Any`.
+- **Gates:** `mypy .` OK (676 archivos); pytest focal cámara + startup + health OK.
+- **Fecha cierre:** 2026-04-04
+
 ## Siguiente ítem sugerido
 
-- **ITEM 004 (lote D — paso 8):** endurecer subpaquetes `ui` o `core` aún laxos por herencia de `[mypy-ui.*]` / `[mypy-core.*]` (p. ej. `ui.startup_screen*`, `core.health.*`, `core.camera_manager.*`, `core/interfaces`) priorizando módulos pequeños o de bajo acoplamiento; validar con `mypy .` tras cada bloque.
+- **ITEM 004 (lote D — paso 9):** cerrar huecos restantes bajo `[mypy-core.*]` / `[mypy-ui.*]` (p. ej. `core.label_manager.*`, `core.import_manager.*`, `core/validation`, widgets `ui.widgets.base` o paquetes `ui.worker`/`ui.dialogs` sin bloque dedicado) en lotes acotados.
