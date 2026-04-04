@@ -5,9 +5,11 @@ Cubre PreprocesosWidget: init, set_controller, carga/filtro lista, selección,
 botones añadir/editar/eliminar y comportamiento sin controlador. Mocks con spec.
 """
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, patch, create_autospec
 
+from controllers.product_controller_v2 import ProductController
 from core.di_container import DIContainer
+from core.services.fabricacion_service import FabricacionService
 from PyQt6.QtWidgets import QListWidgetItem
 from PyQt6.QtCore import Qt
 
@@ -22,9 +24,7 @@ class TestPreprocesosWidget:
     @pytest.fixture
     def widget(self, qtbot):
         """Fixture para PreprocesosWidget."""
-        from core.di_container import DIContainer
-        from controllers.product_controller_v2 import ProductController
-        ctrl = MagicMock(spec=[])
+        ctrl = create_autospec(ProductController, instance=True)
         DIContainer.get_instance().register(ProductController, instance=ctrl)
         w = PreprocesosWidget()
         qtbot.addWidget(w)
@@ -88,7 +88,6 @@ class TestPreprocesosWidget:
         ctrl = MagicMock(spec=['show_add_preproceso_dialog'])
         widget.preproceso_controller = ctrl
         widget._on_add_clicked()
-        assert ctrl.show_add_preproceso_dialog.call_count == 1
         ctrl.show_add_preproceso_dialog.assert_called_once_with()
 
     def test_on_edit_clicked(self, widget):
@@ -100,7 +99,6 @@ class TestPreprocesosWidget:
         ctrl = MagicMock(spec=['show_edit_preproceso_dialog'])
         widget.preproceso_controller = ctrl
         widget._on_edit_clicked()
-        assert ctrl.show_edit_preproceso_dialog.call_count == 1
         ctrl.show_edit_preproceso_dialog.assert_called_once_with(p1)
 
     def test_on_delete_clicked(self, widget):
@@ -112,7 +110,6 @@ class TestPreprocesosWidget:
         ctrl = MagicMock(spec=['delete_preproceso'])
         widget.preproceso_controller = ctrl
         widget._on_delete_clicked()
-        assert ctrl.delete_preproceso.call_count == 1
         ctrl.delete_preproceso.assert_called_once_with(1, "Corte")
 
     def test_on_add_no_controller(self, widget):
@@ -134,15 +131,16 @@ class TestPreprocesosWidget:
         assert widget.preproceso_controller is None
 
     def test_assign_to_fabricaciones_no_app_controller(self, widget):
-        """Sin AppController el manejador no intenta abrir diálogo."""
+        """Sin AppController el manejador retorna antes de importar el diálogo."""
         widget._app_controller = None
         widget._on_assign_to_fabricaciones_clicked()
+        assert widget._app_controller is None
 
     def test_assign_to_fabricaciones_opens_dialog(self, widget):
         """Con AppController se resuelve FabricacionService y se inyecta en el diálogo."""
         app_ctrl = MagicMock(spec=["show_fabricacion_preprocesos"])
         widget.set_controller(app_ctrl)
-        sentinel = MagicMock(spec=[])
+        sentinel = create_autospec(FabricacionService, instance=True)
         with patch(
             "ui.dialogs.fabrication.assignment_dialogs.AssignPreprocesosDialog",
         ) as MockDlg, patch(

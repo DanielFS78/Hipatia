@@ -5,12 +5,18 @@ Cubre ReportesWidget: init, selección producto/orden, búsqueda limpiada,
 set_controller y refresh. Controller y model mockeados con spec.
 """
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, patch, create_autospec
 
 from core.services.report_service import ReportService
 from ui.widgets.reportes_widget import ReportesWidget
 
 pytestmark = pytest.mark.unit
+
+
+class _ControllerSinModeloNiContainer:
+    """Objeto mínimo: `model` es None y no hay `container` (getattr → None)."""
+
+    model = None
 
 
 class TestReportesWidget:
@@ -40,9 +46,7 @@ class TestReportesWidget:
         with patch.object(widget.orders_widget, 'load_orders_for_product') as mock_orders, \
              patch.object(widget.charts_widget, 'update_charts') as mock_charts:
             widget._on_search_result_selected("producto", "PROD1")
-            assert mock_orders.call_count == 1
             mock_orders.assert_called_once_with("PROD1")
-            assert mock_charts.call_count == 1
             mock_charts.assert_called_once_with("PROD1")
 
     def test_on_search_result_selected_orden(self, widget):
@@ -54,9 +58,7 @@ class TestReportesWidget:
         with patch.object(widget.orders_widget, 'load_orders_for_product') as mock_orders, \
              patch.object(widget.charts_widget, 'update_charts') as mock_charts:
             widget._on_search_result_selected("orden", "OF-001")
-            assert mock_orders.call_count == 1
             mock_orders.assert_called_once_with("PROD1")
-            assert mock_charts.call_count == 1
             mock_charts.assert_called_once_with("PROD1")
 
     def test_on_search_result_selected_orden_error(self, widget):
@@ -73,9 +75,7 @@ class TestReportesWidget:
         with patch.object(widget.orders_widget, 'clear') as mock_orders, \
              patch.object(widget.charts_widget, 'clear') as mock_charts:
             widget._on_search_cleared()
-            assert mock_orders.call_count == 1
             mock_orders.assert_called_once_with()
-            assert mock_charts.call_count == 1
             mock_charts.assert_called_once_with()
 
     def test_on_order_selected(self, widget):
@@ -88,12 +88,12 @@ class TestReportesWidget:
 
     def test_on_order_selected_uses_report_service_from_di(self, qtbot):
         """Con ReportService en el DI, no se llama a model.get_order_details."""
-        rs = MagicMock(spec=["get_order_details", "get_order_units"])
+        rs = create_autospec(ReportService, instance=True)
         rs.get_order_details.return_value = None
         rs.get_order_units.return_value = []
         ctrl = MagicMock(spec=["model", "container"])
         ctrl.model = MagicMock(spec=["get_order_details", "get_order_units"])
-        ctrl.container = MagicMock()
+        ctrl.container = MagicMock(spec=["is_registered", "resolve"])
         ctrl.container.is_registered.side_effect = lambda t: t is ReportService
         ctrl.container.resolve.return_value = rs
         w = ReportesWidget(controller=ctrl)
@@ -104,18 +104,15 @@ class TestReportesWidget:
 
     def test_set_controller(self, widget):
         """set_controller propaga a sub-widgets."""
-        new_ctrl = MagicMock(spec=[])
+        new_ctrl = _ControllerSinModeloNiContainer()
         with patch.object(widget.search_widget, 'set_controller') as mock_search, \
              patch.object(widget.search_widget, 'set_report_service') as mock_rs, \
              patch.object(widget.orders_widget, 'set_controller') as mock_orders, \
              patch.object(widget.charts_widget, 'set_controller') as mock_charts:
             widget.set_controller(new_ctrl)
-            assert mock_search.call_count == 1
             mock_search.assert_called_once_with(new_ctrl)
-            mock_rs.assert_called_once()
-            assert mock_orders.call_count == 1
+            mock_rs.assert_called_once_with(None)
             mock_orders.assert_called_once_with(new_ctrl)
-            assert mock_charts.call_count == 1
             mock_charts.assert_called_once_with(new_ctrl)
 
     def test_refresh(self, widget):
@@ -124,9 +121,6 @@ class TestReportesWidget:
              patch.object(widget.orders_widget, 'clear') as mock_orders, \
              patch.object(widget.charts_widget, 'clear') as mock_charts:
             widget.refresh()
-            assert mock_search.call_count == 1
             mock_search.assert_called_once_with()
-            assert mock_orders.call_count == 1
             mock_orders.assert_called_once_with()
-            assert mock_charts.call_count == 1
             mock_charts.assert_called_once_with()
