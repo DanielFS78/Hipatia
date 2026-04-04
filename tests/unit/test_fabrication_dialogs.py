@@ -463,11 +463,18 @@ class TestPreprocesosForCalculationDialog:
 
 class TestAssignPreprocesosDialog:
     def _make_controller(self, fabricaciones=None, preprocesos=None):
-        ctrl = MagicMock(spec=['search_fabricaciones', 'model', 'show_fabricacion_preprocesos'])
+        ctrl = MagicMock(
+            spec=['search_fabricaciones', 'model', 'show_fabricacion_preprocesos', 'product_controller']
+        )
         fab_list = fabricaciones or []
         ctrl.search_fabricaciones.return_value = fab_list
-        ctrl.model = MagicMock(spec=['get_preprocesos_by_fabricacion'])
         prep_list = preprocesos or []
+        fs = MagicMock(spec=['get_preprocesos_by_fabricacion'])
+        fs.get_preprocesos_by_fabricacion.return_value = prep_list
+        pc = MagicMock(spec=['fabricacion_service'])
+        pc.fabricacion_service = fs
+        ctrl.product_controller = pc
+        ctrl.model = MagicMock(spec=['get_preprocesos_by_fabricacion'])
         ctrl.model.get_preprocesos_by_fabricacion.return_value = prep_list
         return ctrl
 
@@ -591,10 +598,13 @@ class TestAssignPreprocesosDialog:
     @patch("ui.dialogs.fabrication.assignment_dialogs.QMessageBox.critical")
     def test_load_current_preprocesos_exception(self, mock_critical, qtbot):
         from ui.dialogs.fabrication.assignment_dialogs import AssignPreprocesosDialog
-        ctrl = MagicMock(spec=['search_fabricaciones', 'model'])
+        ctrl = MagicMock(spec=['search_fabricaciones', 'product_controller'])
         ctrl.search_fabricaciones.return_value = []
-        ctrl.model = MagicMock(spec=['get_preprocesos_by_fabricacion'])
-        ctrl.model.get_preprocesos_by_fabricacion.side_effect = Exception("DB Error")
+        fs = MagicMock(spec=['get_preprocesos_by_fabricacion'])
+        fs.get_preprocesos_by_fabricacion.side_effect = Exception("DB Error")
+        pc = MagicMock(spec=['fabricacion_service'])
+        pc.fabricacion_service = fs
+        ctrl.product_controller = pc
         dialog = AssignPreprocesosDialog(ctrl)
         qtbot.addWidget(dialog)
         dialog.load_current_preprocesos(1)

@@ -18,7 +18,9 @@ if TYPE_CHECKING:
     from controllers.app_controller import AppController
     from PyQt6.QtWidgets import QWidget
 
+from core.di_container import DIContainer
 from core.dtos import SimulationResultTaskDTO
+from core.services.pila_service import PilaService
 
 class BitacoraEntryDTO:
     """DTO de entrada del diario de bitácora (plan/realizado/notas)."""
@@ -45,6 +47,9 @@ class FabricacionBitacoraDialog(QDialog):
         self.simulation_results = simulation_results
         self.controller = controller
         self.logger = logging.getLogger("EvolucionTiemposApp")
+
+        _c = DIContainer.get_instance()
+        self._pila_service = _c.resolve(PilaService) if _c.is_registered(PilaService) else None
 
         self.pila_start_date: date = self.simulation_results[0].Inicio.date() if self.simulation_results else date.today()
         self.selected_date: date = date.today()
@@ -108,7 +113,10 @@ class FabricacionBitacoraDialog(QDialog):
         """Carga los datos iniciales, formatea el calendario y selecciona el día actual."""
 
         # 1. Cargar entradas existentes desde la BD
-        _, entries = self.controller.model.get_diario_bitacora(self.pila_id)
+        if self._pila_service is not None:
+            _, entries = self._pila_service.get_diario_bitacora(self.pila_id)
+        else:
+            _, entries = self.controller.model.get_diario_bitacora(self.pila_id)
         self.bitacora_entries = {}
         for entry_data in entries:
             entry_date_source = entry_data[0]
@@ -228,8 +236,14 @@ class FabricacionBitacoraDialog(QDialog):
         day_number = (self.selected_date - self.pila_start_date).days + 1
 
         # Pasamos el objeto de fecha directamente, sin convertirlo a texto
-        success = self.controller.model.add_diario_evento(self.pila_id, self.selected_date, day_number, plan,
-                                                            realizado, notas)
+        if self._pila_service is not None:
+            success = self._pila_service.add_diario_evento(
+                self.pila_id, self.selected_date, day_number, plan, realizado, notas
+            )
+        else:
+            success = self.controller.model.add_diario_evento(
+                self.pila_id, self.selected_date, day_number, plan, realizado, notas
+            )
 
         if success:
             self.controller.view.show_message("Éxito", "La entrada del día se ha guardado correctamente.", "info")

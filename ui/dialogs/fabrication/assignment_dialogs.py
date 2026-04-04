@@ -9,6 +9,9 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import Qt
 from typing import Optional, TYPE_CHECKING, Any
 
+from core.di_container import DIContainer
+from core.services.fabricacion_service import FabricacionService
+
 if TYPE_CHECKING:
     from PyQt6.QtWidgets import QWidget
     # Assuming AppController structure
@@ -24,6 +27,16 @@ class AssignPreprocesosDialog(QDialog):
         self.controller = parent_controller
         self.setup_ui()
         self.load_fabricaciones()
+
+    def _fabricacion_service(self) -> Any | None:
+        pc = getattr(self.controller, "product_controller", None)
+        fs = getattr(pc, "fabricacion_service", None) if pc is not None else None
+        if fs is not None:
+            return fs
+        _c = DIContainer.get_instance()
+        if _c.is_registered(FabricacionService):
+            return _c.resolve(FabricacionService)
+        return None
 
     def setup_ui(self) -> None:
         self.setWindowTitle("Asignar Preprocesos a Fabricaciones")
@@ -131,8 +144,11 @@ class AssignPreprocesosDialog(QDialog):
     def load_current_preprocesos(self, fabricacion_id: int) -> None:
         """Carga los preprocesos actuales de la fabricación."""
         try:
-            # Usar el repositorio a través del modelo
-            preprocesos = self.controller.model.get_preprocesos_by_fabricacion(fabricacion_id)
+            svc = self._fabricacion_service()
+            if svc is not None:
+                preprocesos = svc.get_preprocesos_by_fabricacion(fabricacion_id)
+            else:
+                preprocesos = self.controller.model.get_preprocesos_by_fabricacion(fabricacion_id)
             self.current_preprocesos_list.clear()
 
             if not preprocesos:
