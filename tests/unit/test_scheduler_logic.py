@@ -12,8 +12,10 @@ pytestmark = pytest.mark.unit
 def mock_app_controller():
     app = MagicMock(spec=["maintenance_service", "model", "view", "schedule_manager"])
     app.maintenance_service = MagicMock(spec=["run_background_maintenance"])
-    app.model = MagicMock(spec=["config_get_setting"])
-    app.model.config_get_setting.return_value = "02:00"
+    app.model = MagicMock(spec=["db"])
+    app.model.db = MagicMock(spec=["config_repo"])
+    app.model.db.config_repo = MagicMock(spec=["get_setting"])
+    app.model.db.config_repo.get_setting.return_value = "02:00"
     app.view = MagicMock(spec=[])
     app.schedule_manager = MagicMock(spec=[])
     return app

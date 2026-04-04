@@ -300,13 +300,14 @@ class AppController(IController):
         """
         if self.schedule_controller is not None:
             return self.schedule_controller.config_get_setting(key, default)
-        return self.model.config_get_setting(key, default)
+        raw = self.model.db.config_repo.get_setting(key, default)
+        return default if raw is None else str(raw)
 
     def config_set_setting(self, key: str, value: str) -> bool:
         """Compatibilidad para escritura de configuración en arranque temprano."""
         if self.schedule_controller is not None:
             return self.schedule_controller.config_set_setting(key, value)
-        return self.model.config_set_setting(key, value)
+        return bool(self.model.db.config_repo.set_setting(key, value))
 
     def on_nav_button_clicked(self, name: str) -> None:
         if self.navigation_controller:

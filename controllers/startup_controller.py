@@ -201,8 +201,9 @@ class StartupController:
         """Verifica si hay tareas programadas para ejecutar en este momento."""
         from PyQt6.QtCore import QTime
         
-        # Hora programada para el backup (desde configuración en DB)
-        backup_time_str = self.app.model.config_get_setting("backup_time", "02:00")
+        # Hora programada para el backup (desde configuración en DB; sin pasar por AppModel)
+        raw_backup = self.model.db.config_repo.get_setting("backup_time", "02:00")
+        backup_time_str = str(raw_backup) if raw_backup is not None else "02:00"
         SCHEDULED_BACKUP_TIME = QTime.fromString(backup_time_str, "HH:mm")
         
         current_time = QTime.currentTime()
