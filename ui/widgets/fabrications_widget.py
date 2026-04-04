@@ -19,15 +19,14 @@ class FabricationsWidget(QWidget):
     edit_preprocesos_signal = pyqtSignal(int)
     edit_products_signal = pyqtSignal(int)
 
-    def __init__(self, controller: Any) -> None:
+    def __init__(self, _app_controller: Any = None, parent: Optional[QWidget] = None) -> None:
         """
         Inicializa el widget de fabricaciones.
 
-        Args:
-            controller: Controlador que gestiona la lógica de fabricaciones.
+        `_app_controller` se ignora (compat ``MainView``). La lógica vive en controladores
+        conectados por señales; este widget solo emite señales Qt.
         """
-        super().__init__()
-        self.controller = controller
+        super().__init__(parent)
         self.current_fabricacion_id: Optional[int] = None
         self.form_widgets: Dict[str, Any] = {}
 

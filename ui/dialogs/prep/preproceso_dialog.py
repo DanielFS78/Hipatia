@@ -38,7 +38,7 @@ class PreprocesoDialog(QDialog):
         self,
         preproceso_existente: Any = None,
         all_materials: Sequence[Any] | None = None,
-        controller: Any = None,
+        material_port: Any = None,
         parent: Any = None,
     ) -> None:
         """
@@ -47,14 +47,14 @@ class PreprocesoDialog(QDialog):
         Args:
             preproceso_existente: Datos del preproceso a editar (opcional).
             all_materials: Lista de todos los materiales disponibles.
-            controller: Controlador de preprocesos/materiales.
+            material_port: Controlador de producto / materiales (p. ej. ``ProductController``).
             parent: Widget padre.
         """
         super().__init__(parent)
-        logging.info(f"PreprocesoDialog.__init__ called. Controller arg: {controller}")
+        logging.info(f"PreprocesoDialog.__init__ called. material_port arg: {material_port}")
         self.preproceso_data = preproceso_existente
         self.all_materials: List[Any] = list(all_materials) if all_materials else []
-        self.controller = controller  # REQUIRED for managing components
+        self.material_port = material_port
         self.assigned_material_ids: Set[int] = set()
 
         if self.preproceso_data:
@@ -154,9 +154,9 @@ class PreprocesoDialog(QDialog):
         Recarga los materiales desde el modelo a través del controlador
         y actualiza la visualización de la lista.
         """
-        if not self.controller:
+        if not self.material_port:
             return
-        self.all_materials = list(self.controller.material_service.get_all_materials_for_selection())
+        self.all_materials = list(self.material_port.material_service.get_all_materials_for_selection())
         
         # Guardamos la selección actual para restaurarla (si es que aún existen los items)
         # Nota: assigned_material_ids ya rastrea lo que queremos que esté seleccionado.
@@ -182,8 +182,8 @@ class PreprocesoDialog(QDialog):
 
     def _on_add_material(self) -> None:
         """Inicia el flujo para crear un nuevo componente/material en el sistema."""
-        logging.info(f"_on_add_material clicked. Controller: {self.controller}")
-        if not self.controller:
+        logging.info(f"_on_add_material clicked. Controller: {self.material_port}")
+        if not self.material_port:
             return
         codigo, ok1 = QInputDialog.getText(self, "Añadir Componente", "Código:")
         if not (ok1 and codigo.strip()):
@@ -192,13 +192,13 @@ class PreprocesoDialog(QDialog):
         if not (ok2 and desc.strip()):
             return
 
-        if self.controller.handle_create_material(codigo, desc):
+        if self.material_port.handle_create_material(codigo, desc):
             self._refresh_data()
 
     def _on_edit_material(self) -> None:
         """Inicia el flujo para editar un componente existente seleccionado."""
-        logging.info(f"_on_edit_material clicked. Controller: {self.controller}")
-        if not self.controller:
+        logging.info(f"_on_edit_material clicked. Controller: {self.material_port}")
+        if not self.material_port:
             return
         selected_items = self.materials_list.selectedItems()
         # Nota: QListWidget en MultiSelection permite seleccionar varios.
@@ -219,7 +219,7 @@ class PreprocesoDialog(QDialog):
         if not (ok2 and new_desc.strip()):
             return
 
-        if self.controller.handle_update_material(mat_id, new_code, new_desc):
+        if self.material_port.handle_update_material(mat_id, new_code, new_desc):
             self._refresh_data()
 
     def _on_delete_material(self) -> None:
@@ -227,8 +227,8 @@ class PreprocesoDialog(QDialog):
         Elimina los componentes seleccionados del sistema completo.
         Requiere confirmación del usuario debido al impacto global.
         """
-        logging.info(f"_on_delete_material clicked. Controller: {self.controller}")
-        if not self.controller:
+        logging.info(f"_on_delete_material clicked. Controller: {self.material_port}")
+        if not self.material_port:
             return
         selected_items = self.materials_list.selectedItems()
         if not selected_items:
@@ -243,7 +243,7 @@ class PreprocesoDialog(QDialog):
 
         for item in selected_items:
             mat_id = cast(int, item.data(Qt.ItemDataRole.UserRole))
-            self.controller.handle_delete_material(mat_id)
+            self.material_port.handle_delete_material(mat_id)
             # Removemos del set assigned para que no intente re-seleccionarlo
             if mat_id in self.assigned_material_ids:
                 self.assigned_material_ids.remove(mat_id)

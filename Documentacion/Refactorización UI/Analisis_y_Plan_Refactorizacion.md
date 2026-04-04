@@ -11,6 +11,12 @@ Este documento se centra en la auditoría y documentación de la capa visual de 
 ### Arquitectura UI
 La interfaz está construida con **PyQt6**, siguiendo patrones de desacoplamiento para permitir el testeo de la lógica de presentación independientemente de los widgets de Qt.
 
+### Estado arquitectónico (abril 2026)
+
+Los informes antiguos que describen solo el **riesgo de «objeto dios» en `AppModel`** o la **necesidad de inyectar fachadas** siguen siendo **válidos como tendencia**, pero **no reflejan el trabajo ya cerrado** en coordinación con producción (**B5**, reducción de dependencia en controladores y puntos de UI acordados). Fuente de verdad: [`.agents/skills/reduccion_god_objects/SKILL.md`](../../.agents/skills/reduccion_god_objects/SKILL.md) (B5 **finalizada**; tabla de controladores con servicios inyectados; exclusiones explícitas: señales y orquestación que siguen en `AppModel`).
+
+Sobre **widgets que recibían `AppController` solo para extraer sub-controladores**: el patrón **sigue en pantallas como reportes o diálogos de flujo**; la mitigación es **incremental**. **Gestión de datos:** las pestañas usan **DI** (`ProductController`, `MachineController`, etc.) y el primer argumento que envía `MainView` es **`_app_controller` ignorado** salvo compatibilidad. **`PreprocesosWidget`** ya no guarda el hub: abre `AssignPreprocesosDialog` con `FabricacionService` del contenedor y `ProductController` como `opens_fabricacion_preprocesos`. **`SettingsWidget`:** `ScheduleController` + fallback `config_repo` sin retener `AppController`. **`ReportesWidget`:** el hub solo al enlazar (`set_controller` / `connect_reportes_signals` con `self.app`); listas y gráficas reciben `ReportService` y `fallback_reports_model`, no el orquestador. Mapa de capas: [`ANALISIS_CAPAS.md`](../Refactorizacion_Completa/Arquitectura_Dependencias/ANALISIS_CAPAS.md).
+
 ---
 ## 📑 Índice de Componentes UI
 

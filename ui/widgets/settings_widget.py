@@ -25,6 +25,10 @@ class SettingsWidget(QWidget):
     """
     Panel de configuración de la aplicación.
     Orquesta la vista de horarios, descansos y parámetros del sistema.
+
+    La vista depende de ``ScheduleController`` (``set_schedule_controller``) y, si hace falta
+    carga antes de existir ese controlador, de ``DatabaseManager`` vía ``set_config_db_fallback``;
+    no mantiene referencia a ``AppController``.
     """
     # Señales para comunicación con el controlador
     import_signal = pyqtSignal()
@@ -43,23 +47,20 @@ class SettingsWidget(QWidget):
         """
         super().__init__(parent)
         self.schedule_controller = schedule_controller
+        self._config_db: Any = None
         self._init_ui()
         if self.schedule_controller:
             self.load_schedule_settings()
 
-    def set_controller(self, controller: Any) -> None:
-        """Asigna el controlador principal y extrae el de horarios."""
-        self.controller = controller  # Guardar referencia para fallback
-        if hasattr(controller, "schedule_controller") and controller.schedule_controller:
-            self.schedule_controller = controller.schedule_controller
-            self.load_schedule_settings()
-        elif hasattr(controller, "db"):
-            # Caso para tests de integración o arranque temprano
-            self.schedule_controller = None
-            self.load_schedule_settings()
-        else:
-            # Caso para tests unitarios donde se pasa el controlador de horarios directo
-            self.schedule_controller = controller
+    def set_schedule_controller(self, schedule_controller: Optional["ScheduleController"]) -> None:
+        """Asigna el controlador de horarios (sin pasar por AppController)."""
+        self.schedule_controller = schedule_controller
+        self.load_schedule_settings()
+
+    def set_config_db_fallback(self, db: Optional[Any]) -> None:
+        """Base de datos con ``config_repo`` para carga temprana si aún no hay ScheduleController."""
+        self._config_db = db
+        if not self.schedule_controller:
             self.load_schedule_settings()
 
     def _init_ui(self) -> None:
@@ -150,11 +151,11 @@ class SettingsWidget(QWidget):
             self.backup_time.setTime(QTime.fromString(bt, "HH:mm"))
             return
 
-        # 2. Fallback para inicialización temprana o tests (Acceso Directo via AppController)
-        controller = getattr(self, "controller", None)
-        if controller and hasattr(controller, "db"):
+        # 2. Fallback: solo lectura vía DatabaseManager (arranque o tests sin ScheduleController)
+        db = self._config_db
+        if db is not None and hasattr(db, "config_repo"):
             try:
-                repo = controller.db.config_repo
+                repo = db.config_repo
                 start = repo.get_setting("work_start_time", "08:00")
                 end = repo.get_setting("work_end_time", "15:15")
                 bt = repo.get_setting("backup_time", "03:00")

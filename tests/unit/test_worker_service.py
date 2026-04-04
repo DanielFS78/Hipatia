@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
 """Tests para WorkerService."""
 import pytest
-from unittest.mock import MagicMock, patch, ANY
+from unittest.mock import MagicMock, patch, ANY, create_autospec
 from core.services.worker_service import WorkerService
 from core.dtos import WorkerDTO, ProductDetailsDTO
 from database.database_manager import DatabaseManager
+from database.repositories import (
+    WorkerRepository,
+    TrackingRepository,
+    PreprocesoRepository,
+    ProductRepository,
+    PilaRepository,
+)
 
 @pytest.mark.unit
 class TestWorkerService:
@@ -15,24 +22,12 @@ class TestWorkerService:
 
     @pytest.fixture
     def mock_db(self):
-        db = MagicMock(spec=DatabaseManager)
-        db.worker_repo = MagicMock(
-            spec=[
-                "get_all_workers",
-                "add_worker",
-                "get_worker_details",
-            ]
-        )
-        db.tracking_repo = MagicMock(spec=[])
-        db.preproceso_repo = MagicMock(
-            spec=[
-                "create_fabricacion_with_preprocesos",
-                "search_fabricaciones",
-                "add_product_to_fabricacion",
-            ]
-        )
-        db.product_repo = MagicMock(spec=["get_product_details"])
-        db.pila_repo = MagicMock(spec=["get_all_pilas_with_dates", "load_pila"])
+        db = create_autospec(DatabaseManager, instance=True)
+        db.worker_repo = create_autospec(WorkerRepository, instance=True)
+        db.tracking_repo = create_autospec(TrackingRepository, instance=True)
+        db.preproceso_repo = create_autospec(PreprocesoRepository, instance=True)
+        db.product_repo = create_autospec(ProductRepository, instance=True)
+        db.pila_repo = create_autospec(PilaRepository, instance=True)
         return db
 
     @pytest.fixture

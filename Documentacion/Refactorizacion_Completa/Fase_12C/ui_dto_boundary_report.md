@@ -1,6 +1,6 @@
 # Fase 12C — Auditoría de Frontera UI/DTO
 
-> **Fecha:** 2026-04-04 17:08:39
+> **Fecha:** 2026-04-04 21:46:30
 > **Generado por:** `scripts/ui_dto_boundary_analyzer.py`
 
 ## Resumen

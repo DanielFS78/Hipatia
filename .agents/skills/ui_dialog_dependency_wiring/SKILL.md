@@ -24,7 +24,7 @@ Reducir resolución dispersa (DI + `product_controller` + `model`) en diálogos 
 ## Fallback a fachada / modelo (Fase 5)
 
 - **Bitácora**: backend `_bitacora_backend` = `pila_service` inyectado → `resolve_pila_service` (DI → `pila_controller.pila_service` → `model.pila_service`) → `model.planning_facade` (`get_diario_bitacora` / `add_diario_evento`). Los delegadores de bitácora en `AppModel` fueron eliminados; no usar `model.get_diario_bitacora`.
-- **AssignPreprocesos**: si `resolve_fabricacion_service` devuelve `None`, `get_preprocesos_by_fabricacion` vía `controller.model`.
+- **AssignPreprocesos**: si `resolve_fabricacion_service` devuelve `None`, `get_preprocesos_by_fabricacion` vía `controller.model.fabricacion_service` (sin delegador en `AppModel`).
 - **`FlowActionHandler.load_saved_pila`**: `_pila_list_load_api()` = `PilaService` resuelto → `model.planning_facade` → `model` (`get_all_pilas` / `load_pila`).
 - **`DefinirLoteWidget`**: con `AppController` en `__init__` o `set_controller`, `FabricacionService` vía `resolve_fabricacion_service`; si `resolve` devuelve `None`, se mantiene el obtenido solo por DI al construir (si estaba registrado).
 

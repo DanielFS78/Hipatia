@@ -74,7 +74,7 @@ class TestProductsWidget:
     @pytest.fixture
     def widget(self, qtbot, controller):
         """Instancia de ProductsWidget con controller mock."""
-        w = ProductsWidget(controller)
+        w = ProductsWidget()
         qtbot.addWidget(w)
         return w
 

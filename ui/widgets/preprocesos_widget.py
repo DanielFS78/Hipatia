@@ -29,12 +29,11 @@ class PreprocesosWidget(QWidget):
         self.preproceso_controller = DIContainer.get_instance().resolve(ProductController)
         self.preprocesos_data_cache = []
         self.current_preproceso_id = None
-        self._app_controller: Any = None
         self.setup_ui()
 
     def set_controller(self, controller: Any) -> None:
-        """Recibe `AppController` desde `MainView` para flujos que cruzan pestañas."""
-        self._app_controller = controller
+        """Compat ``MainView.set_controller``; la vista usa DI y ``ProductController``."""
+        return
 
     def setup_ui(self) -> None:
         main_layout = QHBoxLayout(self)
@@ -117,16 +116,18 @@ class PreprocesosWidget(QWidget):
                 self.preproceso_controller.delete_preproceso(sel.id, sel.nombre)
 
     def _on_assign_to_fabricaciones_clicked(self) -> None:
-        if not self._app_controller:
-            return
         from core.di_container import DIContainer
         from ui.dialogs.fabrication.assignment_dialogs import AssignPreprocesosDialog
         from ui.dialogs.fabrication.dialog_dependencies import resolve_fabricacion_service
 
-        fs = resolve_fabricacion_service(self._app_controller, DIContainer.get_instance())
+        c = DIContainer.get_instance()
+        fs = resolve_fabricacion_service(None, c)
+        if fs is None:
+            return
         dlg = AssignPreprocesosDialog(
-            self._app_controller,
+            None,
             self,
             fabricacion_service=fs,
+            opens_fabricacion_preprocesos=self.preproceso_controller,
         )
         dlg.exec()

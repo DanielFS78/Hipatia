@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """Tests unitarios para OrderListWidget y OrderCard."""
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, create_autospec
 from datetime import datetime
+
+from core.services.report_service import ReportService
 
 from PyQt6.QtWidgets import QLabel
 from PyQt6.QtCore import Qt
@@ -106,39 +108,38 @@ class TestOrderListWidget:
         assert widget._order_cards == []
         assert "Órdenes de Fabricación" in widget.title_label.text()
 
-    def test_set_controller(self, widget):
-        """set_controller asigna el controlador."""
-        ctrl = object()
-        widget.set_controller(ctrl)
-        assert widget.controller is ctrl
+    def test_set_report_service(self, widget):
+        """Asigna ReportService inyectado."""
+        rs = create_autospec(ReportService, instance=True)
+        widget.set_report_service(rs)
+        assert widget._report_service is rs
 
-    def test_load_orders_no_controller(self, widget):
-        """Sin controlador, muestra lista vacía."""
-        widget.controller = None
+    def test_load_orders_no_service(self, widget):
+        """Sin ReportService, muestra lista vacía."""
+        widget.set_report_service(None)
         widget.load_orders_for_product("PROD1")
         assert widget._current_producto == "PROD1"
         assert "No hay órdenes" in widget.status_label.text()
 
     def test_load_orders_success(self, widget):
-        """Con controlador, carga y muestra órdenes."""
+        """Con ReportService, carga y muestra órdenes."""
         orders = [_make_order(of="OF-1"), _make_order(of="OF-2", estado="en_proceso")]
-        ctrl = MagicMock(spec=["model"])
-        ctrl.model = MagicMock(spec=["get_orders_for_product"])
-        ctrl.model.get_orders_for_product.return_value = orders
-        widget.controller = ctrl
+        rs = create_autospec(ReportService, instance=True)
+        rs.get_orders_for_product.return_value = orders
+        widget.set_report_service(rs)
 
         widget.load_orders_for_product("PROD1")
 
         assert len(widget._order_cards) == 2
         assert widget._current_producto == "PROD1"
         assert "OF-1" in [c.order_data.orden_fabricacion for c in widget._order_cards]
+        rs.get_orders_for_product.assert_called_once_with("PROD1")
 
     def test_load_orders_error(self, widget):
         """Error en carga muestra mensaje de error."""
-        ctrl = MagicMock(spec=["model"])
-        ctrl.model = MagicMock(spec=["get_orders_for_product"])
-        ctrl.model.get_orders_for_product.side_effect = Exception("DB Error")
-        widget.controller = ctrl
+        rs = create_autospec(ReportService, instance=True)
+        rs.get_orders_for_product.side_effect = Exception("DB Error")
+        widget.set_report_service(rs)
 
         widget.load_orders_for_product("PROD1")
         assert "Error" in widget.status_label.text()

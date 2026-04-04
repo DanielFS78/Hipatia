@@ -184,10 +184,7 @@ class MotorDeEventos:
 
                 self.registro_temporal.guardar_evento(evento)
 
-            # Finalización
-            if hasattr(self.registro_temporal, '_flush_buffer_to_disk'):
-                self.registro_temporal._flush_buffer_to_disk()
-
+            # Finalización: consultar_eventos vacía el buffer a disco antes de leer
             all_events = self.registro_temporal.consultar_eventos()
             results = self.results_compiler.compilar_resultados(all_events)
             audit = self.results_compiler.compilar_audit_log(all_events)

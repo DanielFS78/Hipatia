@@ -3,12 +3,12 @@
 Diálogo «Definir / editar pila de producción» (árbol de tareas + flujo + guardado).
 
 Construye ``DefineFlowPresenter`` solo con servicios de dominio (``MachineService``,
-``PreparationService``, ``FabricacionService``) resueltos por DI o extraídos de ``controller.model``;
+``PreparationService``, ``FabricacionService``) resueltos por DI o extraídos de ``hub.model``;
 el presenter no mantiene referencia a ``AppModel``.
 """
 
 import logging
-from typing import List, Dict, Any, Optional, TYPE_CHECKING
+from typing import List, Dict, Any, Optional
 from PyQt6.QtWidgets import (
     QDialog, QHBoxLayout, QVBoxLayout, QMessageBox, QDialogButtonBox, QWidget, QInputDialog
 )
@@ -25,9 +25,8 @@ from core.services.machine_service import MachineService
 from core.services.preparation_service import PreparationService
 from ui.dialogs.fabrication.dialog_dependencies import resolve_fabricacion_service
 
-if TYPE_CHECKING:
-    from controllers.app_controller import AppController
-    from core.config import ScheduleConfig
+from core.schedule_config import ScheduleConfig
+
 
 class DefineProductionFlowDialog(QDialog):
     """Diálogo orquestador para definir la secuencia de tareas, dependencias y trabajadores."""
@@ -36,9 +35,9 @@ class DefineProductionFlowDialog(QDialog):
         self, 
         tasks_data: List[Dict[str, Any]], 
         workers: List[str], 
-        units: int, 
-        controller: Optional["AppController"], 
-        schedule_config: "ScheduleConfig", 
+        units: int,
+        hub: Any,
+        schedule_config: ScheduleConfig,
         parent: Optional[QWidget] = None, 
         existing_flow: Optional[List[Dict[str, Any]] | List[ProductionFlowStepDTO]] = None
     ) -> None:
@@ -47,8 +46,7 @@ class DefineProductionFlowDialog(QDialog):
         self.setMinimumSize(1100, 700)
         self.units = units
         self.workers = sorted(workers)
-        self.controller = controller
-        # Compatibilidad con tests/consumidores legacy que inspeccionan este atributo.
+        self.hub = hub
         self.schedule_config = schedule_config
         
         _c = DIContainer.get_instance()
@@ -60,10 +58,10 @@ class DefineProductionFlowDialog(QDialog):
             _presenter_kw["machine_service"] = _c.resolve(MachineService)
         if _c.is_registered(PreparationService):
             _presenter_kw["preparation_service"] = _c.resolve(PreparationService)
-        fs = resolve_fabricacion_service(controller, _c)
+        fs = resolve_fabricacion_service(hub, _c)
         if fs is not None:
             _presenter_kw["fabricacion_service"] = fs
-        m = controller.model if controller else None
+        m = hub.model if hub is not None else None
         if m is not None:
             if "machine_service" not in _presenter_kw:
                 ms = getattr(m, "machine_service", None)
@@ -150,8 +148,8 @@ class DefineProductionFlowDialog(QDialog):
             if not nombre:
                 QMessageBox.warning(self, "Nombre Requerido", "El nombre de la pila es obligatorio.")
                 return
-            if self.controller:
-                self.controller.handle_save_flow_only(nombre, descripcion, flow)
+            if self.hub is not None:
+                self.hub.handle_save_flow_only(nombre, descripcion, flow)
             QMessageBox.information(self, "Éxito", f"El flujo '{nombre}' ha sido guardado.")
 
     def _on_task_selected(self, task_info: Optional[FlowTaskDataDTO] = None) -> None:

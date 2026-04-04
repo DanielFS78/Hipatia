@@ -469,7 +469,7 @@ class TestPreprocesoDialog:
     # --- Inicialización ---
     def test_init_create_mode(self, qapp, mock_controller):
         from ui.dialogs.prep import PreprocesoDialog
-        dlg = PreprocesoDialog(preproceso_existente=None, all_materials=[], controller=mock_controller, parent=None)
+        dlg = PreprocesoDialog(preproceso_existente=None, all_materials=[], material_port=mock_controller, parent=None)
         assert dlg.preproceso_data is None
         assert dlg.assigned_material_ids == set()
         assert dlg.nombre_entry.text() == ""
@@ -485,7 +485,7 @@ class TestPreprocesoDialog:
             componentes = [_make_material_dto(id=1, codigo_componente="M1", descripcion_componente="M1 Desc")]
 
         prep_dto = MockPrepDTO()
-        dlg = PreprocesoDialog(preproceso_existente=prep_dto, all_materials=[], controller=mock_controller, parent=None)
+        dlg = PreprocesoDialog(preproceso_existente=prep_dto, all_materials=[], material_port=mock_controller, parent=None)
         
         assert dlg.assigned_material_ids == {1}
         assert dlg.nombre_entry.text() == "Editado"
@@ -503,7 +503,7 @@ class TestPreprocesoDialog:
         mat_mock = MagicMock(spec=["id"])
         mat_mock.id = 2
         prep_mock.componentes = [mat_mock]
-        dlg = PreprocesoDialog(preproceso_existente=prep_mock, all_materials=[], controller=mock_controller, parent=None)
+        dlg = PreprocesoDialog(preproceso_existente=prep_mock, all_materials=[], material_port=mock_controller, parent=None)
         
         assert dlg.assigned_material_ids == {2}
         assert dlg.nombre_entry.text() == "EditadoDict"

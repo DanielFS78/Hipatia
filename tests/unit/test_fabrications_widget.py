@@ -20,8 +20,7 @@ class TestFabricationsWidget:
     @pytest.fixture
     def widget(self, qtbot):
         """Fixture para FabricationsWidget."""
-        ctrl = MagicMock(spec=[])  # controlador no invocado en estos tests
-        w = FabricationsWidget(controller=ctrl)
+        w = FabricationsWidget()
         qtbot.addWidget(w)
         return w
 

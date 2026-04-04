@@ -73,12 +73,22 @@ class MainView(QMainWindow, IView):
             "help": HelpWidget
         }
 
+        # Páginas sin hub en el constructor: DI o set_* / set_controller posterior.
+        pages_no_hub_ctor = frozenset({
+            "dashboard",
+            "calculate",
+            "preprocesos",
+            "gestion_datos",
+            "historial",
+            "settings",
+        })
+
         for name, WidgetClass in widget_classes.items():
             try:
-                if name in ["home", "help"]:
+                if name in ("home", "help") or name in pages_no_hub_ctor:
                     instance = WidgetClass()
                 else:
-                    instance = WidgetClass(self.controller if hasattr(self, 'controller') else None)
+                    instance = WidgetClass(self.controller if hasattr(self, "controller") else None)
 
                 instance.setParent(self.stacked_widget)
                 self._pages[name] = instance
@@ -98,29 +108,23 @@ class MainView(QMainWindow, IView):
         self.controller = controller
         for name, widget in self._pages.items():
             try:
-                if hasattr(widget, "set_controller"):
+                if name == "settings":
+                    if hasattr(widget, "set_config_db_fallback"):
+                        widget.set_config_db_fallback(
+                            getattr(controller, "db", None) if controller else None
+                        )
+                    if hasattr(widget, "set_schedule_controller"):
+                        widget.set_schedule_controller(
+                            getattr(controller, "schedule_controller", None)
+                            if controller
+                            else None
+                        )
+                elif hasattr(widget, "set_controller"):
                     widget.set_controller(controller)
                 elif hasattr(widget, "controller"):
                     widget.controller = controller
-
-                if name == "gestion_datos":
-                    self._assign_controller_to_gestion_tabs(widget, controller)
             except Exception as e:
                 logging.warning(f"Error set_controller para widget '{name}': {e}")
-
-    def _assign_controller_to_gestion_tabs(self, widget: Any, controller: Any) -> None:
-        """Asigna el controlador a las pestañas internas de Gestión de Datos."""
-        try:
-            tabs = ["productos_tab", "fabricaciones_tab", "maquinas_tab", "trabajadores_tab"]
-            for tab_name in tabs:
-                tab = getattr(widget, tab_name, None)
-                if tab:
-                    if hasattr(tab, 'set_controller'):
-                        tab.set_controller(controller)
-                    elif hasattr(tab, 'controller'):
-                        tab.controller = controller
-        except Exception as e:
-            logging.warning(f"Error asignando controller a sub-widgets de gestion_datos: {e}")
 
     def _create_main_layout(self) -> None:
         """Configura el layout principal con NavPanel, Header y StackedWidget."""

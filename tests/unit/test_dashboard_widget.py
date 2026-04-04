@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Tests unitarios para DashboardWidget."""
 import pytest
-from unittest.mock import MagicMock, patch, ANY, create_autospec
+from unittest.mock import MagicMock, patch, ANY
 from PyQt6.QtWidgets import QWidget
 from PyQt6.QtCore import Qt
 
@@ -58,11 +58,10 @@ class TestDashboardWidget:
         assert widget.components_chart_view is not None
         assert widget.activity_chart_view is not None
 
-    def test_set_controller(self, widget):
-        """Verifica la asignación correcta del controlador."""
-        mock_ctrl = MagicMock(spec=[])
-        widget.set_controller(mock_ctrl)
-        assert widget.controller is mock_ctrl
+    def test_sin_hub_app_controller(self, widget):
+        """Dashboard recibe datos vía update_*; no expone set_controller ni guarda AppController."""
+        assert not hasattr(widget, "set_controller")
+        assert not hasattr(widget, "controller")
 
     @patch('ui.widgets.dashboard_widget.QBrush')
     @patch('ui.widgets.dashboard_widget.QColor')

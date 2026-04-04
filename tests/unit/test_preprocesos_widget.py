@@ -36,11 +36,11 @@ class TestPreprocesosWidget:
         assert widget.current_preproceso_id is None
 
     def test_set_controller(self, widget):
-        """set_controller guarda AppController para diálogos transversales."""
+        """set_controller es compat MainView; no altera el ProductController del DI."""
         ctrl = object()
+        pc = widget.preproceso_controller
         widget.set_controller(ctrl)
-        assert widget.preproceso_controller is not None
-        assert widget._app_controller is ctrl
+        assert widget.preproceso_controller is pc
 
     def test_load_preprocesos_data(self, widget):
         """Carga datos de preprocesos en la lista."""
@@ -130,16 +130,19 @@ class TestPreprocesosWidget:
             pytest.fail("_on_edit_clicked no debería propagar excepciones sin controlador")
         assert widget.preproceso_controller is None
 
-    def test_assign_to_fabricaciones_no_app_controller(self, widget):
-        """Sin AppController el manejador retorna antes de importar el diálogo."""
-        widget._app_controller = None
-        widget._on_assign_to_fabricaciones_clicked()
-        assert widget._app_controller is None
+    def test_assign_to_fabricaciones_no_fabricacion_service(self, widget):
+        """Sin FabricacionService resoluble el manejador no abre diálogo."""
+        with patch(
+            "ui.dialogs.fabrication.dialog_dependencies.resolve_fabricacion_service",
+            return_value=None,
+        ), patch(
+            "ui.dialogs.fabrication.assignment_dialogs.AssignPreprocesosDialog",
+        ) as MockDlg:
+            widget._on_assign_to_fabricaciones_clicked()
+        MockDlg.assert_not_called()
 
     def test_assign_to_fabricaciones_opens_dialog(self, widget):
-        """Con AppController se resuelve FabricacionService y se inyecta en el diálogo."""
-        app_ctrl = MagicMock(spec=["show_fabricacion_preprocesos"])
-        widget.set_controller(app_ctrl)
+        """Se resuelve FabricacionService por DI y se abre el diálogo con ProductController."""
         sentinel = create_autospec(FabricacionService, instance=True)
         with patch(
             "ui.dialogs.fabrication.assignment_dialogs.AssignPreprocesosDialog",
@@ -149,8 +152,11 @@ class TestPreprocesosWidget:
         ) as mock_res:
             inst = MockDlg.return_value
             widget._on_assign_to_fabricaciones_clicked()
-            mock_res.assert_called_once_with(app_ctrl, DIContainer.get_instance())
+            mock_res.assert_called_once_with(None, DIContainer.get_instance())
             MockDlg.assert_called_once_with(
-                app_ctrl, widget, fabricacion_service=sentinel
+                None,
+                widget,
+                fabricacion_service=sentinel,
+                opens_fabricacion_preprocesos=widget.preproceso_controller,
             )
             inst.exec.assert_called_once_with()

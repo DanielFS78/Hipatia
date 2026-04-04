@@ -30,15 +30,17 @@ class TestDefinirLoteWidget:
         assert widget.lote_content == {"products": set(), "fabrications": set()}
 
     def test_set_controller(self, widget):
-        """set_controller guarda app controller y refresca listas si hay lote_controller."""
-        ctrl = MagicMock(spec=["model"])
-        ctrl.model = MagicMock(spec=["search_fabricaciones", "search_products"])
-        ctrl.model.search_fabricaciones.return_value = []
-        ctrl.model.search_products.return_value = []
-        widget.lote_controller = ctrl
-        widget.set_controller(ctrl)
-        assert widget.lote_controller is ctrl
-        assert widget._app_controller is ctrl
+        """set_controller puede sustituir FabricacionService vía hub y repuebla listas."""
+        ctrl = MagicMock(spec=["product_controller", "model"])
+        sentinel = MagicMock(spec=["search_fabricaciones"])
+        sentinel.search_fabricaciones.return_value = []
+        with patch(
+            "ui.dialogs.fabrication.dialog_dependencies.resolve_fabricacion_service",
+            return_value=sentinel,
+        ) as mock_res:
+            widget.set_controller(ctrl)
+        mock_res.assert_called_once()
+        assert widget._fabricacion_service is sentinel
 
     def test_set_controller_updates_fabricacion_via_resolve(self, widget):
         """Si resolve_fabricacion_service devuelve instancia, sustituye _fabricacion_service."""
@@ -178,7 +180,7 @@ class TestLotesWidget:
         from controllers.lote_controller import LoteController
         ctrl = create_autospec(LoteController, instance=True)
         DIContainer.get_instance().register(LoteController, instance=ctrl)
-        w = LotesWidget(controller=ctrl)
+        w = LotesWidget()
         qtbot.addWidget(w)
         return w
 

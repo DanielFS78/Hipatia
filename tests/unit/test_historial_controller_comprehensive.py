@@ -6,8 +6,8 @@ Descripcion: Tests unitarios para HistorialController, el controlador del histor
              base de datos.
 
 Decisión de mocking: Los widgets Qt del historial se mockean con MagicMock() sin spec.
-El repositorio de fabricaciones se mockea con create_autospec() para garantizar que
-las llamadas respetan la firma del repositorio real. No se usa autospec en clases Qt.
+Los repos de iteración y producto usan create_autospec sobre las clases reales; no se usa
+autospec en clases Qt.
 """
 import pytest
 from unittest.mock import MagicMock, patch, ANY, call, create_autospec
@@ -18,6 +18,7 @@ from PyQt6.QtWidgets import QListWidgetItem
 
 from controllers.historial.controller import HistorialController
 from core.dtos import ProductIterationDTO
+from database.repositories import IterationRepository, ProductRepository
 
 pytestmark = pytest.mark.unit
 
@@ -31,8 +32,8 @@ def mock_model():
     from core.services.worker_service import WorkerService
     model = MagicMock(spec=['db', 'pila_service', 'worker_service'])
     model.db = MagicMock(spec=['iteration_repo', 'product_repo'])
-    model.db.iteration_repo = MagicMock(spec=['get_all_iterations_with_dates', 'get_product_iterations'])
-    model.db.product_repo = MagicMock()
+    model.db.iteration_repo = create_autospec(IterationRepository, instance=True)
+    model.db.product_repo = create_autospec(ProductRepository, instance=True)
     model.pila_service = create_autospec(PilaService, instance=True)
     model.worker_service = create_autospec(WorkerService, instance=True)
     model.db.iteration_repo.get_all_iterations_with_dates.return_value = []

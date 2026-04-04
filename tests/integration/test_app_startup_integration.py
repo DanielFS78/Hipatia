@@ -156,12 +156,18 @@ def test_app_startup_smoke_test(qapp, mock_model_for_ui, mock_schedule_config):
         # 2. Instantiate Controller
         # This will create sub-controllers and call initialize()
         
-        # Helper to create a QWidget that satisfies QChartView interface
+        # QGridLayout.addWidget exige un QWidget real; MagicMock rompe en tiempo de ejecución.
         from PyQt6.QtWidgets import QWidget
+
+        class _FakeChartView(QWidget):
+            def setRenderHint(self, hint, on=True) -> None:  # noqa: ARG002
+                pass
+
+            def setChart(self, chart) -> None:  # noqa: ARG002
+                pass
+
         def mock_chart_view(*args, **kwargs):
-            w = MagicMock(spec=QWidget)
-            w.setRenderHint = MagicMock(spec=[])
-            return w
+            return _FakeChartView()
 
         # Patch QChartView in specific modules to avoid inheritance/import issues
         with patch('ui.widgets.historial_widget.QChartView', side_effect=mock_chart_view), \
@@ -182,6 +188,7 @@ def test_app_startup_smoke_test(qapp, mock_model_for_ui, mock_schedule_config):
             assert reportes_page is not None
             mock_model_for_ui.db.config_repo.get_setting.assert_any_call(ANY, ANY)
 
-            # Check another widget to be sure
+            # GestionDatosWidget ya no retiene AppController; las pestañas usan DI.
             gestion_page = view.pages.get("gestion_datos")
-            assert cast(Any, gestion_page).controller == controller
+            assert gestion_page is not None
+            assert getattr(gestion_page, "trabajadores_tab", None) is not None

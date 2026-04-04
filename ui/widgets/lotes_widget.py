@@ -4,7 +4,7 @@ Interfaz PyQt6 (`lotes_widget`): widgets, diálogos o recursos visuales conectad
 """
 
 from .base import *
-from typing import Any
+from typing import Any, Optional
 import logging
 
 logger = logging.getLogger(__name__)
@@ -13,24 +13,19 @@ class DefinirLoteWidget(QWidget):
     """Widget para crear y editar plantillas de Lote."""
     save_lote_signal = pyqtSignal()
 
-    def __init__(self, controller: Any = None) -> None:
-        super().__init__()
+    def __init__(self, _app_controller: Any = None, parent: Optional[QWidget] = None) -> None:
+        """`_app_controller` se ignora en ctor; opcionalmente se usa en ``set_controller``."""
+        super().__init__(parent)
         from core.di_container import DIContainer
         from controllers.lote_controller import LoteController
         from core.services.product_service import ProductService
         from core.services.fabricacion_service import FabricacionService
-        from ui.dialogs.fabrication.dialog_dependencies import resolve_fabricacion_service
 
         _c = DIContainer.get_instance()
         self.lote_controller = _c.resolve(LoteController)
         self._product_service = _c.resolve(ProductService) if _c.is_registered(ProductService) else None
-        self._app_controller: Any = controller
         self._fabricacion_service: Any = None
-        if controller is not None:
-            fs = resolve_fabricacion_service(controller, _c)
-            if fs is not None:
-                self._fabricacion_service = fs
-        if self._fabricacion_service is None and _c.is_registered(FabricacionService):
+        if _c.is_registered(FabricacionService):
             self._fabricacion_service = _c.resolve(FabricacionService)
         self.current_lote_id = None
         self.lote_content: dict[str, set[Any]] = {"products": set(), "fabrications": set()}
@@ -75,13 +70,14 @@ class DefinirLoteWidget(QWidget):
         right_l.addWidget(sb); main_layout.addWidget(right_p, 1)
 
     def set_controller(self, controller: Any) -> None:
+        """Compat ``MainView``: opcionalmente mejora ``FabricacionService`` vía hub y repuebla listas."""
         from core.di_container import DIContainer
         from ui.dialogs.fabrication.dialog_dependencies import resolve_fabricacion_service
 
-        self._app_controller = controller
-        fs = resolve_fabricacion_service(controller, DIContainer.get_instance()) if controller is not None else None
-        if fs is not None:
-            self._fabricacion_service = fs
+        if controller is not None:
+            fs = resolve_fabricacion_service(controller, DIContainer.get_instance())
+            if fs is not None:
+                self._fabricacion_service = fs
         if self.lote_controller:
             self.populate_products_list()
             self.populate_fabrications_list()
@@ -180,14 +176,17 @@ class LotesWidget(QWidget):
     save_lote_signal = pyqtSignal(int)
     delete_lote_signal = pyqtSignal(int)
 
-    def __init__(self, controller: Any = None) -> None:
-        super().__init__()
+    def __init__(self, _app_controller: Any = None, parent: Optional[QWidget] = None) -> None:
+        """`_app_controller` se ignora (compat ``MainView``)."""
+        super().__init__(parent)
         from core.di_container import DIContainer
         from controllers.lote_controller import LoteController
         self.lote_controller = DIContainer.get_instance().resolve(LoteController)
         self.current_lote_id = None; self.setup_ui()
 
-    def set_controller(self, controller: Any) -> None: pass
+    def set_controller(self, controller: Any) -> None:
+        """Compat ``MainView``; listas y CRUD usan ``LoteController`` del DI."""
+        return
 
     def setup_ui(self) -> None:
         main_layout = QHBoxLayout(self)

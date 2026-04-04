@@ -39,6 +39,11 @@ jobs:
           QT_QPA_PLATFORM: offscreen
         run: python -m pytest tests -q --tb=no --timeout=30
 
+      # Informe de frontera UI/DTO (plan auditoría Fase 12C); no bloquea el merge
+      - name: UI DTO boundary analyzer (informational)
+        continue-on-error: true
+        run: python scripts/ui_dto_boundary_analyzer.py
+
   # Tipado estático (misma referencia que mypy.ini: python 3.12)
   mypy:
     runs-on: ubuntu-latest
@@ -58,7 +63,8 @@ jobs:
         run: |
           # app → módulo `app` endurecido en mypy.ini ([mypy-app]); resto vía globs por paquete.
           # tests/: reglas relajadas en mypy.ini ([mypy-tests…], scripts/tools ignore_errors).
-          python -m mypy app.py core controllers database features ui tests
+          # scripts/init_database.py: bloque [mypy-scripts.init_database] (auditoría 2026-04).
+          python -m mypy app.py core controllers database features ui tests scripts/init_database.py
 
   # Cobertura en una sola corrida (3.12); sube JSON para descarga / update_readme_metrics local
   coverage-report:

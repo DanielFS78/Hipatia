@@ -930,7 +930,9 @@ class TestProductControllerV2Comprehensive:
             
             controller.show_add_preproceso_dialog()
             
-            MockDlg.assert_called_once_with(all_materials=ANY, controller=ANY, parent=ANY)
+            MockDlg.assert_called_once_with(
+                all_materials=ANY, material_port=controller, parent=ANY
+            )
             instance.exec.assert_called_once_with()
             instance.get_data.assert_called_once_with()
             mock_dependencies['fab_svc'].create_preproceso.assert_called_once_with(ANY)
@@ -948,7 +950,12 @@ class TestProductControllerV2Comprehensive:
             
             controller.show_edit_preproceso_dialog(mock_preproceso_dto)
             
-            MockDlg.assert_called_once_with(preproceso_existente=ANY, all_materials=ANY, controller=ANY, parent=ANY)
+            MockDlg.assert_called_once_with(
+                preproceso_existente=ANY,
+                all_materials=ANY,
+                material_port=controller,
+                parent=ANY,
+            )
             instance.exec.assert_called_once_with()
             instance.get_data.assert_called_once_with()
             mock_dependencies['fab_svc'].update_preproceso.assert_called_once_with(1, ANY)

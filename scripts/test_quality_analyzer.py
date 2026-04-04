@@ -240,7 +240,11 @@ def _calculate_ceiling(
     # Explicación legible para la consola
     explanation_parts = []
     if has_qt:
-        explanation_parts.append("usa PyQt6 (widgets sin stubs de tipo)")
+        explanation_parts.append(
+            "importa PyQt6: el techo solo perdona MagicMock() sueltos en contexto de widgets Qt; "
+            "repositorios y servicios del proyecto siguen siendo mejorable con create_autospec "
+            "(ver .agents/skills/testing_fixtures_y_mocks/SKILL.md)"
+        )
     if has_docx:
         explanation_parts.append("usa python-docx (objetos sin stubs de tipo)")
     if ceiling_penalties.get("patches_no_autospec"):

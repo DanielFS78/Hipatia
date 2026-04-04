@@ -191,12 +191,9 @@ class UISignalsWiring:
 
     def connect_reportes_signals(self) -> None:
         reportes_page = self.view.pages.get("reportes")
-        if reportes_page:
-            if self.app.report_controller:
-                if hasattr(reportes_page, "set_controller") and (
-                    not hasattr(reportes_page, "controller") or reportes_page.controller is None
-                ):
-                    reportes_page.set_controller(self.app.report_controller)
+        if reportes_page and hasattr(reportes_page, "set_controller"):
+            # El hub de aplicación aporta ``model`` y ``container`` (``ReportService`` en DI).
+            reportes_page.set_controller(self.app)
 
     def connect_workers_signals(self) -> None:
         self.app.worker_controller._connect_workers_signals()

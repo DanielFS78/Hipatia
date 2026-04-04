@@ -113,7 +113,7 @@ def dialog(qapp, mock_control_panel, mock_presenter):
         tasks_data=tasks,
         workers=workers,
         units=10,
-        controller=ctrl,
+        hub=ctrl,
         schedule_config=make_schedule_config(),
     )
 
@@ -164,7 +164,7 @@ class TestDefineProductionFlowDialogWithExistingFlow:
             tasks_data=[make_task()],
             workers=["Ana"],
             units=5,
-            controller=ctrl,
+            hub=ctrl,
             schedule_config=make_schedule_config(),
             existing_flow=existing,
         )
@@ -179,7 +179,7 @@ class TestDefineProductionFlowDialogWithExistingFlow:
             tasks_data=[make_task()],
             workers=[],
             units=1,
-            controller=ctrl,
+            hub=ctrl,
             schedule_config=make_schedule_config(),
             existing_flow=existing,
         )
@@ -225,15 +225,15 @@ class TestDefineProductionFlowDialogResetForm:
         assert dialog.editing_index is None
 
 
-class TestDefineProductionFlowDialogNoController:
-    """Verifica que el diálogo se inicializa sin errores cuando controller=None."""
-    def test_instantiation_without_controller(self, qapp, mock_control_panel, mock_presenter):
+class TestDefineProductionFlowDialogNoHub:
+    """Verifica que el diálogo se inicializa sin errores cuando hub=None."""
+    def test_instantiation_without_hub(self, qapp, mock_control_panel, mock_presenter):
         from ui.dialogs.production_flow.define_flow_dialog import DefineProductionFlowDialog
         d = DefineProductionFlowDialog(
             tasks_data=[],
             workers=[],
             units=1,
-            controller=None,
+            hub=None,
             schedule_config=make_schedule_config(),
         )
         assert d is not None

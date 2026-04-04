@@ -17,12 +17,6 @@ from core.dtos import (
     LoteDTO, FabricacionDTO, ProductDetailsDTO,
     CalculationProductDTO, FabricacionProductoDTO
 )
-from core.reports_dtos import (
-    ResultadoBusquedaDTO, OrdenFabricacionResumenDTO, OrdenFabricacionDetalleDTO,
-    PromedioTiempoDTO, TiempoTrabajadorDTO, IncidenciaResumenDTO,
-    PuntoEvolucionDTO, UnidadTrabajoDTO, ResumenProductoDTO
-)
-
 # Import New Services
 from core.services.product_service import ProductService
 from core.services.pila_service import PilaService
@@ -410,44 +404,8 @@ class AppModel(QObject):
     def get_data_for_calculation_from_session(self, planning_session: list[CalculationProductDTO | dict[str, Any]]) -> list[CalculationProductDTO]:
         return self.planning_facade.get_data_for_calculation_from_session(planning_session)
 
-    # =========================================================================
-    # DELEGACIÓN A REPORT SERVICE (resto de reporting)
-    # =========================================================================
-
-    def get_order_units(self, order_id: str) -> list[UnidadTrabajoDTO]:
-        return self.report_service.get_order_units(order_id)
-
-    def get_product_reports_dashboard(self, product_code: str, evolution_days: int = 30) -> dict[str, Any]:
-        """Obtiene bundle completo de datos de reportes para el producto solicitado."""
-        return self.report_service.get_product_dashboard(product_code, evolution_days)
-
-    # =========================================================================
-    # REPORT SERVICE + SYSTEM INTEGRATION (reportes tabulares, lotes, config, órdenes)
-    # =========================================================================
-
-    def search_reports_data(self, query: str) -> list[ResultadoBusquedaDTO]:
-        return self.report_service.search_reports_data(query)
-
-    def get_orders_for_product(self, product_code: str) -> list[OrdenFabricacionResumenDTO]:
-        return self.report_service.get_orders_for_product(product_code)
-
-    def get_order_details(self, order_id: str) -> OrdenFabricacionDetalleDTO | None:
-        return self.report_service.get_order_details(order_id)
-
-    def get_product_time_stats(self, product_code: str) -> PromedioTiempoDTO | None:
-        return self.report_service.get_product_time_stats(product_code)
-
-    def get_worker_time_stats(self, product_code: str) -> list[TiempoTrabajadorDTO]:
-        return self.report_service.get_worker_time_stats(product_code)
-
-    def get_incidents_stats(self, product_code: str) -> list[IncidenciaResumenDTO]:
-        return self.report_service.get_incidents_stats(product_code)
-
-    def get_evolution_stats(self, product_code: str, days: int = 30) -> list[PuntoEvolucionDTO]:
-        return self.report_service.get_evolution_stats(product_code, days)
-
-    def get_product_summary(self, product_code: str) -> ResumenProductoDTO | None:
-        return self.report_service.get_product_summary(product_code)
+    # Nota: la API de reportes tabulares vive en ``ReportService`` (DI / ``model.report_service``).
+    # No se reexpone en AppModel para evitar fachada duplicada.
 
     def get_lote_details(self, lote_id: int) -> LoteDTO | None:
         return self.system_integration.get_lote_details(lote_id)

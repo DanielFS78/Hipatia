@@ -16,12 +16,10 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtGui import QTextCharFormat, QColor
 from PyQt6.QtCore import Qt
-from typing import Dict, Any, List, Optional, TYPE_CHECKING, cast
+from typing import Dict, Any, List, Optional, cast
 
-if TYPE_CHECKING:
-    from core.services.time_calculator import CalculadorDeTiempos
-    from controllers.app_controller import AppController
-    from PyQt6.QtWidgets import QWidget
+from core.services.time_calculator import CalculadorDeTiempos
+from PyQt6.QtWidgets import QWidget
 
 from core.di_container import DIContainer
 from core.dtos import SimulationResultTaskDTO
@@ -48,9 +46,9 @@ class FabricacionBitacoraDialog(QDialog):
         pila_id: int,
         pila_nombre: str,
         simulation_results: List[SimulationResultTaskDTO],
-        controller: "AppController",
-        time_calculator: "CalculadorDeTiempos",
-        parent: Optional["QWidget"] = None,
+        hub: Any,
+        time_calculator: CalculadorDeTiempos,
+        parent: Optional[QWidget] = None,
         *,
         pila_service: Any | None = None,
         user_messaging: ShowsUserMessage | None = None,
@@ -61,20 +59,20 @@ class FabricacionBitacoraDialog(QDialog):
         self.setMinimumSize(1200, 800)
         self.pila_id = pila_id
         self.simulation_results = simulation_results
-        self.controller = controller
+        self.hub = hub
         self.logger = logging.getLogger("EvolucionTiemposApp")
         self._user_messaging: ShowsUserMessage = (
             user_messaging
             if user_messaging is not None
-            else cast(ShowsUserMessage, controller.view)
+            else cast(ShowsUserMessage, getattr(hub, "view", None))
         )
 
         if pila_service is not None:
             self._bitacora_backend: Any = pila_service
         else:
-            self._bitacora_backend = resolve_pila_service(controller, DIContainer.get_instance())
+            self._bitacora_backend = resolve_pila_service(hub, DIContainer.get_instance())
         if self._bitacora_backend is None:
-            mod = getattr(controller, "model", None)
+            mod = getattr(hub, "model", None)
             self._bitacora_backend = getattr(mod, "planning_facade", None) if mod is not None else None
 
         self.pila_start_date: date = self.simulation_results[0].Inicio.date() if self.simulation_results else date.today()

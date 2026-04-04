@@ -90,6 +90,8 @@ class TestProductDetailsDialog:
         ctrl.product_service.get_product_iterations.return_value = []
         ctrl.db = MagicMock()
         ctrl.db.get_iteration_images.return_value = []
+        ctrl.app = MagicMock()
+        ctrl.app.file_controller = MagicMock()
         return ctrl
 
     @pytest.fixture
@@ -119,7 +121,7 @@ class TestProductDetailsDialog:
     def test_init_sets_attributes(self, dialog, mock_controller):
         """Verifica inicialización correcta del diálogo."""
         assert dialog.product_code == "P001"
-        assert dialog.controller is mock_controller
+        assert dialog.product_controller is mock_controller
         mock_controller.product_facade.get_product_details.assert_called_once_with("P001")
 
     def test_init_with_prod_data_none(self, qapp, mock_view):
@@ -135,6 +137,8 @@ class TestProductDetailsDialog:
         ctrl.product_service.get_product_iterations.return_value = []
         ctrl.db = MagicMock()
         ctrl.db.get_iteration_images.return_value = []
+        ctrl.app = MagicMock()
+        ctrl.app.file_controller = MagicMock()
         with patch("ui.widgets.product.materials_widget.QFileDialog", autospec=True), \
              patch("ui.widgets.product.materials_widget.QInputDialog", autospec=True):
             from ui.dialogs.product import ProductDetailsDialog

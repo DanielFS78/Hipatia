@@ -16,11 +16,11 @@ La fila **B5** en `.agents/skills/plan_produccion_coordinador/SKILL.md` está **
 | Fuera de alcance | Qué es concretamente | Por qué no forma parte de B5 | Dónde queda documentado / regla |
 |------------------|----------------------|------------------------------|----------------------------------|
 | Poda masiva de `AppModel` | Siguen existiendo muchos métodos delegadores (~orden cientos de líneas de API en `core/app_model.py`) | B5 era **reducir dependencia en el uso**, no borrar la fachada entera; eliminar métodos solo con **`rg` = 0 consumidores** en repo | Esta skill, §Fase 2–3; REGISTRO ítems 005–006 |
-| Fallback en diálogos de fabricación | Bitácora → `planning_facade` / servicios; preprocesos → `model.get_preprocesos_by_fabricacion` si no hay `FabricacionService` | Plan en **ui_dialog_dependency_wiring** (Fase 5) | `.agents/skills/ui_dialog_dependency_wiring/SKILL.md` + `REGISTRO.md` |
+| Fallback en diálogos de fabricación | Bitácora → `planning_facade` / servicios; preprocesos → `model.fabricacion_service.get_preprocesos_by_fabricacion` si `resolve_fabricacion_service` es `None` | Plan en **ui_dialog_dependency_wiring** (Fase 5) | `.agents/skills/ui_dialog_dependency_wiring/SKILL.md` + `REGISTRO.md` |
 | Señales Qt y conexión desde controladores | p. ej. `app.model.machines_changed_signal`, `product_deleted_signal` | Arquitectura acordada: **señales permanecen en `AppModel`** (o un hub futuro sería **otra** tarea) | Esta skill, §Regla 3 |
 | Orquestación multi-servicio en `AppModel` | p. ej. `get_dashboard_stats` y métodos que combinan varios servicios | No son delegación de una línea; rediseñarlos es **nuevo caso de uso**, no cierre de B5 | §Fase 3 «Mínimo razonable» |
 | Bootstrap de arranque | `StartupController` lee `self.model.db`, registra instancias que viven en `AppModel` | El **compositor raíz** sigue construyendo el grafo; B5 no sustituyó el bootstrap completo | `controllers/startup_controller.py` |
-| Sub-widgets de reportes | `OrderListWidget` / `ReportsChartsWidget` reciben `controller=AppController` y `report_service=` cuando el DI expone `ReportService` | Completado como seguimiento de diseño (2026-04): prioridad servicio sobre `controller.model` | `ui/widgets/reportes_widget.py`, `ui/widgets/reports/order_list.py`, `charts_container.py` |
+| Sub-widgets de reportes | Solo `report_service=` / `set_report_service` (`ReportService` desde DI o `hub.model.report_service`) | Sin `fallback_reports_model` ni delegadores de reportes en `AppModel` (2026-04) | `ui/widgets/reportes_widget.py`, `ui/widgets/reports/order_list.py`, `charts_container.py`, `smart_search.py` |
 
 **Para el agente o desarrollador:** si aparece la duda «¿B5 sigue abierta?» → **No.** Cualquier mejora adicional es **mantenimiento opcional** (poda puntual de `AppModel`, más DI en un widget concreto) y debe ir con su propio ítem en `REGISTRO_EJECUCION_ITEMS.md` o issue, no como «continuación de B5».
 
@@ -82,7 +82,7 @@ Conservar:
 - Señales (`product_added_signal`, `workers_changed_signal`, …).
 - `_connect_service_signals`.
 - Métodos que **orquestan** varios servicios (p. ej. `get_dashboard_stats`).
-- Delegación que siga siendo el contrato estable para widgets que aún reciben `app_model` (hasta migrarlos).
+- Delegación que siga siendo el contrato estable para pantallas que aún pasan el hub con `model` (hasta migrarlas a servicios concretos).
 
 ## Estado de controladores (2026-04)
 
@@ -98,7 +98,9 @@ Conservar:
 | `SessionController` | `db`, `WorkerService` + `app` |
 | `ProductController` | Constructor explícito; `IApplicationShell` para managers (`handle_attach_file`, `session_controller`, `ui_controller`) |
 | `AppController` | `on_data_changed` → `ProductService` vía DI; `config_*` fallback → `self.db` |
-| `ReportesWidget` / `SmartSearchWidget` | `ReportService` vía `controller.container` si registrado; fallback `AppModel` |
+| `ReportesWidget` / sub-widgets reportes | `set_controller(hub)` re-resuelve `ReportService` vía `hub.container` o `hub.model.report_service`; hijos solo reciben `ReportService`, no guardan `AppController`. `connect_reportes_signals` enlaza con `self.app`. |
+| `SettingsWidget` | `ScheduleController` vía `set_schedule_controller`; fallback lectura `config_repo` vía `set_config_db_fallback(db)` (`MainView.set_controller`) |
+| `GestionDatosWidget` / pestañas | Productos, máquinas, trabajadores, lotes y fabricaciones: DI en ctor; primer arg desde `MainView` es `_app_controller` ignorado salvo compat. `PreprocesosWidget`: asignación a fabricaciones vía `FabricacionService` + `ProductController.show_fabricacion_preprocesos`, sin guardar `AppController`. |
 
 **Resumen:** B5 **finalizada**; tabla de exclusiones arriba («Estado de la tarea B5»). Nuevas pantallas: preferir DI (`DefineProductionFlowDialog`, reportes) como patrón de referencia.
 
@@ -124,3 +126,11 @@ Conservar:
 ## Poda reciente
 
 - Eliminados de `AppModel` (sin consumidores externos): `get_latest_workers`, `get_latest_machines` — usar `WorkerService` / `MachineService` o el repositorio según capa.
+- **Reportes (2026-04):** eliminados delegadores puros hacia `ReportService` (`search_reports_data`, `get_orders_for_product`, `get_order_details`, `get_order_units`, `get_product_time_stats`, `get_worker_time_stats`, `get_incidents_stats`, `get_evolution_stats`, `get_product_summary`, `get_product_reports_dashboard`). La UI y los tests usan `ReportService` o `model.report_service`. Permanecen en `AppModel` orquestaciones que usan reportes por dentro (`get_problematic_components_stats`, `get_dashboard_stats`).
+
+## Métodos que suelen permanecer en `AppModel` (post-migración reportes)
+
+- **Señales** y `_connect_service_signals`.
+- **Orquestación:** p. ej. `get_dashboard_stats` (agrega `machine_stats`, `worker_stats`, `component_stats`).
+- **Delegación estable** a servicios/facades para el resto de dominios hasta nueva poda con `rg=0`.
+- **Reportes:** no hay reexport tabular; usar `ReportService` (DI / `model.report_service`).

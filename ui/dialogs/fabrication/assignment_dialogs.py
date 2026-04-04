@@ -15,7 +15,6 @@ from ui.dialogs.fabrication.dialog_dependencies import resolve_fabricacion_servi
 
 if TYPE_CHECKING:
     from PyQt6.QtWidgets import QWidget
-    from controllers.app_controller import AppController
 
 class AssignPreprocesosDialog(QDialog):
     """
@@ -24,14 +23,14 @@ class AssignPreprocesosDialog(QDialog):
 
     def __init__(
         self,
-        parent_controller: "AppController",
+        app_hub: Any | None = None,
         parent: Optional["QWidget"] = None,
         *,
         fabricacion_service: Any | None = None,
         opens_fabricacion_preprocesos: OpensFabricacionPreprocesos | None = None,
     ) -> None:
         super().__init__(parent)
-        self.controller = parent_controller
+        self._app_hub = app_hub
         self._fabricacion_service_override = fabricacion_service
         self._opens_fabricacion_preprocesos = opens_fabricacion_preprocesos
         self.setup_ui()
@@ -40,7 +39,7 @@ class AssignPreprocesosDialog(QDialog):
     def _get_fabricacion_service(self) -> Any | None:
         if self._fabricacion_service_override is not None:
             return self._fabricacion_service_override
-        return resolve_fabricacion_service(self.controller, DIContainer.get_instance())
+        return resolve_fabricacion_service(self._app_hub, DIContainer.get_instance())
 
     def setup_ui(self) -> None:
         self.setWindowTitle("Asignar Preprocesos a Fabricaciones")
@@ -110,8 +109,10 @@ class AssignPreprocesosDialog(QDialog):
             svc = self._get_fabricacion_service()
             if svc is not None:
                 fabricaciones = svc.search_fabricaciones("")
+            elif self._app_hub is not None:
+                fabricaciones = self._app_hub.search_fabricaciones("")
             else:
-                fabricaciones = self.controller.search_fabricaciones("")
+                fabricaciones = []
             self.fabricaciones_list.clear()
 
             if not fabricaciones:
@@ -156,7 +157,11 @@ class AssignPreprocesosDialog(QDialog):
             if svc is not None:
                 preprocesos = svc.get_preprocesos_by_fabricacion(fabricacion_id)
             else:
-                preprocesos = self.controller.model.get_preprocesos_by_fabricacion(fabricacion_id)
+                mod = getattr(self._app_hub, "model", None) if self._app_hub is not None else None
+                fab = getattr(mod, "fabricacion_service", None) if mod is not None else None
+                preprocesos = (
+                    fab.get_preprocesos_by_fabricacion(fabricacion_id) if fab is not None else []
+                )
             self.current_preprocesos_list.clear()
 
             if not preprocesos:
@@ -186,8 +191,14 @@ class AssignPreprocesosDialog(QDialog):
 
         if self._opens_fabricacion_preprocesos is not None:
             self._opens_fabricacion_preprocesos.show_fabricacion_preprocesos(fabricacion_id)
+        elif self._app_hub is not None:
+            self._app_hub.show_fabricacion_preprocesos(fabricacion_id)
         else:
-            self.controller.show_fabricacion_preprocesos(fabricacion_id)
+            QMessageBox.warning(
+                self,
+                "Configuración",
+                "No hay orquestador ni apertura de preprocesos configurada.",
+            )
 
         # Recargar los preprocesos después de la modificación
         self.load_current_preprocesos(fabricacion_id)

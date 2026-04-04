@@ -73,6 +73,10 @@ Alineado con [`.agents/skills/ejecucion_secuencial_calidad/references/priorizaci
 | **P1** | `core` → `ui`; `ui` → `database` | Ítems pequeños: extraer interfaz en `core`, sustituir modelos SQLAlchemy en UI por DTO. |
 | **P2** | Podas `AppModel`; reducir `controllers` → `ui` donde haya duplicación | Un módulo o flujo por ítem; tests focales. |
 
+### 4.4 Acoplamiento de la vista al orquestador (`AppController`)
+
+Varios widgets y diálogos **siguen recibiendo `AppController`** como hub para llegar a `model`, a otros controladores o al `DIContainer`. No suele ser un **ciclo de imports** Python, pero sí **acoplamiento de capa** respecto a un MVC/MVP estricto. La línea del proyecto es **inyección explícita** donde ya se cerró B5 (servicios/facades vía `StartupController` / `DIContainer`; ver [`.agents/skills/reduccion_god_objects/SKILL.md`](../../../.agents/skills/reduccion_god_objects/SKILL.md)) y **refactors locales** (p. ej. `ReportesWidget` + `ReportService`; `SettingsWidget` + `ScheduleController` + fallback `db.config_repo` sin retener `AppController`). **Gestión de datos (2026-04):** las pestañas de productos, fabricaciones, máquinas, trabajadores y lotes **no retienen** el hub; `PreprocesosWidget` abre `AssignPreprocesosDialog` con `FabricacionService` del DI y `opens_fabricacion_preprocesos=ProductController`. **Reportes (2026-04):** `ReportesWidget` solo usa el hub en `set_controller` para extraer `ReportService` y `AppModel`; `OrderListWidget` / `ReportsChartsWidget` usan `fallback_reports_model` + servicio, no `AppController`. `connect_reportes_signals` llama `set_controller(self.app)`.
+
 ---
 
 ## 5. Fase 4 — Remedios iterativos (operativa)

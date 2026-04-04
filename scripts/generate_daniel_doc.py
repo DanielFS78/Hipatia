@@ -157,45 +157,78 @@ erDiagram
 MERMAID_ARQUITECTURA = '''```mermaid
 graph TD
     subgraph UI["🖥️ Capa UI (PyQt6)"]
-        MW[MainWindow]
-        W[Widgets: Home, Dashboard, etc.]
-        D[Dialogs: DefineFlow, QrScanner]
-        MW --> W
-        MW --> D
+        MV[MainView — único orquestador que retiene AppController]
+        subgraph REP["Reportes: hijos sin AppController"]
+            RW[ReportesWidget]
+            SSW[SmartSearchWidget]
+            OLW[OrderListWidget]
+            RCH[ReportsChartsWidget]
+            RW --> SSW
+            RW --> OLW
+            RW --> RCH
+        end
+        subgraph LEAF["Widgets hoja / diálogos: dependencias explícitas"]
+            PMW[ProductMaterialsWidget]
+            PIW[ProductIterationsWidget]
+            PDD[ProductDetailsDialog]
+            GDW[GestionDatosWidget pestañas vía DI]
+            PSW[PrepStepsWidget señales / notificador]
+            PMW --> PF[ProductFacade / servicios inyectados]
+            PIW --> PF
+            PDD --> PMW
+            PDD --> PIW
+        end
+        WOTH[Otras páginas: Home Historial Fabricación Settings …]
+        DLG[Otros diálogos DefineFlow Bitácora Prep …]
+        MV --> RW
+        MV --> WOTH
+        MV --> DLG
+        MV --> LEAF
     end
 
     subgraph CTRL["⚙️ Capa Controllers"]
-        AC[AppController - Hub]
+        AC[AppController coordinador]
+        ST[StartupController]
         SC[SessionController]
         LC[LoteController]
         FC[FabricacionController]
         PC[ProductController]
         WC[WorkerController]
-        SIM[SimulationController]
+        SIMC[SimulationController]
+        RPC[ReportController]
+        HRC[HistorialController + HistorialReportManager]
         AC --> SC
         AC --> LC
         AC --> FC
         AC --> PC
         AC --> WC
-        AC --> SIM
+        AC --> SIMC
+        AC --> RPC
+        AC --> HRC
+        ST -.->|registro DI + wiring| AC
     end
 
-    subgraph CORE["🧠 Capa Core / Services"]
-        AM[AppModel - Fachada]
+    subgraph CORE["🧠 Capa Core: DI + servicios + fachada"]
+        DI[DIContainer singleton]
+        AM[AppModel fachada]
+        RS[ReportService]
         WS[WorkerService]
         PS[ProductService]
         FS[FabricacionService]
         PLS[PilaService]
-        RS[ReportService]
         LM[LabelManager]
         QR[QrGenerator]
-        SS[SimulationEngine]
+        ENG[SimulationEngine]
+        AC -->|self.container| DI
+        DI -->|resolve| RS
+        DI -->|resolve| PF
         AM --> WS
         AM --> PS
         AM --> FS
         AM --> PLS
         AM --> RS
         AM --> LM
+        AM --> ENG
         LM --> QR
     end
 
@@ -203,17 +236,39 @@ graph TD
         DM[DatabaseManager]
         WR[WorkerRepository]
         PR[ProductRepository]
+        IR[IterationRepository]
         TR[TrackingRepository]
         LR[LabelCounterRepo]
+        RPR[ReportsRepository]
         DM --> WR
         DM --> PR
+        DM --> IR
         DM --> TR
         DM --> LR
+        DM --> RPR
     end
 
-    UI -->|señales/slots| CTRL
-    CTRL -->|delega| CORE
-    CORE -->|persiste| DB
+    subgraph SCR["🔧 Scripts mantenimiento y calidad"]
+        BK[backup_database.py mypy estricto]
+        RA[reset_admin.py mypy estricto]
+        DC[detect_dead_code.py paquete ui/dialogs]
+        TQA[test_quality_analyzer.py techo vs corregible]
+    end
+
+    MV -->|set_controller| AC
+    RW -->|.container → ReportService; si no, .model.report_service| AC
+    SSW -->|search_reports_data| RS
+    OLW -->|get_orders_for_product| RS
+    RCH -->|stats y gráficas| RS
+    WOTH -->|señales| AC
+    DLG -->|señales| AC
+    HRC -->|informes PDF iteraciones| IR
+    FC -.->|delegación| FS
+    SIMC -.->|motor| ENG
+    CTRL --> CORE
+    RS --> RPR
+    CORE --> DB
+    SCR -.->|no runtime app| DB
 ```'''
 
 MERMAID_FLUJO_FABRICACION = '''```mermaid
@@ -1177,7 +1232,8 @@ _TESTING_DECISIONS: dict[str, str] = {
     "test_schedule_controller_comprehensive.py": (
         "SettingsWidget es Qt → `MagicMock()` con `__class__` forzado; "
         "factories `_make_db/_make_view/_make_schedule_manager` con `spec=` mínimo; "
-        "`@patch('AddBreakDialog')` sin autospec (diálogo Qt)"
+        "`@patch('AddBreakDialog')` y `@patch` de otras clases Qt sin autospec; "
+        "ScheduleController con QDialog inline"
     ),
     "test_report_controller_comprehensive.py": (
         "Controlador con múltiples widgets Qt → `MagicMock()` para widgets; "
@@ -1193,10 +1249,6 @@ _TESTING_DECISIONS: dict[str, str] = {
     "test_simulation_events_comprehensive.py": (
         "Eventos de simulación sin UI → `create_autospec` para engine y repositorios"
     ),
-    "test_schedule_controller_comprehensive.py": (
-        "ScheduleController con QDialog inline → factories con spec mínimo; "
-        "`@patch` de clases Qt sin autospec"
-    ),
     "test_startup_controller.py": (
         "StartupController orquesta arranque → `MagicMock(spec=[...])` para cada subsistema"
     ),
@@ -1205,7 +1257,17 @@ _TESTING_DECISIONS: dict[str, str] = {
         "sin lógica de negocio testeable con autospec"
     ),
     "test_machine_service.py": (
-        "MachineService puro Python → `create_autospec(MachineRepository)` para repositorio"
+        "MachineService puro Python → `create_autospec(DatabaseManager, instance=True)` y "
+        "`create_autospec(MachineRepository, instance=True)`"
+    ),
+    "test_worker_service.py": (
+        "WorkerService puro Python → `create_autospec(DatabaseManager, instance=True)` y "
+        "`create_autospec` en WorkerRepository, TrackingRepository, PreprocesoRepository, "
+        "ProductRepository, PilaRepository"
+    ),
+    "test_detect_dead_code.py": (
+        "Script de análisis estático sin Qt → `MethodExtractor`, `extract_package_classes`, "
+        "`main` mockeado con `DIALOGS_PACKAGE` y paquete `ui/dialogs/`"
     ),
     "test_reports_repository.py": (
         "Repositorio SQLAlchemy → `create_autospec(Session)` para sesión de BD"
@@ -1240,6 +1302,12 @@ _TESTING_DECISIONS: dict[str, str] = {
     "test_backup_restore_dialog.py": (
         "Diálogo Qt → `MagicMock()` inevitable para todos los widgets del diálogo"
     ),
+    "test_historial_report_manager_security.py": (
+        "`require_permission` + `set_security_service` con `MagicMock(spec=SecurityService)`; sin Qt real"
+    ),
+    "test_temporal_storage.py": (
+        "RegistroTemporal en archivo temporal real → un evento, `close()`, `consultar_eventos`; `cleanup()` en finally"
+    ),
     "test_qr_scanner.py": (
         "QR Scanner con cámara → `@patch('cv2.VideoCapture')` sin autospec (C extension)"
     ),
@@ -1250,7 +1318,8 @@ _TESTING_DECISIONS: dict[str, str] = {
         "Excepciones de dominio puras → tests sin mocks, solo instanciación y asserts"
     ),
     "test_reportes_widget.py": (
-        "Widget de reportes Qt → `MagicMock()` para widgets; `create_autospec` para ReportService"
+        "ReportesWidget (hub Qt) → hub con `container` (DI) y/o `model.report_service`; "
+        "`create_autospec(ReportService)`; sub-widgets solo `set_report_service`; sin `report_controller` en el widget"
     ),
     "test_report_sheets.py": (
         "Hojas de reporte con openpyxl → `create_autospec(Workbook)` para libro Excel"
@@ -1289,7 +1358,7 @@ _TESTING_DECISIONS: dict[str, str] = {
     "test_reports_widgets.py": (
         "StatCard, OrderListWidget, SmartSearchWidget, ReportsChartsWidget son QWidget/QFrame (PyQt6) → "
         "MagicMock() inevitable; isVisible() False en headless; "
-        "OrderList/Charts pueden mockear `report_service` o `controller.model` según `_get_reports_model`"
+        "datos solo vía `report_service=` / `set_report_service` (`create_autospec(ReportService)`)"
     ),
     "test_canvas_widgets_coverage.py": (
         "CardWidget (×2) y CanvasWidget/ProductionFlowCanvas son QWidget/QLabel (PyQt6) → "
@@ -1314,9 +1383,9 @@ _TESTING_DECISIONS: dict[str, str] = {
         "componentes Qt (QDialog, QListWidgetItem) → MagicMock(spec=['método'])"
     ),
     "test_historial_controller_comprehensive.py": (
-        "Widgets Qt del historial → MagicMock() sin spec (inevitable); "
-        "repositorio de fabricaciones → create_autospec() para garantizar firma; "
-        "assert x.call_count == N antes de assert_called_once_with() en todos los tests"
+        "Widgets Qt del historial → MagicMock() sin spec (inevitable en UI); "
+        "`iteration_repo` y `product_repo` → `create_autospec(IterationRepository/ProductRepository, instance=True)`; "
+        "assert call_count antes de assert_called_once_with()"
     ),
     "test_ui_controller_comprehensive.py": (
         "HomeWidget y widgets de progreso son Qt → MagicMock() sin spec inevitable; "
@@ -1353,16 +1422,39 @@ _TESTING_DECISIONS: dict[str, str] = {
         "importados para isinstance() pero instancias con MagicMock() sin spec; "
         "autospec=True solo en funciones Python puras, nunca en clases Qt"
     ),
+    "test_gestion_datos_widget.py": (
+        "GestionDatosWidget instancia pestañas vía DI → monkeypatch ``DIContainer.get_instance`` "
+        "con mock ``resolve``/``is_registered``; sin ``AppController`` en el contenedor"
+    ),
+    "test_prep_steps_widget.py": (
+        "PrepStepsWidget: avisos de validación con ``validation_warning`` (pyqtSignal); "
+        "qtbot.waitSignal en tests de campos vacíos / tiempo inválido"
+    ),
     "test_product_dialogs_coverage.py": (
         "Diálogos Qt heredan de QDialog → MagicMock() inevitable para widgets internos; "
-        "ProductDTO/ProductIterationDTO/MaterialDTO con atributos explícitos (no mocks anidados) "
-        "porque los diálogos acceden a sus campos directamente; "
-        "PropertyMock para propiedades Qt no asignables directamente"
+        "ProductDetailsDialog usa ``ProductController`` mock con ``product_facade``, "
+        "``material_service``, ``product_service``, ``db``, ``app.file_controller``; "
+        "ProductDTO/ProductIterationDTO/MaterialDTO con atributos explícitos; PropertyMock donde haga falta"
     ),
     "test_product_controller_preprocesos.py": (
         "ProductController depende de AppController → MagicMock() estándar; "
         "QDialog/QMessageBox parcheados con patch() para interceptar creación sin instanciar; "
         "Permission usado para verificar llamadas al servicio de seguridad"
+    ),
+    "test_product_controller_v2_comprehensive.py": (
+        "mock_app con create_autospec(AppController) y servicios/repos; "
+        "PreprocesoDialog se aserta con material_port=controller (puerto de materiales), no controller="
+    ),
+    "test_dashboard_widget.py": (
+        "DummyChartView(QWidget) en patch de QChartView; Dashboard sin set_controller ni hub — "
+        "solo update_* desde UIController"
+    ),
+    "test_app_startup_integration.py": (
+        "MainView + init_ui: sustituto de QChartView como QWidget real (_FakeChartView) para addWidget; "
+        "GestionDatosWidget verificado por pestañas DI, sin atributo controller"
+    ),
+    "test_widgets_integration.py": (
+        "WorkersWidget() tras registrar WorkerController en DIContainer; señales a management_manager"
     ),
 }
 
@@ -1411,8 +1503,11 @@ def _write_testing_section(md, compliance_data: list[dict]) -> None:
     )
     md.write(
         "2. **Excepciones documentadas** — PyQt6 y python-docx no tienen stubs de tipo "
-        "completos. En estos casos se usa `MagicMock()` sin spec, lo cual es inevitable "
-        "y está registrado explícitamente en el analizador de calidad como penalización no corregible.\n\n"
+        "completos: en **widgets y diálogos Qt** suele usarse `MagicMock()` sin spec; el analizador "
+        "solo trata como **inevitables** los mocks sueltos en líneas con indicios de widget Qt (heurística). "
+        "Los **repositorios y servicios Python del proyecto** no entran en esa excepción: deben usar "
+        "`create_autospec(ClaseReal, instance=True)` o `MagicMock(spec=[...])` acotado cuando proceda "
+        "(ver `.agents/skills/testing_fixtures_y_mocks/SKILL.md`).\n\n"
     )
     md.write(
         "3. **Verificación de interacciones explícita** — En controladores y servicios, "
@@ -1455,7 +1550,8 @@ def _write_testing_section(md, compliance_data: list[dict]) -> None:
 
     md.write(
         "Cuando un archivo alcanza su **techo real** (`score optimizado = techo`), "
-        "el analizador lo marca con ✅ y explica la razón. "
+        "el analizador lo marca con ✅ y explica la razón (p. ej. importa PyQt6 y el techo solo perdona "
+        "parte de los `MagicMock()` sueltos en contexto de widgets). "
         "El estado del archivo (`Actualizado / En Progreso / Legacy`) se calcula "
         "sobre el score techo, no el absoluto, para no penalizar lo ya optimizado.\n\n"
     )
@@ -1566,6 +1662,39 @@ def generate_markdown(page_map: dict[str, int] | None = None) -> None:
         md.write("- Asignación inteligente de trabajadores y máquinas\n")
         md.write("- Motor de simulación de escenarios de producción\n")
         md.write("- Gestión de backups, auditoría y seguridad por roles\n\n")
+        md.write("### Mantenimiento industrial, calidad de tests y análisis estático\n\n")
+        md.write(
+            "Estado documentado del repo (actualizado en la generación de esta documentación):\n\n"
+        )
+        md.write(
+            "- **`scripts/maintenance/`** — `backup_database.py` y `reset_admin.py` con **tipado estricto** "
+            "según `[mypy-scripts.maintenance.*]` en `mypy.ini` (`ignore_errors = False`, "
+            "`disallow_untyped_defs = True`). El reset de admin usa `DatabaseConfig` y raíz del proyecto "
+            "vía `Path(__file__).resolve().parents[2]` para imports fiables.\n"
+        )
+        md.write(
+            "- **`scripts/detect_dead_code.py`** — Analiza el **paquete** `ui/dialogs/` (no el monolito antiguo), "
+            "genera `Documentacion/Analisis_Codigo_Muerto_ui_dialogs.md` con claves `ruta.py::Clase` y sección "
+            "de **0 eliminaciones** cuando la heurística no marca métodos muertos (revisión manual obligatoria "
+            "antes de borrar código).\n"
+        )
+        md.write(
+            "- **`scripts/test_quality_analyzer.py`** — Distingue penalizaciones **inevitables** (p. ej. "
+            "`MagicMock()` en la misma línea que nombres típicos de **widgets Qt**) de penalizaciones "
+            "**corregibles**; en archivos con PyQt6, los **repositorios y servicios del proyecto** siguen "
+            "pudiendo (y deben) usar `create_autospec` donde aplique (ver skill `testing_fixtures_y_mocks`).\n"
+        )
+        md.write(
+            "- **Tests de servicios** — Ejemplos endurecidos: `test_worker_service.py` y `test_machine_service.py` "
+            "usan `create_autospec(DatabaseManager, instance=True)` y `create_autospec` de los repositorios reales; "
+            "`test_historial_controller_comprehensive.py` usa `create_autospec` en `IterationRepository` y "
+            "`ProductRepository` donde corresponde.\n"
+        )
+        md.write(
+            "- **Historial PDF** — `HistorialReportManager` obtiene el historial de iteraciones vía "
+            "`db.iteration_repo.get_product_iterations` (alineado con `IterationRepository` y con "
+            "`interaction_manager`).\n\n"
+        )
         md.write("---\n\n")
 
         # ── 2. ARQUITECTURA ──────────────────────────────────────────────────
@@ -1586,7 +1715,31 @@ def generate_markdown(page_map: dict[str, int] | None = None) -> None:
             "La Fase 12C define una frontera estricta entre UI y dominio:\n\n"
             "- La UI no debe manipular diccionarios crudos de negocio.\n"
             "- El intercambio entre capas se realiza con DTOs (`*DTO`).\n"
-            "- Los analizadores de frontera verifican que no se reintroduzcan accesos legacy en UI.\n\n"
+            "- Los analizadores de frontera verifican que no se reintroduzcan accesos legacy en UI.\n"
+            "- `PrepStepsWidget` lee filas de preproceso/fase con `_ui_record_field` (dict o DTO), evitando `preproceso['id']` en la lista.\n"
+            "- CI ejecuta `scripts/ui_dto_boundary_analyzer.py` como paso **informativo** (`continue-on-error`) para no bloquear merges mientras el umbral evoluciona.\n\n"
+        )
+        md.write("### Desacoplamiento UI: widgets hoja frente a MainView\n\n")
+        md.write(
+            "**MainView** sigue siendo el lugar que recibe `AppController` para navegación, backup y casos "
+            "especiales (p. ej. settings). Los **widgets hoja** y diálogos reutilizables deben preferir:\n\n"
+        )
+        md.write(
+            "- Inyección de **servicios**, **fachadas** (`ProductFacade`, …) o **controladores de dominio acotados** "
+            "(`ProductController`) resueltos desde `DIContainer`.\n"
+        )
+        md.write(
+            "- **Señales PyQt** o callbacks mínimos (`show_warning`, abrir fichero) en lugar de "
+            "`controller.view.show_message` desde componentes reutilizables.\n"
+        )
+        md.write(
+            "- **GestionDatosWidget**: pestañas construidas con dependencias del contenedor donde proceda; "
+            "**PrepStepsWidget**: validación expuesta vía señales hacia el padre.\n"
+        )
+        md.write(
+            "- **Tests de cableado**: arranque con `MainView` real sustituye `QChartView` por un `QWidget` "
+            "hijo válido en layout; `WorkersWidget()` sin `controller=` tras registrar `WorkerController` en DI; "
+            "`PreprocesoDialog` recibe `material_port` (no el hub completo).\n\n"
         )
         md.write(MERMAID_ARQUITECTURA + "\n\n")
         md.write("### Matriz RBAC (Roles vs Permisos)\n\n")
@@ -1606,6 +1759,39 @@ def generate_markdown(page_map: dict[str, int] | None = None) -> None:
         md.write("| GENERATE_REPORTS | Sí | Sí | No | No |\n")
         md.write("| MANAGE_SETTINGS | Sí | Sí | No | No |\n")
         md.write("| VIEW_HISTORY | Sí | Sí | No | No |\n\n")
+        md.write("### Defensa en profundidad RBAC (controladores)\n\n")
+        md.write(
+            "Además del filtrado de UI en `SessionController`, operaciones sensibles usan "
+            "`@require_permission` (`core/security/access_control.py`):\n\n"
+        )
+        md.write("| Área | Permiso | Entrypoints |\n")
+        md.write("|---|---|---|\n")
+        md.write(
+            "| Backup ZIP (import / export / sync) y diálogo restore | MANAGE_SETTINGS | "
+            "`BackupController.on_import_databases`, `on_export_databases`, `on_sync_databases`, "
+            "`show_backup_restore_dialog` |\n"
+        )
+        md.write(
+            "| PDF desde historial | GENERATE_REPORTS | `HistorialReportManager.on_print_report_clicked` |\n"
+        )
+        md.write(
+            "| Productos, fabricaciones, máquinas, usuarios, preprocesos | (matriz anterior) | "
+            "`ProductController` / managers, `MachineController`, `TaskManager`, `PreprocesoManager`, etc. |\n\n"
+        )
+        md.write("### Simulación: RegistroTemporal\n\n")
+        md.write(
+            "- SQLite en archivo temporal con **WAL** para reducir pérdida si el proceso termina entre vaciados del buffer.\n"
+            "- `MotorDeEventos.ejecutar_simulacion` confía en `consultar_eventos` (vaciado previo del buffer) y en "
+            "`finally: registro_temporal.cleanup()`.\n"
+            "- `RegistroTemporal.cleanup()` borra el `.db` y los compañeros `-wal` / `-shm`.\n\n"
+        )
+        md.write("### Política AppModel y nuevas features\n\n")
+        md.write(
+            "- Registrar servicios en `DIContainer` y resolver dependencias en controladores; evitar nuevos delegadores "
+            "en `AppModel` salvo señales Qt o compatibilidad documentada.\n"
+            "- Poda de métodos delegadores de `AppModel` solo si **cero usos** en el repo (búsqueda con `rg`), "
+            "con `pytest`/`mypy` en módulos tocados.\n\n"
+        )
         md.write("### Acciones Auditables\n\n")
         md.write("| Acción | Disparo principal | Registro |\n")
         md.write("|---|---|---|\n")
@@ -1629,7 +1815,11 @@ def generate_markdown(page_map: dict[str, int] | None = None) -> None:
         md.write("| `database/` | Modelos SQLAlchemy, repositorios, DatabaseManager |\n")
         md.write("| `ui/` | Widgets PyQt6, diálogos, ventana principal |\n")
         md.write("| `features/` | Módulos de funcionalidad transversal (worker sync, validación) |\n")
-        md.write("| `scripts/` | Herramientas de análisis, generación de docs, QA |\n")
+        md.write(
+            "| `scripts/` | Generación de docs (`generate_daniel_doc`), QA (`test_quality_analyzer`), "
+            "detección de código muerto (`detect_dead_code`), **mantenimiento crítico** (`maintenance/`: backup BD, reset admin), "
+            "`init_database.py` con mypy estricto en CI |\n"
+        )
         md.write("| `tests/` | Suite de tests (unit, integration, e2e) |\n")
         md.write("| `migrations/` | Migraciones Alembic de la base de datos |\n\n")
         md.write("---\n\n")

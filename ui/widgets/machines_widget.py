@@ -4,7 +4,7 @@ Interfaz PyQt6 (`machines_widget`): widgets, diálogos o recursos visuales conec
 """
 
 from .base import *
-from typing import Any
+from typing import Any, Optional
 
 class MachinesWidget(QWidget):
     """Widget para gestionar la base de datos de máquinas (CRUD)."""
@@ -13,14 +13,9 @@ class MachinesWidget(QWidget):
     add_maintenance_signal = pyqtSignal(int)
     delete_signal = pyqtSignal(int)
 
-    def __init__(self, controller: Any = None) -> None:
-        """
-        Inicializa el widget de máquinas y sus dependencias (DI).
-
-        Args:
-            controller: Controlador opcional (compatibilidad; preferir DIContainer).
-        """
-        super().__init__()
+    def __init__(self, _app_controller: Any = None, parent: Optional[QWidget] = None) -> None:
+        """`_app_controller` se ignora (compat ``MainView``); dependencias vía DI."""
+        super().__init__(parent)
         from core.di_container import DIContainer
         from controllers.machine_controller import MachineController
         self.machine_controller = DIContainer.get_instance().resolve(MachineController)

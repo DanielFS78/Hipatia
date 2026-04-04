@@ -17,6 +17,8 @@ from PyQt6.QtCore import QObject
 from PyQt6.QtWidgets import QFileDialog, QApplication, QDialog
 
 from core.utils.helpers import resource_path
+from core.security.access_control import require_permission
+from core.security.security_service import Permission
 from core.services.backup_service import BackupService
 from core.services.audit_logger import AuditLogger
 from database.database_manager import DatabaseManager
@@ -74,15 +76,19 @@ class BackupController(QObject):
         self.audit_logger: AuditLogger | None = audit_logger
         self._db_io = BackupIOManager(self)
 
+    @require_permission(Permission.MANAGE_SETTINGS)
     def on_import_databases(self, on_success_callback: Callable[[], None] | None = None) -> None:
         self._db_io.on_import_databases(on_success_callback)
 
+    @require_permission(Permission.MANAGE_SETTINGS)
     def on_export_databases(self) -> None:
         self._db_io.on_export_databases()
 
+    @require_permission(Permission.MANAGE_SETTINGS)
     def on_sync_databases(self, on_success_callback: Callable[[], None] | None = None) -> None:
         self._db_io.on_sync_databases(on_success_callback)
 
+    @require_permission(Permission.MANAGE_SETTINGS)
     def show_backup_restore_dialog(self) -> None:
         """Muestra el diálogo de gestión de backups."""
         if not self.backup_service:

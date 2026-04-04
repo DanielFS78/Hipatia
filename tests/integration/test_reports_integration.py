@@ -55,7 +55,7 @@ class TestReportsIntegration:
         Verifica que buscar devuelve resultados reales.
         """
         # La búsqueda debe encontrar el producto INT-001
-        results = app_model.search_reports_data("INT-001")
+        results = app_model.report_service.search_reports_data("INT-001")
         
         assert len(results) > 0
         # Adaptación: el repositorio devuelve DTOs, buscamos por código
@@ -67,11 +67,11 @@ class TestReportsIntegration:
         Prueba el flujo de datos para gráficas.
         """
         # Calcular promedio
-        avg_dto = app_model.get_product_time_stats("INT-001")
+        avg_dto = app_model.report_service.get_product_time_stats("INT-001")
         assert avg_dto is not None
         assert avg_dto.producto_codigo == "INT-001"
         assert avg_dto.total_unidades >= 1
         
         # Evolución
-        evol = app_model.get_evolution_stats("INT-001")
+        evol = app_model.report_service.get_evolution_stats("INT-001")
         assert len(evol) > 0

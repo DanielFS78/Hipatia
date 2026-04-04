@@ -8,8 +8,6 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING, List, Any, Optional, cast
 
-from typing import TYPE_CHECKING, List, Any, Optional, cast
-
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem,
     QLabel, QTextEdit, QGroupBox, QPushButton, QFrame, QSplitter,
@@ -19,7 +17,7 @@ from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QPixmap, QIcon
 
 if TYPE_CHECKING:
-    from controllers.product_controller import ProductController
+    from controllers.product_controller_v2 import ProductController
     from core.dtos import ProductIterationDTO, IterationImageDTO
 
 logger = logging.getLogger(__name__)
@@ -31,18 +29,18 @@ class ProductIterationsWidget(QWidget):
     Gestiona el listado de cambios y la galería de imágenes asociada.
     """
 
-    def __init__(self, product_code: str, controller: ProductController, parent: Optional[QWidget] = None) -> None:
+    def __init__(self, product_code: str, product_controller: "ProductController", parent: Optional[QWidget] = None) -> None:
         """
         Inicializa el widget de iteraciones.
 
         Args:
             product_code: Código del producto actual.
-            controller: Controlador de productos para obtención de datos.
+            product_controller: Controlador de productos (servicios, adjuntos vía ``app``).
             parent: Widget padre opcional.
         """
         super().__init__(parent)
-        self.controller = controller
-        self.view = getattr(controller, "view", None) # Usar la vista del controlador por defecto
+        self.product_controller = product_controller
+        self.view = getattr(product_controller, "view", None)
         self.current_producto_codigo: Optional[str] = product_code
         self.current_selected_iteration_id: Optional[int] = None
         self.current_iterations: List[ProductIterationDTO] = []
@@ -148,7 +146,7 @@ class ProductIterationsWidget(QWidget):
         """Abre la imagen seleccionada en el visor del sistema."""
         path = item.data(Qt.ItemDataRole.UserRole)
         if path:
-            self.controller.app.file_controller.handle_view_file(path)
+            self.product_controller.app.file_controller.handle_view_file(path)
 
     def load_data(self, producto_codigo: Optional[str] = None) -> None:
         """Carga las iteraciones para el producto especificado o el actual."""
@@ -159,7 +157,7 @@ class ProductIterationsWidget(QWidget):
             return
 
         try:
-            self.current_iterations = self.controller.product_service.get_product_iterations(
+            self.current_iterations = self.product_controller.product_service.get_product_iterations(
                 self.current_producto_codigo
             )
             self._refresh_list()
@@ -278,7 +276,7 @@ class ProductIterationsWidget(QWidget):
             if not data.get("responsable") or not data.get("descripcion"):
                 if self.view: self.view.show_message("Error", "Responsable y descripción son obligatorios.", "warning")
                 return
-            if self.controller.handle_add_product_iteration(self.current_producto_codigo, data):
+            if self.product_controller.handle_add_product_iteration(self.current_producto_codigo, data):
                 self.load_data()
 
     def on_edit_iteration_clicked(self) -> None:
@@ -297,7 +295,7 @@ class ProductIterationsWidget(QWidget):
         desc, ok2 = QInputDialog.getMultiLineText(self, "Editar Descripción", "Cambios realizados:", text=iteracion.descripcion)
         if not ok2 or not desc.strip(): return
 
-        if self.controller.handle_update_product_iteration(iteracion.id, resp.strip(), desc.strip(), iteracion.tipo_fallo):
+        if self.product_controller.handle_update_product_iteration(iteracion.id, resp.strip(), desc.strip(), iteracion.tipo_fallo):
             self.load_data()
 
     def on_delete_iteration_clicked(self) -> None:
@@ -308,7 +306,7 @@ class ProductIterationsWidget(QWidget):
             return
         iteracion: ProductIterationDTO = item.data(0, Qt.ItemDataRole.UserRole)
         if self.view and self.view.show_confirmation_dialog("Confirmar Borrado", "¿Eliminar esta revisión definitivamente?"):
-            if self.controller.handle_delete_product_iteration(iteracion.id):
+            if self.product_controller.handle_delete_product_iteration(iteracion.id):
                 self.load_data()
 
     def on_view_plano_clicked(self) -> None:
@@ -319,7 +317,7 @@ class ProductIterationsWidget(QWidget):
             return
         iteracion: ProductIterationDTO = item.data(0, Qt.ItemDataRole.UserRole)
         if iteracion.ruta_plano:
-            self.controller.app.file_controller.handle_view_file(iteracion.ruta_plano)
+            self.product_controller.app.file_controller.handle_view_file(iteracion.ruta_plano)
         else:
             if self.view: self.view.show_message("Información", "Esta revisión no tiene un plano adjunto.", "info")
 
@@ -330,7 +328,7 @@ class ProductIterationsWidget(QWidget):
     def refresh_gallery(self, iteracion_id: int) -> None:
         """Actualiza la vista de miniaturas de la galería."""
         self.gallery_list.clear()
-        images = self.controller.db.get_iteration_images(iteracion_id)
+        images = self.product_controller.db.get_iteration_images(iteracion_id)
 
         for img in images:
             item = QListWidgetItem()
@@ -356,7 +354,7 @@ class ProductIterationsWidget(QWidget):
 
         count = 0
         for f in files:
-            success, _ = self.controller.handle_add_iteration_image(self.current_selected_iteration_id, f)
+            success, _ = self.product_controller.handle_add_iteration_image(self.current_selected_iteration_id, f)
             if success: count += 1
 
         if count > 0:
@@ -381,7 +379,7 @@ class ProductIterationsWidget(QWidget):
             return
 
         if self.view and self.view.show_confirmation_dialog("Confirmar", "¿Eliminar esta imagen de la galería?"):
-            if self.controller.handle_delete_iteration_image(image_id):
+            if self.product_controller.handle_delete_iteration_image(image_id):
                 if self.current_selected_iteration_id is not None:
                     self.refresh_gallery(self.current_selected_iteration_id)
             elif self.view:

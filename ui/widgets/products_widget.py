@@ -7,9 +7,9 @@ from typing import Any, Dict, List, Optional
 
 from core.dtos import SubfabricacionDTO
 from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QListWidget, 
+    QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QListWidget,
     QListWidgetItem, QLabel, QFrame, QPushButton, QFormLayout,
-    QComboBox, QTextEdit, QDialog, QCheckBox
+    QComboBox, QTextEdit, QDialog, QCheckBox,
 )
 from PyQt6.QtCore import pyqtSignal, Qt
 
@@ -53,8 +53,9 @@ class ProductsWidget(QWidget):
     current_procesos_mecanicos: List[Dict[str, Any]] = []
     form_widgets: Dict[str, Any] = {}
 
-    def __init__(self, controller: Any = None) -> None:
-        super().__init__()
+    def __init__(self, _app_controller: Any = None, parent: Optional[QWidget] = None) -> None:
+        """`_app_controller` se ignora (compat ``MainView``); dependencias vía DI."""
+        super().__init__(parent)
         from core.di_container import DIContainer
         from controllers.product_controller_v2 import ProductController
         self.product_controller = DIContainer.get_instance().resolve(ProductController)

@@ -14,7 +14,7 @@ class TestSettingsWidgetLogic(unittest.TestCase):
 
     def test_missing_methods_and_connections(self):
         from ui.widgets.settings_widget import SettingsWidget
-        widget = SettingsWidget(controller=None)
+        widget = SettingsWidget()
         
         # Check if methods exist
         self.assertTrue(hasattr(widget, '_on_add_break'), "_on_add_break should exist")
