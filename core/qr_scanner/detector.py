@@ -21,7 +21,7 @@ except ImportError:
     HAS_WECHAT_QR = False
 
 class QRDetector:
-    def __init__(self):
+    def __init__(self) -> None:
         self.use_wechat = False
         self.detector: Any = None
         self._init_detector()

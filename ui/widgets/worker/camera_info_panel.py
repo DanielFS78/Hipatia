@@ -3,7 +3,7 @@
 Interfaz PyQt6 (`camera_info_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 """
 
-from PyQt6.QtWidgets import QGroupBox, QVBoxLayout, QLabel
+from PyQt6.QtWidgets import QGroupBox, QLabel, QVBoxLayout, QWidget
 from typing import Optional
 from core.dtos import CameraDetailDTO
 
@@ -12,7 +12,7 @@ class CameraInfoPanel(QGroupBox):
     Panel para mostrar información detallada y estados de validación.
     """
 
-    def __init__(self, parent=None):
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
         super().__init__("ℹ️ Información y Validación de Hardware", parent)
         self._setup_ui()
 

@@ -216,7 +216,7 @@ class ProductsWidget(QWidget):
         self.edit_area_container_layout.addLayout(button_layout)
         self.edit_area_container_layout.addStretch()
 
-        def toggle_subs():
+        def toggle_subs() -> None:
             is_checked = self.form_widgets['sub_switch'].isChecked()
             self.form_widgets['manage_subs_button'].setVisible(is_checked)
             self.form_widgets['details_container'].setVisible(not is_checked)

@@ -274,10 +274,18 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 
 - **Estado:** Completado
 - **Prioridad:** P2
-- **Alcance:** `mypy.ini` — nueve módulos `core` `*_io` (además de `flow_canvas_io` ya listado): `define_flow_presenter_io`, `define_flow_form_io`, `inspector_task_payload_io`, `enhanced_flow_canvas_state_io`, `enhanced_flow_presenter_io`, `reassignment_rule_dialog_io`, `definir_cantidades_dialog_io`, `holidays_config_io`, `flow_graph_manager_io`; `ui.dialogs.fabrication.*`, `production_flow.*`, `product.*`, `prep.*`; diálogos sueltos (`tracking_dialogs`, `utility_dialogs`, `connection_dialog`, `backup_restore_dialog`, `card_widget`, `canvas_widgets`, `canvas_widget`); `ui.widgets.reports.*`, `ui.widgets.production_flow.*`. `BOMImportPreviewDialog.__init__`: `parent: Optional[QWidget]`.
+- **Alcance:** `mypy.ini` — nueve módulos `core` `*_io` (además de `flow_canvas_io` ya listado): `define_flow_presenter_io`, `define_flow_form_io`, `inspector_task_payload_io`, `enhanced_flow_canvas_state_io`, `enhanced_flow_presenter_io`, `reassignment_rule_dialog_io`, `definir_cantidades_dialog_io`, `holidays_config_io`, `flow_graph_manager_io`; `ui.dialogs.fabrication.*`, `production_flow.*`, `product.*`, `prep.*`; diálogos sueltos (`tracking_dialogs`, `utility_dialogs`, `connection_dialog`, `backup_restore_dialog`, `card_widget`, `canvas_widgets`, `canvas_widget`). (Los bloques sueltos `ui.widgets.*` parciales se unificaron en paso 11.) `BOMImportPreviewDialog.__init__`: `parent: Optional[QWidget]`.
 - **Gates:** `mypy .` OK (676 archivos); pytest focal BOM preview + define_flow + canvas + fabrication_dialogs OK.
+- **Fecha cierre:** 2026-04-04
+
+## ITEM 004 (lote D — paso 11) — `ui.widgets.*` completo + `core.qr_scanner.*`
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `mypy.ini` — `[mypy-ui.widgets.*]` sustituye bloques redundantes (`fabrications_widget`/`reportes_widget`, `base`, `reports.*`, `production_flow.*`); `[mypy-core.qr_scanner.*]` sustituye el bloque solo `scanner` (lote C paso 8). Ajustes: `camera_selector_panel` / `camera_info_panel` `__init__(parent: Optional[QWidget]) -> None`; `QRDetector.__init__ -> None`; `products_widget.toggle_subs -> None`.
+- **Gates:** `mypy .` OK (676 archivos); pytest focal `test_products_widget`, `test_qr_scanner`, `test_worker_main_window` OK.
 - **Fecha cierre:** 2026-04-04
 
 ## Siguiente ítem sugerido
 
-- **ITEM 004 (lote D — cierre opcional / paso 11):** endurecer el resto de `ui.widgets.*` no cubierto (p. ej. `home_widget`, `dashboard`, `products_widget`, ya parcialmente en ITEM 004 previo para `fabrications_widget`/`reportes_widget`) o `core/qr_scanner` (salvo `scanner` ya estricto); mantener lotes pequeños. Alternativa: declarar **lote D mypy** suficiente para CI y usar solo mantenimiento al añadir módulos nuevos.
+- **Mantenimiento:** nuevos módulos bajo `ui`/`core` deben añadirse a `mypy.ini` o cumplir el patrón ya estricto. **Huecos típicos restantes** respecto a `[mypy-ui.*]` / `[mypy-controllers.*]` laxos: solo lo no cubierto por patrones más específicos (revisar con `mypy .` al introducir código). **Lote D (repositorios + servicios + UI densa + widgets + qr_scanner):** cerrado a efectos prácticos para el árbol de producto.
