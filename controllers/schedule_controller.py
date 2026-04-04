@@ -6,7 +6,7 @@ Gestiona la configuración de horarios laborales, descansos y festivos mediante 
 """
 from __future__ import annotations
 import logging
-from typing import Any, Optional, TYPE_CHECKING
+from typing import Any, Optional, TYPE_CHECKING, cast
 from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QFormLayout, QTimeEdit
 from PyQt6.QtCore import QTime, QObject
 
@@ -167,11 +167,11 @@ class ScheduleController(QObject):
 
     def config_get_setting(self, key: str, default: str = "") -> str:
         """Obtiene un ajuste de configuración de la persistencia."""
-        return self.db.config_repo.get_setting(key, default)
+        return cast(str, self.db.config_repo.get_setting(key, default))
 
     def config_set_setting(self, key: str, value: str) -> bool:
         """Establece o actualiza un ajuste de configuración."""
-        return self.db.config_repo.set_setting(key, value)
+        return cast(bool, self.db.config_repo.set_setting(key, value))
 
     def reload_config(self) -> None:
         """Recarga la configuración global de horarios en el sistema."""

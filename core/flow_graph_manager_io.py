@@ -7,7 +7,7 @@ Descripcion: Lectura y mutacion del estado canvas/presenter usada por FlowGraphM
 
 from __future__ import annotations
 
-from typing import Any, Mapping, MutableMapping, Sequence
+from typing import Any, Mapping, MutableMapping, Sequence, cast
 
 from core.flow_canvas_io import canvas_task_body, legacy_canvas_task_config
 
@@ -68,11 +68,11 @@ def apply_loaded_flow_step_to_presenter_config(
 
 
 def presenter_task_data_mut(task: MutableMapping[str, Any]) -> MutableMapping[str, Any]:
-    return task["data"]
+    return cast(MutableMapping[str, Any], task["data"])
 
 
 def presenter_task_config_mut(task: MutableMapping[str, Any]) -> MutableMapping[str, Any]:
-    return task["config"]
+    return cast(MutableMapping[str, Any], task["config"])
 
 
 def task_data_glow_effect_get(data: Mapping[str, Any]) -> Any:

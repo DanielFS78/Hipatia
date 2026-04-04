@@ -149,7 +149,7 @@ class UIScaler:
             screen = active_widget.screen()
             if screen is not None:
                 rect = screen.availableGeometry()
-                return rect.height()
+                return cast(int, rect.height())
                 
             # Fallback en caso de que .screen() no devuelva nada
             from PyQt6.QtWidgets import QApplication

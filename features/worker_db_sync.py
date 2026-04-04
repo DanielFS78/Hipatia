@@ -4,7 +4,7 @@ Actúa como fachada para el repositorio de trazabilidad y otras operaciones de B
 """
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, cast
 from datetime import datetime
 
 class WorkerDbSync:
@@ -76,7 +76,7 @@ class WorkerDbSync:
     def get_active_trabajos(self, trabajador_id: int) -> List[Any]:
         """Obtiene los trabajos actualmente en proceso para el trabajador."""
         try:
-            return self.tracking_repo.obtener_trabajos_activos(trabajador_id)
+            return cast(List[Any], self.tracking_repo.obtener_trabajos_activos(trabajador_id))
         except Exception as e:
             self.logger.error(f"Error al obtener trabajos activos: {e}", exc_info=True)
             return []
@@ -156,11 +156,11 @@ class WorkerDbSync:
     def get_estadisticas(self, trabajador_id: int) -> Optional[Dict[str, Any]]:
         """Obtiene estadísticas de rendimiento del trabajador."""
         try:
-            return self.tracking_repo.obtener_estadisticas_trabajador(trabajador_id)
+            return cast(Dict[str, Any] | None, self.tracking_repo.obtener_estadisticas_trabajador(trabajador_id))
         except Exception as e:
             self.logger.error(f"Error al obtener estadísticas: {e}", exc_info=True)
             return None
 
     def get_data_for_export(self, trabajador_id: int, last_export_date: datetime) -> List[Dict[str, Any]]:
         """Obtiene datos nuevos para exportación."""
-        return self.tracking_repo.get_data_for_export(trabajador_id, last_export_date)
+        return cast(List[Dict[str, Any]], self.tracking_repo.get_data_for_export(trabajador_id, last_export_date))

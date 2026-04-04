@@ -7,12 +7,10 @@ Descripción: Controlador central para la gestión del ciclo de vida de las fabr
 from __future__ import annotations
 
 import logging
-from typing import Any, TYPE_CHECKING
+from typing import Any, cast
 from PyQt6.QtCore import QObject, pyqtSignal
 from database.database_manager import DatabaseManager
-
-if TYPE_CHECKING:
-    from core.dtos import CalculationProductDTO
+from core.dtos import CalculationProductDTO
 
 
 class FabricacionController(QObject):
@@ -61,7 +59,7 @@ class FabricacionController(QObject):
             text: Texto de búsqueda
         """
         # Delegado a ProductControllerV2
-        return self.product_controller.search_fabricaciones(text)
+        return cast(list[Any], self.product_controller.search_fabricaciones(text))
         
     def show_fabricacion_preprocesos(self, fabricacion_id: int) -> None:
         """
@@ -94,10 +92,9 @@ class FabricacionController(QObject):
         try:
             # Delegar al product_controller para mantener consistencia
             if hasattr(self.product_controller, 'get_fabricacion_products_for_calculation'):
-                return self.product_controller.get_fabricacion_products_for_calculation(fabricacion_id)
+                return cast(list[CalculationProductDTO], self.product_controller.get_fabricacion_products_for_calculation(fabricacion_id))
             
             # Fallback (si por alguna razón no está disponible)
-            from core.dtos import CalculationProductDTO, CalculationSubPartDTO
             productos = self.db.get_products_by_fabricacion(fabricacion_id)
             
             result = []

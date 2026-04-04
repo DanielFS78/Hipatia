@@ -53,7 +53,7 @@ class LineaTemporalTarea:
             )
 
         # --- Atributos de Estado (evolucionan durante la simulación) ---
-        self.unidades_a_producir = task_data.get('trigger_units', 1)
+        self.unidades_a_producir = int(task_data.get('trigger_units', 1))
         # MANTENER para compatibilidad, pero su rol cambia
         self.unidades_completadas = 0  # Servirá como alias
         self.trabajadores_asignados: List[str] = []  # Será una lista agregada de todos los trabajadores

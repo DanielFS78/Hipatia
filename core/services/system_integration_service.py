@@ -6,7 +6,7 @@ Centraliza el acceso que antes hacía AppModel directamente contra repositorios.
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
 from core.dtos import LoteDTO
 from database.database_manager import DatabaseManager
@@ -43,7 +43,7 @@ class SystemIntegrationService:
         return self._db.lote_repo.delete_lote(lote_id)
 
     def config_get_setting(self, key: str, default: str) -> str:
-        return self._db.config_repo.get_setting(key, default)
+        return cast(str, self._db.config_repo.get_setting(key, default))
 
     def config_set_setting(self, key: str, value: str) -> bool:
         return self._db.config_repo.set_setting(key, value)

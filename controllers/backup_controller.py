@@ -71,8 +71,8 @@ class BackupController(QObject):
     def _get_db_path(self) -> str:
         """Extract SQLite file path from db_url. Returns empty string for non-SQLite DBs."""
         db_url = self.db.db_url
-        if db_url and db_url.startswith("sqlite:///"):
-            return db_url.replace("sqlite:///", "")
+        if db_url and str(db_url).startswith("sqlite:///"):
+            return str(db_url).replace("sqlite:///", "")
         return ""
 
     def _create_backup_directory_structure(self) -> tuple[str | None, str | None]:

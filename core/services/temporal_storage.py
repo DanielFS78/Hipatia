@@ -6,7 +6,7 @@ Lógica o utilidades del núcleo (`temporal_storage`): tipos, servicios auxiliar
 import json
 import logging
 import os
-from typing import Any, List, Dict, Tuple, Optional
+from typing import Any, List, Dict, Tuple, Optional, cast
 from datetime import datetime
 from enum import Enum
 from core.simulation.simulation_events import EventoDeSimulacion
@@ -68,14 +68,14 @@ class RegistroTemporal:
                     f"No se pudo inicializar la base de datos de eventos para el hilo {threading.get_ident()}: {e}")
                 self._local.conn = None
 
-        return self._local.conn
+        return cast(sqlite3.Connection | None, self._local.conn)
 
     def _default_serializer(self, obj: Any) -> str:
         """Serializador JSON para objetos datetime y Enum."""
         if isinstance(obj, datetime):
             return obj.isoformat()
         if isinstance(obj, Enum):
-            return obj.value
+            return cast(str, obj.value)
         raise TypeError(f"Object of type {obj.__class__.__name__} is not JSON serializable")
 
     def guardar_evento(self, evento: EventoDeSimulacion) -> None:
