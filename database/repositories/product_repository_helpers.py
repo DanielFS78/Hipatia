@@ -46,7 +46,6 @@ def to_proceso_mecanico_dto(proceso: Any) -> ProcesoMecanicoDTO:
 
 def to_material_dto(material: Any) -> MaterialDTO:
     """Convierte el modelo `Material` a `MaterialDTO`."""
-    from core.dtos import MaterialDTO
     return MaterialDTO(
         id=int(material.id or 0),
         codigo_componente=str(material.codigo_componente or ""),

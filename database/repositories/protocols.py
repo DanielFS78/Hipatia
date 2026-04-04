@@ -2,7 +2,7 @@
 Capa de datos (`protocols`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 """
 
-from typing import Protocol, Any, Callable, TypeVar, Optional, List, Dict, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Protocol, TypeVar
 from sqlalchemy.orm import Session
 import logging
 
@@ -18,8 +18,8 @@ class RepositoryProtocol(Protocol):
 
 class PilaRepositoryProtocol(RepositoryProtocol):
     """Protocolo específico para el repositorio de Pila."""
-    def _convert_indices_to_ids(self, production_flow: List[Dict]) -> None: ...
-    def _convert_ids_to_indices(self, production_flow: List[Dict]) -> None: ...
+    def _convert_indices_to_ids(self, production_flow: List[Dict[str, Any]]) -> None: ...
+    def _convert_ids_to_indices(self, production_flow: List[Dict[str, Any]]) -> None: ...
 
 class TrackingRepositoryProtocol(RepositoryProtocol):
     """Protocolo específico para el repositorio de Tracking."""

@@ -211,6 +211,16 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Sync iCloud:** N/A (workspace = iCloud)
 - **Fecha cierre:** 2026-04-03
 
+## ITEM 004 (lote D — paso 3) — `tracking_repository` + protocols/helpers
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `database/repositories/tracking_repository.py` (`session_factory: Callable[[], Session]`; `obtener_estadisticas_*` → `Dict[str, Any]`); `protocols.py` (`List[Dict[str, Any]]` en PilaRepositoryProtocol); `iteration_repository_helpers.py`, `product_repository_helpers.py` (import redundante eliminado en `to_material_dto`); `mypy.ini` (bloque explícito paso 3 para `protocols` + helpers).
+- **Cambio:** Alineación con `TrackingLogRepository` / `BaseRepository`; `from __future__ import annotations` en la fachada tracking. Sin cambio de comportamiento en runtime.
+- **Gates:** mypy global OK (673 archivos); pytest focal (`test_tracking_repository_full`, `test_iteration_repository`, `test_product_service_delegation`, `test_protocols_imports`) OK; `generate_daniel_doc.py` OK; `check_documentation_omissions.py` → omitidos=0.
+- **Sync iCloud:** N/A (workspace = iCloud)
+- **Fecha cierre:** 2026-04-03
+
 ## Siguiente ítem sugerido
 
-- **ITEM 004 (lote D — paso 3):** tipar `database.repositories.tracking_repository` (`session_factory` como `Callable[[], Session]` en lugar de `Any`) y endurecer en `mypy.ini` si aún cae bajo `database.*` laxo; u otros `database/repositories/*.py` sin bloque explícito (`protocols.py`, `*_helpers.py`).
+- **ITEM 004 (lote D — paso 4):** endurecer `database.repositories.tracking_stats_repository` (`-> Dict` → `Dict[str, Any]` u otro tipo concreto) y/o `database/repositories/__init__.py` si conviene `disallow_untyped_defs`; continuar con módulos `database/` o `core/services` aún solo bajo `*.` laxo según `check_typing_coverage` / impacto.

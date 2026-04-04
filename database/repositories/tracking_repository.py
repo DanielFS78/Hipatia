@@ -13,9 +13,14 @@ Fecha: 2025
 ========================================================================
 """
 
+from __future__ import annotations
+
 import logging
-from typing import Optional, List, Dict, Tuple, Any
+from collections.abc import Callable
 from datetime import datetime
+from typing import Any, Dict, List, Optional, Tuple
+
+from sqlalchemy.orm import Session
 
 from .base import BaseRepository
 from database.models import Trabajador
@@ -35,7 +40,7 @@ class TrackingRepository(BaseRepository):
     Delega la lógica a repositorios especializados.
     """
 
-    def __init__(self, session_factory: Any) -> None:
+    def __init__(self, session_factory: Callable[[], Session]) -> None:
         """
         Inicializa el repositorio y sus sub-repositorios.
         """
@@ -137,10 +142,12 @@ class TrackingRepository(BaseRepository):
     # DELEGACIÓN: ESTADÍSTICAS
     # ========================================================================
 
-    def obtener_estadisticas_trabajador(self, trabajador_id: int, fecha_inicio: Optional[datetime] = None, fecha_fin: Optional[datetime] = None) -> Dict:
+    def obtener_estadisticas_trabajador(
+        self, trabajador_id: int, fecha_inicio: Optional[datetime] = None, fecha_fin: Optional[datetime] = None
+    ) -> Dict[str, Any]:
         return self.stats_repo.obtener_estadisticas_trabajador(trabajador_id, fecha_inicio, fecha_fin)
 
-    def obtener_estadisticas_fabricacion(self, fabricacion_id: int) -> Dict:
+    def obtener_estadisticas_fabricacion(self, fabricacion_id: int) -> Dict[str, Any]:
         return self.stats_repo.obtener_estadisticas_fabricacion(fabricacion_id)
 
     def obtener_trabajadores_de_fabricacion(self, fabricacion_id: int) -> List[Trabajador]:
