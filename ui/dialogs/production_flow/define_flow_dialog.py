@@ -65,7 +65,19 @@ class DefineProductionFlowDialog(QDialog):
                     _presenter_kw["fabricacion_service"] = fs
             _presenter_kw["model"] = None
         else:
-            _presenter_kw["model"] = controller.model if controller else None
+            m = controller.model if controller else None
+            _presenter_kw["model"] = m
+            # Misma frontera que con DI: servicios colgando de AppModel (sin registrar tipos en el contenedor).
+            if m is not None:
+                ms = getattr(m, "machine_service", None)
+                if ms is not None:
+                    _presenter_kw["machine_service"] = ms
+                prep = getattr(m, "preparation_service", None)
+                if prep is not None:
+                    _presenter_kw["preparation_service"] = prep
+                fab = getattr(m, "fabricacion_service", None)
+                if fab is not None:
+                    _presenter_kw["fabricacion_service"] = fab
         self.presenter = DefineFlowPresenter(**_presenter_kw)
         self.task_data_by_product = self.presenter.prepare_task_data(tasks_data)
         self.editing_index: Optional[int] = None

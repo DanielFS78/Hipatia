@@ -76,6 +76,50 @@ class TestDefineProductionFlowDialog:
         assert dialog.presenter is not None
         assert "P1" in dialog.task_data_by_product
 
+    def test_init_injects_domain_services_from_model_when_no_di(self, qtbot, mock_dependencies):
+        """Sin Machine/Preparation en DI, AppModel expone servicios; el presenter los recibe."""
+        tasks = [
+            {
+                "codigo": "P1",
+                "descripcion": "Prod 1",
+                "tiene_subfabricaciones": True,
+                "sub_partes": [{"name": "main_task", "tiempo": 10}],
+            }
+        ]
+        workers = ["W1"]
+        units = 10
+        schedule_config = SimpleNamespace(WORK_START_TIME=time(8, 0))
+        ms = MagicMock(spec=["get_machines_by_process_type"])
+        prep = MagicMock(spec=["get_prep_info_for_product"])
+        prep.get_prep_info_for_product.return_value = (None, None)
+        fab = MagicMock(spec=["search_fabricaciones"])
+        controller = MagicMock(spec=["model", "handle_save_flow_only"])
+        controller.model = MagicMock(
+            spec=[
+                "machine_service",
+                "preparation_service",
+                "fabricacion_service",
+                "get_prep_info_for_product",
+                "get_machines_by_process_type",
+                "get_all_machines",
+                "get_groups_for_machine",
+                "get_steps_for_group",
+            ]
+        )
+        controller.model.machine_service = ms
+        controller.model.preparation_service = prep
+        controller.model.fabricacion_service = fab
+        controller.model.get_prep_info_for_product.return_value = (None, None)
+        controller.model.get_all_machines.return_value = []
+        controller.model.get_groups_for_machine.return_value = []
+
+        dialog = DefineProductionFlowDialog(tasks, workers, units, controller, schedule_config)
+        qtbot.addWidget(dialog)
+        assert dialog.presenter.model is controller.model
+        assert dialog.presenter.machine_service is ms
+        assert dialog.presenter.preparation_service is prep
+        assert dialog.presenter.fabricacion_service is fab
+
     def test_init_uses_product_controller_fabricacion_when_di_has_machine_prep_only(
         self, qtbot, dialog_data, mock_dependencies
     ):
