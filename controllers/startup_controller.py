@@ -254,7 +254,11 @@ class StartupController:
             self.container.resolve(DatabaseManager), self.view, self.logger
         ))
         self.container.register(MachineController, factory=lambda: MachineController(
-            self.container.resolve(MachineService), self.view, self.logger
+            self.container.resolve(MachineService),
+            self.container.resolve(PreparationService),
+            self.container.resolve(ProductService),
+            self.view,
+            self.logger,
         ))
         
         # Controllers that depend on AppController

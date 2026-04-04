@@ -6,9 +6,12 @@ from __future__ import annotations
 import os
 import logging
 from datetime import datetime, date, timedelta, time
-from typing import Any, cast
+from typing import Any, cast, TYPE_CHECKING
 
-from core.services.time_calculator import CalculadorDeTiempos
+from core.services.preparation_service import PreparationService
+
+if TYPE_CHECKING:
+    from core.interfaces.view_interface import IView
 
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QFormLayout,
@@ -40,7 +43,8 @@ class PrepStepsDialog(QDialog):
         self,
         group_id: int,
         group_name: str,
-        controller: Any,
+        preparation_service: PreparationService,
+        view: "IView",
         parent: Any = None,
     ) -> None:
         """
@@ -49,14 +53,16 @@ class PrepStepsDialog(QDialog):
         Args:
             group_id: ID del grupo de preparación.
             group_name: Nombre del grupo para el título.
-            controller: Controlador de máquinas.
+            preparation_service: Servicio de grupos y pasos de preparación.
+            view: Vista para mensajes y confirmaciones.
             parent: Widget padre.
         """
         super().__init__(parent)
         self.setWindowTitle(f"Pasos para el Grupo: {group_name}")
         self.setMinimumSize(700, 550)
         self.group_id = group_id
-        self.controller = controller
+        self.preparation_service = preparation_service
+        self.view = view
         self.current_step_id: int | None = None
 
         main_layout = QVBoxLayout(self)
@@ -107,7 +113,7 @@ class PrepStepsDialog(QDialog):
     def _load_steps(self) -> None:
         """Carga los pasos del grupo y los muestra en la tabla."""
         self.steps_table.setRowCount(0)
-        steps = self.controller.model.get_steps_for_group(self.group_id)
+        steps = self.preparation_service.get_steps_for_group(self.group_id)
         self.steps_table.blockSignals(True)
         for step_data in steps:
             # step_data es un PreparationStepDTO: id, nombre, tiempo_fase, descripcion, es_diario
@@ -177,7 +183,7 @@ class PrepStepsDialog(QDialog):
         is_daily = self.is_daily_check.isChecked()
 
         if not name:
-            self.controller.view.show_message("Campo Requerido", "El nombre del paso es obligatorio.", "warning")
+            self.view.show_message("Campo Requerido", "El nombre del paso es obligatorio.", "warning")
             return
 
         try:
@@ -185,7 +191,7 @@ class PrepStepsDialog(QDialog):
             if val_time < 0:
                 raise ValueError
         except ValueError:
-            self.controller.view.show_message("Dato Inválido", "El tiempo debe ser un número positivo.", "warning")
+            self.view.show_message("Dato Inválido", "El tiempo debe ser un número positivo.", "warning")
             return
 
         if self.current_step_id:
@@ -196,16 +202,16 @@ class PrepStepsDialog(QDialog):
                 'descripcion': description,
                 'es_diario': is_daily
             }
-            if self.controller.model.update_prep_step(self.current_step_id, data):
-                self.controller.view.show_message("Éxito", f"Paso '{name}' actualizado correctamente.", "info")
+            if self.preparation_service.update_prep_step(self.current_step_id, data):
+                self.view.show_message("Éxito", f"Paso '{name}' actualizado correctamente.", "info")
             else:
-                self.controller.view.show_message("Error", "No se pudo actualizar el paso.", "critical")
+                self.view.show_message("Error", "No se pudo actualizar el paso.", "critical")
         else:
             # Añadir nuevo paso
-            if self.controller.model.add_prep_step(self.group_id, name, val_time, description, is_daily):
-                self.controller.view.show_message("Éxito", f"Paso '{name}' añadido correctamente.", "info")
+            if self.preparation_service.add_prep_step(self.group_id, name, val_time, description, is_daily):
+                self.view.show_message("Éxito", f"Paso '{name}' añadido correctamente.", "info")
             else:
-                self.controller.view.show_message("Error", "No se pudo añadir el paso.", "critical")
+                self.view.show_message("Error", "No se pudo añadir el paso.", "critical")
 
         self._load_steps()
         self._clear_form()
@@ -213,13 +219,13 @@ class PrepStepsDialog(QDialog):
     def _delete_step(self) -> None:
         """Elimina el paso seleccionado."""
         if self.current_step_id is None:
-            self.controller.view.show_message("Selección Requerida", "Por favor, seleccione un paso para eliminar.", "warning")
+            self.view.show_message("Selección Requerida", "Por favor, seleccione un paso para eliminar.", "warning")
             return
         step_name = self.step_name_edit.text()
-        if self.controller.view.show_confirmation_dialog("Confirmar Eliminación", f"¿Está seguro de que desea eliminar el paso '{step_name}'?"):
-            if self.controller.model.delete_prep_step(self.current_step_id):
-                self.controller.view.show_message("Éxito", "El paso se ha eliminado.", "info")
+        if self.view.show_confirmation_dialog("Confirmar Eliminación", f"¿Está seguro de que desea eliminar el paso '{step_name}'?"):
+            if self.preparation_service.delete_prep_step(self.current_step_id):
+                self.view.show_message("Éxito", "El paso se ha eliminado.", "info")
                 self._load_steps()
                 self._clear_form()
             else:
-                self.controller.view.show_message("Error", "No se pudo eliminar el paso.", "critical")
+                self.view.show_message("Error", "No se pudo eliminar el paso.", "critical")
