@@ -469,8 +469,9 @@ class TestAssignPreprocesosDialog:
         fab_list = fabricaciones or []
         ctrl.search_fabricaciones.return_value = fab_list
         prep_list = preprocesos or []
-        fs = MagicMock(spec=['get_preprocesos_by_fabricacion'])
+        fs = MagicMock(spec=['get_preprocesos_by_fabricacion', 'search_fabricaciones'])
         fs.get_preprocesos_by_fabricacion.return_value = prep_list
+        fs.search_fabricaciones.return_value = fab_list
         pc = MagicMock(spec=['fabricacion_service'])
         pc.fabricacion_service = fs
         ctrl.product_controller = pc
@@ -596,11 +597,28 @@ class TestAssignPreprocesosDialog:
         mock_critical.assert_called_once_with(dialog, "Error", "Error cargando fabricaciones: DB Error")
 
     @patch("ui.dialogs.fabrication.assignment_dialogs.QMessageBox.critical")
+    def test_load_fabricaciones_exception_from_fabricacion_service(self, mock_critical, qtbot):
+        from ui.dialogs.fabrication.assignment_dialogs import AssignPreprocesosDialog
+        fs = MagicMock(spec=['search_fabricaciones'])
+        fs.search_fabricaciones.side_effect = Exception("SVC Error")
+        pc = MagicMock(spec=['fabricacion_service'])
+        pc.fabricacion_service = fs
+        ctrl = MagicMock(spec=['search_fabricaciones', 'product_controller'])
+        ctrl.product_controller = pc
+        dialog = AssignPreprocesosDialog(ctrl)
+        qtbot.addWidget(dialog)
+        assert mock_critical.call_count == 1
+        mock_critical.assert_called_once_with(
+            dialog, "Error", "Error cargando fabricaciones: SVC Error"
+        )
+
+    @patch("ui.dialogs.fabrication.assignment_dialogs.QMessageBox.critical")
     def test_load_current_preprocesos_exception(self, mock_critical, qtbot):
         from ui.dialogs.fabrication.assignment_dialogs import AssignPreprocesosDialog
         ctrl = MagicMock(spec=['search_fabricaciones', 'product_controller'])
         ctrl.search_fabricaciones.return_value = []
-        fs = MagicMock(spec=['get_preprocesos_by_fabricacion'])
+        fs = MagicMock(spec=['get_preprocesos_by_fabricacion', 'search_fabricaciones'])
+        fs.search_fabricaciones.return_value = []
         fs.get_preprocesos_by_fabricacion.side_effect = Exception("DB Error")
         pc = MagicMock(spec=['fabricacion_service'])
         pc.fabricacion_service = fs

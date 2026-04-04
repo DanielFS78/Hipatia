@@ -103,7 +103,11 @@ class AssignPreprocesosDialog(QDialog):
     def load_fabricaciones(self) -> None:
         """Carga todas las fabricaciones disponibles."""
         try:
-            fabricaciones = self.controller.search_fabricaciones("")
+            svc = self._fabricacion_service()
+            if svc is not None:
+                fabricaciones = svc.search_fabricaciones("")
+            else:
+                fabricaciones = self.controller.search_fabricaciones("")
             self.fabricaciones_list.clear()
 
             if not fabricaciones:

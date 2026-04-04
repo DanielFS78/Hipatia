@@ -50,6 +50,11 @@ class FabricacionBitacoraDialog(QDialog):
 
         _c = DIContainer.get_instance()
         self._pila_service = _c.resolve(PilaService) if _c.is_registered(PilaService) else None
+        if self._pila_service is None:
+            mod = getattr(controller, "model", None)
+            ps = getattr(mod, "pila_service", None) if mod is not None else None
+            if ps is not None:
+                self._pila_service = ps
 
         self.pila_start_date: date = self.simulation_results[0].Inicio.date() if self.simulation_results else date.today()
         self.selected_date: date = date.today()

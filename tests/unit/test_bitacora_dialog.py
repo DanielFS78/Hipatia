@@ -54,6 +54,21 @@ class TestFabricacionBitacoraDialog:
         assert dialog.pila_id == 1
         assert dialog.history_table.rowCount() == 0
 
+    def test_uses_model_pila_service_when_present(self, qtbot):
+        """Sin PilaService en DI, usar model.pila_service antes que model.get_diario_bitacora."""
+        ctrl = MagicMock(spec=['model', 'view'])
+        ps = MagicMock(spec=['get_diario_bitacora', 'add_diario_evento'])
+        ps.get_diario_bitacora.return_value = ([], [])
+        ctrl.model = MagicMock(spec=['pila_service', 'get_diario_bitacora', 'add_diario_evento'])
+        ctrl.model.pila_service = ps
+        ctrl.view = MagicMock(spec=['show_message'])
+        calc = MagicMock(spec=['find_next_workday'])
+        calc.find_next_workday.side_effect = lambda d: d + timedelta(days=1)
+        dialog = FabricacionBitacoraDialog(1, "Pila 1", [], ctrl, calc)
+        qtbot.addWidget(dialog)
+        ps.get_diario_bitacora.assert_called_once_with(1)
+        ctrl.model.get_diario_bitacora.assert_not_called()
+
     def test_init_with_sim_data(self, qtbot, mock_dependencies):
         ctrl, calc = mock_dependencies
         sim_data = [
