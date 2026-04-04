@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
 from core.di_container import DIContainer
 from core.dtos import SimulationResultTaskDTO
-from core.services.pila_service import PilaService
+from ui.dialogs.fabrication.dialog_dependencies import resolve_pila_service
 
 class BitacoraEntryDTO:
     """DTO de entrada del diario de bitácora (plan/realizado/notas)."""
@@ -36,9 +36,17 @@ class FabricacionBitacoraDialog(QDialog):
     con un calendario interactivo.
     """
 
-    def __init__(self, pila_id: int, pila_nombre: str, simulation_results: List[SimulationResultTaskDTO],
-                 controller: "AppController", time_calculator: "CalculadorDeTiempos", 
-                 parent: Optional["QWidget"] = None) -> None:
+    def __init__(
+        self,
+        pila_id: int,
+        pila_nombre: str,
+        simulation_results: List[SimulationResultTaskDTO],
+        controller: "AppController",
+        time_calculator: "CalculadorDeTiempos",
+        parent: Optional["QWidget"] = None,
+        *,
+        pila_service: Any | None = None,
+    ) -> None:
         super().__init__(parent)
         self.time_calculator = time_calculator  # Guardamos la instancia del calculador
         self.setWindowTitle(f"Diario de Bitácora para Pila: {pila_nombre}")
@@ -48,13 +56,10 @@ class FabricacionBitacoraDialog(QDialog):
         self.controller = controller
         self.logger = logging.getLogger("EvolucionTiemposApp")
 
-        _c = DIContainer.get_instance()
-        self._pila_service = _c.resolve(PilaService) if _c.is_registered(PilaService) else None
-        if self._pila_service is None:
-            mod = getattr(controller, "model", None)
-            ps = getattr(mod, "pila_service", None) if mod is not None else None
-            if ps is not None:
-                self._pila_service = ps
+        if pila_service is not None:
+            self._pila_service = pila_service
+        else:
+            self._pila_service = resolve_pila_service(controller, DIContainer.get_instance())
 
         self.pila_start_date: date = self.simulation_results[0].Inicio.date() if self.simulation_results else date.today()
         self.selected_date: date = date.today()

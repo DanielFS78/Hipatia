@@ -1,0 +1,16 @@
+---
+description: Refactor de wiring DI en diálogos UI (FabricacionService, PilaService). Leer skill y REGISTRO antes de editar.
+globs: ui/dialogs/**/*.py, controllers/pila/pila_manager.py
+alwaysApply: false
+---
+
+# UI dialog dependency wiring
+
+En sesiones que toquen resolución de servicios en diálogos de fabricación o flujo de producción:
+
+1. Leer `.agents/skills/ui_dialog_dependency_wiring/SKILL.md`.
+2. Abrir `.agents/skills/ui_dialog_dependency_wiring/REGISTRO.md` y trabajar el siguiente ítem pendiente (un lote por vez).
+3. Ejecutar los gates de `.agents/skills/ui_dialog_dependency_wiring/references/gates.md` tras cada cambio.
+4. Actualizar REGISTRO (estado, tests, commit) al cerrar el ítem.
+
+No duplicar lógica de resolución en widgets: usar `ui.dialogs.fabrication.dialog_dependencies` (`resolve_fabricacion_service`, `resolve_pila_service`).

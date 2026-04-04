@@ -29,9 +29,9 @@ class FlowActionHandler:
         self.graph_manager = graph_manager
         self.controller = controller
         from core.di_container import DIContainer
-        from core.services.pila_service import PilaService
-        _c = DIContainer.get_instance()
-        self._pila_service: Any = _c.resolve(PilaService) if _c.is_registered(PilaService) else None
+        from ui.dialogs.fabrication.dialog_dependencies import resolve_pila_service
+
+        self._pila_service: Any = resolve_pila_service(controller, DIContainer.get_instance())
 
     def handle_cycle_end(self, selected_index: Optional[int], simulation_service: Any) -> None:
         if selected_index is None: return

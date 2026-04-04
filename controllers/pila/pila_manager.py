@@ -172,7 +172,13 @@ class PilaManager:
             results_dto.append(SimulationResultTaskDTO(Inicio=inicio, Fin=fin, Tarea=tarea))
 
         dialog = FabricacionBitacoraDialog(
-            pila_id, pila_data.nombre, results_dto, self._app, time_calculator, cast(QWidget, self._view)
+            pila_id,
+            pila_data.nombre,
+            results_dto,
+            self._app,
+            time_calculator,
+            cast(QWidget, self._view),
+            pila_service=self._pila_service,
         )
         dialog.exec()
 

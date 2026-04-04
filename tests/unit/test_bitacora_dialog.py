@@ -2,7 +2,7 @@
 Tests para ui/dialogs/fabrication/bitacora_dialog.py — Subfase 6.D.1
 """
 import pytest
-from unittest.mock import ANY, MagicMock
+from unittest.mock import ANY, MagicMock, patch
 from datetime import date, datetime, timedelta
 from typing import Any
 from PyQt6.QtCore import Qt
@@ -68,6 +68,26 @@ class TestFabricacionBitacoraDialog:
         qtbot.addWidget(dialog)
         ps.get_diario_bitacora.assert_called_once_with(1)
         ctrl.model.get_diario_bitacora.assert_not_called()
+
+    def test_explicit_pila_service_skips_resolve(self, qtbot):
+        ctrl = MagicMock(spec=["model", "view"])
+        ctrl.model = MagicMock(spec=["get_diario_bitacora", "add_diario_evento"])
+        ctrl.model.get_diario_bitacora.return_value = ([], [])
+        ctrl.view = MagicMock(spec=["show_message"])
+        calc = MagicMock(spec=["find_next_workday"])
+        calc.find_next_workday.side_effect = lambda d: d + timedelta(days=1)
+        ps = MagicMock(spec=["get_diario_bitacora", "add_diario_evento"])
+        ps.get_diario_bitacora.return_value = ([], [])
+        with patch(
+            "ui.dialogs.fabrication.bitacora_dialog.resolve_pila_service",
+            autospec=True,
+        ) as mock_resolve:
+            dialog = FabricacionBitacoraDialog(
+                1, "Pila 1", [], ctrl, calc, pila_service=ps
+            )
+            qtbot.addWidget(dialog)
+            mock_resolve.assert_not_called()
+        ps.get_diario_bitacora.assert_called_once_with(1)
 
     def test_init_with_sim_data(self, qtbot, mock_dependencies):
         ctrl, calc = mock_dependencies
