@@ -19,6 +19,7 @@ class TestPreparationService:
         db.machine_repo = MagicMock(
             spec=[
                 "get_groups_for_machine",
+                "get_prep_info_for_product",
                 "add_prep_group",
                 "get_steps_for_group",
                 "add_prep_step",
@@ -40,6 +41,11 @@ class TestPreparationService:
         
         assert result == mock_groups
         mock_db.machine_repo.get_groups_for_machine.assert_called_once_with(1)
+
+    def test_get_prep_info_for_product(self, service, mock_db):
+        mock_db.machine_repo.get_prep_info_for_product.return_value = (3, 5)
+        assert service.get_prep_info_for_product("P-01") == (3, 5)
+        mock_db.machine_repo.get_prep_info_for_product.assert_called_once_with("P-01")
 
     def test_add_prep_group(self, service, mock_db):
         """Prueba la adición de un grupo de preparación."""

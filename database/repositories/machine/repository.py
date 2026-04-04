@@ -129,6 +129,9 @@ class MachineRepository(BaseRepository):
     def get_groups_for_machine(self, machine_id: int) -> List[PreparationGroupDTO]:
         return self.preparation.get_groups_for_machine(machine_id)
 
+    def get_prep_info_for_product(self, producto_codigo: str) -> Tuple[Optional[int], Optional[int]]:
+        return self.preparation.get_prep_info_for_product(producto_codigo)
+
     def get_group_details(self, group_id: int) -> Optional[PreparationGroupDTO]:
         return self.preparation.get_group_details(group_id)
 

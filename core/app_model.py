@@ -247,8 +247,9 @@ class AppModel(QObject):
     def get_machine_usage_stats(self) -> dict[str, Any]:
         return self.fabricacion_service.get_machine_history_summary() if hasattr(self.fabricacion_service, 'get_machine_history_summary') else {}
         
-    def get_prep_info_for_product(self, producto_codigo: str) -> list[Any]:
-        return self.fabricacion_service.get_prep_info_for_product(producto_codigo) if hasattr(self.fabricacion_service, 'get_prep_info_for_product') else []
+    def get_prep_info_for_product(self, producto_codigo: str) -> tuple[Any | None, Any | None]:
+        """Delega en PreparationService (grupo y máquina por defecto para el producto)."""
+        return self.preparation_service.get_prep_info_for_product(producto_codigo)
 
     # =========================================================================
     # DELEGACIÓN A FABRICACION SERVICE (Fabricaciones, Preprocesos)

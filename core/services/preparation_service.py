@@ -3,7 +3,7 @@
 Nombre del Módulo: PreparationService
 Descripción: Servicio de dominio especializado en la gestión de grupos y pasos de preparación de máquinas.
 """
-from typing import Any
+from typing import Any, Optional, Tuple
 
 from core.dtos import PreparationGroupDTO, PreparationStepDTO
 from database.database_manager import DatabaseManager
@@ -24,6 +24,10 @@ class PreparationService:
     def get_groups_for_machine(self, machine_id: int) -> list[PreparationGroupDTO]:
         """Obtiene los grupos de preparación asociados a una máquina."""
         return self.machine_repo.get_groups_for_machine(machine_id)
+
+    def get_prep_info_for_product(self, producto_codigo: str) -> Tuple[Optional[int], Optional[int]]:
+        """IDs de grupo y máquina del primer grupo de preparación asociado al producto."""
+        return self.machine_repo.get_prep_info_for_product(producto_codigo)
 
     def add_prep_group(self, machine_id: int, name: str, description: str, 
                        producto_codigo: str | None = None) -> int | str | None:

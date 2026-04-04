@@ -175,6 +175,23 @@ class TestDefineFlowPresenter:
         assert presenter.get_prep_steps_for_machine(1) == []
         assert presenter.get_default_step_ids(10) == []
 
+    def test_get_prep_info_prefers_preparation_service(self):
+        mock_config = create_autospec(ScheduleConfig, instance=True)
+        mock_config.WORK_START_TIME = None
+        prep = MagicMock(spec=["get_prep_info_for_product"])
+        prep.get_prep_info_for_product.return_value = (7, 8)
+        fab = MagicMock(spec=["get_prep_info_for_product"])
+        fab.get_prep_info_for_product.return_value = (9, 10)
+        p = DefineFlowPresenter(
+            schedule_config=mock_config,
+            default_units=1,
+            preparation_service=prep,
+            fabricacion_service=fab,
+        )
+        assert p.get_prep_info("X") == (7, 8)
+        prep.get_prep_info_for_product.assert_called_once_with("X")
+        fab.get_prep_info_for_product.assert_not_called()
+
     def test_group_tasks_non_consecutive_error(self, presenter):
         tasks = [FlowTaskDataDTO(id=f"T{i}", name=f"T{i}", duration=1.0, duration_per_unit=1.0, department="G") for i in range(3)]
         presenter.set_production_flow([

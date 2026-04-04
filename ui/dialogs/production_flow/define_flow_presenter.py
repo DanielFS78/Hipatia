@@ -37,6 +37,18 @@ from core.services.machine_service import MachineService
 from core.services.preparation_service import PreparationService
 from core.services.fabricacion_service import FabricacionService
 
+
+def _normalize_prep_info_response(raw: Any) -> tuple[Optional[Any], Optional[Any]]:
+    """Convierte respuesta legada (tupla o lista de al menos 2 elementos) a par (grupo, máquina)."""
+    if raw is None:
+        return None, None
+    if isinstance(raw, tuple) and len(raw) >= 2:
+        return raw[0], raw[1]
+    if isinstance(raw, list) and len(raw) >= 2:
+        return raw[0], raw[1]
+    return None, None
+
+
 class DefineFlowPresenter:
     """
     Presenter/Lógica para aislar el ensamblado de datos y configuraciones 
@@ -168,15 +180,16 @@ class DefineFlowPresenter:
 
     def get_prep_info(self, product_code: str) -> tuple[Optional[Any], Optional[Any]]:
         """Obtiene información de preparación por defecto para un producto."""
+        if self.preparation_service is not None:
+            return self.preparation_service.get_prep_info_for_product(product_code)
         if self.fabricacion_service is not None and hasattr(
             self.fabricacion_service, "get_prep_info_for_product"
         ):
             raw = self.fabricacion_service.get_prep_info_for_product(product_code)
-            if isinstance(raw, tuple) and len(raw) >= 2:
-                return raw[0], raw[1]
-            return None, None
+            return _normalize_prep_info_response(raw)
         if self.model is not None:
-            return cast(tuple[Optional[Any], Optional[Any]], self.model.get_prep_info_for_product(product_code))
+            raw = self.model.get_prep_info_for_product(product_code)
+            return _normalize_prep_info_response(raw)
         return None, None
 
     def get_prep_steps_for_machine(self, machine_id: int) -> List[Any]:
