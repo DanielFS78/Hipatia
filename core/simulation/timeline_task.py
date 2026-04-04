@@ -79,7 +79,7 @@ class LineaTemporalTarea:
 
         self.logger.info(f"Inicializada LineaTemporal para Tarea '{self.name}' ({self.id})")
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<LineaTemporalTarea(id={self.id}, name='{self.name}', completadas={self.unidades_completadas}/{self.unidades_a_producir})>"
 
     def iniciar_instancia_inicial(self, trabajadores: List[str],

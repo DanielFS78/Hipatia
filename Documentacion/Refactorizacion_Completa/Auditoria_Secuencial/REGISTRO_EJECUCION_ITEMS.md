@@ -262,6 +262,14 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Gates:** `mypy .` OK (676 archivos); pytest focal cámara + startup + health OK.
 - **Fecha cierre:** 2026-04-04
 
+## ITEM 004 (lote D — paso 9) — label/import/validation, widgets.base, worker, ventana principal, utilidades núcleo, simulación
+
+- **Estado:** Completado
+- **Prioridad:** P2
+- **Alcance:** `mypy.ini` — `core.label_manager.*`, `core.import_manager.*`, `core.validation.validator_service`, `ui.widgets.base`, `ui.worker.*`, `ui.main_window`, `core.constants`, `core.qt_log_handler`, `core.qr_generator`, `core.simulation.*`, `core.flow_canvas_io`. Ajustes en `simulation_events/worker.py`, `production.py` (`motor_eventos: Any`, helpers internos anotados, retornos `List[EventoDeSimulacion]`) y `timeline_task.__repr__ -> str`.
+- **Gates:** `mypy .` OK (676 archivos); pytest focal simulación + main_window + worker_main_window + bom_import + label_manager OK.
+- **Fecha cierre:** 2026-04-04
+
 ## Siguiente ítem sugerido
 
-- **ITEM 004 (lote D — paso 9):** cerrar huecos restantes bajo `[mypy-core.*]` / `[mypy-ui.*]` (p. ej. `core.label_manager.*`, `core.import_manager.*`, `core/validation`, widgets `ui.widgets.base` o paquetes `ui.worker`/`ui.dialogs` sin bloque dedicado) en lotes acotados.
+- **ITEM 004 (lote D — paso 10):** módulos `core`/`ui` aún laxos (p. ej. `core.*_io` sueltos fuera de bloques, `ui.dialogs` por subpaquete no cubierto, `features.__init__` ya estricto pero revisar `tests` bajo política distinta); o cierre de lote D con auditoría de `mypy.ini` vs árbol real (`scripts/` excluidos).

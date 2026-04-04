@@ -6,7 +6,7 @@ Lógica o utilidades del núcleo (`production`): tipos, servicios auxiliares o i
 
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import List, Optional
+from typing import Any, List, Optional
 from .base import EventoDeSimulacion
 from .worker import EventoReasignacionTrabajador
 
@@ -16,7 +16,7 @@ class EventoInicioUnidad(EventoDeSimulacion):
     tipo_evento: str = 'INICIO_UNIDAD'
     prioridad: int = 2
 
-    def procesar(self, motor_eventos) -> List['EventoDeSimulacion']:
+    def procesar(self, motor_eventos: Any) -> List[EventoDeSimulacion]:
         """
         Planifica una unidad para una INSTANCIA específica.
         """
@@ -108,7 +108,7 @@ class EventoFinUnidad(EventoDeSimulacion):
     tipo_evento: str = 'FIN_BLOQUE_TRABAJO'
     prioridad: int = 1
 
-    def procesar(self, motor_eventos) -> List['EventoDeSimulacion']:
+    def procesar(self, motor_eventos: Any) -> List[EventoDeSimulacion]:
         tarea_id = self.datos.get('tarea_id')
         numero_unidad_completada = self.datos.get('numero_unidad')
         id_instancia = self.datos.get('id_instancia')
@@ -207,7 +207,13 @@ class EventoFinUnidad(EventoDeSimulacion):
 
         return eventos_nuevos
 
-    def _manejar_ciclo(self, motor_eventos, next_cyclic_index, trabajadores_ciclicos, id_instancia_origen) -> List[EventoDeSimulacion]:
+    def _manejar_ciclo(
+        self,
+        motor_eventos: Any,
+        next_cyclic_index: Any,
+        trabajadores_ciclicos: Any,
+        id_instancia_origen: Any,
+    ) -> List[EventoDeSimulacion]:
         next_tarea_id = motor_eventos.indice_a_tarea_id.get(next_cyclic_index)
         if not next_tarea_id: return []
         linea_temporal_siguiente = motor_eventos.lineas_temporales.get(next_tarea_id)
@@ -220,7 +226,13 @@ class EventoFinUnidad(EventoDeSimulacion):
         nuevo_id = linea_temporal_siguiente.iniciar_instancia_inicial(trabajadores_ciclicos, self.timestamp, unidad_a_programar)
         return [EventoInicioUnidad(timestamp=self.timestamp, datos={'tarea_id': next_tarea_id, 'unidad': unidad_a_programar, 'id_instancia': nuevo_id, 'activado_por_ciclo': True})]
 
-    def _continuar_tarea(self, motor_eventos, linea_temporal, trabajadores, indice_actual) -> List[EventoDeSimulacion]:
+    def _continuar_tarea(
+        self,
+        motor_eventos: Any,
+        linea_temporal: Any,
+        trabajadores: Any,
+        indice_actual: Any,
+    ) -> List[EventoDeSimulacion]:
         siguiente_unidad = linea_temporal.unidades_finalizadas_total + 1
         unidades_en_proceso = {inst['unidad_actual'] for inst in linea_temporal.instancias_activas}
         while siguiente_unidad in unidades_en_proceso and siguiente_unidad <= linea_temporal.unidades_a_producir:
@@ -248,7 +260,14 @@ class EventoFinUnidad(EventoDeSimulacion):
         else:
             return self._registrar_inactividad_trabajadores(motor_eventos, linea_temporal)
 
-    def _verificar_reglas_reasignacion(self, motor_eventos, tarea_id, unidades, trabajadores, completada) -> List[EventoDeSimulacion]:
+    def _verificar_reglas_reasignacion(
+        self,
+        motor_eventos: Any,
+        tarea_id: Any,
+        unidades: Any,
+        trabajadores: Any,
+        completada: Any,
+    ) -> List[EventoDeSimulacion]:
         indices = motor_eventos.tarea_id_a_indice.get(tarea_id)
         if indices is None: return []
         step_config = motor_eventos.production_flow[indices]
@@ -269,7 +288,7 @@ class EventoFinUnidad(EventoDeSimulacion):
                 ))
         return eventos
 
-    def _registrar_inactividad_trabajadores(self, motor_eventos, linea_temporal) -> List[EventoDeSimulacion]:
+    def _registrar_inactividad_trabajadores(self, motor_eventos: Any, linea_temporal: Any) -> List[EventoDeSimulacion]:
         from core.services.calculation_audit import CalculationDecision, DecisionStatus
         
         trabajadores_tarea = linea_temporal.trabajadores_asignados
