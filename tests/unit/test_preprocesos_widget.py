@@ -5,7 +5,7 @@ Cubre PreprocesosWidget: init, set_controller, carga/filtro lista, selección,
 botones añadir/editar/eliminar y comportamiento sin controlador. Mocks con spec.
 """
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 from PyQt6.QtWidgets import QListWidgetItem
 from PyQt6.QtCore import Qt
 
@@ -34,10 +34,11 @@ class TestPreprocesosWidget:
         assert widget.current_preproceso_id is None
 
     def test_set_controller(self, widget):
-        """set_controller asigna controlador."""
+        """set_controller guarda AppController para diálogos transversales."""
         ctrl = object()
         widget.set_controller(ctrl)
         assert widget.preproceso_controller is not None
+        assert widget._app_controller is ctrl
 
     def test_load_preprocesos_data(self, widget):
         """Carga datos de preprocesos en la lista."""
@@ -129,3 +130,20 @@ class TestPreprocesosWidget:
         except Exception:
             pytest.fail("_on_edit_clicked no debería propagar excepciones sin controlador")
         assert widget.preproceso_controller is None
+
+    def test_assign_to_fabricaciones_no_app_controller(self, widget):
+        """Sin AppController el manejador no intenta abrir diálogo."""
+        widget._app_controller = None
+        widget._on_assign_to_fabricaciones_clicked()
+
+    def test_assign_to_fabricaciones_opens_dialog(self, widget):
+        """Con AppController se instancia y ejecuta AssignPreprocesosDialog."""
+        app_ctrl = MagicMock(spec=["show_fabricacion_preprocesos"])
+        widget.set_controller(app_ctrl)
+        with patch(
+            "ui.dialogs.fabrication.assignment_dialogs.AssignPreprocesosDialog",
+        ) as MockDlg:
+            inst = MockDlg.return_value
+            widget._on_assign_to_fabricaciones_clicked()
+            MockDlg.assert_called_once_with(app_ctrl, widget)
+            inst.exec.assert_called_once_with()

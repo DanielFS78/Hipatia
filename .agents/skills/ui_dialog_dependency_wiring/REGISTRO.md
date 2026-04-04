@@ -11,9 +11,10 @@ Fuente de verdad del avance del plan **wiring de dependencias en diálogos UI**.
 | 4 | Protocol `OpensFabricacionPreprocesos` | `ui/dialogs/fabrication/ui_dialog_protocols.py`, assignment | Hecho | 2026-04-03 | — | En UI para evitar import cíclico `controllers`→`ui.dialogs`; `AppController` por defecto | ver gates.md |
 | 5 | Documentación fallback | SKILL.md, REGISTRO | Hecho | 2026-04-03 | — | Ramas `model.*` documentadas como fallback tests/legacy | — |
 | 6 | `flow_action_handler` + deps pila | `flow_action_handler.py` | Hecho | 2026-04-03 | — | Usa `resolve_pila_service` compartido con bitácora | ver gates.md |
+| 7 | Call site `AssignPreprocesosDialog` | `preprocesos_widget.py` | Hecho | 2026-04-04 | — | Botón en pestaña Preprocesos; `set_controller` guarda `AppController` | `pytest tests/unit/test_preprocesos_widget.py -q` |
 
 ## Inventario rápido (Fase 0)
 
 - **FabricacionBitacoraDialog**: call site en `controllers/pila/pila_manager.py`.
-- **AssignPreprocesosDialog**: ningún `AssignPreprocesosDialog(` en código de aplicación; export en `ui/dialogs/__init__.py`. Sin invocación dinámica detectada por búsqueda de símbolo.
+- **AssignPreprocesosDialog**: call site en `ui/widgets/preprocesos_widget.py` (botón «Asignar preprocesos a fabricaciones»); export en `ui/dialogs/__init__.py`.
 - **Lotes / DI**: `ui/widgets/lotes_widget.py` resuelve `LoteController`, `ProductService`, `FabricacionService` vía DI en `__init__` (fuera del alcance inmediato de este REGISTRO).
