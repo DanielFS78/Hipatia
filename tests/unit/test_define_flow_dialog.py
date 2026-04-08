@@ -5,8 +5,10 @@ from datetime import datetime, time
 from PyQt6.QtWidgets import QMessageBox, QDialog
 from PyQt6.QtCore import Qt
 from types import SimpleNamespace
+from typing import cast
 
 from core.di_container import DIContainer
+from core.schedule_config import ScheduleConfig
 from core.services.machine_service import MachineService
 from core.services.preparation_service import PreparationService
 from ui.dialogs.production_flow.define_flow_dialog import DefineProductionFlowDialog
@@ -64,7 +66,9 @@ def dialog_data():
     controller.model.preparation_service = prep
     controller.model.fabricacion_service = MagicMock(spec=["get_prep_info_for_product"])
     controller.model.fabricacion_service.get_prep_info_for_product.return_value = (None, None)
-    schedule_config = SimpleNamespace(WORK_START_TIME=time(8, 0))
+    schedule_config = cast(
+        ScheduleConfig, SimpleNamespace(WORK_START_TIME=time(8, 0))
+    )
     return tasks, workers, units, controller, schedule_config
 
 @pytest.fixture
@@ -98,7 +102,9 @@ class TestDefineProductionFlowDialog:
         ]
         workers = ["W1"]
         units = 10
-        schedule_config = SimpleNamespace(WORK_START_TIME=time(8, 0))
+        schedule_config = cast(
+            ScheduleConfig, SimpleNamespace(WORK_START_TIME=time(8, 0))
+        )
         ms = MagicMock(spec=["get_machines_by_process_type"])
         prep = MagicMock(spec=["get_prep_info_for_product"])
         prep.get_prep_info_for_product.return_value = (None, None)

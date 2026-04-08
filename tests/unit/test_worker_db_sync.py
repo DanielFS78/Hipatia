@@ -28,8 +28,8 @@ def test_get_assigned_fabricaciones(db_sync, mock_repo):
     result = db_sync.get_assigned_fabricaciones(123)
 
     assert len(result) == 1
-    assert result[0]['id'] == 1
-    assert result[0]['producto_codigo'] == "P1"
+    assert result[0].id == 1
+    assert result[0].producto_codigo == "P1"
     assert mock_repo.get_fabricaciones_por_trabajador.call_count == 1
     mock_repo.get_fabricaciones_por_trabajador.assert_called_once_with(123)
 

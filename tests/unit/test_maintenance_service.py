@@ -1,7 +1,7 @@
 """Tests para MaintenanceService."""
 import pytest
-from unittest.mock import ANY, MagicMock, patch
-from core.services.maintenance_service import MaintenanceService
+from unittest.mock import MagicMock, patch
+from core.services.maintenance_service import MaintenanceService, MaintenanceWorker
 from core.services.rate_limiter import RateLimiter
 from core.services.audit_logger import AuditLogger
 
@@ -41,7 +41,6 @@ class TestMaintenanceService:
             maintenance_service.run_background_maintenance()
             
             assert mock_pool_instance.start.call_count == 1
-            # QThreadPool.start recibe un QRunnable (MaintenanceWorker)
-            mock_pool_instance.start.assert_called_once_with(ANY)
-            args = mock_pool_instance.start.call_args[0]
-            assert args[0].service == maintenance_service
+            started = mock_pool_instance.start.call_args[0][0]
+            assert isinstance(started, MaintenanceWorker)
+            assert started.service is maintenance_service

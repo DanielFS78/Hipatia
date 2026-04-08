@@ -10,7 +10,7 @@ Los repos de iteración y producto usan create_autospec sobre las clases reales;
 autospec en clases Qt.
 """
 import pytest
-from unittest.mock import MagicMock, patch, ANY, call, create_autospec
+from unittest.mock import MagicMock, patch, call, create_autospec
 from typing import Any, cast
 from datetime import datetime, date, timedelta
 from PyQt6.QtCore import QDate, Qt, QObject
@@ -120,7 +120,8 @@ class TestHistorialControllerComprehensive:
         assert mock_page.print_report_signal.connect.call_count == 1
         mock_page.print_report_signal.connect.assert_called_with(controller.on_print_report_clicked)
         assert mock_page.mode_changed_signal.connect.call_count == 1
-        mock_page.mode_changed_signal.connect.assert_called_once_with(ANY)
+        mode_cb = mock_page.mode_changed_signal.connect.call_args[0][0]
+        assert callable(mode_cb)
 
     def test_update_view_no_page(self, controller: HistorialController, mock_view) -> None:
         """Retorna si la página no es HistorialWidget."""
@@ -198,7 +199,6 @@ class TestHistorialControllerComprehensive:
         controller.populate_list()
         
         assert mock_historial_page.results_list.addItem.call_count == 1
-        mock_historial_page.results_list.addItem.assert_called_once_with(ANY)
         added_item = mock_historial_page.results_list.addItem.call_args[0][0]
         assert "P1" in added_item.text()
         assert "User1" in added_item.text()
@@ -435,7 +435,11 @@ class TestHistorialControllerComprehensive:
         
         mock_historial_page.results_list.selectedItems.return_value = []
         controller.on_print_report_clicked()
-        mock_view.show_message.assert_called_with("Selección Requerida", ANY, "warning")
+        mock_view.show_message.assert_called_with(
+            "Selección Requerida",
+            "Debe seleccionar un elemento de la lista para imprimir.",
+            "warning",
+        )
         
         mock_item = MagicMock()
         mock_item.data.return_value.producto_codigo = "P1"
@@ -453,11 +457,19 @@ class TestHistorialControllerComprehensive:
             mock_dlg.return_value = ("file.pdf", "pdf")
             MockGen.return_value.generar_y_guardar.return_value = True
             controller.on_print_report_clicked()
-            mock_view.show_message.assert_called_with("Éxito", ANY, "info")
+            mock_view.show_message.assert_called_with(
+                "Éxito",
+                "El informe se ha guardado en:\nfile.pdf",
+                "info",
+            )
             
             MockGen.return_value.generar_y_guardar.return_value = False
             controller.on_print_report_clicked()
-            mock_view.show_message.assert_called_with("Error", ANY, "critical")
+            mock_view.show_message.assert_called_with(
+                "Error",
+                "No se pudo generar el informe PDF.",
+                "critical",
+            )
 
     def test_on_print_report_fabricaciones(self, controller: HistorialController, mock_view, mock_historial_page, mock_model) -> None:
         """Test printing fabricacion report."""

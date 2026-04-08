@@ -7,11 +7,12 @@ Descripcion: Carga de flujo, biblioteca de productos y exportacion a dicts para
 
 from __future__ import annotations
 
+from dataclasses import asdict, is_dataclass
 from datetime import date, datetime, time
-from typing import Any, Dict, List, Mapping, Optional, Sequence
+from typing import Any, Dict, List, Mapping, Optional, Sequence, cast
 
 from core.define_flow_presenter_io import find_first_positive_duration
-from core.dtos import FlowTaskDataDTO, ProductFlowLibraryProductDTO
+from core.dtos import CalculationProductDTO, FlowTaskDataDTO, ProductFlowLibraryProductDTO
 from core.flow_canvas_io import canvas_task_body, legacy_canvas_task_config
 
 
@@ -44,12 +45,30 @@ def enhanced_parse_duration(val_raw: Any, context: str, logger: Any) -> float:
         return 0.0
 
 
+def _main_task_as_mapping(main_task: Any, logger: Any) -> Mapping[str, Any] | None:
+    """Acepta dict (legado) o ``CalculationProductDTO`` (sesión desde PilaService)."""
+    if isinstance(main_task, Mapping):
+        return cast(Mapping[str, Any], main_task)
+    if isinstance(main_task, CalculationProductDTO):
+        return cast(Mapping[str, Any], asdict(main_task))
+    if is_dataclass(main_task) and not isinstance(main_task, type):
+        try:
+            return cast(Mapping[str, Any], asdict(main_task))
+        except (TypeError, ValueError):
+            pass
+    logger.warning("Ítem de biblioteca de flujo ignorado (tipo no soportado): %s", type(main_task))
+    return None
+
+
 def enhanced_prepare_product_library(
-    tasks_data: Sequence[Mapping[str, Any]],
+    tasks_data: Sequence[Any],
     logger: Any,
 ) -> Dict[str, ProductFlowLibraryProductDTO]:
     structured_data: Dict[str, ProductFlowLibraryProductDTO] = {}
-    for main_task in tasks_data:
+    for raw in tasks_data:
+        main_task = _main_task_as_mapping(raw, logger)
+        if main_task is None:
+            continue
         product_code = str(main_task.get("codigo", "N/A"))
         fab_id = main_task.get("fabricacion_id", "N/A")
         desc_main = str(main_task.get("descripcion", "Sin descripción"))

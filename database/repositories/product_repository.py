@@ -26,6 +26,28 @@ from .product_repository_helpers import (
 )
 
 
+def _subfabricacion_from_row(producto_codigo: str, sub: Any) -> Subfabricacion:
+    """
+    Crea un modelo Subfabricacion desde dict (UI/diálogo) o DTO/objeto con atributos.
+    Ignora id/producto_codigo en dicts para evitar choque de kwargs y PKs obsoletas.
+    """
+    if isinstance(sub, dict):
+        return Subfabricacion(
+            producto_codigo=producto_codigo,
+            descripcion=str(sub.get("descripcion") or ""),
+            tiempo=float(sub.get("tiempo") or 0.0),
+            tipo_trabajador=int(sub.get("tipo_trabajador") or 1),
+            maquina_id=normalize_machine_id(sub.get("maquina_id")),
+        )
+    return Subfabricacion(
+        producto_codigo=producto_codigo,
+        descripcion=str(getattr(sub, "descripcion", "") or ""),
+        tiempo=float(getattr(sub, "tiempo", 0.0) or 0.0),
+        tipo_trabajador=int(getattr(sub, "tipo_trabajador", 1) or 1),
+        maquina_id=normalize_machine_id(getattr(sub, "maquina_id", None)),
+    )
+
+
 class ProductRepository(BaseRepository):
     """
     Repositorio para gestión de productos.
@@ -43,6 +65,7 @@ class ProductRepository(BaseRepository):
 
             # Separar procesos mecánicos si vienen en data
             procesos_data = data.pop("procesos_mecanicos", [])
+            data.pop("sub_partes", None)
 
             nuevo_p = Producto(**data)
             session.add(nuevo_p)
@@ -51,21 +74,7 @@ class ProductRepository(BaseRepository):
             # Gestión de subfabricaciones
             if sub_data:
                 for sub in sub_data:
-                    if hasattr(sub, "descripcion"):
-                        nueva_sub = Subfabricacion(
-                            producto_codigo=nuevo_p.codigo,
-                            descripcion=sub.descripcion,
-                            tiempo=sub.tiempo,
-                            tipo_trabajador=sub.tipo_trabajador,
-                        )
-                    else:
-                        sub_copy = dict(sub)
-                        sub_copy["maquina_id"] = normalize_machine_id(sub_copy.get("maquina_id"))
-                        nueva_sub = Subfabricacion(
-                            producto_codigo=nuevo_p.codigo,
-                            **sub_copy
-                        )
-                    session.add(nueva_sub)
+                    session.add(_subfabricacion_from_row(nuevo_p.codigo, sub))
 
             # Gestión de procesos mecánicos
             for proc in procesos_data:
@@ -99,6 +108,7 @@ class ProductRepository(BaseRepository):
 
             # Separar procesos mecánicos si vienen en data
             procesos_data = data.pop("procesos_mecanicos", None)
+            data.pop("sub_partes", None)
 
             # Actualizar campos del producto
             for key, value in data.items():
@@ -108,21 +118,7 @@ class ProductRepository(BaseRepository):
             if sub_data is not None:
                 session.query(Subfabricacion).filter_by(producto_codigo=codigo_original).delete()
                 for sub in sub_data:
-                    if hasattr(sub, "descripcion"):
-                        nueva_sub = Subfabricacion(
-                            producto_codigo=p.codigo,
-                            descripcion=sub.descripcion,
-                            tiempo=sub.tiempo,
-                            tipo_trabajador=sub.tipo_trabajador,
-                        )
-                    else:
-                        sub_copy = dict(sub)
-                        sub_copy["maquina_id"] = normalize_machine_id(sub_copy.get("maquina_id"))
-                        nueva_sub = Subfabricacion(
-                            producto_codigo=p.codigo,
-                            **sub_copy
-                        )
-                    session.add(nueva_sub)
+                    session.add(_subfabricacion_from_row(p.codigo, sub))
 
             # Gestionar procesos mecánicos (reemplazo total si se provee)
             if procesos_data is not None:
@@ -216,13 +212,9 @@ class ProductRepository(BaseRepository):
 
     def search_products(self, term: str) -> List[ProductDTO]:
         """
-        Busca productos por código o descripción.
-        Si el término es None o vacío, devuelve todos.
-        Si el término tiene menos de 2 caracteres (y no es vacío), devuelve vacío.
+        Busca productos por código o descripción (ilike, cualquier longitud).
+        Si el término es None o vacío, devuelve todos (hasta el límite).
         """
-        if term is not None and 0 < len(term) < 2:
-            return []
-
         def _operation(session: Session) -> List[ProductDTO]:
             from sqlalchemy import or_
 

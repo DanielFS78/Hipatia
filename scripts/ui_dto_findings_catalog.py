@@ -93,55 +93,53 @@ def _analyze_file_enriched(path: Path) -> list[dict[str, Any]]:
             if isinstance(node.value, ast.Attribute) and isinstance(node.value.value, ast.Name):
                 if node.value.value.id == "self" and node.value.attr in uda.INTERNAL_UI_DICT_ATTRS:
                     continue
-            if isinstance(node.value, ast.Name) and node.value.id in uda.INTERNAL_UI_DICT_VARS:
-                continue
-            if isinstance(node.value, ast.Name) and node.value.id in {
-                "Optional",
-                "List",
-                "Dict",
-                "Tuple",
-                "Set",
-                "Sequence",
-                "Mapping",
-                "Iterable",
-            }:
+            if isinstance(node.value, ast.Name) and node.value.id in uda._TYPING_NAME_IDS:
                 continue
             key = _extract_constant_str(node.slice)
-            if key:
-                recv = _receiver_for_subscript(node)
-                raw.append(
-                    (
-                        "subscript",
-                        getattr(node, "lineno", 1),
-                        getattr(node, "col_offset", 0),
-                        key,
-                        uda._context_line(lines, getattr(node, "lineno", 1)),
-                        recv,
-                    )
+            if not key:
+                continue
+            if isinstance(node.value, ast.Name) and not uda.should_report_name_dict_access(
+                node.value.id, key
+            ):
+                continue
+            recv = _receiver_for_subscript(node)
+            raw.append(
+                (
+                    "subscript",
+                    getattr(node, "lineno", 1),
+                    getattr(node, "col_offset", 0),
+                    key,
+                    uda._context_line(lines, getattr(node, "lineno", 1)),
+                    recv,
                 )
+            )
 
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "get":
             if isinstance(node.func.value, ast.Attribute) and isinstance(node.func.value.value, ast.Name):
                 if node.func.value.value.id == "self" and node.func.value.attr in uda.INTERNAL_UI_DICT_ATTRS:
                     continue
-            if isinstance(node.func.value, ast.Name) and node.func.value.id in uda.INTERNAL_UI_DICT_VARS:
-                continue
             if uda._is_os_environ_access(node.func.value):
                 continue
-            if node.args:
-                key = _extract_constant_str(node.args[0])
-                if key:
-                    recv = _receiver_for_get_call(node)
-                    raw.append(
-                        (
-                            "get_call",
-                            getattr(node, "lineno", 1),
-                            getattr(node, "col_offset", 0),
-                            key,
-                            uda._context_line(lines, getattr(node, "lineno", 1)),
-                            recv,
-                        )
-                    )
+            if not node.args:
+                continue
+            key = _extract_constant_str(node.args[0])
+            if not key:
+                continue
+            if isinstance(node.func.value, ast.Name) and not uda.should_report_name_dict_access(
+                node.func.value.id, key
+            ):
+                continue
+            recv = _receiver_for_get_call(node)
+            raw.append(
+                (
+                    "get_call",
+                    getattr(node, "lineno", 1),
+                    getattr(node, "col_offset", 0),
+                    key,
+                    uda._context_line(lines, getattr(node, "lineno", 1)),
+                    recv,
+                )
+            )
 
     imports = tuple(_top_level_imports(lines))
     out: list[dict[str, Any]] = []

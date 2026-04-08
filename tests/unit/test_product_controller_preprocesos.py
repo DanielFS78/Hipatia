@@ -133,7 +133,14 @@ class TestProductControllerPreprocesos:
                 controller.show_add_preproceso_dialog()
                 
                 assert mock_app.model.create_preproceso.call_count >= 1
-                mock_app.model.create_preproceso.assert_called_with(ANY)
+                expected_dto = PreprocesoDTO(
+                    id=0,
+                    nombre="Nuevo",
+                    descripcion="",
+                    tiempo=0.0,
+                    componentes_ids=[],
+                )
+                mock_app.model.create_preproceso.assert_called_with(expected_dto)
                 assert mock_load.call_count == 1
                 mock_load.assert_called_once_with()
 
@@ -345,11 +352,45 @@ class TestProductControllerPreprocesos:
         
         mock_fab_data = MagicMock(id=101, preprocesos=[])
         mock_app.model.get_fabricacion_by_id.return_value = mock_fab_data
+        mock_app.model.get_products_for_fabricacion.return_value = []
 
         controller._on_fabrication_result_selected(mock_item)
 
         assert mock_fab_tab.display_fabricacion_form.call_count >= 1
+        mock_app.model.get_fabricacion_by_id.assert_called_once_with(101)
+        mock_app.model.get_products_for_fabricacion.assert_called_once_with(101)
         mock_fab_tab.display_fabricacion_form.assert_called_with(mock_fab_data, [])
+
+    @pytest.mark.contract
+    def test_on_fabrication_result_selected_loads_products_for_form(self, controller, mock_app):
+        """Regresión UI–dominio: al elegir fabricación, se cargan productos para el panel (no solo el diálogo)."""
+        mock_item = MagicMock()
+        mock_item.data.return_value = 202
+        mock_fab_tab = MagicMock()
+        mock_app.view.pages = {"gestion_datos": MagicMock(fabricaciones_tab=mock_fab_tab)}
+
+        fab_dto = FabricacionDTO(id=202, codigo="F-X", descripcion="Fab X", preprocesos=[])
+        mock_app.model.get_fabricacion_by_id.return_value = fab_dto
+        p_assoc = FabricacionProductoDTO(producto_codigo="P1", cantidad=3)
+        mock_app.model.get_products_for_fabricacion.return_value = [p_assoc]
+        mock_app.model.get_product_details.return_value = ProductDetailsDTO(
+            producto=MagicMock(codigo="P1", descripcion="Producto uno"),
+            subfabricaciones=[],
+            procesos_mecanicos=[],
+        )
+
+        controller._on_fabrication_result_selected(mock_item)
+
+        mock_app.model.get_fabricacion_by_id.assert_called_once_with(202)
+        mock_app.model.get_products_for_fabricacion.assert_called_once_with(202)
+        mock_app.model.get_product_details.assert_called_once_with("P1")
+        displayed = mock_fab_tab.display_fabricacion_form.call_args[0][0]
+        assert displayed is fab_dto
+        assert displayed.productos is not None
+        assert len(displayed.productos) == 1
+        assert displayed.productos[0].producto_codigo == "P1"
+        assert displayed.productos[0].cantidad == 3
+        assert displayed.productos[0].descripcion == "Producto uno"
 
     def test_show_create_fabricacion_dialog_success(self, controller, mock_app, mock_state):
         """Verifica el flujo de creación de fabricación."""

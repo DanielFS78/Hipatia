@@ -578,7 +578,14 @@ class TestProductDetailsDialog:
         from PyQt6.QtWidgets import QDialog as QD
         with patch("ui.dialogs.product.add_iteration_dialog.AddIterationDialog", autospec=True) as MockDlg:
             MockDlg.return_value.exec.return_value = QD.DialogCode.Accepted
-            MockDlg.return_value.get_data.return_value = {"responsable": "", "descripcion": ""}
+            from ui.dialogs.product.add_iteration_dialog import AddIterationFormData
+
+            MockDlg.return_value.get_data.return_value = AddIterationFormData(
+                responsable="",
+                descripcion="",
+                tipo_fallo="No especificado",
+                ruta_plano_origen=None,
+            )
             dialog.iterations_tab.on_add_new_iteration_clicked()
             assert mock_view.show_message.call_count >= 1
             mock_view.show_message.assert_called()
@@ -590,12 +597,21 @@ class TestProductDetailsDialog:
         from PyQt6.QtWidgets import QDialog as QD
         with patch("ui.dialogs.product.add_iteration_dialog.AddIterationDialog", autospec=True) as MockDlg:
             MockDlg.return_value.exec.return_value = QD.DialogCode.Accepted
-            data = {"responsable": "Ana", "descripcion": "Cambio X"}
-            MockDlg.return_value.get_data.return_value = data
+            from dataclasses import asdict
+
+            from ui.dialogs.product.add_iteration_dialog import AddIterationFormData
+
+            form = AddIterationFormData(
+                responsable="Ana",
+                descripcion="Cambio X",
+                tipo_fallo="No especificado",
+                ruta_plano_origen=None,
+            )
+            MockDlg.return_value.get_data.return_value = form
             mock_controller.handle_add_product_iteration.return_value = True
             dialog.iterations_tab.on_add_new_iteration_clicked()
             assert mock_controller.handle_add_product_iteration.call_count == 1
-            mock_controller.handle_add_product_iteration.assert_called_once_with("P001", data)
+            mock_controller.handle_add_product_iteration.assert_called_once_with("P001", asdict(form))
 
     # --- Editar Iteración ---
 
@@ -880,14 +896,14 @@ class TestAddIterationDialog:
         assert "Iteración" in dialog.windowTitle()
 
     def test_get_data(self, dialog):
-        """Verifica que get_data retorna diccionario correcto."""
+        """Verifica que get_data retorna dataclass correcta."""
         dialog.responsable_edit.setText("Ana")
         dialog.description_edit.setPlainText("Descripción del cambio")
         data = dialog.get_data()
-        assert data["responsable"] == "Ana"
-        assert data["descripcion"] == "Descripción del cambio"
-        assert isinstance(data["tipo_fallo"], str)
-        assert data["ruta_plano_origen"] is None
+        assert data.responsable == "Ana"
+        assert data.descripcion == "Descripción del cambio"
+        assert isinstance(data.tipo_fallo, str)
+        assert data.ruta_plano_origen is None
 
     def test_attach_plano_success(self, dialog):
         """Verifica adjuntar plano exitosamente."""
@@ -908,7 +924,7 @@ class TestAddIterationDialog:
         """Verifica get_data incluye plano adjuntado."""
         dialog.attached_plano_path = "/plans/plano.pdf"
         data = dialog.get_data()
-        assert data["ruta_plano_origen"] == "/plans/plano.pdf"
+        assert data.ruta_plano_origen == "/plans/plano.pdf"
 
 
 # ==============================================================================

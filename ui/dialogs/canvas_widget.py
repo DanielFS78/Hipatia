@@ -1,7 +1,13 @@
 """
 Nombre del Módulo: canvas_widget
-Descripción: Widget canvas para arrastrar, soltar y visualizar conexiones entre tareas
-             en el flujo de producción.
+Descripcion: Canvas **legacy** del dialogo historico de definicion de flujo (tareas en
+             ``parent_dialog.canvas_tasks``). Mantiene su propio pintado de conexiones y
+             ``_calculate_smart_path`` local.
+
+             El canvas reutilizable del flujo de produccion (planificacion/simulacion mejorada)
+             es ``ui.widgets.production_flow.flow_canvas.ProductionFlowCanvas`` junto con
+             ``flow_connection_painter.FlowConnectionPainter`` (enrutado ortogonal, capa de
+             flechas, etc.). No unificar aqui salvo refactor explicito del dialogo legacy.
 """
 
 import math
@@ -20,8 +26,9 @@ from PyQt6.QtWidgets import QWidget
 
 class CanvasWidget(QWidget):
     """
-    Un widget personalizado que actúa como un canvas para arrastrar, soltar y visualizar
-    las tareas del flujo de producción.
+    Canvas embebido en el dialogo legacy: pinta rejilla y flechas con logica propia
+    (no usa ``ProductionFlowCanvas``). Depende de ``parent_dialog`` para resolver indices
+    de tareas y datos de ciclo al dibujar aristas.
     """
 
     def __init__(self, parent_dialog: Any) -> None:

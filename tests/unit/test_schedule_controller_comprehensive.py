@@ -320,14 +320,22 @@ class TestOnAddBreak:
         mock_qd_class = MagicMock(spec=['DialogCode'], return_value=mock_dialog)
         mock_qd_class.DialogCode = QDialog.DialogCode
 
+        start_edit = MagicMock()
+        start_edit.time.return_value.toString.return_value = "12:00"
+        end_edit = MagicMock()
+        end_edit.time.return_value.toString.return_value = "13:00"
+
         with patch("controllers.schedule_controller.QDialog", mock_qd_class), \
              patch("controllers.schedule_controller.QFormLayout"), \
-             patch("controllers.schedule_controller.QTimeEdit"), \
+             patch(
+                 "controllers.schedule_controller.QTimeEdit",
+                 side_effect=[start_edit, end_edit],
+             ), \
              patch("controllers.schedule_controller.QDialogButtonBox"):
             ctrl.on_add_break()
 
         assert mock_settings.breaks_list.addItem.call_count == 1
-        mock_settings.breaks_list.addItem.assert_called_once_with(ANY)
+        mock_settings.breaks_list.addItem.assert_called_once_with("12:00 - 13:00")
 
     def test_on_add_break_cancelled(self, ctrl: Any) -> None:
         """Cancelar el dialogo inline no anade ningun item."""
@@ -422,8 +430,8 @@ class TestLoadScheduleSettings:
         assert mock_page.work_end_time.setTime.call_count == 1
         assert mock_page.breaks_list.clear.call_count == 1
         assert mock_page.breaks_list.addItem.call_count == 1
-        mock_page.work_start_time.setTime.assert_called_once_with(ANY)
-        mock_page.work_end_time.setTime.assert_called_once_with(ANY)
+        mock_page.work_start_time.setTime.assert_called_once_with(QTime.fromString("09:00", "HH:mm"))
+        mock_page.work_end_time.setTime.assert_called_once_with(QTime.fromString("17:00", "HH:mm"))
         mock_page.breaks_list.clear.assert_called_once_with()
         mock_page.breaks_list.addItem.assert_called_once_with("12:00 - 13:00")
 

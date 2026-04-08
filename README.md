@@ -16,17 +16,18 @@ gestión de máquinas y trabajadores, y generación de informes. Desarrollado en
 
 | Métrica | Valor |
 |---------|-------|
-| Fecha de referencia | 2026-04-03 |
+| Fecha de referencia | 2026-04-08 |
 | Python usado al generar | 3.13.5 |
-| Casos de test recogidos (pytest) | 2650 |
-| Archivos `test_*.py` (sin copias `* N.py`) | 216 |
-| Cobertura global (`pytest tests --cov=.`) | 86.2% |
-| Score calidad medio (absoluto → techo medio) | 75.9 → 77.8 |
-| Entradas en analizador de calidad | 228 |
-| Entradas marcadas «en techo» | 228 / 228 |
-| …de ellas, archivos `test_*.py` en techo | 216 |
+| Casos de test recogidos (pytest) | 2716 |
+| Archivos `test_*.py` (sin copias `* N.py`) | 226 |
+| Cobertura global (`pytest tests --cov=.`) | 86.1% |
+| Score calidad medio (absoluto → techo medio) | 75.3 → 77.2 |
+| Entradas en analizador de calidad | 238 |
+| Entradas marcadas «en techo» | 238 / 238 |
+| …de ellas, archivos `test_*.py` en techo | 226 |
 
 <!-- HIPATIA_METRICS_END -->
+
 
 
 **Plan de mejora de calidad:** `.agents/skills/plan_mejora_calidad/SKILL.md`
@@ -43,6 +44,7 @@ gestión de máquinas y trabajadores, y generación de informes. Desarrollado en
 | `Documentacion/Mejora_Calidad/` | Informes históricos por fase |
 | `Documentacion/Analisis_Inicial/` | Análisis inicial del proyecto (referencial) |
 | `Documentacion Daniel.md` | Documentación técnica generada automáticamente |
+| `Documentacion/Despliegue_Windows.md` | Empaquetado PyInstaller, rutas de datos y checklist de fábrica |
 
 ---
 

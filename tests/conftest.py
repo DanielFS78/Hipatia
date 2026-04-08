@@ -3,6 +3,14 @@
 Este módulo define las fixtures compartidas, la configuración del entorno de ejecución,
 los mocks globales para entornos headless (macOS/CI) y los plugins de auditoría
 e informes necesarios para la suite de pruebas.
+
+Marcador ``contract`` (registrado en ``pytest.ini``):
+    Tests que cruzan capas (p. ej. ProductController → FabricacionProductsHandler → fachada)
+    comprobando que **la misma fuente de datos** alimenta lo que vería el usuario en pantalla
+    frente a un diálogo o a la persistencia. No sustituyen e2e ni integración con BD real.
+
+    Ejecutar solo contrato: ``pytest -m contract``
+    Combinar con unit: ``pytest -m "unit and contract"``
 """
 
 import re

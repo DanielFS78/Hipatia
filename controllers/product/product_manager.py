@@ -376,6 +376,21 @@ class ProductManager:
             dialog = SubfabricacionesDialog(current_subs, available_machines, cast(QWidget, self.view))
             if dialog.exec() == QDialog.DialogCode.Accepted:
                 edit_page.current_subfabricaciones = dialog.get_updated_subfabricaciones()
+                # Persistir en BD si el producto ya existe (evita perder cambios al no pulsar "Guardar Cambios").
+                codigo_actual = ""
+                if hasattr(edit_page, "form_widgets"):
+                    cod_widget = edit_page.form_widgets.get("codigo")
+                    if cod_widget is not None:
+                        text_fn = getattr(cod_widget, "text", None)
+                        if callable(text_fn):
+                            try:
+                                raw = text_fn()
+                            except TypeError:
+                                raw = None
+                            if isinstance(raw, str):
+                                codigo_actual = raw.strip()
+                if codigo_actual and self.product_facade.get_product_by_code(codigo_actual):
+                    self._on_update_product(codigo_actual)
         except Exception as e:
             self.logger.error(f"Error en manage_subs: {e}")
             self.view.show_message("Error", "Ocurrió un error al gestionar subfabricaciones.", "warning")

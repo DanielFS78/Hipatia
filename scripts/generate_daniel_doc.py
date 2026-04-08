@@ -6,6 +6,9 @@ Descripción: Genera documentación técnica completa de Hipatia en Markdown con
              diagramas Mermaid automáticos (ERD, arquitectura, árbol de carpetas,
              flujo de fabricación) extraídos del código real del proyecto.
              Incluye sección de Suite de Tests generada desde compliance_data.json.
+
+             La narrativa embebida (p. ej. Fase 12C y CI) debe mantenerse alineada con
+             `.github/workflows/ci.yml` y con las skills de Fase 12C al cambiar gates.
 """
 import argparse
 import os
@@ -178,12 +181,16 @@ graph TD
             PDD --> PMW
             PDD --> PIW
         end
+        subgraph WK["Vista trabajador"]
+            WMW[WorkerMainWindow filas WorkerTaskListRowDTO]
+        end
         WOTH[Otras páginas: Home Historial Fabricación Settings …]
         DLG[Otros diálogos DefineFlow Bitácora Prep …]
         MV --> RW
         MV --> WOTH
         MV --> DLG
         MV --> LEAF
+        MV --> WK
     end
 
     subgraph CTRL["⚙️ Capa Controllers"]
@@ -253,6 +260,7 @@ graph TD
         RA[reset_admin.py mypy estricto]
         DC[detect_dead_code.py paquete ui/dialogs]
         TQA[test_quality_analyzer.py techo vs corregible]
+        UDA[ui_dto_boundary_analyzer Fase 12C gate CI]
     end
 
     MV -->|set_controller| AC
@@ -1717,7 +1725,11 @@ def generate_markdown(page_map: dict[str, int] | None = None) -> None:
             "- El intercambio entre capas se realiza con DTOs (`*DTO`).\n"
             "- Los analizadores de frontera verifican que no se reintroduzcan accesos legacy en UI.\n"
             "- `PrepStepsWidget` lee filas de preproceso/fase con `_ui_record_field` (dict o DTO), evitando `preproceso['id']` en la lista.\n"
-            "- CI ejecuta `scripts/ui_dto_boundary_analyzer.py` como paso **informativo** (`continue-on-error`) para no bloquear merges mientras el umbral evoluciona.\n\n"
+            "- Vista trabajador: `WorkerDbSync.get_assigned_fabricaciones` devuelve `WorkerTaskListRowDTO`; "
+            "`WorkerMainWindow` mantiene la selección tipada y las señales emiten `to_signal_dict()` donde el receptor aún espera `dict`.\n"
+            "- Nueva iteración de producto: `AddIterationFormData` en el diálogo; `ProductIterationsWidget` usa `asdict(form)` al llamar al controlador.\n"
+            "- **CI** ejecuta `scripts/ui_dto_boundary_analyzer.py --enforce-zero`: el job **falla** si hay hallazgos en el alcance por defecto de `ui/` "
+            "(sin `continue-on-error`). En fallo, el workflow sube el artefacto `ui_dto_boundary_report.json` para depuración.\n\n"
         )
         md.write("### Desacoplamiento UI: widgets hoja frente a MainView\n\n")
         md.write(
@@ -1817,6 +1829,7 @@ def generate_markdown(page_map: dict[str, int] | None = None) -> None:
         md.write("| `features/` | Módulos de funcionalidad transversal (worker sync, validación) |\n")
         md.write(
             "| `scripts/` | Generación de docs (`generate_daniel_doc`), QA (`test_quality_analyzer`), "
+            "auditoría frontera UI/DTO Fase 12C (`ui_dto_boundary_analyzer`, gate en CI con `--enforce-zero`), "
             "detección de código muerto (`detect_dead_code`), **mantenimiento crítico** (`maintenance/`: backup BD, reset admin), "
             "`init_database.py` con mypy estricto en CI |\n"
         )

@@ -8,6 +8,13 @@ Descripción: Motor de simulación de producción. Incluye el trabajador de hilo
 import logging
 from typing import List, Dict, Any, Optional # <-- AÑADIDO
 from datetime import datetime, timedelta, time, date
+from core.planning_session_access import (
+    deadline_to_date,
+    planning_deadline,
+    planning_identificador,
+    planning_lote_codigo,
+    planning_unidades,
+)
 from core.services.time_calculator import CalculadorDeTiempos # ⬅️ NUEVO IMPORT
 from core.services.calendar_helper import set_schedule_config # ⬅️ (Puedes eliminar los otros si ya no se usan)
 from PyQt6.QtCore import QObject, pyqtSignal
@@ -86,7 +93,7 @@ class Optimizer:
         if not self.planning_session:
             raise ValueError("La sesión de planificación (planning_session) no puede estar vacía.")
 
-        self.total_units = self.planning_session[0].get("unidades", 1) if self.planning_session else 1
+        self.total_units = planning_unidades(self.planning_session[0]) if self.planning_session else 1
         
         # Initialize workers data needed by OptimizerWorker
         self.workers_with_skills: List[tuple[str, int]] = []
@@ -145,10 +152,6 @@ class Optimizer:
         # 1. RECOPILAR TODOS LOS GRUPOS DE TAREAS (PRODUCTOS Y PREPROCESOS)
         raw_task_groups: List[Any] = []
         for lote_instance in self.planning_session:
-            units = lote_instance.get("unidades", 1)
-            deadline = lote_instance.get("deadline")
-            identificador = lote_instance.get("identificador")
-            
             # get_data_for_calculation_from_session ya nos devuelve una lista de CalculationProductDTO
             # con deadline, identificador y unidades ya inyectados.
             session_dtos = self.pila_service.get_data_for_calculation_from_session([lote_instance])
@@ -276,25 +279,27 @@ class Optimizer:
         all_deadlines_met = True
         # Iterar sobre las instancias de lote definidas en la sesión de planificación
         for lote_instance in self.planning_session:
-            instance_id = lote_instance["identificador"]
-            deadline = lote_instance["deadline"]
+            instance_id = planning_identificador(lote_instance)
+            deadline_raw = planning_deadline(lote_instance)
+            deadline_date = deadline_to_date(deadline_raw) if deadline_raw is not None else None
 
             # Si hay resultados para esta instancia, encontrar la fecha de finalización más tardía
             if instance_id in results_by_instance_id:
                 fab_end_time = max(task['Fin'] for task in results_by_instance_id[instance_id])
 
-                if fab_end_time.date() > deadline:
+                if deadline_date is not None and fab_end_time.date() > deadline_date:
                     all_deadlines_met = False
-                    delay = (fab_end_time.date() - deadline).days
+                    delay = (fab_end_time.date() - deadline_date).days
                     self.logger.warning(f"INCUMPLIMIENTO: Instancia '{instance_id}' finaliza con {delay} días de retraso.")
 
-                    reason = f"El plazo final ({deadline.strftime('%d/%m/%Y')}) no se cumple. La producción finaliza el {fab_end_time.date().strftime('%d/%m/%Y')}."
+                    dl_str = deadline_date.strftime('%d/%m/%Y')
+                    reason = f"El plazo final ({dl_str}) no se cumple. La producción finaliza el {fab_end_time.date().strftime('%d/%m/%Y')}."
                     self.audit_log.append(CalculationDecision(
                         timestamp=fab_end_time,
                         task_name=f"LOTE '{instance_id}'",
                         decision_type="PLAZO_INCUMPLIDO",
                         reason=reason, user_friendly_reason=f"Plazo incumplido por {delay} día(s).",
-                        product_code=lote_instance.get('lote_codigo', 'N/A'),
+                        product_code=planning_lote_codigo(lote_instance),
                         product_desc=f"Identificador: {instance_id}",
                         details={"retraso_dias": delay}, status=DecisionStatus.WARNING, icon="🔴"
                     ))

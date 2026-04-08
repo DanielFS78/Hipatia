@@ -14,8 +14,10 @@ from database.database_manager import DatabaseManager
 from core.dtos import (
     ProductDTO, PreprocesoDTO, PilaDTO, WorkerDTO, MachineDTO,
     ProductIterationDTO, PreparationStepDTO, PreparationGroupDTO, MaterialDTO,
-    LoteDTO, FabricacionDTO, ProductDetailsDTO,
-    CalculationProductDTO, FabricacionProductoDTO
+    FabricacionDTO, ProductDetailsDTO,
+    CalculationProductDTO,
+    CalculationStepDTO,
+    FabricacionProductoDTO,
 )
 # Import New Services
 from core.services.product_service import ProductService
@@ -401,11 +403,11 @@ class AppModel(QObject):
     def get_data_for_calculation(self, producto_codigo: str) -> list[CalculationProductDTO]:
         return self.planning_facade.get_data_for_calculation(producto_codigo)
 
-    def get_data_for_calculation_from_session(self, planning_session: list[CalculationProductDTO | dict[str, Any]]) -> list[CalculationProductDTO]:
+    def get_data_for_calculation_from_session(
+        self, planning_session: list[CalculationProductDTO | CalculationStepDTO | dict[str, Any]]
+    ) -> list[CalculationProductDTO]:
         return self.planning_facade.get_data_for_calculation_from_session(planning_session)
 
     # Nota: la API de reportes tabulares vive en ``ReportService`` (DI / ``model.report_service``).
     # No se reexpone en AppModel para evitar fachada duplicada.
 
-    def get_lote_details(self, lote_id: int) -> LoteDTO | None:
-        return self.system_integration.get_lote_details(lote_id)

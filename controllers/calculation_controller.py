@@ -276,6 +276,16 @@ class CalculationController:
                 # Disparar actualización de la tabla si existe logic
                 if hasattr(calc_page, '_update_plan_display'):
                     calc_page._update_plan_display()
+                # Plantillas de lote: igual que en Definir Lote — al entrar se listan todas
+                # (búsqueda vacía en repositorio); el usuario filtra al escribir.
+                pila_ctrl = getattr(self.app, "pila_controller", None)
+                entry = getattr(calc_page, "lote_search_entry", None)
+                if pila_ctrl is not None and entry is not None:
+                    try:
+                        query = entry.text()
+                    except (AttributeError, RuntimeError):
+                        query = ""
+                    pila_ctrl._on_calc_lote_search_changed(query)
                 self.logger.debug("Lista de página de cálculo actualizada.")
             except Exception as e:
                 self.logger.error(f"Error actualizando listas de cálculo: {e}")

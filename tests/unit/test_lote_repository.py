@@ -100,6 +100,11 @@ def test_search_lotes(lote_repo):
     results = lote_repo.search_lotes("ZULU")
     assert len(results) == 0
 
+    # Búsqueda vacía: todas las plantillas (Planificar producción al abrir)
+    results = lote_repo.search_lotes("")
+    codes = {r.codigo for r in results}
+    assert "SEARCH-1" in codes and "SEARCH-2" in codes
+
 def test_update_lote(lote_repo, seed_lote_data, session):
     prod_codes, fab_ids = seed_lote_data
     # Initial

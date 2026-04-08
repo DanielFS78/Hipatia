@@ -5,6 +5,9 @@ Descripcion: Punto de entrada principal para la aplicación Hipatia (Cálculo de
              Se encarga de la inicialización de QT, configuración de BD, logging y arranque de controladores.
              También crea e instala el ``QtLogHandler`` que alimenta la terminal interna de advertencias
              y errores visible en la pantalla de inicio.
+
+             En ejecutable PyInstaller (Windows), ``_fix_qt_macos`` no aplica; BD, logs y config editable
+             se resuelven con ``core.paths`` (directorio del ``.exe``).
 """
 from __future__ import annotations
 import configparser
@@ -28,6 +31,7 @@ from core.services import calendar_helper
 from core.schedule_config import ScheduleConfig
 from ui.main_window import MainView
 from core.utils.helpers import resource_path
+from core.paths import get_writable_app_root, resolve_user_config_ini
 
 # global dependencies para fallback y tests
 cv2: Any = None
@@ -70,11 +74,9 @@ def setup_logging() -> None:
     se instala en ``main()`` después de crear ``QApplication``, ya que
     ``QObject`` requiere que exista una instancia de ``QApplication``.
     """
-    log_dir = "logs"
-    if not os.path.exists(log_dir):
-        os.makedirs(log_dir)
-
-    log_file = os.path.join(log_dir, "EvolucionTiempos.log")
+    log_root = get_writable_app_root() / "logs"
+    log_root.mkdir(parents=True, exist_ok=True)
+    log_file = os.path.join(str(log_root), "EvolucionTiempos.log")
     formatter = logging.Formatter('%(asctime)s [%(levelname)8s] %(name)s: %(message)s', datefmt='%H:%M:%S')
 
     file_handler = ConcurrentRotatingFileHandler(log_file, "a", maxBytes=10 * 1024 * 1024, backupCount=5, encoding='utf-8')
@@ -132,23 +134,29 @@ def main() -> None:
     
     config = configparser.ConfigParser()
     try:
-        config_path = resource_path("config/config.ini")
+        config_path = resolve_user_config_ini(resource_path)
         if not os.path.exists(config_path):
             raise FileNotFoundError(f"Configuracion no encontrada en {config_path}")
         config.read(config_path)
 
         from database.config import DatabaseConfig
         saved_mode = config.get("Connection", "mode", fallback=None)
-        
+
+        def _default_sqlite_url() -> str:
+            data_dir = get_writable_app_root() / "data"
+            data_dir.mkdir(parents=True, exist_ok=True)
+            db_file = data_dir / "montaje.db"
+            return f"sqlite:///{db_file.resolve().as_posix()}"
+
         if saved_mode == 'sqlite':
-            DatabaseConfig.set_db_url(f"sqlite:///{os.path.abspath('data/montaje.db')}")
+            DatabaseConfig.set_db_url(_default_sqlite_url())
         elif not saved_mode:
             from ui.dialogs.connection_dialog import ConnectionDialog
             dialog = ConnectionDialog()
             if dialog.exec():
                 mode, remember = dialog.get_selection()
                 if mode == 'sqlite':
-                    DatabaseConfig.set_db_url(f"sqlite:///{os.path.abspath('data/montaje.db')}")
+                    DatabaseConfig.set_db_url(_default_sqlite_url())
                 if remember:
                     if not config.has_section("Connection"): config.add_section("Connection")
                     config.set("Connection", "mode", mode)

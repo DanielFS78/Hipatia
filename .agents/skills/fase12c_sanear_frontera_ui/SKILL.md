@@ -65,6 +65,12 @@ python3 scripts/ui_dto_boundary_analyzer.py --include-production-flow
 - Sin `--include-production-flow`: foco fuera de `production_flow` / exclusiones por defecto.
 - Con flag: alineado con el catálogo estricto.
 
+### CI (gate estricto)
+
+- El job `tests` en [`.github/workflows/ci.yml`](.github/workflows/ci.yml) ejecuta `python scripts/ui_dto_boundary_analyzer.py --enforce-zero` **sin** `continue-on-error`: nuevos hallazgos en `ui/` con el **mismo alcance por defecto del script** (sin `--include-production-flow`) **bloquean** el pipeline.
+- Si el paso falla, se sube artefacto `ui-dto-boundary-report-py*` con `Documentacion/Refactorizacion_Completa/Fase_12C/ui_dto_boundary_report.json` para depurar en PR.
+- Otros modos del analizador: `--max-findings N`; `--baseline ruta.json` (falla solo si `total_findings` **supera** el valor guardado en el baseline).
+
 ---
 
 ## Progreso (actualizar tras cada lote cerrado)

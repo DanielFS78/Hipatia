@@ -207,7 +207,10 @@ class TestBackupControllerBackupLog:
             
             assert result is True
             assert mock_copy.call_count == 1
-            mock_copy.assert_called_once_with(ANY, ANY)
+            mock_copy.assert_called_once_with(
+                os.path.join("logs", "EvolucionTiempos.log"),
+                os.path.join("/backup/logs/2026", "EvolucionTiempos.log"),
+            )
             # Verifica que el archivo se abrió en modo escritura ('w') para limpiar
             mock_open.assert_called_once_with(os.path.join("logs", "EvolucionTiempos.log"), 'w', encoding='utf-8')
             mock_file.write.assert_called_once_with("")
@@ -377,7 +380,11 @@ class TestBackupControllerImportDatabases:
             
             # Verifica mensajes UI
             assert controller.view.show_message.call_count == 1
-            controller.view.show_message.assert_called_once_with(ANY, ANY, ANY)
+            controller.view.show_message.assert_called_once_with(
+                "Éxito",
+                "Datos importados correctamente. Los cambios ya están disponibles.",
+                "info",
+            )
             
             # Verifica logs de auditoría mediante DTO
             controller.audit_logger.log_import.assert_called_once_with(
@@ -461,7 +468,11 @@ class TestBackupControllerExportDatabases:
             mock_zipf.write.assert_called_once_with("/real/path/prod_db.db", "prod_db.db")
             
             assert controller.view.show_message.call_count == 1
-            controller.view.show_message.assert_called_once_with(ANY, ANY, ANY)
+            controller.view.show_message.assert_called_once_with(
+                "Éxito",
+                "Copia de seguridad guardada en:\n/export/bck.zip",
+                "info",
+            )
             assert controller.audit_logger.log_export.call_count == 1
             controller.audit_logger.log_export.assert_called_once_with(username=ANY, description=ANY)
             args = controller.audit_logger.log_export.call_args[1]
@@ -484,7 +495,9 @@ class TestBackupControllerExportDatabases:
             mock_zipf.write.assert_not_called()
             # Lanza Warning
             assert controller.logger.warning.call_count == 1
-            controller.logger.warning.assert_called_once_with(ANY)
+            controller.logger.warning.assert_called_once_with(
+                "No se encontró el archivo de base de datos '/real/path/prod_db.db' para exportar."
+            )
 
     def test_export_databases_excepcion_capturada(self, controller):
         """Error de permisos o similar al guardar el ZIP."""

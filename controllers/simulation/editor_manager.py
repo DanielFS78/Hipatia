@@ -7,7 +7,9 @@ from __future__ import annotations
 import logging
 from typing import List, Dict, Any, TYPE_CHECKING
 from PyQt6.QtWidgets import QApplication
+
 from controllers.ui_class_loader import ui_class
+from core.planning_session_access import planning_unidades
 
 EnhancedProductionFlowDialog = ui_class("ui.dialogs", "EnhancedProductionFlowDialog")
 
@@ -61,7 +63,7 @@ class SimulationEditorManager:
 
             workers_data = self.worker_service.get_all_workers(include_inactive=False)
             worker_names = [w.nombre_completo for w in workers_data]
-            units_for_dialog = calc_page.planning_session[0].get("unidades", 1) if calc_page.planning_session else 1
+            units_for_dialog = planning_unidades(calc_page.planning_session[0])
 
             flow_dialog = EnhancedProductionFlowDialog(tasks_data, worker_names, units_for_dialog, self.app,
                                                        self.schedule_manager, parent=self.view,

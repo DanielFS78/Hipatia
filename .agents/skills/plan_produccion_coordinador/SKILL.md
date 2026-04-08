@@ -91,12 +91,12 @@ Cada tarea individual sigue este flujo de 6 pasos. **Sin excepciones.**
 
 | # | Tarea | Skill de referencia | Estado | Prioridad |
 |---|-------|---------------------|--------|-----------|
-| C1 | Auditar paths del sistema de archivos para compatibilidad Windows | `.agents/skills/preparacion_windows/SKILL.md` §2 | ⬜ Pendiente | 🔴 CRÍTICA |
-| C2 | Revisar `_fix_qt_macos()` y verificar que Qt no necesita fix en Windows | `.agents/skills/preparacion_windows/SKILL.md` §1 | ⬜ Pendiente | 🟡 MEDIA |
-| C3 | Crear archivo `hipatia.spec` y script `build_windows.bat` para PyInstaller | `.agents/skills/preparacion_windows/SKILL.md` §4 | ⬜ Pendiente | 🔴 CRÍTICA |
-| C4 | Validar UI en Windows con DPI 100%, 125%, 150% | `.agents/skills/preparacion_windows/SKILL.md` §1 | ⬜ Pendiente | 🔴 CRÍTICA |
-| C5 | Validar cámaras/QR en Windows con DirectShow | `.agents/skills/preparacion_windows/SKILL.md` §3 | ⬜ Pendiente | 🟡 MEDIA |
-| C6 | Checklist final pre-producción completo | `.agents/skills/preparacion_windows/SKILL.md` §6 | ⬜ Pendiente | 🔴 CRÍTICA |
+| C1 | Auditar paths del sistema de archivos para compatibilidad Windows | `.agents/skills/preparacion_windows/SKILL.md` §2 | ✅ Completada (repo: `core/paths`, `DatabaseConfig`, health/backup/UI) | 🔴 CRÍTICA |
+| C2 | Revisar `_fix_qt_macos()` y verificar que Qt no necesita fix en Windows | `.agents/skills/preparacion_windows/SKILL.md` §1 | ✅ Documentada (`Documentacion/Despliegue_Windows.md`; validación en PC pendiente) | 🟡 MEDIA |
+| C3 | Crear archivo `hipatia.spec` y script `build_windows.bat` para PyInstaller | `.agents/skills/preparacion_windows/SKILL.md` §4 | ✅ Completada (`hipatia.spec`, `build_windows.bat`, `requirements-build.txt`) | 🔴 CRÍTICA |
+| C4 | Validar UI en Windows con DPI 100%, 125%, 150% | `.agents/skills/preparacion_windows/SKILL.md` §1 | ⬜ Pendiente (solo en PC Windows) | 🔴 CRÍTICA |
+| C5 | Validar cámaras/QR en Windows con DirectShow | `.agents/skills/preparacion_windows/SKILL.md` §3 | ⬜ Pendiente (solo en PC Windows) | 🟡 MEDIA |
+| C6 | Checklist final pre-producción completo | `.agents/skills/preparacion_windows/SKILL.md` §6 | ⬜ Pendiente (solo en PC Windows) | 🔴 CRÍTICA |
 
 ### Bloque D — Mantenimiento Continuo (siempre activo)
 

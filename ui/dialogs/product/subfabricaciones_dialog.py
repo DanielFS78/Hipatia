@@ -30,11 +30,86 @@ from PyQt6.QtWidgets import (
 
 from PyQt6.QtCore import Qt, pyqtSignal, QEvent, QDate, QTimer, QTime, QPoint, QRectF, QSize
 from PyQt6.QtGui import (
-    QFont, QPixmap, QPainter, QColor, QBrush, QTextCharFormat, QIcon, QPen, QPalette,
+    QFont, QFontMetrics, QPixmap, QPainter, QColor, QBrush, QTextCharFormat, QIcon, QPen, QPalette,
     QPolygonF
 )
 
 from core.dtos import MachineDTO, SubfabricacionDTO
+
+
+def _make_combo_readable(combo: QComboBox, option_labels: list[str], *, min_width_px: int) -> None:
+    """Ensancha el combo y la lista desplegable para textos largos (máquinas, etc.)."""
+    combo.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToMinimumContentsLengthWithIcon)
+    if option_labels:
+        combo.setMinimumContentsLength(max(12, min(48, max(len(s) for s in option_labels))))
+    fm = QFontMetrics(combo.font())
+    w = min_width_px
+    for t in option_labels:
+        w = max(w, fm.horizontalAdvance(t) + 64)
+    combo.setMinimumWidth(min(w, 720))
+    combo.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+    view = combo.view()
+    if view is not None:
+        view.setMinimumWidth(combo.minimumWidth())
+        view.setTextElideMode(Qt.TextElideMode.ElideNone)
+
+
+def _coerce_subfabricaciones_rows(rows: Sequence[Any] | None) -> list[SubfabricacionDTO]:
+    """
+    El widget de productos guarda subfabricaciones como dict; el diálogo opera con DTOs.
+    Normaliza cualquier fila reconocible antes de pintar la tabla.
+    """
+    if not rows:
+        return []
+    out: list[SubfabricacionDTO] = []
+    for row in rows:
+        if isinstance(row, SubfabricacionDTO):
+            out.append(row)
+            continue
+        if isinstance(row, dict):
+            try:
+                tiempo = float(row.get("tiempo") or 0)
+            except (TypeError, ValueError):
+                tiempo = 0.0
+            try:
+                tipo = int(row.get("tipo_trabajador") or 1)
+            except (TypeError, ValueError):
+                tipo = 1
+            raw_id = row.get("id")
+            try:
+                sid = int(raw_id) if raw_id is not None else 0
+            except (TypeError, ValueError):
+                sid = 0
+            mid_raw = row.get("maquina_id")
+            if mid_raw is None or mid_raw == "":
+                maquina_id: int | None = None
+            else:
+                try:
+                    maquina_id = int(mid_raw)
+                except (TypeError, ValueError):
+                    maquina_id = None
+            out.append(
+                SubfabricacionDTO(
+                    id=sid,
+                    producto_codigo=str(row.get("producto_codigo") or ""),
+                    descripcion=str(row.get("descripcion") or ""),
+                    tiempo=tiempo,
+                    tipo_trabajador=tipo,
+                    maquina_id=maquina_id,
+                )
+            )
+            continue
+        out.append(
+            SubfabricacionDTO(
+                id=int(getattr(row, "id", 0) or 0),
+                producto_codigo=str(getattr(row, "producto_codigo", "") or ""),
+                descripcion=str(getattr(row, "descripcion", "") or ""),
+                tiempo=float(getattr(row, "tiempo", 0.0) or 0.0),
+                tipo_trabajador=int(getattr(row, "tipo_trabajador", 1) or 1),
+                maquina_id=getattr(row, "maquina_id", None),
+            )
+        )
+    return out
 
 
 # --- Split Dialogs Imports ---
@@ -47,15 +122,17 @@ class SubfabricacionesDialog(QDialog):
 
     def __init__(
         self,
-        subfabricaciones_actuales: Sequence[SubfabricacionDTO] | None,
+        subfabricaciones_actuales: Sequence[Any] | None,
         available_machines: Sequence[MachineDTO],
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
         self.setWindowTitle("Gestionar Sub-fabricaciones")
-        self.setMinimumSize(600, 500)
+        self.setMinimumSize(720, 520)
 
-        self.subfabricaciones: list[SubfabricacionDTO] = list(subfabricaciones_actuales or [])
+        self.subfabricaciones: list[SubfabricacionDTO] = _coerce_subfabricaciones_rows(
+            list(subfabricaciones_actuales) if subfabricaciones_actuales is not None else None
+        )
         self._selected_row = -1
 
         main_layout = QVBoxLayout(self)
@@ -76,15 +153,24 @@ class SubfabricacionesDialog(QDialog):
         form_frame = QFrame()
         form_frame.setFrameShape(QFrame.Shape.StyledPanel)
         form_layout = QFormLayout(form_frame)
+        form_layout.setFieldGrowthPolicy(QFormLayout.FieldGrowthPolicy.ExpandingFieldsGrow)
+        form_layout.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapLongRows)
+
         self.desc_entry = QLineEdit()
+        self.desc_entry.setMinimumHeight(self.desc_entry.sizeHint().height())
         self.tiempo_entry = QLineEdit()
         self.trabajador_menu = QComboBox()
-        self.trabajador_menu.addItems(["Tipo 1", "Tipo 2", "Tipo 3"])
+        worker_labels = ["Tipo 1", "Tipo 2", "Tipo 3"]
+        self.trabajador_menu.addItems(worker_labels)
+        _make_combo_readable(self.trabajador_menu, worker_labels, min_width_px=220)
+
         self.tipo_proceso_menu = QComboBox()
-        self.tipo_proceso_menu.addItem("(Ninguna)", userData=None)
+        machine_labels: list[str] = ["(Ninguna)"]
+        self.tipo_proceso_menu.addItem(machine_labels[0], userData=None)
         for machine in available_machines:
-            # Ahora machine es un MachineDTO, usamos acceso por atributos
             self.tipo_proceso_menu.addItem(machine.nombre, userData=machine.id)
+            machine_labels.append(machine.nombre)
+        _make_combo_readable(self.tipo_proceso_menu, machine_labels, min_width_px=320)
 
         form_layout.addRow("Descripción:", self.desc_entry)
         form_layout.addRow("Tiempo (min):", self.tiempo_entry)

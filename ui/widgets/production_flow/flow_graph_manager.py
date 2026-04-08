@@ -1,5 +1,10 @@
 """
-Interfaz PyQt6 (`flow_graph_manager`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Modulo: flow_graph_manager
+Descripcion: Coordina el presenter del flujo mejorado con un ``ProductionFlowCanvas``: creacion
+             de tarjetas, sincronizacion de indices, efectos de ciclo/simulacion y conexiones
+             logicas. Escucha ``cardMoved`` y ``cardSelected`` del canvas; ``update_connections``
+             obtiene todas las aristas con ``canvas_state_all_logical_connections`` y las pinta
+             en bloque, resaltando tarjetas relacionadas cuando hay tarea seleccionada.
 """
 
 import logging
@@ -9,11 +14,13 @@ from PyQt6.QtCore import QObject, QPoint, pyqtSignal, QTimer, Qt
 from PyQt6.QtWidgets import QApplication, QLabel
 
 from core.dtos import FlowTaskDataDTO
+from core.flow_card_labels import flow_card_task_id_str
 from core.flow_canvas_io import (
     CanvasVisualConnection,
     flow_task_config_is_cycle_end_flag,
     flow_task_config_is_cycle_start_flag,
 )
+from core.enhanced_flow_canvas_state_io import canvas_state_all_logical_connections
 from core.flow_graph_manager_io import (
     apply_loaded_flow_step_to_presenter_config,
     canvas_task_data_canvas_unique_id,
@@ -46,8 +53,11 @@ from typing import Any, Dict, cast
 
 class FlowGraphManager(QObject):
     """
-    Coordina la relación entre el estado lógico (en el Presenter) y la representación visual (Canvas).
-    Gestiona la creación de widgets, el mapeo de IDs y la aplicación de efectos visuales.
+    Puente entre estado del presenter (``canvas_tasks``) y widgets en ``ProductionFlowCanvas``.
+
+    Registra movimientos y seleccion de tarjetas, reconstruye el grafo desde datos de flujo,
+    aplica efectos (madre de ciclo, simulacion) y delega el dibujo de flechas en el canvas via
+    ``canvas_state_all_logical_connections`` + ``canvas.set_connections``.
     """
     
     task_selected_signal = pyqtSignal(int)  # index
@@ -66,6 +76,7 @@ class FlowGraphManager(QObject):
         self.simulation_message_label = None
 
         self.canvas.cardMoved.connect(self._on_card_moved)
+        self.canvas.cardSelected.connect(self._on_card_selected)
 
     def cleanup(self) -> None:
         """Libera recursos y rompe referencias circulares para evitar SegFaults."""
@@ -108,6 +119,7 @@ class FlowGraphManager(QObject):
         if restore_effects and flow_task_payload_is_cycle_start(task_payload):
             self.apply_mother_effect(index, True)
 
+        self.update_connections(None)
         return canvas_unique_id, index
 
     def update_task_config(self, index: int, key: str, value: Any, simulation_service: Any = None) -> None:
@@ -157,6 +169,7 @@ class FlowGraphManager(QObject):
             widget.deleteLater()
             self.presenter.remove_task(index)
             self.update_all_cycle_effects()
+            self.update_connections(None)
             return True
         return False
 
@@ -185,19 +198,23 @@ class FlowGraphManager(QObject):
         self.update_connections(index)
 
     def update_connections(self, selected_index: int | None = None) -> None:
-        """Calcula y dibuja las conexiones basadas en el estado lógico."""
-        if selected_index is None:
+        """Dibuja todas las flechas del flujo; si hay selección, resalta aristas relacionadas."""
+        if not self.widgets or not self.presenter:
             self.canvas.set_connections([])
             return
 
-        logical_conns = self.presenter.get_logical_connections(selected_index)
-        visual_conns = []
-        
-        for conn in logical_conns:
+        for w in self.widgets:
+            w.set_highlighted(False)
+
+        all_conns = canvas_state_all_logical_connections(self.presenter.canvas_tasks)
+        visual_conns: list[CanvasVisualConnection] = []
+
+        for conn in all_conns:
             i_from, i_to = logical_connection_indices(conn)
+            if not (0 <= i_from < len(self.widgets) and 0 <= i_to < len(self.widgets)):
+                continue
             from_w = self.widgets[i_from]
             to_w = self.widgets[i_to]
-
             visual_conns.append(
                 CanvasVisualConnection(
                     start=from_w,
@@ -206,6 +223,18 @@ class FlowGraphManager(QObject):
                 )
             )
 
+        self.canvas.set_connections(visual_conns)
+
+        if selected_index is None or not (0 <= selected_index < len(self.widgets)):
+            return
+
+        highlight_conns = self.presenter.get_logical_connections(selected_index)
+        for conn in highlight_conns:
+            i_from, i_to = logical_connection_indices(conn)
+            if not (0 <= i_from < len(self.widgets) and 0 <= i_to < len(self.widgets)):
+                continue
+            from_w = self.widgets[i_from]
+            to_w = self.widgets[i_to]
             hp, hc, hd, ho = logical_connection_highlights(conn)
             if hp:
                 from_w.set_highlighted(True, "#e67e22")
@@ -215,8 +244,6 @@ class FlowGraphManager(QObject):
                 to_w.set_highlighted(True, "#2ecc71")
             if ho:
                 from_w.set_highlighted(True, "#f1c40f")
-
-        self.canvas.set_connections(visual_conns)
 
     # --- Efectos Visuales ---
 
@@ -303,16 +330,38 @@ class FlowGraphManager(QObject):
         for i, w in enumerate(self.widgets):
             canvas_task_entry_set_position(self.presenter.canvas_tasks[i], w.x(), w.y())
 
-    def _on_card_selected(self, canvas_unique_id: int) -> None:
-        """Busca el índice basado en el ID y emite la señal."""
-        index = next(
-            (
-                i
-                for i, t in enumerate(self.presenter.canvas_tasks)
-                if canvas_task_data_canvas_unique_id(t) == canvas_unique_id
-            ),
-            None,
-        )
+    def _on_card_selected(self, token: str | int) -> None:
+        """Resuelve la tarjeta pulsada (UID de canvas o id lógico) y abre el inspector."""
+        if token is None or token == "":
+            return
+        s = str(token).strip()
+        if not s:
+            return
+
+        index: int | None = None
+        try:
+            uid = int(s)
+            index = next(
+                (
+                    i
+                    for i, t in enumerate(self.presenter.canvas_tasks)
+                    if canvas_task_data_canvas_unique_id(t) == uid
+                ),
+                None,
+            )
+        except ValueError:
+            pass
+
+        if index is None:
+            index = next(
+                (
+                    i
+                    for i, t in enumerate(self.presenter.canvas_tasks)
+                    if flow_card_task_id_str(presenter_task_data_mut(t)) == s
+                ),
+                None,
+            )
+
         if index is not None:
             self.task_selected_signal.emit(index)
 

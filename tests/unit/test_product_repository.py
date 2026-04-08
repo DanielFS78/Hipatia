@@ -94,7 +94,7 @@ class TestProductRepositoryGetMethods:
 
     def test_search_products_short_query(self, repos, session):
         """
-        Prueba que search_products() con consulta muy corta devuelve lista vacía.
+        Prueba que search_products() con un solo carácter filtra por ilike.
         """
         product_repo = repos["product"]
         
@@ -107,7 +107,8 @@ class TestProductRepositoryGetMethods:
         products = product_repo.search_products("M")
         
         # Assert
-        assert products == []
+        assert len(products) == 1
+        assert products[0].codigo == "MOTOR-001"
 
     def test_search_products_by_code_and_description(self, repos, session):
         """
@@ -557,6 +558,37 @@ class TestProductRepositoryCRUD:
         assert "Nueva Subfab 1" in descripciones
         assert "Nueva Subfab 2" in descripciones
         assert "Subfab Original" not in descripciones
+
+    def test_update_product_subfabricaciones_dict_with_dialog_extra_keys(self, repos):
+        """
+        Dicts del diálogo pueden traer id/producto_codigo; deben persistirse sin error.
+        """
+        product_repo = repos["product"]
+        data = {
+            "codigo": "DIALOG-SUB-01",
+            "descripcion": "Test",
+            "departamento": "Test",
+            "tipo_trabajador": 1,
+            "tiene_subfabricaciones": True,
+        }
+        product_repo.add_product(data, [{"descripcion": "Old", "tiempo": 1.0, "tipo_trabajador": 1}])
+
+        updated_data = {**data, "tiene_subfabricaciones": True}
+        new_rows = [
+            {
+                "id": 123,
+                "producto_codigo": "otro",
+                "descripcion": "Desde diálogo",
+                "tiempo": 4.5,
+                "tipo_trabajador": 2,
+                "maquina_id": None,
+            }
+        ]
+        assert product_repo.update_product("DIALOG-SUB-01", updated_data, new_rows) is True
+        details = product_repo.get_product_details("DIALOG-SUB-01")
+        assert len(details.subfabricaciones) == 1
+        assert details.subfabricaciones[0].descripcion == "Desde diálogo"
+        assert details.subfabricaciones[0].tiempo == 4.5
 
     # --- Tests para delete_product ---
 

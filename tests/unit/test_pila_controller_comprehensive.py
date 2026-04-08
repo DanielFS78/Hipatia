@@ -196,34 +196,32 @@ class TestPilaControllerComprehensive:
 
     def test_on_lote_def_product_search(self, controller, mock_app):
         mock_page = self.setup_lote_def_page(mock_app)
-        # Short text
+        mock_app.model.product_service.search_products.return_value = []
         controller._on_lote_def_product_search_changed("a")
+        mock_app.model.product_service.search_products.assert_called_with("a")
         assert mock_page.product_results.clear.call_count == 1
-        assert mock_page.product_results.clear.called
-        mock_page.product_results.clear.assert_called()
-        # Normal search
         mock_prod = MagicMock(spec=['codigo', 'descripcion'])
         mock_prod.codigo = "P1"
         mock_prod.descripcion = "D1"
         mock_app.model.product_service.search_products.return_value = [mock_prod]
         controller._on_lote_def_product_search_changed("busqueda")
-        assert mock_app.model.product_service.search_products.call_count == 1
+        assert mock_app.model.product_service.search_products.call_count == 2
         assert mock_page.product_results.addItem.called
         mock_page.product_results.addItem.assert_called()
 
     def test_on_lote_def_fab_search(self, controller, mock_app):
         mock_page = self.setup_lote_def_page(mock_app)
-        # Short text
+        mock_app.model.fabricacion_service.search_fabricaciones.return_value = []
         controller._on_lote_def_fab_search_changed("a")
+        mock_app.model.fabricacion_service.search_fabricaciones.assert_called_with("a")
         assert mock_page.fab_results.clear.called
-        mock_page.fab_results.clear.assert_called()
-        # Normal search
-        mock_fab = MagicMock(spec=['id', 'codigo'])
+        mock_fab = MagicMock(spec=['id', 'codigo', 'descripcion'])
         mock_fab.id = 1
         mock_fab.codigo = "F1"
+        mock_fab.descripcion = "D1"
         mock_app.model.fabricacion_service.search_fabricaciones.return_value = [mock_fab]
         controller._on_lote_def_fab_search_changed("test")
-        assert mock_app.model.fabricacion_service.search_fabricaciones.call_count == 1
+        assert mock_app.model.fabricacion_service.search_fabricaciones.call_count == 2
         assert mock_page.fab_results.addItem.called
         mock_page.fab_results.addItem.assert_called()
 

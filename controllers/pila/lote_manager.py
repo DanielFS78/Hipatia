@@ -10,7 +10,6 @@ import logging
 from PyQt6.QtWidgets import QListWidgetItem
 from PyQt6.QtCore import Qt
 
-from core import constants
 from controllers.pila.protocols import IPilaView, IPilaDatabase, IProductService, IFabricacionService
 
 class LoteManager:
@@ -32,11 +31,16 @@ class LoteManager:
         self.logger = logging.getLogger("EvolucionTiemposApp")
 
     def on_calc_lote_search_changed(self, text: str) -> None:
-        """Busca lotes disponibles para añadir a la pila de cálculo."""
+        """Busca plantillas de lote para la pila de cálculo.
+
+        Con texto vacío se listan todas las plantillas en BD (misma idea que productos
+        en Definir Lote); con texto se filtra por código o descripción.
+        """
         calc_page = self._view.pages.get("calculate")
         if not calc_page: return
-        
-        results = self._db.search_lotes(text)
+
+        q = (text or "").strip()
+        results = self._db.search_lotes(q)
         calc_page.lote_search_results.clear()
         for lote in results:
             item = QListWidgetItem(f"{lote.codigo} - {lote.descripcion or 'Sin descripción'}")
@@ -44,15 +48,16 @@ class LoteManager:
             calc_page.lote_search_results.addItem(item)
 
     def on_lote_def_product_search_changed(self, text: str) -> None:
-        """Busca productos para añadir a una plantilla de lote."""
+        """Busca productos para añadir a una plantilla de lote.
+
+        Con caja vacía se listan todos (hasta el límite del repositorio) para poder
+        eleger sin escribir; con texto se filtra por código o descripción.
+        """
         lote_page = self._view.pages.get("definir_lote")
         if not lote_page: return
-        
-        if len(text) < constants.VALIDATION.get('MIN_SEARCH_LENGTH', 2):
-            lote_page.product_results.clear()
-            return
 
-        results = self._product_service.search_products(text)
+        q = (text or "").strip()
+        results = self._product_service.search_products(q)
         lote_page.product_results.clear()
         for product in results:
             item = QListWidgetItem(f"{product.codigo} | {product.descripcion}")
@@ -60,18 +65,21 @@ class LoteManager:
             lote_page.product_results.addItem(item)
 
     def on_lote_def_fab_search_changed(self, text: str) -> None:
-        """Busca fabricaciones para añadir a una plantilla de lote."""
+        """Busca fabricaciones para añadir a una plantilla de lote.
+
+        Con caja vacía se listan todas las coincidencias del servicio (misma idea que productos).
+        """
         lote_page = self._view.pages.get("definir_lote")
         if not lote_page: return
 
-        if len(text) < constants.VALIDATION.get('MIN_SEARCH_LENGTH', 2):
-            lote_page.fab_results.clear()
-            return
-
-        results = self._fab_service.search_fabricaciones(text)
+        q = (text or "").strip()
+        results = self._fab_service.search_fabricaciones(q)
         lote_page.fab_results.clear()
         for fab in results:
-            item = QListWidgetItem(fab.codigo)
+            if fab.codigo and fab.codigo.startswith("TASK-"):
+                continue
+            label = f"{fab.codigo} - {fab.descripcion or 'Sin descripción'}"
+            item = QListWidgetItem(label)
             item.setData(Qt.ItemDataRole.UserRole, (fab.id, fab.codigo))
             lote_page.fab_results.addItem(item)
 

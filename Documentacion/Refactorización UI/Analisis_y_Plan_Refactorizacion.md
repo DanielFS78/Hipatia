@@ -106,11 +106,16 @@ Diálogo para gestionar la restauración de backups.
 
 ## <a name='uidialogscanvaswidgetspy'></a> 📄 ui/dialogs/canvas_widgets.py
 
+> **Estado 2026-04:** `canvas_widgets` reexporta `CanvasWidget` desde `canvas_widget.py` (dialogo legacy).
+> El canvas de flujo de produccion reutilizable es `ui/widgets/production_flow/flow_canvas.py` (`ProductionFlowCanvas`)
+> con conexiones en `flow_connection_painter.py` (enrutado ortogonal, obstaculos, capa de pintado). La descripcion
+> de `_calculate_smart_path` siguiente corresponde **solo** a la implementacion legacy del dialogo, no al pintor moderno.
+
 ### Clases
 
 #### 🏛 Clase: `CanvasWidget`
 Un widget personalizado que actúa como un canvas para arrastrar, soltar y visualizar
-las tareas del flujo de producción.
+las tareas del flujo de producción (dialogo legacy; ver nota arriba).
 
 **Métodos:**
 - `set_connections`: Recibe la lista de conexiones desde el diálogo principal y fuerza un redibujado.
@@ -118,7 +123,7 @@ las tareas del flujo de producción.
 - `_get_task_index_by_widget`: Obtiene el índice de una tarea por su widget.
 - `_draw_cyclic_arrow_with_glow`: Dibuja una flecha cíclica con efecto neón y gradiente de color.
 - `_draw_grid`: Dibuja una cuadrícula de fondo tipo papel milimétrico.
-- `_calculate_smart_path`: Calcula una ruta inteligente siguiendo el grid entre dos puntos, evitando pasar por detrás de tarjetas.
+- `_calculate_smart_path`: En el dialogo legacy, ruta en L con ajuste simple en grid; **no** equivale a `FlowConnectionPainter.calculate_smart_path` (Manhattan, codos, todos los widgets como obstaculo, terminales visuales).
 - `_count_path_collisions`: Cuenta cuántos segmentos del path colisionan con obstáculos.
 - `_line_intersects_rect`: Comprueba si una línea intersecta con un rectángulo.
 - `_adjust_path_to_avoid_obstacles`: Intenta ajustar el path para evitar obstáculos desplazándolo verticalmente.
@@ -828,14 +833,14 @@ Emite 'clicked' al ser seleccionada y 'moved' al ser movida.
 - `update_workers`: Actualiza la visualización de los trabajadores asignados via tooltip o icono.
 
 #### 🏛 Clase: `ProductionFlowCanvas`
-Un widget personalizado que actúa como un canvas para arrastrar, soltar y visualizar
-las tareas del flujo de producción. Versión desacoplada.
+Canvas desacoplado del flujo de produccion: rejilla en el propio widget y **capa hija** transparente
+que pinta flechas encima de las tarjetas (`FlowConnectionPainter`). No confundir con `CanvasWidget` legacy del dialogo.
 
 **Métodos:**
-- `set_connections`: Recibe la lista de conexiones (objetos/dicts) y fuerza un redibujado.  Args:     new_connections: Lista de dicts con claves 'start' (widget), 'end' (widget), 'type'.
-- `add_task_widget`: Registra un widget de tarea en el canvas y conecta sus señales.
-- `clear_widgets`: Limpia los widgets internos.
-- `mousePressEvent`: Detecta clics en el fondo.
+- `set_connections`: Normaliza conexiones (`CanvasVisualConnection` o dicts) y redibuja la capa de conexiones.
+- `add_task_widget`: Registra `FlowCardWidget`, conecta señales y mantiene la capa al frente.
+- `clear_widgets`: Elimina tarjetas y conexiones.
+- `mousePressEvent`: Clic en fondo (ignora la capa transparente) para `backgroundClicked`.
 
 ---
 
@@ -844,8 +849,8 @@ las tareas del flujo de producción. Versión desacoplada.
 ### Clases
 
 #### 🏛 Clase: `FlowGraphManager`
-Coordina la relación entre el estado lógico (en el Presenter) y la representación visual (Canvas).
-Gestiona la creación de widgets, el mapeo de IDs y la aplicación de efectos visuales.
+Coordina presenter y `ProductionFlowCanvas`; escucha `cardSelected` / `cardMoved`. Las aristas se obtienen con
+`canvas_state_all_logical_connections` y se envian al canvas con `set_connections`; con seleccion, resalta tarjetas relacionadas.
 
 **Métodos:**
 - `add_task_widget`: Crea un widget para una tarea y lo sincroniza con el presenter.

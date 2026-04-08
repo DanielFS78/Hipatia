@@ -159,6 +159,14 @@ class NavigationController(IController):
             lote_page = self.view.pages.get("definir_lote")
             if isinstance(lote_page, DefinirLoteWidget):
                 lote_page.clear_form()
+                pila = getattr(self.app, "pila_controller", None)
+                if pila is not None:
+                    ps = getattr(lote_page, "product_search", None)
+                    fs = getattr(lote_page, "fab_search", None)
+                    if ps is not None and hasattr(ps, "text"):
+                        pila._on_lote_def_product_search_changed(ps.text())
+                    if fs is not None and hasattr(fs, "text"):
+                        pila._on_lote_def_fab_search_changed(fs.text())
         elif name == "preprocesos":
             if self.app.preproceso_controller:
                 self.app.preproceso_controller.load_preprocesos_data()

@@ -20,6 +20,17 @@ from pathlib import Path
 DIALOGS_DIR = Path(__file__).resolve().parent.parent.parent / "ui" / "dialogs"
 
 
+def _ast_class_is_dataclass(class_node: ast.ClassDef) -> bool:
+    """True si la clase lleva @dataclass (el AST no incluye el __init__ generado)."""
+    for dec in class_node.decorator_list:
+        target = dec.func if isinstance(dec, ast.Call) else dec
+        if isinstance(target, ast.Name) and target.id == "dataclass":
+            return True
+        if isinstance(target, ast.Attribute) and target.attr == "dataclass":
+            return True
+    return False
+
+
 # =============================================================================
 # FIXTURES DE SETUP
 # =============================================================================
@@ -53,6 +64,7 @@ def dialogs_classes():
                                     n.name for n in node.body
                                     if isinstance(n, ast.FunctionDef)
                                 ],
+                                "is_dataclass": _ast_class_is_dataclass(node),
                                 "line": node.lineno,
                                 "file": file
                             }
@@ -265,6 +277,8 @@ class TestDialogsRequiredMethods:
         for class_name, class_info in dialogs_classes.items():
             if "Protocol" in class_info["bases"]:
                 continue
+            if class_info.get("is_dataclass"):
+                continue
             assert "__init__" in class_info["methods"], \
                 f"{class_name} debe tener método __init__"
 
@@ -411,8 +425,10 @@ class TestDialogsMetrics:
             f"Se esperan al menos 30 clases, hay {len(dialogs_classes)}"
 
     def test_no_empty_classes(self, dialogs_classes):
-        """Las clases no deben estar vacías (al menos __init__)."""
+        """Las clases no deben estar vacías (al menos __init__ o métodos explícitos)."""
         for class_name, class_info in dialogs_classes.items():
+            if class_info.get("is_dataclass"):
+                continue
             assert len(class_info["methods"]) > 0, \
                 f"La clase {class_name} en {class_info['file']} no tiene métodos"
 

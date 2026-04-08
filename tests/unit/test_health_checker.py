@@ -15,6 +15,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
+import core.health.health_checker as health_checker_module
+
 from core.health.health_checker import (
     DatabaseHealthChecker,
     HealthReport,
@@ -22,6 +24,12 @@ from core.health.health_checker import (
     TableHealth,
     TestResults as HealthTestResults,
 )
+
+
+def _sync_fs_root(monkeypatch: Any, tmp_path: Any) -> None:
+    """Alinea cwd (resource_path) y get_writable_app_root con tmp_path en tests de _check_system."""
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(health_checker_module, "get_writable_app_root", lambda: tmp_path)
 
 pytestmark = pytest.mark.unit
 
@@ -131,7 +139,7 @@ def test_compute_status_stable_returns_stable() -> None:
 
 def test_check_system_no_backups_no_logs_no_migrations(tmp_path: Any, monkeypatch: Any) -> None:
     checker = DatabaseHealthChecker()
-    monkeypatch.chdir(tmp_path)
+    _sync_fs_root(monkeypatch, tmp_path)
     system = checker._check_system()
     assert system.last_backup_date == "Nunca"
     assert system.last_session_errors == 0
@@ -175,7 +183,7 @@ def _setup_health_fs(tmp_path: Any, *, backup_mtime_seconds_ago: float | None, l
 
 def test_check_system_backup_date_less_than_1_hour(tmp_path: Any, monkeypatch: Any) -> None:
     checker = DatabaseHealthChecker()
-    monkeypatch.chdir(tmp_path)
+    _sync_fs_root(monkeypatch, tmp_path)
     _setup_health_fs(tmp_path, backup_mtime_seconds_ago=1800, log_errors=2, schema_version_prefix="123456789012")
     system = checker._check_system()
     assert system.last_backup_date == "Hace menos de 1 hora"
@@ -185,7 +193,7 @@ def test_check_system_backup_date_less_than_1_hour(tmp_path: Any, monkeypatch: A
 
 def test_check_system_backup_date_hours(tmp_path: Any, monkeypatch: Any) -> None:
     checker = DatabaseHealthChecker()
-    monkeypatch.chdir(tmp_path)
+    _sync_fs_root(monkeypatch, tmp_path)
     _setup_health_fs(tmp_path, backup_mtime_seconds_ago=3 * 3600, log_errors=1, schema_version_prefix="123456789012")
     system = checker._check_system()
     assert system.last_backup_date == "Hace 3 horas"
@@ -194,7 +202,7 @@ def test_check_system_backup_date_hours(tmp_path: Any, monkeypatch: Any) -> None
 
 def test_check_system_backup_date_yesterday(tmp_path: Any, monkeypatch: Any) -> None:
     checker = DatabaseHealthChecker()
-    monkeypatch.chdir(tmp_path)
+    _sync_fs_root(monkeypatch, tmp_path)
     _setup_health_fs(tmp_path, backup_mtime_seconds_ago=25 * 3600, log_errors=0, schema_version_prefix="123456789012")
     system = checker._check_system()
     assert system.last_backup_date == "Ayer"
@@ -203,7 +211,7 @@ def test_check_system_backup_date_yesterday(tmp_path: Any, monkeypatch: Any) -> 
 
 def test_check_system_backup_date_days(tmp_path: Any, monkeypatch: Any) -> None:
     checker = DatabaseHealthChecker()
-    monkeypatch.chdir(tmp_path)
+    _sync_fs_root(monkeypatch, tmp_path)
     _setup_health_fs(tmp_path, backup_mtime_seconds_ago=3 * 24 * 3600, log_errors=0, schema_version_prefix="123456789012")
     system = checker._check_system()
     assert system.last_backup_date == "Hace 3 días"
@@ -214,7 +222,7 @@ def test_check_system_disk_usage_exception(tmp_path: Any, monkeypatch: Any) -> N
     import core.health.health_checker as hc
 
     checker = DatabaseHealthChecker()
-    monkeypatch.chdir(tmp_path)
+    _sync_fs_root(monkeypatch, tmp_path)
     monkeypatch.setattr(hc.shutil, "disk_usage", lambda *_args, **_kwargs: (_ for _ in ()).throw(RuntimeError("disk fail")))
     system = checker._check_system()
     assert system.disk_free_gb == 0.0
@@ -225,7 +233,7 @@ def test_check_system_backup_dir_listdir_exception(tmp_path: Any, monkeypatch: A
     import core.health.health_checker as hc
 
     checker = DatabaseHealthChecker()
-    monkeypatch.chdir(tmp_path)
+    _sync_fs_root(monkeypatch, tmp_path)
 
     # Aseguramos que `os.path.isdir(database_backups)` sea True
     (tmp_path / "database_backups").mkdir(parents=True, exist_ok=True)
@@ -244,7 +252,7 @@ def test_check_system_backup_date_exception(tmp_path: Any, monkeypatch: Any) -> 
     import core.health.health_checker as hc
 
     checker = DatabaseHealthChecker()
-    monkeypatch.chdir(tmp_path)
+    _sync_fs_root(monkeypatch, tmp_path)
 
     # Crear backup para que se ejecute el bloque `if all_backup_files: ...`
     _setup_health_fs(tmp_path, backup_mtime_seconds_ago=1800, log_errors=0, schema_version_prefix=None)
@@ -264,7 +272,7 @@ def test_check_system_log_read_exception(tmp_path: Any, monkeypatch: Any) -> Non
     import core.health.health_checker as hc
 
     checker = DatabaseHealthChecker()
-    monkeypatch.chdir(tmp_path)
+    _sync_fs_root(monkeypatch, tmp_path)
 
     _setup_health_fs(tmp_path, backup_mtime_seconds_ago=None, log_errors=0, schema_version_prefix=None)
     # Forzar que el fichero exista para entrar en el try del log
@@ -286,7 +294,7 @@ def test_check_system_schema_version_list_exception(tmp_path: Any, monkeypatch: 
     import core.health.health_checker as hc
 
     checker = DatabaseHealthChecker()
-    monkeypatch.chdir(tmp_path)
+    _sync_fs_root(monkeypatch, tmp_path)
 
     _setup_health_fs(tmp_path, backup_mtime_seconds_ago=None, log_errors=0, schema_version_prefix="123456789012")
 
@@ -307,7 +315,7 @@ def test_check_system_schema_version_list_exception(tmp_path: Any, monkeypatch: 
 
 def test_check_full_flow_tables_and_overall_status_critical(tmp_path: Any, monkeypatch: Any) -> None:
     checker = DatabaseHealthChecker()
-    monkeypatch.chdir(tmp_path)
+    _sync_fs_root(monkeypatch, tmp_path)
 
     # Cobertura de sistema minimal
     _setup_health_fs(tmp_path, backup_mtime_seconds_ago=None, log_errors=0, schema_version_prefix=None)
@@ -366,7 +374,7 @@ def test_check_full_flow_tables_and_overall_status_critical(tmp_path: Any, monke
 
 def test_check_db_manager_get_session_raises_sets_error_message(tmp_path: Any, monkeypatch: Any) -> None:
     checker = DatabaseHealthChecker()
-    monkeypatch.chdir(tmp_path)
+    _sync_fs_root(monkeypatch, tmp_path)
     _setup_health_fs(tmp_path, backup_mtime_seconds_ago=None, log_errors=0, schema_version_prefix=None)
 
     db_manager = MagicMock(spec=["get_session"])
@@ -380,7 +388,7 @@ def test_check_db_manager_get_session_raises_sets_error_message(tmp_path: Any, m
 
 def test_check_integrity_check_exception_sets_db_integrity_false_warning(tmp_path: Any, monkeypatch: Any) -> None:
     checker = DatabaseHealthChecker()
-    monkeypatch.chdir(tmp_path)
+    _sync_fs_root(monkeypatch, tmp_path)
     _setup_health_fs(tmp_path, backup_mtime_seconds_ago=None, log_errors=0, schema_version_prefix=None)
 
     db_manager = MagicMock(spec=["get_session"])

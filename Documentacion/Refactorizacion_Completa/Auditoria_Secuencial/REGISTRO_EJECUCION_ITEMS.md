@@ -404,6 +404,7 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Gates:** pytest `-k "app_model or lote"` → 132 passed; mypy global OK (607 archivos); `check_documentation_omissions` → omitidos=0.
 - **Progreso:** Opt-5 — sub-ítem Opt-5c en `PROGRESO_OPTIMIZACION_CAPAS.md`.
 - **Fecha cierre:** 2026-04-03
+- **Seguimiento (2026-04, plan viabilidad AppModel):** retirado también `get_lote_details` de `AppModel` (criterio `rg` = 0). `ui/widgets/calculate_times_widget.py` usa `app.model.system_integration.get_lote_details` si no hay `db.lote_repo`; detalle de fabricación en ese bloque vía `db.preproceso_repo.get_fabricacion_by_id`. La mención a «mantener `get_lote_details`» en ITEM 019 queda histórica.
 
 ## ITEM 017 — Opt-5 (poda 4): iteraciones / imágenes sin delegación en `AppModel`
 

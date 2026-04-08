@@ -8,7 +8,7 @@ from datetime import datetime, date, time
 from unittest.mock import MagicMock
 
 from ui.dialogs.production_flow.enhanced_flow_presenter import EnhancedFlowPresenter
-from core.dtos import WorkerDTO  # DTO para cumplimiento
+from core.dtos import CalculationProductDTO, CalculationSubPartDTO, WorkerDTO  # DTO para cumplimiento
 
 
 @pytest.fixture
@@ -38,6 +38,29 @@ class TestEnhancedFlowPresenter:
         assert len(tasks) == 1
         assert tasks[0].duration == 10.5
         assert tasks[0].id == 'PROD1_main_task'
+
+    def test_prepare_task_data_accepts_calculation_product_dto(self, presenter):
+        """PilaService devuelve CalculationProductDTO; el presenter debe armar la biblioteca."""
+        dto = CalculationProductDTO(
+            codigo="DTO1",
+            descripcion="Desde DTO",
+            departamento="Mecanizado",
+            tipo_trabajador=2,
+            donde="",
+            tiene_subfabricaciones=True,
+            tiempo_optimo=9.0,
+            sub_partes=[
+                CalculationSubPartDTO("Paso A", 2.5, 2, None),
+                CalculationSubPartDTO("Paso B", 1.0, 2, None),
+            ],
+        )
+        result = presenter.prepare_task_data([dto])
+        assert "DTO1" in result
+        tasks = result["DTO1"].tasks
+        assert len(tasks) == 2
+        assert tasks[0].name == "Paso A"
+        assert tasks[0].duration == 2.5
+        assert tasks[0].department == "Mecanizado"
 
     def test_prepare_task_data_with_subfabrications(self, presenter):
         """Tarea con subfabricaciones (usa 'tiempo' o 'duration')."""
@@ -311,6 +334,28 @@ class TestEnhancedFlowPresenter:
         assert len(conn1) == 2 # One standard child, one cyclic origin
         
         assert presenter.get_logical_connections(99) == []
+
+    def test_canvas_state_all_logical_connections(self, presenter):
+        """Flechas globales: misma información que el inspector pero sin depender del índice seleccionado."""
+        from core.enhanced_flow_canvas_state_io import canvas_state_all_logical_connections
+
+        presenter.add_task({"name": "T1"}, {"x": 0, "y": 0})
+        presenter.add_task({"name": "T2"}, {"x": 10, "y": 10})
+        presenter.update_task_config(1, "start_condition", {"type": "dependency", "value": 0})
+        presenter.update_task_config(1, "next_cyclic_task_index", 0)
+        edges = canvas_state_all_logical_connections(presenter.canvas_tasks)
+        assert len(edges) == 2
+        assert {e["type"] for e in edges} == {"standard", "cyclic"}
+
+    def test_canvas_state_sequential_default_chain(self, presenter):
+        """Sin dependencias explícitas: cadena 0→1→2 (orden de colocación en el lienzo)."""
+        from core.enhanced_flow_canvas_state_io import canvas_state_all_logical_connections
+
+        for name in ("A", "B", "C"):
+            presenter.add_task({"name": name}, {"x": 0, "y": 0})
+        edges = canvas_state_all_logical_connections(presenter.canvas_tasks)
+        assert len(edges) == 2
+        assert {(e["from"], e["to"], e["type"]) for e in edges} == {(0, 1, "sequential"), (1, 2, "sequential")}
 
     def test_load_flow(self, presenter):
         flow_data = [

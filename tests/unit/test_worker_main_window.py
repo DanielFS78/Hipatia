@@ -17,6 +17,7 @@ from PyQt6.QtCore import Qt
 
 from ui.worker.main_window.window import WorkerMainWindow
 from core.dtos import WorkerDTO  # Añadimos mención a DTO y la importación para cumplimiento
+from core.worker_ui_dtos import WorkerTaskListRowDTO
 
 MODULE = "ui.worker.main_window.window"
 
@@ -188,13 +189,17 @@ class TestWorkerMainWindowTasksList:
 
     def test_update_tasks_list_with_product(self, main_window):
         """Tarea con código y descripción de producto."""
-        tareas = [{
-            "codigo": "T01",
-            "descripcion": "Tarea general",
-            "producto_codigo": "PROD-A",
-            "producto_descripcion": "Producto A",
-            "cantidad": 50
-        }]
+        tareas = [
+            WorkerTaskListRowDTO.from_flat_mapping(
+                {
+                    "codigo": "T01",
+                    "descripcion": "Tarea general",
+                    "producto_codigo": "PROD-A",
+                    "producto_descripcion": "Producto A",
+                    "cantidad": 50,
+                }
+            )
+        ]
         main_window.update_tasks_list(tareas)
         
         assert main_window.tasks_list.count() == 1
@@ -202,17 +207,21 @@ class TestWorkerMainWindowTasksList:
         assert "PROD-A" in item.text()
         assert "Producto A (Cantidad: 50)" in item.text()
         
-        # Validar DTO o diccionarios guardados en UserRole
         data = item.data(Qt.ItemDataRole.UserRole)
-        assert data["codigo"] == "T01"
-        assert not isinstance(data, WorkerDTO)  # Worker recibe dicts de momento
+        assert isinstance(data, WorkerTaskListRowDTO)
+        assert data.codigo == "T01"
+        assert not isinstance(data, WorkerDTO)
 
     def test_update_tasks_list_without_product(self, main_window):
         """Tarea sin datos de producto usa el fallback a codigo/descripcion base."""
-        tareas = [{
-            "codigo": "PRE-01",
-            "descripcion": "Cortar madera",
-        }]
+        tareas = [
+            WorkerTaskListRowDTO.from_flat_mapping(
+                {
+                    "codigo": "PRE-01",
+                    "descripcion": "Cortar madera",
+                }
+            )
+        ]
         main_window.update_tasks_list(tareas)
         
         assert main_window.tasks_list.count() == 1
@@ -239,7 +248,9 @@ class TestWorkerMainWindowTaskSelection:
 
     def test_on_task_selected_with_data(self, main_window):
         """Seleccionar un item válido actualiza labels y emite señal."""
-        tarea = {"codigo": "TASK-1", "descripcion": "Demo"}
+        tarea = WorkerTaskListRowDTO.from_flat_mapping(
+            {"codigo": "TASK-1", "descripcion": "Demo"}
+        )
         main_window.update_tasks_list([tarea])
         item = main_window.tasks_list.item(0)
         
@@ -256,8 +267,7 @@ class TestWorkerMainWindowTaskSelection:
         assert "Demo" in main_window.selected_task_desc_label.text()
         assert "Comprobando..." in main_window.task_status_label.text()
         
-        # Asegurarse que emite enviando el diccionario
-        mock_signal.assert_called_once_with(tarea)
+        mock_signal.assert_called_once_with(tarea.to_signal_dict())
 
     def test_on_task_selected_exception(self, main_window):
         """Un error durante la selección revierte al placeholder."""
@@ -353,24 +363,32 @@ class TestWorkerMainWindowSignals:
         assert mock_start.call_count == 0
 
     def test_action_buttons_with_selection(self, main_window):
-        """Las acciones envían la tarea seleccionada."""
-        tarea = {"id": 999}
+        """Las acciones envían la tarea seleccionada como dict (to_signal_dict)."""
+        tarea = WorkerTaskListRowDTO(
+            id=999,
+            codigo="OF1",
+            descripcion="Desc",
+            producto_codigo="P1",
+            producto_descripcion="Prod",
+            cantidad=3,
+        )
         main_window.current_selected_task = tarea
-        
+        payload = tarea.to_signal_dict()
+
         mock_gen = MagicMock(); main_window.generate_labels_requested.connect(mock_gen)
         mock_start = MagicMock(); main_window.start_task_requested.connect(mock_start)
         mock_reg = MagicMock(); main_window.register_incidence_requested.connect(mock_reg)
         mock_end = MagicMock(); main_window.end_task_requested.connect(mock_end)
-        
+
         main_window._on_generate_labels_clicked()
         main_window._on_start_task_clicked()
         main_window._on_register_incidence_clicked()
         main_window._on_end_task_clicked()
-        
-        mock_gen.assert_called_once_with(tarea)
-        mock_start.assert_called_once_with(tarea)
-        mock_reg.assert_called_once_with(tarea)
-        mock_end.assert_called_once_with(tarea)
+
+        mock_gen.assert_called_once_with(payload)
+        mock_start.assert_called_once_with(payload)
+        mock_reg.assert_called_once_with(payload)
+        mock_end.assert_called_once_with(payload)
         assert mock_gen.call_count == 1
         assert mock_start.call_count == 1
 

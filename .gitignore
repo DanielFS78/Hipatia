@@ -25,6 +25,7 @@ MANIFEST
 # Virtual Environments
 .env
 .venv
+.venv-build-win
 env/
 venv/
 ENV/

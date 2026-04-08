@@ -104,12 +104,28 @@ Conservar:
 
 **Resumen:** B5 **finalizada**; tabla de exclusiones arriba («Estado de la tarea B5»). Nuevas pantallas: preferir DI (`DefineProductionFlowDialog`, reportes) como patrón de referencia.
 
+## Governanza anti–crecimiento (post–plan viabilidad 2026-04)
+
+- **No añadir nuevos delegadores de una línea** en `AppModel` sin revisión explícita (issue o fila en `REGISTRO_EJECUCION_ITEMS.md`). La fachada no debe crecer «por comodidad».
+- **Nuevas capacidades de dominio:** registrar el servicio en [`StartupController`](../../controllers/startup_controller.py) (`DIContainer`) e inyectar en controlador o widget; el consumo preferente es `container.resolve(T)` o el servicio ya expuesto en el controlador.
+- **`AppController` permanece como hub** de arranque, sub-controladores y vista; no se exige eliminarlo; sí evitar que **nueva** lógica de negocio se acumule ahí o en `AppModel` en lugar de en servicios.
+
 ## Reglas
 
 1. **Un controlador (o un eje) por iteración** — migrar, `pytest` focalizado, `mypy` en paquetes tocados.
 2. **No eliminar método de `AppModel`** hasta que no quede ningún consumidor (`rg` en todo el repo).
 3. **Las señales permanecen en `AppModel`** (o en un único hub de señales explícito si se extrae más adelante).
 4. **Evitar megarefactor de tipos** en `AppController`: `Protocol` o tipos concretos solo donde se toque el archivo.
+
+## Épica opcional (no implementada): hub de señales Qt fuera de `AppModel`
+
+Solo si se **reabre** la arquitectura con criterios de aceptación propios:
+
+1. Crear un `QObject` dedicado (p. ej. `ApplicationSignalBridge`) con los `pyqtSignal` hoy definidos en `AppModel`, instanciado en el arranque (`StartupController` o composición raíz).
+2. Mover `_connect_service_signals` para que los servicios emitan hacia ese bridge; los controladores/UI enlazan `bridge.product_deleted_signal` (u homólogos) en lugar de `app.model.*`.
+3. `AppModel` quedaría como composición de servicios + facades **sin** superficie de señales, o se deprecaría gradualmente.
+
+**Criterios de aceptación sugeridos:** cero regresión en [`controllers/ui_signals_wiring.py`](../../controllers/ui_signals_wiring.py), tests que mockean señales actualizados, y documentación en esta skill. Priorizar frente a otras épicas (p. ej. producción Windows) solo si el equipo lo decide explícitamente.
 
 ## Checklist de verificación
 
@@ -127,6 +143,7 @@ Conservar:
 
 - Eliminados de `AppModel` (sin consumidores externos): `get_latest_workers`, `get_latest_machines` — usar `WorkerService` / `MachineService` o el repositorio según capa.
 - **Reportes (2026-04):** eliminados delegadores puros hacia `ReportService` (`search_reports_data`, `get_orders_for_product`, `get_order_details`, `get_order_units`, `get_product_time_stats`, `get_worker_time_stats`, `get_incidents_stats`, `get_evolution_stats`, `get_product_summary`, `get_product_reports_dashboard`). La UI y los tests usan `ReportService` o `model.report_service`. Permanecen en `AppModel` orquestaciones que usan reportes por dentro (`get_problematic_components_stats`, `get_dashboard_stats`).
+- **Lotes (2026-04):** eliminado `get_lote_details` en `AppModel` (cero consumidores tras `calculate_times_widget`: fallback vía `model.system_integration.get_lote_details`). Detalle de fabricación en ese flujo vía `db.preproceso_repo.get_fabricacion_by_id` en lugar de `model.get_fabricacion_by_id`.
 
 ## Métodos que suelen permanecer en `AppModel` (post-migración reportes)
 

@@ -34,15 +34,22 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # Contrato UI–negocio (subconjunto): opcional — python -m pytest tests -m contract -q
       - name: Run tests (headless Qt)
         env:
           QT_QPA_PLATFORM: offscreen
         run: python -m pytest tests -q --tb=no --timeout=30
 
-      # Informe de frontera UI/DTO (plan auditoría Fase 12C); no bloquea el merge
-      - name: UI DTO boundary analyzer (informational)
-        continue-on-error: true
-        run: python scripts/ui_dto_boundary_analyzer.py
+      - name: UI DTO boundary analyzer (Fase 12C gate)
+        run: python scripts/ui_dto_boundary_analyzer.py --enforce-zero
+
+      - name: Upload UI DTO boundary report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-dto-boundary-report-py${{ matrix.python-version }}
+          path: Documentacion/Refactorizacion_Completa/Fase_12C/ui_dto_boundary_report.json
+          if-no-files-found: ignore
 
   # Tipado estático (misma referencia que mypy.ini: python 3.12)
   mypy:

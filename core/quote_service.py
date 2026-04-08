@@ -13,14 +13,15 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import List, Dict, Optional, Any
 
 from core.dtos import QuoteDTO, AuthorInfoDTO
+from core.utils.helpers import resource_path
 
 class QuoteService:
     """
     Servicio para mostrar frases célebres y enriquecerlas con datos de Wikipedia.
     """
-    def __init__(self, resource_path: str = "resources/quotes.json") -> None:
+    def __init__(self, quotes_json_path: str | None = None) -> None:
         self.logger = logging.getLogger("EvolucionTiemposApp")
-        self.resource_path = resource_path
+        self.resource_path = quotes_json_path or resource_path("resources/quotes.json")
         self.quotes: List[QuoteDTO] = []
         self._load_quotes()
         

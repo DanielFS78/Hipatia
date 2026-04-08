@@ -7,7 +7,7 @@ Descripción: Controlador Fachada para la gestión de Pilas y Lotes.
 from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING, List, Dict, Any, Optional, cast
-from PyQt6.QtCore import QObject
+from PyQt6.QtCore import QObject, Qt
 from PyQt6.QtWidgets import QListWidgetItem
 
 from controllers.pila.lote_manager import LoteManager
@@ -116,7 +116,11 @@ class PilaController(QObject):
             self.app.view.show_message("Selección Requerida", "Por favor, seleccione un lote.", "warning")
             return
             
-        lote_id, lote_codigo = selected.data(32) # UserRole
+        raw = selected.data(Qt.ItemDataRole.UserRole)
+        if not isinstance(raw, tuple) or len(raw) != 2:
+            self.app.view.show_message("Error", "Datos de lote inválidos en la lista.", "warning")
+            return
+        lote_id, lote_codigo = raw
         lote_instance_data = CalculationStepDTO(
             lote_template_id=lote_id,
             lote_codigo=lote_codigo,
@@ -199,8 +203,11 @@ class PilaController(QObject):
         Maneja la selección de un lote en la lista de resultados de gestión.
         Carga los detalles del lote y los muestra en el formulario de edición.
         """
-        lote_id = item.data(32) # UserRole
-        lote_data = self._system_integration.get_lote_details(lote_id)
+        lote_id = item.data(Qt.ItemDataRole.UserRole)
+        if lote_id is None:
+            self.app.view.show_message("Error", "No se pudo identificar el lote seleccionado.", "warning")
+            return
+        lote_data = self._system_integration.get_lote_details(int(lote_id))
         gestion_page = self.app.view.pages.get("gestion_datos")
         if lote_data and gestion_page:
              gestion_page.lotes_tab.display_lote_details(lote_data)

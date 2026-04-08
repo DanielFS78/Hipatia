@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Tests unitarios para GestionDatosWidget."""
-from unittest.mock import MagicMock
+from unittest.mock import create_autospec
 
 import pytest
 
@@ -16,9 +16,11 @@ class TestGestionDatosWidget:
     @pytest.fixture
     def widget(self, qtbot, monkeypatch):
         """Fixture con DI simulado: las pestañas resuelven controladores vía contenedor."""
-        container = MagicMock()
-        container.resolve.return_value = MagicMock()
+        container = create_autospec(DIContainer, instance=True)
         container.is_registered.return_value = True
+        container.resolve.side_effect = lambda service_type: create_autospec(
+            service_type, instance=True
+        )
         monkeypatch.setattr(DIContainer, "get_instance", lambda: container)
         w = GestionDatosWidget()
         qtbot.addWidget(w)

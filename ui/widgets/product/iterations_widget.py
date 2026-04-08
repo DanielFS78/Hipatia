@@ -3,9 +3,13 @@
 Nombre del Módulo: iterations_widget.py
 Descripción: Widget para visualizar y gestionar el historial de iteraciones de un producto.
 Incluye la gestión de materiales asociados y galería de imágenes.
+
+Al añadir una iteración, el diálogo devuelve ``AddIterationFormData``; aquí se convierte
+a dict con ``asdict`` para ``handle_add_product_iteration`` del controlador.
 """
 from __future__ import annotations
 import logging
+from dataclasses import asdict
 from typing import TYPE_CHECKING, List, Any, Optional, cast
 
 from PyQt6.QtWidgets import (
@@ -272,11 +276,11 @@ class ProductIterationsWidget(QWidget):
         from ui.dialogs.product.add_iteration_dialog import AddIterationDialog
         dialog = AddIterationDialog(self.current_producto_codigo, cast(QWidget, self.view))
         if dialog.exec() == QDialog.DialogCode.Accepted:
-            data = dialog.get_data()
-            if not data.get("responsable") or not data.get("descripcion"):
+            form = dialog.get_data()
+            if not form.responsable or not form.descripcion:
                 if self.view: self.view.show_message("Error", "Responsable y descripción son obligatorios.", "warning")
                 return
-            if self.product_controller.handle_add_product_iteration(self.current_producto_codigo, data):
+            if self.product_controller.handle_add_product_iteration(self.current_producto_codigo, asdict(form)):
                 self.load_data()
 
     def on_edit_iteration_clicked(self) -> None:

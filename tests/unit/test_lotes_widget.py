@@ -5,6 +5,7 @@ from unittest.mock import MagicMock, patch, create_autospec
 from PyQt6.QtWidgets import QListWidgetItem
 from PyQt6.QtCore import Qt
 
+from core.di_container import DIContainer
 from ui.widgets.lotes_widget import DefinirLoteWidget, LotesWidget
 
 pytestmark = pytest.mark.unit
@@ -39,7 +40,7 @@ class TestDefinirLoteWidget:
             return_value=sentinel,
         ) as mock_res:
             widget.set_controller(ctrl)
-        mock_res.assert_called_once()
+        mock_res.assert_called_once_with(ctrl, DIContainer.get_instance())
         assert widget._fabricacion_service is sentinel
 
     def test_set_controller_updates_fabricacion_via_resolve(self, widget):

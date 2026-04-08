@@ -42,7 +42,7 @@ class MainView(QMainWindow, IView):
         """Inicializa todos los componentes de la interfaz."""
         self.setWindowTitle("Calculadora de Tiempos de Fabricación - v1.4.1")
         self.setGeometry(100, 100, 1400, 800)
-        self.setWindowIcon(QIcon("resources/icon.ico"))
+        self.setWindowIcon(QIcon(resource_path("resources/icon.ico")))
         
         self.stacked_widget = QStackedWidget()
 

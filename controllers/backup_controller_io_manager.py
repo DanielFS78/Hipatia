@@ -15,6 +15,7 @@ from datetime import datetime
 from typing import Any, Callable, Protocol
 
 from core.services.audit_logger import AuditLogger
+from core.paths import get_writable_app_root
 
 
 class BackupControllerIOContext(Protocol):
@@ -57,7 +58,9 @@ class BackupIOManager:
 
             try:
                 db_path = controller._get_db_path()
-                extract_path = os.path.dirname(db_path) if db_path else os.getcwd()
+                extract_path = (
+                    os.path.dirname(db_path) if db_path else str(get_writable_app_root())
+                )
                 with zipfile.ZipFile(file_path, "r") as zip_ref:
                     zip_ref.extractall(extract_path)
                     controller.logger.info(f"Archivos del ZIP extraídos en: {extract_path}")

@@ -36,7 +36,7 @@ class ProductionTaskInspector(QWidget):
         self.logger = logging.getLogger(self.__class__.__name__)
 
         self.presenter = InspectorPresenter()
-        self.current_task_id: str | None = None
+        self.current_task_id: str | int | None = None
         self.current_task_data: dict[str, Any] | None = None
         self._init_ui()
 
@@ -51,7 +51,10 @@ class ProductionTaskInspector(QWidget):
             on_machine_changed=self._on_machine_changed,
             on_assign_worker=self._on_assign_worker,
             on_unassign_worker=self._on_unassign_worker,
-            on_action_triggered=lambda action: self.actionTriggered.emit(action, self.current_task_id or ""),
+            on_action_triggered=lambda action: self.actionTriggered.emit(
+                action,
+                str(self.current_task_id) if self.current_task_id is not None else "",
+            ),
         )
 
     def _toggle_start_widgets(self) -> None:
@@ -66,8 +69,8 @@ class ProductionTaskInspector(QWidget):
 
     def _emit_change(self, key: str, value: Any) -> None:
         """Emite la señal de cambio si hay una tarea activa."""
-        if self.current_task_id:
-            self.configChanged.emit(self.current_task_id, key, value)
+        if self.current_task_id is not None:
+            self.configChanged.emit(str(self.current_task_id), key, value)
 
     def _on_dependency_changed(self) -> None:
         w = self.widgets

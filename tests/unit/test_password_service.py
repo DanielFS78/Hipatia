@@ -3,7 +3,7 @@
 Tests for PasswordService following the AAA pattern and strict testing guidelines.
 """
 import pytest
-from unittest.mock import patch, MagicMock, ANY
+from unittest.mock import patch, MagicMock
 from core.security.password_service import PasswordService
 
 @pytest.fixture
@@ -111,7 +111,6 @@ class TestPasswordServiceVerify:
         # Assert
         assert is_valid is False
         assert mock_logger_error.call_count == 1
-        mock_logger_error.assert_called_once_with(ANY)
         args = mock_logger_error.call_args[0][0]
         assert "Error verificando contraseña" in args
 

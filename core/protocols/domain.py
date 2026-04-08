@@ -12,6 +12,7 @@ from typing import Any, Dict, List, Optional, Protocol
 
 from core.dtos import (
     FabricacionDTO,
+    MaterialDTO,
     PreprocesoDTO,
     FabricacionProductoDTO,
     ProductDetailsDTO,
@@ -107,7 +108,9 @@ class IFabricacionService(Protocol):
 
 
 class IMaterialService(Protocol):
-    """Subconjunto de operaciones de materiales (vía `ProductService`)."""
+    """Subconjunto de operaciones de materiales (vía `ProductService`), incluida la lectura por producto."""
+
+    def get_materials_for_product(self, producto_codigo: str) -> List[MaterialDTO]: ...
 
     def get_all_materials_for_selection(self) -> List[Any]: ...
 

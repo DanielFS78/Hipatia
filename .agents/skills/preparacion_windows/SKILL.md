@@ -55,24 +55,25 @@ En macOS, OpenCV usa **AVFoundation**. En Windows usa **DirectShow** o **MSMF**.
 ### Objetivo
 Generar un archivo `.exe` que funcione sin Python instalado.
 
-### Pasos
+### Pasos (canónicos en el repo)
+
+En la raíz del proyecto, en un PC Windows:
+
+```bat
+build_windows.bat
+```
+
+Esto usa `hipatia.spec` (modo `onedir`), `requirements.txt` y `requirements-build.txt`. Detalle de rutas de datos y variables de entorno: `Documentacion/Despliegue_Windows.md`.
+
+Comando equivalente manual:
 
 ```bash
-# 1. En el PC Windows, instalar las dependencias
 pip install -r requirements.txt
-pip install pyinstaller
-
-# 2. Crear el spec file
-pyinstaller --name Hipatia --windowed --onedir app.py \
-    --add-data "templates;templates" \
-    --add-data "config;config" \
-    --add-data "data;data" \
-    --add-data "resources;resources" \
-    --hidden-import sqlalchemy.dialects.sqlite
-
-# 3. Probar el ejecutable generado
-dist/Hipatia/Hipatia.exe
+pip install -r requirements-build.txt
+pyinstaller hipatia.spec
 ```
+
+Salida: `dist/Hipatia/Hipatia.exe`.
 
 ### Archivos a incluir en el empaquetado
 - `templates/` — plantillas de documentos Word
@@ -82,9 +83,9 @@ dist/Hipatia/Hipatia.exe
 - `qr_codes/` — directorio para generar QR (crear vacío)
 
 ### Acciones
-- [ ] Crear un archivo `hipatia.spec` con la configuración de PyInstaller
-- [ ] Verificar que `resource_path()` funciona con PyInstaller (`sys._MEIPASS`)
-- [ ] Crear un script `build_windows.bat` con los comandos de empaquetado
+- [x] Crear un archivo `hipatia.spec` con la configuración de PyInstaller
+- [x] Verificar que `resource_path()` funciona con PyInstaller (`sys._MEIPASS`); datos de usuario junto al `.exe` vía `core.paths.get_writable_app_root`
+- [x] Crear un script `build_windows.bat` con los comandos de empaquetado
 - [ ] Probar el `.exe` generado en un PC Windows limpio (sin Python)
 - [ ] Opcional: crear un instalador con Inno Setup o NSIS para acceso directo
 
@@ -117,8 +118,8 @@ SCHEDULED_BACKUP_TIME = QTime(2, 0)  # 02:00 AM
 - [ ] UI validada en Windows 100%
 - [ ] UI validada en Windows 125%
 - [ ] UI validada en Windows 150%
-- [ ] Paths del sistema validados
+- [x] Paths de datos escritura + frozen (repo: `core/paths`, `database/config`, `app`, health, backups)
 - [ ] Cámaras validadas en Windows
-- [ ] PyInstaller `.exe` generado y probado
-- [ ] Scheduler configurado desde BD
+- [ ] PyInstaller `.exe` generado y probado en PC limpio (artefactos: `hipatia.spec`, `build_windows.bat`)
+- [x] Scheduler configurado desde BD (tarea A2 coordinador)
 - [ ] Checklist final completado

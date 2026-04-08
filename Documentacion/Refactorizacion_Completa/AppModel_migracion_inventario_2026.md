@@ -42,6 +42,10 @@ Archivos de referencia: `ui/widgets/reportes_widget.py`, `ui/widgets/reports/ord
 
 - Sin megarefactor de `AppController`: el hub (`set_controller`, señales) se mantiene; nuevas pantallas deben preferir DI según `.agents/skills/reduccion_god_objects/SKILL.md`.
 
+## Poda incremental reciente (simulación / lotes)
+
+- `get_lote_details` retirado de `AppModel`: `ui/widgets/calculate_times_widget.py` usa `app.model.system_integration.get_lote_details` si no hay `db.lote_repo`; fabricación asociada vía `db.preproceso_repo.get_fabricacion_by_id`.
+
 ## Próximos pasos (mantenimiento)
 
 - Inventariar con `rg` cada delegador restante en `app_model.py` (patrón `return self\.\w+\.`) y podar solo con consumidor cero.

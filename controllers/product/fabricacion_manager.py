@@ -155,9 +155,10 @@ class FabricacionManager:
 
             fabricacion_data = self.fabricacion_service.get_fabricacion_by_id(fabricacion_id)
             if fabricacion_data:
-                preprocesos = fabricacion_data.preprocesos or []
-                if hasattr(fabrications_page, 'display_fabricacion_form'):
-                    fabrications_page.display_fabricacion_form(fabricacion_data, preprocesos)
+                # Misma ruta que al refrescar tras editar productos: lista de productos en el formulario.
+                self._products_handler.refresh_fabrication_display(
+                    fabricacion_id, fabricacion_data
+                )
             else:
                 self.view.show_message("Error", f"No se encontraron detalles para la fabricación ID {fabricacion_id}.", "warning")
                 if hasattr(fabrications_page, 'clear_edit_area'):

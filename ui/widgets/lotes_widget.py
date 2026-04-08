@@ -37,7 +37,8 @@ class DefinirLoteWidget(QWidget):
 
         left_p = QFrame(); left_l = QVBoxLayout(left_p); left_p.setMaximumWidth(450)
         pb = QGroupBox("Añadir Productos"); pl = QVBoxLayout(pb)
-        self.product_search = QLineEdit(); self.product_search.setPlaceholderText("Buscar producto...")
+        self.product_search = QLineEdit()
+        self.product_search.setPlaceholderText("Buscar producto (todos al abrir; filtra al escribir)...")
         self.product_results = QListWidget(); self.add_product_button = QPushButton("Añadir Producto")
         
         # Conectar señal de búsqueda de productos
@@ -46,7 +47,8 @@ class DefinirLoteWidget(QWidget):
         pl.addWidget(self.product_search); pl.addWidget(self.product_results); pl.addWidget(self.add_product_button); left_l.addWidget(pb)
 
         fb = QGroupBox("Añadir Fabricaciones"); fl = QVBoxLayout(fb)
-        self.fab_search = QLineEdit(); self.fab_search.setPlaceholderText("Buscar fabricación...")
+        self.fab_search = QLineEdit()
+        self.fab_search.setPlaceholderText("Buscar fabricación (todas al abrir; filtra al escribir)...")
         self.fab_results = QListWidget(); self.add_fab_button = QPushButton("Añadir Fabricación")
         
         # Conectar señal de búsqueda de fabricaciones

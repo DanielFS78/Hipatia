@@ -8,7 +8,7 @@ conexión de señales, navegación, exportación, preprocesos y métodos auxilia
 
 from __future__ import annotations
 import pytest
-from unittest.mock import MagicMock, patch, create_autospec, ANY
+from unittest.mock import MagicMock, patch, create_autospec
 from typing import cast
 from typing import TYPE_CHECKING, Any, Dict
 
@@ -302,7 +302,11 @@ class TestExportMethods:
 
         show_message = cast(Any, controller.view.show_message)
         assert show_message.call_count == 1
-        show_message.assert_called_once_with(ANY, ANY, ANY)
+        show_message.assert_called_once_with(
+            "Sin Datos",
+            "No hay un log de auditoría para exportar.",
+            "warning",
+        )
 
     def test_on_export_audit_log_no_last_audit(self, controller: CalculationController) -> None:
         """Muestra aviso cuando no hay datos de auditoría."""
@@ -578,23 +582,29 @@ class TestAuxiliaryMethods:
         mock_calc.lote_content_table.setRowCount.assert_called_once_with(0)
 
     def test_update_calculate_page_lists_with_page(self, controller: CalculationController) -> None:
-        """Llama a _update_plan_display con la página proporcionada."""
+        """Llama a _update_plan_display y refresca el listado de plantillas de lote."""
         mock_page = MagicMock(spec=CalculateTimesWidget)
+        mock_page.lote_search_entry = MagicMock(spec=["text"])
+        mock_page.lote_search_entry.text.return_value = ""
 
         controller.update_calculate_page_lists(mock_page)
 
         assert mock_page._update_plan_display.call_count == 1
         mock_page._update_plan_display.assert_called_once_with()
+        cast(Any, controller.app).pila_controller._on_calc_lote_search_changed.assert_called_once_with("")
 
     def test_update_calculate_page_lists_no_page(self, controller: CalculationController) -> None:
         """Obtiene la página internamente y llama a _update_plan_display."""
         mock_page = MagicMock(spec=CalculateTimesWidget)
+        mock_page.lote_search_entry = MagicMock(spec=["text"])
+        mock_page.lote_search_entry.text.return_value = ""
         cast(Any, controller.view).pages = {"calculate": mock_page}
 
         controller.update_calculate_page_lists()
 
         assert mock_page._update_plan_display.call_count == 1
         mock_page._update_plan_display.assert_called_once_with()
+        cast(Any, controller.app).pila_controller._on_calc_lote_search_changed.assert_called_once_with("")
 
     def test_update_calculate_page_lists_exception(self, controller: CalculationController) -> None:
         """No propaga Exception cuando _update_plan_display falla."""

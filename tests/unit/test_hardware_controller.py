@@ -181,7 +181,10 @@ class TestHardwareController:
             assert mock_controller.db.config_repo.set_setting.call_count == 1
             mock_controller.db.config_repo.set_setting.assert_called_once_with('camera_index', '1')
             assert mock_controller.view.show_message.call_count >= 1
-            mock_controller.view.show_message.assert_called_once_with(ANY, ANY, "info")
+            sm_args = mock_controller.view.show_message.call_args[0]
+            assert sm_args[0] == "Configuración Guardada"
+            assert sm_args[2] == "info"
+            assert "TestCam" in sm_args[1]
             assert mock_controller.qr_scanner is not None
 
     def test_save_hardware_settings_invalid(self, mock_controller):
@@ -195,7 +198,9 @@ class TestHardwareController:
         assert mock_controller.db.config_repo.set_setting.call_count == 0
         mock_controller.db.config_repo.set_setting.assert_not_called()
         assert mock_controller.mock_msg_box.warning.call_count == 1
-        mock_controller.mock_msg_box.warning.assert_called_once_with(ANY, ANY, ANY)
+        w_args = mock_controller.mock_msg_box.warning.call_args[0]
+        assert w_args[1] == "Cámara No Válida"
+        assert "Error de hardware" in w_args[2]
 
     def test_test_camera_execution(self, mock_controller):
         """Verifica el flujo de prueba de cámara con preview."""
@@ -248,8 +253,14 @@ class TestHardwareController:
             mock_cap.isOpened.return_value = False
             
             mock_controller.initialize_qr_scanner()
-            
-            mock_controller.view.show_message.assert_called_once_with(ANY, ANY, "critical")
+
+            mock_controller.view.show_message.assert_called_once_with(
+                "Error de Cámara",
+                "No se pudo inicializar una cámara funcional.\n\n"
+                "Las funciones de escaneo QR no estarán disponibles.\n"
+                "Error: No se pudo crear un objeto VideoCapture válido para el índice 0",
+                "critical",
+            )
             assert mock_controller.qr_scanner is None
 
     def test_release_existing_scanner(self, mock_controller):
@@ -280,7 +291,9 @@ class TestHardwareController:
         
         mock_controller.detect_cameras()
         assert mock_controller.mock_msg_box.critical.call_count == 1
-        mock_controller.mock_msg_box.critical.assert_called_once_with(ANY, ANY, ANY)
+        c_args = mock_controller.mock_msg_box.critical.call_args[0]
+        assert c_args[1] == "Error"
+        assert "Fallo total" in c_args[2]
 
     def test_save_not_settings_widget(self, mock_controller):
         """Verifica retorno temprano si no estamos en la página de ajustes."""
@@ -332,8 +345,14 @@ class TestHardwareController:
             mock_scanner_inst.is_camera_ready = False
             
             mock_controller.initialize_qr_scanner()
-            
-            mock_controller.view.show_message.assert_called_once_with(ANY, ANY, "critical")
+
+            mock_controller.view.show_message.assert_called_once_with(
+                "Error de Cámara",
+                "No se pudo inicializar una cámara funcional.\n\n"
+                "Las funciones de escaneo QR no estarán disponibles.\n"
+                "Error: QrScanner reportó que la cámara 0 no está lista.",
+                "critical",
+            )
             assert mock_controller.qr_scanner is None
             # No se llama a release porque falló antes de abrirse o en el constructor
             # Segun el traceback, falló al asignar el scanner instancia
@@ -346,7 +365,9 @@ class TestHardwareController:
         
         mock_controller.save_hardware_settings()
         assert mock_controller.mock_msg_box.critical.call_count == 1
-        mock_controller.mock_msg_box.critical.assert_called_once_with(ANY, ANY, ANY)
+        crit_args = mock_controller.mock_msg_box.critical.call_args[0]
+        assert crit_args[1] == "Error"
+        assert "Crash" in crit_args[2]
 
     def test_camera_test_fails(self, mock_controller):
         """Verifica el flujo cuando la prueba de cámara falla."""
@@ -367,5 +388,7 @@ class TestHardwareController:
         
         mock_controller.test_camera()
         assert mock_controller.mock_msg_box.warning.call_count == 1
-        mock_controller.mock_msg_box.warning.assert_called_once_with(ANY, ANY, ANY)
+        tw_args = mock_controller.mock_msg_box.warning.call_args[0]
+        assert tw_args[1] == "Test Fallido"
+        assert "MOCK ERROR" in tw_args[2]
 

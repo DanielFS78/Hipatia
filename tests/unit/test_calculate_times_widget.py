@@ -194,7 +194,9 @@ class TestCalculateTimesWidget:
         ]
         widget._update_plan_display()
         assert widget.pila_content_table.rowCount() == 1
-        assert widget.pila_content_table.item(0, 0).text() == "Lote 1"
+        assert widget.pila_content_table.item(0, 0).text() == "1"
+        assert widget.pila_content_table.item(0, 1).text() == "Paso"
+        assert widget.pila_content_table.item(0, 2).text() == "L1"
 
     @patch('ui.widgets.calculate_times_widget.MAX_TASKS_TO_RENDER', new=1)
     @patch('ui.widgets.calculate_times_widget.QMessageBox', autospec=True)
