@@ -407,6 +407,21 @@ class ProductManager:
             dialog = ProcesosMecanicosDialog(current_procesos, cast(QWidget, self.view))
             if dialog.exec() == QDialog.DialogCode.Accepted:
                 edit_page.current_procesos_mecanicos = dialog.get_updated_procesos_mecanicos()
+                # Persistir en BD si el producto ya existe (evita perder cambios al cerrar el diálogo).
+                codigo_actual = ""
+                if hasattr(edit_page, "form_widgets"):
+                    cod_widget = edit_page.form_widgets.get("codigo")
+                    if cod_widget is not None:
+                        text_fn = getattr(cod_widget, "text", None)
+                        if callable(text_fn):
+                            try:
+                                raw = text_fn()
+                            except TypeError:
+                                raw = None
+                            if isinstance(raw, str):
+                                codigo_actual = raw.strip()
+                if codigo_actual and self.product_facade.get_product_by_code(codigo_actual):
+                    self._on_update_product(codigo_actual)
                 self.app.ui_controller.on_data_changed()
         except Exception as e:
             self.logger.error(f"Error en manage_procesos: {e}")
