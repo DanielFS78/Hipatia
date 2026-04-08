@@ -63,10 +63,29 @@ class CalculateTimesWidget(QWidget):
         self.lote_search_entry.setPlaceholderText(
             "Buscar plantilla (todas al entrar; filtra al escribir)..."
         )
-        self.lote_search_results = QListWidget(self)
-        self.lote_search_results.setMinimumHeight(140)
+        self.lote_search_results_table = QTableWidget(self)
+        self.lote_search_results_table.setColumnCount(2)
+        self.lote_search_results_table.setHorizontalHeaderLabels(["Código", "Descripción"])
+        self.lote_search_results_table.setMinimumHeight(180)
+        self.lote_search_results_table.setAlternatingRowColors(True)
+        self.lote_search_results_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
+        self.lote_search_results_table.setSelectionMode(QTableWidget.SelectionMode.SingleSelection)
+        self.lote_search_results_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+        self.lote_search_results_table.setWordWrap(False)
+        self.lote_search_results_table.setTextElideMode(Qt.TextElideMode.ElideMiddle)
+        vh_search = self.lote_search_results_table.verticalHeader()
+        if vh_search is not None:
+            vh_search.setVisible(False)
+            vh_search.setDefaultSectionSize(30)
+        hh_search = self.lote_search_results_table.horizontalHeader()
+        if hh_search is not None:
+            hh_search.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
+            hh_search.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        self.lote_search_results_table.itemSelectionChanged.connect(self._on_lote_search_selection_changed)
+        # Alias temporal para compatibilidad con código legado/tests que inspeccionan este atributo.
+        self.lote_search_results = self.lote_search_results_table
         self.add_lote_button = QPushButton("Añadir Lote Seleccionado a la Pila", self)
-        lote_layout.addWidget(self.lote_search_entry); lote_layout.addWidget(self.lote_search_results); lote_layout.addWidget(self.add_lote_button)
+        lote_layout.addWidget(self.lote_search_entry); lote_layout.addWidget(self.lote_search_results_table); lote_layout.addWidget(self.add_lote_button)
         left_layout.addWidget(lote_group)
 
         content_group = QGroupBox("2. Pila de Producción Actual", self); content_layout = QVBoxLayout(content_group)
@@ -120,6 +139,14 @@ class CalculateTimesWidget(QWidget):
         _hint.setWordWrap(True)
         _hint.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
         _pl.addWidget(_hint)
+        self._pre_sim_lote_detail = QLabel("Lote seleccionado: —", self)
+        self._pre_sim_lote_detail.setWordWrap(True)
+        self._pre_sim_lote_detail.setStyleSheet("font-size: 11pt;")
+        _pl.addWidget(self._pre_sim_lote_detail)
+        self._pre_sim_plan_summary = QLabel("Pila actual: 0 elemento(s)", self)
+        self._pre_sim_plan_summary.setWordWrap(True)
+        self._pre_sim_plan_summary.setStyleSheet("font-size: 11pt; color:#333;")
+        _pl.addWidget(self._pre_sim_plan_summary)
         _pl.addStretch()
         self._plan_results_stack.addWidget(_placeholder)
 
@@ -172,6 +199,8 @@ class CalculateTimesWidget(QWidget):
         for b in [self.save_pila_button, self.manage_bitacora_button, self.export_button, self.export_pdf_button, self.export_log_button, self.clear_button, self.go_home_button]:
             b.setEnabled(False)
         self.load_pila_button.setEnabled(True)
+        if hasattr(self, "_pre_sim_plan_summary"):
+            self._pre_sim_plan_summary.setText(f"Pila actual: {len(self.planning_session)} elemento(s)")
 
     def _plan_table_row_values(self, row_index: int, item: Any) -> tuple[str, str, str, str, str]:
         """Textos de fila: (#, tipo, detalle, unidades, fecha)."""
@@ -206,6 +235,67 @@ class CalculateTimesWidget(QWidget):
         if header is not None:
             header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch); header.setSectionResizeMode(6, QHeaderView.ResizeMode.Stretch)
         self.results_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers); self.results_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
+
+    def clear_lote_search_results(self) -> None:
+        """Limpia la tabla de resultados de búsqueda de lotes."""
+        self.lote_search_results_table.setRowCount(0)
+        self._pre_sim_lote_detail.setText("Lote seleccionado: —")
+
+    def set_lote_search_results(self, rows: list[tuple[int, str, str]]) -> None:
+        """
+        Reemplaza los resultados de búsqueda de lotes (id, código, descripción).
+        """
+        self.lote_search_results_table.setRowCount(0)
+        for lote_id, lote_codigo, lote_desc in rows:
+            r = self.lote_search_results_table.rowCount()
+            self.lote_search_results_table.insertRow(r)
+            code_item = QTableWidgetItem(lote_codigo)
+            code_item.setData(Qt.ItemDataRole.UserRole, (lote_id, lote_codigo))
+            code_item.setToolTip(lote_codigo)
+            desc_text = lote_desc or "Sin descripción"
+            desc_item = QTableWidgetItem(desc_text)
+            desc_item.setToolTip(desc_text)
+            self.lote_search_results_table.setItem(r, 0, code_item)
+            self.lote_search_results_table.setItem(r, 1, desc_item)
+        self.lote_search_results_table.resizeRowsToContents()
+        self._pre_sim_lote_detail.setText("Lote seleccionado: —")
+
+    def get_selected_lote_search_result(self) -> tuple[int, str] | None:
+        """Devuelve (id, código) del lote seleccionado en la tabla de búsqueda."""
+        sel_model = self.lote_search_results_table.selectionModel()
+        if sel_model is None:
+            return None
+        selected = sel_model.selectedRows()
+        if not selected:
+            return None
+        row = selected[0].row()
+        item = self.lote_search_results_table.item(row, 0)
+        if item is None:
+            return None
+        raw = item.data(Qt.ItemDataRole.UserRole)
+        if not isinstance(raw, tuple) or len(raw) != 2:
+            return None
+        lote_id, lote_codigo = raw
+        if not isinstance(lote_id, int) or not isinstance(lote_codigo, str):
+            return None
+        return lote_id, lote_codigo
+
+    def _on_lote_search_selection_changed(self) -> None:
+        """Actualiza el resumen pre-simulación con el lote seleccionado."""
+        sel_model = self.lote_search_results_table.selectionModel()
+        if sel_model is None:
+            self._pre_sim_lote_detail.setText("Lote seleccionado: —")
+            return
+        selected = sel_model.selectedRows()
+        if not selected:
+            self._pre_sim_lote_detail.setText("Lote seleccionado: —")
+            return
+        row = selected[0].row()
+        code_item = self.lote_search_results_table.item(row, 0)
+        desc_item = self.lote_search_results_table.item(row, 1)
+        code_txt = code_item.text() if code_item is not None else "—"
+        desc_txt = desc_item.text() if desc_item is not None else "Sin descripción"
+        self._pre_sim_lote_detail.setText(f"Lote seleccionado: {code_txt} — {desc_txt}")
 
     def show_progress(self) -> None:
         self.progress_bar.setValue(0); self.progress_bar.setVisible(True)
@@ -303,6 +393,8 @@ class CalculateTimesWidget(QWidget):
         self.pila_content_table.blockSignals(False)
         if not self.planning_session:
             self.apply_empty_plan_results_state()
+        if hasattr(self, "_pre_sim_plan_summary"):
+            self._pre_sim_plan_summary.setText(f"Pila actual: {len(self.planning_session)} elemento(s)")
 
     def display_simulation_results(self, results: list[Any], audit_log: list[Any]) -> None:
         if not results:
@@ -338,7 +430,7 @@ class CalculateTimesWidget(QWidget):
         self.planning_session = []
         self.last_pila_id = None
         self.lote_search_entry.clear()
-        self.lote_search_results.clear()
+        self.clear_lote_search_results()
         self._update_plan_display()
         self.apply_empty_plan_results_state()
 

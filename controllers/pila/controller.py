@@ -111,16 +111,21 @@ class PilaController(QObject):
         calc_page = self.app.view.pages.get("calculate")
         if not calc_page: return
         
-        selected = calc_page.lote_search_results.currentItem()
-        if not selected:
+        selected_data: tuple[int, str] | None = None
+        if hasattr(calc_page, "get_selected_lote_search_result"):
+            selected_data = calc_page.get_selected_lote_search_result()
+        else:
+            selected = calc_page.lote_search_results.currentItem()
+            if selected:
+                raw = selected.data(Qt.ItemDataRole.UserRole)
+                if isinstance(raw, tuple) and len(raw) == 2:
+                    selected_data = raw
+
+        if not selected_data:
             self.app.view.show_message("Selección Requerida", "Por favor, seleccione un lote.", "warning")
             return
-            
-        raw = selected.data(Qt.ItemDataRole.UserRole)
-        if not isinstance(raw, tuple) or len(raw) != 2:
-            self.app.view.show_message("Error", "Datos de lote inválidos en la lista.", "warning")
-            return
-        lote_id, lote_codigo = raw
+
+        lote_id, lote_codigo = selected_data
         lote_instance_data = CalculationStepDTO(
             lote_template_id=lote_id,
             lote_codigo=lote_codigo,

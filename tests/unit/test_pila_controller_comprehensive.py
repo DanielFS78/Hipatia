@@ -96,12 +96,15 @@ class TestPilaControllerComprehensive:
     # --- HELPERS ---
 
     def setup_calc_page(self, mock_app):
-        mock_calc = MagicMock(spec=['lote_search_results', 'pila_content_table', 'define_flow_button', 
+        mock_calc = MagicMock(spec=['lote_search_results', 'pila_content_table', 'define_flow_button',
                                     'execute_manual_button', 'execute_optimizer_button', 'planning_session', 
                                     '_update_plan_display', 'display_simulation_results',
                                     'last_pila_id', 'manage_bitacora_button', 'get_pila_for_calculation',
+                                    'set_lote_search_results', 'get_selected_lote_search_result',
                                     '_on_clear_simulation'])
         mock_calc.lote_search_results = MagicMock(spec=['addItem', 'currentItem', 'clear'])
+        mock_calc.set_lote_search_results = MagicMock(spec=[])
+        mock_calc.get_selected_lote_search_result = MagicMock(spec=[])
         mock_calc.pila_content_table = MagicMock(spec=['selectionModel'])
         mock_calc.selection_model = MagicMock(spec=['selectedRows'])
         mock_calc.pila_content_table.selectionModel.return_value = mock_calc.selection_model
@@ -151,22 +154,20 @@ class TestPilaControllerComprehensive:
         mock_app.db.lote_repo.search_lotes.return_value = [mock_lote]
         controller._on_calc_lote_search_changed("busqueda")
         assert mock_app.db.lote_repo.search_lotes.call_count == 1
-        assert mock_calc.lote_search_results.addItem.called
-        mock_calc.lote_search_results.addItem.assert_called()
+        assert mock_calc.set_lote_search_results.called
+        mock_calc.set_lote_search_results.assert_called_once_with([(1, "L1", "D")])
 
     def test_on_add_lote_to_pila_success(self, controller, mock_app):
         mock_calc = self.setup_calc_page(mock_app)
         mock_calc.planning_session = []
-        mock_item = MagicMock(spec=['data'])
-        mock_item.data.return_value = (1, "L1")
-        mock_calc.lote_search_results.currentItem.return_value = mock_item
+        mock_calc.get_selected_lote_search_result.return_value = (1, "L1")
         controller._on_add_lote_to_pila_clicked()
         assert len(mock_calc.planning_session) == 1
         assert mock_calc._update_plan_display.called
 
     def test_on_add_lote_to_pila_no_selection(self, controller, mock_app):
         mock_calc = self.setup_calc_page(mock_app)
-        mock_calc.lote_search_results.currentItem.return_value = None
+        mock_calc.get_selected_lote_search_result.return_value = None
         controller._on_add_lote_to_pila_clicked()
         assert mock_app.view.show_message.call_count == 1
         assert mock_app.view.show_message.called

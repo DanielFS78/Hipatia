@@ -45,9 +45,7 @@ def lote_manager(mock_view, mock_db, mock_product_service, mock_fab_service):
 
 def test_on_calc_lote_search_changed(qtbot, lote_manager, mock_view, mock_db):
     calc_page = MagicMock()
-    list_widget = QListWidget()
-    qtbot.addWidget(list_widget)
-    calc_page.lote_search_results = list_widget
+    calc_page.set_lote_search_results = MagicMock()
     mock_view.pages["calculate"] = calc_page
     
     mock_db.search_lotes.return_value = [
@@ -55,11 +53,7 @@ def test_on_calc_lote_search_changed(qtbot, lote_manager, mock_view, mock_db):
     ]
     
     lote_manager.on_calc_lote_search_changed("L01")
-    
-    assert list_widget.count() == 1
-    item0 = list_widget.item(0)
-    assert item0 is not None
-    assert "L01" in item0.text()
+    calc_page.set_lote_search_results.assert_called_once_with([(1, "L01", "Test Lote")])
 
 def test_on_lote_def_product_search_changed(qtbot, lote_manager, mock_view, mock_product_service):
     lote_page = MagicMock()

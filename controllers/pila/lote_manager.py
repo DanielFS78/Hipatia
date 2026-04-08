@@ -41,6 +41,10 @@ class LoteManager:
 
         q = (text or "").strip()
         results = self._db.search_lotes(q)
+        rows = [(lote.id, lote.codigo, lote.descripcion or "Sin descripción") for lote in results]
+        if hasattr(calc_page, "set_lote_search_results"):
+            calc_page.set_lote_search_results(rows)
+            return
         calc_page.lote_search_results.clear()
         for lote in results:
             item = QListWidgetItem(f"{lote.codigo} - {lote.descripcion or 'Sin descripción'}")
