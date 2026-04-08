@@ -77,7 +77,9 @@ class CalculateTimesWidget(QWidget):
         )
         self.pila_content_table.setAlternatingRowColors(True)
         self.pila_content_table.setMinimumHeight(160)
-        self.pila_content_table.verticalHeader().setVisible(False)
+        vh = self.pila_content_table.verticalHeader()
+        if vh is not None:
+            vh.setVisible(False)
         ph = self.pila_content_table.horizontalHeader()
         if ph is not None:
             ph.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)

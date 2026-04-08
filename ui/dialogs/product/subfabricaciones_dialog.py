@@ -35,6 +35,7 @@ from PyQt6.QtGui import (
 )
 
 from core.dtos import MachineDTO, SubfabricacionDTO
+from core.subfabricacion_rows import coerce_subfabricaciones_rows
 
 
 def _make_combo_readable(combo: QComboBox, option_labels: list[str], *, min_width_px: int) -> None:
@@ -52,64 +53,6 @@ def _make_combo_readable(combo: QComboBox, option_labels: list[str], *, min_widt
     if view is not None:
         view.setMinimumWidth(combo.minimumWidth())
         view.setTextElideMode(Qt.TextElideMode.ElideNone)
-
-
-def _coerce_subfabricaciones_rows(rows: Sequence[Any] | None) -> list[SubfabricacionDTO]:
-    """
-    El widget de productos guarda subfabricaciones como dict; el diálogo opera con DTOs.
-    Normaliza cualquier fila reconocible antes de pintar la tabla.
-    """
-    if not rows:
-        return []
-    out: list[SubfabricacionDTO] = []
-    for row in rows:
-        if isinstance(row, SubfabricacionDTO):
-            out.append(row)
-            continue
-        if isinstance(row, dict):
-            try:
-                tiempo = float(row.get("tiempo") or 0)
-            except (TypeError, ValueError):
-                tiempo = 0.0
-            try:
-                tipo = int(row.get("tipo_trabajador") or 1)
-            except (TypeError, ValueError):
-                tipo = 1
-            raw_id = row.get("id")
-            try:
-                sid = int(raw_id) if raw_id is not None else 0
-            except (TypeError, ValueError):
-                sid = 0
-            mid_raw = row.get("maquina_id")
-            if mid_raw is None or mid_raw == "":
-                maquina_id: int | None = None
-            else:
-                try:
-                    maquina_id = int(mid_raw)
-                except (TypeError, ValueError):
-                    maquina_id = None
-            out.append(
-                SubfabricacionDTO(
-                    id=sid,
-                    producto_codigo=str(row.get("producto_codigo") or ""),
-                    descripcion=str(row.get("descripcion") or ""),
-                    tiempo=tiempo,
-                    tipo_trabajador=tipo,
-                    maquina_id=maquina_id,
-                )
-            )
-            continue
-        out.append(
-            SubfabricacionDTO(
-                id=int(getattr(row, "id", 0) or 0),
-                producto_codigo=str(getattr(row, "producto_codigo", "") or ""),
-                descripcion=str(getattr(row, "descripcion", "") or ""),
-                tiempo=float(getattr(row, "tiempo", 0.0) or 0.0),
-                tipo_trabajador=int(getattr(row, "tipo_trabajador", 1) or 1),
-                maquina_id=getattr(row, "maquina_id", None),
-            )
-        )
-    return out
 
 
 # --- Split Dialogs Imports ---
@@ -130,7 +73,7 @@ class SubfabricacionesDialog(QDialog):
         self.setWindowTitle("Gestionar Sub-fabricaciones")
         self.setMinimumSize(720, 520)
 
-        self.subfabricaciones: list[SubfabricacionDTO] = _coerce_subfabricaciones_rows(
+        self.subfabricaciones: list[SubfabricacionDTO] = coerce_subfabricaciones_rows(
             list(subfabricaciones_actuales) if subfabricaciones_actuales is not None else None
         )
         self._selected_row = -1

@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from unittest.mock import MagicMock, create_autospec
+from unittest.mock import MagicMock, create_autospec, patch
 
 import pytest
 
@@ -62,7 +62,6 @@ def test_get_data_for_calculation_from_session_accepts_calculation_step_dto() ->
 
     svc = PilaService(db)
     out_dto = _minimal_product_dto()
-    svc.get_data_for_calculation = MagicMock(return_value=[out_dto])
 
     step = CalculationStepDTO(
         lote_template_id=42,
@@ -71,10 +70,11 @@ def test_get_data_for_calculation_from_session_accepts_calculation_step_dto() ->
         unidades=3,
         deadline=None,
     )
-    result = svc.get_data_for_calculation_from_session([step])
+    with patch.object(svc, "get_data_for_calculation", return_value=[out_dto]) as mock_calc:
+        result = svc.get_data_for_calculation_from_session([step])
 
     db.lote_repo.get_lote_details.assert_called_once_with(42)
-    svc.get_data_for_calculation.assert_called_once_with("P1")
+    mock_calc.assert_called_once_with("P1")
     assert len(result) == 1
     assert result[0].units_for_this_instance == 3
     assert result[0].fabricacion_id == "L-X"
