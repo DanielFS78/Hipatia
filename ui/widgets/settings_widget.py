@@ -117,6 +117,17 @@ class SettingsWidget(QWidget):
         backup_layout = QFormLayout(backup_group)
         self.backup_time = QTimeEdit()
         backup_layout.addRow("Hora del Backup Automático:", self.backup_time)
+        self.btn_export_db = QPushButton("Exportar base de datos…")
+        self.btn_export_db.setToolTip(
+            "Guarda la base de datos actual en un archivo ZIP. Para sincronizar en otro sitio, "
+            "extrae el .db del ZIP o cópialo donde quieras comparar."
+        )
+        backup_layout.addRow("Copia manual:", self.btn_export_db)
+        self.btn_sync_db = QPushButton("Sincronizar BD manualmente")
+        self.btn_sync_db.setToolTip(
+            "Compara la base de datos actual con otra copia SQLite y aplica los cambios seleccionados."
+        )
+        backup_layout.addRow("Sincronización:", self.btn_sync_db)
         layout.addWidget(backup_group)
 
         # Botón Guardar Todo
@@ -135,6 +146,8 @@ class SettingsWidget(QWidget):
         self.btn_add_holiday.clicked.connect(self.on_add_holiday_clicked)
         self.btn_remove_holiday.clicked.connect(self.on_remove_holiday_clicked)
         self.btn_save_all.clicked.connect(self.on_save_all_clicked)
+        self.btn_export_db.clicked.connect(self.export_signal.emit)
+        self.btn_sync_db.clicked.connect(self.sync_signal.emit)
         self.breaks_list.itemSelectionChanged.connect(self._update_break_buttons_state)
 
     # =========================================================================

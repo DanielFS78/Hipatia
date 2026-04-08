@@ -162,13 +162,15 @@ class ProductsWidget(QWidget):
             
         self.form_widgets['donde'] = QTextEdit(data.donde if not isinstance(data, str) else ""); self.form_widgets['donde'].setFixedHeight(80)
         
-        # El switch debe estar marcado si hay subfabricaciones o si el DTO lo dice
+        # Switch: DTO, filas de subfabricación cargadas desde BD, o borrador en memoria (producto nuevo).
         has_subs = False
         if not isinstance(data, str):
             has_subs = bool(data.tiene_subfabricaciones)
-        elif self.current_subfabricaciones:
+        if sub_data and len(sub_data) > 0:
             has_subs = True
-            
+        elif isinstance(data, str) and self.current_subfabricaciones:
+            has_subs = True
+
         self.form_widgets['sub_switch'] = QCheckBox("¿Tiene subfabricaciones?"); self.form_widgets['sub_switch'].setChecked(has_subs)
 
         # Campos adicionales para productos sin subfabricaciones (usados al crear nuevo)

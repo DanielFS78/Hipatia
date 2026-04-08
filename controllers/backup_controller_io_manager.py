@@ -10,12 +10,73 @@ from __future__ import annotations
 
 import logging
 import os
+import shutil
+import tarfile
+import tempfile
 import zipfile
 from datetime import datetime
+from pathlib import Path
 from typing import Any, Callable, Protocol
 
-from core.services.audit_logger import AuditLogger
+from core.dtos import DatabaseComparisonDTO
 from core.paths import get_writable_app_root
+from core.services.audit_logger import AuditLogger
+
+
+def _comparison_has_differences(comparison: DatabaseComparisonDTO) -> bool:
+    """True si la comparación incluye al menos un registro distinto."""
+    return any(len(td.differences) > 0 for td in comparison.tables)
+
+
+def _find_sqlite_under(root: Path) -> Path | None:
+    """Busca un .db bajo root; prioriza montaje.db como en exportaciones típicas."""
+    dbs = sorted(root.rglob("*.db"))
+    if not dbs:
+        return None
+    for p in dbs:
+        if p.name.lower() == "montaje.db":
+            return p
+    return dbs[0]
+
+
+def _prepare_foreign_sqlite_path(chosen_path: str, logger: logging.Logger) -> tuple[str | None, str | None]:
+    """
+    Resuelve la ruta al fichero SQLite.
+
+    Returns:
+        (ruta_al_sqlite, directorio_temporal_a_borrar_o_None).
+    """
+    lower = chosen_path.lower()
+    if lower.endswith((".db", ".sqlite", ".sqlite3")):
+        if os.path.isfile(chosen_path):
+            return chosen_path, None
+        logger.warning("No existe el fichero de base de datos: %s", chosen_path)
+        return None, None
+
+    if not (lower.endswith(".zip") or lower.endswith(".tar.gz") or lower.endswith(".tgz")):
+        logger.warning("Formato no soportado para sincronización: %s", chosen_path)
+        return None, None
+
+    tmp = tempfile.mkdtemp(prefix="hipatia_sync_")
+    try:
+        if lower.endswith(".zip"):
+            with zipfile.ZipFile(chosen_path, "r") as zf:
+                zf.extractall(tmp)
+        else:
+            with tarfile.open(chosen_path, "r:*") as tf:
+                tf.extractall(tmp)
+    except (zipfile.BadZipFile, OSError, tarfile.TarError) as e:
+        logger.warning("Archivo comprimido inválido o ilegible: %s", e)
+        shutil.rmtree(tmp, ignore_errors=True)
+        return None, None
+
+    found = _find_sqlite_under(Path(tmp))
+    if not found:
+        logger.warning("No se halló ningún .db dentro del archivo: %s", chosen_path)
+        shutil.rmtree(tmp, ignore_errors=True)
+        return None, None
+
+    return str(found), tmp
 
 
 class BackupControllerIOContext(Protocol):
@@ -147,40 +208,63 @@ class BackupIOManager:
         controller = self.controller
 
         controller.logger.info("Iniciando proceso de sincronización de bases de datos.")
-        foreign_db_path, _ = backup_controller_module.QFileDialog.getOpenFileName(
-            controller.view, "Seleccionar Base de Datos a Sincronizar", "", "Archivos de Base de Datos (*.db)"
+        chosen_path, _ = backup_controller_module.QFileDialog.getOpenFileName(
+            controller.view,
+            "Seleccionar Base de Datos a Sincronizar",
+            "",
+            "Base de datos y copias (*.db *.sqlite *.zip *.tar.gz);;SQLite (*.db *.sqlite);;ZIP (*.zip);;TAR.GZ (*.tar.gz)",
         )
-        if not foreign_db_path:
-            return
-        differences = controller.db.compare_with_db(foreign_db_path)
-        if not any(differences.values()):
-            controller.view.show_message("Sincronización", "No se encontraron diferencias entre las bases de datos.", "info")
+        if not chosen_path:
             return
 
-        from controllers.ui_class_loader import ui_class
-
-        SyncDialog = ui_class("ui.dialogs", "SyncDialog")
-
-        dialog = SyncDialog(differences, controller.view)
-        if dialog.exec() == backup_controller_module.QDialog.DialogCode.Accepted:
-            selected_changes = dialog.get_selected_changes()
-            if not selected_changes:
-                controller.view.show_message("Sincronización", "No se seleccionó ningún cambio para importar.", "warning")
+        source_label = os.path.basename(chosen_path)
+        temp_dir: str | None = None
+        try:
+            foreign_db_path, temp_dir = _prepare_foreign_sqlite_path(chosen_path, controller.logger)
+            if not foreign_db_path:
+                controller.view.show_message(
+                    "Sincronización",
+                    "No se pudo usar el archivo seleccionado. Elija un .db válido o una copia ZIP/TAR.GZ "
+                    "que contenga la base de datos (por ejemplo la exportada desde Configuración).",
+                    "warning",
+                )
                 return
-            count = controller.db.apply_sync_changes(selected_changes)
-            controller.view.show_message(
-                "Sincronización Completa", f"Se han importado/actualizado {count} registros.", "info"
-            )
 
-            if controller.audit_logger:
-                controller.audit_logger.log(
-                    username="User",
-                    action="SYNC_DB",
-                    description=(
-                        f"Sincronización parcial: {count} registros importados desde "
-                        f"{os.path.basename(foreign_db_path)}"
-                    ),
+            differences = controller.db.compare_with_db(foreign_db_path)
+            if not _comparison_has_differences(differences):
+                controller.view.show_message(
+                    "Sincronización", "No se encontraron diferencias entre las bases de datos.", "info"
+                )
+                return
+
+            from controllers.ui_class_loader import ui_class
+
+            SyncDialog = ui_class("ui.dialogs", "SyncDialog")
+
+            dialog = SyncDialog(differences, controller.view)
+            if dialog.exec() == backup_controller_module.QDialog.DialogCode.Accepted:
+                selected_changes = dialog.get_selected_changes()
+                if not selected_changes.tables:
+                    controller.view.show_message(
+                        "Sincronización", "No se seleccionó ningún cambio para importar.", "warning"
+                    )
+                    return
+                count = controller.db.apply_sync_changes(selected_changes)
+                controller.view.show_message(
+                    "Sincronización Completa", f"Se han importado/actualizado {count} registros.", "info"
                 )
 
-            if on_success_callback:
-                on_success_callback()
+                if controller.audit_logger:
+                    controller.audit_logger.log(
+                        username="User",
+                        action="SYNC_DB",
+                        description=(
+                            f"Sincronización parcial: {count} registros importados desde {source_label}"
+                        ),
+                    )
+
+                if on_success_callback:
+                    on_success_callback()
+        finally:
+            if temp_dir:
+                shutil.rmtree(temp_dir, ignore_errors=True)

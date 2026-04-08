@@ -206,3 +206,82 @@ class TestSyncService:
             comparison = sync_service.compare_databases(foreign_path)
             spy_compare.assert_called_once_with(foreign_path)
         assert isinstance(comparison, DatabaseComparisonDTO)
+
+    def test_compare_applies_subfabricaciones_procesos_materiales_y_bom(self, tmp_path):
+        """La copia extranjera con BOM completo debe aparecer en la comparación y aplicarse en local."""
+        from database.models import Material, ProcesoMecanico, Subfabricacion
+
+        local_path = tmp_path / "local_bom.db"
+        foreign_path = tmp_path / "foreign_bom.db"
+
+        def seed_db(path: object, *, with_children: bool) -> None:
+            engine = create_engine(f"sqlite:///{path}")
+            Base.metadata.create_all(engine)
+            Session = sessionmaker(bind=engine)
+            session = Session()
+            session.add(
+                Producto(
+                    codigo="BOM-1",
+                    descripcion="Prod",
+                    departamento="mec",
+                    tipo_trabajador=1,
+                    tiene_subfabricaciones=with_children,
+                )
+            )
+            if with_children:
+                mat = Material(codigo_componente="MAT-A", descripcion_componente="Pieza A")
+                session.add(mat)
+                session.flush()
+                prod = session.query(Producto).filter_by(codigo="BOM-1").one()
+                prod.materiales.append(mat)
+                session.add(
+                    Subfabricacion(
+                        producto_codigo="BOM-1",
+                        descripcion="Sub1",
+                        tiempo=1.0,
+                        tipo_trabajador=1,
+                    )
+                )
+                session.add(
+                    ProcesoMecanico(
+                        producto_codigo="BOM-1",
+                        nombre="Fresado",
+                        descripcion="Operación",
+                        tiempo=2.0,
+                        tipo_trabajador=1,
+                    )
+                )
+            session.commit()
+            session.close()
+            engine.dispose()
+
+        seed_db(local_path, with_children=False)
+        seed_db(foreign_path, with_children=True)
+
+        local_engine = create_engine(f"sqlite:///{local_path}")
+        local_session_factory = sessionmaker(bind=local_engine)
+
+        from core.sync_service import SyncService
+
+        sync_service = SyncService(local_session_factory)
+        comparison = sync_service.compare_databases(str(foreign_path))
+        names = {t.table_name for t in comparison.tables}
+        assert "subfabricaciones" in names
+        assert "procesos_mecanicos" in names
+        assert "materiales" in names
+        assert "producto_material_link" in names
+
+        applied = sync_service.apply_changes(comparison)
+        assert applied >= 4
+
+        verify = local_session_factory()
+        try:
+            assert verify.query(Subfabricacion).filter_by(producto_codigo="BOM-1").count() == 1
+            assert verify.query(ProcesoMecanico).filter_by(producto_codigo="BOM-1").count() == 1
+            assert verify.query(Material).filter_by(codigo_componente="MAT-A").count() == 1
+            prod = verify.query(Producto).filter_by(codigo="BOM-1").one()
+            assert len(prod.materiales) == 1
+            assert prod.materiales[0].codigo_componente == "MAT-A"
+        finally:
+            verify.close()
+            local_engine.dispose()

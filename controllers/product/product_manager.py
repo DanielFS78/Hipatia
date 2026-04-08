@@ -12,6 +12,7 @@ from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtWidgets import QDialog, QWidget, QMessageBox, QFileDialog
 from core.dtos import ProductDetailsDTO
 from core.import_manager.adapters.a3rp_excel_adapter import A3RPExcelAdapter
+from core.import_manager.dto import BOMImportRole, BOMNodeDTO
 from core.import_manager.services.bom_import_service import BOMImportService
 from core.security.access_control import require_permission
 from core.security.security_service import Permission
@@ -202,6 +203,47 @@ class ProductManager:
             # Al crear uno nuevo, empezamos con lista vacía de subfabricaciones y procesos
             products_page.display_product_form(text, [], is_new=True)
 
+    @staticmethod
+    def _final_product_code_from_tree(root: BOMNodeDTO) -> Optional[str]:
+        """Código del nodo marcado como producto final (recorrido tolerante a ciclos)."""
+        visited: set[int] = set()
+        found: Optional[str] = None
+
+        def walk(n: BOMNodeDTO) -> None:
+            nonlocal found
+            nid = id(n)
+            if nid in visited:
+                return
+            visited.add(nid)
+            if (
+                n.import_selected
+                and n.import_role == BOMImportRole.FINAL_PRODUCT
+                and n.codigo_componente
+            ):
+                found = n.codigo_componente
+            for h in n.hijos:
+                walk(h)
+
+        walk(root)
+        return found
+
+    def _select_product_in_list_and_reload(self, product_code: str) -> None:
+        """Selecciona el producto en la lista de resultados y recarga la ficha derecha."""
+        products_page = self.view.get_products_tab()
+        if products_page is None or not product_code:
+            return
+        lst = products_page.results_list
+        if lst is None:
+            return
+        for i in range(lst.count()):
+            it = lst.item(i)
+            if it is None:
+                continue
+            if it.data(Qt.ItemDataRole.UserRole) == product_code:
+                lst.setCurrentItem(it)
+                self._on_product_result_selected(it)
+                break
+
     def _on_import_bom(self) -> None:
         """
         Inicia el flujo de importación interactiva de archivos A3RP.
@@ -230,17 +272,29 @@ class ProductManager:
                 stats = self.bom_service.import_bom_tree(supervised_tree)
                 
                 # 4. Feedback
+                extra = ""
+                if stats.get("subfabricaciones_vinculadas"):
+                    extra += f"\n- Subfabricaciones (en producto final): {stats['subfabricaciones_vinculadas']}"
+                if stats.get("procesos_mecanicos"):
+                    extra += f"\n- Procesos mecánicos nuevos: {stats['procesos_mecanicos']}"
+                if stats.get("componentes"):
+                    extra += f"\n- Componentes vinculados: {stats['componentes']}"
+                # Recargar listado y, si hubo éxito, volver a abrir la ficha del producto final
+                # (subfabricaciones, procesos y componentes recién importados).
+                self._on_product_search_changed("")
                 QMessageBox.information(
                     cast(QWidget, self.view), "Importación Completada",
                     f"Se han procesado los datos correctamente:\n"
                     f"- Nuevos productos: {stats['creados']}\n"
                     f"- Actualizados: {stats['actualizados']}\n"
                     f"- Errores: {stats['errores']}"
+                    f"{extra}"
                 )
-                
-                # Recargar la lista de productos
-                self._on_product_search_changed("")
-                
+                if stats.get("errores", 0) == 0:
+                    final_code = self._final_product_code_from_tree(supervised_tree)
+                    if final_code:
+                        self._select_product_in_list_and_reload(final_code)
+
         except Exception as e:
             QMessageBox.critical(cast(QWidget, self.view), "Error en Importación", f"No se pudo importar la estructura:\n{str(e)}")
             self.logger.error(f"Fallo en importación BOM: {e}", exc_info=True)

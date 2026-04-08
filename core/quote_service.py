@@ -15,6 +15,16 @@ from typing import List, Dict, Optional, Any
 from core.dtos import QuoteDTO, AuthorInfoDTO
 from core.utils.helpers import resource_path
 
+# Mismo núcleo que `scripts/generate_quotes_db.py` (BACKUP_QUOTES) si falta el JSON en disco.
+_FALLBACK_QUOTES: list[dict[str, str]] = [
+    {"quote": "La vida es aquello que te va sucediendo mientras te empeñas en hacer otros planes.", "author": "John Lennon"},
+    {"quote": "El único modo de hacer un gran trabajo es amar lo que haces.", "author": "Steve Jobs"},
+    {"quote": "No cuentes los días, haz que los días cuenten.", "author": "Muhammad Ali"},
+    {"quote": "La inteligencia es la habilidad de adaptarse al cambio.", "author": "Stephen Hawking"},
+    {"quote": "La creatividad es la inteligencia divirtiéndose.", "author": "Albert Einstein"},
+]
+
+
 class QuoteService:
     """
     Servicio para mostrar frases célebres y enriquecerlas con datos de Wikipedia.
@@ -35,19 +45,32 @@ class QuoteService:
         self.author_cache: Dict[str, AuthorInfoDTO] = {}
 
     def _load_quotes(self) -> None:
-        """Carga las frases del JSON local."""
+        """Carga las frases del JSON local (`resources/quotes.json`); si no existe, usa frases integradas."""
         try:
             if not os.path.exists(self.resource_path):
-                self.logger.error(f"Archivo de frases no encontrado: {self.resource_path}")
+                self.logger.info(
+                    "Archivo de frases no encontrado en %s; usando frases integradas. "
+                    "Para ampliar la colección, ejecute: python3 scripts/generate_quotes_db.py",
+                    self.resource_path,
+                )
+                self.quotes = [
+                    QuoteDTO(quote=q["quote"], author=q["author"]) for q in _FALLBACK_QUOTES
+                ]
                 return
 
             with open(self.resource_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
-                self.quotes = [QuoteDTO(quote=q["quote"], author=q["author"]) for q in data]
-            
-            self.logger.info(f"Cargadas {len(self.quotes)} frases célebres.")
+            if not isinstance(data, list):
+                raise ValueError("El JSON de frases debe ser una lista de objetos {quote, author}.")
+            self.quotes = [QuoteDTO(quote=q["quote"], author=q["author"]) for q in data]
+
+            self.logger.info("Cargadas %s frases célebres desde %s.", len(self.quotes), self.resource_path)
         except Exception as e:
-            self.logger.error(f"Error cargando frases: {e}")
+            self.logger.error("Error cargando frases: %s", e)
+            self.quotes = [
+                QuoteDTO(quote=q["quote"], author=q["author"]) for q in _FALLBACK_QUOTES
+            ]
+            self.logger.info("Se usarán %s frases integradas como respaldo.", len(self.quotes))
 
     def get_random_quote(self) -> QuoteDTO:
         """

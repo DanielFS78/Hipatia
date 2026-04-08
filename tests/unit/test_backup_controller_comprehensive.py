@@ -23,9 +23,26 @@ from PyQt6.QtWidgets import QDialog
 
 # Source module imports
 from controllers.backup_controller import BackupController
+from core.dtos import (
+    DatabaseComparisonDTO,
+    SyncRecordDTO,
+    SyncRecordPayloadDTO,
+    SyncTableDifferencesDTO,
+)
 from core.services.backup_service import BackupService
 from core.services.audit_logger import AuditLogger
 from ui.main_window import MainView
+
+
+def _sync_comparison_empty() -> DatabaseComparisonDTO:
+    return DatabaseComparisonDTO(tables=[])
+
+
+def _sync_comparison_with_lotes_row() -> DatabaseComparisonDTO:
+    rec = SyncRecordDTO(action="new", data=SyncRecordPayloadDTO(fields={"id": 1}))
+    return DatabaseComparisonDTO(
+        tables=[SyncTableDifferencesDTO(table_name="lotes", differences=[rec])]
+    )
 
 # ===========================================================================
 # HELPERS / CONSTANTES DE PARCHE
@@ -42,7 +59,7 @@ class DummyDB:
         self.db_url = "sqlite:///ruta/falsa/base.db"
         self.db_path = ""
         self.close = MagicMock(spec=[])
-        self.compare_with_db = MagicMock(spec=[], return_value={})
+        self.compare_with_db = MagicMock(spec=[], return_value=_sync_comparison_empty())
         self.apply_sync_changes = MagicMock(spec=[], return_value=0)
 
 @pytest.fixture
@@ -524,20 +541,43 @@ class TestBackupControllerSyncDatabases:
             controller.on_sync_databases()
             controller.db.compare_with_db.assert_not_called()
 
-    def test_sync_sin_diferencias(self, controller):
-        controller.db.compare_with_db.return_value = {"lotes": [], "trabajadores": []}
-        
-        with patch(f"{_MODULE}.QFileDialog.getOpenFileName", return_value=("/other.db", "DB")):
+    def test_sync_sin_diferencias(self, controller, tmp_path):
+        foreign = tmp_path / "other.db"
+        foreign.write_bytes(b"\x00")
+
+        controller.db.compare_with_db.return_value = _sync_comparison_empty()
+
+        with patch(f"{_MODULE}.QFileDialog.getOpenFileName", return_value=(str(foreign), "DB")):
             controller.on_sync_databases()
-            
+
             controller.view.show_message.assert_called_once_with(
                 "Sincronización", "No se encontraron diferencias entre las bases de datos.", "info"
             )
 
-    def test_sync_cancela_dialogo_sincronizacion(self, controller):
-        controller.db.compare_with_db.return_value = {"lotes": [{"id": 1}]}
-        
-        with patch(f"{_MODULE}.QFileDialog.getOpenFileName", return_value=("/other.db", "DB")), \
+    def test_sync_desde_zip_extrae_montaje_db(self, controller, tmp_path):
+        """La copia exportada en ZIP se puede elegir directamente; se extrae a temporal y se compara."""
+        inner = tmp_path / "montaje.db"
+        inner.write_bytes(b"SQLite placeholder")
+        zip_path = tmp_path / "backup.zip"
+        with zipfile.ZipFile(zip_path, "w") as zf:
+            zf.write(inner, "montaje.db")
+
+        controller.db.compare_with_db.return_value = _sync_comparison_empty()
+
+        with patch(f"{_MODULE}.QFileDialog.getOpenFileName", return_value=(str(zip_path), "")):
+            controller.on_sync_databases()
+
+        used = controller.db.compare_with_db.call_args[0][0]
+        assert str(used).endswith("montaje.db")
+        controller.db.compare_with_db.assert_called_once_with(used)
+
+    def test_sync_cancela_dialogo_sincronizacion(self, controller, tmp_path):
+        foreign = tmp_path / "other.db"
+        foreign.write_bytes(b"\x00")
+
+        controller.db.compare_with_db.return_value = _sync_comparison_with_lotes_row()
+
+        with patch(f"{_MODULE}.QFileDialog.getOpenFileName", return_value=(str(foreign), "DB")), \
              patch("ui.dialogs.SyncDialog") as MockDialog:
              
             mock_dialog_inst = MockDialog.return_value
@@ -548,45 +588,50 @@ class TestBackupControllerSyncDatabases:
             # No aplica cambios ni llama mensajes finales
             controller.db.apply_sync_changes.assert_not_called()
 
-    def test_sync_sin_selecciones_en_dialogo(self, controller):
-        controller.db.compare_with_db.return_value = {"lotes": [{"id": 1}]}
-        
-        with patch(f"{_MODULE}.QFileDialog.getOpenFileName", return_value=("/other.db", "DB")), \
+    def test_sync_sin_selecciones_en_dialogo(self, controller, tmp_path):
+        foreign = tmp_path / "other.db"
+        foreign.write_bytes(b"\x00")
+
+        controller.db.compare_with_db.return_value = _sync_comparison_with_lotes_row()
+
+        with patch(f"{_MODULE}.QFileDialog.getOpenFileName", return_value=(str(foreign), "DB")), \
              patch("ui.dialogs.SyncDialog") as MockDialog:
-             
+
             mock_dialog_inst = MockDialog.return_value
             mock_dialog_inst.exec.return_value = QDialog.DialogCode.Accepted
-            mock_dialog_inst.get_selected_changes.return_value = {} # Nada seleccionado
-            
+            mock_dialog_inst.get_selected_changes.return_value = _sync_comparison_empty()
+
             controller.on_sync_databases()
-            
+
             controller.view.show_message.assert_called_with(
                 "Sincronización", "No se seleccionó ningún cambio para importar.", "warning"
             )
 
-    def test_sync_exito_completo(self, controller):
+    def test_sync_exito_completo(self, controller, tmp_path):
         """Selecciona fichero, diferencias aceptadas, dialog accepted, y todo sincronizado."""
-        diferencias_dto = {"lotes": [{"id": 1}]}
-        cambios_selec_dto = {"lotes": [{"id": 1}]} # Structura de diccionario actuando como DTO simple
-        
+        foreign = tmp_path / "other.db"
+        foreign.write_bytes(b"\x00")
+
+        diferencias_dto = _sync_comparison_with_lotes_row()
+        cambios_selec_dto = _sync_comparison_with_lotes_row()
+
         controller.db.compare_with_db.return_value = diferencias_dto
-        controller.db.apply_sync_changes.return_value = 1 # 1 registro aplicado
-        
+        controller.db.apply_sync_changes.return_value = 1  # 1 registro aplicado
+
         mock_callback = MagicMock(spec=[])
-        
-        with patch(f"{_MODULE}.QFileDialog.getOpenFileName", return_value=("/other.db", "DB")), \
+
+        with patch(f"{_MODULE}.QFileDialog.getOpenFileName", return_value=(str(foreign), "DB")), \
              patch("ui.dialogs.SyncDialog") as MockDialog:
-             
+
             mock_dialog_inst = MockDialog.return_value
             mock_dialog_inst.exec.return_value = QDialog.DialogCode.Accepted
             mock_dialog_inst.get_selected_changes.return_value = cambios_selec_dto
-            
+
             controller.on_sync_databases(on_success_callback=mock_callback)
-            
-            # Asegurar uso de los "DTOs" en forma dict en este caso
-            assert isinstance(cambios_selec_dto, dict)
-            assert isinstance(diferencias_dto, dict)
-            
+
+            assert isinstance(cambios_selec_dto, DatabaseComparisonDTO)
+            assert isinstance(diferencias_dto, DatabaseComparisonDTO)
+
             controller.db.apply_sync_changes.assert_called_once_with(cambios_selec_dto)
             
             controller.view.show_message.assert_called_with(
