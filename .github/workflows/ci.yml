@@ -22,7 +22,7 @@ jobs:
         python-version: ["3.11", "3.12"]
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: System libs for PyQt6 (headless Linux)
         run: |
@@ -49,7 +49,7 @@ jobs:
 
       - name: Upload UI DTO boundary report on failure
         if: failure()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: ui-dto-boundary-report-py${{ matrix.python-version }}
           path: Documentacion/Refactorizacion_Completa/Fase_12C/ui_dto_boundary_report.json
@@ -59,7 +59,7 @@ jobs:
   mypy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Set up Python 3.12
         uses: actions/setup-python@v6
@@ -81,7 +81,7 @@ jobs:
   coverage-report:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: System libs for PyQt6 (headless Linux)
         run: |
@@ -104,7 +104,7 @@ jobs:
           python -m pytest tests --cov=. --cov-report=json --cov-fail-under=0 -q --tb=no --timeout=30
 
       - name: Upload coverage.json
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: coverage-json
           path: coverage.json
