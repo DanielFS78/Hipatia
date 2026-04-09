@@ -38,6 +38,7 @@ gestión de máquinas y trabajadores, y generación de informes. Desarrollado en
 
 | Recurso | Descripción |
 |---------|-------------|
+| `Documentacion/MAPA_NAVEGACION_CODIGO.md` | **Primera lectura** para orientarse en capas, carpetas (vivo vs histórico) y flujos sin abrir la doc masiva |
 | `PLAN_ACCION_TECNICO.md` | Estado actual y roadmap de fases |
 | `.agents/skills/plan_mejora_calidad/SKILL.md` | Plan operativo detallado (fuente de verdad) |
 | `.agents/skills/backlog_tests/SKILL.md` | Backlog priorizado de archivos a mejorar |
@@ -100,7 +101,8 @@ python scripts/check_documentation_omissions.py
 
 ## Despliegue (Windows objetivo de producción)
 
-- Empaquetado ejecutable: `python build_executable.py`.
+- **EXE en GitHub Actions (automático):** cada push a la rama `main` ejecuta [Build Windows EXE](https://github.com/DanielFS78/Hipatia/actions/workflows/build-windows.yml) y publica el artefacto **Hipatia-windows-onedir** (carpeta `dist/Hipatia` con `Hipatia.exe`). También puedes lanzarlo a mano con «Run workflow».
+- Empaquetado local en Windows: `build_windows.bat` (o `pyinstaller hipatia.spec`).
 - Validación de plataforma: seguir checklist en `.agents/skills/preparacion_windows/SKILL.md`.
 - Recursos críticos en despliegue:
   - Base de datos/configuración en `config/` y `database/`.
