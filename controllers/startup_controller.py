@@ -6,17 +6,16 @@ Descripción: Orquestador del arranque de la aplicación. Se encarga de instanci
 """
 from __future__ import annotations
 import logging
-from typing import TYPE_CHECKING, Any, Dict, Optional, Callable, cast
+from typing import TYPE_CHECKING, Any, Dict, Optional, cast
 from PyQt6.QtCore import QObject, QThreadPool
 
 if TYPE_CHECKING:
     from controllers.app_controller import AppController
     from core.app_model import AppModel
     from core.schedule_config import ScheduleConfig
-    from database.database_manager import DatabaseManager
-    from ui.main_view import MainView
 
 from core.di_container import DIContainer, ServiceLifecycle
+from database.database_manager import DatabaseManager
 
 # Domain services & facades (singletons viven en AppModel; se exponen en DI)
 from core.services.product_service import ProductService
@@ -39,6 +38,7 @@ from core.security.access_control import set_security_service
 from core.quote_service import QuoteService
 from database.repositories import LabelCounterRepository
 from core.interfaces.view_interface import IView
+from controllers.product.protocols import IFabricacionControllerDelegate
 
 # Controllers
 from controllers.backup_controller import BackupController
@@ -113,7 +113,7 @@ class StartupController:
         # Registrar servicios CORE en el contenedor (Singletons por naturaleza)
         self.container.register('AppModel', self.model, lifecycle=ServiceLifecycle.SINGLETON) 
         self.container.register(type(self.model), self.model, lifecycle=ServiceLifecycle.SINGLETON)
-        self.container.register(type(self.model.db), self.model.db, lifecycle=ServiceLifecycle.SINGLETON)
+        self.container.register(DatabaseManager, self.model.db, lifecycle=ServiceLifecycle.SINGLETON)
         self.container.register(type(self.schedule_manager), self.schedule_manager, lifecycle=ServiceLifecycle.SINGLETON)
 
         # Dominio (misma instancia que AppModel; resolución por tipo sin pasar por la fachada)
@@ -148,9 +148,9 @@ class StartupController:
 
         self.app.tracking_repo = self.model.db.tracking_repo
         
-        if self.model.db.SessionLocal:
-             session_factory = cast(Callable[[], Any], self.model.db.SessionLocal)
-             self.app.label_counter_repo = LabelCounterRepository(session_factory)
+        sf_lc = self.model.db.SessionLocal
+        if sf_lc is not None:
+             self.app.label_counter_repo = LabelCounterRepository(sf_lc)
         else:
              self.logger.critical("DB SessionLocal es None durante el arranque")
              raise RuntimeError("Base de datos no inicializada")
@@ -173,10 +173,10 @@ class StartupController:
         self.app.backup_service = BackupService(data_dir="data")
         self.container.register(BackupService, self.app.backup_service, lifecycle=ServiceLifecycle.SINGLETON)
 
-        if self.model.db.SessionLocal:
-             session_factory = cast(Callable[[], Any], self.model.db.SessionLocal)
-             rate_limiter = RateLimiter(session_factory)
-             audit_logger = AuditLogger(session_factory)
+        sf_maint = self.model.db.SessionLocal
+        if sf_maint is not None:
+             rate_limiter = RateLimiter(sf_maint)
+             audit_logger = AuditLogger(sf_maint)
              self.app.audit_logger = audit_logger  
              
              self.app.maintenance_service = MaintenanceService(rate_limiter, audit_logger, self.app.backup_service)
@@ -201,8 +201,9 @@ class StartupController:
         """Verifica si hay tareas programadas para ejecutar en este momento."""
         from PyQt6.QtCore import QTime
         
-        # Hora programada para el backup (desde configuración en DB)
-        backup_time_str = self.app.model.config_get_setting("backup_time", "02:00")
+        # Hora programada para el backup (desde configuración en DB; sin pasar por AppModel)
+        raw_backup = self.model.db.config_repo.get_setting("backup_time", "02:00")
+        backup_time_str = str(raw_backup) if raw_backup is not None else "02:00"
         SCHEDULED_BACKUP_TIME = QTime.fromString(backup_time_str, "HH:mm")
         
         current_time = QTime.currentTime()
@@ -237,18 +238,32 @@ class StartupController:
         
         # Registro de factorías
         # Por defecto los controladores son SINGLETON para esta sesión de la app
-        self.container.register(BackupController, factory=lambda: BackupController(self.model.db, self.view, self.logger, self.app.backup_service, self.app.audit_logger))
+        self.container.register(BackupController, factory=lambda: BackupController(
+            self.container.resolve(DatabaseManager),
+            cast(Any, self.view),
+            self.logger,
+            self.app.backup_service,
+            self.app.audit_logger,
+        ))
         # ReportController with direct services
         self.container.register(ReportController, factory=lambda: ReportController(
-            db=self.model.db, view=self.view, 
-            worker_service=self.model.worker_service, 
-            product_service=self.model.product_service,
-            pila_service=self.model.pila_service, 
-            schedule_manager=self.schedule_manager, 
+            db=self.container.resolve(DatabaseManager), view=self.view,
+            worker_service=self.container.resolve(WorkerService),
+            product_service=self.container.resolve(ProductService),
+            pila_service=self.container.resolve(PilaService),
+            schedule_manager=self.schedule_manager,
             logger=self.logger
         ))
-        self.container.register(HardwareController, factory=lambda: HardwareController(self.model.db, self.view, self.logger))
-        self.container.register(MachineController, factory=lambda: MachineController(self.model.machine_service, self.view, self.logger))
+        self.container.register(HardwareController, factory=lambda: HardwareController(
+            self.container.resolve(DatabaseManager), self.view, self.logger
+        ))
+        self.container.register(MachineController, factory=lambda: MachineController(
+            self.container.resolve(MachineService),
+            self.container.resolve(PreparationService),
+            self.container.resolve(ProductService),
+            self.view,
+            self.logger,
+        ))
         
         # Controllers that depend on AppController
         self.container.register(CalculationController, factory=lambda: CalculationController(
@@ -256,7 +271,7 @@ class StartupController:
         ))
         self.container.register(ProductController, factory=lambda: ProductController(
             app_shell=self.app,
-            db=self.model.db,
+            db=self.container.resolve(DatabaseManager),
             product_model=self.model,
             view=self.view,
             product_facade=self.container.resolve(ProductFacade),
@@ -281,7 +296,7 @@ class StartupController:
             product_service=self.container.resolve(ProductService),
             fabricacion_service=self.container.resolve(FabricacionService),
             pila_service=self.container.resolve(PilaService),
-            state=self.app.state,
+            state=self.container.resolve(ApplicationState),
             schedule_manager=self.schedule_manager,
         ))
         self.container.register(SimulationController, factory=lambda: SimulationController(
@@ -291,14 +306,18 @@ class StartupController:
             self.container.resolve(PilaService),
         ))
         self.container.register(HistorialController, factory=lambda: HistorialController(
-            self.model.db, self.model.pila_service, self.model.worker_service, cast('MainView', self.view), self.logger
+            self.container.resolve(DatabaseManager),
+            self.container.resolve(PilaService),
+            self.container.resolve(WorkerService),
+            cast(Any, self.view),
+            self.logger,
         ))
         
         self.container.register(ScheduleController, factory=lambda: ScheduleController(
-            self.model.db, self.view, self.schedule_manager, self.logger
+            self.container.resolve(DatabaseManager), self.view, self.schedule_manager, self.logger
         ))
         self.container.register(SessionController, factory=lambda: SessionController(
-            self.app, self.app.db, self.container.resolve(WorkerService)
+            self.app, self.container.resolve(DatabaseManager), self.container.resolve(WorkerService)
         ))
         
         # Resolve instances and attach to AppController
@@ -319,34 +338,37 @@ class StartupController:
         # NEW CONTROLLERS (Refactor Fase 2)
         # Register them in DI setup
         self.container.register(FileController, factory=lambda: FileController(
-            self.model.db, self.view, self.app.logger
+            self.container.resolve(DatabaseManager), self.view, self.app.logger
         ))
         self.container.register(PreprocesoController, factory=lambda: PreprocesoController(
-            db_manager=self.model.db,
+            db_manager=self.container.resolve(DatabaseManager),
             view=self.view,
-            fabricacion_service=self.model.fabricacion_service,
+            fabricacion_service=self.container.resolve(FabricacionService),
             logger=self.logger
         ))
         self.container.register(FabricacionController, factory=lambda: FabricacionController(
-            self.model.db, self.view, self.app.product_controller, self.app.logger
+            self.container.resolve(DatabaseManager),
+            self.view,
+            cast(IFabricacionControllerDelegate, self.app.product_controller),
+            self.app.logger,
         ))
         self.container.register(LoteController, factory=lambda: LoteController(
-            self.model.db, self.view, self.app.pila_controller, self.app.logger
+            self.container.resolve(DatabaseManager), self.view, self.app.pila_controller, self.app.logger
         ))
         self.container.register(UIController, factory=lambda: UIController(
-            self.view, 
-            self.model.machine_service, 
-            self.model.worker_service,
-            self.model.report_service,
-            self.model.product_service,
-            self.app.worker_controller, 
+            self.view,
+            self.container.resolve(MachineService),
+            self.container.resolve(WorkerService),
+            self.container.resolve(ReportService),
+            self.container.resolve(ProductService),
+            self.app.worker_controller,
             self.app.machine_controller,
-            cast('QuoteService', self.app.quote_service), 
-            cast('QThreadPool', self.app.thread_pool), 
+            cast('QuoteService', self.app.quote_service),
+            cast('QThreadPool', self.app.thread_pool),
             self.app.logger
         ))
         self.container.register(NavigationController, factory=lambda: NavigationController(
-            self.app, self.view, self.model.product_service, self.app.logger
+            self.app, self.view, self.container.resolve(ProductService), self.app.logger
         ))
         self.container.register(UISignalsController, factory=lambda: UISignalsController(self.app))
 

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`smart_search`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Búsqueda con autocompletado en el módulo de reportes.
+
+La consulta usa exclusivamente ``ReportService`` (inyectado o vía ``set_report_service`` /
+``set_controller``).
 """
 
 import logging
@@ -11,6 +14,9 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import pyqtSignal, Qt, QTimer
 from PyQt6.QtGui import QIcon, QAction
 from typing import Any
+
+from core.services.report_service import ReportService
+
 
 class SmartSearchWidget(QWidget):
     """
@@ -23,18 +29,23 @@ class SmartSearchWidget(QWidget):
     # Señal emitida cuando se limpia la búsqueda
     search_cleared = pyqtSignal()
 
-    def __init__(self, app_model: Any, parent: Any = None) -> None:
+    def __init__(
+        self,
+        parent: Any = None,
+        *,
+        report_service: Any = None,
+    ) -> None:
         super().__init__(parent)
-        self.app_model = app_model
+        self._report_service = report_service
         self.logger = logging.getLogger("EvolucionTiemposApp.SmartSearch")
         self._last_query_executed: str = ""
-        
+
         # Estado interno
         self.debounce_timer = QTimer()
         self.debounce_timer.setSingleShot(True)
         self.debounce_timer.setInterval(300)  # 300ms de espera
         self.debounce_timer.timeout.connect(self._perform_search)
-        
+
         self._init_ui()
 
     def _init_ui(self) -> None:
@@ -47,7 +58,7 @@ class SmartSearchWidget(QWidget):
         search_layout = QHBoxLayout(search_container)
         search_layout.setContentsMargins(0, 0, 0, 0)
         search_layout.setSpacing(0)
-        
+
         self.search_input = QLineEdit()
         self.search_input.setPlaceholderText("Buscar producto, OF o tarea...")
         self.search_input.setFixedHeight(40)
@@ -63,9 +74,9 @@ class SmartSearchWidget(QWidget):
                 border: 2px solid #2563eb;
             }
         """)
-        
+
         self.search_input.textChanged.connect(self._on_text_changed)
-        
+
         search_layout.addWidget(self.search_input)
         layout.addWidget(search_container)
 
@@ -92,11 +103,11 @@ class SmartSearchWidget(QWidget):
             }
         """)
         self.results_list.itemClicked.connect(self._on_item_clicked)
-        self.results_list.hide() # Oculta inicialmente
-        
+        self.results_list.hide()  # Oculta inicialmente
+
         # Altura máxima para no ocupar toda la pantalla
         self.results_list.setMaximumHeight(300)
-        
+
         layout.addWidget(self.results_list)
 
     def _on_text_changed(self, text: str) -> None:
@@ -107,25 +118,26 @@ class SmartSearchWidget(QWidget):
             if not text.strip():
                 self.search_cleared.emit()
             return
-            
+
         self.debounce_timer.start()
 
     def _perform_search(self) -> None:
-        """Ejecuta la búsqueda contra el AppModel."""
+        """Ejecuta la búsqueda contra ``ReportService``."""
         query = self.search_input.text().strip()
         if not query:
             return
         if query.lower() == self._last_query_executed:
             return
-        
-        if not self.app_model:
-            self.logger.warning("No hay AppModel configurado para buscar.")
+
+        api = self._report_service
+        if not api:
+            self.logger.warning("No hay ReportService configurado para la búsqueda.")
             return
 
         self.logger.info(f"Buscando: {query}")
-        
+
         try:
-            results = self.app_model.search_reports_data(query)
+            results = api.search_reports_data(query)
             self._last_query_executed = query.lower()
             self._update_results_list(results)
         except Exception as e:
@@ -135,22 +147,22 @@ class SmartSearchWidget(QWidget):
     def _update_results_list(self, results: list[Any]) -> None:
         """Actualiza la lista visual de resultados."""
         self.results_list.clear()
-        
+
         if not results:
             self.results_list.hide()
             return
-            
+
         self.results_list.show()
-        
+
         for dto in results:
             item = QListWidgetItem()
             # Usamos setData para guardar el objeto completo o sus partes clave
             item.setData(Qt.ItemDataRole.UserRole, dto)
-            
+
             # Crear un widget personalizado para la fila es mejor, pero text simple por ahora
             tipo_icon = "📦" if dto.tipo == 'producto' else "🏭" if dto.tipo == 'fabricacion' else "📄"
             display_text = f"{tipo_icon}  {dto.codigo} - {dto.descripcion}"
-            
+
             item.setText(display_text)
             self.results_list.addItem(item)
 
@@ -160,10 +172,14 @@ class SmartSearchWidget(QWidget):
         if dto:
             self.logger.info(f"Seleccionado: {dto.tipo} - {dto.codigo}")
             self.result_selected.emit(dto.tipo, dto.codigo)
-            
+
             # Opcional: limpiar búsqueda o mantenerla
             self.results_list.hide()
             # self.search_input.setText(dto.codigo) # Feedback visual
+
+    def set_report_service(self, report_service: Any) -> None:
+        """Actualiza el servicio de reportes (p. ej. tras ``set_controller`` en el padre)."""
+        self._report_service = report_service
 
     def clear_search(self) -> None:
         """Limpia el campo de búsqueda y resultados."""
@@ -174,12 +190,16 @@ class SmartSearchWidget(QWidget):
         self.search_cleared.emit()
 
     def set_controller(self, controller: Any) -> None:
-        """Actualiza el modelo desde el controlador."""
+        """Resuelve ``ReportService`` desde el hub (container DI o ``model.report_service``)."""
         if controller is None:
-            self.app_model = None
+            self._report_service = None
             return
-        if hasattr(controller, "search_reports_data"):
-            self.app_model = controller
+        container = getattr(controller, "container", None)
+        if container is not None and container.is_registered(ReportService):
+            self._report_service = container.resolve(ReportService)
             return
-        if hasattr(controller, 'model'):
-            self.app_model = controller.model
+        model = getattr(controller, "model", None)
+        if model is not None:
+            self._report_service = getattr(model, "report_service", None)
+            return
+        self._report_service = None

@@ -26,11 +26,12 @@ El analizador detecta patrones reales en el código, no solo palabras clave.
 | **PENALIZACIÓN**: -5 por cada test sin ningún `assert` | hasta -20 |
 | **PENALIZACIÓN**: -10 si el archivo es de ctrl/servicio y no tiene ningún `assert_called*` | -10 |
 | **PENALIZACIÓN**: -3 por cada `assert_called_once()` sin argumentos | hasta -15 |
+| **PENALIZACIÓN**: -2 por cada `assert_called_*_with(ANY, ANY, …)` solo ANY (archivos controller/service) | hasta -10 |
 | **PENALIZACIÓN**: -8 si mockea la sesión de BD (antipatrón en repositorios) | -8 |
+| **Métrica** (sin penalizar): `contract_test_hints` / `qt_item_role_literal_32_count` en JSON | revisión manual |
 
-- **Actualizado**: score ≥ 80
-- **En Progreso**: score ≥ 50
-- **Legacy / Pendiente**: score < 50
+- **Estados globales** (`Actualizado` / `En Progreso` / `Legacy / Pendiente`): el script usa el **score techo** (`ceiling_score`) y la regla de **techo real** (`at_ceiling` sin penalizaciones corregibles). No confundir con el score absoluto solo.
+- **Cohorte dominio (`strict_domain`)**: tests bajo `tests/db/` o cuyo nombre encaja con `test_*_service.py` / `test_*repository*.py`. Ahí el objetivo es **score absoluto 100/100**; aunque el techo PyQt perdone mocks en otros archivos, el dominio no usa esa excusa. Cada fila en `test_reports/compliance_data.json` incluye `test_tier`, `strict_domain` y `domain_status` (`Listo dominio` / `Pendiente dominio`). **«Actualizado» en tests de UI no implica dominio al 100.**
 
 > Ver skill `testing_antipatrones` para el catálogo completo de falsos positivos y cómo corregirlos.
 
@@ -135,6 +136,20 @@ Cada archivo de test **DEBE** tener al menos un marker. Sin marker el archivo pi
 - `@pytest.mark.integration` — tests con BD real (SQLite en memoria)
 - `@pytest.mark.e2e` — flujos completos de usuario
 - `@pytest.mark.setup` — infraestructura y configuración
+- `@pytest.mark.contract` — cruce explícito controlador/mánager ↔ servicio ↔ contrato de datos (sin ser e2e completo); ver `tests/conftest.py`
+
+### 5.1 Flujos críticos (regresión UI–dominio)
+
+Lista corta de comportamientos que **no deben romperse** silenciosamente; los tests deben tocar la **carga de datos** (servicio/fachada), no solo “no hubo excepción”:
+
+| Flujo | Riesgo si falla | Pista de verificación |
+|------|-----------------|------------------------|
+| Gestión de datos → Fabricaciones: seleccionar una fila | Panel “Productos asignados” vacío mientras el diálogo sí lista productos | `get_products_for_fabricacion` llamado y DTO/formulario con `productos` coherentes |
+| Gestión de datos → Productos → subfabricaciones → Aceptar | Cambios solo en memoria hasta “Guardar cambios” | `update_product` (o persistencia equivalente) con `sub_partes` esperadas |
+| Gestión de datos → Lotes / listas Qt | Ítem sin payload o dato erróneo | `Qt.ItemDataRole.UserRole` (no literales `32` salvo comentario explícito de equivalencia) |
+| Pila / selección por lista | Misma clase de bug por rol de datos incorrecto | Lectura con el mismo `ItemDataRole` que escribe el widget |
+
+Los detalles y ejemplos de antipatrón “el test codifica el bug” están en `testing_antipatrones` (ANTIPATRÓN 6B).
 
 ---
 

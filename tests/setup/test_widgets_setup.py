@@ -110,7 +110,6 @@ class TestDashboardWidgetSetup:
             'update_worker_load',
             'update_problematic_components',
             'update_monthly_activity',
-            'set_controller'
         ]
         
         for method in required_methods:

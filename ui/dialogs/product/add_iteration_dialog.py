@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`add_iteration_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Diálogo para añadir iteración de producto (PyQt6).
+
+``AddIterationFormData`` concentra los campos del formulario; el widget de iteraciones
+pasa ``asdict(form)`` al controlador para mantener la firma histórica basada en dict.
 """
 from __future__ import annotations
 
 import os
 import logging
-from typing import TYPE_CHECKING, Optional, Dict, Any
+from dataclasses import dataclass
+from typing import Optional
 
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QFormLayout,
@@ -15,6 +19,17 @@ from PyQt6.QtWidgets import (
 )
 
 from PyQt6.QtCore import Qt
+
+
+@dataclass(frozen=True)
+class AddIterationFormData:
+    """Valores del formulario de nueva iteración (frontera tipada frente a dict opaco)."""
+
+    responsable: str
+    descripcion: str
+    tipo_fallo: str
+    ruta_plano_origen: Optional[str]
+
 
 class AddIterationDialog(QDialog):
     """Diálogo para añadir una nueva iteración con todos los campos requeridos."""
@@ -62,12 +77,12 @@ class AddIterationDialog(QDialog):
             self.attached_plano_path = file_path
             self.plano_label.setText(os.path.basename(file_path))
 
-    def get_data(self) -> Dict[str, Any]:
-        return {
-            "responsable": self.responsable_edit.text().strip(),
-            "descripcion": self.description_edit.toPlainText().strip(),
-            "tipo_fallo": self.tipo_fallo_combo.currentText(),
-            "ruta_plano_origen": self.attached_plano_path
-        }
+    def get_data(self) -> AddIterationFormData:
+        return AddIterationFormData(
+            responsable=self.responsable_edit.text().strip(),
+            descripcion=self.description_edit.toPlainText().strip(),
+            tipo_fallo=self.tipo_fallo_combo.currentText(),
+            ruta_plano_origen=self.attached_plano_path,
+        )
 
 

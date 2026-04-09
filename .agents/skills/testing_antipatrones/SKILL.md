@@ -167,6 +167,26 @@ mock_service.add_worker.assert_called_once_with("Ana García", tipo=ANY, notas=A
 
 ---
 
+## ANTIPATRÓN 6B: El mock o la aserción “codifican” el bug
+
+**Por qué es un falso positivo**: El código pasa datos incompletos a la vista (o omite una llamada al servicio), y el test **asienta exactamente ese comportamiento**. La suite queda verde mientras el usuario ve datos distintos a los de la BD o al diálogo de edición.
+
+**Ejemplo real (Hipatia)**: Al seleccionar una fabricación, el controlador llamaba a `display_fabricacion_form(fabricacion_data, preprocesos)` sin cargar productos asignados. Un test que hiciera `mock_tab.display_fabricacion_form.assert_called_with(fab_dto, preprocesos)` **validaba la omisión** de `get_products_for_fabricacion`.
+
+```python
+# ❌ FALSO POSITIVO — el test bendice la ruta incompleta
+fabrications_page.display_fabricacion_form.assert_called_once_with(mock_fab, [])
+
+# ✅ CORRECTO — exigir la fuente de verdad que alimenta la UI
+mock_fab_svc.get_products_for_fabricacion.assert_called_once_with(fabricacion_id)
+call_args = fabrications_page.display_fabricacion_form.call_args[0]
+assert call_args[0].productos  # o longitud / contenido esperado tras enriquecer
+```
+
+**Regla**: En flujos “lista → detalle → formulario”, además de comprobar la vista, asertar **llamadas al servicio/repositorio** que cargan lo que el usuario debe ver. Si el diálogo de edición muestra datos que el panel principal no muestra, falta un test de **paridad** entre ambas rutas.
+
+---
+
 ## ANTIPATRÓN 7: Fixture que devuelve MagicMock anidado
 
 **Por qué es un falso positivo**: Los atributos anidados de un `MagicMock` son también `MagicMock` sin spec. El código puede acceder a `mock.model.worker_service.metodo_inexistente()` y el test pasa.

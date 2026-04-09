@@ -7,14 +7,13 @@ Descripcion: Tests unitarios para los cuatro widgets del módulo de reportes:
              Verifica inicialización, estado interno, señales y comportamiento
              sin controlador.
 
-Decisión de mocking: Todos los widgets heredan de QWidget/QFrame (PyQt6) —
-MagicMock() inevitable para componentes visuales. El AppModel de SmartSearchWidget
-se pasa como MagicMock() estándar. isVisible() siempre devuelve False en entorno
-headless aunque se llame a show(); los tests verifican count() o atributos internos
-en lugar de visibilidad. No se usa autospec en ningún caso al ser clases Qt.
+Decisión de mocking: QWidget/QFrame con MagicMock donde hace falta; ReportService
+con create_autospec(ReportService, instance=True) según testing_fixtures_y_mocks.
 """
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, create_autospec
+
+from core.services.report_service import ReportService
 
 pytestmark = pytest.mark.unit
 
@@ -57,10 +56,10 @@ class TestOrderListWidget:
     def test_instantiation(self, widget):
         assert widget is not None
 
-    def test_instantiation_with_controller(self, qapp):
+    def test_instantiation_with_report_service(self, qapp):
         from ui.widgets.reports.order_list import OrderListWidget
-        ctrl = MagicMock(spec=[])
-        w = OrderListWidget(controller=ctrl)
+        rs = create_autospec(ReportService, instance=True)
+        w = OrderListWidget(report_service=rs)
         assert w is not None
 
     def test_has_title_label(self, widget):
@@ -75,10 +74,10 @@ class TestOrderListWidget:
     def test_initial_order_cards_empty(self, widget):
         assert len(widget._order_cards) == 0
 
-    def test_set_controller(self, widget):
-        ctrl = MagicMock(spec=[])
-        widget.set_controller(ctrl)
-        assert widget.controller is ctrl
+    def test_set_report_service_order_list(self, widget):
+        rs = create_autospec(ReportService, instance=True)
+        widget.set_report_service(rs)
+        assert widget._report_service is rs
 
     def test_clear_resets_state(self, widget):
         widget._current_producto = "PROD-01"
@@ -95,9 +94,8 @@ class TestOrderListWidget:
         widget.load_orders_for_product("PROD-01")
         assert widget._current_producto == "PROD-01"
 
-    def test_load_orders_with_controller_no_model(self, widget):
-        ctrl = MagicMock(spec=[])  # no 'model' attribute
-        widget.set_controller(ctrl)
+    def test_load_orders_with_report_service_none(self, widget):
+        widget.set_report_service(None)
         widget.load_orders_for_product("PROD-01")
         assert widget._current_producto == "PROD-01"
 
@@ -130,15 +128,15 @@ class TestSmartSearchWidget:
     @pytest.fixture
     def widget(self, qapp):
         from ui.widgets.reports.smart_search import SmartSearchWidget
-        model = MagicMock(spec=[])
-        return SmartSearchWidget(app_model=model)
+        rs = create_autospec(ReportService, instance=True)
+        return SmartSearchWidget(report_service=rs)
 
     def test_instantiation(self, widget):
         assert widget is not None
 
-    def test_instantiation_no_model(self, qapp):
+    def test_instantiation_no_report_service(self, qapp):
         from ui.widgets.reports.smart_search import SmartSearchWidget
-        w = SmartSearchWidget(app_model=None)
+        w = SmartSearchWidget(report_service=None)
         assert w is not None
 
     def test_has_search_input(self, widget):
@@ -180,17 +178,20 @@ class TestSmartSearchWidget:
         widget._on_text_changed("")
         assert len(received) == 1
 
-    def test_set_controller_updates_model(self, widget):
-        ctrl = MagicMock(spec=["model"])
-        ctrl.model = MagicMock(spec=[])
+    def test_set_controller_updates_report_service(self, widget):
+        rs = create_autospec(ReportService, instance=True)
+        ctrl = MagicMock(spec=["model", "container"])
+        ctrl.model = MagicMock(spec=["report_service"])
+        ctrl.model.report_service = rs
+        ctrl.container = MagicMock(spec=["is_registered", "resolve"])
+        ctrl.container.is_registered.return_value = False
         widget.set_controller(ctrl)
-        assert widget.app_model is ctrl.model
+        assert widget._report_service is rs
 
-    def test_perform_search_no_model(self, qapp):
+    def test_perform_search_no_service(self, qapp):
         from ui.widgets.reports.smart_search import SmartSearchWidget
-        w = SmartSearchWidget(app_model=None)
+        w = SmartSearchWidget(report_service=None)
         w.search_input.setText("test")
-        # Should not raise
         w._perform_search()
         assert w.results_list.count() == 0
 
@@ -207,12 +208,11 @@ class TestSmartSearchWidget:
         assert widget.results_list.count() == 1
 
     def test_perform_search_skips_same_query(self, widget):
-        widget.app_model = MagicMock(spec=["search_reports_data"])
-        widget.app_model.search_reports_data.return_value = []
+        widget._report_service.search_reports_data.return_value = []
         widget.search_input.setText("ABC")
         widget._perform_search()
         widget._perform_search()
-        widget.app_model.search_reports_data.assert_called_once_with("ABC")
+        widget._report_service.search_reports_data.assert_called_once_with("ABC")
 
 
 # ─── ReportsChartsWidget ─────────────────────────────────────────────────────
@@ -227,10 +227,10 @@ class TestReportsChartsWidget:
     def test_instantiation(self, widget):
         assert widget is not None
 
-    def test_instantiation_with_controller(self, qapp):
+    def test_instantiation_with_report_service(self, qapp):
         from ui.widgets.reports.charts_container import ReportsChartsWidget
-        ctrl = MagicMock(spec=[])
-        w = ReportsChartsWidget(controller=ctrl)
+        rs = create_autospec(ReportService, instance=True)
+        w = ReportsChartsWidget(report_service=rs)
         assert w is not None
 
     def test_has_title_label(self, widget):
@@ -245,10 +245,10 @@ class TestReportsChartsWidget:
     def test_initial_current_producto_is_none(self, widget):
         assert widget._current_producto is None
 
-    def test_set_controller(self, widget):
-        ctrl = MagicMock(spec=[])
-        widget.set_controller(ctrl)
-        assert widget.controller is ctrl
+    def test_set_report_service_charts(self, widget):
+        rs = create_autospec(ReportService, instance=True)
+        widget.set_report_service(rs)
+        assert widget._report_service is rs
 
     def test_clear_resets_title(self, widget):
         widget.title_label.setText("Algo")

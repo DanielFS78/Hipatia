@@ -1,5 +1,10 @@
 """
-Interfaz PyQt6 (`bitacora_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Diálogo de bitácora de pilas (`FabricacionBitacoraDialog`).
+
+Resolución de datos (orden): ``pila_service`` inyectado (p. ej. desde ``pila_manager``) →
+``resolve_pila_service`` (DI → ``pila_controller.pila_service`` → ``model.pila_service``) →
+``model.planning_facade`` (misma API: ``get_diario_bitacora``, ``add_diario_evento``).
+No se usan delegadores eliminados de ``AppModel`` para bitácora.
 """
 
 import logging
@@ -11,14 +16,15 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtGui import QTextCharFormat, QColor
 from PyQt6.QtCore import Qt
-from typing import Dict, Any, List, Optional, TYPE_CHECKING
+from typing import Dict, Any, List, Optional, cast
 
-if TYPE_CHECKING:
-    from core.services.time_calculator import CalculadorDeTiempos
-    from controllers.app_controller import AppController
-    from PyQt6.QtWidgets import QWidget
+from core.services.time_calculator import CalculadorDeTiempos
+from PyQt6.QtWidgets import QWidget
 
+from core.di_container import DIContainer
 from core.dtos import SimulationResultTaskDTO
+from ui.dialogs.fabrication.dialog_dependencies import resolve_pila_service
+from ui.dialogs.fabrication.ui_dialog_protocols import ShowsUserMessage
 
 class BitacoraEntryDTO:
     """DTO de entrada del diario de bitácora (plan/realizado/notas)."""
@@ -30,21 +36,44 @@ class BitacoraEntryDTO:
 
 class FabricacionBitacoraDialog(QDialog):
     """
-    Diálogo para gestionar el diario de bitácora de una pila de fabricación
-    con un calendario interactivo.
+    Diario de bitácora por pila (calendario + entradas plan/realizado/notas).
+
+    Persistencia vía ``_bitacora_backend`` (``PilaService`` o ``PlanningFacade``), no vía fachada ``AppModel``.
     """
 
-    def __init__(self, pila_id: int, pila_nombre: str, simulation_results: List[SimulationResultTaskDTO],
-                 controller: "AppController", time_calculator: "CalculadorDeTiempos", 
-                 parent: Optional["QWidget"] = None) -> None:
+    def __init__(
+        self,
+        pila_id: int,
+        pila_nombre: str,
+        simulation_results: List[SimulationResultTaskDTO],
+        hub: Any,
+        time_calculator: CalculadorDeTiempos,
+        parent: Optional[QWidget] = None,
+        *,
+        pila_service: Any | None = None,
+        user_messaging: ShowsUserMessage | None = None,
+    ) -> None:
         super().__init__(parent)
         self.time_calculator = time_calculator  # Guardamos la instancia del calculador
         self.setWindowTitle(f"Diario de Bitácora para Pila: {pila_nombre}")
         self.setMinimumSize(1200, 800)
         self.pila_id = pila_id
         self.simulation_results = simulation_results
-        self.controller = controller
+        self.hub = hub
         self.logger = logging.getLogger("EvolucionTiemposApp")
+        self._user_messaging: ShowsUserMessage = (
+            user_messaging
+            if user_messaging is not None
+            else cast(ShowsUserMessage, getattr(hub, "view", None))
+        )
+
+        if pila_service is not None:
+            self._bitacora_backend: Any = pila_service
+        else:
+            self._bitacora_backend = resolve_pila_service(hub, DIContainer.get_instance())
+        if self._bitacora_backend is None:
+            mod = getattr(hub, "model", None)
+            self._bitacora_backend = getattr(mod, "planning_facade", None) if mod is not None else None
 
         self.pila_start_date: date = self.simulation_results[0].Inicio.date() if self.simulation_results else date.today()
         self.selected_date: date = date.today()
@@ -107,8 +136,12 @@ class FabricacionBitacoraDialog(QDialog):
     def _load_and_process_data(self) -> None:
         """Carga los datos iniciales, formatea el calendario y selecciona el día actual."""
 
-        # 1. Cargar entradas existentes desde la BD
-        _, entries = self.controller.model.get_diario_bitacora(self.pila_id)
+        # 1. Cargar entradas existentes desde la BD (PilaService, PlanningFacade o inyectado)
+        if self._bitacora_backend is None:
+            self.logger.error("Bitácora: sin PilaService ni planning_facade; no se cargan entradas.")
+            entries = []
+        else:
+            _, entries = self._bitacora_backend.get_diario_bitacora(self.pila_id)
         self.bitacora_entries = {}
         for entry_data in entries:
             entry_date_source = entry_data[0]
@@ -221,19 +254,35 @@ class FabricacionBitacoraDialog(QDialog):
         notas = self.notes_entry.toPlainText().strip()
 
         if not realizado:
-            self.controller.view.show_message("Campo Requerido",
-                                                  "El campo 'Trabajo Realizado' no puede estar vacío.", "warning")
+            self._user_messaging.show_message(
+                "Campo Requerido",
+                "El campo 'Trabajo Realizado' no puede estar vacío.",
+                "warning",
+            )
             return
 
         day_number = (self.selected_date - self.pila_start_date).days + 1
 
-        # Pasamos el objeto de fecha directamente, sin convertirlo a texto
-        success = self.controller.model.add_diario_evento(self.pila_id, self.selected_date, day_number, plan,
-                                                            realizado, notas)
+        if self._bitacora_backend is None:
+            self._user_messaging.show_message(
+                "Error",
+                "No hay servicio de pilas disponible para guardar la bitácora.",
+                "critical",
+            )
+            return
+
+        success = self._bitacora_backend.add_diario_evento(
+            self.pila_id, self.selected_date, day_number, plan, realizado, notas
+        )
 
         if success:
-            self.controller.view.show_message("Éxito", "La entrada del día se ha guardado correctamente.", "info")
+            self._user_messaging.show_message(
+                "Éxito", "La entrada del día se ha guardado correctamente.", "info"
+            )
             self._load_and_process_data()
         else:
-            self.controller.view.show_message("Error", "No se pudo guardar la entrada en la base de datos.",
-                                                  "critical")
+            self._user_messaging.show_message(
+                "Error",
+                "No se pudo guardar la entrada en la base de datos.",
+                "critical",
+            )

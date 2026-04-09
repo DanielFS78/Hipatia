@@ -6,7 +6,7 @@ from __future__ import annotations
 from datetime import date
 from typing import Any
 
-from core.dtos import CalculationProductDTO, PilaDTO
+from core.dtos import CalculationProductDTO, CalculationStepDTO, PilaDTO
 from core.services.pila_service import PilaService
 
 
@@ -77,6 +77,7 @@ class PlanningFacade:
         return self._service.get_data_for_calculation(producto_codigo)
 
     def get_data_for_calculation_from_session(
-        self, planning_session: list[CalculationProductDTO | dict[str, Any]]
+        self,
+        planning_session: list[CalculationProductDTO | CalculationStepDTO | dict[str, Any]],
     ) -> list[CalculationProductDTO]:
         return self._service.get_data_for_calculation_from_session(planning_session)

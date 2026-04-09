@@ -12,12 +12,10 @@ from PyQt6.QtCore import QObject
 
 if TYPE_CHECKING:
     from core.app_model import AppModel
-    from ui.main_view import MainView
     from controllers.worker.controller import WorkerController
 
 from core.camera_manager import CameraManager
 from core.qr_scanner import QrScanner
-from ui.widgets import SettingsWidget
 
 class HardwareController(QObject):
     """
@@ -27,7 +25,7 @@ class HardwareController(QObject):
     compatibles, la configuración de resolución y la integración con el escáner QR.
     """
     
-    def __init__(self, db: Any, view: 'MainView', logger: Optional[logging.Logger] = None) -> None:
+    def __init__(self, db: Any, view: Any, logger: Optional[logging.Logger] = None) -> None:
         """
         Inicializa el controlador de hardware.
 
@@ -38,7 +36,7 @@ class HardwareController(QObject):
         """
         super().__init__()
         self.db: Any = db
-        self.view: 'MainView' = view
+        self.view: Any = view
         self.logger: logging.Logger = logger or logging.getLogger(__name__)
         
         self.camera_manager: CameraManager = CameraManager()
@@ -141,13 +139,10 @@ class HardwareController(QObject):
                     "critical"
                 )
 
-    def _get_settings_page_with_camera_combo(self) -> Optional[SettingsWidget]:
+    def _get_settings_page_with_camera_combo(self) -> Optional[Any]:
         """Obtiene la página de ajustes si expone `camera_combo`."""
         settings_page = self.view.pages.get("settings")
-        if not isinstance(settings_page, SettingsWidget):
-            return None
-        if not hasattr(settings_page, "camera_combo"):
-            self.logger.warning("SettingsWidget no expone camera_combo; se omite operación de hardware UI.")
+        if settings_page is None or not hasattr(settings_page, "camera_combo"):
             return None
         return settings_page
 

@@ -11,13 +11,34 @@ import shutil
 import sys
 import zipfile
 import logging
-from typing import Any, Callable
+from typing import Any, Callable, Protocol
 from datetime import datetime
 from PyQt6.QtCore import QObject
 from PyQt6.QtWidgets import QFileDialog, QApplication, QDialog
 
 from core.utils.helpers import resource_path
+from core.security.access_control import require_permission
+from core.security.security_service import Permission
+from core.services.backup_service import BackupService
+from core.services.audit_logger import AuditLogger
+from database.database_manager import DatabaseManager
 from controllers.backup_controller_io_manager import BackupIOManager
+from controllers.ui_class_loader import ui_class
+
+
+class IBackupControllerDatabase(Protocol):
+    """Contrato mínimo de BD para backup/sync (incluye dobles de test ligeros)."""
+
+    db_url: Any
+
+    @property
+    def db_path(self) -> str: ...
+
+    def close(self) -> None: ...
+
+    def compare_with_db(self, foreign_db_path: str) -> Any: ...
+
+    def apply_sync_changes(self, selected_changes: Any) -> int: ...
 
 
 class BackupController(QObject):
@@ -29,7 +50,14 @@ class BackupController(QObject):
     archivos de base de datos SQLite.
     """
 
-    def __init__(self, db: Any, view: Any, logger: logging.Logger, backup_service: Any = None, audit_logger: Any = None) -> None:
+    def __init__(
+        self,
+        db: DatabaseManager | IBackupControllerDatabase,
+        view: Any,
+        logger: logging.Logger,
+        backup_service: BackupService | None = None,
+        audit_logger: AuditLogger | None = None,
+    ) -> None:
         """
         Inicializa el controlador de backups.
 
@@ -41,38 +69,41 @@ class BackupController(QObject):
             audit_logger: Servicio de auditoría para registrar acciones de usuario (opcional).
         """
         super().__init__()
-        self.db: Any = db
+        self.db: DatabaseManager | IBackupControllerDatabase = db
         self.view: Any = view
         self.logger: logging.Logger = logger
-        self.backup_service: Any = backup_service
-        self.audit_logger: Any = audit_logger
+        self.backup_service: BackupService | None = backup_service
+        self.audit_logger: AuditLogger | None = audit_logger
         self._db_io = BackupIOManager(self)
 
+    @require_permission(Permission.MANAGE_SETTINGS)
     def on_import_databases(self, on_success_callback: Callable[[], None] | None = None) -> None:
         self._db_io.on_import_databases(on_success_callback)
 
+    @require_permission(Permission.MANAGE_SETTINGS)
     def on_export_databases(self) -> None:
         self._db_io.on_export_databases()
 
+    @require_permission(Permission.MANAGE_SETTINGS)
     def on_sync_databases(self, on_success_callback: Callable[[], None] | None = None) -> None:
         self._db_io.on_sync_databases(on_success_callback)
 
+    @require_permission(Permission.MANAGE_SETTINGS)
     def show_backup_restore_dialog(self) -> None:
         """Muestra el diálogo de gestión de backups."""
         if not self.backup_service:
             self.logger.error("BackupService no inicializado.")
             return
 
-        from ui.dialogs.backup_restore_dialog import BackupRestoreDialog
-        # Pass audit_logger to the dialog
+        BackupRestoreDialog = ui_class("ui.dialogs.backup_restore_dialog", "BackupRestoreDialog")
         dialog = BackupRestoreDialog(self.backup_service, self.view, self.audit_logger)
         dialog.exec()
 
     def _get_db_path(self) -> str:
         """Extract SQLite file path from db_url. Returns empty string for non-SQLite DBs."""
         db_url = self.db.db_url
-        if db_url and db_url.startswith("sqlite:///"):
-            return db_url.replace("sqlite:///", "")
+        if db_url and str(db_url).startswith("sqlite:///"):
+            return str(db_url).replace("sqlite:///", "")
         return ""
 
     def _create_backup_directory_structure(self) -> tuple[str | None, str | None]:

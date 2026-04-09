@@ -13,6 +13,8 @@ from PyQt6.QtCore import QObject, pyqtSignal
 
 from core.dtos import PreprocesoDTO, FabricacionDTO, FabricacionProductoDTO
 from database.database_manager import DatabaseManager
+from database.repositories.preproceso import PreprocesoRepository
+from database.repositories.tracking_repository import TrackingRepository
 
 
 class FabricacionService(QObject):
@@ -38,12 +40,12 @@ class FabricacionService(QObject):
         self.logger = logging.getLogger("FabricacionService")
 
     @property
-    def preproceso_repo(self):
+    def preproceso_repo(self) -> PreprocesoRepository:
         """Acceso directo al repositorio de preprocesos."""
         return self.db.preproceso_repo
-    
+
     @property
-    def tracking_repo(self):
+    def tracking_repo(self) -> TrackingRepository:
         """Acceso directo al repositorio de seguimiento."""
         return self.db.tracking_repo
 

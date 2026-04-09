@@ -317,6 +317,7 @@ class TestLaunchWorkerInterface:
             label_manager=controller.app.label_manager,
             qr_generator=controller.app.qr_generator,
             label_counter_repo=controller.app.label_counter_repo,
+            camera_config_runner=ANY,
         )
         assert MockWorkerController.return_value.initialize.call_count == 1
         MockWorkerController.return_value.initialize.assert_called_once_with()
@@ -345,7 +346,11 @@ class TestLaunchWorkerInterface:
              patch('controllers.session_controller.QMessageBox') as MockQMB:
             controller.launch_worker_interface()
             assert MockQMB.information.call_count == 1
-            MockQMB.information.assert_called_once_with(ANY, ANY, ANY)
+            MockQMB.information.assert_called_once_with(
+                None,
+                "Funcionalidad en Desarrollo",
+                "La interfaz de trabajador no está disponible (Feature module missing).",
+            )
 
     def test_launch_no_scanner_logs_error(self, controller: SessionController) -> None:
         """Test that missing scanner triggers error log (line 179)."""
@@ -379,7 +384,12 @@ class TestLaunchWorkerInterface:
             assert mock_exit.call_count == 0
             mock_exit.assert_not_called()
             assert MockQMB.critical.call_count == 1
-            MockQMB.critical.assert_called_once_with(ANY, ANY, ANY)
+            MockQMB.critical.assert_called_once_with(
+                None,
+                "Error",
+                "No se pudo iniciar la interfaz de trabajador.\n\n"
+                "Error: No se puede iniciar la interfaz de trabajador sin un usuario logueado.",
+            )
 
     def test_launch_generic_exception_calls_sys_exit(self, controller: SessionController) -> None:
         """Test that a non-ValueError exception causes sys.exit(1) — covers line 222."""
@@ -399,5 +409,9 @@ class TestLaunchWorkerInterface:
             assert mock_exit.call_count == 1
             mock_exit.assert_called_once_with(1)
             assert MockQMB.critical.call_count == 1
-            MockQMB.critical.assert_called_once_with(ANY, ANY, ANY)
+            MockQMB.critical.assert_called_once_with(
+                None,
+                "Error",
+                "No se pudo iniciar la interfaz de trabajador.\n\nError: unexpected crash",
+            )
 

@@ -17,7 +17,14 @@ from unittest.mock import MagicMock, patch, PropertyMock, ANY
 from datetime import datetime
 
 from typing import Any, Dict, List, cast
-from core.dtos import ProductDTO, ProductIterationDTO, MaterialDTO, MachineDTO, SubfabricacionDTO
+from core.dtos import (
+    ProductDTO,
+    ProductIterationDTO,
+    MaterialDTO,
+    MachineDTO,
+    SubfabricacionDTO,
+    ProductDetailsDTO,
+)
 
 
 # =============================
@@ -74,9 +81,17 @@ class TestProductDetailsDialog:
         ctrl = MagicMock()
         prod_dto = _make_product_dto()
         assert isinstance(prod_dto, ProductDTO)
-        ctrl.model.get_product_details.return_value = (prod_dto, [], [])
-        ctrl.model.get_materials_for_product.return_value = []
-        ctrl.model.get_product_iterations.return_value = []
+        details = ProductDetailsDTO(producto=prod_dto, subfabricaciones=[], procesos_mecanicos=[])
+        ctrl.product_facade = MagicMock()
+        ctrl.product_facade.get_product_details.return_value = details
+        ctrl.material_service = MagicMock()
+        ctrl.material_service.get_materials_for_product.return_value = []
+        ctrl.product_service = MagicMock()
+        ctrl.product_service.get_product_iterations.return_value = []
+        ctrl.db = MagicMock()
+        ctrl.db.get_iteration_images.return_value = []
+        ctrl.app = MagicMock()
+        ctrl.app.file_controller = MagicMock()
         return ctrl
 
     @pytest.fixture
@@ -106,15 +121,24 @@ class TestProductDetailsDialog:
     def test_init_sets_attributes(self, dialog, mock_controller):
         """Verifica inicialización correcta del diálogo."""
         assert dialog.product_code == "P001"
-        assert dialog.controller is mock_controller
-        mock_controller.model.get_product_details.assert_called_once_with("P001")
+        assert dialog.product_controller is mock_controller
+        mock_controller.product_facade.get_product_details.assert_called_once_with("P001")
 
     def test_init_with_prod_data_none(self, qapp, mock_view):
         """Verifica que funciona con producto no encontrado (None)."""
         ctrl = MagicMock()
-        ctrl.model.get_product_details.return_value = (None, [], [])
-        ctrl.model.get_materials_for_product.return_value = []
-        ctrl.model.get_product_iterations.return_value = []
+        ctrl.product_facade = MagicMock()
+        ctrl.product_facade.get_product_details.return_value = ProductDetailsDTO(
+            producto=None, subfabricaciones=[], procesos_mecanicos=[]
+        )
+        ctrl.material_service = MagicMock()
+        ctrl.material_service.get_materials_for_product.return_value = []
+        ctrl.product_service = MagicMock()
+        ctrl.product_service.get_product_iterations.return_value = []
+        ctrl.db = MagicMock()
+        ctrl.db.get_iteration_images.return_value = []
+        ctrl.app = MagicMock()
+        ctrl.app.file_controller = MagicMock()
         with patch("ui.widgets.product.materials_widget.QFileDialog", autospec=True), \
              patch("ui.widgets.product.materials_widget.QInputDialog", autospec=True):
             from ui.dialogs.product import ProductDetailsDialog
@@ -124,13 +148,13 @@ class TestProductDetailsDialog:
 
     def test_load_all_data_calls_both(self, dialog, mock_controller):
         """Verifica que load_all_data invoca load_data en ambos widgets."""
-        mock_controller.model.get_materials_for_product.reset_mock()
-        mock_controller.model.get_product_iterations.reset_mock()
+        mock_controller.material_service.get_materials_for_product.reset_mock()
+        mock_controller.product_service.get_product_iterations.reset_mock()
         dialog.load_all_data()
-        assert mock_controller.model.get_materials_for_product.call_count == 1
-        mock_controller.model.get_materials_for_product.assert_called_once_with("P001")
-        assert mock_controller.model.get_product_iterations.call_count == 1
-        mock_controller.model.get_product_iterations.assert_called_once_with("P001")
+        assert mock_controller.material_service.get_materials_for_product.call_count == 1
+        mock_controller.material_service.get_materials_for_product.assert_called_once_with("P001")
+        assert mock_controller.product_service.get_product_iterations.call_count == 1
+        mock_controller.product_service.get_product_iterations.assert_called_once_with("P001")
 
     # --- Componentes ---
 
@@ -138,7 +162,7 @@ class TestProductDetailsDialog:
         """Verifica que load_components llena la tabla de materiales."""
         mat = _make_material_dto()
         assert isinstance(mat, MaterialDTO)
-        mock_controller.model.get_materials_for_product.return_value = [mat]
+        mock_controller.material_service.get_materials_for_product.return_value = [mat]
         dialog.materials_tab.load_data()
         assert dialog.materials_tab.materials_table.rowCount() == 1
         item0 = dialog.materials_tab.materials_table.item(0, 0)
@@ -209,7 +233,7 @@ class TestProductDetailsDialog:
     def test_on_edit_material_success(self, dialog, mock_controller, mock_view):
         """Verifica el flujo completo de editar un material."""
         mat = _make_material_dto()
-        mock_controller.model.get_materials_for_product.return_value = [mat]
+        mock_controller.material_service.get_materials_for_product.return_value = [mat]
         dialog.materials_tab.load_data()
         dialog.materials_tab.materials_table.selectRow(0)
 
@@ -226,7 +250,7 @@ class TestProductDetailsDialog:
     def test_on_edit_material_cancel_first(self, dialog, mock_controller):
         """Verifica cancelación en primer diálogo de edición."""
         mat = _make_material_dto()
-        mock_controller.model.get_materials_for_product.return_value = [mat]
+        mock_controller.material_service.get_materials_for_product.return_value = [mat]
         dialog.materials_tab.load_data()
         dialog.materials_tab.materials_table.selectRow(0)
         with patch("ui.widgets.product.materials_widget.QInputDialog") as MockInput:
@@ -238,7 +262,7 @@ class TestProductDetailsDialog:
     def test_on_edit_material_cancel_second(self, dialog, mock_controller):
         """Verifica cancelación en segundo diálogo de edición."""
         mat = _make_material_dto()
-        mock_controller.model.get_materials_for_product.return_value = [mat]
+        mock_controller.material_service.get_materials_for_product.return_value = [mat]
         dialog.materials_tab.load_data()
         dialog.materials_tab.materials_table.selectRow(0)
         with patch("ui.widgets.product.materials_widget.QInputDialog") as MockInput:
@@ -253,7 +277,7 @@ class TestProductDetailsDialog:
     def test_on_edit_material_empty_new_code(self, dialog, mock_controller):
         """Verifica que no actualiza con código nuevo vacío."""
         mat = _make_material_dto()
-        mock_controller.model.get_materials_for_product.return_value = [mat]
+        mock_controller.material_service.get_materials_for_product.return_value = [mat]
         dialog.materials_tab.load_data()
         dialog.materials_tab.materials_table.selectRow(0)
         with patch("ui.widgets.product.materials_widget.QInputDialog") as MockInput:
@@ -267,7 +291,7 @@ class TestProductDetailsDialog:
     def test_on_edit_material_empty_new_desc(self, dialog, mock_controller):
         """Verifica que no actualiza con descripción nueva vacía."""
         mat = _make_material_dto()
-        mock_controller.model.get_materials_for_product.return_value = [mat]
+        mock_controller.material_service.get_materials_for_product.return_value = [mat]
         dialog.materials_tab.load_data()
         dialog.materials_tab.materials_table.selectRow(0)
         with patch("ui.widgets.product.materials_widget.QInputDialog") as MockInput:
@@ -289,7 +313,7 @@ class TestProductDetailsDialog:
     def test_on_delete_material_confirmed(self, dialog, mock_controller, mock_view):
         """Verifica eliminación exitosa de un material."""
         mat = _make_material_dto()
-        mock_controller.model.get_materials_for_product.return_value = [mat]
+        mock_controller.material_service.get_materials_for_product.return_value = [mat]
         dialog.materials_tab.load_data()
         dialog.materials_tab.materials_table.selectRow(0)
         mock_view.show_confirmation_dialog.return_value = True
@@ -301,7 +325,7 @@ class TestProductDetailsDialog:
     def test_on_delete_material_not_confirmed(self, dialog, mock_controller, mock_view):
         """Verifica que no se elimina sin confirmación del usuario."""
         mat = _make_material_dto()
-        mock_controller.model.get_materials_for_product.return_value = [mat]
+        mock_controller.material_service.get_materials_for_product.return_value = [mat]
         dialog.materials_tab.load_data()
         dialog.materials_tab.materials_table.selectRow(0)
         mock_view.show_confirmation_dialog.return_value = False
@@ -332,20 +356,20 @@ class TestProductDetailsDialog:
         """Verifica que load_iterations llena el tree de historial."""
         it = _make_iteration_dto()
         assert isinstance(it, ProductIterationDTO)
-        mock_controller.model.get_product_iterations.return_value = [it]
+        mock_controller.product_service.get_product_iterations.return_value = [it]
         dialog.iterations_tab.load_data()
         assert dialog.iterations_tab.iterations_list.topLevelItemCount() == 1
 
     def test_load_iterations_with_string_date(self, dialog, mock_controller):
         """Verifica que acepta fechas como string (rama isinstance str)."""
         it = _make_iteration_dto(fecha_creacion="2025-06-15 10:30:00")
-        mock_controller.model.get_product_iterations.return_value = [it]
+        mock_controller.product_service.get_product_iterations.return_value = [it]
         dialog.iterations_tab.load_data()
         assert dialog.iterations_tab.iterations_list.topLevelItemCount() == 1
 
     def test_load_iterations_logs_error_on_exception(self, dialog, mock_controller):
         """Verifica que load_data captura errores y los registra en logger."""
-        mock_controller.model.get_product_iterations.side_effect = RuntimeError("db down")
+        mock_controller.product_service.get_product_iterations.side_effect = RuntimeError("db down")
         dialog.iterations_tab.logger = MagicMock()
 
         dialog.iterations_tab.load_data()
@@ -355,8 +379,8 @@ class TestProductDetailsDialog:
     def test_on_iteration_selected_shows_details(self, dialog, mock_controller):
         """Verifica que seleccionar una iteración muestra sus detalles."""
         it = _make_iteration_dto()
-        mock_controller.model.get_product_iterations.return_value = [it]
-        mock_controller.model.get_iteration_images.return_value = []
+        mock_controller.product_service.get_product_iterations.return_value = [it]
+        mock_controller.db.get_iteration_images.return_value = []
         dialog.iterations_tab.load_data()
         tree_item = dialog.iterations_tab.iterations_list.topLevelItem(0)
         dialog.iterations_tab._on_iteration_selected(tree_item)
@@ -378,8 +402,8 @@ class TestProductDetailsDialog:
         img_file = tmp_path / "legacy.png"
         img_file.write_bytes(b"\x89PNG\r\n" + b"\x00" * 100)
         it = _make_iteration_dto(ruta_imagen=str(img_file))
-        mock_controller.model.get_product_iterations.return_value = [it]
-        mock_controller.model.get_iteration_images.return_value = []
+        mock_controller.product_service.get_product_iterations.return_value = [it]
+        mock_controller.db.get_iteration_images.return_value = []
         dialog.iterations_tab.load_data()
         item = dialog.iterations_tab.iterations_list.topLevelItem(0)
         dialog.iterations_tab._on_iteration_selected(item)
@@ -388,8 +412,8 @@ class TestProductDetailsDialog:
     def test_on_iteration_selected_no_legacy_image(self, dialog, mock_controller):
         """Verifica que no se añade imagen previa si ruta_imagen es None."""
         it = _make_iteration_dto(ruta_imagen=None)
-        mock_controller.model.get_product_iterations.return_value = [it]
-        mock_controller.model.get_iteration_images.return_value = []
+        mock_controller.product_service.get_product_iterations.return_value = [it]
+        mock_controller.db.get_iteration_images.return_value = []
         dialog.iterations_tab.load_data()
         item = dialog.iterations_tab.iterations_list.topLevelItem(0)
         dialog.iterations_tab._on_iteration_selected(item)
@@ -401,12 +425,12 @@ class TestProductDetailsDialog:
         img_file = tmp_path / "extra.png"
         img_file.write_bytes(b"\x89PNG\r\n" + b"\x00" * 100)
         it = _make_iteration_dto(ruta_imagen=None)
-        mock_controller.model.get_product_iterations.return_value = [it]
+        mock_controller.product_service.get_product_iterations.return_value = [it]
         img_mock = MagicMock()
         img_mock.id = 5
         img_mock.image_path = str(img_file)
         img_mock.description = "Foto extra"
-        mock_controller.model.get_iteration_images.return_value = [img_mock]
+        mock_controller.db.get_iteration_images.return_value = [img_mock]
         dialog.iterations_tab.load_data()
         item = dialog.iterations_tab.iterations_list.topLevelItem(0)
         dialog.iterations_tab._on_iteration_selected(item)
@@ -418,12 +442,12 @@ class TestProductDetailsDialog:
         img_file.write_bytes(b"\x89PNG\r\n" + b"\x00" * 100)
         path = str(img_file)
         it = _make_iteration_dto(ruta_imagen=path)
-        mock_controller.model.get_product_iterations.return_value = [it]
+        mock_controller.product_service.get_product_iterations.return_value = [it]
         img_mock = MagicMock()
         img_mock.id = 6
         img_mock.image_path = path
         img_mock.description = "Duplicada"
-        mock_controller.model.get_iteration_images.return_value = [img_mock]
+        mock_controller.db.get_iteration_images.return_value = [img_mock]
         dialog.iterations_tab.load_data()
         item = dialog.iterations_tab.iterations_list.topLevelItem(0)
         dialog.iterations_tab._on_iteration_selected(item)
@@ -432,8 +456,8 @@ class TestProductDetailsDialog:
     def test_on_iteration_selected_with_plano(self, dialog, mock_controller):
         """Verifica que btn_view_plano se activa si hay plano."""
         it = _make_iteration_dto(ruta_plano="/some/plan.pdf")
-        mock_controller.model.get_product_iterations.return_value = [it]
-        mock_controller.model.get_iteration_images.return_value = []
+        mock_controller.product_service.get_product_iterations.return_value = [it]
+        mock_controller.db.get_iteration_images.return_value = []
         dialog.iterations_tab.load_data()
         item = dialog.iterations_tab.iterations_list.topLevelItem(0)
         dialog.iterations_tab._on_iteration_selected(item)
@@ -442,8 +466,8 @@ class TestProductDetailsDialog:
     def test_on_iteration_selected_without_plano(self, dialog, mock_controller):
         """Verifica que btn_view_plano se desactiva sin plano."""
         it = _make_iteration_dto(ruta_plano=None)
-        mock_controller.model.get_product_iterations.return_value = [it]
-        mock_controller.model.get_iteration_images.return_value = []
+        mock_controller.product_service.get_product_iterations.return_value = [it]
+        mock_controller.db.get_iteration_images.return_value = []
         dialog.iterations_tab.load_data()
         item = dialog.iterations_tab.iterations_list.topLevelItem(0)
         dialog.iterations_tab._on_iteration_selected(item)
@@ -515,7 +539,7 @@ class TestProductDetailsDialog:
     def teston_view_plano_clicked_with_plano(self, dialog, mock_controller):
         """Verifica apertura de plano adjunto."""
         it = _make_iteration_dto(id=5, ruta_plano="/plan.pdf")
-        mock_controller.model.get_product_iterations.return_value = [it]
+        mock_controller.product_service.get_product_iterations.return_value = [it]
         dialog.iterations_tab.current_selected_iteration_id = 5
         dialog.iterations_tab.on_view_plano_clicked()
         assert mock_controller.app.file_controller.handle_view_file.call_count == 1
@@ -524,7 +548,7 @@ class TestProductDetailsDialog:
     def teston_view_plano_clicked_no_plano(self, dialog, mock_controller, mock_view):
         """Verifica mensaje si no hay plano adjunto."""
         it = _make_iteration_dto(id=5, ruta_plano=None)
-        mock_controller.model.get_product_iterations.return_value = [it]
+        mock_controller.product_service.get_product_iterations.return_value = [it]
         dialog.iterations_tab.current_selected_iteration_id = 5
         dialog.iterations_tab.on_view_plano_clicked()
         assert mock_view.show_message.call_count >= 1
@@ -532,7 +556,7 @@ class TestProductDetailsDialog:
 
     def teston_view_plano_clicked_iteration_not_found(self, dialog, mock_controller, mock_view):
         """Verifica mensaje si la iteración ya no existe en la lista."""
-        mock_controller.model.get_product_iterations.return_value = []
+        mock_controller.product_service.get_product_iterations.return_value = []
         dialog.iterations_tab.current_selected_iteration_id = 999
         dialog.iterations_tab.on_view_plano_clicked()
         assert mock_view.show_message.call_count >= 1
@@ -554,7 +578,14 @@ class TestProductDetailsDialog:
         from PyQt6.QtWidgets import QDialog as QD
         with patch("ui.dialogs.product.add_iteration_dialog.AddIterationDialog", autospec=True) as MockDlg:
             MockDlg.return_value.exec.return_value = QD.DialogCode.Accepted
-            MockDlg.return_value.get_data.return_value = {"responsable": "", "descripcion": ""}
+            from ui.dialogs.product.add_iteration_dialog import AddIterationFormData
+
+            MockDlg.return_value.get_data.return_value = AddIterationFormData(
+                responsable="",
+                descripcion="",
+                tipo_fallo="No especificado",
+                ruta_plano_origen=None,
+            )
             dialog.iterations_tab.on_add_new_iteration_clicked()
             assert mock_view.show_message.call_count >= 1
             mock_view.show_message.assert_called()
@@ -566,12 +597,21 @@ class TestProductDetailsDialog:
         from PyQt6.QtWidgets import QDialog as QD
         with patch("ui.dialogs.product.add_iteration_dialog.AddIterationDialog", autospec=True) as MockDlg:
             MockDlg.return_value.exec.return_value = QD.DialogCode.Accepted
-            data = {"responsable": "Ana", "descripcion": "Cambio X"}
-            MockDlg.return_value.get_data.return_value = data
+            from dataclasses import asdict
+
+            from ui.dialogs.product.add_iteration_dialog import AddIterationFormData
+
+            form = AddIterationFormData(
+                responsable="Ana",
+                descripcion="Cambio X",
+                tipo_fallo="No especificado",
+                ruta_plano_origen=None,
+            )
+            MockDlg.return_value.get_data.return_value = form
             mock_controller.handle_add_product_iteration.return_value = True
             dialog.iterations_tab.on_add_new_iteration_clicked()
             assert mock_controller.handle_add_product_iteration.call_count == 1
-            mock_controller.handle_add_product_iteration.assert_called_once_with("P001", data)
+            mock_controller.handle_add_product_iteration.assert_called_once_with("P001", asdict(form))
 
     # --- Editar Iteración ---
 
@@ -631,7 +671,7 @@ class TestProductDetailsDialog:
     def test_on_edit_iteration_success(self, dialog, mock_controller):
         """Verifica edición exitosa de una iteración."""
         it = _make_iteration_dto(id=1, nombre_responsable="Juan", descripcion="Desc original")
-        mock_controller.model.get_product_iterations.return_value = [it]
+        mock_controller.product_service.get_product_iterations.return_value = [it]
         dialog.iterations_tab.load_data()
         dialog.iterations_tab.iterations_list.setCurrentItem(dialog.iterations_tab.iterations_list.topLevelItem(0))
         with patch("ui.widgets.product.iterations_widget.QInputDialog") as MockInput:
@@ -662,7 +702,7 @@ class TestProductDetailsDialog:
     def test_on_delete_iteration_success(self, dialog, mock_controller, mock_view):
         """Verifica eliminación exitosa de iteración."""
         it = _make_iteration_dto(id=1)
-        mock_controller.model.get_product_iterations.return_value = [it]
+        mock_controller.product_service.get_product_iterations.return_value = [it]
         dialog.iterations_tab.load_data()
         dialog.iterations_tab.iterations_list.setCurrentItem(dialog.iterations_tab.iterations_list.topLevelItem(0))
         mock_view.show_confirmation_dialog.return_value = True
@@ -693,7 +733,7 @@ class TestProductDetailsDialog:
     def test_on_add_image_success(self, dialog, mock_controller, mock_view):
         """Verifica flujo exitoso al añadir imágenes."""
         dialog.iterations_tab.current_selected_iteration_id = 1
-        mock_controller.model.get_product_iterations.return_value = []
+        mock_controller.product_service.get_product_iterations.return_value = []
         with patch("ui.widgets.product.iterations_widget.QFileDialog") as MockFD:
             MockFD.getOpenFileNames.return_value = (["/img1.png", "/img2.png"], "")
             mock_controller.handle_add_iteration_image.return_value = (True, "OK")
@@ -748,7 +788,7 @@ class TestProductDetailsDialog:
         dialog.iterations_tab.gallery_list.selectedItems.return_value = [mock_item]
         mock_view.show_confirmation_dialog.return_value = True
         mock_controller.handle_delete_iteration_image.return_value = True
-        mock_controller.model.get_product_iterations.return_value = []
+        mock_controller.product_service.get_product_iterations.return_value = []
         dialog.iterations_tab.current_selected_iteration_id = 1
         dialog.iterations_tab._on_delete_image_clicked()
         assert mock_controller.handle_delete_iteration_image.call_count == 1
@@ -792,8 +832,8 @@ class TestProductDetailsDialog:
     def test_reselect_current_iteration(self, dialog, mock_controller):
         """Verifica que _reselect_current_iteration encuentra y selecciona el item."""
         it = _make_iteration_dto(id=7)
-        mock_controller.model.get_product_iterations.return_value = [it]
-        mock_controller.model.get_iteration_images.return_value = []
+        mock_controller.product_service.get_product_iterations.return_value = [it]
+        mock_controller.db.get_iteration_images.return_value = []
         dialog.iterations_tab.load_data()
         dialog.iterations_tab.current_selected_iteration_id = 7
         dialog.iterations_tab._reselect_current_iteration()
@@ -802,7 +842,7 @@ class TestProductDetailsDialog:
     def test_reselect_current_iteration_not_found(self, dialog, mock_controller):
         """Verifica que no crashea si la iteración ya no está en el tree."""
         it = _make_iteration_dto(id=7)
-        mock_controller.model.get_product_iterations.return_value = [it]
+        mock_controller.product_service.get_product_iterations.return_value = [it]
         dialog.iterations_tab.load_data()
         dialog.iterations_tab.current_selected_iteration_id = 999
         dialog.iterations_tab._reselect_current_iteration()
@@ -856,14 +896,14 @@ class TestAddIterationDialog:
         assert "Iteración" in dialog.windowTitle()
 
     def test_get_data(self, dialog):
-        """Verifica que get_data retorna diccionario correcto."""
+        """Verifica que get_data retorna dataclass correcta."""
         dialog.responsable_edit.setText("Ana")
         dialog.description_edit.setPlainText("Descripción del cambio")
         data = dialog.get_data()
-        assert data["responsable"] == "Ana"
-        assert data["descripcion"] == "Descripción del cambio"
-        assert isinstance(data["tipo_fallo"], str)
-        assert data["ruta_plano_origen"] is None
+        assert data.responsable == "Ana"
+        assert data.descripcion == "Descripción del cambio"
+        assert isinstance(data.tipo_fallo, str)
+        assert data.ruta_plano_origen is None
 
     def test_attach_plano_success(self, dialog):
         """Verifica adjuntar plano exitosamente."""
@@ -884,7 +924,7 @@ class TestAddIterationDialog:
         """Verifica get_data incluye plano adjuntado."""
         dialog.attached_plano_path = "/plans/plano.pdf"
         data = dialog.get_data()
-        assert data["ruta_plano_origen"] == "/plans/plano.pdf"
+        assert data.ruta_plano_origen == "/plans/plano.pdf"
 
 
 # ==============================================================================

@@ -5,7 +5,12 @@ from datetime import datetime, time
 from PyQt6.QtWidgets import QMessageBox, QDialog
 from PyQt6.QtCore import Qt
 from types import SimpleNamespace
+from typing import cast
 
+from core.di_container import DIContainer
+from core.schedule_config import ScheduleConfig
+from core.services.machine_service import MachineService
+from core.services.preparation_service import PreparationService
 from ui.dialogs.production_flow.define_flow_dialog import DefineProductionFlowDialog
 from core.dtos import WorkerDTO, FlowTaskDataDTO, FlowTaskConfigDTO, ProductionFlowStepDTO
 from datetime import date
@@ -39,19 +44,31 @@ def dialog_data():
     workers = ["W1", "W2"]
     units = 10
     controller = MagicMock(spec=["model", "handle_save_flow_only"])
-    controller.model = MagicMock(
+    ms = MagicMock(
         spec=[
-            "get_prep_info_for_product",
             "get_machines_by_process_type",
             "get_all_machines",
+        ]
+    )
+    ms.get_machines_by_process_type.return_value = []
+    ms.get_all_machines.return_value = []
+    prep = MagicMock(
+        spec=[
+            "get_prep_info_for_product",
             "get_groups_for_machine",
             "get_steps_for_group",
         ]
     )
-    controller.model.get_prep_info_for_product.return_value = (None, None)
-    controller.model.get_all_machines.return_value = []
-    controller.model.get_groups_for_machine.return_value = []
-    schedule_config = SimpleNamespace(WORK_START_TIME=time(8, 0))
+    prep.get_prep_info_for_product.return_value = (None, None)
+    prep.get_groups_for_machine.return_value = []
+    controller.model = MagicMock(spec=["machine_service", "preparation_service", "fabricacion_service"])
+    controller.model.machine_service = ms
+    controller.model.preparation_service = prep
+    controller.model.fabricacion_service = MagicMock(spec=["get_prep_info_for_product"])
+    controller.model.fabricacion_service.get_prep_info_for_product.return_value = (None, None)
+    schedule_config = cast(
+        ScheduleConfig, SimpleNamespace(WORK_START_TIME=time(8, 0))
+    )
     return tasks, workers, units, controller, schedule_config
 
 @pytest.fixture
@@ -72,6 +89,62 @@ class TestDefineProductionFlowDialog:
         assert len(dialog.presenter.get_production_flow()) == 0
         assert dialog.presenter is not None
         assert "P1" in dialog.task_data_by_product
+
+    def test_init_injects_domain_services_from_model_when_no_di(self, qtbot, mock_dependencies):
+        """Sin Machine/Preparation en DI, AppModel expone servicios; el presenter los recibe."""
+        tasks = [
+            {
+                "codigo": "P1",
+                "descripcion": "Prod 1",
+                "tiene_subfabricaciones": True,
+                "sub_partes": [{"name": "main_task", "tiempo": 10}],
+            }
+        ]
+        workers = ["W1"]
+        units = 10
+        schedule_config = cast(
+            ScheduleConfig, SimpleNamespace(WORK_START_TIME=time(8, 0))
+        )
+        ms = MagicMock(spec=["get_machines_by_process_type"])
+        prep = MagicMock(spec=["get_prep_info_for_product"])
+        prep.get_prep_info_for_product.return_value = (None, None)
+        fab = MagicMock(spec=["search_fabricaciones"])
+        controller = MagicMock(spec=["model", "handle_save_flow_only"])
+        controller.model = MagicMock(
+            spec=[
+                "machine_service",
+                "preparation_service",
+                "fabricacion_service",
+            ]
+        )
+        controller.model.machine_service = ms
+        controller.model.preparation_service = prep
+        controller.model.fabricacion_service = fab
+
+        dialog = DefineProductionFlowDialog(tasks, workers, units, controller, schedule_config)
+        qtbot.addWidget(dialog)
+        assert not hasattr(dialog.presenter, "model")
+        assert dialog.presenter.machine_service is ms
+        assert dialog.presenter.preparation_service is prep
+        assert dialog.presenter.fabricacion_service is fab
+
+    def test_init_uses_product_controller_fabricacion_when_di_has_machine_prep_only(
+        self, qtbot, dialog_data, mock_dependencies
+    ):
+        """Si DI tiene Machine+Preparation pero no FabricacionService, usar product_controller."""
+        tasks, workers, units, controller, schedule_config = dialog_data
+        container = DIContainer.get_instance()
+        container.register(MachineService, instance=MagicMock(spec=MachineService))
+        container.register(PreparationService, instance=MagicMock(spec=PreparationService))
+        fab = MagicMock(spec=["get_prep_info_for_product"])
+        pc = MagicMock(spec=["fabricacion_service"])
+        pc.fabricacion_service = fab
+        controller.product_controller = pc
+
+        dialog = DefineProductionFlowDialog(tasks, workers, units, controller, schedule_config)
+        qtbot.addWidget(dialog)
+        assert not hasattr(dialog.presenter, "model")
+        assert dialog.presenter.fabricacion_service is fab
 
     def test_init_with_existing_flow(self, qtbot, dialog_data, mock_dependencies):
         tasks, workers, units, controller, schedule_config = dialog_data
@@ -226,7 +299,7 @@ class TestDefineProductionFlowDialog:
         # Mock de máquina y pasos de prep
         mock_machine = MagicMock(id=1, nombre="M1")
         mock_step = MagicMock(id=10, nombre="Prep 1", tiempo_fase=5)
-        controller.model.get_machines_by_process_type.return_value = [mock_machine]
+        controller.model.machine_service.get_machines_by_process_type.return_value = [mock_machine]
         dialog.presenter.get_prep_steps_for_machine = MagicMock(return_value=[mock_step])  # type: ignore[method-assign]
         dialog.presenter.get_default_step_ids = MagicMock(return_value=[10])  # type: ignore[method-assign]
         

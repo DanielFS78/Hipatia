@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`pila_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Modulo: pila_service
+Descripcion: Servicio de dominio para pilas de fabricacion, simulacion y preparacion de datos
+             de calculo (DTOs para el motor). Usa ``DatabaseManager`` y repositorios asociados.
 """
 
 import logging
@@ -10,10 +12,16 @@ from dataclasses import asdict
 from PyQt6.QtCore import QObject, pyqtSignal
 
 from core.dtos import (
-    PilaDTO, PreprocesoDTO, PreparationGroupDTO, MachineDTO,
-    CalculationProductDTO, CalculationSubPartDTO
+    PilaDTO,
+    PreprocesoDTO,
+    PreparationGroupDTO,
+    MachineDTO,
+    CalculationProductDTO,
+    CalculationSubPartDTO,
+    CalculationStepDTO,
 )
 from database.database_manager import DatabaseManager
+from database.repositories.pila import PilaRepository
 
 class PilaService(QObject):
     """
@@ -29,7 +37,7 @@ class PilaService(QObject):
         self.logger = logging.getLogger("PilaService")
 
     @property
-    def pila_repo(self):
+    def pila_repo(self) -> PilaRepository:
         return self.db.pila_repo
 
     def get_all_pilas(self) -> list[PilaDTO]:
@@ -90,8 +98,7 @@ class PilaService(QObject):
         """
         Alias de compatibilidad para el nombre histórico del método.
 
-        La UI y `AppModel` usan `add_diario_evento`, pero el método canónico del servicio es
-        `add_diario_entry`.
+        La UI usa `add_diario_evento`; el método canónico del servicio es `add_diario_entry`.
         """
         return self.add_diario_entry(pila_id, fecha, dia_numero, plan_previsto, trabajo_realizado, notas)
 
@@ -158,20 +165,52 @@ class PilaService(QObject):
             sub_partes=sub_partes
         )]
 
-    def get_data_for_calculation_from_session(self, planning_session: list[CalculationProductDTO | dict[str, Any]]) -> list[CalculationProductDTO]:
+    def get_data_for_calculation_from_session(
+        self, planning_session: list[CalculationProductDTO | CalculationStepDTO | dict[str, Any]]
+    ) -> list[CalculationProductDTO]:
         """
-        Recopila las tareas para todos los lotes de la sesión, convirtiéndolos a DTOs.
+        Aplana la sesion de planificacion en una lista de ``CalculationProductDTO`` listos para calcular.
+
+        Acepta por elemento: un ``CalculationProductDTO`` (se incluye tal cual); un
+        ``CalculationStepDTO`` (se resuelve plantilla o pila directa embebida); o un ``dict``
+        compatible con el formato historico de paso de lote. Para plantilla de lote usa
+        ``lote_repo.get_lote_details``; enriquece cada DTO con ``deadline``, ``fabricacion_id``,
+        ``units_for_this_instance`` y, en kits, ``cantidad_en_kit``.
         """
         all_task_groups: list[CalculationProductDTO] = []
-        for lote_instance in planning_session:
-            # 0. Si el item ya es un DTO, añadirlo directamente
-            if isinstance(lote_instance, CalculationProductDTO):
-                all_task_groups.append(lote_instance)
+        for raw in planning_session:
+            # 0. Si el item ya es un DTO de producto/tarea, añadirlo directamente
+            if isinstance(raw, CalculationProductDTO):
+                all_task_groups.append(raw)
                 continue
 
-            deadline = lote_instance.get('deadline')
-            identificador = lote_instance.get('identificador')
-            units = lote_instance.get('unidades', 1)
+            if isinstance(raw, CalculationStepDTO):
+                step = raw
+                lote_instance: dict[str, Any] = {
+                    "identificador": step.identificador,
+                    "unidades": step.unidades,
+                    "deadline": step.deadline,
+                }
+                if step.pila_de_calculo_directa is not None:
+                    lote_instance["pila_de_calculo_directa"] = step.pila_de_calculo_directa
+                if step.lote_template_id is not None:
+                    lote_instance["lote_template_id"] = step.lote_template_id
+            elif isinstance(raw, dict):
+                lote_instance = raw
+            else:
+                self.logger.warning("Item de sesión ignorado (tipo no soportado): %s", type(raw))
+                continue
+
+            if "pila_de_calculo_directa" not in lote_instance and "lote_template_id" not in lote_instance:
+                self.logger.warning(
+                    "Paso de planificación sin plantilla ni pila directa: %s",
+                    lote_instance.get("identificador"),
+                )
+                continue
+
+            deadline = lote_instance.get("deadline")
+            identificador = lote_instance.get("identificador")
+            units = lote_instance.get("unidades", 1)
 
             # 1. Obtener productos y fabricaciones del lote
             if "pila_de_calculo_directa" in lote_instance:
@@ -254,6 +293,3 @@ class PilaService(QObject):
 
         self.logger.info(f"Total de DTOs de cálculo recopilados: {len(all_task_groups)}")
         return all_task_groups
-
-    # get_data_for_calculation_from_session y otros helpers complejos de preparación de datos
-    # se pueden migrar aquí.

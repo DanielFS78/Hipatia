@@ -6,10 +6,17 @@ Descripcion: Audita la frontera UI/DTO para detectar accesos tipo diccionario
              indicar datos sin tipar o mezclas DTO vs dict. Ignora `os.environ.get`
              (variables de entorno, no DTO). Genera informes para la Fase 12C.
 
+             Las variables en INTERNAL_UI_DICT_VARS (p. ej. `data`) se ignoran salvo que la
+             clave literal esté en DOMAIN_DICT_KEYS_FORCE_REPORT (campos típicos de entidad/BD),
+             para reducir falsos negativos en `data["id"]` sin reabrir todo el ruido de estado UI.
+
 Uso:
     python3 scripts/ui_dto_boundary_analyzer.py
     python3 scripts/ui_dto_boundary_analyzer.py --json-only
     python3 scripts/ui_dto_boundary_analyzer.py --md-only
+    python3 scripts/ui_dto_boundary_analyzer.py --enforce-zero   # CI: falla si hay hallazgos
+    python3 scripts/ui_dto_boundary_analyzer.py --max-findings 5
+    python3 scripts/ui_dto_boundary_analyzer.py --baseline ruta/baseline.json
 
 Salida (por defecto):
     Documentacion/Refactorizacion_Completa/Fase_12C/ui_dto_boundary_report.json
@@ -75,6 +82,59 @@ INTERNAL_UI_DICT_VARS = {
     "x",
     "r",
 }
+
+# Claves que suelen alinear con columnas o atributos de DTO: no omitir aunque el receptor
+# sea un nombre en INTERNAL_UI_DICT_VARS (evita falsos negativos tipo data["id"]).
+DOMAIN_DICT_KEYS_FORCE_REPORT: frozenset[str] = frozenset({
+    "id",
+    "pk",
+    "uuid",
+    "codigo",
+    "nombre",
+    "descripcion",
+    "producto_codigo",
+    "producto_descripcion",
+    "producto_id",
+    "fabricacion_id",
+    "lote_id",
+    "maquina_id",
+    "trabajador_id",
+    "orden_fabricacion",
+    "tipo_proceso",
+    "departamento",
+    "activa",
+    "email",
+    "username",
+    "user_id",
+    "role_id",
+    "permission",
+    "cantidad",
+    "fecha",
+    "estado",
+})
+
+_TYPING_NAME_IDS = frozenset({
+    "Optional",
+    "List",
+    "Dict",
+    "Tuple",
+    "Set",
+    "Sequence",
+    "Mapping",
+    "Iterable",
+})
+
+
+def should_report_name_dict_access(receiver_id: str, key: str) -> bool:
+    """
+    False: el acceso se considera estado interno UI (receptor en INTERNAL_UI_DICT_VARS y
+    clave no es de dominio forzado). True: incluir en el informe.
+    """
+    if receiver_id not in INTERNAL_UI_DICT_VARS:
+        return True
+    if key in DOMAIN_DICT_KEYS_FORCE_REPORT:
+        return True
+    return False
 
 
 @dataclass(frozen=True)
@@ -153,32 +213,26 @@ def analyze_file(path: Path) -> list[Finding]:
             if isinstance(node.value, ast.Attribute) and isinstance(node.value.value, ast.Name):
                 if node.value.value.id == "self" and node.value.attr in INTERNAL_UI_DICT_ATTRS:
                     continue
-            if isinstance(node.value, ast.Name) and node.value.id in INTERNAL_UI_DICT_VARS:
-                continue
             # Ignorar subscripts usados en type hints: Optional["X"], List[int], Dict[str, Any], etc.
-            if isinstance(node.value, ast.Name) and node.value.id in {
-                "Optional",
-                "List",
-                "Dict",
-                "Tuple",
-                "Set",
-                "Sequence",
-                "Mapping",
-                "Iterable",
-            }:
+            if isinstance(node.value, ast.Name) and node.value.id in _TYPING_NAME_IDS:
                 continue
             key = _extract_constant_str(node.slice)
-            if key:
-                findings.append(
-                    Finding(
-                        file=rel,
-                        line=getattr(node, "lineno", 1),
-                        col=getattr(node, "col_offset", 0),
-                        kind="subscript",
-                        key=key,
-                        context=_context_line(lines, getattr(node, "lineno", 1)),
-                    )
+            if not key:
+                continue
+            if isinstance(node.value, ast.Name) and not should_report_name_dict_access(
+                node.value.id, key
+            ):
+                continue
+            findings.append(
+                Finding(
+                    file=rel,
+                    line=getattr(node, "lineno", 1),
+                    col=getattr(node, "col_offset", 0),
+                    kind="subscript",
+                    key=key,
+                    context=_context_line(lines, getattr(node, "lineno", 1)),
                 )
+            )
 
         # x.get("key", default)
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "get":
@@ -186,23 +240,27 @@ def analyze_file(path: Path) -> list[Finding]:
             if isinstance(node.func.value, ast.Attribute) and isinstance(node.func.value.value, ast.Name):
                 if node.func.value.value.id == "self" and node.func.value.attr in INTERNAL_UI_DICT_ATTRS:
                     continue
-            if isinstance(node.func.value, ast.Name) and node.func.value.id in INTERNAL_UI_DICT_VARS:
-                continue
             if _is_os_environ_access(node.func.value):
                 continue
-            if node.args:
-                key = _extract_constant_str(node.args[0])
-                if key:
-                    findings.append(
-                        Finding(
-                            file=rel,
-                            line=getattr(node, "lineno", 1),
-                            col=getattr(node, "col_offset", 0),
-                            kind="get_call",
-                            key=key,
-                            context=_context_line(lines, getattr(node, "lineno", 1)),
-                        )
-                    )
+            if not node.args:
+                continue
+            key = _extract_constant_str(node.args[0])
+            if not key:
+                continue
+            if isinstance(node.func.value, ast.Name) and not should_report_name_dict_access(
+                node.func.value.id, key
+            ):
+                continue
+            findings.append(
+                Finding(
+                    file=rel,
+                    line=getattr(node, "lineno", 1),
+                    col=getattr(node, "col_offset", 0),
+                    kind="get_call",
+                    key=key,
+                    context=_context_line(lines, getattr(node, "lineno", 1)),
+                )
+            )
 
     return findings
 
@@ -292,9 +350,55 @@ def generate_md(report: dict[str, Any]) -> str:
     md.append("- Sustituir accesos tipo dict por **atributos de DTO** cuando el objeto sea DTO.")
     md.append("- Si el objeto viene como dict desde presenter/servicio, convertirlo a DTO **antes** de llegar a UI.")
     md.append("- Mantener contrato: UI consume DTOs; solo componentes de construcción/serialización manipulan dicts.")
+    md.append(
+        "- Variables locales típicas (`data`, `item`, …) se filtran salvo claves en "
+        "`DOMAIN_DICT_KEYS_FORCE_REPORT` del script (p. ej. `id`, `codigo`): revisar esos hallazgos con prioridad."
+    )
     md.append("- Tras cada cambio: `pytest <scope> -x -q` y `python3 run_tests.py`.")
 
     return "\n".join(md)
+
+
+def _gate_exit_code(
+    total_findings: int,
+    *,
+    enforce_zero: bool,
+    max_findings: int | None,
+    baseline_path: Path | None,
+) -> tuple[int, str]:
+    """
+    Devuelve (código_salida, mensaje_vacío_o_error).
+    Prioridad: --enforce-zero > --baseline > --max-findings.
+    """
+    if enforce_zero:
+        if total_findings > 0:
+            return (
+                1,
+                f"UI DTO boundary: se exigen 0 hallazgos; hay {total_findings}.",
+            )
+        return 0, ""
+    if baseline_path is not None:
+        if not baseline_path.is_file():
+            return 1, f"Baseline no encontrado: {baseline_path}"
+        try:
+            raw = json.loads(baseline_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as e:
+            return 1, f"Baseline JSON inválido ({baseline_path}): {e}"
+        cap = int(raw.get("total_findings", 0))
+        if total_findings > cap:
+            return (
+                1,
+                f"UI DTO boundary: regresión ({total_findings} > baseline {cap}).",
+            )
+        return 0, ""
+    if max_findings is not None:
+        if total_findings > max_findings:
+            return (
+                1,
+                f"UI DTO boundary: {total_findings} hallazgos > máximo permitido {max_findings}.",
+            )
+        return 0, ""
+    return 0, ""
 
 
 def main() -> int:
@@ -313,14 +417,35 @@ def main() -> int:
         default=str(BASE_DIR / "Documentacion" / "Refactorizacion_Completa" / "Fase_12C"),
         help="Directorio de salida",
     )
+    parser.add_argument(
+        "--enforce-zero",
+        action="store_true",
+        help="Salir con código 1 si hay algún hallazgo (misma heurística que el informe).",
+    )
+    parser.add_argument(
+        "--max-findings",
+        type=int,
+        default=None,
+        metavar="N",
+        help="Salir con 1 si total_findings > N (omitir si se usa --enforce-zero o --baseline).",
+    )
+    parser.add_argument(
+        "--baseline",
+        type=str,
+        default=None,
+        metavar="PATH",
+        help="JSON con clave total_findings; falla si el run actual supera ese total.",
+    )
     args = parser.parse_args()
 
     report = build_report(include_production_flow=args.include_production_flow)
     out_dir = Path(args.output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
+    json_path = out_dir / "ui_dto_boundary_report.json"
+
     if not args.md_only:
-        (out_dir / "ui_dto_boundary_report.json").write_text(
+        json_path.write_text(
             json.dumps(report, indent=2, ensure_ascii=False),
             encoding="utf-8",
         )
@@ -328,9 +453,28 @@ def main() -> int:
     if not args.json_only:
         (out_dir / "ui_dto_boundary_report.md").write_text(generate_md(report), encoding="utf-8")
 
-    print(str(out_dir / "ui_dto_boundary_report.json"))
-    print(f"Total hallazgos: {report['summary']['total_findings']}")
-    return 0
+    print(str(json_path))
+    total = report["summary"]["total_findings"]
+    print(f"Total hallazgos: {total}")
+
+    baseline_p = Path(args.baseline) if args.baseline else None
+    max_f = args.max_findings
+    if args.enforce_zero:
+        max_f = None
+        baseline_p = None
+    elif baseline_p is not None:
+        max_f = None
+
+    code, err = _gate_exit_code(
+        total,
+        enforce_zero=args.enforce_zero,
+        max_findings=max_f,
+        baseline_path=baseline_p,
+    )
+    if code != 0 and err:
+        print(err, file=sys.stderr)
+        print(f"Informe: {json_path}", file=sys.stderr)
+    return code
 
 
 if __name__ == "__main__":

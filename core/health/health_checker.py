@@ -11,7 +11,11 @@ import os
 import shutil
 from dataclasses import dataclass, field
 from datetime import datetime
+from pathlib import Path
 from typing import Optional
+
+from core.paths import get_writable_app_root
+from core.utils.helpers import resource_path
 
 from .constants import CRITICAL_TABLES, TABLE_FRIENDLY, THRESHOLDS
 
@@ -164,16 +168,18 @@ class DatabaseHealthChecker:
         """Recopila información de salud del sistema."""
         # Espacio en disco
         try:
-            disk = shutil.disk_usage(".")
+            disk = shutil.disk_usage(str(get_writable_app_root()))
             disk_free_gb = disk.free / (1024 ** 3)
         except Exception:
             disk_free_gb = 0.0
 
         # Último backup — buscar en múltiples ubicaciones
         last_backup = "Nunca"
+        wr = get_writable_app_root()
         backup_dirs = [
-            os.path.join(os.getcwd(), "database_backups"),
-            os.path.join(os.getcwd(), "data", "backups"),
+            str(wr / "database_backups"),
+            str(wr / "data" / "backups"),
+            str(wr / "backups"),
         ]
         
         all_backup_files = []
@@ -210,7 +216,7 @@ class DatabaseHealthChecker:
 
         # Errores en el log de la última sesión
         last_errors = 0
-        log_path = os.path.join(os.getcwd(), "logs", "EvolucionTiempos.log")
+        log_path = str(wr / "logs" / "EvolucionTiempos.log")
         if os.path.isfile(log_path):
             try:
                 with open(log_path, "r", encoding="utf-8", errors="ignore") as f:
@@ -222,11 +228,11 @@ class DatabaseHealthChecker:
 
         # Versión del esquema (última migración Alembic)
         schema_version = "desconocida"
-        versions_dir = os.path.join(os.getcwd(), "migrations", "versions")
-        if os.path.isdir(versions_dir):
+        versions_dir = Path(resource_path("migrations/versions"))
+        if versions_dir.is_dir():
             try:
                 version_files = sorted(
-                    [f for f in os.listdir(versions_dir) if f.endswith(".py") and not f.startswith("__")],
+                    [f for f in os.listdir(str(versions_dir)) if f.endswith(".py") and not f.startswith("__")],
                     reverse=True,
                 )
                 if version_files:

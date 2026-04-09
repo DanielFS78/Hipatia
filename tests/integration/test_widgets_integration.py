@@ -105,7 +105,7 @@ class TestWidgetControllerIntegration:
         mock_worker_ctrl.management_manager = MagicMock(spec=["_on_save_worker_clicked"])
         DIContainer.get_instance().register(WorkerController, instance=mock_worker_ctrl)
         
-        widget = WorkersWidget(controller=controller)
+        widget = WorkersWidget()
         mock_view.pages['workers'] = widget
         
         # 2. Connect

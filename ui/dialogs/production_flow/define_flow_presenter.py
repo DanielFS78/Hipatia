@@ -1,5 +1,9 @@
 """
-Interfaz PyQt6 (`define_flow_presenter`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Presenter del diálogo «Definir pila de producción» (lógica pura, sin Qt).
+
+Consultas de dominio solo a través de ``machine_service``, ``preparation_service`` y
+``fabricacion_service`` inyectados o resueltos en ``DefineProductionFlowDialog`` (DI o atributos
+en ``AppModel``). No recibe ni usa ``AppModel`` como fachada.
 """
 
 import logging
@@ -30,8 +34,23 @@ from core.dtos import (
 )
 
 if TYPE_CHECKING:
-    from core.app_model import AppModel
     from core.config import ScheduleConfig
+
+from core.services.machine_service import MachineService
+from core.services.preparation_service import PreparationService
+from core.services.fabricacion_service import FabricacionService
+
+
+def _normalize_prep_info_response(raw: Any) -> tuple[Optional[Any], Optional[Any]]:
+    """Convierte respuesta legada (tupla o lista de al menos 2 elementos) a par (grupo, máquina)."""
+    if raw is None:
+        return None, None
+    if isinstance(raw, tuple) and len(raw) >= 2:
+        return raw[0], raw[1]
+    if isinstance(raw, list) and len(raw) >= 2:
+        return raw[0], raw[1]
+    return None, None
+
 
 class DefineFlowPresenter:
     """
@@ -39,9 +58,19 @@ class DefineFlowPresenter:
     de la vista (DefineProductionFlowDialog).
     """
     
-    def __init__(self, model: Optional[Any] = None, schedule_config: Optional[Any] = None, default_units: int = 1) -> None:
+    def __init__(
+        self,
+        schedule_config: Optional[Any] = None,
+        default_units: int = 1,
+        *,
+        machine_service: MachineService | None = None,
+        preparation_service: PreparationService | None = None,
+        fabricacion_service: FabricacionService | None = None,
+    ) -> None:
         self.logger = logging.getLogger("EvolucionTiemposApp.DefineFlowPresenter")
-        self.model = model
+        self.machine_service = machine_service
+        self.preparation_service = preparation_service
+        self.fabricacion_service = fabricacion_service
         self.schedule_config = schedule_config
         self.default_units = default_units
         self.production_flow: List[ProductionFlowStepDTO] = []
@@ -139,35 +168,42 @@ class DefineFlowPresenter:
 
     def get_machines_for_task(self, task_info: Optional[FlowTaskDataDTO]) -> List[Any]:
         """Obtiene las máquinas compatibles con el tipo de proceso de la tarea."""
-        if not self.model or task_info is None:
+        if task_info is None:
             return []
         process_type = task_info.requiere_maquina_tipo
         if not process_type:
             return []
-        return cast(List[Any], self.model.get_machines_by_process_type(process_type))
+        if self.machine_service is not None:
+            return cast(List[Any], self.machine_service.get_machines_by_process_type(process_type))
+        return []
 
     def get_prep_info(self, product_code: str) -> tuple[Optional[Any], Optional[Any]]:
         """Obtiene información de preparación por defecto para un producto."""
-        if not self.model:
-            return None, None
-        return cast(tuple[Optional[Any], Optional[Any]], self.model.get_prep_info_for_product(product_code))
+        if self.preparation_service is not None:
+            return self.preparation_service.get_prep_info_for_product(product_code)
+        if self.fabricacion_service is not None and hasattr(
+            self.fabricacion_service, "get_prep_info_for_product"
+        ):
+            raw = self.fabricacion_service.get_prep_info_for_product(product_code)
+            return _normalize_prep_info_response(raw)
+        return None, None
 
     def get_prep_steps_for_machine(self, machine_id: int) -> List[Any]:
         """Obtiene todas las fases de preparación asociadas a una máquina."""
-        if not self.model:
+        if self.preparation_service is None:
             return []
-        groups = self.model.get_groups_for_machine(machine_id)
+        groups = self.preparation_service.get_groups_for_machine(machine_id)
         all_steps = []
         for group in groups:
-            steps = self.model.get_steps_for_group(group.id)
+            steps = self.preparation_service.get_steps_for_group(group.id)
             all_steps.extend(steps)
         return all_steps
 
     def get_default_step_ids(self, group_id: int) -> List[int]:
         """Obtiene los IDs de los pasos pertenecientes a un grupo."""
-        if not self.model:
+        if self.preparation_service is None:
             return []
-        return [step.id for step in self.model.get_steps_for_group(group_id)]
+        return [step.id for step in self.preparation_service.get_steps_for_group(group_id)]
 
     def get_step_view_model(self, index: int) -> FlowItemDTO:
         """
@@ -193,9 +229,11 @@ class DefineFlowPresenter:
         # Paso individual
         task = step.task
         machine_name = "Sin máquina"
-        if step.config.machine_id and self.model:
-            all_machines = self.model.get_all_machines(include_inactive=True)
+        if step.config.machine_id and self.machine_service is not None:
+            all_machines = self.machine_service.get_all_machines(include_inactive=True)
             machine_name = next((m.nombre for m in all_machines if m.id == step.config.machine_id), "Desconocida")
+        elif step.config.machine_id:
+            machine_name = "Desconocida"
         elif not task.requiere_maquina_tipo:
             machine_name = "No requiere máquina"
 

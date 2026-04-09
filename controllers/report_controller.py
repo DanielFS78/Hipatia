@@ -17,10 +17,7 @@ from core.interfaces.controller_interface import IController
 
 if TYPE_CHECKING:
     from core.models.app_model import AppModel
-    from ui.main_view import MainView
     from core.simulation.engine.schedule_config import ScheduleConfig
-    from ui.widgets.reportes_widget import ReportesWidget
-    from ui.widgets.historial_widget import HistorialWidget
     from database.database_manager import DatabaseManager
     from core.services.worker_service import WorkerService
     from core.services.product_service import ProductService
@@ -46,7 +43,7 @@ class ReportController(IController):
     """
 
     db: "DatabaseManager"
-    view: "MainView"
+    view: Any
     worker_service: "WorkerService"
     product_service: "ProductService"
     pila_service: "PilaService"
@@ -60,7 +57,7 @@ class ReportController(IController):
     last_flexible_workers_needed: int
     selected_report_item: Optional[Any] # Puede ser OrdenResumenDTO o similar
 
-    def __init__(self, db: "DatabaseManager", view: "MainView", 
+    def __init__(self, db: "DatabaseManager", view: Any, 
                  worker_service: "WorkerService", product_service: "ProductService", 
                  pila_service: "PilaService", schedule_manager: "ScheduleConfig", 
                  logger: Optional[logging.Logger] = None) -> None:
@@ -187,7 +184,7 @@ class ReportController(IController):
             else:
                 self.view.show_message("Error", "No se pudo generar el informe PDF.", "critical")
 
-    def on_print_historial_report_clicked(self, historial_widget: HistorialWidget, historial_data: Optional[Any] = None) -> bool:
+    def on_print_historial_report_clicked(self, historial_widget: Any, historial_data: Optional[Any] = None) -> bool:
         """
         Genera un informe PDF del historial seleccionado.
         """

@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 from typing import Any, cast
-from unittest.mock import MagicMock, patch, call, create_autospec, ANY
+from unittest.mock import MagicMock, patch, call, create_autospec
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QDialog
 
@@ -706,11 +706,17 @@ class TestConnectWorkersSignals:
         mock_workers_page.cancel_task_signal = MagicMock()
         ctrl._connect_workers_signals()
         assert mock_workers_page.save_signal.connect.call_count == 1
-        mock_workers_page.save_signal.connect.assert_called_once_with(ANY)
+        mock_workers_page.save_signal.connect.assert_called_once_with(
+            ctrl.management_manager._on_save_worker_clicked,
+        )
         assert mock_workers_page.delete_signal.connect.call_count == 1
-        mock_workers_page.delete_signal.connect.assert_called_once_with(ANY)
+        mock_workers_page.delete_signal.connect.assert_called_once_with(
+            ctrl.management_manager._on_delete_worker_clicked,
+        )
         assert mock_app.model.workers_changed_signal.connect.call_count == 1
-        mock_app.model.workers_changed_signal.connect.assert_called_once_with(ANY)
+        mock_app.model.workers_changed_signal.connect.assert_called_once_with(
+            ctrl.management_manager.update_workers_view,
+        )
 
 
 # =============================================================================

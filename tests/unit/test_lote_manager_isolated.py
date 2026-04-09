@@ -45,9 +45,7 @@ def lote_manager(mock_view, mock_db, mock_product_service, mock_fab_service):
 
 def test_on_calc_lote_search_changed(qtbot, lote_manager, mock_view, mock_db):
     calc_page = MagicMock()
-    list_widget = QListWidget()
-    qtbot.addWidget(list_widget)
-    calc_page.lote_search_results = list_widget
+    calc_page.set_lote_search_results = MagicMock()
     mock_view.pages["calculate"] = calc_page
     
     mock_db.search_lotes.return_value = [
@@ -55,11 +53,7 @@ def test_on_calc_lote_search_changed(qtbot, lote_manager, mock_view, mock_db):
     ]
     
     lote_manager.on_calc_lote_search_changed("L01")
-    
-    assert list_widget.count() == 1
-    item0 = list_widget.item(0)
-    assert item0 is not None
-    assert "L01" in item0.text()
+    calc_page.set_lote_search_results.assert_called_once_with([(1, "L01", "Test Lote")])
 
 def test_on_lote_def_product_search_changed(qtbot, lote_manager, mock_view, mock_product_service):
     lote_page = MagicMock()
@@ -79,16 +73,33 @@ def test_on_lote_def_product_search_changed(qtbot, lote_manager, mock_view, mock
     assert item0 is not None
     assert "P01" in item0.text()
 
-def test_on_lote_def_product_search_too_short(lote_manager, mock_view):
+def test_on_lote_def_product_search_short_queries_service(lote_manager, mock_view, mock_product_service):
+    """Texto corto ya no vacía la lista: se delega en search_products."""
     lote_page = MagicMock()
     list_widget = MagicMock()
     lote_page.product_results = list_widget
     mock_view.pages["definir_lote"] = lote_page
-    
+    mock_product_service.search_products.return_value = []
+
     lote_manager.on_lote_def_product_search_changed("a")
 
+    mock_product_service.search_products.assert_called_once_with("a")
     assert list_widget.clear.call_count == 1
-    list_widget.clear.assert_called_once_with()
+
+
+def test_on_lote_def_product_search_empty_lists_all(lote_manager, mock_view, mock_product_service):
+    lote_page = MagicMock()
+    list_widget = MagicMock()
+    lote_page.product_results = list_widget
+    mock_view.pages["definir_lote"] = lote_page
+    mock_product_service.search_products.return_value = [
+        ProductDTO(codigo="P01", descripcion="Product 1")
+    ]
+
+    lote_manager.on_lote_def_product_search_changed("")
+
+    mock_product_service.search_products.assert_called_once_with("")
+    assert list_widget.addItem.call_count == 1
 
 def test_on_lote_def_fab_search_changed(qtbot, lote_manager, mock_view, mock_fab_service):
     lote_page = MagicMock()

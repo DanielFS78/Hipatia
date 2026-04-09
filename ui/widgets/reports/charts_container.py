@@ -6,6 +6,8 @@ CHARTS CONTAINER WIDGET - Contenedor de Gráficas de Análisis
 Widget contenedor que muestra múltiples gráficas de análisis para
 un producto seleccionado: tiempo promedio, evolución temporal,
 tiempos por trabajador y patrón de incidencias.
+
+Datos: únicamente ``report_service=`` (``ReportService``).
 ========================================================================
 """
 import logging
@@ -48,9 +50,14 @@ class ReportsChartsWidget(QWidget):
         }
     """
     
-    def __init__(self, controller: Any = None, parent: Any = None) -> None:
+    def __init__(
+        self,
+        parent: Any = None,
+        *,
+        report_service: Any = None,
+    ) -> None:
         super().__init__(parent)
-        self.controller = controller
+        self._report_service = report_service
         self.logger = logging.getLogger("EvolucionTiemposApp.ReportsChartsWidget")
         self._current_producto: str | None = None
         self._tab_titles = ["📈 Evolución", "👥 Por Trabajador", "⚠️ Incidencias"]
@@ -62,14 +69,7 @@ class ReportsChartsWidget(QWidget):
         self._setup_ui()
 
     def _get_reports_model(self) -> Any:
-        """Obtiene una interfaz con métodos de reportes (AppModel o wrapper con .model)."""
-        if self.controller is None:
-            return None
-        if hasattr(self.controller, "get_product_time_stats"):
-            return self.controller
-        if hasattr(self.controller, "model"):
-            return self.controller.model
-        return None
+        return self._report_service
     
     def _setup_ui(self) -> None:
         """Configura la interfaz."""
@@ -189,18 +189,18 @@ class ReportsChartsWidget(QWidget):
                 return
             
             # Cargar estadísticas de tiempo promedio
-            promedio_data = model.get_product_time_stats(producto_codigo) if hasattr(model, "get_product_time_stats") else None
+            promedio_data = model.get_product_time_stats(producto_codigo)
             self._update_stats_cards(promedio_data)
-            
+
             # Cargar datos para gráficas
             if CHARTS_AVAILABLE:
-                evolucion_data = model.get_evolution_stats(producto_codigo, days=30) if hasattr(model, "get_evolution_stats") else []
+                evolucion_data = model.get_evolution_stats(producto_codigo, days=30)
                 self._update_evolution_chart(evolucion_data)
-                
-                trabajadores_data = model.get_worker_time_stats(producto_codigo) if hasattr(model, "get_worker_time_stats") else []
+
+                trabajadores_data = model.get_worker_time_stats(producto_codigo)
                 self._update_workers_chart(trabajadores_data)
-                
-                incidencias_data = model.get_incidents_stats(producto_codigo) if hasattr(model, "get_incidents_stats") else []
+
+                incidencias_data = model.get_incidents_stats(producto_codigo)
                 self._update_incidents_chart(incidencias_data)
             
         except Exception as e:
@@ -304,9 +304,8 @@ class ReportsChartsWidget(QWidget):
         
         self._set_chart_tab(2, chart, self._tab_descriptions[2])
     
-    def set_controller(self, controller: Any) -> None:
-        """Establece el controlador."""
-        self.controller = controller
+    def set_report_service(self, report_service: Any) -> None:
+        self._report_service = report_service
     
     def clear(self) -> None:
         """Limpia el widget."""

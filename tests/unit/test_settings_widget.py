@@ -18,13 +18,6 @@ from ui.widgets.settings_widget import SettingsWidget
 pytestmark = pytest.mark.unit
 
 
-class _ControllerWithDb:
-    """Sustituto concreto: el widget solo exige `.db` con `.config_repo`."""
-
-    def __init__(self, db: DatabaseManager) -> None:
-        self.db = db
-
-
 @pytest.fixture
 def schedule_controller() -> ScheduleController:
     """Mock estricto de `ScheduleController` con defaults de configuración."""
@@ -112,22 +105,14 @@ class TestSettingsWidget:
         cast(Any, schedule_controller).config_get_setting.assert_called_once_with("backup_time", "03:00")
         assert widget.backup_time.time().toString("HH:mm") == "03:00"
 
-    def test_set_controller_uses_schedule_controller_attribute(self, qtbot) -> None:
-        """`set_controller` usa `controller.schedule_controller` cuando existe."""
+    def test_set_schedule_controller_loads_settings(self, qtbot) -> None:
+        """`set_schedule_controller` fija el controlador de horarios y recarga la UI."""
         w = SettingsWidget()
         qtbot.addWidget(w)
         ctrl = create_autospec(ScheduleController, instance=True)
         ctrl.config_get_setting.return_value = "03:00"
 
-        class DummyAppController:
-            """Doble simple con atributo schedule_controller."""
-
-            def __init__(self, schedule_controller: ScheduleController) -> None:
-                self.schedule_controller = schedule_controller
-
-        app_controller = DummyAppController(ctrl)
-
-        w.set_controller(app_controller)
+        w.set_schedule_controller(ctrl)
 
         assert w.schedule_controller is ctrl
         cast(Any, ctrl).load_schedule_settings.assert_called_once_with()
@@ -160,8 +145,7 @@ class TestSettingsWidget:
         }.get(k, default)
         db = create_autospec(DatabaseManager, instance=True)
         db.config_repo = repo
-        w.controller = _ControllerWithDb(cast(DatabaseManager, db))
-        w.load_schedule_settings()
+        w.set_config_db_fallback(cast(DatabaseManager, db))
         assert w.breaks_list.count() == 1
         item0 = w.breaks_list.item(0)
         assert item0 is not None
@@ -182,6 +166,5 @@ class TestSettingsWidget:
         }.get(k, default)
         db = create_autospec(DatabaseManager, instance=True)
         db.config_repo = repo
-        w.controller = _ControllerWithDb(cast(DatabaseManager, db))
-        w.load_schedule_settings()
+        w.set_config_db_fallback(cast(DatabaseManager, db))
         assert w.breaks_list.count() == 0

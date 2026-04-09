@@ -7,13 +7,10 @@ Descripción: Gestor de administración de personal. Maneja el CRUD de trabajado
 import logging
 from typing import Any, TYPE_CHECKING, Optional, List
 from PyQt6.QtCore import Qt
-from ui.widgets import GestionDatosWidget
 from core.security.access_control import require_permission
 from core.security.security_service import Permission
 
 from .protocols import IWorkerView, IWorkerService, IFabricacionService
-
-from ui.widgets.workers_widget import WorkersWidget
 
 class WorkerManagementManager:
     """

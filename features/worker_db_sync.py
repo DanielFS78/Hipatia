@@ -1,11 +1,16 @@
 """
 Servicio para la sincronización y persistencia de datos del trabajador.
 Actúa como fachada para el repositorio de trazabilidad y otras operaciones de BD.
+
+Las fabricaciones asignadas a la lista del trabajador se exponen como
+``WorkerTaskListRowDTO`` (ver ``get_assigned_fabricaciones``), no como dicts opacos.
 """
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, cast
 from datetime import datetime
+
+from core.worker_ui_dtos import WorkerTaskListRowDTO
 
 class WorkerDbSync:
     """
@@ -18,19 +23,18 @@ class WorkerDbSync:
         self.tracking_repo = tracking_repo
         self.logger = logger or logging.getLogger("EvolucionTiemposApp.WorkerDbSync")
 
-    def get_assigned_fabricaciones(self, trabajador_id: int) -> List[Dict[str, Any]]:
+    def get_assigned_fabricaciones(self, trabajador_id: int) -> List[WorkerTaskListRowDTO]:
         """
         Obtiene y formatea las fabricaciones asignadas a un trabajador para la UI.
 
-        Solicita al repositorio las asignaciones (como DTOs) y las transforma
-        en una lista de diccionarios plana que la interfaz de usuario de
-        trabajador espera. Maneja la compatibilidad entre objetos DTO y diccionarios.
+        Solicita al repositorio las asignaciones (como DTOs) y devuelve filas tipadas
+        (`WorkerTaskListRowDTO`) para la lista del trabajador.
 
         Args:
             trabajador_id: ID del trabajador logueado.
 
         Returns:
-            Lista de diccionarios con claves 'id', 'codigo', 'producto_codigo', etc.
+            Lista de DTOs con id, codigo, producto_codigo, etc.
         """
         try:
             fabricaciones = self.tracking_repo.get_fabricaciones_por_trabajador(trabajador_id)
@@ -57,17 +61,19 @@ class WorkerDbSync:
                         prod_desc = str(producto_info.get('descripcion', '') or '')
                         prod_cant = int(producto_info.get('cantidad', 0) or 0)
 
-                result.append({
-                    'id': fab.id if is_dto else fab.get('id'),
-                    'codigo': fab.codigo if is_dto else fab.get('codigo'),
-                    'descripcion': fab.descripcion if is_dto else fab.get('descripcion'),
-                    'producto_codigo': prod_cod,
-                    'producto_descripcion': prod_desc,
-                    'cantidad': prod_cant,
-                    'fecha_asignacion': fab.fecha_asignacion if is_dto else fab.get('fecha_asignacion'),
-                    'estado': fab.estado if is_dto else fab.get('estado'),
-                    'productos': productos
-                })
+                result.append(
+                    WorkerTaskListRowDTO(
+                        id=fab.id if is_dto else fab.get("id"),
+                        codigo=str((fab.codigo if is_dto else fab.get("codigo")) or ""),
+                        descripcion=str((fab.descripcion if is_dto else fab.get("descripcion")) or ""),
+                        producto_codigo=prod_cod,
+                        producto_descripcion=prod_desc,
+                        cantidad=prod_cant,
+                        fecha_asignacion=fab.fecha_asignacion if is_dto else fab.get("fecha_asignacion"),
+                        estado=fab.estado if is_dto else fab.get("estado"),
+                        productos=productos,
+                    )
+                )
             return result
         except Exception as e:
             self.logger.error(f"Error al obtener fabricaciones asignadas: {e}", exc_info=True)
@@ -76,7 +82,7 @@ class WorkerDbSync:
     def get_active_trabajos(self, trabajador_id: int) -> List[Any]:
         """Obtiene los trabajos actualmente en proceso para el trabajador."""
         try:
-            return self.tracking_repo.obtener_trabajos_activos(trabajador_id)
+            return cast(List[Any], self.tracking_repo.obtener_trabajos_activos(trabajador_id))
         except Exception as e:
             self.logger.error(f"Error al obtener trabajos activos: {e}", exc_info=True)
             return []
@@ -156,11 +162,11 @@ class WorkerDbSync:
     def get_estadisticas(self, trabajador_id: int) -> Optional[Dict[str, Any]]:
         """Obtiene estadísticas de rendimiento del trabajador."""
         try:
-            return self.tracking_repo.obtener_estadisticas_trabajador(trabajador_id)
+            return cast(Dict[str, Any] | None, self.tracking_repo.obtener_estadisticas_trabajador(trabajador_id))
         except Exception as e:
             self.logger.error(f"Error al obtener estadísticas: {e}", exc_info=True)
             return None
 
     def get_data_for_export(self, trabajador_id: int, last_export_date: datetime) -> List[Dict[str, Any]]:
         """Obtiene datos nuevos para exportación."""
-        return self.tracking_repo.get_data_for_export(trabajador_id, last_export_date)
+        return cast(List[Dict[str, Any]], self.tracking_repo.get_data_for_export(trabajador_id, last_export_date))

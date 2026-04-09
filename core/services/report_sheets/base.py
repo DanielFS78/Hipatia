@@ -6,14 +6,16 @@ Lógica o utilidades del núcleo (`base`): tipos, servicios auxiliares o infraes
 
 import logging
 from abc import ABC, abstractmethod
+from typing import Any
+
 from openpyxl import Workbook
 
 class ExcelSheetStrategy(ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         self.logger = logging.getLogger(__name__)
 
     @abstractmethod
-    def create_sheet(self, wb: Workbook, **kwargs) -> None:
+    def create_sheet(self, wb: Workbook, **_kwargs: Any) -> None:
         """
         Creates a sheet in the workbook with specific logic.
         """

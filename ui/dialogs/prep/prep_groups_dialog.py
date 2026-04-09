@@ -6,8 +6,13 @@ from __future__ import annotations
 import os
 import logging
 from datetime import datetime, date, timedelta, time
-from typing import Any, Tuple, cast
-from core.services.time_calculator import CalculadorDeTiempos
+from typing import Any, Tuple, cast, TYPE_CHECKING
+
+from core.services.preparation_service import PreparationService
+from core.services.product_service import ProductService
+
+if TYPE_CHECKING:
+    from core.interfaces.view_interface import IView
 
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QFormLayout,
@@ -40,7 +45,9 @@ class PrepGroupsDialog(QDialog):
         self,
         machine_id: int,
         machine_name: str,
-        controller: Any,
+        preparation_service: PreparationService,
+        product_service: ProductService,
+        view: "IView",
         parent: Any = None,
     ) -> None:
         """
@@ -49,18 +56,19 @@ class PrepGroupsDialog(QDialog):
         Args:
             machine_id: ID de la máquina.
             machine_name: Nombre de la máquina.
-            controller: Controlador de máquinas.
+            preparation_service: Servicio de grupos y pasos de preparación.
+            product_service: Catálogo de productos para el combo.
+            view: Vista para mensajes y confirmaciones.
             parent: Widget padre.
         """
         super().__init__(parent)
         self.setWindowTitle(f"Grupos de Preparación para: {machine_name}")
         self.setMinimumSize(800, 500)
-        from core.di_container import DIContainer
-        from core.app_model import AppModel
-        self.app_model = DIContainer.get_instance().resolve(AppModel)
         self.machine_id = machine_id
-        self.controller = controller # MachineController
-        self.products = self.app_model.search_products("")
+        self.preparation_service = preparation_service
+        self.product_service = product_service
+        self.view = view
+        self.products = self.product_service.search_products("")
         self.current_group_id: int | None = None
 
         main_layout = QHBoxLayout(self)
@@ -135,7 +143,7 @@ class PrepGroupsDialog(QDialog):
     def _load_groups(self) -> None:
         """Carga los grupos de preparación de la máquina en la lista."""
         self.groups_list.clear()
-        groups = self.app_model.get_groups_for_machine(self.machine_id)
+        groups = self.preparation_service.get_groups_for_machine(self.machine_id)
         for group in groups:
             # group es un PreparationGroupDTO
             item = QListWidgetItem(group.nombre)
@@ -162,7 +170,7 @@ class PrepGroupsDialog(QDialog):
         self.group_name_edit.setText(name)
         self.group_desc_edit.setPlainText(desc)
 
-        group_details = self.app_model.get_group_details(group_id)
+        group_details = self.preparation_service.get_group_details(group_id)
         if group_details:
             # DTO access (PreparationGroupDTO)
             product_code = group_details.producto_codigo
@@ -192,22 +200,22 @@ class PrepGroupsDialog(QDialog):
         product_code = cast(str | None, self.product_combo.currentData())
 
         if not name:
-            self.controller.view.show_message("Error", "El nombre del grupo es obligatorio.", "warning")
+            self.view.show_message("Error", "El nombre del grupo es obligatorio.", "warning")
             return
 
         if self.current_group_id:
-            if self.app_model.update_prep_group(self.current_group_id, name, desc, product_code):
-                 self.controller.view.show_message("Éxito", f"Grupo '{name}' actualizado.", "info")
+            if self.preparation_service.update_prep_group(self.current_group_id, name, desc, product_code):
+                 self.view.show_message("Éxito", f"Grupo '{name}' actualizado.", "info")
             else:
-                 self.controller.view.show_message("Error", "No se pudo actualizar el grupo.", "critical")
+                 self.view.show_message("Error", "No se pudo actualizar el grupo.", "critical")
         else:
-            res = self.app_model.add_prep_group(self.machine_id, name, desc, product_code)
+            res = self.preparation_service.add_prep_group(self.machine_id, name, desc, product_code)
             if isinstance(res, int) and not isinstance(res, bool):
-                self.controller.view.show_message("Éxito", f"Grupo '{name}' creado correctamente.", "info")
+                self.view.show_message("Éxito", f"Grupo '{name}' creado correctamente.", "info")
             elif res == "UNIQUE_CONSTRAINT":
-                self.controller.view.show_message("Error", f"Ya existe un grupo llamado '{name}' para esta máquina.", "warning")
+                self.view.show_message("Error", f"Ya existe un grupo llamado '{name}' para esta máquina.", "warning")
             else:
-                self.controller.view.show_message("Error", "No se pudo crear el grupo.", "critical")
+                self.view.show_message("Error", "No se pudo crear el grupo.", "critical")
 
         self._load_groups()
 
@@ -215,28 +223,28 @@ class PrepGroupsDialog(QDialog):
         """Elimina el grupo seleccionado."""
         selected_items = self.groups_list.selectedItems()
         if not selected_items:
-            self.controller.view.show_message("Selección Requerida", "Por favor, seleccione un grupo para eliminar.", "warning")
+            self.view.show_message("Selección Requerida", "Por favor, seleccione un grupo para eliminar.", "warning")
             return
 
         group_id, group_name, _ = cast(
             Tuple[int, str, str], selected_items[0].data(Qt.ItemDataRole.UserRole)
         )
-        if self.controller.view.show_confirmation_dialog("Confirmar Eliminación", f"¿Está seguro de que desea eliminar el grupo '{group_name}'?"):
-            if self.app_model.delete_prep_group(group_id):
-                self.controller.view.show_message("Éxito", "Grupo eliminado correctamente.", "info")
+        if self.view.show_confirmation_dialog("Confirmar Eliminación", f"¿Está seguro de que desea eliminar el grupo '{group_name}'?"):
+            if self.preparation_service.delete_prep_group(group_id):
+                self.view.show_message("Éxito", "Grupo eliminado correctamente.", "info")
             else:
-                self.controller.view.show_message("Error", "No se pudo eliminar el grupo.", "critical")
+                self.view.show_message("Error", "No se pudo eliminar el grupo.", "critical")
             self._load_groups()
 
     def _manage_steps(self) -> None:
         """Abre el diálogo de pasos para el grupo seleccionado."""
         selected_items = self.groups_list.selectedItems()
         if not selected_items:
-            self.controller.view.show_message("Selección Requerida", "Por favor, seleccione un grupo para gestionar sus pasos.", "warning")
+            self.view.show_message("Selección Requerida", "Por favor, seleccione un grupo para gestionar sus pasos.", "warning")
             return
 
         group_id, group_name, _ = cast(
             Tuple[int, str, str], selected_items[0].data(Qt.ItemDataRole.UserRole)
         )
-        dialog = PrepStepsDialog(group_id, group_name, self.controller, self)
+        dialog = PrepStepsDialog(group_id, group_name, self.preparation_service, self.view, self)
         dialog.exec()

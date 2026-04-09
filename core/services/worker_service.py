@@ -5,7 +5,7 @@ Descripción: Servicio de dominio especializado en la gestión de trabajadores, 
 """
 import logging
 from datetime import datetime
-from typing import Any
+from typing import Any, cast
 from dataclasses import asdict
 
 from PyQt6.QtCore import QObject, pyqtSignal
@@ -56,15 +56,15 @@ class WorkerService(QObject):
 
     def get_all_workers(self, include_inactive: bool = False) -> list[WorkerDTO]:
         """Obtiene todos los trabajadores."""
-        return self.worker_repo.get_all_workers(include_inactive)
+        return cast(list[WorkerDTO], self.worker_repo.get_all_workers(include_inactive))
 
     def get_latest_workers(self, limit: int = 10) -> list[WorkerDTO]:
         """Obtiene los últimos trabajadores añadidos."""
-        return self.worker_repo.get_latest_workers(limit)
+        return cast(list[WorkerDTO], self.worker_repo.get_latest_workers(limit))
 
     def get_worker_details(self, worker_id: int) -> WorkerDetailDTO | None:
         """Obtiene detalles de un trabajador por ID."""
-        return self.worker_repo.get_worker_details(worker_id)
+        return cast(WorkerDetailDTO | None, self.worker_repo.get_worker_details(worker_id))
 
     def add_worker(self, nombre: str, notas: str, tipo_trabajador: int = 1, 
                    username: str | None = None, password_hash: str | None = None, 
@@ -76,7 +76,7 @@ class WorkerService(QObject):
         )
         if result is True:
             self.workers_changed_signal.emit()
-        return result
+        return cast(bool | str, result)
 
     def update_worker(self, worker_id: int, nombre: str, activo: bool, notas: str, 
                       tipo_trabajador: int, username: str | None = None, 
@@ -94,7 +94,7 @@ class WorkerService(QObject):
 
     def delete_worker(self, worker_id: int) -> bool:
         """Elimina un trabajador."""
-        success = self.worker_repo.delete_worker(worker_id)
+        success = cast(bool, self.worker_repo.delete_worker(worker_id))
         if success:
             self.workers_changed_signal.emit()
         return success
@@ -191,15 +191,15 @@ class WorkerService(QObject):
 
     def get_worker_activity_log(self, worker_id: int) -> list[TrabajoLogDTO]:
         """Obtiene el log de actividad detallado de un trabajador."""
-        return self.tracking_repo.get_trabajo_logs_por_trabajador(worker_id)
+        return cast(list[TrabajoLogDTO], self.tracking_repo.get_trabajo_logs_por_trabajador(worker_id))
 
     def actualizar_estado_asignacion(
         self, trabajador_id: int, fabricacion_id: int, nuevo_estado: str
     ) -> bool:
         """Actualiza el estado de una fabricación asignada a un trabajador (seguimiento)."""
-        return self.tracking_assignment_service.actualizar_estado_asignacion(
+        return cast(bool, self.tracking_assignment_service.actualizar_estado_asignacion(
             trabajador_id, fabricacion_id, nuevo_estado
-        )
+        ))
 
     def get_worker_load_stats(self) -> dict[str, Any]:
         """
@@ -239,8 +239,8 @@ class WorkerService(QObject):
 
     def authenticate_user(self, username: str, password_plain: str) -> dict[str, Any] | None:
         """Autentica a un usuario."""
-        return self.worker_repo.authenticate_user(username, password_plain)
+        return cast(dict[str, Any] | None, self.worker_repo.authenticate_user(username, password_plain))
 
     def update_user_password(self, worker_id: int, new_password_plain: str) -> bool:
         """Actualiza la contraseña de un usuario."""
-        return self.worker_repo.update_user_password(worker_id, new_password_plain)
+        return cast(bool, self.worker_repo.update_user_password(worker_id, new_password_plain))

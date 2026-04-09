@@ -36,8 +36,9 @@ class WorkersWidget(QWidget):
     assign_task_signal = pyqtSignal()
     cancel_task_signal = pyqtSignal(int)
 
-    def __init__(self, controller: Any = None) -> None:
-        super().__init__()
+    def __init__(self, _app_controller: Any = None, parent: Optional[QWidget] = None) -> None:
+        """`_app_controller` se ignora (compat ``MainView``); dependencias vía DI."""
+        super().__init__(parent)
         from core.di_container import DIContainer
         from controllers.worker.controller import WorkerController
         self.worker_controller = DIContainer.get_instance().resolve(WorkerController)

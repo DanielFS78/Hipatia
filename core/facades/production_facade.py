@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
 
 class ProductionFacade:
@@ -22,16 +22,16 @@ class ProductionFacade:
         return self._db.preproceso_repo.get_fabricacion_by_codigo(codigo)
 
     def get_products_for_fabricacion(self, fabricacion_id: int) -> list[Any]:
-        return self._db.get_products_for_fabricacion(fabricacion_id)
+        return cast(list[Any], self._db.get_products_for_fabricacion(fabricacion_id))
 
     def create_fabricacion_with_preprocesos(self, data: Any) -> bool:
-        return self._db.preproceso_repo.create_fabricacion_with_preprocesos(data)
+        return cast(bool, self._db.preproceso_repo.create_fabricacion_with_preprocesos(data))
 
     def set_products_for_fabricacion(self, fabricacion_id: int, productos: Any) -> bool:
-        return self._db.preproceso_repo.set_products_for_fabricacion(fabricacion_id, productos)
+        return cast(bool, self._db.preproceso_repo.set_products_for_fabricacion(fabricacion_id, productos))
 
     def update_fabricacion_and_preprocesos(self, dto: Any, preprocesos: Any) -> bool:
-        return self._db.preproceso_repo.update_fabricacion_and_preprocesos(dto, preprocesos)
+        return cast(bool, self._db.preproceso_repo.update_fabricacion_and_preprocesos(dto, preprocesos))
 
     def delete_fabricacion(self, fabricacion_id: int) -> bool:
-        return self._db.preproceso_repo.delete_fabricacion(fabricacion_id)
+        return cast(bool, self._db.preproceso_repo.delete_fabricacion(fabricacion_id))

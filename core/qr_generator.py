@@ -22,7 +22,7 @@ from io import BytesIO
 from PIL import Image
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import QByteArray
-from typing import Optional, Tuple, List, Any
+from typing import Optional, Tuple, List, Any, cast
 from datetime import datetime
 import hashlib
 import uuid
@@ -140,7 +140,7 @@ class QrGenerator:
                 img = img.resize(size, Image.Resampling.LANCZOS)
 
             self.logger.debug(f"QR generado para datos: {data[:50]}...")
-            return img
+            return cast(Image.Image, img)
 
         except Exception as e:
             self.logger.error(f"Error generando código QR: {e}")

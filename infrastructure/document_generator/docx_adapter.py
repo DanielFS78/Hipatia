@@ -28,7 +28,7 @@ class DocxGeneratorAdapter:
     la generación de documentos a partir de plantillas Word.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.logger = logging.getLogger("EvolucionTiemposApp.Infrastructure.DocxAdapter")
         if docx is None:
             self.logger.warning("La librería python-docx no está instalada.")

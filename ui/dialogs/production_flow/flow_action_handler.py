@@ -1,9 +1,12 @@
 """
-Interfaz PyQt6 (`flow_action_handler`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Acciones del diálogo de flujo visual (ciclos, guardar/cargar pila, biblioteca).
+
+``load_saved_pila`` obtiene API de pilas vía ``resolve_pila_service``; si no hay servicio,
+usa ``model.planning_facade`` y en último término ``model`` (``get_all_pilas`` / ``load_pila``).
 """
 from __future__ import annotations
 
-from typing import Optional, Any, List, Dict, TYPE_CHECKING
+from typing import Optional, Any, List, Dict
 from PyQt6.QtWidgets import QMessageBox, QInputDialog, QWidget, QPushButton, QLabel
 from PyQt6.QtCore import Qt
 from core.flow_canvas_io import (
@@ -15,19 +18,30 @@ from core.flow_canvas_io import (
 )
 from .common_dialogs import CycleEndConfigDialog, ReassignmentRuleDialog
 
-if TYPE_CHECKING:
-    from controllers.app_controller import AppController
-
 class FlowActionHandler:
     """
     Gestiona las acciones de configuración (ciclos, reasignaciones)
     y persistencia (guardar/cargar) del diálogo visual.
     """
-    def __init__(self, parent: QWidget, presenter: Any, graph_manager: Any, controller: AppController) -> None:
+    def __init__(self, parent: QWidget, presenter: Any, graph_manager: Any, hub: Any) -> None:
         self.parent = parent
         self.presenter = presenter
         self.graph_manager = graph_manager
-        self.controller = controller
+        self.hub = hub
+        from core.di_container import DIContainer
+        from ui.dialogs.fabrication.dialog_dependencies import resolve_pila_service
+
+        self._pila_service: Any = resolve_pila_service(hub, DIContainer.get_instance())
+
+    def _pila_list_load_api(self) -> Any:
+        """`PilaService` resuelto; si no, `planning_facade` o modelo completo como último recurso."""
+        if self._pila_service is not None:
+            return self._pila_service
+        mod = getattr(self.hub, "model", None)
+        pf = getattr(mod, "planning_facade", None) if mod is not None else None
+        if pf is not None:
+            return pf
+        return mod
 
     def handle_cycle_end(self, selected_index: Optional[int], simulation_service: Any) -> None:
         if selected_index is None: return
@@ -75,22 +89,25 @@ class FlowActionHandler:
         return -1 # Marcador de no cambio
 
     def load_saved_pila(self, flow_loader_callback: Any) -> None:
-        pilas = self.controller.model.get_all_pilas()
-        if not pilas: return
-        
+        api = self._pila_list_load_api()
+        pilas = api.get_all_pilas()
+        if not pilas:
+            return
+
         items = [f"{p.nombre} (ID: {p.id})" for p in pilas]
         item, ok = QInputDialog.getItem(self.parent, "Cargar Pila", "Seleccione:", items, 0, False)
         if ok and item:
             pila_id = pilas[items.index(item)].id
-            _, _, flow, _ = self.controller.model.load_pila(pila_id)
-            if flow: flow_loader_callback(flow)
+            _, _, flow, _ = api.load_pila(pila_id)
+            if flow:
+                flow_loader_callback(flow)
 
     def save_pila_only(self) -> None:
         nombre, ok = QInputDialog.getText(self.parent, "Guardar", "Nombre:")
         if ok and nombre:
             desc, _ = QInputDialog.getText(self.parent, "Guardar", "Descripción:")
             self.graph_manager.synchronize_positions()
-            self.controller.handle_save_flow_only(nombre, desc, self.presenter.build_production_flow())
+            self.hub.handle_save_flow_only(nombre, desc, self.presenter.build_production_flow())
 
     def initialize_library(self, tasks_data: List[Dict[str, Any]], library_panel: Any) -> None:
         """Prepara y carga los datos en el panel de la biblioteca."""

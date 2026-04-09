@@ -85,18 +85,18 @@ Cada tarea individual sigue este flujo de 6 pasos. **Sin excepciones.**
 | B3 | Absorber mixins de repositorios (4 mixins) | `.agents/skills/migracion_mixins_composicion/SKILL.md` §Prioridad 3 | ✅ Completada | 🟢 BAJA |
 | B4 | Absorber/delegar mixins de UI (2 mixins) | `.agents/skills/migracion_mixins_composicion/SKILL.md` §Prioridad 4 | ✅ Completada | 🟢 BAJA |
 | B4.5 | Limpieza Final de Mixins (Composición sobre Herencia) | `.agents/skills/migracion_mixins_composicion/SKILL.md` | ✅ Completada | 🟡 MEDIA |
-| B5 | Reducir God Object AppModel — inyectar servicios directos | `.agents/skills/reduccion_god_objects/SKILL.md` | ⬜ Pendiente | 🟡 MEDIA |
+| B5 | Reducir God Object AppModel — inyectar servicios directos | `.agents/skills/reduccion_god_objects/SKILL.md` | ✅ **Completada (definitiva)** | 🟡 MEDIA |
 
 ### Bloque C — Preparación para Windows (producción)
 
 | # | Tarea | Skill de referencia | Estado | Prioridad |
 |---|-------|---------------------|--------|-----------|
-| C1 | Auditar paths del sistema de archivos para compatibilidad Windows | `.agents/skills/preparacion_windows/SKILL.md` §2 | ⬜ Pendiente | 🔴 CRÍTICA |
-| C2 | Revisar `_fix_qt_macos()` y verificar que Qt no necesita fix en Windows | `.agents/skills/preparacion_windows/SKILL.md` §1 | ⬜ Pendiente | 🟡 MEDIA |
-| C3 | Crear archivo `hipatia.spec` y script `build_windows.bat` para PyInstaller | `.agents/skills/preparacion_windows/SKILL.md` §4 | ⬜ Pendiente | 🔴 CRÍTICA |
-| C4 | Validar UI en Windows con DPI 100%, 125%, 150% | `.agents/skills/preparacion_windows/SKILL.md` §1 | ⬜ Pendiente | 🔴 CRÍTICA |
-| C5 | Validar cámaras/QR en Windows con DirectShow | `.agents/skills/preparacion_windows/SKILL.md` §3 | ⬜ Pendiente | 🟡 MEDIA |
-| C6 | Checklist final pre-producción completo | `.agents/skills/preparacion_windows/SKILL.md` §6 | ⬜ Pendiente | 🔴 CRÍTICA |
+| C1 | Auditar paths del sistema de archivos para compatibilidad Windows | `.agents/skills/preparacion_windows/SKILL.md` §2 | ✅ Completada (repo: `core/paths`, `DatabaseConfig`, health/backup/UI) | 🔴 CRÍTICA |
+| C2 | Revisar `_fix_qt_macos()` y verificar que Qt no necesita fix en Windows | `.agents/skills/preparacion_windows/SKILL.md` §1 | ✅ Documentada (`Documentacion/Despliegue_Windows.md`; validación en PC pendiente) | 🟡 MEDIA |
+| C3 | Crear archivo `hipatia.spec` y script `build_windows.bat` para PyInstaller | `.agents/skills/preparacion_windows/SKILL.md` §4 | ✅ Completada (`hipatia.spec`, `build_windows.bat`, `requirements-build.txt`) | 🔴 CRÍTICA |
+| C4 | Validar UI en Windows con DPI 100%, 125%, 150% | `.agents/skills/preparacion_windows/SKILL.md` §1 | ⬜ Pendiente (solo en PC Windows) | 🔴 CRÍTICA |
+| C5 | Validar cámaras/QR en Windows con DirectShow | `.agents/skills/preparacion_windows/SKILL.md` §3 | ⬜ Pendiente (solo en PC Windows) | 🟡 MEDIA |
+| C6 | Checklist final pre-producción completo | `.agents/skills/preparacion_windows/SKILL.md` §6 | ⬜ Pendiente (solo en PC Windows) | 🔴 CRÍTICA |
 
 ### Bloque D — Mantenimiento Continuo (siempre activo)
 
@@ -111,6 +111,29 @@ Esta tarea aborda los mixins remanentes que rompen la directriz de **composició
 - **`FabricacionManagerProductsMixin`**: ✅ sustituido por **`FabricacionProductsHandler`** (`controllers/product/fabricacion_products_handler.py`), compuesto desde `FabricacionManager`.
 - **`AppControllerCompatMixin`**: ✅ métodos absorbidos en **`AppController`** (`controllers/app_controller.py`); archivo mixin eliminado.
 - **`EnhancedFlowPresenterBuilderMixin`**: ✅ sustituido por **`FlowBuilder`** (`ui/dialogs/production_flow/flow_builder.py`), instanciado por `EnhancedFlowPresenter`; API pública del presentador sin cambios.
+
+#### Detalle Tarea B5: Reducir fachada AppModel — **FINALIZADA (sin subtareas abiertas)**
+
+**Estado:** la tarea B5 del coordinador está **cerrada de forma definitiva**. No debe figurar como «pendiente» ni «en curso» en ningún otro documento. La **tabla canónica** de «qué queda fuera y por qué» vive en `.agents/skills/reduccion_god_objects/SKILL.md` → sección **«Estado de la tarea B5 (coordinador producción): FINALIZADA»** (tabla + regla para el agente).
+
+**Alcance entregado (bloque B):**
+
+- **Controladores:** `AppController` usa `ProductService` y (en reportes) el stack usa `ReportService` del DI cuando está registrado; fallback coherente a `AppModel` / `model.product_service`. `config_get_setting` / `config_set_setting` en fallback usan `self.db`.
+- **Reportes UI:** `ReportesWidget` resuelve `ReportService` del contenedor y lo pasa a `SmartSearchWidget`, `OrderListWidget` y `ReportsChartsWidget` (listas/gráficas usan `AppController` + servicio).
+- **Flujo:** `DefineProductionFlowDialog` construye `DefineFlowPresenter` solo con servicios (`MachineService`, `PreparationService`, `FabricacionService`); el presenter no referencia `AppModel`.
+
+**Fuera de alcance de B5 (resumen; motivación detallada en la skill):**
+
+| Fuera de alcance | Motivo breve |
+|------------------|--------------|
+| Borrar en bloque los delegadores de `AppModel` | Solo poda método a método con `rg` sin consumidores |
+| Bitácora sin delegadores en `AppModel` | Resolución vía `PilaService` / `planning_facade`; ver `ui_dialog_dependency_wiring` |
+| Mover señales Qt fuera de `AppModel` | Decisión de arquitectura; sería otra tarea |
+| `get_dashboard_stats` y orquestación multi-servicio | Rediseño de caso de uso, no alcance B5 |
+| Sustituir todo el bootstrap por DI puro | `StartupController` sigue compuesto desde el modelo |
+| Más widgets con DI explícito | Opcional; órdenes/gráficas ya reciben `report_service` desde `ReportesWidget` |
+
+**Trabajo futuro** (no es B5): podas puntuales de `AppModel`, nuevos widgets con DI desde el inicio, o ampliar `ui_dialog_dependency_wiring` según su REGISTRO.
 
 ---
 
@@ -162,7 +185,7 @@ A1 → A2 → B1 → B2 → B3 → B4 → B4.5 → B5 → C1 → C2 → C3 → C
 | TODOs funcionales | 1 |
 | Archivos .bak_monolith | 10 (eliminar con A1) |
 | Mixins tipo A (fragmentadores) | 14 (migrar con B1-B4) |
-| Métodos delegadores AppModel | 148 (reducir con B5) |
+| Métodos delegadores AppModel | ~148 (B5 cerrado: acceso directo donde aplica; poda solo sin consumidores) |
 
 ---
 
@@ -181,6 +204,6 @@ A1 → A2 → B1 → B2 → B3 → B4 → B4.5 → B5 → C1 → C2 → C3 → C
 
 ## Última Actualización
 
-- **Fecha:** 2026-03-29
-- **Estado:** B1, B2, B3 y B4 completadas. Código estabilizado tras absorción de mixins.
-- **Próxima tarea:** B5 (Reducir God Object AppModel — WorkerController)
+- **Fecha:** 2026-04-04
+- **Estado:** Bloque B completo (incl. B5). Siguiente prioridad: **C1** (paths Windows).
+- **Próxima tarea:** C1 — Auditar paths del sistema de archivos para compatibilidad Windows

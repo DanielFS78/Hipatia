@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 """Tests unitarios para ReportsChartsWidget: estado inicial, update_charts, clear."""
 import pytest
-import logging
-from unittest.mock import MagicMock
+from unittest.mock import create_autospec
 from ui.widgets.reports.charts_container import ReportsChartsWidget
-from core.reports_dtos import (
-    PromedioTiempoDTO, PuntoEvolucionDTO,
-    TiempoTrabajadorDTO, IncidenciaResumenDTO
-)
+from core.reports_dtos import PromedioTiempoDTO
+from core.services.report_service import ReportService
 from datetime import datetime
 
 pytestmark = pytest.mark.unit
@@ -17,14 +14,13 @@ class TestReportsChartsWidget:
     """Tests para el widget de gráficas."""
 
     @pytest.fixture
-    def mock_controller(self):
-        controller = MagicMock(spec=['model'])
-        controller.model = MagicMock(spec=['get_product_time_stats', 'get_evolution_stats', 'get_worker_time_stats', 'get_incidents_stats'])
-        return controller
+    def mock_report_service(self):
+        rs = create_autospec(ReportService, instance=True)
+        return rs
 
     @pytest.fixture
-    def widget(self, qtbot, mock_controller):
-        widget = ReportsChartsWidget(controller=mock_controller)
+    def widget(self, qtbot, mock_report_service):
+        widget = ReportsChartsWidget(report_service=mock_report_service)
         qtbot.addWidget(widget)
         return widget
 
@@ -34,12 +30,10 @@ class TestReportsChartsWidget:
         assert widget._current_producto is None
         assert widget.tabs.count() == 3
 
-    def test_update_charts_calls_model(self, widget, mock_controller
-):
-        """Verifica que update_charts llame al modelo."""
-        # Arrange
+    def test_update_charts_calls_report_service(self, widget, mock_report_service):
+        """Verifica que update_charts llame a ReportService."""
         code = "TEST-PROD"
-        mock_controller.model.get_product_time_stats.return_value = PromedioTiempoDTO(
+        mock_report_service.get_product_time_stats.return_value = PromedioTiempoDTO(
             producto_codigo=code,
             producto_descripcion="Desc",
             promedio_segundos=120.0,
@@ -48,26 +42,24 @@ class TestReportsChartsWidget:
             maximo_segundos=130,
             total_unidades=1
         )
-        mock_controller.model.get_evolution_stats.return_value = []
-        mock_controller.model.get_worker_time_stats.return_value = []
-        mock_controller.model.get_incidents_stats.return_value = []
+        mock_report_service.get_evolution_stats.return_value = []
+        mock_report_service.get_worker_time_stats.return_value = []
+        mock_report_service.get_incidents_stats.return_value = []
 
-        # Act
         widget.update_charts(code)
-        assert mock_controller.model.get_product_time_stats.call_count >= 1
-        mock_controller.model.get_product_time_stats.assert_called_with(code)
-        assert mock_controller.model.get_evolution_stats.call_count >= 1
-        mock_controller.model.get_evolution_stats.assert_called_with(code, days=30)
-        assert mock_controller.model.get_worker_time_stats.call_count >= 1
-        mock_controller.model.get_worker_time_stats.assert_called_with(code)
-        assert mock_controller.model.get_incidents_stats.call_count >= 1
-        mock_controller.model.get_incidents_stats.assert_called_with(code)
+        assert mock_report_service.get_product_time_stats.call_count >= 1
+        mock_report_service.get_product_time_stats.assert_called_with(code)
+        assert mock_report_service.get_evolution_stats.call_count >= 1
+        mock_report_service.get_evolution_stats.assert_called_with(code, days=30)
+        assert mock_report_service.get_worker_time_stats.call_count >= 1
+        mock_report_service.get_worker_time_stats.assert_called_with(code)
+        assert mock_report_service.get_incidents_stats.call_count >= 1
+        mock_report_service.get_incidents_stats.assert_called_with(code)
         assert code in widget.title_label.text()
 
-    def test_update_stats_display(self, widget, mock_controller):
+    def test_update_stats_display(self, widget, mock_report_service):
         """Verifica que las tarjetas de estadísticas se actualicen."""
         code = "TEST-PROD"
-        # 300s = 5 min
         stats = PromedioTiempoDTO(
             producto_codigo=code,
             producto_descripcion="Desc",
@@ -77,12 +69,13 @@ class TestReportsChartsWidget:
             maximo_segundos=300,
             total_unidades=50
         )
-        mock_controller.model.get_product_time_stats.return_value = stats
-        
+        mock_report_service.get_product_time_stats.return_value = stats
+        mock_report_service.get_evolution_stats.return_value = []
+        mock_report_service.get_worker_time_stats.return_value = []
+        mock_report_service.get_incidents_stats.return_value = []
+
         widget.update_charts(code)
-        # Verificar que hay tarjetas en el layout
-        assert widget.stats_layout.count() >= 4 
-        # (Nota: count incluye espaciadores/stretch, pero al menos deben estar las 4 cards)
+        assert widget.stats_layout.count() >= 4
 
     def test_clear_reset(self, widget):
         """Verifica limpiar el widget."""

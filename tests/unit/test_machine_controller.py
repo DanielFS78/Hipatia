@@ -3,6 +3,8 @@
 import pytest
 from unittest.mock import MagicMock, patch, ANY
 from controllers.machine_controller import MachineController
+from core.services.preparation_service import PreparationService
+from core.services.product_service import ProductService
 
 pytestmark = pytest.mark.unit
 from ui.widgets.machines_widget import MachinesWidget
@@ -39,9 +41,25 @@ def mock_machine_service():
     return service
 
 @pytest.fixture
-def machine_controller(mock_machine_service, mock_view):
+def mock_preparation_service():
+    return MagicMock(spec=PreparationService)
+
+@pytest.fixture
+def mock_product_service():
+    return MagicMock(spec=ProductService)
+
+@pytest.fixture
+def machine_controller(
+    mock_machine_service, mock_preparation_service, mock_product_service, mock_view
+):
     logger = MagicMock(spec=["debug", "info", "warning", "error", "exception"])
-    return MachineController(mock_machine_service, mock_view, logger)
+    return MachineController(
+        mock_machine_service,
+        mock_preparation_service,
+        mock_product_service,
+        mock_view,
+        logger,
+    )
 
 class TestMachineController:
     def test_save_machine_new_success(self, machine_controller):

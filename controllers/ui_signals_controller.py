@@ -15,19 +15,6 @@ from controllers.ui_signals_wiring import UISignalsWiring
 
 if TYPE_CHECKING:
     from controllers.app_controller import AppController
-    from ui.main_window import MainView
-
-if TYPE_CHECKING:
-    from ui.widgets.settings_widget import SettingsWidget
-    from ui.widgets.preprocesos_widget import PreprocesosWidget
-    from ui.widgets.calculate_times_widget import CalculateTimesWidget
-    from ui.widgets.historial_widget import HistorialWidget
-    from ui.widgets.lotes_widget import DefinirLoteWidget
-    from ui.widgets.reportes_widget import ReportesWidget
-    from ui.widgets.gestion_datos_widget import GestionDatosWidget
-    from ui.widgets.machines_widget import MachinesWidget
-    from ui.widgets.home_widget import HomeWidget
-    from ui.dialogs.product import ProcesosMecanicosDialog
 
 
 class UISignalsController(QObject):

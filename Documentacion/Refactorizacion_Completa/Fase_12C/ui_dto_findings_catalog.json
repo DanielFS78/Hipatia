@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-04-03T07:40:14.484440",
+  "generated_at": "2026-04-05T10:40:11.951880",
   "base_dir": "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion",
-  "include_production_flow": true,
+  "include_production_flow": false,
   "summary": {
     "total": 0,
     "files_affected": 0,

@@ -14,6 +14,7 @@ from PyQt6.QtGui import QFont, QIcon, QPalette, QBrush, QColor
 from typing import Any
 
 from core.dtos import FlowTaskDataDTO, ProductFlowLibraryProductDTO
+from core.utils.helpers import resource_path
 
 class TaskLibraryPanel(QWidget):
     """
@@ -88,7 +89,7 @@ class TaskLibraryPanel(QWidget):
                 # Intentar cargar icono (opcional, sin crashear si falla)
                 # En una app real, gestionariamos recursos mejor
                 try:
-                    task_item.setIcon(0, QIcon("resources/icon.ico"))
+                    task_item.setIcon(0, QIcon(resource_path("resources/icon.ico")))
                 except Exception:
                     pass
             

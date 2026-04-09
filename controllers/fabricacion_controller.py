@@ -7,12 +7,12 @@ Descripción: Controlador central para la gestión del ciclo de vida de las fabr
 from __future__ import annotations
 
 import logging
-from typing import Any, TYPE_CHECKING
+from typing import Any, cast
 from PyQt6.QtCore import QObject, pyqtSignal
 from database.database_manager import DatabaseManager
-
-if TYPE_CHECKING:
-    from core.dtos import CalculationProductDTO
+from core.dtos import CalculationProductDTO
+from core.interfaces.view_interface import IView
+from controllers.product.protocols import IFabricacionControllerDelegate
 
 
 class FabricacionController(QObject):
@@ -27,7 +27,13 @@ class FabricacionController(QObject):
     fabricacion_created = pyqtSignal(int)  # ID de fabricación creada
     fabricaciones_updated = pyqtSignal()
     
-    def __init__(self, db_manager: DatabaseManager, view: Any, product_controller: Any, logger: logging.Logger) -> None:
+    def __init__(
+        self,
+        db_manager: DatabaseManager,
+        view: IView,
+        product_controller: IFabricacionControllerDelegate,
+        logger: logging.Logger,
+    ) -> None:
         """
         Inicializa el controlador de fabricaciones.
 
@@ -39,8 +45,8 @@ class FabricacionController(QObject):
         """
         super().__init__()
         self.db: DatabaseManager = db_manager
-        self.view: Any = view
-        self.product_controller: Any = product_controller
+        self.view: IView = view
+        self.product_controller: IFabricacionControllerDelegate = product_controller
         self.logger: logging.Logger = logger
         
     def connect_signals(self) -> None:
@@ -94,10 +100,9 @@ class FabricacionController(QObject):
         try:
             # Delegar al product_controller para mantener consistencia
             if hasattr(self.product_controller, 'get_fabricacion_products_for_calculation'):
-                return self.product_controller.get_fabricacion_products_for_calculation(fabricacion_id)
+                return cast(list[CalculationProductDTO], self.product_controller.get_fabricacion_products_for_calculation(fabricacion_id))
             
             # Fallback (si por alguna razón no está disponible)
-            from core.dtos import CalculationProductDTO, CalculationSubPartDTO
             productos = self.db.get_products_by_fabricacion(fabricacion_id)
             
             result = []

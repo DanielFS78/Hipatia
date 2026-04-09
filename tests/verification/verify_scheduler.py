@@ -17,6 +17,9 @@ def test_scheduler_triggers_maintenance():
     mock_app_controller = MagicMock()
     mock_app_controller.schedule_manager = MagicMock()
     mock_app_controller.model = MagicMock()
+    mock_app_controller.model.db = MagicMock()
+    mock_app_controller.model.db.config_repo = MagicMock()
+    mock_app_controller.model.db.config_repo.get_setting.return_value = "02:00"
     mock_app_controller.view = MagicMock()
     
     # Mock MaintenanceService

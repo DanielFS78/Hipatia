@@ -8,13 +8,10 @@ from __future__ import annotations
 import logging
 from datetime import datetime, date, timedelta
 from collections import defaultdict
-from typing import Any, List, Dict, TYPE_CHECKING
+from typing import Any, List, Dict
 from PyQt6.QtCore import Qt, QDate
 from PyQt6.QtWidgets import QListWidgetItem
 from PyQt6.QtCharts import QChart, QLineSeries, QDateTimeAxis, QValueAxis
-
-if TYPE_CHECKING:
-    from ui.main_window import MainView
 
 class HistorialViewManager:
     """
@@ -25,7 +22,7 @@ class HistorialViewManager:
     y la actualización del gráfico de actividad.
     """
 
-    def __init__(self, db: Any, pila_service: Any, view: MainView, controller_ref: Any = None):
+    def __init__(self, db: Any, pila_service: Any, view: Any, controller_ref: Any = None):
         self.db = db
         self.pila_service = pila_service
         self.view = view

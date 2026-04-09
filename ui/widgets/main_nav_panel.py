@@ -39,7 +39,8 @@ class MainNavPanel(QFrame):
             }
             QPushButton:hover { background-color: #3498db; }
             QPushButton:checked { background-color: #e74c3c; }
-            QPushButton::menu-indicator { image: none; }
+            QPushButton[navActive="true"] { background-color: #e74c3c; }
+            QPushButton[navActive="true"]:hover { background-color: #c0392b; }
             QLabel {
                 color: #bdc3c7; font-weight: bold; font-size: 12px;
                 padding: 10px 20px 5px; border: none;
@@ -70,21 +71,22 @@ class MainNavPanel(QFrame):
         # SECCIÓN: Operaciones
         layout.addWidget(self._create_category_label("Operaciones"))
         
-        # Botón de Planificación con Menú
+        # Planificación: sin setMenu (evita layout interno del subcontrol de menú que desalinea el texto).
+        # Mismo aspecto que el resto de botones; el menú se abre con exec bajo el botón.
         self.btn_planificacion = QPushButton("Planificación")
-        self.btn_planificacion.setCheckable(True)
-        self.btn_planificacion.setStyleSheet("text-align: left; padding: 15px 20px;")
-        
-        planificacion_menu = QMenu(self)
-        action_definir_lote = planificacion_menu.addAction("Definir Plantilla de Lote")
-        action_planificar = planificacion_menu.addAction("Planificar Producción (Crear Pila)")
+        self.btn_planificacion.setCheckable(False)
+        self.btn_planificacion.setProperty("navActive", False)
+
+        self._planificacion_menu = QMenu(self)
+        action_definir_lote = self._planificacion_menu.addAction("Definir Plantilla de Lote")
+        action_planificar = self._planificacion_menu.addAction("Planificar Producción (Crear Pila)")
 
         if action_definir_lote:
             action_definir_lote.triggered.connect(lambda: self.page_requested.emit("definir_lote"))
         if action_planificar:
             action_planificar.triggered.connect(lambda: self.page_requested.emit("calculate"))
 
-        self.btn_planificacion.setMenu(planificacion_menu)
+        self.btn_planificacion.clicked.connect(self._show_planificacion_menu)
         layout.addWidget(self.btn_planificacion)
 
         self.btn_preprocesos = self._create_nav_button("Preprocesos", "preprocesos")
@@ -155,6 +157,17 @@ class MainNavPanel(QFrame):
         button.clicked.connect(lambda: self.page_requested.emit(page_name))
         return button
 
+    def _show_planificacion_menu(self) -> None:
+        """Abre el menú de planificación bajo el botón (sin acoplar menú al QPushButton)."""
+        btn = self.btn_planificacion
+        origin = btn.mapToGlobal(btn.rect().bottomLeft())
+        self._planificacion_menu.exec(origin)
+
+    @property
+    def planificacion_menu(self) -> QMenu:
+        """Menú contextual de planificación (tests y depuración)."""
+        return self._planificacion_menu
+
     def update_active_button(self, active_page: str) -> None:
         """
         Actualiza visualmente qué botón aparece marcado como activo.
@@ -165,6 +178,8 @@ class MainNavPanel(QFrame):
         for page_name, button in self.buttons.items():
             button.setChecked(page_name == active_page)
 
-        # Gestión especial del botón de Planificación
+        # Planificación no usa setCheckable (menú suelto): estado activo vía propiedad QSS
         is_planificacion = active_page in ["calculate", "definir_lote"]
-        self.btn_planificacion.setChecked(is_planificacion)
+        self.btn_planificacion.setProperty("navActive", is_planificacion)
+        self.btn_planificacion.style().unpolish(self.btn_planificacion)
+        self.btn_planificacion.style().polish(self.btn_planificacion)

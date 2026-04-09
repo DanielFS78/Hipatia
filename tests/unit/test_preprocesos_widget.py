@@ -5,7 +5,11 @@ Cubre PreprocesosWidget: init, set_controller, carga/filtro lista, selección,
 botones añadir/editar/eliminar y comportamiento sin controlador. Mocks con spec.
 """
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch, create_autospec
+
+from controllers.product_controller_v2 import ProductController
+from core.di_container import DIContainer
+from core.services.fabricacion_service import FabricacionService
 from PyQt6.QtWidgets import QListWidgetItem
 from PyQt6.QtCore import Qt
 
@@ -20,9 +24,7 @@ class TestPreprocesosWidget:
     @pytest.fixture
     def widget(self, qtbot):
         """Fixture para PreprocesosWidget."""
-        from core.di_container import DIContainer
-        from controllers.product_controller_v2 import ProductController
-        ctrl = MagicMock(spec=[])
+        ctrl = create_autospec(ProductController, instance=True)
         DIContainer.get_instance().register(ProductController, instance=ctrl)
         w = PreprocesosWidget()
         qtbot.addWidget(w)
@@ -34,10 +36,11 @@ class TestPreprocesosWidget:
         assert widget.current_preproceso_id is None
 
     def test_set_controller(self, widget):
-        """set_controller asigna controlador."""
+        """set_controller es compat MainView; no altera el ProductController del DI."""
         ctrl = object()
+        pc = widget.preproceso_controller
         widget.set_controller(ctrl)
-        assert widget.preproceso_controller is not None
+        assert widget.preproceso_controller is pc
 
     def test_load_preprocesos_data(self, widget):
         """Carga datos de preprocesos en la lista."""
@@ -85,7 +88,6 @@ class TestPreprocesosWidget:
         ctrl = MagicMock(spec=['show_add_preproceso_dialog'])
         widget.preproceso_controller = ctrl
         widget._on_add_clicked()
-        assert ctrl.show_add_preproceso_dialog.call_count == 1
         ctrl.show_add_preproceso_dialog.assert_called_once_with()
 
     def test_on_edit_clicked(self, widget):
@@ -97,7 +99,6 @@ class TestPreprocesosWidget:
         ctrl = MagicMock(spec=['show_edit_preproceso_dialog'])
         widget.preproceso_controller = ctrl
         widget._on_edit_clicked()
-        assert ctrl.show_edit_preproceso_dialog.call_count == 1
         ctrl.show_edit_preproceso_dialog.assert_called_once_with(p1)
 
     def test_on_delete_clicked(self, widget):
@@ -109,7 +110,6 @@ class TestPreprocesosWidget:
         ctrl = MagicMock(spec=['delete_preproceso'])
         widget.preproceso_controller = ctrl
         widget._on_delete_clicked()
-        assert ctrl.delete_preproceso.call_count == 1
         ctrl.delete_preproceso.assert_called_once_with(1, "Corte")
 
     def test_on_add_no_controller(self, widget):
@@ -129,3 +129,34 @@ class TestPreprocesosWidget:
         except Exception:
             pytest.fail("_on_edit_clicked no debería propagar excepciones sin controlador")
         assert widget.preproceso_controller is None
+
+    def test_assign_to_fabricaciones_no_fabricacion_service(self, widget):
+        """Sin FabricacionService resoluble el manejador no abre diálogo."""
+        with patch(
+            "ui.dialogs.fabrication.dialog_dependencies.resolve_fabricacion_service",
+            return_value=None,
+        ), patch(
+            "ui.dialogs.fabrication.assignment_dialogs.AssignPreprocesosDialog",
+        ) as MockDlg:
+            widget._on_assign_to_fabricaciones_clicked()
+        MockDlg.assert_not_called()
+
+    def test_assign_to_fabricaciones_opens_dialog(self, widget):
+        """Se resuelve FabricacionService por DI y se abre el diálogo con ProductController."""
+        sentinel = create_autospec(FabricacionService, instance=True)
+        with patch(
+            "ui.dialogs.fabrication.assignment_dialogs.AssignPreprocesosDialog",
+        ) as MockDlg, patch(
+            "ui.dialogs.fabrication.dialog_dependencies.resolve_fabricacion_service",
+            return_value=sentinel,
+        ) as mock_res:
+            inst = MockDlg.return_value
+            widget._on_assign_to_fabricaciones_clicked()
+            mock_res.assert_called_once_with(None, DIContainer.get_instance())
+            MockDlg.assert_called_once_with(
+                None,
+                widget,
+                fabricacion_service=sentinel,
+                opens_fabricacion_preprocesos=widget.preproceso_controller,
+            )
+            inst.exec.assert_called_once_with()

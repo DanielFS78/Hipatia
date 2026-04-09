@@ -15,9 +15,10 @@ try:
 except ImportError:
     cv2 = None  # type: ignore[assignment]
 
+from core.qr_scanner.ui import draw_qr_detection
+
 from .detector import QRDetector
 from .base import get_qr_info, validate_qr
-from .ui import draw_qr_detection
 
 class QrScanner:
     def __init__(self, camera_manager: Any, camera_index: int, camera_object: Any) -> None:

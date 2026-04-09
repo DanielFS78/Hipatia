@@ -8,8 +8,10 @@ activación de botones y arranque de hilos) para mantener el manager pequeño.
 from __future__ import annotations
 
 from datetime import datetime
+from dataclasses import replace
 from typing import Any
 
+from core.dtos import CalculationProductDTO, CalculationStepDTO
 from core.simulation.engine.motor import MotorDeEventos
 
 
@@ -43,10 +45,15 @@ def build_scheduler(
     return scheduler_cls(**kwargs)
 
 
-def set_planning_units(planning_session: list[dict[str, Any]], units: int) -> None:
-    """Aplica unidades de producción al planning session."""
-    for item in planning_session:
-        item["unidades"] = units
+def set_planning_units(planning_session: list[Any], units: int) -> None:
+    """Aplica unidades de producción a cada ítem (dict o DTO)."""
+    for i, item in enumerate(planning_session):
+        if isinstance(item, dict):
+            item["unidades"] = units
+        elif isinstance(item, CalculationStepDTO):
+            planning_session[i] = replace(item, unidades=units)
+        elif isinstance(item, CalculationProductDTO):
+            item.units_for_this_instance = units
 
 
 def enable_result_actions(calc_page: Any, *, include_go_home: bool = False) -> None:

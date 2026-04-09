@@ -19,10 +19,12 @@ class TestPreparationService:
         db.machine_repo = MagicMock(
             spec=[
                 "get_groups_for_machine",
+                "get_prep_info_for_product",
                 "add_prep_group",
                 "get_steps_for_group",
                 "add_prep_step",
                 "get_prep_step_details",
+                "get_prep_step_details_by_ids",
             ]
         )
         return db
@@ -40,6 +42,11 @@ class TestPreparationService:
         
         assert result == mock_groups
         mock_db.machine_repo.get_groups_for_machine.assert_called_once_with(1)
+
+    def test_get_prep_info_for_product(self, service, mock_db):
+        mock_db.machine_repo.get_prep_info_for_product.return_value = (3, 5)
+        assert service.get_prep_info_for_product("P-01") == (3, 5)
+        mock_db.machine_repo.get_prep_info_for_product.assert_called_once_with("P-01")
 
     def test_add_prep_group(self, service, mock_db):
         """Prueba la adición de un grupo de preparación."""
@@ -78,3 +85,16 @@ class TestPreparationService:
         
         assert result == mock_step
         mock_db.machine_repo.get_prep_step_details.assert_called_once_with(1)
+
+    def test_get_prep_step_details_by_ids(self, service, mock_db):
+        """Delega al repositorio de máquinas el mapa id → paso."""
+        mock_map = {
+            1: PreparationStepDTO(id=1, nombre="A", tiempo_fase=1.0, descripcion="", es_diario=False),
+            2: PreparationStepDTO(id=2, nombre="B", tiempo_fase=2.0, descripcion="", es_diario=False),
+        }
+        mock_db.machine_repo.get_prep_step_details_by_ids.return_value = mock_map
+
+        result = service.get_prep_step_details_by_ids([1, 2])
+
+        assert result == mock_map
+        mock_db.machine_repo.get_prep_step_details_by_ids.assert_called_once_with([1, 2])

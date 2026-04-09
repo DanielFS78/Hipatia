@@ -9,8 +9,10 @@ from typing import List, Dict, Any, Optional, Tuple, TYPE_CHECKING
 from PyQt6.QtCore import Qt
 from core.security.access_control import require_permission
 from core.security.security_service import Permission
-from ui.dialogs import PreprocesoDialog
 from core.dtos import PreprocesoDTO
+from controllers.ui_class_loader import ui_class
+
+PreprocesoDialog = ui_class("ui.dialogs", "PreprocesoDialog")
 
 from .protocols import ProductControllerProtocol, IProductView, IFabricacionService, IMaterialService
 
@@ -70,7 +72,7 @@ class PreprocesoManager:
         """Muestra diálogo para crear preproceso."""
         try:
             all_materials = self.material_service.get_all_materials_for_selection()
-            dialog = PreprocesoDialog(all_materials=all_materials, controller=self.controller_ref, parent=self.view)
+            dialog = PreprocesoDialog(all_materials=all_materials, material_port=self.controller_ref, parent=self.view)
             if dialog.exec():
                 data = dialog.get_data()
                 if data:
@@ -93,7 +95,12 @@ class PreprocesoManager:
         """Muestra diálogo para editar preproceso."""
         try:
             all_materials = self.material_service.get_all_materials_for_selection()
-            dialog = PreprocesoDialog(preproceso_existente=preproceso_data, all_materials=all_materials, controller=self.controller_ref, parent=self.view)
+            dialog = PreprocesoDialog(
+                preproceso_existente=preproceso_data,
+                all_materials=all_materials,
+                material_port=self.controller_ref,
+                parent=self.view,
+            )
             if dialog.exec():
                 new_data = dialog.get_data()
                 if new_data:

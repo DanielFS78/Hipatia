@@ -3,7 +3,7 @@
 Capa de datos (`preparation_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
 """
 
-from typing import List, Optional, Union, Dict, Any, cast
+from typing import List, Optional, Tuple, Union, Dict, Any, cast
 from sqlalchemy.orm import Session
 from ..base import BaseRepository
 from ...models import GrupoPreparacion, PreparacionPaso
@@ -25,6 +25,30 @@ class MachinePreparationManager(BaseRepository):
             grupos = session.query(GrupoPreparacion).filter_by(maquina_id=machine_id).order_by(GrupoPreparacion.nombre).all()
             return [PreparationGroupDTO(id=int(g.id or 0), nombre=g.nombre or "", descripcion=g.descripcion or "", producto_codigo=g.producto_codigo) for g in grupos]
         return self.safe_execute(_operation) or []
+
+    def get_prep_info_for_product(self, producto_codigo: str) -> Tuple[Optional[int], Optional[int]]:
+        """
+        Primer grupo de preparación vinculado al código de producto (si existe).
+
+        Returns:
+            (grupo_id, maquina_id) o (None, None) si no hay coincidencia.
+        """
+        def _operation(session: Session) -> Tuple[Optional[int], Optional[int]]:
+            if not (producto_codigo and producto_codigo.strip()):
+                return None, None
+            code = producto_codigo.strip()
+            g = (
+                session.query(GrupoPreparacion)
+                .filter(GrupoPreparacion.producto_codigo == code)
+                .order_by(GrupoPreparacion.id)
+                .first()
+            )
+            if not g or g.id is None or g.maquina_id is None:
+                return None, None
+            return int(g.id), int(g.maquina_id)
+
+        result = self.safe_execute(_operation)
+        return result if result is not None else (None, None)
 
     def get_group_details(self, group_id: int) -> Optional[PreparationGroupDTO]:
         def _operation(session: Session) -> Optional[PreparationGroupDTO]:
@@ -84,3 +108,23 @@ class MachinePreparationManager(BaseRepository):
             if not p: return None
             return PreparationStepDTO(id=int(p.id or 0), nombre=p.nombre or "", tiempo_fase=float(p.tiempo_fase or 0.0), descripcion=p.descripcion or "", es_diario=bool(p.es_diario))
         return cast(Optional[PreparationStepDTO], self.safe_execute(_operation))
+
+    def get_prep_step_details_by_ids(self, step_ids: List[int]) -> Dict[int, PreparationStepDTO]:
+        if not step_ids:
+            return {}
+
+        def _operation(session: Session) -> Dict[int, PreparationStepDTO]:
+            pasos = session.query(PreparacionPaso).filter(PreparacionPaso.id.in_(step_ids)).all()
+            out: Dict[int, PreparationStepDTO] = {}
+            for p in pasos:
+                pid = int(p.id or 0)
+                out[pid] = PreparationStepDTO(
+                    id=pid,
+                    nombre=p.nombre or "",
+                    tiempo_fase=float(p.tiempo_fase or 0.0),
+                    descripcion=p.descripcion or "",
+                    es_diario=bool(p.es_diario),
+                )
+            return out
+
+        return self.safe_execute(_operation) or {}

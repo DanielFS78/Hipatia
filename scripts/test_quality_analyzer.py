@@ -1,12 +1,30 @@
 """
-Script ejecutable (`test_quality_analyzer`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Analizador de calidad de tests (no forma parte del runtime de la app).
+
+Calcula score absoluto (0–100), penalizaciones y «techo real» (_calculate_ceiling): parte del
+castigo por mocks/patches se perdona cuando PyQt6 u otros externos hacen inevitable el patrón.
+
+Cohortes (test_tier / strict_domain):
+    Los tests de servicios, repositorios y persistencia bajo tests/db/ se clasifican como
+    strict_domain. Para ellos el estado «Actualizado» exige score absoluto 100; no basta estar
+    en techo de mocks. El resto (ui_qt) sigue la regla histórica basada en ceiling_score y
+    at_ceiling. Ver classify_test_tier() y resolve_analyzer_status().
+
+Salida:
+    Al ejecutar como script, escribe test_reports/compliance_data.json con campos entre otros
+    score, ceiling_score, status, test_tier, strict_domain, domain_status.
+
+Heurísticas adicionales (desconexión UI–dominio):
+    contract_test_hints en cada entrada: conteo informativo de literales ``32`` como rol Qt en
+    archivos bajo ``tests/``. weak_any_only_interaction_count y penalización asociada en tests
+    de controller/service: empuja a no limitarse a assert_called_*_with(ANY, ANY, ...).
 """
 
 import os
 import re
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 import ast
 
 # ---------------------------------------------------------------------------
@@ -55,6 +73,17 @@ _RE_ASSERT_CALLED = re.compile(
 
 _RE_ASSERT_CALLED_NO_ARGS = re.compile(r'\.assert_called_once\s*\(\s*\)')
 
+# Interacción declarada pero sin args observables (solo ANY). Una línea = una ocurrencia.
+_RE_WEAK_ANY_ONLY_INTERACTION = re.compile(
+    r'\.assert_called_once_with\s*\(\s*ANY(?:\s*,\s*ANY)*\s*\)'
+    r'|\.assert_called_with\s*\(\s*ANY(?:\s*,\s*ANY)*\s*\)'
+)
+
+# En tests, el literal 32 como rol de item suele ser UserRole (256); 32 era bug histórico.
+_RE_QT_ITEM_ROLE_LITERAL_32 = re.compile(
+    r'\.(?:data|setData)\s*\([^)]*,\s*32\s*[\),]'
+)
+
 _RE_ASSERT_CALLED_WITH_ARGS = re.compile(
     r'\.assert_called_once_with\s*\('
     r'|\.assert_called_with\s*\('
@@ -88,6 +117,12 @@ _CONTROLLER_SERVICE_PATTERN = re.compile(
     re.IGNORECASE
 )
 
+# Cohortes strict_domain (servicios/repositorios; sin excusa de techo PyQt en el status).
+# Patrones de nombre + ruta tests/db/; exclusiones explícitas en _STRICT_DOMAIN_EXCLUDED_NAMES.
+_RE_STRICT_DOMAIN_SERVICE_FILE = re.compile(r"^test_.+_service\.py$", re.IGNORECASE)
+_RE_STRICT_DOMAIN_REPOSITORY_FILE = re.compile(r"^test_.*repository.*\.py$", re.IGNORECASE)
+_STRICT_DOMAIN_EXCLUDED_NAMES: frozenset[str] = frozenset()
+
 # ---------------------------------------------------------------------------
 # Detección de dependencias inevitables (techo real)
 # ---------------------------------------------------------------------------
@@ -113,7 +148,7 @@ _EXTERNAL_PATCH_WHITELIST = {
     "controllers.schedule_controller.QFormLayout",
     "controllers.schedule_controller.QTimeEdit",
     "controllers.schedule_controller.QDialogButtonBox",
-    "controllers.schedule_controller.AddBreakDialog",
+    "controllers.schedule_controller.get_add_break_dialog_class",
     "controllers.calculation_controller.QFileDialog",
     "controllers.calculation_controller.getattr",
 }
@@ -193,6 +228,9 @@ def _calculate_ceiling(
 
     Retorna dict con: ceiling_score, ceiling_penalties, actionable_penalties,
     at_ceiling, ceiling_explanation.
+
+    Nota: el «Actualizado» global no se deduce solo de aquí; resolve_analyzer_status()
+    aplica reglas distintas para la cohorte strict_domain (score absoluto 100).
     """
     has_qt = bool(_RE_QT_IMPORT.search(content))
     # Excepción docx acotada: solo test_docx_adapter.py trata directamente
@@ -240,7 +278,11 @@ def _calculate_ceiling(
     # Explicación legible para la consola
     explanation_parts = []
     if has_qt:
-        explanation_parts.append("usa PyQt6 (widgets sin stubs de tipo)")
+        explanation_parts.append(
+            "importa PyQt6: el techo solo perdona MagicMock() sueltos en contexto de widgets Qt; "
+            "repositorios y servicios del proyecto siguen siendo mejorable con create_autospec "
+            "(ver .agents/skills/testing_fixtures_y_mocks/SKILL.md)"
+        )
     if has_docx:
         explanation_parts.append("usa python-docx (objetos sin stubs de tipo)")
     if ceiling_penalties.get("patches_no_autospec"):
@@ -414,8 +456,107 @@ def _is_controller_or_service_file(file_path: Path) -> bool:
     return bool(_CONTROLLER_SERVICE_PATTERN.search(name))
 
 
+def _is_tests_db_path(file_path: Path) -> bool:
+    """True si el archivo está bajo tests/db/ (convención de tests de persistencia)."""
+    parts = file_path.parts
+    for i in range(len(parts) - 1):
+        if parts[i] == "tests" and parts[i + 1] == "db":
+            return True
+    return False
+
+
+def classify_test_tier(file_path: Path, is_infra: bool) -> Literal["infra", "strict_domain", "ui_qt"]:
+    """
+    Asigna la cohorte de política de estado (independiente del score numérico).
+
+    Returns:
+        infra: conftest y utilidades de test (lista fija por nombre de archivo).
+        strict_domain: ruta .../tests/db/... o nombre test_*_service.py / test_*repository*.py
+            (salvo _STRICT_DOMAIN_EXCLUDED_NAMES). Objetivo: score absoluto 100 para «Actualizado».
+        ui_qt: resto de tests de producto; aplica techo real y umbral ceiling_score >= 80.
+    """
+    if is_infra:
+        return "infra"
+    name = file_path.name
+    if name in _STRICT_DOMAIN_EXCLUDED_NAMES:
+        return "ui_qt"
+    if _is_tests_db_path(file_path):
+        return "strict_domain"
+    if _RE_STRICT_DOMAIN_SERVICE_FILE.match(name) or _RE_STRICT_DOMAIN_REPOSITORY_FILE.match(name):
+        return "strict_domain"
+    return "ui_qt"
+
+
+def resolve_analyzer_status(
+    *,
+    test_tier: Literal["infra", "strict_domain", "ui_qt"],
+    score: int,
+    ceiling_data: dict[str, Any],
+) -> tuple[str, str, str | None]:
+    """
+    Deriva status (Actualizado / En Progreso / Legacy), texto de detalle y domain_status.
+
+    strict_domain: «Actualizado» solo con score >= 100; domain_status Listo/Pendiente dominio.
+        Con score < 100 y sin penalizaciones corregibles (at_ceiling), sigue En Progreso: el techo
+        no sustituye al 100 absoluto en esta cohorte.
+    infra y ui_qt: sin domain_status (None). Misma lógica que antes: at_ceiling ⇒ Actualizado
+        aunque el techo sea bajo (p. ej. PyQt); si no, ceiling_score >= 80 / >= 50 / resto.
+
+    Returns:
+        Tupla (status, status_detail, domain_status). domain_status es None fuera de strict_domain.
+    """
+    effective_score = ceiling_data["ceiling_score"]
+    at_ceiling = ceiling_data.get("at_ceiling", False)
+    actionable = ceiling_data.get("actionable_penalties") or {}
+    at_ceiling_ok = at_ceiling and len(actionable) == 0
+
+    if test_tier == "strict_domain":
+        domain_status = "Listo dominio" if score >= 100 else "Pendiente dominio"
+        if score >= 100:
+            return (
+                "Actualizado",
+                "Dominio: score absoluto 100/100.",
+                domain_status,
+            )
+        if effective_score >= 50:
+            detail = ""
+            if at_ceiling_ok:
+                detail = (
+                    "Sin penalizaciones corregibles (en techo de lo medible); "
+                    "cohorte dominio exige score absoluto 100/100."
+                )
+            return "En Progreso", detail, domain_status
+        return "Legacy / Pendiente", "", domain_status
+
+    if at_ceiling_ok:
+        return (
+            "Actualizado",
+            "Techo real alcanzado (sin penalizaciones corregibles).",
+            None,
+        )
+    if effective_score >= 80:
+        return "Actualizado", "", None
+    if effective_score >= 50:
+        return "En Progreso", "", None
+    return "Legacy / Pendiente", "", None
+
+
+def _count_weak_any_only_interaction_lines(content: str) -> int:
+    """Cuenta aserciones cuyos argumentos son solo ANY; ignora líneas con ``# noqa: weak_any``."""
+    total = 0
+    for line in content.splitlines():
+        if "noqa" in line and "weak_any" in line:
+            continue
+        total += len(_RE_WEAK_ANY_ONLY_INTERACTION.findall(line))
+    return total
+
+
 def analyze_test_file(file_path: Path) -> dict[str, Any]:
-    """Analiza un archivo de test para verificar cumplimiento real de estándares."""
+    """
+    Analiza un archivo de test: métricas, score, techo y estado según cohorte.
+
+    Añade respecto al histórico: test_tier, strict_domain (bool), domain_status (str|None).
+    """
     content = file_path.read_text(encoding='utf-8')
 
     # --- Marcadores ---
@@ -424,6 +565,7 @@ def analyze_test_file(file_path: Path) -> dict[str, Any]:
         "integration": "@pytest.mark.integration" in content or "pytestmark = pytest.mark.integration" in content,
         "e2e": "@pytest.mark.e2e" in content or "pytestmark = pytest.mark.e2e" in content,
         "setup": "@pytest.mark.setup" in content or "pytestmark = pytest.mark.setup" in content,
+        "contract": "@pytest.mark.contract" in content,
     }
 
     # --- Conteos reales ---
@@ -444,11 +586,17 @@ def analyze_test_file(file_path: Path) -> dict[str, Any]:
     trivial_assert_true_justified_count = len(_RE_TRIVIAL_ASSERT_TRUE_JUSTIFIED.findall(content))
     is_ctrl_or_service = _is_controller_or_service_file(file_path)
     missing_interaction_check = is_ctrl_or_service and assert_called_count == 0 and test_count > 0
+    weak_any_only_count = _count_weak_any_only_interaction_lines(content)
+    is_under_tests = "tests" in file_path.parts
+    qt_item_role_32_count = (
+        len(_RE_QT_ITEM_ROLE_LITERAL_32.findall(content)) if is_under_tests else 0
+    )
 
     is_infra = file_path.name in [
         "conftest.py", "macos_fix.py", "audit_report_generator.py", "test_qapp_crash.py",
         "__init__.py"
     ]
+    test_tier = classify_test_tier(file_path, is_infra)
 
     # -----------------------------------------------------------------------
     # SCORING
@@ -518,6 +666,11 @@ def analyze_test_file(file_path: Path) -> dict[str, Any]:
             score -= penalty
             penalties["assert_called_no_args"] = -penalty
 
+        if is_ctrl_or_service and weak_any_only_count > 0:
+            penalty = min(weak_any_only_count * 2, 10)
+            score -= penalty
+            penalties["weak_any_only_interaction"] = -penalty
+
         if has_mock_session:
             score -= 8
             penalties["mock_session"] = -8
@@ -542,25 +695,20 @@ def analyze_test_file(file_path: Path) -> dict[str, Any]:
     # -----------------------------------------------------------------------
     ceiling_data = _calculate_ceiling(content, score, penalties, file_path)
 
-    # Estado basado en ceiling_score para no penalizar lo ya optimizado.
-    # Regla adicional (techo real): si el archivo está en su techo y no tiene penalizaciones
-    # corregibles, se considera "Actualizado" aunque su techo sea < 80 (p.ej. PyQt6/docx).
-    effective_score = ceiling_data["ceiling_score"]
-    status_detail = ""
-    if ceiling_data.get("at_ceiling") and not ceiling_data.get("actionable_penalties"):
-        status = "Actualizado"
-        status_detail = "Techo real alcanzado (sin penalizaciones corregibles)."
-    elif effective_score >= 80:
-        status = "Actualizado"
-    elif effective_score >= 50:
-        status = "En Progreso"
-    else:
-        status = "Legacy / Pendiente"
+    # Estado: ui_qt/infra usan techo real; strict_domain exige score absoluto 100.
+    status, status_detail, domain_status = resolve_analyzer_status(
+        test_tier=test_tier,
+        score=score,
+        ceiling_data=ceiling_data,
+    )
 
     return {
         "name": file_path.name,
         "path": str(file_path),
         "is_infra": is_infra,
+        "test_tier": test_tier,
+        "strict_domain": test_tier == "strict_domain",
+        "domain_status": domain_status,
         "markers": markers,
         "metrics": {
             "strict_mock_count": strict_mock_count,
@@ -581,6 +729,12 @@ def analyze_test_file(file_path: Path) -> dict[str, Any]:
             "trivial_assert_true_justified_count": trivial_assert_true_justified_count,
             "is_ctrl_or_service": is_ctrl_or_service,
             "missing_interaction_check": missing_interaction_check,
+            "weak_any_only_interaction_count": weak_any_only_count,
+            "qt_item_role_literal_32_count": qt_item_role_32_count,
+        },
+        "contract_test_hints": {
+            "qt_item_role_literal_32_count": qt_item_role_32_count,
+            "weak_any_only_interaction_count": weak_any_only_count,
         },
         "score_breakdown": breakdown,
         "penalties": penalties,
@@ -653,6 +807,26 @@ if __name__ == "__main__":
     print(f"  Score absoluto medio  : {avg_score:.1f}/100")
     print(f"  Score optimizado medio: {avg_ceiling:.1f}/100")
     print(f"  Archivos en su techo  : {at_ceiling_count}/{total}")
+    print(f"{'='*60}")
+    # Cohorte servicios/repositorios/tests/db: métricas por score absoluto (no solo techo PyQt).
+    strict_domain_files = [r for r in report_data if r.get("test_tier") == "strict_domain"]
+    sd_total = len(strict_domain_files)
+    sd_at_100 = sum(1 for r in strict_domain_files if r["score"] == 100)
+    sd_avg = sum(r["score"] for r in strict_domain_files) / sd_total if sd_total else 0.0
+    print(f"  Cohorte dominio (strict_domain)")
+    print(f"    Archivos               : {sd_total}")
+    print(f"    Score absoluto 100/100 : {sd_at_100}/{sd_total}")
+    print(f"    Score absoluto medio   : {sd_avg:.1f}/100")
+    sd_outliers = [r for r in strict_domain_files if r["score"] < 100]
+    if sd_outliers:
+        print(f"    Pendientes dominio (abs < 100) : {len(sd_outliers)}")
+        print(f"  {'Archivo':<55} {'Abs':>5}  {'Techo':>6}  domain_status")
+        print(f"  {'-'*55}  {'-'*5}  {'-'*6}  {'-'*20}")
+        for r in sorted(sd_outliers, key=lambda x: (x["score"], x["name"])):
+            ds = r.get("domain_status") or "—"
+            print(
+                f"  {r['name']:<55} {r['score']:>5}  {r['ceiling_score']:>6}  {ds}"
+            )
     print(f"{'='*60}\n")
 
     # Detalle por archivo — mostrar explicación cuando está en techo

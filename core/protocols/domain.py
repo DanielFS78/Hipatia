@@ -12,6 +12,7 @@ from typing import Any, Dict, List, Optional, Protocol
 
 from core.dtos import (
     FabricacionDTO,
+    MaterialDTO,
     PreprocesoDTO,
     FabricacionProductoDTO,
     ProductDetailsDTO,
@@ -23,6 +24,8 @@ class IProductService(Protocol):
     """Contrato del servicio de catálogo, iteraciones e imágenes de producto."""
 
     def search_products(self, text: str) -> List[Any]: ...
+
+    def get_latest_products(self, limit: int = 10) -> List[Any]: ...
 
     def get_product_by_code(self, codigo: str) -> Optional[Any]: ...
 
@@ -62,6 +65,12 @@ class IProductService(Protocol):
     def delete_iteration_image(self, image_id: int) -> bool: ...
 
     def get_product_iterations(self, codigo_producto: str) -> List[ProductIterationDTO]: ...
+
+    def get_materials_for_product(self, producto_codigo: str) -> List[MaterialDTO]: ...
+
+    def add_material(self, codigo: str, descripcion: str) -> Optional[int]: ...
+
+    def link_material_to_product(self, producto_codigo: str, material_id: int) -> bool: ...
 
 
 class IFabricacionService(Protocol):
@@ -107,7 +116,9 @@ class IFabricacionService(Protocol):
 
 
 class IMaterialService(Protocol):
-    """Subconjunto de operaciones de materiales (vía `ProductService`)."""
+    """Subconjunto de operaciones de materiales (vía `ProductService`), incluida la lectura por producto."""
+
+    def get_materials_for_product(self, producto_codigo: str) -> List[MaterialDTO]: ...
 
     def get_all_materials_for_selection(self) -> List[Any]: ...
 

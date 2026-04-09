@@ -411,7 +411,8 @@ class TestProductionFlowCanvas:
             painter.draw_connection(
                 card1, card2, "normal", CanvasCyclicConnectionFlags(), canvas.task_widgets
             )
-        mock_painter.drawLine.assert_called()
+        mock_painter.strokePath.assert_called()
+        mock_painter.drawPolygon.assert_called()
 
     def test_draw_connection_cyclic_from_mother(self, canvas, two_cards):
         """Verifica el dibujado de una conexión cíclica desde madre."""
@@ -426,7 +427,8 @@ class TestProductionFlowCanvas:
              patch('ui.widgets.production_flow.flow_connection_painter.QLinearGradient', autospec=True):
             painter = FlowConnectionPainter(mock_painter)
             painter.draw_connection(card1, card2, "cyclic", flags, canvas.task_widgets)
-        mock_painter.drawLine.assert_called()
+        assert mock_painter.strokePath.call_count >= 1
+        mock_painter.drawPolygon.assert_called()
 
     def test_draw_connection_cyclic_to_mother(self, canvas, two_cards):
         """Verifica el dibujado de conexión cíclica hacia madre."""
@@ -441,7 +443,8 @@ class TestProductionFlowCanvas:
              patch('ui.widgets.production_flow.flow_connection_painter.QLinearGradient', autospec=True):
             painter = FlowConnectionPainter(mock_painter)
             painter.draw_connection(card1, card2, "cyclic", flags, canvas.task_widgets)
-        mock_painter.drawLine.assert_called()
+        assert mock_painter.strokePath.call_count >= 1
+        mock_painter.drawPolygon.assert_called()
 
     def test_draw_connection_cyclic_standard(self, canvas, two_cards):
         """Verifica el dibujado de conexión cíclica estándar (sin madre)."""
@@ -456,7 +459,8 @@ class TestProductionFlowCanvas:
              patch('ui.widgets.production_flow.flow_connection_painter.QLinearGradient', autospec=True):
             painter = FlowConnectionPainter(mock_painter)
             painter.draw_connection(card1, card2, "cyclic", flags, canvas.task_widgets)
-        mock_painter.drawLine.assert_called()
+        assert mock_painter.strokePath.call_count >= 1
+        mock_painter.drawPolygon.assert_called()
 
     def test_draw_arrowhead(self, canvas):
         """Verifica el dibujado de la flecha."""

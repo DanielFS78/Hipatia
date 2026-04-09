@@ -53,21 +53,59 @@ class CalculateTimesWidget(QWidget):
 
     def setup_ui(self) -> None:
         main_layout = QHBoxLayout(self)
-        left_panel = QFrame(self); left_layout = QVBoxLayout(left_panel); left_panel.setMaximumWidth(450)
+        left_panel = QFrame(self)
+        left_layout = QVBoxLayout(left_panel)
+        left_panel.setMinimumWidth(360)
+        left_panel.setMaximumWidth(620)
 
         lote_group = QGroupBox("1. Añadir Lote al Plan de Producción", self); lote_layout = QVBoxLayout(lote_group)
-        self.lote_search_entry = QLineEdit(self); self.lote_search_entry.setPlaceholderText("Buscar plantilla de lote...")
-        self.lote_search_results = QListWidget(self)
+        self.lote_search_entry = QLineEdit(self)
+        self.lote_search_entry.setPlaceholderText(
+            "Buscar plantilla (todas al entrar; filtra al escribir)..."
+        )
+        self.lote_search_results_table = QTableWidget(self)
+        self.lote_search_results_table.setColumnCount(2)
+        self.lote_search_results_table.setHorizontalHeaderLabels(["Código", "Descripción"])
+        self.lote_search_results_table.setMinimumHeight(180)
+        self.lote_search_results_table.setAlternatingRowColors(True)
+        self.lote_search_results_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
+        self.lote_search_results_table.setSelectionMode(QTableWidget.SelectionMode.SingleSelection)
+        self.lote_search_results_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+        self.lote_search_results_table.setWordWrap(False)
+        self.lote_search_results_table.setTextElideMode(Qt.TextElideMode.ElideMiddle)
+        vh_search = self.lote_search_results_table.verticalHeader()
+        if vh_search is not None:
+            vh_search.setVisible(False)
+            vh_search.setDefaultSectionSize(30)
+        hh_search = self.lote_search_results_table.horizontalHeader()
+        if hh_search is not None:
+            hh_search.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
+            hh_search.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        self.lote_search_results_table.itemSelectionChanged.connect(self._on_lote_search_selection_changed)
+        # Alias temporal para compatibilidad con código legado/tests que inspeccionan este atributo.
+        self.lote_search_results = self.lote_search_results_table
         self.add_lote_button = QPushButton("Añadir Lote Seleccionado a la Pila", self)
-        lote_layout.addWidget(self.lote_search_entry); lote_layout.addWidget(self.lote_search_results); lote_layout.addWidget(self.add_lote_button)
+        lote_layout.addWidget(self.lote_search_entry); lote_layout.addWidget(self.lote_search_results_table); lote_layout.addWidget(self.add_lote_button)
         left_layout.addWidget(lote_group)
 
         content_group = QGroupBox("2. Pila de Producción Actual", self); content_layout = QVBoxLayout(content_group)
-        self.pila_content_table = QTableWidget(self); self.pila_content_table.setColumnCount(4)
-        self.pila_content_table.setHorizontalHeaderLabels(["Identificador", "Plantilla Base", "Unidades", "Fecha Límite"])
-        header = self.pila_content_table.horizontalHeader()
-        if header is not None:
-            header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch); header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        self.pila_content_table = QTableWidget(self)
+        self.pila_content_table.setColumnCount(5)
+        self.pila_content_table.setHorizontalHeaderLabels(
+            ["#", "Tipo", "Código / detalle", "Unidades", "Fecha límite"]
+        )
+        self.pila_content_table.setAlternatingRowColors(True)
+        self.pila_content_table.setMinimumHeight(160)
+        vh = self.pila_content_table.verticalHeader()
+        if vh is not None:
+            vh.setVisible(False)
+        ph = self.pila_content_table.horizontalHeader()
+        if ph is not None:
+            ph.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
+            ph.setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
+            ph.setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
+            ph.setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)
+            ph.setSectionResizeMode(4, QHeaderView.ResizeMode.ResizeToContents)
         self.pila_content_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         self.remove_item_button = QPushButton("Quitar Seleccionado", self)
         content_layout.addWidget(self.pila_content_table); content_layout.addWidget(self.remove_item_button, alignment=Qt.AlignmentFlag.AlignRight)
@@ -85,6 +123,33 @@ class CalculateTimesWidget(QWidget):
 
         right_panel = QFrame(self); right_layout = QVBoxLayout(right_panel)
         self.progress_bar = QProgressBar(self); self.progress_bar.setVisible(False); right_layout.addWidget(self.progress_bar)
+
+        # Panel derecho: solo ayuda hasta que exista resultado de simulación (evita Gantt/log vacíos).
+        self._plan_results_stack = QStackedWidget(self)
+        _placeholder = QWidget(self)
+        _pl = QVBoxLayout(_placeholder)
+        _hint = QLabel(
+            "<h3>Resultados de simulación</h3>"
+            "<p style='font-size:12pt;'>Aquí aparecerán la <b>tabla de tareas</b>, el "
+            "<b>cronograma (Gantt)</b> y el <b>log de auditoría del cálculo</b> "
+            "cuando haya ejecutado la simulación tras definir el flujo.</p>"
+            "<p style='font-size:12pt; color:#555;'>Mientras tanto, use el panel izquierdo para "
+            "componer la pila de producción.</p>"
+        )
+        _hint.setWordWrap(True)
+        _hint.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+        _pl.addWidget(_hint)
+        self._pre_sim_lote_detail = QLabel("Lote seleccionado: —", self)
+        self._pre_sim_lote_detail.setWordWrap(True)
+        self._pre_sim_lote_detail.setStyleSheet("font-size: 11pt;")
+        _pl.addWidget(self._pre_sim_lote_detail)
+        self._pre_sim_plan_summary = QLabel("Pila actual: 0 elemento(s)", self)
+        self._pre_sim_plan_summary.setWordWrap(True)
+        self._pre_sim_plan_summary.setStyleSheet("font-size: 11pt; color:#333;")
+        _pl.addWidget(self._pre_sim_plan_summary)
+        _pl.addStretch()
+        self._plan_results_stack.addWidget(_placeholder)
+
         self.results_tabs = QTabWidget(self)
         gantt_widget = QWidget(self); gantt_layout = QVBoxLayout(gantt_widget)
         self.results_table = QTableWidget(self); self._setup_table()
@@ -99,7 +164,9 @@ class CalculateTimesWidget(QWidget):
         al = QHBoxLayout(); al.addStretch(); al.addWidget(self.export_log_button); audit_layout.addLayout(al)
         self.audit_log_display = QTextEdit(self); self.audit_log_display.setReadOnly(True); audit_layout.addWidget(self.audit_log_display)
         self.results_tabs.addTab(audit_widget, "Log de Auditoría")
-        right_layout.addWidget(self.results_tabs)
+        self._plan_results_stack.addWidget(self.results_tabs)
+        self._plan_results_stack.setCurrentIndex(0)
+        right_layout.addWidget(self._plan_results_stack, 1)
 
         res_actions = QHBoxLayout()
         self.clear_button = QPushButton("Nuevo Plan", self); self.go_home_button = QPushButton("Volver a Inicio", self)
@@ -112,12 +179,123 @@ class CalculateTimesWidget(QWidget):
 
         if hasattr(self.timeline_widget, 'task_selected'): self.timeline_widget.task_selected.connect(self.task_analysis_panel.displayTask)
 
+    def apply_empty_plan_results_state(self) -> None:
+        """Sin simulación reciente coherente con la pila: oculta cronograma/log y limpia tablas."""
+        self.last_results = []
+        self.last_audit = []
+        self.results_table.setRowCount(0)
+        self.timeline_widget.setData([], [])
+        self.audit_log_display.clear()
+        self.task_analysis_panel.header_label.setText("Seleccione una tarea del gráfico")
+        self.task_analysis_panel.header_label.setStyleSheet("")
+        while self.task_analysis_panel.log_vbox.count():
+            c = self.task_analysis_panel.log_vbox.takeAt(0)
+            if c is not None:
+                w = c.widget()
+                if w is not None:
+                    w.deleteLater()
+        if hasattr(self, "_plan_results_stack"):
+            self._plan_results_stack.setCurrentIndex(0)
+        for b in [self.save_pila_button, self.manage_bitacora_button, self.export_button, self.export_pdf_button, self.export_log_button, self.clear_button, self.go_home_button]:
+            b.setEnabled(False)
+        self.load_pila_button.setEnabled(True)
+        if hasattr(self, "_pre_sim_plan_summary"):
+            self._pre_sim_plan_summary.setText(f"Pila actual: {len(self.planning_session)} elemento(s)")
+
+    def _plan_table_row_values(self, row_index: int, item: Any) -> tuple[str, str, str, str, str]:
+        """Textos de fila: (#, tipo, detalle, unidades, fecha)."""
+        from core.dtos import CalculationProductDTO, CalculationStepDTO
+        num = str(row_index + 1)
+        if isinstance(item, CalculationProductDTO):
+            tipo = "Fabricación" if item.fabricacion_id else "Producto / preproceso"
+            det = item.codigo
+            if getattr(item, "descripcion", None):
+                det = f"{item.codigo} — {item.descripcion}"
+            unidades = str(item.units_for_this_instance)
+            fecha = item.deadline.strftime("%d/%m/%Y") if item.deadline else "—"
+            return num, tipo, det, unidades, fecha
+        if isinstance(item, CalculationStepDTO):
+            if item.lote_template_id is not None:
+                tipo = "Plantilla de lote"
+                det = str(item.lote_codigo)
+            elif item.pila_de_calculo_directa:
+                tipo = "Contenido directo"
+                det = str(item.identificador) if item.identificador else "—"
+            else:
+                tipo = "Paso"
+                det = str(item.lote_codigo or item.identificador or "—")
+            unidades = str(item.unidades)
+            fecha = item.deadline.strftime("%d/%m/%Y") if item.deadline else "—"
+            return num, tipo, det, unidades, fecha
+        return num, "—", str(item), "0", "—"
+
     def _setup_table(self) -> None:
         self.results_table.setColumnCount(8); self.results_table.setHorizontalHeaderLabels(["Tarea", "Departamento", "Inicio", "Fin", "Duración (min)", "Días Lab.", "Trabajador", "Máquina"])
         header = self.results_table.horizontalHeader()
         if header is not None:
             header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch); header.setSectionResizeMode(6, QHeaderView.ResizeMode.Stretch)
         self.results_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers); self.results_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
+
+    def clear_lote_search_results(self) -> None:
+        """Limpia la tabla de resultados de búsqueda de lotes."""
+        self.lote_search_results_table.setRowCount(0)
+        self._pre_sim_lote_detail.setText("Lote seleccionado: —")
+
+    def set_lote_search_results(self, rows: list[tuple[int, str, str]]) -> None:
+        """
+        Reemplaza los resultados de búsqueda de lotes (id, código, descripción).
+        """
+        self.lote_search_results_table.setRowCount(0)
+        for lote_id, lote_codigo, lote_desc in rows:
+            r = self.lote_search_results_table.rowCount()
+            self.lote_search_results_table.insertRow(r)
+            code_item = QTableWidgetItem(lote_codigo)
+            code_item.setData(Qt.ItemDataRole.UserRole, (lote_id, lote_codigo))
+            code_item.setToolTip(lote_codigo)
+            desc_text = lote_desc or "Sin descripción"
+            desc_item = QTableWidgetItem(desc_text)
+            desc_item.setToolTip(desc_text)
+            self.lote_search_results_table.setItem(r, 0, code_item)
+            self.lote_search_results_table.setItem(r, 1, desc_item)
+        self.lote_search_results_table.resizeRowsToContents()
+        self._pre_sim_lote_detail.setText("Lote seleccionado: —")
+
+    def get_selected_lote_search_result(self) -> tuple[int, str] | None:
+        """Devuelve (id, código) del lote seleccionado en la tabla de búsqueda."""
+        sel_model = self.lote_search_results_table.selectionModel()
+        if sel_model is None:
+            return None
+        selected = sel_model.selectedRows()
+        if not selected:
+            return None
+        row = selected[0].row()
+        item = self.lote_search_results_table.item(row, 0)
+        if item is None:
+            return None
+        raw = item.data(Qt.ItemDataRole.UserRole)
+        if not isinstance(raw, tuple) or len(raw) != 2:
+            return None
+        lote_id, lote_codigo = raw
+        if not isinstance(lote_id, int) or not isinstance(lote_codigo, str):
+            return None
+        return lote_id, lote_codigo
+
+    def _on_lote_search_selection_changed(self) -> None:
+        """Actualiza el resumen pre-simulación con el lote seleccionado."""
+        sel_model = self.lote_search_results_table.selectionModel()
+        if sel_model is None:
+            self._pre_sim_lote_detail.setText("Lote seleccionado: —")
+            return
+        selected = sel_model.selectedRows()
+        if not selected:
+            self._pre_sim_lote_detail.setText("Lote seleccionado: —")
+            return
+        row = selected[0].row()
+        code_item = self.lote_search_results_table.item(row, 0)
+        desc_item = self.lote_search_results_table.item(row, 1)
+        code_txt = code_item.text() if code_item is not None else "—"
+        desc_txt = desc_item.text() if desc_item is not None else "Sin descripción"
+        self._pre_sim_lote_detail.setText(f"Lote seleccionado: {code_txt} — {desc_txt}")
 
     def show_progress(self) -> None:
         self.progress_bar.setValue(0); self.progress_bar.setVisible(True)
@@ -151,18 +329,37 @@ class CalculateTimesWidget(QWidget):
                 elif item.lote_template_id:
                     lid = item.lote_template_id
                     try:
-                        if self.simulation_controller and hasattr(self.simulation_controller, 'model'):
-                            det: Optional["LoteDTO"] = self.simulation_controller.model.get_lote_details(lid)
-                            if det:
-                                if det.productos is not None:
-                                    for p in det.productos:
-                                        if p.codigo not in pila_data["productos"]: pila_data["productos"][p.codigo] = {"codigo": p.codigo, "descripcion": p.descripcion}
-                                if det.fabricaciones is not None:
-                                    for f in det.fabricaciones:
-                                        if str(f.id) not in pila_data["fabricaciones"]:
-                                            ctrl: Any = self.simulation_controller
-                                            fi = ctrl.model.get_fabricacion_by_id(f.id); fd = fi.descripcion if fi else ''
-                                            pila_data["fabricaciones"][str(f.id)] = {"id": f.id, "codigo": f.codigo, "descripcion": fd}
+                        sc = self.simulation_controller
+                        if not sc:
+                            continue
+                        det: Optional["LoteDTO"] = None
+                        if getattr(sc, "db", None) and getattr(sc.db, "lote_repo", None) is not None:
+                            det = sc.db.lote_repo.get_lote_details(lid)
+                        else:
+                            app = getattr(sc, "app", None)
+                            mod = getattr(app, "model", None) if app is not None else None
+                            si = getattr(mod, "system_integration", None) if mod is not None else None
+                            if si is not None:
+                                det = si.get_lote_details(lid)
+                        if det:
+                            if det.productos is not None:
+                                for p in det.productos:
+                                    if p.codigo not in pila_data["productos"]: pila_data["productos"][p.codigo] = {"codigo": p.codigo, "descripcion": p.descripcion}
+                            if det.fabricaciones is not None:
+                                for f in det.fabricaciones:
+                                    if str(f.id) not in pila_data["fabricaciones"]:
+                                        fi = None
+                                        app = getattr(sc, "app", None)
+                                        pc = getattr(app, "product_controller", None) if app else None
+                                        fs = getattr(pc, "fabricacion_service", None) if pc else None
+                                        if fs is not None:
+                                            fi = fs.get_fabricacion_by_id(f.id)
+                                        elif getattr(sc, "db", None) is not None and getattr(
+                                            sc.db, "preproceso_repo", None
+                                        ) is not None:
+                                            fi = sc.db.preproceso_repo.get_fabricacion_by_id(f.id)
+                                        fd = fi.descripcion if fi else ''
+                                        pila_data["fabricaciones"][str(f.id)] = {"id": f.id, "codigo": f.codigo, "descripcion": fd}
                     except Exception as e: self.logger.error(f"Error detalles lote {lid}: {e}")
         return pila_data
 
@@ -180,36 +377,33 @@ class CalculateTimesWidget(QWidget):
         self.audit_log_display.setUpdatesEnabled(True)
 
     def _update_plan_display(self) -> None:
-        from core.dtos import CalculationProductDTO, CalculationStepDTO
-        self.pila_content_table.blockSignals(True); self.pila_content_table.setRowCount(0)
+        self.pila_content_table.blockSignals(True)
+        self.pila_content_table.setRowCount(0)
         for i, item in enumerate(self.planning_session):
-            r = self.pila_content_table.rowCount(); self.pila_content_table.insertRow(r)
-            
-            # Extraer datos según tipo
-            if isinstance(item, CalculationProductDTO):
-                identificador = item.fabricacion_id or "N/A"
-                lote_codigo = item.codigo
-                unidades = item.units_for_this_instance
-                deadline = item.deadline
-            elif isinstance(item, CalculationStepDTO):
-                identificador = item.identificador
-                lote_codigo = item.lote_codigo
-                unidades = item.unidades
-                deadline = item.deadline
-            else:
-                identificador = "N/A"
-                lote_codigo = "N/A"
-                unidades = 0
-                deadline = None
-
-            ti = QTableWidgetItem(str(identificador)); ti.setData(Qt.ItemDataRole.UserRole, i)
-            dls = deadline.strftime('%d/%m/%Y') if deadline else "N/A"
-            self.pila_content_table.setItem(r, 0, ti); self.pila_content_table.setItem(r, 1, QTableWidgetItem(str(lote_codigo)))
-            self.pila_content_table.setItem(r, 2, QTableWidgetItem(str(unidades))); self.pila_content_table.setItem(r, 3, QTableWidgetItem(dls))
+            r = self.pila_content_table.rowCount()
+            self.pila_content_table.insertRow(r)
+            num_s, tipo_s, det_s, uds_s, fecha_s = self._plan_table_row_values(i, item)
+            it0 = QTableWidgetItem(num_s)
+            it0.setData(Qt.ItemDataRole.UserRole, i)
+            self.pila_content_table.setItem(r, 0, it0)
+            self.pila_content_table.setItem(r, 1, QTableWidgetItem(tipo_s))
+            self.pila_content_table.setItem(r, 2, QTableWidgetItem(det_s))
+            self.pila_content_table.setItem(r, 3, QTableWidgetItem(uds_s))
+            self.pila_content_table.setItem(r, 4, QTableWidgetItem(fecha_s))
         self.pila_content_table.blockSignals(False)
+        if not self.planning_session:
+            self.apply_empty_plan_results_state()
+        if hasattr(self, "_pre_sim_plan_summary"):
+            self._pre_sim_plan_summary.setText(f"Pila actual: {len(self.planning_session)} elemento(s)")
 
     def display_simulation_results(self, results: list[Any], audit_log: list[Any]) -> None:
-        self.last_results = results; self.last_audit = audit_log
+        if not results:
+            self.apply_empty_plan_results_state()
+            return
+        self.last_results = results
+        self.last_audit = audit_log
+        if hasattr(self, "_plan_results_stack"):
+            self._plan_results_stack.setCurrentIndex(1)
         self.results_table.setRowCount(len(results))
         for row, d in enumerate(results):
             self.results_table.setItem(row, 0, QTableWidgetItem(d['Tarea'])); self.results_table.setItem(row, 1, QTableWidgetItem(d['Departamento']))
@@ -233,16 +427,10 @@ class CalculateTimesWidget(QWidget):
         return True
 
     def clear_all(self) -> None:
-        self.planning_session = []; self.last_pila_id = None; self.last_results = []; self.last_audit = []
-        self.lote_search_entry.clear(); self.lote_search_results.clear(); self._update_plan_display()
-        self.results_table.setRowCount(0); self.timeline_widget.setData([], []); self.audit_log_display.clear()
-        self.task_analysis_panel.header_label.setText("Seleccione una tarea del gráfico"); self.task_analysis_panel.header_label.setStyleSheet("")
-        while self.task_analysis_panel.log_vbox.count():
-            c = self.task_analysis_panel.log_vbox.takeAt(0)
-            if c is not None:
-                w = c.widget()
-                if w is not None:
-                    w.deleteLater()
-        for b in [self.save_pila_button, self.manage_bitacora_button, self.export_button, self.export_pdf_button, self.export_log_button, self.clear_button, self.go_home_button]: b.setEnabled(False)
-        self.load_pila_button.setEnabled(True)
+        self.planning_session = []
+        self.last_pila_id = None
+        self.lote_search_entry.clear()
+        self.clear_lote_search_results()
+        self._update_plan_display()
+        self.apply_empty_plan_results_state()
 

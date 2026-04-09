@@ -6,7 +6,7 @@ Lógica o utilidades del núcleo (`temporal_storage`): tipos, servicios auxiliar
 import json
 import logging
 import os
-from typing import Any, List, Dict, Tuple, Optional
+from typing import Any, List, Dict, Tuple, Optional, cast
 from datetime import datetime
 from enum import Enum
 from core.simulation.simulation_events import EventoDeSimulacion
@@ -38,8 +38,9 @@ class RegistroTemporal:
         """
         Crea y devuelve una conexión a la base de datos específica para el hilo actual.
         Si ya existe una para este hilo, la reutiliza.
+        Tras close(), conn queda en None y se vuelve a crear al consultar.
         """
-        if not hasattr(self._local, 'conn'):
+        if not hasattr(self._local, 'conn') or self._local.conn is None:
             try:
                 self.logger.info(
                     f"Creando nueva conexión a SQLite para el hilo {threading.get_ident()} en '{self.db_path}'...")
@@ -60,6 +61,8 @@ class RegistroTemporal:
                     self._table_cleaned = True
 
                 self._local.conn.commit()
+                if self.db_path != ':memory:':
+                    self._local.conn.execute('PRAGMA journal_mode=WAL;')
                 self.logger.info(
                     f"Conexión y tabla 'eventos_simulacion' preparadas para el hilo {threading.get_ident()}.")
 
@@ -68,14 +71,14 @@ class RegistroTemporal:
                     f"No se pudo inicializar la base de datos de eventos para el hilo {threading.get_ident()}: {e}")
                 self._local.conn = None
 
-        return self._local.conn
+        return cast(sqlite3.Connection | None, self._local.conn)
 
     def _default_serializer(self, obj: Any) -> str:
         """Serializador JSON para objetos datetime y Enum."""
         if isinstance(obj, datetime):
             return obj.isoformat()
         if isinstance(obj, Enum):
-            return obj.value
+            return cast(str, obj.value)
         raise TypeError(f"Object of type {obj.__class__.__name__} is not JSON serializable")
 
     def guardar_evento(self, evento: EventoDeSimulacion) -> None:
@@ -133,12 +136,13 @@ class RegistroTemporal:
         """Cierra la conexión y elimina el archivo de BD del disco (solo si no es :memory:)."""
         self.close()
         if self.db_path and self.db_path != ':memory:':
-            try:
-                if os.path.exists(self.db_path):
-                    os.unlink(self.db_path)
-                    self.logger.info(f"Archivo temporal de simulación eliminado: '{self.db_path}'")
-            except OSError as e:
-                self.logger.warning(f"No se pudo eliminar el archivo temporal '{self.db_path}': {e}")
+            for path in (self.db_path, f"{self.db_path}-wal", f"{self.db_path}-shm"):
+                try:
+                    if os.path.exists(path):
+                        os.unlink(path)
+                        self.logger.info(f"Archivo temporal de simulación eliminado: '{path}'")
+                except OSError as e:
+                    self.logger.warning(f"No se pudo eliminar el archivo temporal '{path}': {e}")
 
     def consultar_eventos(self, rango_temporal: tuple[datetime, datetime] | None = None, tipo_evento: str | None = None, tarea_id: str | None = None) -> list[dict[str, Any]]:
         """Lee eventos de la base de datos SQLite."""

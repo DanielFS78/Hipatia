@@ -1,21 +1,27 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`window`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Ventana principal del rol trabajador (PyQt6).
+
+La lista de tareas recibe filas ``WorkerTaskListRowDTO``; las señales hacia controladores
+siguen emitiendo ``dict`` plano vía ``WorkerTaskListRowDTO.to_signal_dict()`` para no romper contratos existentes.
 """
 
 import logging
 from PyQt6.QtWidgets import QMainWindow, QWidget, QMessageBox, QListWidgetItem
 from PyQt6.QtCore import Qt, pyqtSignal
 
-from typing import Optional, Dict, Any, List
-from typing import cast
+from typing import Optional, Dict, Any, List, cast
+
 from core.interfaces.worker_view_interface import IWorkerView
+from core.worker_ui_dtos import WorkerTaskListRowDTO
 from .ui_manager import WorkerMainWindowUIManager
 
 
 class WorkerMainWindow(QMainWindow, IWorkerView):
     """
     Ventana principal para el rol de trabajador.
+
+    Estado de selección: ``current_selected_task`` es un ``WorkerTaskListRowDTO`` cuando hay fila activa.
     """
 
     # Señales
@@ -38,6 +44,9 @@ class WorkerMainWindow(QMainWindow, IWorkerView):
     start_task_btn: Any
     generate_labels_btn: Any
     task_status_label: Any
+    selected_task_code_label: Any
+    selected_task_desc_label: Any
+    current_selected_task: Optional[WorkerTaskListRowDTO]
 
     def __init__(self, current_user: Any, parent: Optional[QWidget] = None) -> None:
         super().__init__(parent)
@@ -137,23 +146,23 @@ class WorkerMainWindow(QMainWindow, IWorkerView):
         )
         return reply == QMessageBox.StandardButton.Yes
 
-    def update_tasks_list(self, tasks: List[Dict[str, Any]]) -> None:
+    def update_tasks_list(self, tasks: List[WorkerTaskListRowDTO]) -> None:
         self.tasks_list.clear()
         if not tasks:
             self.tasks_list.addItem("No tienes tareas asignadas.")
             return
 
         for task in tasks:
-            prod_codigo = task.get('producto_codigo')
-            prod_desc = task.get('producto_descripcion')
-            cantidad = task.get('cantidad', 0)
+            prod_codigo = task.producto_codigo or None
+            prod_desc = task.producto_descripcion or None
+            cantidad = task.cantidad
 
             if prod_codigo and prod_desc:
                 display_codigo = prod_codigo
                 display_desc = f"{prod_desc} (Cantidad: {cantidad})"
             else:
-                display_codigo = task.get('codigo', 'N/A')
-                display_desc = task.get('descripcion', 'Sin descripción')
+                display_codigo = task.codigo or "N/A"
+                display_desc = task.descripcion or "Sin descripción"
 
             item_text = f"🏭 {display_codigo}\n    {display_desc}"
             item = QListWidgetItem(item_text)
@@ -162,17 +171,20 @@ class WorkerMainWindow(QMainWindow, IWorkerView):
 
     def _on_task_selected(self, item: QListWidgetItem) -> None:
         try:
-            self.current_selected_task = item.data(Qt.ItemDataRole.UserRole)
-            if not self.current_selected_task:
+            row = item.data(Qt.ItemDataRole.UserRole)
+            if not isinstance(row, WorkerTaskListRowDTO):
+                self.current_selected_task = None
                 self.logger.warning("El item seleccionado no tiene datos (UserRole).")
                 self.details_stack.setCurrentIndex(0)
                 return
 
-            self.logger.info(f"Tarea seleccionada: {self.current_selected_task.get('codigo')}")
+            self.current_selected_task = row
 
-            self.selected_task_code_label.setText(f"TAREA: {self.current_selected_task.get('codigo', 'N/A')}")
+            self.logger.info(f"Tarea seleccionada: {row.codigo}")
+
+            self.selected_task_code_label.setText(f"TAREA: {row.codigo or 'N/A'}")
             self.selected_task_desc_label.setText(
-                f"Descripción: {self.current_selected_task.get('descripcion', 'N/A')}")
+                f"Descripción: {row.descripcion or 'N/A'}")
 
             self.task_status_label.setText("Estado: Comprobando...")
             self.task_status_label.setStyleSheet("font-weight: bold; color: #7f8c8d;")
@@ -183,7 +195,7 @@ class WorkerMainWindow(QMainWindow, IWorkerView):
             self.end_task_btn.setEnabled(False)
 
             self.details_stack.setCurrentIndex(1)
-            self.task_selected.emit(self.current_selected_task)
+            self.task_selected.emit(row.to_signal_dict())
 
         except Exception as e:
             self.logger.error(f"Error en _on_task_selected: {e}", exc_info=True)
@@ -216,16 +228,16 @@ class WorkerMainWindow(QMainWindow, IWorkerView):
 
     def _on_generate_labels_clicked(self) -> None:
         if self.current_selected_task:
-            self.generate_labels_requested.emit(self.current_selected_task)
+            self.generate_labels_requested.emit(self.current_selected_task.to_signal_dict())
 
     def _on_start_task_clicked(self) -> None:
         if self.current_selected_task:
-            self.start_task_requested.emit(self.current_selected_task)
+            self.start_task_requested.emit(self.current_selected_task.to_signal_dict())
 
     def _on_register_incidence_clicked(self) -> None:
         if self.current_selected_task:
-            self.register_incidence_requested.emit(self.current_selected_task)
+            self.register_incidence_requested.emit(self.current_selected_task.to_signal_dict())
 
     def _on_end_task_clicked(self) -> None:
         if self.current_selected_task:
-            self.end_task_requested.emit(self.current_selected_task)
+            self.end_task_requested.emit(self.current_selected_task.to_signal_dict())

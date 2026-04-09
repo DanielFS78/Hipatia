@@ -5,16 +5,14 @@ Interfaz PyQt6 (`enhanced_flow_dialog`): widgets, diálogos o recursos visuales 
 
 import logging
 from datetime import datetime
-from typing import List, Dict, Any, Optional, TYPE_CHECKING
+from typing import List, Dict, Any, Optional
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QMessageBox, QSplitter,
     QPushButton, QFrame, QApplication, QLabel, QInputDialog, QWidget
 )
 from PyQt6.QtCore import Qt, QTimer, QPoint
 
-if TYPE_CHECKING:
-    from core.schedule_config import ScheduleConfig
-    from controllers.app_controller import AppController
+from core.schedule_config import ScheduleConfig
 
 # Widgets y Managers
 from ui.widgets.production_flow.inspector_panel import ProductionTaskInspector
@@ -44,8 +42,8 @@ class EnhancedProductionFlowDialog(QDialog):
         tasks_data: List[Dict[str, Any]], 
         workers: List[str], 
         units: int, 
-        controller: AppController, 
-        schedule_config: Optional[ScheduleConfig], 
+        hub: Any,
+        schedule_config: Optional[ScheduleConfig],
         parent: Optional[QWidget] = None, 
         existing_flow: Optional[List[Dict[str, Any]]] = None
     ) -> None:
@@ -56,7 +54,7 @@ class EnhancedProductionFlowDialog(QDialog):
 
         self.workers = sorted(workers)
         self.units = units
-        self.controller = controller
+        self.hub = hub
         self.logger = logging.getLogger("VisualFlowPlanner")
         self.selected_index = None
 
@@ -96,7 +94,7 @@ class EnhancedProductionFlowDialog(QDialog):
         self.graph_manager = FlowGraphManager(self.canvas, self.presenter, self.workers, self)
         self.graph_manager.task_selected_signal.connect(self._on_task_selected)
         
-        self.action_handler = FlowActionHandler(self, self.presenter, self.graph_manager, self.controller)
+        self.action_handler = FlowActionHandler(self, self.presenter, self.graph_manager, self.hub)
         self.action_handler.initialize_library(tasks_data, self.library_panel)
 
         self.preview_button, self.simulation_label = self.action_handler.setup_floating_widgets(self.canvas, self._preview_execution_order)

@@ -67,6 +67,17 @@ def _recommendations(item: BacklogItem) -> list[str]:
             f"Evitar `assert_called_once()` sin args (detectados: {m.get('assert_called_no_args_count', 0)}). "
             "Usar `assert x.call_count == 1` + `assert_called_once_with(...)` cuando los args sean conocidos."
         )
+    if ap.get("weak_any_only_interaction"):
+        recs.append(
+            f"Sustituir `assert_called_*_with(ANY, ANY, …)` por args concretos o `call_args` "
+            f"(líneas débiles: {m.get('weak_any_only_interaction_count', 0)}). "
+            "Excepción: comentario `# noqa: weak_any` en esa línea si es inevitable."
+        )
+    if m.get("qt_item_role_literal_32_count", 0) > 0:
+        recs.append(
+            f"Revisar uso literal `32` como rol Qt en tests (detectado: {m.get('qt_item_role_literal_32_count', 0)}). "
+            "Preferir `Qt.ItemDataRole.UserRole` salvo equivalencia documentada."
+        )
     if ap.get("missing_interaction_check"):
         recs.append(
             "Archivo de ctrl/servicio sin verificación de interacción: añadir al menos un `assert_called_*` "

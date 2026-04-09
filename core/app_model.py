@@ -13,16 +13,12 @@ from PyQt6.QtCore import QObject, pyqtSignal
 from database.database_manager import DatabaseManager
 from core.dtos import (
     ProductDTO, PreprocesoDTO, PilaDTO, WorkerDTO, MachineDTO,
-    ProductIterationDTO, PreparationStepDTO, PreparationGroupDTO, MaterialDTO, WorkerAnnotationDTO,
-    IterationImageDTO, LoteDTO, FabricacionDTO, WorkerDetailDTO, ProductDetailsDTO,
-    CalculationProductDTO, FabricacionProductoDTO
+    ProductIterationDTO, PreparationStepDTO, PreparationGroupDTO, MaterialDTO,
+    FabricacionDTO, ProductDetailsDTO,
+    CalculationProductDTO,
+    CalculationStepDTO,
+    FabricacionProductoDTO,
 )
-from core.reports_dtos import (
-    ResultadoBusquedaDTO, OrdenFabricacionResumenDTO, OrdenFabricacionDetalleDTO,
-    PromedioTiempoDTO, TiempoTrabajadorDTO, IncidenciaResumenDTO,
-    PuntoEvolucionDTO, UnidadTrabajoDTO, ResumenProductoDTO
-)
-
 # Import New Services
 from core.services.product_service import ProductService
 from core.services.pila_service import PilaService
@@ -123,9 +119,6 @@ class AppModel(QObject):
     def get_all_workers(self, include_inactive: bool = False) -> list[WorkerDTO]:
         return self.worker_service.get_all_workers(include_inactive)
 
-    def get_worker_details(self, worker_id: int) -> WorkerDetailDTO | None:
-        return self.worker_service.get_worker_details(worker_id)
-
     def add_worker(self, nombre: str, notas: str, tipo_trabajador: int = 1, username: str | None = None, password_hash: str | None = None, role: str | None = None) -> bool | str:
         return self.worker_service.add_worker(nombre, notas, tipo_trabajador, username, password_hash, role)
 
@@ -134,12 +127,6 @@ class AppModel(QObject):
 
     def delete_worker(self, worker_id: int) -> bool:
         return self.worker_service.delete_worker(worker_id)
-
-    def authenticate_user(self, username: str, password_plain: str) -> dict[str, Any] | None:
-        return self.worker_service.authenticate_user(username, password_plain)
-
-    def update_user_password(self, worker_id: int, new_password_plain: str) -> bool:
-        return self.worker_service.update_user_password(worker_id, new_password_plain)
 
     def assign_task_to_worker(self, worker_id: int, product_code: str, quantity: int, orden_fabricacion: str | None = None) -> tuple[bool, str]:
         return self.worker_service.assign_task_to_worker(worker_id, product_code, quantity, orden_fabricacion)
@@ -151,21 +138,6 @@ class AppModel(QObject):
     def get_fabricaciones_por_trabajador(self, trabajador_id: int) -> list[FabricacionAsignadaDTO]:
         return self.tracking_assignment_service.get_fabricaciones_por_trabajador(trabajador_id)
 
-    def actualizar_estado_asignacion(self, trabajador_id: int, fabricacion_id: int, nuevo_estado: str) -> bool:
-        return self.tracking_assignment_service.actualizar_estado_asignacion(trabajador_id, fabricacion_id, nuevo_estado)
-
-    def asignar_trabajador_a_fabricacion(self, trabajador_id: int, fabricacion_id: int) -> bool:
-        return self.tracking_assignment_service.asignar_trabajador_a_fabricacion(trabajador_id, fabricacion_id)
-
-    def desasignar_trabajador_de_fabricacion(self, trabajador_id: int, fabricacion_id: int) -> bool:
-        return self.tracking_assignment_service.desasignar_trabajador_de_fabricacion(trabajador_id, fabricacion_id)
-    
-    def get_worker_history(self, worker_id: int) -> tuple[list[FabricacionAsignadaDTO], list[Any]]:
-        return self.worker_service.get_worker_history(worker_id)
-
-    def get_worker_activity_log(self, worker_id: int) -> list[TrabajoLogDTO]:
-        return self.worker_service.get_worker_activity_log(worker_id)
-        
     def get_worker_load_stats(self) -> dict[str, Any]:
         return self.worker_service.get_worker_load_stats()
         
@@ -191,14 +163,7 @@ class AppModel(QObject):
 
     def add_machine(self, nombre: str, departamento: str, tipo_proceso: str) -> bool | str:
         return self.machine_service.add_machine(nombre, departamento, tipo_proceso)
-        
-    def update_machine(self, machine_id: int, nombre: str, departamento: str, tipo_proceso: str, activa: bool) -> bool:
-        return self.machine_service.update_machine(machine_id, nombre, departamento, tipo_proceso, activa)
-        
-    def delete_machine(self, machine_id: int) -> bool:
-        """Elimina una máquina del registro."""
-        return self.machine_service.delete_machine(machine_id)
-        
+
     def get_machine_history(self, machine_id: int) -> dict[str, Any]:
         return self.machine_service.get_machine_history(machine_id)
         
@@ -222,33 +187,16 @@ class AppModel(QObject):
  
     def add_prep_step(self, group_id: int, name: str, time: float, description: str, is_daily: bool) -> int | None:
         return self.preparation_service.add_prep_step(group_id, name, time, description, is_daily)
- 
-    def update_prep_step(self, step_id: int, data: dict[str, Any]) -> bool:
-        return self.preparation_service.update_prep_step(step_id, data)
- 
-    def delete_prep_step(self, step_id: int) -> bool:
-        return self.preparation_service.delete_prep_step(step_id)
 
-    def get_group_details(self, group_id: int) -> PreparationGroupDTO | None:
-        return self.preparation_service.get_group_details(group_id)
-        
-    def get_prep_step_details(self, step_id: int) -> PreparationStepDTO | None:
-        return self.preparation_service.get_prep_step_details(step_id)
-        
-    def get_prep_step_details_by_ids(self, step_ids: list[int]) -> dict[int, PreparationStepDTO]:
-        return self.preparation_service.get_prep_step_details_by_ids(step_ids)
-        
     def get_distinct_machine_processes(self) -> list[str]:
         return self.machine_service.get_distinct_machine_processes()
-        
-    def get_all_prep_steps(self) -> list[Any]:
-        return self.fabricacion_service.get_all_prep_steps() if hasattr(self.fabricacion_service, 'get_all_prep_steps') else []
-        
+
     def get_machine_usage_stats(self) -> dict[str, Any]:
         return self.fabricacion_service.get_machine_history_summary() if hasattr(self.fabricacion_service, 'get_machine_history_summary') else {}
         
-    def get_prep_info_for_product(self, producto_codigo: str) -> list[Any]:
-        return self.fabricacion_service.get_prep_info_for_product(producto_codigo) if hasattr(self.fabricacion_service, 'get_prep_info_for_product') else []
+    def get_prep_info_for_product(self, producto_codigo: str) -> tuple[Any | None, Any | None]:
+        """Delega en PreparationService (grupo y máquina por defecto para el producto)."""
+        return self.preparation_service.get_prep_info_for_product(producto_codigo)
 
     # =========================================================================
     # DELEGACIÓN A FABRICACION SERVICE (Fabricaciones, Preprocesos)
@@ -261,14 +209,6 @@ class AppModel(QObject):
     def search_fabricaciones(self, query: str) -> list[Any]:
         """Busca órdenes de fabricación por código o descripción."""
         return self.fabricacion_service.search_fabricaciones(query)
-
-    def get_iteration_images(self, iteration_id: int) -> list[IterationImageDTO]:
-        """Obtiene las imágenes adicionales vinculadas a una iteración de producto."""
-        return self.db.get_iteration_images(iteration_id)
-
-    def update_iteration_file_path(self, iteration_id: int, key: str, final_path: str) -> bool:
-        """Actualiza la ruta de almacenamiento de archivos adjuntos (planos/imágenes)."""
-        return self.db.update_iteration_file_path(iteration_id, key, final_path)
 
     def create_fabricacion(self, codigo: str, descripcion: str) -> bool:
         """Crea una nueva orden de fabricación básica."""
@@ -364,9 +304,6 @@ class AppModel(QObject):
     def search_products(self, query: str) -> list[ProductDTO]:
         return self.product_facade.search_products(query)
 
-    def get_latest_products(self, limit: int = 10) -> list[ProductDTO]:
-        return self.product_facade.get_latest_products(limit)
-
     def get_product_details(self, codigo: str) -> ProductDetailsDTO:
         return self.product_facade.get_product_details(codigo)
 
@@ -397,14 +334,8 @@ class AppModel(QObject):
             codigo_producto, responsable, descripcion, tipo_fallo, materiales_list, ruta_imagen, ruta_plano
         )
 
-    def update_product_iteration_details(self, iteracion_id: int, responsable: str, descripcion: str, tipo_fallo: str) -> bool:
-        return self.product_facade.update_product_iteration_details(iteracion_id, responsable, descripcion, tipo_fallo)
-
     def add_iteration_image(self, iteracion_id: int, ruta_imagen: str) -> bool:
         return self.product_facade.add_iteration_image(iteracion_id, ruta_imagen)
-
-    def get_product_iterations_by_id_or_similar(self, iteracion_id: int) -> ProductIterationDTO | None:
-        return self.product_facade.get_product_iterations_by_id_or_similar(iteracion_id)
 
     def delete_iteration_image(self, image_id: int) -> bool:
         return self.product_facade.delete_iteration_image(image_id)
@@ -421,9 +352,6 @@ class AppModel(QObject):
     def update_material(self, material_id: int, nuevo_codigo: str, nueva_descripcion: str) -> bool:
         return self.product_facade.update_material(material_id, nuevo_codigo, nueva_descripcion)
 
-    def delete_material_link(self, iteracion_id: int, material_id: int) -> bool:
-        return self.product_facade.delete_material_link(iteracion_id, material_id)
-
     def add_material(self, codigo: str, descripcion: str) -> int | None:
         return self.product_facade.add_material(codigo, descripcion)
 
@@ -439,18 +367,12 @@ class AppModel(QObject):
     def unlink_material_from_product(self, producto_codigo: str, material_id: int) -> bool:
         return self.product_facade.unlink_material_from_product(producto_codigo, material_id)
 
-    def get_all_iterations_with_dates(self) -> list[ProductIterationDTO]:
-        return self.product_facade.get_all_iterations_with_dates()
-
     # =========================================================================
     # DELEGACIÓN A PLANNING FACADE (Pilas, Diario, Cálculo)
     # =========================================================================
 
     def get_all_pilas(self) -> list[PilaDTO]:
         return self.planning_facade.get_all_pilas()
-
-    def get_all_pilas_with_dates(self) -> list[PilaDTO]:
-        return self.planning_facade.get_all_pilas_with_dates()
 
     def load_pila(self, pila_id: int) -> tuple[PilaDTO | None, dict[Any, Any] | None, list[Any] | None, list[Any] | None]:
         return self.planning_facade.load_pila(pila_id)
@@ -478,84 +400,14 @@ class AppModel(QObject):
     def delete_pila(self, pila_id: int) -> bool:
         return self.planning_facade.delete_pila(pila_id)
 
-    def get_diario_bitacora(self, pila_id: int) -> tuple[int | None, list[Any]]:
-        return self.planning_facade.get_diario_bitacora(pila_id)
-
-    def add_diario_evento(
-        self, pila_id: int, fecha: date, dia_numero: int, plan_previsto: str, trabajo_realizado: str, notas: str
-    ) -> bool:
-        return self.planning_facade.add_diario_evento(
-            pila_id, fecha, dia_numero, plan_previsto, trabajo_realizado, notas
-        )
-
-    def create_diario_bitacora(self, pila_id: int) -> bool:
-        return self.planning_facade.create_diario_bitacora(pila_id)
-
     def get_data_for_calculation(self, producto_codigo: str) -> list[CalculationProductDTO]:
         return self.planning_facade.get_data_for_calculation(producto_codigo)
 
-    def get_data_for_calculation_from_session(self, planning_session: list[CalculationProductDTO | dict[str, Any]]) -> list[CalculationProductDTO]:
+    def get_data_for_calculation_from_session(
+        self, planning_session: list[CalculationProductDTO | CalculationStepDTO | dict[str, Any]]
+    ) -> list[CalculationProductDTO]:
         return self.planning_facade.get_data_for_calculation_from_session(planning_session)
 
-    # =========================================================================
-    # DELEGACIÓN A REPORT SERVICE (resto de reporting)
-    # =========================================================================
+    # Nota: la API de reportes tabulares vive en ``ReportService`` (DI / ``model.report_service``).
+    # No se reexpone en AppModel para evitar fachada duplicada.
 
-    def get_order_units(self, order_id: str) -> list[UnidadTrabajoDTO]:
-        return self.report_service.get_order_units(order_id)
-
-    def get_product_reports_dashboard(self, product_code: str, evolution_days: int = 30) -> dict[str, Any]:
-        """Obtiene bundle completo de datos de reportes para el producto solicitado."""
-        return self.report_service.get_product_dashboard(product_code, evolution_days)
-
-    # =========================================================================
-    # REPORT SERVICE + SYSTEM INTEGRATION (reportes tabulares, lotes, config, órdenes)
-    # =========================================================================
-
-    def search_reports_data(self, query: str) -> list[ResultadoBusquedaDTO]:
-        return self.report_service.search_reports_data(query)
-
-    def get_orders_for_product(self, product_code: str) -> list[OrdenFabricacionResumenDTO]:
-        return self.report_service.get_orders_for_product(product_code)
-
-    def get_order_details(self, order_id: str) -> OrdenFabricacionDetalleDTO | None:
-        return self.report_service.get_order_details(order_id)
-
-    def get_product_time_stats(self, product_code: str) -> PromedioTiempoDTO | None:
-        return self.report_service.get_product_time_stats(product_code)
-
-    def get_worker_time_stats(self, product_code: str) -> list[TiempoTrabajadorDTO]:
-        return self.report_service.get_worker_time_stats(product_code)
-
-    def get_incidents_stats(self, product_code: str) -> list[IncidenciaResumenDTO]:
-        return self.report_service.get_incidents_stats(product_code)
-
-    def get_evolution_stats(self, product_code: str, days: int = 30) -> list[PuntoEvolucionDTO]:
-        return self.report_service.get_evolution_stats(product_code, days)
-
-    def get_product_summary(self, product_code: str) -> ResumenProductoDTO | None:
-        return self.report_service.get_product_summary(product_code)
-
-    def search_lotes(self, query: str) -> list[Any]:
-        return self.system_integration.search_lotes(query)
-
-    def create_lote(self, data: dict[str, Any]) -> int | None:
-        return self.system_integration.create_lote(data)
-
-    def get_lote_details(self, lote_id: int) -> LoteDTO | None:
-        return self.system_integration.get_lote_details(lote_id)
-
-    def update_lote(self, lote_id: int, data: dict[str, Any]) -> bool:
-        return self.system_integration.update_lote(lote_id, data)
-
-    def delete_lote(self, lote_id: int) -> bool:
-        return self.system_integration.delete_lote(lote_id)
-
-    def config_get_setting(self, key: str, default: str) -> str:
-        return self.system_integration.config_get_setting(key, default)
-
-    def config_set_setting(self, key: str, value: str) -> bool:
-        return self.system_integration.config_set_setting(key, value)
-
-    def get_all_ordenes_fabricacion(self) -> list[str]:
-        return self.system_integration.get_all_ordenes_fabricacion()

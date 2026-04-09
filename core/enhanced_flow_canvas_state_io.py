@@ -175,3 +175,63 @@ def canvas_state_logical_connections_for_index(
             connections.append({"from": i, "to": selected_index, "type": "cyclic", "highlight_origin": True})
 
     return connections
+
+
+def canvas_state_all_logical_connections(
+    canvas_tasks: List[dict[str, Any]],
+) -> List[dict[str, Any]]:
+    """Aristas globales: dependencias, ciclos y orden por defecto en el lienzo.
+
+    Las tareas con inicio por fecha (sin dependencia explícita) se enlazan en cadena
+    ``(i-1) → i`` para mostrar el orden de planificación al colocar tarjetas.
+    Si una tarea define ``start_condition`` tipo ``dependency``, no se añade ese
+    eslabón secuencial hacia ella (el orden lo marca solo el predecesor elegido).
+    """
+    n = len(canvas_tasks)
+    if n == 0:
+        return []
+
+    seen: set[tuple[int, int, str]] = set()
+    out: List[dict[str, Any]] = []
+    has_explicit_dependency: list[bool] = [False] * n
+
+    def add_edge(frm: int, to: int, ctype: str) -> None:
+        if frm == to:
+            return
+        key = (frm, to, ctype)
+        if key in seen:
+            return
+        if not (0 <= frm < n and 0 <= to < n):
+            return
+        seen.add(key)
+        out.append({"from": frm, "to": to, "type": ctype})
+
+    for i, t in enumerate(canvas_tasks):
+        t_cfg = legacy_canvas_task_config(t)
+        start_cond = inspector_config_start_condition(t_cfg)
+        if inspector_start_condition_type(start_cond) == "dependency":
+            parent_idx = inspector_start_condition_value(start_cond)
+            if parent_idx is not None:
+                try:
+                    pi = int(parent_idx)
+                except (TypeError, ValueError):
+                    pi = -1
+                if 0 <= pi < n:
+                    has_explicit_dependency[i] = True
+                    add_edge(pi, i, "standard")
+
+        nc = inspector_config_next_cyclic_index(t_cfg)
+        if nc is not None:
+            try:
+                nj = int(nc)
+            except (TypeError, ValueError):
+                nj = -1
+            if 0 <= nj < n:
+                add_edge(i, nj, "cyclic")
+
+    for i in range(1, n):
+        if has_explicit_dependency[i]:
+            continue
+        add_edge(i - 1, i, "sequential")
+
+    return out

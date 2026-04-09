@@ -14,7 +14,7 @@ class TestSettingsWidgetHolidays(unittest.TestCase):
 
     def test_missing_holiday_methods(self):
         from ui.widgets.settings_widget import SettingsWidget
-        widget = SettingsWidget(controller=None)
+        widget = SettingsWidget()
         
         # Check if methods exist
         self.assertTrue(hasattr(widget, '_on_add_holiday'), "_on_add_holiday should exist")

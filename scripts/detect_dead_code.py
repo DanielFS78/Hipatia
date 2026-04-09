@@ -1,29 +1,25 @@
 #!/usr/bin/env python3
 """
-Script de Detección de Código Muerto en ui/dialogs.py
-=====================================================
-Fase 3.7: Identifica métodos que no son llamados desde ningún lugar
-del proyecto (código muerto) para su posterior eliminación.
+Detección de código muerto en el paquete ``ui/dialogs/``.
+======================================================
+Recorre cada ``*.py`` bajo ``ui/dialogs/``, extrae métodos por clase y
+busca referencias en ``app.py``, ``ui/``, ``controllers/``, ``core/``, ``tests/``.
 
-Estrategia:
-1. Extrae todos los métodos de dialogs.py
-2. Busca referencias a cada método en todo el proyecto
-3. Clasifica métodos como:
-   - USADO: Tiene referencias externas o es público (__init__, sin underscore)
-   - INTERNO: Es privado pero llamado internamente
-   - MUERTO: Sin referencias detectables
-   
-Genera un archivo Markdown con el análisis.
+Clasificación heurística (revisar manualmente antes de borrar):
+- USADO: referencias fuera del fichero de definición
+- INTERNO: solo llamadas desde la misma clase/paquete
+- MUERTO: sin referencias detectables (falsos positivos: slots Qt, getattr, etc.)
+
+Genera un Markdown bajo ``Documentacion/``.
 """
 
 import ast
-import os
 import re
 import sys
 from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
-from typing import Dict, List, Set, Tuple, Optional, cast
+from typing import Dict, List, Set, Optional, cast
 import logging
 
 # Configurar logging para salida a consola
@@ -36,8 +32,10 @@ logger = logging.getLogger("DetectDeadCode")
 
 # Ruta base del proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent
-DIALOGS_PATH = BASE_DIR / "ui" / "dialogs.py"
-OUTPUT_PATH = BASE_DIR / "Documentacion" / "Fase 3" / "Fase_3_7_Codigo_Muerto_Dialogs.md"
+DIALOGS_PACKAGE = BASE_DIR / "ui" / "dialogs"
+# Compat tests / API antigua
+DIALOGS_PATH = DIALOGS_PACKAGE
+OUTPUT_PATH = BASE_DIR / "Documentacion" / "Analisis_Codigo_Muerto_ui_dialogs.md"
 
 # Directorios a buscar referencias
 SEARCH_DIRS = [
@@ -93,6 +91,54 @@ class MethodExtractor(ast.NodeVisitor):
                 "internal_calls": internal_calls,
             }
         self.generic_visit(node)
+
+    def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
+        if self.current_class:
+            internal_calls: Set[str] = set()
+            for child in ast.walk(node):
+                if isinstance(child, ast.Call):
+                    if isinstance(child.func, ast.Attribute):
+                        if isinstance(child.func.value, ast.Name):
+                            if child.func.value.id == "self":
+                                internal_calls.add(child.func.attr)
+            self.classes[self.current_class]["methods"][node.name] = {
+                "line_start": node.lineno,
+                "line_end": node.end_lineno,
+                "is_private": node.name.startswith("_") and not node.name.startswith("__"),
+                "is_dunder": node.name.startswith("__") and node.name.endswith("__"),
+                "internal_calls": internal_calls,
+            }
+        self.generic_visit(node)
+
+
+def extract_package_classes(package_dir: Path) -> Dict[str, dict]:
+    """Parsea todos los ``.py`` bajo ``package_dir`` y fusiona clases con clave ``rel/path.py::ClassName``."""
+    merged: Dict[str, dict] = {}
+    if not package_dir.is_dir():
+        return merged
+    for py_file in sorted(package_dir.rglob("*.py")):
+        if "__pycache__" in py_file.parts:
+            continue
+        rel = py_file.relative_to(BASE_DIR).as_posix()
+        try:
+            source = py_file.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        try:
+            tree = ast.parse(source)
+        except SyntaxError:
+            logger.warning("   Saltando (syntax error): %s", rel)
+            continue
+        extractor = MethodExtractor()
+        extractor.visit(tree)
+        for cls_name, info in extractor.classes.items():
+            key = f"{rel}::{cls_name}"
+            merged[key] = {
+                **info,
+                "source_file": rel,
+                "short_class_name": cls_name,
+            }
+    return merged
 
 
 def find_references_in_file(file_path: Path, method_names: Set[str], class_names: Set[str]) -> Dict[str, List[dict]]:
@@ -191,6 +237,19 @@ def find_all_references(method_names: Set[str], class_names: Set[str]) -> Dict[s
     return all_references
 
 
+def _class_reference_key(class_key: str, class_info: dict) -> str:
+    """Nombre corto de clase para coincidir con ``find_all_references``."""
+    if "short_class_name" in class_info:
+        return cast(str, class_info["short_class_name"])
+    if "::" in class_key:
+        return class_key.split("::", 1)[1]
+    return class_key
+
+
+def _definition_file(class_info: dict) -> str:
+    return cast(str, class_info.get("source_file", "ui/dialogs.py"))
+
+
 def analyze_dead_code(classes: Dict[str, dict], references: Dict[str, List[dict]]) -> dict:
     """
     Analiza y clasifica métodos según su uso.
@@ -206,58 +265,56 @@ def analyze_dead_code(classes: Dict[str, dict], references: Dict[str, List[dict]
     
     # Recopilar todos los métodos llamados internamente
     all_internal_calls = set()
-    for class_name, class_info in classes.items():
-        for method_name, method_info in class_info["methods"].items():
+    for class_info in classes.values():
+        for method_info in class_info["methods"].values():
             all_internal_calls.update(method_info["internal_calls"])
     
     # Analizar cada clase
-    for class_name, class_info in classes.items():
-        class_refs = references.get(class_name, [])
-        # Filtrar auto-referencias (definición en dialogs.py)
-        external_refs = [r for r in class_refs if r["file"] != "ui/dialogs.py"]
-        
+    for class_key, class_info in classes.items():
+        ref_key = _class_reference_key(class_key, class_info)
+        src_file = _definition_file(class_info)
+        class_refs = references.get(ref_key, [])
+        external_refs = [r for r in class_refs if r["file"] != src_file]
+
         if external_refs:
             analysis["used_classes"].append({
-                "name": class_name,
+                "name": class_key,
                 "ref_count": len(external_refs),
                 "refs": external_refs[:5]  # Mostrar máximo 5 referencias
             })
         else:
-            # Verificar si alguno de sus métodos es usado externamente
             has_external_usage = False
             for method_name in class_info["methods"]:
                 method_refs = references.get(method_name, [])
-                ext_refs = [r for r in method_refs if r["file"] != "ui/dialogs.py"]
+                ext_refs = [r for r in method_refs if r["file"] != src_file]
                 if ext_refs:
                     has_external_usage = True
                     break
-            
+
             if not has_external_usage:
                 analysis["unused_classes"].append({
-                    "name": class_name,
+                    "name": class_key,
                     "lines": class_info["line_end"] - class_info["line_start"],
                     "method_count": len(class_info["methods"])
                 })
     
     # Analizar cada método
-    for class_name, class_info in classes.items():
+    for class_key, class_info in classes.items():
+        src_file = _definition_file(class_info)
         for method_name, method_info in class_info["methods"].items():
-            full_name = f"{class_name}.{method_name}"
-            
             # Dunders se consideran usados implícitamente
             if method_info["is_dunder"]:
                 analysis["dunder_methods"].append({
-                    "class": class_name,
+                    "class": class_key,
                     "method": method_name,
                     "lines": method_info["line_end"] - method_info["line_start"]
                 })
                 continue
-            
+
             method_refs = references.get(method_name, [])
-            # Filtrar auto-definición
             external_refs = [r for r in method_refs if not (
-                r["file"] == "ui/dialogs.py" and 
-                "def " + method_name in r["context"]
+                r["file"] == src_file and
+                "def " + method_name in str(r.get("context", ""))
             )]
             
             is_called_internally = method_name in all_internal_calls
@@ -265,14 +322,14 @@ def analyze_dead_code(classes: Dict[str, dict], references: Dict[str, List[dict]
             
             if has_external_refs:
                 analysis["used_methods"].append({
-                    "class": class_name,
+                    "class": class_key,
                     "method": method_name,
                     "ref_count": len(external_refs),
                     "refs": external_refs[:3]
                 })
             elif is_called_internally:
                 analysis["internal_only_methods"].append({
-                    "class": class_name,
+                    "class": class_key,
                     "method": method_name,
                     "lines": method_info["line_end"] - method_info["line_start"],
                     "is_private": method_info["is_private"]
@@ -281,7 +338,7 @@ def analyze_dead_code(classes: Dict[str, dict], references: Dict[str, List[dict]
                 # Métodos públicos sin referencias son sospechosos pero podrían ser API
                 if method_info["is_private"]:
                     analysis["dead_methods"].append({
-                        "class": class_name,
+                        "class": class_key,
                         "method": method_name,
                         "line_start": method_info["line_start"],
                         "line_end": method_info["line_end"],
@@ -291,7 +348,7 @@ def analyze_dead_code(classes: Dict[str, dict], references: Dict[str, List[dict]
                 else:
                     # Métodos públicos podrían ser parte de la API, menor confianza
                     analysis["dead_methods"].append({
-                        "class": class_name,
+                        "class": class_key,
                         "method": method_name,
                         "line_start": method_info["line_start"],
                         "line_end": method_info["line_end"],
@@ -305,8 +362,11 @@ def analyze_dead_code(classes: Dict[str, dict], references: Dict[str, List[dict]
 def generate_report(classes: Dict[str, dict], analysis: dict) -> str:
     """Genera el reporte en formato Markdown."""
     
+    def _pct(n: int, total: int) -> int:
+        return (n * 100 // total) if total else 0
+
     md = []
-    md.append("# Fase 3.7: Análisis de Código Muerto en `ui/dialogs.py`")
+    md.append("# Fase 3.7: Análisis de código muerto — paquete `ui/dialogs/`")
     md.append("")
     md.append(f"> **Fecha de análisis:** {datetime.now().strftime('%d de %B de %Y, %H:%M')}")
     md.append("> **Generado por:** `scripts/detect_dead_code.py`")
@@ -328,10 +388,10 @@ def generate_report(classes: Dict[str, dict], analysis: dict) -> str:
     md.append("| Categoría | Cantidad | Porcentaje |")
     md.append("|-----------|----------|------------|")
     md.append(f"| **Métodos totales** | {total_methods} | 100% |")
-    md.append(f"| Usados externamente | {used_count} | {used_count*100//total_methods}% |")
-    md.append(f"| Solo uso interno | {internal_count} | {internal_count*100//total_methods}% |")
-    md.append(f"| Dunders (implícitos) | {dunder_count} | {dunder_count*100//total_methods}% |")
-    md.append(f"| **⚠️ Potencialmente muertos** | {dead_count} | {dead_count*100//total_methods}% |")
+    md.append(f"| Usados externamente | {used_count} | {_pct(used_count, total_methods)}% |")
+    md.append(f"| Solo uso interno | {internal_count} | {_pct(internal_count, total_methods)}% |")
+    md.append(f"| Dunders (implícitos) | {dunder_count} | {_pct(dunder_count, total_methods)}% |")
+    md.append(f"| **⚠️ Potencialmente muertos** | {dead_count} | {_pct(dead_count, total_methods)}% |")
     md.append("")
     
     md.append(f"> **Líneas de código potencialmente eliminables:** ~{dead_lines} líneas")
@@ -344,7 +404,7 @@ def generate_report(classes: Dict[str, dict], analysis: dict) -> str:
         md.append("## 2. Clases sin Uso Externo Detectado")
         md.append("")
         md.append("> [!WARNING]")
-        md.append("> Estas clases no tienen instanciaciones detectadas fuera de `dialogs.py`.")
+        md.append("> Estas clases no tienen instanciaciones detectadas fuera de su fichero en `ui/dialogs/`.")
         md.append("> Podrían ser usadas dinámicamente o a través de imports indirectos.")
         md.append("")
         md.append("| Clase | Líneas | Métodos |")
@@ -401,7 +461,7 @@ def generate_report(classes: Dict[str, dict], analysis: dict) -> str:
     # Métodos con uso interno
     md.append("## 5. Métodos con Solo Uso Interno")
     md.append("")
-    md.append("Estos métodos son llamados solo desde dentro de `dialogs.py`:")
+    md.append("Estos métodos solo tienen llamadas detectadas dentro del mismo módulo o sin referencias externas claras:")
     md.append("")
     md.append("| Clase | Método | Líneas | Es Privado |")
     md.append("|-------|--------|--------|------------|")
@@ -449,58 +509,58 @@ def generate_report(classes: Dict[str, dict], analysis: dict) -> str:
     md.append("")
     md.append("---")
     md.append("")
+
+    if not analysis["dead_methods"]:
+        md.append("## 7. Eliminaciones en esta pasada")
+        md.append("")
+        md.append(
+            "La heurística no detectó métodos sin referencias (ni privados de alta confianza "
+            "ni públicos de media confianza). **0 eliminaciones** automáticas recomendadas."
+        )
+        md.append("")
+
     md.append(f"*Documento generado automáticamente - {datetime.now().strftime('%d/%m/%Y %H:%M')}*")
-    
+
     return "\n".join(md)
 
 
 def main():
     """Función principal."""
     logger.info("=" * 60)
-    logger.info("Detector de Código Muerto - ui/dialogs.py - Fase 3.7")
+    logger.info("Detector de código muerto — paquete ui/dialogs/ (Fase 3.7)")
     logger.info("=" * 60)
-    
-    # Verificar archivo
-    if not DIALOGS_PATH.exists():
-        logger.error(f"❌ Error: No se encuentra {DIALOGS_PATH}")
+
+    if not DIALOGS_PACKAGE.is_dir():
+        logger.error("❌ Error: no existe el directorio %s", DIALOGS_PACKAGE)
         sys.exit(1)
-    
-    # Leer código
-    logger.info(f"\n📂 Leyendo: {DIALOGS_PATH}")
-    with open(DIALOGS_PATH, 'r', encoding='utf-8') as f:
-        source_code = f.read()
-    
-    # Parsear
+
+    logger.info("\n📂 Analizando paquete: %s", DIALOGS_PACKAGE)
     logger.info("🔍 Extrayendo métodos y clases...")
-    tree = ast.parse(source_code)
-    extractor = MethodExtractor()
-    extractor.visit(tree)
-    
-    total_classes = len(extractor.classes)
-    total_methods = sum(len(c["methods"]) for c in extractor.classes.values())
-    logger.info(f"   Clases: {total_classes}")
-    logger.info(f"   Métodos: {total_methods}")
-    
-    # Recopilar nombres
-    all_method_names = set()
-    class_names = set(extractor.classes.keys())
-    for class_info in extractor.classes.values():
+    classes = extract_package_classes(DIALOGS_PACKAGE)
+
+    total_classes = len(classes)
+    total_methods = sum(len(c["methods"]) for c in classes.values())
+    logger.info("   Clases: %s", total_classes)
+    logger.info("   Métodos: %s", total_methods)
+
+    all_method_names: Set[str] = set()
+    class_short_names: Set[str] = set()
+    for class_info in classes.values():
+        class_short_names.add(cast(str, class_info["short_class_name"]))
         all_method_names.update(class_info["methods"].keys())
-    
-    # Buscar referencias
+
     logger.info("\n🔎 Buscando referencias en el proyecto...")
-    references = find_all_references(all_method_names, class_names)
-    
-    # Analizar
+    references = find_all_references(all_method_names, class_short_names)
+
     logger.info("\n📊 Analizando uso de código...")
-    analysis = analyze_dead_code(extractor.classes, references)
+    analysis = analyze_dead_code(classes, references)
     
     dead_count = len(analysis["dead_methods"])
     logger.info(f"   Métodos potencialmente muertos: {dead_count}")
     
     # Generar reporte
     logger.info("\n📝 Generando reporte...")
-    report = generate_report(extractor.classes, analysis)
+    report = generate_report(classes, analysis)
     
     # Guardar
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)

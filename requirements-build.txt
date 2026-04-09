@@ -1,0 +1,2 @@
+# Solo entorno de empaquetado (no runtime de la app en fábrica).
+pyinstaller>=6.3.0

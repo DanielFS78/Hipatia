@@ -14,6 +14,7 @@ from PyQt6.QtCore import QThreadPool
 from core.interfaces.controller_interface import IController
 from core.interfaces.view_interface import IView
 from core.app_model import AppModel
+from core.services.product_service import ProductService
 from core.schedule_config import ScheduleConfig
 # Alias de importación por compatibilidad
 from core.utils.helpers import resource_path
@@ -243,6 +244,8 @@ class AppController(IController):
              if hasattr(prod_tab, "update_search_results"):
                  if self.product_controller is not None:
                      all_products = self.product_controller.product_service.search_products("")
+                 elif self.container.is_registered(ProductService):
+                     all_products = self.container.resolve(ProductService).search_products("")
                  else:
                      all_products = self.model.product_service.search_products("")
                  prod_tab.update_search_results(all_products)
@@ -300,13 +303,14 @@ class AppController(IController):
         """
         if self.schedule_controller is not None:
             return self.schedule_controller.config_get_setting(key, default)
-        return self.model.config_get_setting(key, default)
+        raw = self.db.config_repo.get_setting(key, default)
+        return default if raw is None else str(raw)
 
     def config_set_setting(self, key: str, value: str) -> bool:
         """Compatibilidad para escritura de configuración en arranque temprano."""
         if self.schedule_controller is not None:
             return self.schedule_controller.config_set_setting(key, value)
-        return self.model.config_set_setting(key, value)
+        return bool(self.db.config_repo.set_setting(key, value))
 
     def on_nav_button_clicked(self, name: str) -> None:
         if self.navigation_controller:

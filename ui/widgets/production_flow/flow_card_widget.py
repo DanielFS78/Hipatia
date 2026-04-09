@@ -12,6 +12,7 @@ from core.flow_card_labels import (
 )
 from PyQt6.QtWidgets import QLabel, QWidget
 from PyQt6.QtCore import Qt, pyqtSignal, QPoint
+from PyQt6.QtGui import QMouseEvent
 
 class FlowCardWidget(QLabel):
     """
@@ -53,30 +54,31 @@ class FlowCardWidget(QLabel):
             }
         """)
 
-    def mousePressEvent(self, event: Any) -> None:
+    def mousePressEvent(self, event: QMouseEvent | None) -> None:
         """Se activa al hacer clic en la tarjeta."""
-        self.clicked.emit(self.task_data)
-
-        if event.button() == Qt.MouseButton.LeftButton:
-            self.dragging = True
-            self.drag_start_position = event.position().toPoint()
+        if event is not None:
+            self.clicked.emit(self.task_data)
+            if event.button() == Qt.MouseButton.LeftButton:
+                self.dragging = True
+                self.drag_start_position = event.position().toPoint()
 
         super().mousePressEvent(event)
 
-    def mouseMoveEvent(self, event: Any) -> None:
+    def mouseMoveEvent(self, event: QMouseEvent | None) -> None:
         """Se activa al mover el ratón mientras se mantiene presionado."""
-        if self.dragging:
+        if event is not None and self.dragging:
             new_pos = self.mapToParent(event.position().toPoint() - self.drag_start_position)
             self.move(new_pos)
-            if self.parent():
+            parent = self.parent()
+            if isinstance(parent, QWidget):
                 # Forzar redibujado de conexiones en el canvas
-                self.parent().update() # type: ignore
+                parent.update()
 
         super().mouseMoveEvent(event)
 
-    def mouseReleaseEvent(self, event: Any) -> None:
+    def mouseReleaseEvent(self, event: QMouseEvent | None) -> None:
         """Se activa al soltar el botón del ratón."""
-        if event.button() == Qt.MouseButton.LeftButton:
+        if event is not None and event.button() == Qt.MouseButton.LeftButton:
             self.dragging = False
             self._snap_to_grid()
             self.moved.emit(flow_card_task_id_str(self.task_data), self.pos())

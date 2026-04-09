@@ -18,7 +18,7 @@ from .base import CameraInfo, CameraBackend
 
 logger = logging.getLogger("EvolucionTiemposApp.CameraManager.Detector")
 
-def _get_cv2():
+def _get_cv2() -> Any:
     return cv2
 
 def get_camera_name(index: int, backend: CameraBackend) -> Tuple[str, bool]:

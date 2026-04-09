@@ -1,6 +1,6 @@
 """Tests exhaustivos para ProductController v2."""
 import pytest
-from unittest.mock import MagicMock, patch, PropertyMock, create_autospec, ANY
+from unittest.mock import MagicMock, patch, PropertyMock, create_autospec
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QDialog, QListWidgetItem, QWidget
 
@@ -296,7 +296,13 @@ class TestProductControllerV2Comprehensive:
         
         controller._on_update_product("NEWP")
         
-        mock_dependencies['prod_svc'].add_product.assert_called_once_with(ANY, ANY)
+        new_data = {
+            "codigo": "NEWP",
+            "descripcion": "Desc",
+            "tiene_subfabricaciones": False,
+            "tiempo_optimo": "10.5",
+        }
+        mock_dependencies['prod_svc'].add_product.assert_called_once_with(new_data, [])
         mock_dependencies['view'].show_message.assert_called_once_with("Éxito", "Producto 'NEWP' creado correctamente.", "info")
 
     def test_on_update_product_update_success(self, controller, mock_dependencies):
@@ -312,7 +318,13 @@ class TestProductControllerV2Comprehensive:
         
         controller._on_update_product("P1")
         
-        mock_dependencies['prod_svc'].update_product.assert_called_once_with("P1", ANY, ANY)
+        upd_data = {
+            "codigo": "P1",
+            "descripcion": "Updated",
+            "tiene_subfabricaciones": False,
+            "tiempo_optimo": 15,
+        }
+        mock_dependencies['prod_svc'].update_product.assert_called_once_with("P1", upd_data, [])
         mock_dependencies['view'].show_message.assert_called_once_with("Éxito", "Producto actualizado.", "info")
 
     def test_on_update_product_success(self, controller, mock_dependencies):
@@ -329,7 +341,13 @@ class TestProductControllerV2Comprehensive:
         
         controller._on_update_product("P1")
 
-        mock_dependencies['prod_svc'].update_product.assert_called_once_with("P1", ANY, [])
+        form_data = {
+            "codigo": "P1",
+            "descripcion": "New",
+            "tiene_subfabricaciones": False,
+            "tiempo_optimo": 20,
+        }
+        mock_dependencies['prod_svc'].update_product.assert_called_once_with("P1", form_data, [])
         mock_dependencies['view'].show_message.assert_called_once_with("Éxito", "Producto actualizado.", "info")
         mock_dependencies['app'].ui_controller.on_data_changed.assert_called_once_with()
 
@@ -398,11 +416,15 @@ class TestProductControllerV2Comprehensive:
         
         controller.show_create_fabricacion_dialog()
         
-        MockDlg.assert_called_once_with(["prep1"], ["prod1"], ANY)
+        MockDlg.assert_called_once_with(
+            ["prep1"],
+            ["prod1"],
+            mock_dependencies['view'],
+        )
         instance.exec.assert_called_once_with()
         instance.get_fabricacion_data.assert_called_once_with()
         mock_dependencies['fab_svc'].create_fabricacion_with_preprocesos.assert_called_once_with(
-            ANY
+            instance.get_fabricacion_data.return_value,
         )
         mock_dependencies['fab_svc'].get_fabricacion_by_codigo.assert_called_once_with("F1")
         mock_dependencies['fab_svc'].set_products_for_fabricacion.assert_called_once_with(10, [FabricacionProductoDTO("P1", 10)])
@@ -422,11 +444,15 @@ class TestProductControllerV2Comprehensive:
         
         controller.show_create_fabricacion_dialog()
         
-        MockDlg.assert_called_once_with(["prep1"], ["prod1"], ANY)
+        MockDlg.assert_called_once_with(
+            ["prep1"],
+            ["prod1"],
+            mock_dependencies['view'],
+        )
         instance.exec.assert_called_once_with()
         instance.get_fabricacion_data.assert_called_once_with()
         mock_dependencies['fab_svc'].create_fabricacion_with_preprocesos.assert_called_once_with(
-            ANY
+            instance.get_fabricacion_data.return_value,
         )
         mock_dependencies['view'].show_message.assert_called_once_with("Error", "No se pudo crear. El código podría ya existir.", "critical")
 
@@ -479,7 +505,13 @@ class TestProductControllerV2Comprehensive:
         
         controller.show_fabricacion_products(1)
         
-        MockDlg.assert_called_once_with(ANY, ANY, ANY, ANY)
+        fab_tuple = (1, "F1", "Test Fabrication")
+        MockDlg.assert_called_once_with(
+            fab_tuple,
+            [],
+            [],
+            mock_dependencies['view'],
+        )
         instance.exec.assert_called_once_with()
         mock_dependencies['fab_svc'].set_products_for_fabricacion.assert_called_once_with(1, [FabricacionProductoDTO("P1", 5)])
         mock_dependencies['view'].show_message.assert_called_once_with("Éxito", "Productos configurados con éxito", "info")
@@ -500,7 +532,13 @@ class TestProductControllerV2Comprehensive:
         
         controller.show_fabricacion_products(1)
         
-        MockDlg.assert_called_once_with(ANY, [], [], ANY)
+        fab_tuple = (1, "F1", "Test Fabrication")
+        MockDlg.assert_called_once_with(
+            fab_tuple,
+            [],
+            [],
+            mock_dependencies['view'],
+        )
         instance.exec.assert_called_once_with()
         instance.get_products_data.assert_called_once_with()
         mock_dependencies['fab_svc'].set_products_for_fabricacion.assert_called_once_with(
@@ -633,16 +671,17 @@ class TestProductControllerV2Comprehensive:
         
         mock_dependencies['view'].get_products_tab.return_value = mock_tab
         
+        mgr = controller.product_manager
         controller._connect_products_signals()
-        mock_tab.search_entry.textChanged.connect.assert_called_once_with(ANY)
-        mock_tab.search_or_add_signal.connect.assert_called_once_with(ANY)
-        mock_tab.results_list.itemClicked.connect.assert_called_once_with(ANY)
-        mock_tab.manage_subs_signal.connect.assert_called_once_with(ANY)
-        mock_tab.manage_details_signal.connect.assert_called_once_with(ANY)
-        mock_tab.manage_procesos_signal.connect.assert_called_once_with(ANY)
-        mock_tab.save_product_signal.connect.assert_called_once_with(ANY)
-        mock_tab.import_bom_signal.connect.assert_called_once_with(ANY)
-        mock_tab.delete_product_signal.connect.assert_called_once_with(ANY)
+        mock_tab.search_entry.textChanged.connect.assert_called_once_with(mgr._on_product_search_changed)
+        mock_tab.search_or_add_signal.connect.assert_called_once_with(mgr._on_search_or_add_pressed)
+        mock_tab.results_list.itemClicked.connect.assert_called_once_with(mgr._on_product_result_selected)
+        mock_tab.manage_subs_signal.connect.assert_called_once_with(mgr._on_manage_subs_clicked)
+        mock_tab.manage_details_signal.connect.assert_called_once_with(mgr._on_manage_details_clicked)
+        mock_tab.manage_procesos_signal.connect.assert_called_once_with(mgr._on_manage_procesos_clicked)
+        mock_tab.save_product_signal.connect.assert_called_once_with(mgr._on_update_product)
+        mock_tab.import_bom_signal.connect.assert_called_once_with(mgr._on_import_bom)
+        mock_tab.delete_product_signal.connect.assert_called_once_with(mgr._on_delete_product)
         
         # Rama excepción 688
         mock_dependencies['view'].get_products_tab.reset_mock(side_effect=True)
@@ -723,8 +762,12 @@ class TestProductControllerV2Comprehensive:
         success, msg = controller.handle_add_iteration_image(1, "img.jpg")
         assert success is False
         assert msg == "Error al guardar en base de datos."
-        # unique_suffix es dinámico (uuid)
-        controller.app.handle_attach_file.assert_called_once_with(ANY, ANY, "img.jpg", "img")
+        assert controller.app.handle_attach_file.call_count == 1
+        ha_args = controller.app.handle_attach_file.call_args[0]
+        assert ha_args[0] == "iteration_imgs/1"
+        assert len(ha_args[1]) == 8
+        assert ha_args[2] == "img.jpg"
+        assert ha_args[3] == "img"
         mock_dependencies['prod_svc'].add_iteration_image.assert_called_once_with(1, "path")
 
     def test_add_iteration_image_copy_fail(self, controller, mock_dependencies):
@@ -734,7 +777,12 @@ class TestProductControllerV2Comprehensive:
         success, msg = controller.handle_add_iteration_image(1, "img.jpg")
         assert success is False
         assert msg == "Error al copiar el archivo: error"
-        controller.app.handle_attach_file.assert_called_once_with(ANY, ANY, "img.jpg", "img")
+        assert controller.app.handle_attach_file.call_count == 1
+        ha_args = controller.app.handle_attach_file.call_args[0]
+        assert ha_args[0] == "iteration_imgs/1"
+        assert len(ha_args[1]) == 8
+        assert ha_args[2] == "img.jpg"
+        assert ha_args[3] == "img"
 
     def test_handle_create_material_failure(self, controller, mock_dependencies):
         """Rama fallo creación material."""
@@ -930,10 +978,21 @@ class TestProductControllerV2Comprehensive:
             
             controller.show_add_preproceso_dialog()
             
-            MockDlg.assert_called_once_with(all_materials=ANY, controller=ANY, parent=ANY)
+            MockDlg.assert_called_once_with(
+                all_materials=[],
+                material_port=controller,
+                parent=mock_dependencies['view'],
+            )
             instance.exec.assert_called_once_with()
             instance.get_data.assert_called_once_with()
-            mock_dependencies['fab_svc'].create_preproceso.assert_called_once_with(ANY)
+            expected_pre = PreprocesoDTO(
+                id=0,
+                nombre="P1",
+                descripcion="",
+                tiempo=0.0,
+                componentes_ids=[],
+            )
+            mock_dependencies['fab_svc'].create_preproceso.assert_called_once_with(expected_pre)
         mock_dependencies['view'].show_message.assert_called_once_with("Error", "No se pudo crear el preproceso. El nombre podría ya existir.", "critical")
 
     def test_show_edit_preproceso_failure(self, controller, mock_dependencies):
@@ -948,10 +1007,22 @@ class TestProductControllerV2Comprehensive:
             
             controller.show_edit_preproceso_dialog(mock_preproceso_dto)
             
-            MockDlg.assert_called_once_with(preproceso_existente=ANY, all_materials=ANY, controller=ANY, parent=ANY)
+            MockDlg.assert_called_once_with(
+                preproceso_existente=mock_preproceso_dto,
+                all_materials=[],
+                material_port=controller,
+                parent=mock_dependencies['view'],
+            )
             instance.exec.assert_called_once_with()
             instance.get_data.assert_called_once_with()
-            mock_dependencies['fab_svc'].update_preproceso.assert_called_once_with(1, ANY)
+            expected_pre = PreprocesoDTO(
+                id=1,
+                nombre="P1",
+                descripcion="",
+                tiempo=0.0,
+                componentes_ids=[],
+            )
+            mock_dependencies['fab_svc'].update_preproceso.assert_called_once_with(1, expected_pre)
         mock_dependencies['view'].show_message.assert_called_once_with("Error", "No se pudo actualizar el preproceso.", "critical")
 
     def test_on_manage_subs_clicked_error(self, controller, mock_dependencies):

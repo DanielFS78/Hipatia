@@ -6,16 +6,16 @@ Descripción: Gestor encargado de la generación de informes PDF para el histori
 """
 from __future__ import annotations
 import logging
-from typing import Any, TYPE_CHECKING
+from typing import Any
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QFileDialog
+from core.security.access_control import require_permission
+from core.security.security_service import Permission
 from core.services.report_strategy import (
     GeneradorDeInformes,
     ReporteHistorialFabricacion,
     ReporteHistorialIteracion
 )
-
-if TYPE_CHECKING:
-    from ui.main_window import MainView
 
 class HistorialReportManager:
     """
@@ -25,7 +25,7 @@ class HistorialReportManager:
     y disparar la generación de documentos PDF.
     """
 
-    def __init__(self, db: Any, pila_service: Any, worker_service: Any, view: MainView, controller_ref: Any = None):
+    def __init__(self, db: Any, pila_service: Any, worker_service: Any, view: Any, controller_ref: Any = None):
         """
         Inicializa el HistorialReportManager.
 
@@ -43,6 +43,7 @@ class HistorialReportManager:
         self.controller_ref = controller_ref
         self.logger = logging.getLogger(__name__)
 
+    @require_permission(Permission.GENERATE_REPORTS)
     def on_print_report_clicked(self) -> None:
         """Generador de informes PDF para historial."""
         page = self.view.pages.get("historial")
@@ -62,7 +63,7 @@ class HistorialReportManager:
         if mode == "iteraciones":
             prod_code = item_data.producto_codigo
             prod_desc = item_data.producto_descripcion if hasattr(item_data, 'producto_descripcion') else ""
-            full_history = self.db.product_repo.get_product_iterations(prod_code)
+            full_history = self.db.iteration_repo.get_product_iterations(prod_code)
             
             file_path, _ = QFileDialog.getSaveFileName(self.view, "Guardar Informe", f"Historial_{prod_code}.pdf", "Archivos PDF (*.pdf)")
             if not file_path:
@@ -90,4 +91,3 @@ class HistorialReportManager:
             self.view.show_message("Éxito", f"El informe se ha guardado en:\n{file_path}", "info")
         elif file_path:
             self.view.show_message("Error", "No se pudo generar el informe PDF.", "critical")
-from PyQt6.QtCore import Qt # Importación necesaria para Qt.ItemDataRole.UserRole

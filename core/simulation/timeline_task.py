@@ -53,13 +53,13 @@ class LineaTemporalTarea:
             )
 
         # --- Atributos de Estado (evolucionan durante la simulación) ---
-        self.unidades_a_producir = task_data.get('trigger_units', 1)
+        self.unidades_a_producir = int(task_data.get('trigger_units', 1))
         # MANTENER para compatibilidad, pero su rol cambia
         self.unidades_completadas = 0  # Servirá como alias
         self.trabajadores_asignados: List[str] = []  # Será una lista agregada de todos los trabajadores
 
         # NUEVO: Estructura para trabajo paralelo
-        self.instancias_activas: List[Dict] = []
+        self.instancias_activas: List[Dict[str, Any]] = []
         # Cada diccionario en la lista tendrá esta estructura:
         # {
         #     'id_instancia': str (uuid),
@@ -79,7 +79,7 @@ class LineaTemporalTarea:
 
         self.logger.info(f"Inicializada LineaTemporal para Tarea '{self.name}' ({self.id})")
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<LineaTemporalTarea(id={self.id}, name='{self.name}', completadas={self.unidades_completadas}/{self.unidades_a_producir})>"
 
     def iniciar_instancia_inicial(self, trabajadores: List[str],

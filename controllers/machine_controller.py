@@ -14,14 +14,14 @@ from PyQt6.QtWidgets import QInputDialog, QWidget
 from datetime import date
 from core.security.access_control import require_permission
 from core.security.security_service import Permission
+from core.services.preparation_service import PreparationService
+from core.services.product_service import ProductService
 
 if TYPE_CHECKING:
     from controllers.app_controller import AppController
     from core.services.machine_service import MachineService
     from core.interfaces.view_interface import IView
     from core.dtos import MachineDTO
-    from ui.widgets.gestion_datos_widget import GestionDatosWidget
-    from ui.dialogs.prep.prep_groups_dialog import PrepGroupsDialog
 
 class MachineController(QObject):
     """
@@ -30,17 +30,28 @@ class MachineController(QObject):
     Coordina la creación, edición y eliminación de maquinaria, además de supervisar 
     los registros de mantenimiento preventivo/correctivo y los grupos de preparación.
     """
-    def __init__(self, machine_service: MachineService, view: IView, logger: logging.Logger) -> None:
+    def __init__(
+        self,
+        machine_service: MachineService,
+        preparation_service: PreparationService,
+        product_service: ProductService,
+        view: IView,
+        logger: logging.Logger,
+    ) -> None:
         """
         Inicializa el controlador de máquinas con sus dependencias.
 
         Args:
             machine_service: Servicio lógico de gestión de máquinas.
+            preparation_service: Grupos y pasos de preparación de máquinas.
+            product_service: Catálogo de productos (diálogos de prep).
             view: Interfaz de usuario para interacciones y mensajes.
             logger: Sistema de registro de eventos.
         """
         super().__init__()
         self.machine_service: MachineService = machine_service
+        self.preparation_service: PreparationService = preparation_service
+        self.product_service: ProductService = product_service
         self.view: IView = view
         self.logger: logging.Logger = logger
 
@@ -166,9 +177,17 @@ class MachineController(QObject):
             machine_id: ID único de la máquina.
             machine_name: Nombre descriptivo de la máquina.
         """
-        # Pasamos 'self' como controller, ya que MachineController tiene .model y .view
-        from ui.dialogs.prep.prep_groups_dialog import PrepGroupsDialog
-        dialog = PrepGroupsDialog(machine_id, machine_name, self, self.view)
+        from controllers.ui_class_loader import ui_class
+
+        PrepGroupsDialog = ui_class("ui.dialogs.prep.prep_groups_dialog", "PrepGroupsDialog")
+        dialog = PrepGroupsDialog(
+            machine_id,
+            machine_name,
+            self.preparation_service,
+            self.product_service,
+            self.view,
+            cast(QWidget, self.view),
+        )
         dialog.exec()
 
     def get_distinct_machine_processes(self) -> List[str]:

@@ -18,7 +18,8 @@ class ReportExportHelper:
         fab_info = "N/A"
         if calc_page and hasattr(calc_page, "pila_content_table"):
             if calc_page.pila_content_table.rowCount() > 0:
-                item = calc_page.pila_content_table.item(0, 1)
+                # Columna "Código / detalle" (antes plantilla base en índice 1)
+                item = calc_page.pila_content_table.item(0, 2)
                 if item:
                     fab_info = item.text()
         return fab_info

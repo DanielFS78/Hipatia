@@ -9,21 +9,37 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import Qt
 from typing import Optional, TYPE_CHECKING, Any
 
+from ui.dialogs.fabrication.ui_dialog_protocols import OpensFabricacionPreprocesos
+from core.di_container import DIContainer
+from ui.dialogs.fabrication.dialog_dependencies import resolve_fabricacion_service
+
 if TYPE_CHECKING:
     from PyQt6.QtWidgets import QWidget
-    # Assuming AppController structure
-    from controllers.app_controller import AppController
 
 class AssignPreprocesosDialog(QDialog):
     """
     Diálogo para asignar preprocesos a fabricaciones desde el menú de Preprocesos.
     """
 
-    def __init__(self, parent_controller: "AppController", parent: Optional["QWidget"] = None) -> None:
+    def __init__(
+        self,
+        app_hub: Any | None = None,
+        parent: Optional["QWidget"] = None,
+        *,
+        fabricacion_service: Any | None = None,
+        opens_fabricacion_preprocesos: OpensFabricacionPreprocesos | None = None,
+    ) -> None:
         super().__init__(parent)
-        self.controller = parent_controller
+        self._app_hub = app_hub
+        self._fabricacion_service_override = fabricacion_service
+        self._opens_fabricacion_preprocesos = opens_fabricacion_preprocesos
         self.setup_ui()
         self.load_fabricaciones()
+
+    def _get_fabricacion_service(self) -> Any | None:
+        if self._fabricacion_service_override is not None:
+            return self._fabricacion_service_override
+        return resolve_fabricacion_service(self._app_hub, DIContainer.get_instance())
 
     def setup_ui(self) -> None:
         self.setWindowTitle("Asignar Preprocesos a Fabricaciones")
@@ -90,7 +106,13 @@ class AssignPreprocesosDialog(QDialog):
     def load_fabricaciones(self) -> None:
         """Carga todas las fabricaciones disponibles."""
         try:
-            fabricaciones = self.controller.search_fabricaciones("")
+            svc = self._get_fabricacion_service()
+            if svc is not None:
+                fabricaciones = svc.search_fabricaciones("")
+            elif self._app_hub is not None:
+                fabricaciones = self._app_hub.search_fabricaciones("")
+            else:
+                fabricaciones = []
             self.fabricaciones_list.clear()
 
             if not fabricaciones:
@@ -131,8 +153,15 @@ class AssignPreprocesosDialog(QDialog):
     def load_current_preprocesos(self, fabricacion_id: int) -> None:
         """Carga los preprocesos actuales de la fabricación."""
         try:
-            # Usar el repositorio a través del modelo
-            preprocesos = self.controller.model.get_preprocesos_by_fabricacion(fabricacion_id)
+            svc = self._get_fabricacion_service()
+            if svc is not None:
+                preprocesos = svc.get_preprocesos_by_fabricacion(fabricacion_id)
+            else:
+                mod = getattr(self._app_hub, "model", None) if self._app_hub is not None else None
+                fab = getattr(mod, "fabricacion_service", None) if mod is not None else None
+                preprocesos = (
+                    fab.get_preprocesos_by_fabricacion(fabricacion_id) if fab is not None else []
+                )
             self.current_preprocesos_list.clear()
 
             if not preprocesos:
@@ -160,8 +189,16 @@ class AssignPreprocesosDialog(QDialog):
 
         fabricacion_id = current_item.data(Qt.ItemDataRole.UserRole)
 
-        # Usar el método existente del controlador
-        self.controller.show_fabricacion_preprocesos(fabricacion_id)
+        if self._opens_fabricacion_preprocesos is not None:
+            self._opens_fabricacion_preprocesos.show_fabricacion_preprocesos(fabricacion_id)
+        elif self._app_hub is not None:
+            self._app_hub.show_fabricacion_preprocesos(fabricacion_id)
+        else:
+            QMessageBox.warning(
+                self,
+                "Configuración",
+                "No hay orquestador ni apertura de preprocesos configurada.",
+            )
 
         # Recargar los preprocesos después de la modificación
         self.load_current_preprocesos(fabricacion_id)

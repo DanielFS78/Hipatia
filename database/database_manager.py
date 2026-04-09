@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import logging
 from types import TracebackType
-from typing import Any, Dict, Optional
+from typing import Any, Callable, Dict, Optional
 
 # --- IMPORTS DE SQLALCHEMY ---
 from sqlalchemy import create_engine
@@ -55,7 +55,7 @@ class DatabaseManager:
         self.echo_sql = DatabaseConfig.get_echo_sql()
         
         self.engine = engine
-        self.SessionLocal = None
+        self.SessionLocal: Callable[[], Session] | None = None
         
         try:
             # --- CONFIGURACIÓN DE SQLALCHEMY ---

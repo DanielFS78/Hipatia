@@ -8,12 +8,14 @@ Descripción: Coordinación de productos asociados a fabricaciones (diálogo y d
 from __future__ import annotations
 
 import logging
-from typing import List, Protocol, cast
+from typing import Any, List, Protocol, cast
 
 from PyQt6.QtWidgets import QDialog, QWidget
 
 from core.dtos import CalculationProductDTO
-from ui.dialogs import ProductsSelectionDialog
+from controllers.ui_class_loader import ui_class
+
+ProductsSelectionDialog = ui_class("ui.dialogs", "ProductsSelectionDialog")
 
 from .protocols import IProductView, IProductService, IFabricacionService
 
@@ -74,13 +76,19 @@ class FabricacionProductsHandler:
             self._view.show_message("Error", f"Error inesperado: {e}", "critical")
             self._logger.error(f"Error gestión productos fabricación: {e}", exc_info=True)
 
-    def refresh_fabrication_display(self, fabricacion_id: int) -> None:
-        """Refresca la visualización de la fabricación en la pestaña usando el ID."""
+    def refresh_fabrication_display(self, fabricacion_id: int, fabricacion_data: Any | None = None) -> None:
+        """
+        Refresca la visualización de la fabricación en la pestaña.
+
+        Si ``fabricacion_data`` ya está cargado (p. ej. tras comprobar que existe),
+        se reutiliza y se evita un segundo ``get_fabricacion_by_id``.
+        """
         try:
             fabrications_page = self._view.get_fabrications_tab()
             if not fabrications_page:
                 return
-            fabricacion_data = self._fabricacion_service.get_fabricacion_by_id(fabricacion_id)
+            if fabricacion_data is None:
+                fabricacion_data = self._fabricacion_service.get_fabricacion_by_id(fabricacion_id)
             if fabricacion_data:
                 preprocesos = fabricacion_data.preprocesos or []
                 products = self._fabricacion_service.get_products_for_fabricacion(fabricacion_id)

@@ -9,6 +9,8 @@ import os
 from datetime import datetime
 from typing import Optional, TYPE_CHECKING
 
+from core.paths import get_writable_app_root
+
 if TYPE_CHECKING:
     from core.health.health_checker import HealthReport
 
@@ -22,7 +24,7 @@ def generate_startup_report_text(
 
     Args:
         report: Informe de salud. Si es None, devuelve "Sin datos disponibles".
-        log_path: Ruta al archivo de log. Si None, usa os.path.join(os.getcwd(), "logs", "EvolucionTiempos.log").
+        log_path: Ruta al archivo de log. Si None, usa ``<writable_root>/logs/EvolucionTiempos.log``.
 
     Returns:
         Texto formateado del informe.
@@ -84,7 +86,7 @@ def generate_startup_report_text(
     lines.append("-" * 80)
     lines.append("LOGS RECIENTES (ÚLTIMAS 50 LÍNEAS)")
     lines.append("-" * 80)
-    path = log_path or os.path.join(os.getcwd(), "logs", "EvolucionTiempos.log")
+    path = log_path or str(get_writable_app_root() / "logs" / "EvolucionTiempos.log")
     if os.path.isfile(path):
         try:
             with open(path, "r", encoding="utf-8", errors="ignore") as f:

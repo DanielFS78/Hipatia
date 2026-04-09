@@ -68,12 +68,10 @@ def test_sync_dialog(qtbot):
     table = widget.findChild(QTableWidget)
     assert table is not None
     assert table.rowCount() == 2
-    
-    # Check the first item
-    item = table.item(0, 0)
-    assert item is not None
-    item.setCheckState(Qt.CheckState.Checked)
-    
+
+    assert table.item(0, 0).checkState() == Qt.CheckState.Checked
+    table.item(1, 0).setCheckState(Qt.CheckState.Unchecked)
+
     changes = dialog.get_selected_changes()
     assert isinstance(changes, DatabaseComparisonDTO)
     assert len(changes.tables) == 1

@@ -18,6 +18,8 @@ from ui.widgets.machines_widget import MachinesWidget
 from ui.widgets.gestion_datos_widget import GestionDatosWidget
 from core.security.security_service import Permission
 from core.dtos import MachineDTO
+from core.services.preparation_service import PreparationService
+from core.services.product_service import ProductService
 
 pytestmark = pytest.mark.unit
 
@@ -41,9 +43,25 @@ def mock_machine_service():
     return MagicMock()
 
 @pytest.fixture
-def machine_controller(mock_machine_service, mock_view):
+def mock_preparation_service():
+    return MagicMock(spec=PreparationService)
+
+@pytest.fixture
+def mock_product_service():
+    return MagicMock(spec=ProductService)
+
+@pytest.fixture
+def machine_controller(
+    mock_machine_service, mock_preparation_service, mock_product_service, mock_view
+):
     logger = MagicMock()
-    return MachineController(mock_machine_service, mock_view, logger)
+    return MachineController(
+        mock_machine_service,
+        mock_preparation_service,
+        mock_product_service,
+        mock_view,
+        logger,
+    )
 
 class TestMachineControllerComprehensive:
     """Suite de tests exhaustiva para MachineController."""
@@ -329,6 +347,13 @@ class TestMachineControllerComprehensive:
             machine_controller._on_manage_prep_groups_clicked(1, "M1")
             
             assert mock_dialog_class.call_count == 1
-            mock_dialog_class.assert_called_with(1, "M1", machine_controller, mock_view)
+            mock_dialog_class.assert_called_with(
+                1,
+                "M1",
+                machine_controller.preparation_service,
+                machine_controller.product_service,
+                mock_view,
+                mock_view,
+            )
             assert mock_dialog.exec.call_count == 1
             mock_dialog.exec.assert_called_once_with()

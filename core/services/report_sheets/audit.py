@@ -49,7 +49,7 @@ class AuditSheet(ExcelSheetStrategy):
         ws.column_dimensions['D'].width, ws.column_dimensions['E'].width, ws.column_dimensions['F'].width = 60, 15, 45
         if current_row > header_row + 1: ws.auto_filter.ref = f"A{header_row}:F{current_row - 1}"
 
-    def _agrupar_eventos(self, eventos, umbral_s=5):
+    def _agrupar_eventos(self, eventos: list[Any], umbral_s: int = 5) -> list[dict[str, Any]]:
         if not eventos: return []
         evs = sorted(eventos, key=lambda x: x.timestamp if hasattr(x, 'timestamp') and x.timestamp else datetime.min)
         grupos, curr, umbral = [], None, timedelta(seconds=umbral_s)

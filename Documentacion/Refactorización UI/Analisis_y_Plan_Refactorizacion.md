@@ -11,6 +11,12 @@ Este documento se centra en la auditoría y documentación de la capa visual de 
 ### Arquitectura UI
 La interfaz está construida con **PyQt6**, siguiendo patrones de desacoplamiento para permitir el testeo de la lógica de presentación independientemente de los widgets de Qt.
 
+### Estado arquitectónico (abril 2026)
+
+Los informes antiguos que describen solo el **riesgo de «objeto dios» en `AppModel`** o la **necesidad de inyectar fachadas** siguen siendo **válidos como tendencia**, pero **no reflejan el trabajo ya cerrado** en coordinación con producción (**B5**, reducción de dependencia en controladores y puntos de UI acordados). Fuente de verdad: [`.agents/skills/reduccion_god_objects/SKILL.md`](../../.agents/skills/reduccion_god_objects/SKILL.md) (B5 **finalizada**; tabla de controladores con servicios inyectados; exclusiones explícitas: señales y orquestación que siguen en `AppModel`).
+
+Sobre **widgets que recibían `AppController` solo para extraer sub-controladores**: el patrón **sigue en pantallas como reportes o diálogos de flujo**; la mitigación es **incremental**. **Gestión de datos:** las pestañas usan **DI** (`ProductController`, `MachineController`, etc.) y el primer argumento que envía `MainView` es **`_app_controller` ignorado** salvo compatibilidad. **`PreprocesosWidget`** ya no guarda el hub: abre `AssignPreprocesosDialog` con `FabricacionService` del contenedor y `ProductController` como `opens_fabricacion_preprocesos`. **`SettingsWidget`:** `ScheduleController` + fallback `config_repo` sin retener `AppController`. **`ReportesWidget`:** el hub solo al enlazar (`set_controller` / `connect_reportes_signals` con `self.app`); listas y gráficas reciben `ReportService` y `fallback_reports_model`, no el orquestador. Mapa de capas: [`ANALISIS_CAPAS.md`](../Refactorizacion_Completa/Arquitectura_Dependencias/ANALISIS_CAPAS.md).
+
 ---
 ## 📑 Índice de Componentes UI
 
@@ -100,11 +106,16 @@ Diálogo para gestionar la restauración de backups.
 
 ## <a name='uidialogscanvaswidgetspy'></a> 📄 ui/dialogs/canvas_widgets.py
 
+> **Estado 2026-04:** `canvas_widgets` reexporta `CanvasWidget` desde `canvas_widget.py` (dialogo legacy).
+> El canvas de flujo de produccion reutilizable es `ui/widgets/production_flow/flow_canvas.py` (`ProductionFlowCanvas`)
+> con conexiones en `flow_connection_painter.py` (enrutado ortogonal, obstaculos, capa de pintado). La descripcion
+> de `_calculate_smart_path` siguiente corresponde **solo** a la implementacion legacy del dialogo, no al pintor moderno.
+
 ### Clases
 
 #### 🏛 Clase: `CanvasWidget`
 Un widget personalizado que actúa como un canvas para arrastrar, soltar y visualizar
-las tareas del flujo de producción.
+las tareas del flujo de producción (dialogo legacy; ver nota arriba).
 
 **Métodos:**
 - `set_connections`: Recibe la lista de conexiones desde el diálogo principal y fuerza un redibujado.
@@ -112,7 +123,7 @@ las tareas del flujo de producción.
 - `_get_task_index_by_widget`: Obtiene el índice de una tarea por su widget.
 - `_draw_cyclic_arrow_with_glow`: Dibuja una flecha cíclica con efecto neón y gradiente de color.
 - `_draw_grid`: Dibuja una cuadrícula de fondo tipo papel milimétrico.
-- `_calculate_smart_path`: Calcula una ruta inteligente siguiendo el grid entre dos puntos, evitando pasar por detrás de tarjetas.
+- `_calculate_smart_path`: En el dialogo legacy, ruta en L con ajuste simple en grid; **no** equivale a `FlowConnectionPainter.calculate_smart_path` (Manhattan, codos, todos los widgets como obstaculo, terminales visuales).
 - `_count_path_collisions`: Cuenta cuántos segmentos del path colisionan con obstáculos.
 - `_line_intersects_rect`: Comprueba si una línea intersecta con un rectángulo.
 - `_adjust_path_to_avoid_obstacles`: Intenta ajustar el path para evitar obstáculos desplazándolo verticalmente.
@@ -241,6 +252,8 @@ Diálogo para asignar preprocesos a fabricaciones desde el menú de Preprocesos.
 #### 🏛 Clase: `FabricacionBitacoraDialog`
 Diálogo para gestionar el diario de bitácora de una pila de fabricación
 con un calendario interactivo.
+
+**Datos (2026-04):** persistencia mediante `_bitacora_backend` (`PilaService` inyectado desde `pila_manager`, o `resolve_pila_service`, o `model.planning_facade`). Ya no existen en `AppModel` los delegadores `get_diario_bitacora` / `add_diario_evento` / `create_diario_bitacora`.
 
 **Métodos:**
 - `_load_and_process_data`: Carga los datos iniciales, formatea el calendario y selecciona el día actual.
@@ -506,6 +519,8 @@ Diálogo para definir la secuencia de tareas, dependencias y trabajadores.
 #### 🏛 Clase: `DefineFlowPresenter`
 Presenter/Lógica para aislar el ensamblado de datos y configuraciones 
 de la vista (DefineProductionFlowDialog).
+
+**Datos (2026-04):** consultas de máquinas y preparación solo vía `machine_service`, `preparation_service` y `fabricacion_service` (resueltos en el diálogo). No mantiene referencia a `AppModel`.
 
 **Métodos:**
 - `prepare_task_data`: Organiza la lista plana de tareas primarias en un diccionario agrupado por producto.
@@ -818,14 +833,14 @@ Emite 'clicked' al ser seleccionada y 'moved' al ser movida.
 - `update_workers`: Actualiza la visualización de los trabajadores asignados via tooltip o icono.
 
 #### 🏛 Clase: `ProductionFlowCanvas`
-Un widget personalizado que actúa como un canvas para arrastrar, soltar y visualizar
-las tareas del flujo de producción. Versión desacoplada.
+Canvas desacoplado del flujo de produccion: rejilla en el propio widget y **capa hija** transparente
+que pinta flechas encima de las tarjetas (`FlowConnectionPainter`). No confundir con `CanvasWidget` legacy del dialogo.
 
 **Métodos:**
-- `set_connections`: Recibe la lista de conexiones (objetos/dicts) y fuerza un redibujado.  Args:     new_connections: Lista de dicts con claves 'start' (widget), 'end' (widget), 'type'.
-- `add_task_widget`: Registra un widget de tarea en el canvas y conecta sus señales.
-- `clear_widgets`: Limpia los widgets internos.
-- `mousePressEvent`: Detecta clics en el fondo.
+- `set_connections`: Normaliza conexiones (`CanvasVisualConnection` o dicts) y redibuja la capa de conexiones.
+- `add_task_widget`: Registra `FlowCardWidget`, conecta señales y mantiene la capa al frente.
+- `clear_widgets`: Elimina tarjetas y conexiones.
+- `mousePressEvent`: Clic en fondo (ignora la capa transparente) para `backgroundClicked`.
 
 ---
 
@@ -834,8 +849,8 @@ las tareas del flujo de producción. Versión desacoplada.
 ### Clases
 
 #### 🏛 Clase: `FlowGraphManager`
-Coordina la relación entre el estado lógico (en el Presenter) y la representación visual (Canvas).
-Gestiona la creación de widgets, el mapeo de IDs y la aplicación de efectos visuales.
+Coordina presenter y `ProductionFlowCanvas`; escucha `cardSelected` / `cardMoved`. Las aristas se obtienen con
+`canvas_state_all_logical_connections` y se envian al canvas con `set_connections`; con seleccion, resalta tarjetas relacionadas.
 
 **Métodos:**
 - `add_task_widget`: Crea un widget para una tarea y lo sincroniza con el presenter.
@@ -939,6 +954,8 @@ Widget principal para el módulo de Reportes de Producción.
 
 Integra búsqueda inteligente, lista de órdenes y gráficas de análisis.
 
+**Datos (2026-04):** si `controller.container` tiene `ReportService` registrado, se pasa a `SmartSearchWidget`, `OrderListWidget` y `ReportsChartsWidget`; órdenes y gráficas usan `controller=AppController` y priorizan el servicio sobre `controller.model`.
+
 **Métodos:**
 - `__init__`: Inicializa el widget de reportes.  Args:     controller: Controlador de la aplicación
 - `_setup_ui`: Configura la interfaz de usuario.
@@ -971,6 +988,8 @@ Tarjeta de estadística individual.
 #### 🏛 Clase: `ReportsChartsWidget`
 Widget contenedor para las gráficas de análisis.
 Muestra estadísticas y gráficas para un producto seleccionado.
+
+**Datos (2026-04):** parámetro opcional `report_service=`; `set_report_service` al actualizar el controlador.
 
 **Métodos:**
 - `_setup_ui`: Configura la interfaz.
@@ -1011,6 +1030,8 @@ Widget que muestra lista de órdenes de fabricación.
 Signals:
     order_selected(str): Emitido cuando se selecciona una orden.
 
+**Datos (2026-04):** `report_service=` opcional; `set_report_service`.
+
 **Métodos:**
 - `_setup_ui`: Configura la interfaz del widget.
 - `load_orders_for_product`: Carga las órdenes de fabricación de un producto.  Args:     producto_codigo: Código del producto
@@ -1032,7 +1053,7 @@ filtrado en tiempo real para el módulo de reportes.
 
 **Métodos:**
 - `_on_text_changed`: Maneja el cambio de texto con debounce.
-- `_perform_search`: Ejecuta la búsqueda contra el AppModel.
+- `_perform_search`: Ejecuta la búsqueda contra `ReportService` (si está configurado) o el fallback `app_model`.
 - `_update_results_list`: Actualiza la lista visual de resultados.
 - `_on_item_clicked`: Maneja el clic en un resultado.
 - `clear_search`: Limpia el campo de búsqueda y resultados.

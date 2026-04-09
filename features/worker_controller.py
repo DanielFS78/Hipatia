@@ -9,7 +9,7 @@ Maneja la lógica de negocio para trabajadores:
 """
 
 import logging
-from typing import Dict, Any
+from typing import Any, Callable, Dict, Optional
 try:
     import cv2
 except (ImportError, AttributeError):
@@ -23,7 +23,6 @@ from PyQt6.QtWidgets import (
 
 # New Imports for Phase 4
 from core.production_context import ProductionContext
-from ui.dialogs.tracking_dialogs import OrderSetupDialog
 from features.worker_validation_service import WorkerValidationService
 from features.worker_db_sync import WorkerDbSync
 from features.worker_incidence_dialog import IncidenceDialog
@@ -45,7 +44,8 @@ class WorkerController:
             tracking_repo: Any = None,
             label_manager: Any = None,
             qr_generator: Any = None,
-            label_counter_repo: Any = None
+            label_counter_repo: Any = None,
+            camera_config_runner: Optional[Callable[[], None]] = None,
     ) -> None:
         self.current_user = current_user
         self.db_manager = db_manager
@@ -66,7 +66,7 @@ class WorkerController:
 
         self.logger = logging.getLogger("EvolucionTiemposApp.WorkerController")
         self.context = ProductionContext()
-        self.io_manager = WorkerIOManager(self)
+        self.io_manager = WorkerIOManager(self, camera_config_runner=camera_config_runner)
 
     def _handle_generate_labels(self, task_data: Dict[str, Any]) -> None:
         self.io_manager._handle_generate_labels(task_data)

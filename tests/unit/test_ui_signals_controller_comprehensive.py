@@ -584,12 +584,11 @@ class TestConnectReportesSignals:
     def test_reportes_page_sets_controller(self, ctrl: UISignalsController, mock_app: MagicMock) -> None:
         from ui.widgets.reportes_widget import ReportesWidget
         mock_page = MagicMock(spec=ReportesWidget)
-        mock_page.controller = None
         mock_app.view.pages = {"reportes": mock_page}
 
         ctrl.connect_reportes_signals()
 
-        mock_page.set_controller.assert_called_once_with(mock_app.report_controller)
+        mock_page.set_controller.assert_called_once_with(mock_app)
 
 
 # =============================================================================

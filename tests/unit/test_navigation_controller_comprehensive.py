@@ -31,6 +31,7 @@ def mock_app():
     app.hardware_controller = MagicMock()
     app.preproceso_controller = MagicMock()
     app.lote_controller = MagicMock()
+    app.pila_controller = MagicMock()
     app.fabricacion_controller = MagicMock()
     app.calculation_controller = MagicMock()
     app.simulation_controller = MagicMock()
@@ -162,9 +163,15 @@ class TestNavigationControllerComprehensive:
         """Navegación a definir_lote."""
         lote_page = MagicMock()
         cast(Any, lote_page).__class__ = DefinirLoteWidget
+        lote_page.product_search = MagicMock()
+        lote_page.product_search.text.return_value = ""
+        lote_page.fab_search = MagicMock()
+        lote_page.fab_search.text.return_value = ""
         mock_view.pages["definir_lote"] = lote_page
         nav_controller._perform_navigation("definir_lote")
         lote_page.clear_form.assert_called_once_with()
+        mock_app.pila_controller._on_lote_def_product_search_changed.assert_called_once_with("")
+        mock_app.pila_controller._on_lote_def_fab_search_changed.assert_called_once_with("")
         assert nav_controller is not None
         assert lote_page.clear_form.call_count == 1
 

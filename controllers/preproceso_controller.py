@@ -7,7 +7,7 @@ Descripción: Gestiona la lógica de preprocesos, incluyendo su carga desde el m
 from __future__ import annotations
 
 import logging
-from typing import Any
+from typing import Any, cast
 from PyQt6.QtCore import QObject, pyqtSignal
 from database.database_manager import DatabaseManager
 from database.repositories import PreprocesoRepository
@@ -48,7 +48,10 @@ class PreprocesoController(QObject):
     def preproceso_repo(self) -> PreprocesoRepository:
         """Lazy initialization del repositorio de preprocesos."""
         if self._preproceso_repo is None:
-            self._preproceso_repo = PreprocesoRepository(self.db.SessionLocal)  # type: ignore[arg-type]
+            sf = self.db.SessionLocal
+            if sf is None:
+                raise RuntimeError("SessionLocal no inicializado en DatabaseManager")
+            self._preproceso_repo = PreprocesoRepository(sf)
         return self._preproceso_repo
         
     def connect_signals(self) -> None:
@@ -92,7 +95,7 @@ class PreprocesoController(QObject):
             Lista de preprocesos con sus componentes
         """
         try:
-            return self.fabricacion_service.get_all_preprocesos_with_components()
+            return cast(list[dict[str, Any]], self.fabricacion_service.get_all_preprocesos_with_components())
         except Exception as e:
             self.logger.error(f"Error obteniendo preprocesos: {e}", exc_info=True)
             return []

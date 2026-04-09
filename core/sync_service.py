@@ -7,14 +7,24 @@ an imported SQLite file and allowing selective merge of differences.
 """
 
 import logging
-from typing import Dict, List, Any, Optional, Callable
+from typing import Any, Callable, List, Tuple
+
 from datetime import datetime
 
-from sqlalchemy import create_engine, inspect
+from sqlalchemy import create_engine, inspect, insert, select
 from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.schema import Table
 
 from database.models import (
-    Producto, Trabajador, Maquina, Fabricacion, Pila
+    Fabricacion,
+    Maquina,
+    Material,
+    Pila,
+    ProcesoMecanico,
+    Producto,
+    Subfabricacion,
+    Trabajador,
+    producto_material_link,
 )
 from core.dtos import (
     SyncRecordDTO,
@@ -30,13 +40,21 @@ class SyncService:
     Designed for USB-based sync workflow between disconnected machines.
     """
 
-    # Tables to sync, in order of dependencies
-    SYNCABLE_TABLES = [
+    # Tablas ORM a sincronizar (orden respetando FKs: producto/maquina antes de subfabricación, etc.).
+    SYNCABLE_TABLES: List[Tuple[str, Any, str]] = [
         ('productos', Producto, 'codigo'),
         ('trabajadores', Trabajador, 'id'),
         ('maquinas', Maquina, 'id'),
+        ('materiales', Material, 'id'),
+        ('subfabricaciones', Subfabricacion, 'id'),
+        ('procesos_mecanicos', ProcesoMecanico, 'id'),
         ('fabricaciones', Fabricacion, 'id'),
         ('pilas', Pila, 'id'),
+    ]
+
+    # Tablas de asociación sin modelo ORM propio: solo filas nuevas en extranjero (presencia del vínculo).
+    ASSOCIATION_TABLES: List[Tuple[str, Table, Tuple[str, ...]]] = [
+        ('producto_material_link', producto_material_link, ('producto_codigo', 'material_id')),
     ]
 
     def __init__(self, local_session_factory: Callable[[], Session]) -> None:
@@ -79,7 +97,18 @@ class SyncService:
                         differences=diffs
                     ))
                     self.logger.info(f"Found {len(diffs)} differences in {table_name}")
-                    
+
+            for table_name, assoc_table, key_columns in self.ASSOCIATION_TABLES:
+                diffs = self._compare_association_table(
+                    local_session, foreign_session, assoc_table, key_columns
+                )
+                if diffs:
+                    tables_diffs.append(SyncTableDifferencesDTO(
+                        table_name=table_name,
+                        differences=diffs
+                    ))
+                    self.logger.info(f"Found {len(diffs)} differences in {table_name}")
+
         except Exception as e:
             self.logger.error(f"Error comparing databases: {e}", exc_info=True)
             raise
@@ -154,6 +183,44 @@ class SyncService:
                     
         return differences
 
+    def _association_row_set(
+        self, session: Session, table: Table, key_columns: Tuple[str, ...]
+    ) -> set[tuple[Any, ...]]:
+        stmt = select(*(table.c[col] for col in key_columns))
+        rows = session.execute(stmt).all()
+        return {tuple(row) for row in rows}
+
+    def _compare_association_table(
+        self,
+        local_session: Session,
+        foreign_session: Session,
+        table: Table,
+        key_columns: Tuple[str, ...],
+    ) -> List[SyncRecordDTO]:
+        """Filas del enlace presentes en extranjero y ausentes en local (p. ej. BOM producto–material)."""
+        local_set = self._association_row_set(local_session, table, key_columns)
+        foreign_set = self._association_row_set(foreign_session, table, key_columns)
+        differences: List[SyncRecordDTO] = []
+        for row in foreign_set:
+            if row not in local_set:
+                fields = {k: v for k, v in zip(key_columns, row)}
+                differences.append(
+                    SyncRecordDTO(action='new', data=SyncRecordPayloadDTO(fields=fields))
+                )
+        return differences
+
+    def _sort_table_diffs_for_apply(
+        self, tables: List[SyncTableDifferencesDTO]
+    ) -> List[SyncTableDifferencesDTO]:
+        """Orden según FKs (p. ej. materiales antes que producto_material_link) aunque el diálogo devuelva otro orden."""
+        order: dict[str, int] = {}
+        for idx, spec in enumerate(self.SYNCABLE_TABLES):
+            order[spec[0]] = idx
+        offset = len(order)
+        for j, spec in enumerate(self.ASSOCIATION_TABLES):
+            order[spec[0]] = offset + j
+        return sorted(tables, key=lambda t: order.get(t.table_name, 9999))
+
     def apply_changes(self, comparison: DatabaseComparisonDTO) -> int:
         """
         Apply selected changes to the local database.
@@ -164,26 +231,40 @@ class SyncService:
         Returns:
             Number of records successfully applied
         """
-        self.logger.info(f"Applying sync changes for tables: {[t.table_name for t in comparison.tables]}")
+        sorted_tables = self._sort_table_diffs_for_apply(list(comparison.tables))
+        self.logger.info(f"Applying sync changes for tables: {[t.table_name for t in sorted_tables]}")
         total_applied = 0
         local_session = self.local_session_factory()
         
         try:
-            for table_diff in comparison.tables:
+            for table_diff in sorted_tables:
                 table_name = table_diff.table_name
                 records = table_diff.differences
-                
-                # Find the model class and primary key
+
+                assoc_info = next(
+                    (t for t in self.ASSOCIATION_TABLES if t[0] == table_name),
+                    None,
+                )
+                if assoc_info:
+                    _, assoc_table, _key_cols = assoc_info
+                    for record_dto in records:
+                        try:
+                            if self._apply_association_row(local_session, assoc_table, record_dto):
+                                total_applied += 1
+                        except Exception as e:
+                            self.logger.error(f"Error applying association row: {e}")
+                    continue
+
                 model_info = next(
-                    (t for t in self.SYNCABLE_TABLES if t[0] == table_name), 
-                    None
+                    (t for t in self.SYNCABLE_TABLES if t[0] == table_name),
+                    None,
                 )
                 if not model_info:
                     self.logger.warning(f"Unknown table: {table_name}, skipping")
                     continue
-                    
+
                 _, model_class, primary_key = model_info
-                
+
                 for record_dto in records:
                     try:
                         applied = self._apply_single_record(
@@ -252,4 +333,18 @@ class SyncService:
                 self.logger.warning(f"Record not found for update: {pk_value}")
                 return False
                 
+        return True
+
+    def _apply_association_row(
+        self,
+        session: Session,
+        table: Table,
+        record_dto: SyncRecordDTO,
+    ) -> bool:
+        """Inserta una fila de tabla de enlace (solo acción 'new')."""
+        if record_dto.action != 'new':
+            return False
+        clean_dict = {k: v for k, v in record_dto.data.fields.items() if not k.startswith('_')}
+        session.execute(insert(table).values(**clean_dict))
+        self.logger.debug("Inserted association row in %s: %s", table.name, clean_dict)
         return True

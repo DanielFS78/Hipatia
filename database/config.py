@@ -8,10 +8,13 @@ from pathlib import Path
 from typing import Optional
 from dotenv import load_dotenv
 
+from core.paths import get_writable_app_root
+
 # Load environment variables from .env file
 load_dotenv()
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
-# Get the project root directory (where .env is located)
+# Raíz del código fuente (tests, scripts); rutas de datos en runtime usan ``get_writable_app_root``.
 PROJECT_ROOT: Path = Path(__file__).parent.parent
 
 
@@ -44,9 +47,9 @@ class DatabaseConfig:
         
         # Default to SQLite - construct absolute path
         db_path = os.getenv("DB_PATH", "data/montaje.db")
-        # If relative path, make it relative to project root
+        # Si es relativa: junto al .exe (frozen) o raíz del repo (desarrollo)
         if not os.path.isabs(db_path):
-            db_path = str(PROJECT_ROOT / db_path)
+            db_path = str(get_writable_app_root() / db_path)
             # Ensure the directory exists
             os.makedirs(os.path.dirname(db_path), exist_ok=True)
         return f"sqlite:///{db_path}"
@@ -61,7 +64,7 @@ class DatabaseConfig:
         """Returns the directory for log files."""
         log_dir = os.getenv("LOG_DIR", "logs")
         if not os.path.isabs(log_dir):
-            log_dir = str(PROJECT_ROOT / log_dir)
+            log_dir = str(get_writable_app_root() / log_dir)
         return log_dir
 
     @staticmethod
@@ -69,5 +72,5 @@ class DatabaseConfig:
         """Returns the directory for backup files."""
         backup_dir = os.getenv("BACKUP_DIR", "backups")
         if not os.path.isabs(backup_dir):
-            backup_dir = str(PROJECT_ROOT / backup_dir)
+            backup_dir = str(get_writable_app_root() / backup_dir)
         return backup_dir

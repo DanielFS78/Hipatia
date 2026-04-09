@@ -1,6 +1,6 @@
 # Fase 12C — Checklist de hallazgos UI/DTO
 
-> Generado: 2026-04-03 07:40:14
+> Generado: 2026-04-05 10:40:11
 > Regenerar con: `python3 scripts/ui_dto_findings_catalog.py`
 
 Marcar **`[x]`** cuando el hallazgo quede corregido o documentado como dict deliberado.

@@ -7,7 +7,7 @@ selection_dialogs, assignment_dialogs y bitacora_dialog. Decisión de mocking:
 controladores y modelos con spec mínimo; DTOs con spec de atributos usados.
 """
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, create_autospec, patch
 from datetime import date, timedelta
 from PyQt6.QtCore import Qt, QDate
 from PyQt6.QtWidgets import QWidget, QDialogButtonBox
@@ -28,6 +28,7 @@ from ui.dialogs.fabrication.selection_dialogs import (
     PreprocesosSelectionDialog,
     PreprocesosForCalculationDialog,
 )
+from ui.dialogs.fabrication.ui_dialog_protocols import OpensFabricacionPreprocesos
 from core.dtos import CalculationProductDTO
 
 
@@ -463,11 +464,19 @@ class TestPreprocesosForCalculationDialog:
 
 class TestAssignPreprocesosDialog:
     def _make_controller(self, fabricaciones=None, preprocesos=None):
-        ctrl = MagicMock(spec=['search_fabricaciones', 'model', 'show_fabricacion_preprocesos'])
+        ctrl = MagicMock(
+            spec=['search_fabricaciones', 'model', 'show_fabricacion_preprocesos', 'product_controller']
+        )
         fab_list = fabricaciones or []
         ctrl.search_fabricaciones.return_value = fab_list
-        ctrl.model = MagicMock(spec=['get_preprocesos_by_fabricacion'])
         prep_list = preprocesos or []
+        fs = MagicMock(spec=['get_preprocesos_by_fabricacion', 'search_fabricaciones'])
+        fs.get_preprocesos_by_fabricacion.return_value = prep_list
+        fs.search_fabricaciones.return_value = fab_list
+        pc = MagicMock(spec=['fabricacion_service'])
+        pc.fabricacion_service = fs
+        ctrl.product_controller = pc
+        ctrl.model = MagicMock(spec=['get_preprocesos_by_fabricacion'])
         ctrl.model.get_preprocesos_by_fabricacion.return_value = prep_list
         return ctrl
 
@@ -589,12 +598,32 @@ class TestAssignPreprocesosDialog:
         mock_critical.assert_called_once_with(dialog, "Error", "Error cargando fabricaciones: DB Error")
 
     @patch("ui.dialogs.fabrication.assignment_dialogs.QMessageBox.critical")
+    def test_load_fabricaciones_exception_from_fabricacion_service(self, mock_critical, qtbot):
+        from ui.dialogs.fabrication.assignment_dialogs import AssignPreprocesosDialog
+        fs = MagicMock(spec=['search_fabricaciones'])
+        fs.search_fabricaciones.side_effect = Exception("SVC Error")
+        pc = MagicMock(spec=['fabricacion_service'])
+        pc.fabricacion_service = fs
+        ctrl = MagicMock(spec=['search_fabricaciones', 'product_controller'])
+        ctrl.product_controller = pc
+        dialog = AssignPreprocesosDialog(ctrl)
+        qtbot.addWidget(dialog)
+        assert mock_critical.call_count == 1
+        mock_critical.assert_called_once_with(
+            dialog, "Error", "Error cargando fabricaciones: SVC Error"
+        )
+
+    @patch("ui.dialogs.fabrication.assignment_dialogs.QMessageBox.critical")
     def test_load_current_preprocesos_exception(self, mock_critical, qtbot):
         from ui.dialogs.fabrication.assignment_dialogs import AssignPreprocesosDialog
-        ctrl = MagicMock(spec=['search_fabricaciones', 'model'])
+        ctrl = MagicMock(spec=['search_fabricaciones', 'product_controller'])
         ctrl.search_fabricaciones.return_value = []
-        ctrl.model = MagicMock(spec=['get_preprocesos_by_fabricacion'])
-        ctrl.model.get_preprocesos_by_fabricacion.side_effect = Exception("DB Error")
+        fs = MagicMock(spec=['get_preprocesos_by_fabricacion', 'search_fabricaciones'])
+        fs.search_fabricaciones.return_value = []
+        fs.get_preprocesos_by_fabricacion.side_effect = Exception("DB Error")
+        pc = MagicMock(spec=['fabricacion_service'])
+        pc.fabricacion_service = fs
+        ctrl.product_controller = pc
         dialog = AssignPreprocesosDialog(ctrl)
         qtbot.addWidget(dialog)
         dialog.load_current_preprocesos(1)
@@ -604,3 +633,47 @@ class TestAssignPreprocesosDialog:
             "Error",
             "Error cargando preprocesos de la fabricación: DB Error",
         )
+
+    @patch("ui.dialogs.fabrication.assignment_dialogs.resolve_fabricacion_service")
+    def test_explicit_fabricacion_service_skips_resolve(self, mock_resolve, qtbot):
+        from ui.dialogs.fabrication.assignment_dialogs import AssignPreprocesosDialog
+
+        fs = MagicMock(spec=["search_fabricaciones", "get_preprocesos_by_fabricacion"])
+        fs.search_fabricaciones.return_value = []
+        ctrl = MagicMock(spec=["search_fabricaciones", "model", "product_controller"])
+        ctrl.product_controller = MagicMock(spec=["fabricacion_service"])
+        AssignPreprocesosDialog(ctrl, fabricacion_service=fs)
+        mock_resolve.assert_not_called()
+        fs.search_fabricaciones.assert_called_once_with("")
+
+    def test_opens_fabricacion_preprocesos_injected(self, qtbot):
+        from ui.dialogs.fabrication.assignment_dialogs import AssignPreprocesosDialog
+
+        opener = create_autospec(OpensFabricacionPreprocesos, instance=True)
+        fab1 = MagicMock(spec=["codigo", "descripcion", "id"])
+        fab1.codigo = "FAB-001"
+        fab1.descripcion = "Desc"
+        fab1.id = 5
+        fs = MagicMock(spec=["search_fabricaciones", "get_preprocesos_by_fabricacion"])
+        fs.search_fabricaciones.return_value = [fab1]
+        fs.get_preprocesos_by_fabricacion.return_value = []
+        pc = MagicMock(spec=["fabricacion_service"])
+        pc.fabricacion_service = fs
+        ctrl = MagicMock(
+            spec=[
+                "search_fabricaciones",
+                "model",
+                "show_fabricacion_preprocesos",
+                "product_controller",
+            ]
+        )
+        ctrl.product_controller = pc
+        ctrl.model = MagicMock(spec=["get_preprocesos_by_fabricacion"])
+        dialog = AssignPreprocesosDialog(
+            ctrl, opens_fabricacion_preprocesos=opener
+        )
+        qtbot.addWidget(dialog)
+        dialog.fabricaciones_list.setCurrentRow(0)
+        dialog.modify_selected_fabricacion()
+        opener.show_fabricacion_preprocesos.assert_called_once_with(5)
+        ctrl.show_fabricacion_preprocesos.assert_not_called()

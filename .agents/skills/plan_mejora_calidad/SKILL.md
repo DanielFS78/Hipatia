@@ -33,6 +33,10 @@ description: Hub central del plan de mejora de calidad del proyecto Hipatia. Def
 * **Suite de tests:** ✅ 0 fallos — ver último `run_tests.py` (el dashboard puede listar ~200+ archivos; no implica fase pendiente)
 * **Última actualización:** 2026-03-20 — Fase 12C (frontera UI/DTO) cerrada; catálogo estricto en 0; `run_tests.py` ✅
 
+### Optimización arquitectónica por capas (eje paralelo)
+
+No sustituye este plan de calidad ni el flujo de tests. Vive en **`.agents/skills/arquitectura_dependencias_hipatia/SKILL.md`** y el estado entre sesiones en **`Documentacion/Refactorizacion_Completa/Arquitectura_Dependencias/PROGRESO_OPTIMIZACION_CAPAS.md`** (fases Opt-0 … Opt-5). Agente sugerido: **`.cursor/agents/hipatia-arquitectura-dependencias.md`**.
+
 ---
 
 ## Mapa de Fases y Estado

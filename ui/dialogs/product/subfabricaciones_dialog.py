@@ -30,11 +30,29 @@ from PyQt6.QtWidgets import (
 
 from PyQt6.QtCore import Qt, pyqtSignal, QEvent, QDate, QTimer, QTime, QPoint, QRectF, QSize
 from PyQt6.QtGui import (
-    QFont, QPixmap, QPainter, QColor, QBrush, QTextCharFormat, QIcon, QPen, QPalette,
+    QFont, QFontMetrics, QPixmap, QPainter, QColor, QBrush, QTextCharFormat, QIcon, QPen, QPalette,
     QPolygonF
 )
 
 from core.dtos import MachineDTO, SubfabricacionDTO
+from core.subfabricacion_rows import coerce_subfabricaciones_rows
+
+
+def _make_combo_readable(combo: QComboBox, option_labels: list[str], *, min_width_px: int) -> None:
+    """Ensancha el combo y la lista desplegable para textos largos (máquinas, etc.)."""
+    combo.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToMinimumContentsLengthWithIcon)
+    if option_labels:
+        combo.setMinimumContentsLength(max(12, min(48, max(len(s) for s in option_labels))))
+    fm = QFontMetrics(combo.font())
+    w = min_width_px
+    for t in option_labels:
+        w = max(w, fm.horizontalAdvance(t) + 64)
+    combo.setMinimumWidth(min(w, 720))
+    combo.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+    view = combo.view()
+    if view is not None:
+        view.setMinimumWidth(combo.minimumWidth())
+        view.setTextElideMode(Qt.TextElideMode.ElideNone)
 
 
 # --- Split Dialogs Imports ---
@@ -47,15 +65,17 @@ class SubfabricacionesDialog(QDialog):
 
     def __init__(
         self,
-        subfabricaciones_actuales: Sequence[SubfabricacionDTO] | None,
+        subfabricaciones_actuales: Sequence[Any] | None,
         available_machines: Sequence[MachineDTO],
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
         self.setWindowTitle("Gestionar Sub-fabricaciones")
-        self.setMinimumSize(600, 500)
+        self.setMinimumSize(720, 520)
 
-        self.subfabricaciones: list[SubfabricacionDTO] = list(subfabricaciones_actuales or [])
+        self.subfabricaciones: list[SubfabricacionDTO] = coerce_subfabricaciones_rows(
+            list(subfabricaciones_actuales) if subfabricaciones_actuales is not None else None
+        )
         self._selected_row = -1
 
         main_layout = QVBoxLayout(self)
@@ -76,15 +96,24 @@ class SubfabricacionesDialog(QDialog):
         form_frame = QFrame()
         form_frame.setFrameShape(QFrame.Shape.StyledPanel)
         form_layout = QFormLayout(form_frame)
+        form_layout.setFieldGrowthPolicy(QFormLayout.FieldGrowthPolicy.ExpandingFieldsGrow)
+        form_layout.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapLongRows)
+
         self.desc_entry = QLineEdit()
+        self.desc_entry.setMinimumHeight(self.desc_entry.sizeHint().height())
         self.tiempo_entry = QLineEdit()
         self.trabajador_menu = QComboBox()
-        self.trabajador_menu.addItems(["Tipo 1", "Tipo 2", "Tipo 3"])
+        worker_labels = ["Tipo 1", "Tipo 2", "Tipo 3"]
+        self.trabajador_menu.addItems(worker_labels)
+        _make_combo_readable(self.trabajador_menu, worker_labels, min_width_px=220)
+
         self.tipo_proceso_menu = QComboBox()
-        self.tipo_proceso_menu.addItem("(Ninguna)", userData=None)
+        machine_labels: list[str] = ["(Ninguna)"]
+        self.tipo_proceso_menu.addItem(machine_labels[0], userData=None)
         for machine in available_machines:
-            # Ahora machine es un MachineDTO, usamos acceso por atributos
             self.tipo_proceso_menu.addItem(machine.nombre, userData=machine.id)
+            machine_labels.append(machine.nombre)
+        _make_combo_readable(self.tipo_proceso_menu, machine_labels, min_width_px=320)
 
         form_layout.addRow("Descripción:", self.desc_entry)
         form_layout.addRow("Tiempo (min):", self.tiempo_entry)

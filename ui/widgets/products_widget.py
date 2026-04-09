@@ -7,9 +7,9 @@ from typing import Any, Dict, List, Optional
 
 from core.dtos import SubfabricacionDTO
 from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QListWidget, 
+    QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QListWidget,
     QListWidgetItem, QLabel, QFrame, QPushButton, QFormLayout,
-    QComboBox, QTextEdit, QDialog, QCheckBox
+    QComboBox, QTextEdit, QDialog, QCheckBox,
 )
 from PyQt6.QtCore import pyqtSignal, Qt
 
@@ -53,8 +53,9 @@ class ProductsWidget(QWidget):
     current_procesos_mecanicos: List[Dict[str, Any]] = []
     form_widgets: Dict[str, Any] = {}
 
-    def __init__(self, controller: Any = None) -> None:
-        super().__init__()
+    def __init__(self, _app_controller: Any = None, parent: Optional[QWidget] = None) -> None:
+        """`_app_controller` se ignora (compat ``MainView``); dependencias vía DI."""
+        super().__init__(parent)
         from core.di_container import DIContainer
         from controllers.product_controller_v2 import ProductController
         self.product_controller = DIContainer.get_instance().resolve(ProductController)
@@ -92,7 +93,11 @@ class ProductsWidget(QWidget):
         results_list = self.results_list
         results_list.clear()
         for product in results:
-            iterations = self.product_controller.model.get_product_iterations(product.codigo) if self.product_controller else []
+            iterations = (
+                self.product_controller.product_service.get_product_iterations(product.codigo)
+                if self.product_controller
+                else []
+            )
             item_text = f"📜 {product.codigo} | {product.descripcion}" if iterations else f"{product.codigo} | {product.descripcion}"
             item = QListWidgetItem(item_text); item.setData(Qt.ItemDataRole.UserRole, product.codigo)
             results_list.addItem(item)
@@ -157,13 +162,15 @@ class ProductsWidget(QWidget):
             
         self.form_widgets['donde'] = QTextEdit(data.donde if not isinstance(data, str) else ""); self.form_widgets['donde'].setFixedHeight(80)
         
-        # El switch debe estar marcado si hay subfabricaciones o si el DTO lo dice
+        # Switch: DTO, filas de subfabricación cargadas desde BD, o borrador en memoria (producto nuevo).
         has_subs = False
         if not isinstance(data, str):
             has_subs = bool(data.tiene_subfabricaciones)
-        elif self.current_subfabricaciones:
+        if sub_data and len(sub_data) > 0:
             has_subs = True
-            
+        elif isinstance(data, str) and self.current_subfabricaciones:
+            has_subs = True
+
         self.form_widgets['sub_switch'] = QCheckBox("¿Tiene subfabricaciones?"); self.form_widgets['sub_switch'].setChecked(has_subs)
 
         # Campos adicionales para productos sin subfabricaciones (usados al crear nuevo)
@@ -212,7 +219,7 @@ class ProductsWidget(QWidget):
         self.edit_area_container_layout.addLayout(button_layout)
         self.edit_area_container_layout.addStretch()
 
-        def toggle_subs():
+        def toggle_subs() -> None:
             is_checked = self.form_widgets['sub_switch'].isChecked()
             self.form_widgets['manage_subs_button'].setVisible(is_checked)
             self.form_widgets['details_container'].setVisible(not is_checked)

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """Tests para MachineService."""
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, create_autospec
 from core.services.machine_service import MachineService
 from core.dtos import MachineDTO
 from database.database_manager import DatabaseManager
+from database.repositories import MachineRepository
 
 @pytest.mark.unit
 class TestMachineService:
@@ -15,16 +16,8 @@ class TestMachineService:
 
     @pytest.fixture
     def mock_db(self):
-        db = MagicMock(spec=DatabaseManager)
-        db.machine_repo = MagicMock(
-            spec=[
-                "get_all_machines",
-                "add_machine",
-                "update_machine",
-                "get_machine_maintenance_history",
-                "get_distinct_machine_processes",
-            ]
-        )
+        db = create_autospec(DatabaseManager, instance=True)
+        db.machine_repo = create_autospec(MachineRepository, instance=True)
         return db
 
     @pytest.fixture

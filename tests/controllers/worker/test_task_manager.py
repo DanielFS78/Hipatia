@@ -5,7 +5,7 @@ Este módulo verifica la asignación de tareas a trabajadores y la búsqueda
 de productos dentro del contexto del gestor de tareas.
 """
 import pytest
-from unittest.mock import MagicMock, ANY, patch
+from unittest.mock import MagicMock, patch
 from controllers.worker.task_manager import WorkerTaskManager
 from controllers.worker.protocols import IWorkerView, IWorkerService, IProductService, WorkerControllerProtocol
 from core.security.access_control import set_security_service
@@ -103,7 +103,8 @@ class TestWorkerTaskManager:
             "quantity": 10
         }
         # Asegurar que workers_list.currentItem() devuelva algo para el refresh final
-        tab.workers_list.currentItem.return_value = MagicMock(spec=[])
+        current_item = MagicMock(spec=[])
+        tab.workers_list.currentItem.return_value = current_item
         
         mock_service.assign_task_to_worker.return_value = (True, "OK")
         
@@ -112,6 +113,6 @@ class TestWorkerTaskManager:
         
         # Verificar
         mock_service.assign_task_to_worker.assert_called_once_with(1, "P1", 10)
-        mock_view.show_message.assert_called_with("Éxito", ANY, "info")
+        mock_view.show_message.assert_called_with("Éxito", "OK", "info")
         # Verificar refresh
-        mock_controller.management_manager._on_worker_selected_in_list.assert_called_once_with(ANY)
+        mock_controller.management_manager._on_worker_selected_in_list.assert_called_once_with(current_item)

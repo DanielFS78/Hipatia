@@ -25,7 +25,7 @@ from .label_counter_repository import LabelCounterRepository
 if TYPE_CHECKING:
     from .reports import ReportsRepository
 
-# Opcional: Define qué se importa con 'from .repositories import *'
+# Qué expone `from database.repositories import *` (y documentación pública del paquete).
 __all__ = [
     'BaseRepository',
     'ProductRepository',
@@ -36,8 +36,10 @@ __all__ = [
     'ConfigurationRepository',
     'MaterialRepository',
     'IterationRepository',
+    'LoteRepository',
     'TrackingRepository',
-    'ReportsRepository'
+    'LabelCounterRepository',
+    'ReportsRepository',
 ]
 
 

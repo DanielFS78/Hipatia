@@ -4,12 +4,14 @@ Cubre PrepStepsDialog, PrepGroupsDialog, PreprocesoDialog al 100%.
 Cumplimiento estricto: Mocks con spec, validación DTO, sin fugas de estado.
 """
 import pytest
-from unittest.mock import MagicMock, patch, ANY
+from unittest.mock import MagicMock, patch, ANY, create_autospec
 from PyQt6.QtWidgets import QDialog, QMessageBox, QInputDialog, QTableWidget, QListWidget, QListWidgetItem
 from PyQt6.QtCore import Qt
 
 from typing import Any, cast
 from core.dtos import PreparationStepDTO, PreparationGroupDTO, ProductDTO, MaterialDTO
+from core.services.preparation_service import PreparationService
+from core.services.product_service import ProductService
 
 MODULE = "ui.dialogs.prep"
 
@@ -46,37 +48,39 @@ def _make_material_dto(**overrides):
 class TestPrepStepsDialog:
 
     @pytest.fixture
-    def mock_controller(self):
-        ctrl = MagicMock(
-            spec=[
-                "model",
-                "view",
-                "handle_create_material",
-                "handle_update_material",
-                "handle_delete_material",
-            ]
-        )
-        return ctrl
+    def mock_preparation_service(self):
+        svc = create_autospec(PreparationService, instance=True)
+        svc.get_steps_for_group.return_value = []
+        return svc
 
     @pytest.fixture
-    def dialog(self, qapp, mock_controller):
+    def mock_view_steps(self):
+        return MagicMock(spec=["show_message", "show_confirmation_dialog"])
+
+    @pytest.fixture
+    def dialog(self, qapp, mock_preparation_service, mock_view_steps):
         from ui.dialogs.prep import PrepStepsDialog
-        mock_controller.model.get_steps_for_group.return_value = []
-        dlg = PrepStepsDialog(group_id=1, group_name="Grupo1", controller=mock_controller, parent=None)
+        dlg = PrepStepsDialog(
+            group_id=1,
+            group_name="Grupo1",
+            preparation_service=mock_preparation_service,
+            view=mock_view_steps,
+            parent=None,
+        )
         return dlg
 
     # --- Inicialización ---
-    def test_init_loads_steps_and_clears_form(self, dialog, mock_controller):
+    def test_init_loads_steps_and_clears_form(self, dialog, mock_preparation_service):
         assert dialog.group_id == 1
         assert "Grupo1" in dialog.windowTitle()
-        mock_controller.model.get_steps_for_group.assert_called_with(1)
+        mock_preparation_service.get_steps_for_group.assert_called_with(1)
         assert dialog.current_step_id is None
         assert not dialog.delete_button.isEnabled()
 
     # --- Cargar Pasos ---
-    def test_load_steps_populates_table(self, dialog, mock_controller):
+    def test_load_steps_populates_table(self, dialog, mock_preparation_service):
         step1 = _make_step_dto(id=1, nombre="Paso A", tiempo_fase=5.0, es_diario=True)
-        mock_controller.model.get_steps_for_group.return_value = [step1]
+        mock_preparation_service.get_steps_for_group.return_value = [step1]
         dialog._load_steps()
         
         assert dialog.steps_table.rowCount() == 1
@@ -90,9 +94,9 @@ class TestPrepStepsDialog:
         assert item2.text() == "Sí"
 
     # --- Seleccionar Paso ---
-    def test_on_step_selected_loads_data(self, dialog, mock_controller):
+    def test_on_step_selected_loads_data(self, dialog, mock_preparation_service):
         step1 = _make_step_dto()
-        mock_controller.model.get_steps_for_group.return_value = [step1]
+        mock_preparation_service.get_steps_for_group.return_value = [step1]
         dialog._load_steps()
         
         dialog.steps_table.selectRow(0)
@@ -109,102 +113,102 @@ class TestPrepStepsDialog:
         assert dialog.current_step_id is None
 
     # --- Añadir / Actualizar Paso ---
-    def test_add_or_update_step_empty_name(self, dialog, mock_controller):
+    def test_add_or_update_step_empty_name(self, dialog, mock_preparation_service, mock_view_steps):
         dialog.step_name_edit.setText("   ")
         dialog._add_or_update_step()
-        mock_controller.view.show_message.assert_called_once_with("Campo Requerido", ANY, "warning")
-        assert mock_controller.model.add_prep_step.call_count == 0
+        mock_view_steps.show_message.assert_called_once_with("Campo Requerido", ANY, "warning")
+        assert mock_preparation_service.add_prep_step.call_count == 0
 
-    def test_add_or_update_step_invalid_time(self, dialog, mock_controller):
+    def test_add_or_update_step_invalid_time(self, dialog, mock_preparation_service, mock_view_steps):
         from unittest.mock import ANY
         dialog.step_name_edit.setText("Valido")
         # Tiempo no numerico
         dialog.step_time_edit.setText("abc")
         dialog._add_or_update_step()
-        mock_controller.view.show_message.assert_called_once_with("Dato Inválido", ANY, "warning")
-        assert mock_controller.model.add_prep_step.call_count == 0
+        mock_view_steps.show_message.assert_called_once_with("Dato Inválido", ANY, "warning")
+        assert mock_preparation_service.add_prep_step.call_count == 0
 
-        mock_controller.view.show_message.reset_mock()
+        mock_view_steps.show_message.reset_mock()
         # Tiempo negativo
         dialog.step_time_edit.setText("-5")
         dialog._add_or_update_step()
-        mock_controller.view.show_message.assert_called_once_with("Dato Inválido", ANY, "warning")
-        assert mock_controller.model.add_prep_step.call_count == 0
+        mock_view_steps.show_message.assert_called_once_with("Dato Inválido", ANY, "warning")
+        assert mock_preparation_service.add_prep_step.call_count == 0
 
-    def test_add_or_update_step_add_success(self, dialog, mock_controller):
+    def test_add_or_update_step_add_success(self, dialog, mock_preparation_service, mock_view_steps):
         dialog.step_name_edit.setText("Nuevo Paso")
         dialog.step_time_edit.setText("12.5")
         dialog.step_desc_edit.setPlainText("Test desc")
         dialog.is_daily_check.setChecked(True)
         
-        mock_controller.model.add_prep_step.return_value = True
+        mock_preparation_service.add_prep_step.return_value = 1
         dialog._add_or_update_step()
         
-        mock_controller.model.add_prep_step.assert_called_once_with(1, "Nuevo Paso", 12.5, "Test desc", True)
-        args = mock_controller.view.show_message.call_args[0]
+        mock_preparation_service.add_prep_step.assert_called_once_with(1, "Nuevo Paso", 12.5, "Test desc", True)
+        args = mock_view_steps.show_message.call_args[0]
         assert args[0] == "Éxito"
 
-    def test_add_or_update_step_add_failure(self, dialog, mock_controller):
+    def test_add_or_update_step_add_failure(self, dialog, mock_preparation_service, mock_view_steps):
         dialog.step_name_edit.setText("Nuevo Paso")
         dialog.step_time_edit.setText("12.5")
-        mock_controller.model.add_prep_step.return_value = False
+        mock_preparation_service.add_prep_step.return_value = None
         dialog._add_or_update_step()
-        args = mock_controller.view.show_message.call_args[0]
+        args = mock_view_steps.show_message.call_args[0]
         assert args[0] == "Error"
 
-    def test_add_or_update_step_update_success(self, dialog, mock_controller):
+    def test_add_or_update_step_update_success(self, dialog, mock_preparation_service, mock_view_steps):
         dialog.current_step_id = 99
         dialog.step_name_edit.setText("Modificado")
         dialog.step_time_edit.setText("10")
         
-        mock_controller.model.update_prep_step.return_value = True
+        mock_preparation_service.update_prep_step.return_value = True
         dialog._add_or_update_step()
         
         expected_data = {'nombre': 'Modificado', 'tiempo_fase': 10.0, 'descripcion': '', 'es_diario': False}
-        mock_controller.model.update_prep_step.assert_called_once_with(99, expected_data)
-        args = mock_controller.view.show_message.call_args[0]
+        mock_preparation_service.update_prep_step.assert_called_once_with(99, expected_data)
+        args = mock_view_steps.show_message.call_args[0]
         assert args[0] == "Éxito"
 
-    def test_add_or_update_step_update_failure(self, dialog, mock_controller):
+    def test_add_or_update_step_update_failure(self, dialog, mock_preparation_service, mock_view_steps):
         dialog.current_step_id = 99
         dialog.step_name_edit.setText("Modificado")
         dialog.step_time_edit.setText("10")
-        mock_controller.model.update_prep_step.return_value = False
+        mock_preparation_service.update_prep_step.return_value = False
         dialog._add_or_update_step()
-        args = mock_controller.view.show_message.call_args[0]
+        args = mock_view_steps.show_message.call_args[0]
         assert args[0] == "Error"
 
     # --- Eliminar Paso ---
-    def test_delete_step_no_selection(self, dialog, mock_controller):
+    def test_delete_step_no_selection(self, dialog, mock_preparation_service, mock_view_steps):
         from unittest.mock import ANY
         dialog.current_step_id = None
         dialog._delete_step()
-        mock_controller.view.show_message.assert_called_once_with("Selección Requerida", ANY, "warning")
-        assert mock_controller.model.delete_prep_step.call_count == 0
+        mock_view_steps.show_message.assert_called_once_with("Selección Requerida", ANY, "warning")
+        assert mock_preparation_service.delete_prep_step.call_count == 0
 
-    def test_delete_step_cancel_confirm(self, dialog, mock_controller):
+    def test_delete_step_cancel_confirm(self, dialog, mock_preparation_service, mock_view_steps):
         dialog.current_step_id = 99
         dialog.step_name_edit.setText("Test Paso")
-        mock_controller.view.show_confirmation_dialog.return_value = False
+        mock_view_steps.show_confirmation_dialog.return_value = False
         dialog._delete_step()
-        assert mock_controller.model.delete_prep_step.call_count == 0
+        assert mock_preparation_service.delete_prep_step.call_count == 0
 
-    def test_delete_step_success(self, dialog, mock_controller):
+    def test_delete_step_success(self, dialog, mock_preparation_service, mock_view_steps):
         dialog.current_step_id = 99
-        mock_controller.view.show_confirmation_dialog.return_value = True
-        mock_controller.model.delete_prep_step.return_value = True
+        mock_view_steps.show_confirmation_dialog.return_value = True
+        mock_preparation_service.delete_prep_step.return_value = True
         dialog._delete_step()
-        mock_controller.model.delete_prep_step.assert_called_once_with(99)
-        args = mock_controller.view.show_message.call_args[0]
+        mock_preparation_service.delete_prep_step.assert_called_once_with(99)
+        args = mock_view_steps.show_message.call_args[0]
         assert args[0] == "Éxito"
         assert dialog.current_step_id is None
 
-    def test_delete_step_failure(self, dialog, mock_controller):
+    def test_delete_step_failure(self, dialog, mock_preparation_service, mock_view_steps):
         dialog.current_step_id = 99
-        mock_controller.view.show_confirmation_dialog.return_value = True
-        mock_controller.model.delete_prep_step.return_value = False
+        mock_view_steps.show_confirmation_dialog.return_value = True
+        mock_preparation_service.delete_prep_step.return_value = False
         dialog._delete_step()
-        args = mock_controller.view.show_message.call_args[0]
+        args = mock_view_steps.show_message.call_args[0]
         assert args[0] == "Error"
 
 
@@ -215,48 +219,50 @@ class TestPrepStepsDialog:
 class TestPrepGroupsDialog:
 
     @pytest.fixture
-    def mock_controller(self):
-        ctrl = MagicMock(
-            spec=[
-                "model",
-                "view",
-                "handle_create_material",
-                "handle_update_material",
-                "handle_delete_material",
-            ]
-        )
-        return ctrl
+    def mock_preparation_service(self):
+        svc = create_autospec(PreparationService, instance=True)
+        svc.get_groups_for_machine.return_value = []
+        return svc
 
     @pytest.fixture
-    def dialog(self, qapp, mock_controller):
+    def mock_product_service(self):
+        svc = create_autospec(ProductService, instance=True)
+        svc.search_products.return_value = [_make_product_dto()]
+        return svc
+
+    @pytest.fixture
+    def mock_view_prep(self):
+        return MagicMock(spec=["show_message", "show_confirmation_dialog"])
+
+    @pytest.fixture
+    def dialog(self, qapp, mock_preparation_service, mock_product_service, mock_view_prep):
         from ui.dialogs.prep import PrepGroupsDialog
-        from core.di_container import DIContainer
-        from core.app_model import AppModel
-        DIContainer.get_instance().register(AppModel, mock_controller.model)
-        
-        # Setup mock return values to avoid exceptions in init
-        mock_controller.model.search_products.return_value = [_make_product_dto()]
-        mock_controller.model.get_groups_for_machine.return_value = []
-        dlg = PrepGroupsDialog(machine_id=1, machine_name="M1", controller=mock_controller, parent=None)
-        yield dlg
-        DIContainer.get_instance().clear()
+        dlg = PrepGroupsDialog(
+            machine_id=1,
+            machine_name="M1",
+            preparation_service=mock_preparation_service,
+            product_service=mock_product_service,
+            view=mock_view_prep,
+            parent=None,
+        )
+        return dlg
 
     # --- Inicialización ---
-    def test_init_loads_products_and_groups(self, dialog, mock_controller):
+    def test_init_loads_products_and_groups(self, dialog, mock_product_service, mock_preparation_service):
         assert dialog.machine_id == 1
         assert "M1" in dialog.windowTitle()
-        mock_controller.model.search_products.assert_called_once_with("")
-        mock_controller.model.get_groups_for_machine.assert_called_once_with(1)
+        mock_product_service.search_products.assert_called_once_with("")
+        mock_preparation_service.get_groups_for_machine.assert_called_once_with(1)
         # Verify combobox populated: "Ninguno" + DTOs
         assert dialog.product_combo.count() == 2
         assert dialog.product_combo.itemText(0) == "Ninguno"
         assert dialog.product_combo.itemData(1) == "P001"
 
     # --- Seleccionar Grupo ---
-    def test_on_group_selected_loads_data(self, dialog, mock_controller):
+    def test_on_group_selected_loads_data(self, dialog, mock_preparation_service):
         g1 = _make_group_dto(id=1, nombre="G1", descripcion="Desc", producto_codigo="P001")
-        mock_controller.model.get_groups_for_machine.return_value = [g1]
-        mock_controller.model.get_group_details.return_value = g1
+        mock_preparation_service.get_groups_for_machine.return_value = [g1]
+        mock_preparation_service.get_group_details.return_value = g1
         dialog._load_groups()
         
         item = dialog.groups_list.item(0)
@@ -269,10 +275,10 @@ class TestPrepGroupsDialog:
         assert dialog.product_combo.currentData() == "P001"
         assert dialog.group_name_edit.isEnabled()
 
-    def test_on_group_selected_product_not_found(self, dialog, mock_controller):
+    def test_on_group_selected_product_not_found(self, dialog, mock_preparation_service):
         g1 = _make_group_dto(id=1, producto_codigo="P002") # Not in combo
-        mock_controller.model.get_groups_for_machine.return_value = [g1]
-        mock_controller.model.get_group_details.return_value = g1
+        mock_preparation_service.get_groups_for_machine.return_value = [g1]
+        mock_preparation_service.get_group_details.return_value = g1
         dialog._load_groups()
         item = dialog.groups_list.item(0)
         item.setSelected(True)
@@ -280,26 +286,26 @@ class TestPrepGroupsDialog:
         # Fallback to None
         assert dialog.product_combo.currentData() is None
 
-    def test_on_group_selected_no_product(self, dialog, mock_controller):
+    def test_on_group_selected_no_product(self, dialog, mock_preparation_service):
         g1 = _make_group_dto(id=1, producto_codigo=None)
-        mock_controller.model.get_groups_for_machine.return_value = [g1]
-        mock_controller.model.get_group_details.return_value = g1
+        mock_preparation_service.get_groups_for_machine.return_value = [g1]
+        mock_preparation_service.get_group_details.return_value = g1
         dialog._load_groups()
         item = dialog.groups_list.item(0)
         item.setSelected(True)
         dialog._on_group_selected()
         assert dialog.product_combo.currentData() is None
 
-    def test_on_group_selected_none(self, dialog, mock_controller):
+    def test_on_group_selected_none(self, dialog):
         dialog.groups_list.clearSelection()
         dialog._on_group_selected()
         assert not dialog.group_name_edit.isEnabled()
 
-    def test_on_group_selected_details_none(self, dialog, mock_controller):
+    def test_on_group_selected_details_none(self, dialog, mock_preparation_service):
         g1 = _make_group_dto(id=1)
-        mock_controller.model.get_groups_for_machine.return_value = [g1]
+        mock_preparation_service.get_groups_for_machine.return_value = [g1]
         # Return none for details
-        mock_controller.model.get_group_details.return_value = None
+        mock_preparation_service.get_group_details.return_value = None
         dialog._load_groups()
         item = dialog.groups_list.item(0)
         item.setSelected(True)
@@ -316,15 +322,15 @@ class TestPrepGroupsDialog:
         assert dialog.group_name_edit.isEnabled()
 
     # --- Guardar Grupo ---
-    def test_save_group_empty_name(self, dialog, mock_controller):
+    def test_save_group_empty_name(self, dialog, mock_preparation_service, mock_view_prep):
         from unittest.mock import ANY
         dialog.group_name_edit.setText("  ")
         dialog._save_group()
-        mock_controller.view.show_message.assert_called_once_with("Error", ANY, "warning")
-        assert mock_controller.model.add_prep_group.call_count == 0
-        assert mock_controller.model.update_prep_group.call_count == 0
+        mock_view_prep.show_message.assert_called_once_with("Error", ANY, "warning")
+        assert mock_preparation_service.add_prep_group.call_count == 0
+        assert mock_preparation_service.update_prep_group.call_count == 0
 
-    def test_save_group_add_success(self, dialog, mock_controller):
+    def test_save_group_add_success(self, dialog, mock_preparation_service, mock_view_prep):
         dialog.current_group_id = None
         dialog.group_name_edit.setText("Nuevo")
         dialog.group_desc_edit.setPlainText("Desc")
@@ -332,100 +338,100 @@ class TestPrepGroupsDialog:
         dialog.product_combo.setCurrentIndex(1)
         
         # add_prep_group returns an ID integer on success
-        mock_controller.model.add_prep_group.return_value = 100
+        mock_preparation_service.add_prep_group.return_value = 100
         dialog._save_group()
         
-        mock_controller.model.add_prep_group.assert_called_once_with(1, "Nuevo", "Desc", "P001")
-        args = mock_controller.view.show_message.call_args[0]
+        mock_preparation_service.add_prep_group.assert_called_once_with(1, "Nuevo", "Desc", "P001")
+        args = mock_view_prep.show_message.call_args[0]
         assert args[0] == "Éxito"
 
-    def test_save_group_add_unique_constraint(self, dialog, mock_controller):
+    def test_save_group_add_unique_constraint(self, dialog, mock_preparation_service, mock_view_prep):
         dialog.current_group_id = None
         dialog.group_name_edit.setText("Duplicado")
-        mock_controller.model.add_prep_group.return_value = "UNIQUE_CONSTRAINT"
+        mock_preparation_service.add_prep_group.return_value = "UNIQUE_CONSTRAINT"
         dialog._save_group()
-        args = mock_controller.view.show_message.call_args[0]
+        args = mock_view_prep.show_message.call_args[0]
         assert args[0] == "Error"
         assert "Ya existe un grupo" in args[1]
 
-    def test_save_group_add_failure(self, dialog, mock_controller):
+    def test_save_group_add_failure(self, dialog, mock_preparation_service, mock_view_prep):
         dialog.current_group_id = None
         dialog.group_name_edit.setText("ErrorG")
-        mock_controller.model.add_prep_group.return_value = False
+        mock_preparation_service.add_prep_group.return_value = False
         dialog._save_group()
-        args = mock_controller.view.show_message.call_args[0]
+        args = mock_view_prep.show_message.call_args[0]
         assert args[0] == "Error"
 
-    def test_save_group_update_success(self, dialog, mock_controller):
+    def test_save_group_update_success(self, dialog, mock_preparation_service, mock_view_prep):
         dialog.current_group_id = 10
         dialog.group_name_edit.setText("UpdateG")
         dialog.product_combo.setCurrentIndex(0) # Ninguno
-        mock_controller.model.update_prep_group.return_value = True
+        mock_preparation_service.update_prep_group.return_value = True
         dialog._save_group()
         
-        mock_controller.model.update_prep_group.assert_called_once_with(10, "UpdateG", "", None)
-        args = mock_controller.view.show_message.call_args[0]
+        mock_preparation_service.update_prep_group.assert_called_once_with(10, "UpdateG", "", None)
+        args = mock_view_prep.show_message.call_args[0]
         assert args[0] == "Éxito"
 
-    def test_save_group_update_failure(self, dialog, mock_controller):
+    def test_save_group_update_failure(self, dialog, mock_preparation_service, mock_view_prep):
         dialog.current_group_id = 10
         dialog.group_name_edit.setText("UpdateG")
-        mock_controller.model.update_prep_group.return_value = False
+        mock_preparation_service.update_prep_group.return_value = False
         dialog._save_group()
-        args = mock_controller.view.show_message.call_args[0]
+        args = mock_view_prep.show_message.call_args[0]
         assert args[0] == "Error"
 
     # --- Eliminar Grupo ---
-    def test_delete_group_no_selection(self, dialog, mock_controller):
+    def test_delete_group_no_selection(self, dialog, mock_preparation_service, mock_view_prep):
         from unittest.mock import ANY
         dialog.groups_list.clearSelection()
         dialog._delete_group()
-        mock_controller.view.show_message.assert_called_once_with("Selección Requerida", ANY, "warning")
-        assert mock_controller.model.delete_prep_group.call_count == 0
+        mock_view_prep.show_message.assert_called_once_with("Selección Requerida", ANY, "warning")
+        assert mock_preparation_service.delete_prep_group.call_count == 0
 
-    def test_delete_group_cancel_confirm(self, dialog, mock_controller):
+    def test_delete_group_cancel_confirm(self, dialog, mock_preparation_service, mock_view_prep):
         item = QListWidgetItem("G1")
         item.setData(Qt.ItemDataRole.UserRole, (1, "G1", ""))
         dialog.groups_list.addItem(item)
         item.setSelected(True)
         
-        mock_controller.view.show_confirmation_dialog.return_value = False
+        mock_view_prep.show_confirmation_dialog.return_value = False
         dialog._delete_group()
-        assert mock_controller.model.delete_prep_group.call_count == 0
+        assert mock_preparation_service.delete_prep_group.call_count == 0
 
-    def test_delete_group_success(self, dialog, mock_controller):
+    def test_delete_group_success(self, dialog, mock_preparation_service, mock_view_prep):
         item = QListWidgetItem("G1")
         item.setData(Qt.ItemDataRole.UserRole, (1, "G1", ""))
         dialog.groups_list.addItem(item)
         item.setSelected(True)
         
-        mock_controller.view.show_confirmation_dialog.return_value = True
-        mock_controller.model.delete_prep_group.return_value = True
+        mock_view_prep.show_confirmation_dialog.return_value = True
+        mock_preparation_service.delete_prep_group.return_value = True
         dialog._delete_group()
         
-        mock_controller.model.delete_prep_group.assert_called_once_with(1)
-        args = mock_controller.view.show_message.call_args[0]
+        mock_preparation_service.delete_prep_group.assert_called_once_with(1)
+        args = mock_view_prep.show_message.call_args[0]
         assert args[0] == "Éxito"
 
-    def test_delete_group_failure(self, dialog, mock_controller):
+    def test_delete_group_failure(self, dialog, mock_preparation_service, mock_view_prep):
         item = QListWidgetItem("G1")
         item.setData(Qt.ItemDataRole.UserRole, (1, "G1", ""))
         dialog.groups_list.addItem(item)
         item.setSelected(True)
         
-        mock_controller.view.show_confirmation_dialog.return_value = True
-        mock_controller.model.delete_prep_group.return_value = False
+        mock_view_prep.show_confirmation_dialog.return_value = True
+        mock_preparation_service.delete_prep_group.return_value = False
         dialog._delete_group()
         
-        args = mock_controller.view.show_message.call_args[0]
+        args = mock_view_prep.show_message.call_args[0]
         assert args[0] == "Error"
 
     # --- Gestionar Pasos ---
-    def test_manage_steps_no_selection(self, dialog, mock_controller):
+    def test_manage_steps_no_selection(self, dialog, mock_view_prep):
         from unittest.mock import ANY
         dialog.groups_list.clearSelection()
         dialog._manage_steps()
-        mock_controller.view.show_message.assert_called_once_with("Selección Requerida", ANY, "warning")
+        mock_view_prep.show_message.assert_called_once_with("Selección Requerida", ANY, "warning")
 
     def test_manage_steps_success(self, dialog):
         item = QListWidgetItem("G1")
@@ -435,7 +441,7 @@ class TestPrepGroupsDialog:
         
         with patch("ui.dialogs.prep.prep_groups_dialog.PrepStepsDialog", autospec=True) as MockDialog:
             dialog._manage_steps()
-            MockDialog.assert_called_once_with(1, "G1", dialog.controller, dialog)
+            MockDialog.assert_called_once_with(1, "G1", dialog.preparation_service, dialog.view, dialog)
             assert MockDialog.return_value.exec.call_count == 1
             MockDialog.return_value.exec.assert_called_once_with()
 
@@ -450,19 +456,20 @@ class TestPreprocesoDialog:
     def mock_controller(self):
         ctrl = MagicMock(
             spec=[
-                "model",
+                "material_service",
                 "view",
                 "handle_create_material",
                 "handle_update_material",
                 "handle_delete_material",
             ]
         )
+        ctrl.material_service = MagicMock(spec=["get_all_materials_for_selection"])
         return ctrl
 
     # --- Inicialización ---
     def test_init_create_mode(self, qapp, mock_controller):
         from ui.dialogs.prep import PreprocesoDialog
-        dlg = PreprocesoDialog(preproceso_existente=None, all_materials=[], controller=mock_controller, parent=None)
+        dlg = PreprocesoDialog(preproceso_existente=None, all_materials=[], material_port=mock_controller, parent=None)
         assert dlg.preproceso_data is None
         assert dlg.assigned_material_ids == set()
         assert dlg.nombre_entry.text() == ""
@@ -478,7 +485,7 @@ class TestPreprocesoDialog:
             componentes = [_make_material_dto(id=1, codigo_componente="M1", descripcion_componente="M1 Desc")]
 
         prep_dto = MockPrepDTO()
-        dlg = PreprocesoDialog(preproceso_existente=prep_dto, all_materials=[], controller=mock_controller, parent=None)
+        dlg = PreprocesoDialog(preproceso_existente=prep_dto, all_materials=[], material_port=mock_controller, parent=None)
         
         assert dlg.assigned_material_ids == {1}
         assert dlg.nombre_entry.text() == "Editado"
@@ -496,7 +503,7 @@ class TestPreprocesoDialog:
         mat_mock = MagicMock(spec=["id"])
         mat_mock.id = 2
         prep_mock.componentes = [mat_mock]
-        dlg = PreprocesoDialog(preproceso_existente=prep_mock, all_materials=[], controller=mock_controller, parent=None)
+        dlg = PreprocesoDialog(preproceso_existente=prep_mock, all_materials=[], material_port=mock_controller, parent=None)
         
         assert dlg.assigned_material_ids == {2}
         assert dlg.nombre_entry.text() == "EditadoDict"
@@ -536,7 +543,7 @@ class TestPreprocesoDialog:
         dlg = PreprocesoDialog(None, [], mock_controller, None)
         
         m1 = _make_material_dto(id=1, codigo_componente="M1", descripcion_componente="Desc M1")
-        mock_controller.model.get_all_materials_for_selection.return_value = [m1]
+        mock_controller.material_service.get_all_materials_for_selection.return_value = [m1]
         
         dlg._refresh_data()
         

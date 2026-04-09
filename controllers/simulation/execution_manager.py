@@ -13,8 +13,10 @@ from PyQt6.QtWidgets import QApplication
 
 from core.simulation.simulation_engine import SimulationWorker, Optimizer
 from core.services.time_calculator import CalculadorDeTiempos
-from ui.dialogs import GetOptimizationParametersDialog, EnhancedProductionFlowDialog
+from controllers.ui_class_loader import ui_class
 from .optimizer_worker import OptimizerWorker
+
+GetOptimizationParametersDialog = ui_class("ui.dialogs", "GetOptimizationParametersDialog")
 from .execution_helpers import (
     build_scheduler,
     enable_result_actions,
@@ -239,7 +241,7 @@ class SimulationExecutionManager:
         else:
             self.view.show_message("Optimización Fallida", "No se pudo encontrar una solución viable.", "warning")
 
-    def handle_run_manual_from_visual_editor(self, flow_dialog: "EnhancedProductionFlowDialog") -> None:
+    def handle_run_manual_from_visual_editor(self, flow_dialog: Any) -> None:
         raw_production_flow = flow_dialog.get_production_flow()
         if not raw_production_flow: return
 
@@ -264,7 +266,7 @@ class SimulationExecutionManager:
             self.logger.critical(f"Error crítico en el flujo de planificación manual desde editor: {e}", exc_info=True)
             self.view.show_message("Error Crítico", f"Ocurrió un error inesperado al iniciar el cálculo manual: {e}", "critical")
 
-    def handle_run_optimizer_from_visual_editor(self, flow_dialog: "EnhancedProductionFlowDialog") -> None:
+    def handle_run_optimizer_from_visual_editor(self, flow_dialog: Any) -> None:
         production_flow = flow_dialog.get_production_flow()
         if not production_flow: return
 

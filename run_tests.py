@@ -366,6 +366,14 @@ def main() -> None:
     print(f"  🏆 Score optimizado medio: {_score_color(avg_ceil)}{avg_ceil:.1f}/100{Colors.ENDC}  "
           f"(en techo: {at_ceiling_count}/{total} archivos)")
     print(f"  📈 Estado: Actualizados: {updated} | En Progreso: {in_progress} | Legacy: {legacy}")
+    print(
+        f"  {Colors.OKCYAN}ℹ️  'En Progreso' mide calidad/estrictitud del análisis, no fallos de tests."
+        f"{Colors.ENDC}"
+    )
+    print(
+        f"  {Colors.OKCYAN}   Gate piloto/release: 0 fallos en esta suite y CI verde en la rama."
+        f"{Colors.ENDC}"
+    )
 
     print(f"\n{Colors.BOLD}ANTIPATRONES DETECTADOS:{Colors.ENDC}")
     _loose_c = Colors.FAIL if total_loose > 0 else Colors.OKGREEN

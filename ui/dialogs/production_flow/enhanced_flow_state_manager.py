@@ -4,7 +4,7 @@ Interfaz PyQt6 (`enhanced_flow_state_manager`): widgets, diálogos o recursos vi
 from __future__ import annotations
 
 from datetime import date
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, cast
 
 from core.enhanced_flow_canvas_state_io import (
     canvas_state_apply_cycle_end,
@@ -59,7 +59,7 @@ class EnhancedFlowStateManager:
     def get_task(self, index: int) -> Optional[Dict[str, Any]]:
         presenter = self.presenter
         if 0 <= index < len(presenter.canvas_tasks):
-            return presenter.canvas_tasks[index]
+            return cast(Optional[Dict[str, Any]], presenter.canvas_tasks[index])
         return None
 
     def update_task_config(self, index: int, key: str, value: Any) -> bool:
@@ -88,7 +88,7 @@ class EnhancedFlowStateManager:
         return canvas_state_inspector_view(self.presenter.canvas_tasks, task_index)
 
     def identify_last_tasks_in_cycles(self, simulation_service: Any) -> List[int]:
-        return simulation_service.identify_last_tasks_in_cycles(self.presenter.canvas_tasks)
+        return cast(List[int], simulation_service.identify_last_tasks_in_cycles(self.presenter.canvas_tasks))
 
     def start_simulation_preview(self, simulation_service: Any) -> bool:
         presenter = self.presenter
@@ -103,7 +103,7 @@ class EnhancedFlowStateManager:
         presenter = self.presenter
         if not presenter.simulation_session:
             return None
-        return presenter.simulation_session.next_step()
+        return cast(Optional[int], presenter.simulation_session.next_step())
 
     def stop_simulation_preview(self) -> None:
         self.presenter.simulation_session = None

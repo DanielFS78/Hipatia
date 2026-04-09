@@ -32,7 +32,7 @@ from PyQt6.QtGui import (
     QFont, QPixmap, QPainter, QColor, QBrush, QTextCharFormat, QIcon, QPen, QPalette,
     QPolygonF
 )
-from typing import Any
+from typing import Any, Iterator, Tuple
 
 
 # --- Split Dialogs Imports ---
@@ -138,6 +138,22 @@ from core.dtos import (
 )
 
 
+def _sync_dialog_tab_title(table_name: str) -> str:
+    """Título de pestaña legible; el nombre interno de tabla va en la propiedad sync_table_name."""
+    titles = {
+        "productos": "Productos",
+        "trabajadores": "Trabajadores",
+        "maquinas": "Máquinas",
+        "materiales": "Materiales (componentes)",
+        "subfabricaciones": "Subfabricaciones",
+        "procesos_mecanicos": "Procesos mecánicos",
+        "fabricaciones": "Fabricaciones",
+        "pilas": "Pilas",
+        "producto_material_link": "Enlaces producto ↔ material (BOM)",
+    }
+    return titles.get(table_name, table_name.replace("_", " ").title())
+
+
 class SyncDialog(QDialog):
     """Diálogo para mostrar diferencias entre dos bases de datos y seleccionar cuáles importar."""
 
@@ -149,10 +165,26 @@ class SyncDialog(QDialog):
         self.selected_items: DatabaseComparisonDTO = DatabaseComparisonDTO(tables=[])
 
         main_layout = QVBoxLayout(self)
+        main_layout.addWidget(
+            QLabel(
+                "Por defecto todas las filas están marcadas para importar. "
+                "Desmarque las que no quiera traer de la copia. Revise cada pestaña."
+            )
+        )
         self.tab_widget = QTabWidget()
         main_layout.addWidget(self.tab_widget)
 
         self._populate_tabs()
+
+        row_btns = QHBoxLayout()
+        btn_all = QPushButton("Marcar todo")
+        btn_none = QPushButton("Desmarcar todo")
+        btn_all.clicked.connect(self._check_all_rows)
+        btn_none.clicked.connect(self._uncheck_all_rows)
+        row_btns.addWidget(btn_all)
+        row_btns.addWidget(btn_none)
+        row_btns.addStretch()
+        main_layout.addLayout(row_btns)
 
         buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
         ok_btn = buttons.button(QDialogButtonBox.StandardButton.Ok)
@@ -171,8 +203,9 @@ class SyncDialog(QDialog):
                 continue
 
             tab = QWidget()
+            tab.setProperty("sync_table_name", table_name)
             layout = QVBoxLayout(tab)
-            self.tab_widget.addTab(tab, table_name.capitalize())
+            self.tab_widget.addTab(tab, _sync_dialog_tab_title(table_name))
 
             table_widget = QTableWidget()
             # headers = ["Importar", "Acción"] + keys de la data
@@ -185,7 +218,7 @@ class SyncDialog(QDialog):
                 # Checkbox para seleccionar
                 chk_box_item = QTableWidgetItem()
                 chk_box_item.setFlags(Qt.ItemFlag.ItemIsUserCheckable | Qt.ItemFlag.ItemIsEnabled)
-                chk_box_item.setCheckState(Qt.CheckState.Unchecked)
+                chk_box_item.setCheckState(Qt.CheckState.Checked)
                 table_widget.setItem(row_idx, 0, chk_box_item)
                 
                 # Acción (new/updated)
@@ -201,36 +234,63 @@ class SyncDialog(QDialog):
                 header.setSectionResizeMode(len(headers) - 1, QHeaderView.ResizeMode.Stretch)
             layout.addWidget(table_widget)
 
+    def _iter_sync_tables(self) -> Iterator[Tuple[str, QTableWidget]]:
+        """Recorre cada pestaña y su QTableWidget (búsqueda recursiva por si el layout oculta el hijo directo)."""
+        for i in range(self.tab_widget.count()):
+            tab_widget_child = self.tab_widget.widget(i)
+            if not tab_widget_child:
+                continue
+            table_widget = tab_widget_child.findChild(
+                QTableWidget, "", Qt.FindChildOption.FindChildrenRecursively
+            )
+            if not table_widget:
+                continue
+            prop = tab_widget_child.property("sync_table_name")
+            if prop is not None and str(prop) != "":
+                table_name = str(prop)
+            else:
+                table_name = self.tab_widget.tabText(i).lower()
+            yield table_name, table_widget
+
+    def _check_all_rows(self) -> None:
+        for _name, table_widget in self._iter_sync_tables():
+            for row in range(table_widget.rowCount()):
+                item = table_widget.item(row, 0)
+                if item:
+                    item.setCheckState(Qt.CheckState.Checked)
+
+    def _uncheck_all_rows(self) -> None:
+        for _name, table_widget in self._iter_sync_tables():
+            for row in range(table_widget.rowCount()):
+                item = table_widget.item(row, 0)
+                if item:
+                    item.setCheckState(Qt.CheckState.Unchecked)
+
     def get_selected_changes(self) -> DatabaseComparisonDTO:
         """Recopila todos los elementos marcados por el usuario para ser importados."""
         selected_tables = []
-        for i in range(self.tab_widget.count()):
-            table_name = self.tab_widget.tabText(i).lower()
-            tab_widget_child = self.tab_widget.widget(i)
-            if not tab_widget_child: continue
-            table_widget = tab_widget_child.findChild(QTableWidget)
-            if not table_widget: continue
-            
+        for table_name, table_widget in self._iter_sync_tables():
             selected_records = []
 
-            # Buscar el table_diff original para esta pestaña
             orig_table_diff = next(
-                (t for t in self.comparison.tables if t.table_name.lower() == table_name), 
-                None
+                (t for t in self.comparison.tables if t.table_name.lower() == table_name.lower()),
+                None,
             )
-            if not orig_table_diff: continue
+            if not orig_table_diff:
+                continue
 
             for row in range(table_widget.rowCount()):
                 item_0 = table_widget.item(row, 0)
                 if item_0 and item_0.checkState() == Qt.CheckState.Checked:
-                    # Usar el record original
                     selected_records.append(orig_table_diff.differences[row])
 
             if selected_records:
-                selected_tables.append(SyncTableDifferencesDTO(
-                    table_name=table_name,
-                    differences=selected_records
-                ))
+                selected_tables.append(
+                    SyncTableDifferencesDTO(
+                        table_name=orig_table_diff.table_name,
+                        differences=selected_records,
+                    )
+                )
 
         return DatabaseComparisonDTO(tables=selected_tables)
 

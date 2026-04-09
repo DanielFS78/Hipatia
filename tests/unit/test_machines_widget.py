@@ -28,7 +28,7 @@ class TestMachinesWidget:
         from core.di_container import DIContainer
         from controllers.machine_controller import MachineController
         DIContainer.get_instance().register(MachineController, instance=ctrl)
-        w = MachinesWidget(controller=ctrl)
+        w = MachinesWidget()
         qtbot.addWidget(w)
         return w
 

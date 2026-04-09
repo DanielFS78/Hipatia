@@ -3,7 +3,15 @@
 Interfaz PyQt6 (`camera_selector_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
 """
 
-from PyQt6.QtWidgets import QGroupBox, QVBoxLayout, QHBoxLayout, QLabel, QComboBox, QPushButton
+from PyQt6.QtWidgets import (
+    QComboBox,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
 from PyQt6.QtCore import pyqtSignal
 from typing import List, Optional
 from core.dtos import CameraConfigDTO
@@ -15,7 +23,7 @@ class CameraSelectorPanel(QGroupBox):
     camera_selected_signal = pyqtSignal(object) # Emite CameraConfigDTO o None
     redetect_requested_signal = pyqtSignal()
 
-    def __init__(self, parent=None):
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
         super().__init__("📹 Cámaras Detectadas (Sondeo Rápido)", parent)
         self._setup_ui()
 

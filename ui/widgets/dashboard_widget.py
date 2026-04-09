@@ -7,20 +7,18 @@ from .base import *
 from typing import Any
 
 class DashboardWidget(QWidget):
-    """Widget para mostrar gráficos y estadísticas de producción."""
+    """Widget para mostrar gráficos y estadísticas de producción.
 
-    def __init__(self, controller: Any = None) -> None:
-        super().__init__()
-        self.controller = controller
+    Los datos llegan vía ``update_*`` desde el controlador de UI; no mantiene ``AppController``.
+    """
+
+    def __init__(self, parent: QWidget | None = None) -> None:
+        super().__init__(parent)
         self.machine_chart_view: Any = None
         self.worker_chart_view: Any = None
         self.components_chart_view: Any = None
         self.activity_chart_view: Any = None
         self.setup_ui()
-
-    def set_controller(self, controller: Any) -> None:
-        """Asigna el controlador al widget."""
-        self.controller = controller
 
     def setup_ui(self) -> None:
         """Configura la interfaz del dashboard."""

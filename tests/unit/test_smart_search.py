@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """Tests unitarios para SmartSearchWidget (búsqueda, debounce, resultados)."""
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, create_autospec
 from PyQt6.QtWidgets import QListWidgetItem
 from PyQt6.QtCore import Qt
 
 from ui.widgets.reports.smart_search import SmartSearchWidget
+from core.services.report_service import ReportService
 
 pytestmark = pytest.mark.unit
 
@@ -24,9 +25,9 @@ class TestSmartSearchWidget:
 
     @pytest.fixture
     def widget(self, qtbot):
-        """Fixture para SmartSearchWidget."""
-        model = MagicMock(spec=['search_reports_data'])
-        w = SmartSearchWidget(app_model=model)
+        """Fixture con ReportService mockeado."""
+        rs = create_autospec(ReportService, instance=True)
+        w = SmartSearchWidget(report_service=rs)
         qtbot.addWidget(w)
         return w
 
@@ -47,41 +48,50 @@ class TestSmartSearchWidget:
         assert widget.debounce_timer.isActive()
 
     def test_perform_search_empty(self, widget):
-        """Búsqueda vacía no hace nada."""
+        """Búsqueda vacía no llama al servicio."""
         widget.search_input.clear()
         widget._perform_search()
-        assert widget.app_model.search_reports_data.call_count == 0
-        assert not widget.app_model.search_reports_data.called
+        widget._report_service.search_reports_data.assert_not_called()
 
-    def test_perform_search_no_model(self, qtbot):
-        """Sin modelo, búsqueda logea warning."""
-        w = SmartSearchWidget(app_model=None)
+    def test_perform_search_no_service(self, qtbot):
+        """Sin ReportService, búsqueda no crashea."""
+        w = SmartSearchWidget(report_service=None)
         qtbot.addWidget(w)
         w.search_input.setText("test")
         try:
             w._perform_search()
         except Exception:
-            pytest.fail("_perform_search no debería propagar excepciones sin modelo")
-        assert w.app_model is None
+            pytest.fail("_perform_search no debería propagar excepciones sin servicio")
+        assert w._report_service is None
 
     def test_perform_search_success(self, widget):
         """Búsqueda exitosa actualiza resultados."""
         results = [_make_result()]
-        widget.app_model.search_reports_data.return_value = results
+        widget._report_service.search_reports_data.return_value = results
         widget.search_input.setText("test")
         widget._perform_search()
         assert widget.results_list.count() == 1
         assert not widget.results_list.isHidden()
 
+    def test_perform_search_uses_injected_report_service(self, qtbot):
+        """El servicio inyectado es el que responde la búsqueda."""
+        rs = create_autospec(ReportService, instance=True)
+        rs.search_reports_data.return_value = [_make_result(codigo="RS")]
+        w = SmartSearchWidget(report_service=rs)
+        qtbot.addWidget(w)
+        w.search_input.setText("ab")
+        w._perform_search()
+        rs.search_reports_data.assert_called_once_with("ab")
+
     def test_perform_search_error(self, widget):
         """Error en búsqueda no crashea."""
-        widget.app_model.search_reports_data.side_effect = Exception("DB Error")
+        widget._report_service.search_reports_data.side_effect = Exception("DB Error")
         widget.search_input.setText("test")
         try:
             widget._perform_search()
         except Exception:
             pytest.fail("_perform_search no debería propagar excepciones de BD")
-        assert widget.results_list is not None  # widget sigue válido
+        assert widget.results_list is not None
 
     def test_update_results_list_empty(self, widget):
         """Lista vacía oculta resultados."""
@@ -128,8 +138,12 @@ class TestSmartSearchWidget:
         assert widget.results_list.isHidden()
 
     def test_set_controller(self, widget):
-        """set_controller actualiza app_model."""
-        ctrl = MagicMock(spec=["model"])
-        ctrl.model = MagicMock(spec=[])
+        """set_controller actualiza _report_service desde model.report_service."""
+        rs = create_autospec(ReportService, instance=True)
+        ctrl = MagicMock(spec=["model", "container"])
+        ctrl.model = MagicMock(spec=["report_service"])
+        ctrl.model.report_service = rs
+        ctrl.container = MagicMock(spec=["is_registered", "resolve"])
+        ctrl.container.is_registered.return_value = False
         widget.set_controller(ctrl)
-        assert widget.app_model is ctrl.model
+        assert widget._report_service is rs

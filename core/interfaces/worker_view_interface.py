@@ -4,7 +4,9 @@ Lógica o utilidades del núcleo (`worker_view_interface`): tipos, servicios aux
 
 from abc import abstractmethod
 from typing import Any, Dict, List, Optional
+
 from core.interfaces.controller_interface import QABCMeta
+from core.worker_ui_dtos import WorkerTaskListRowDTO
 
 class IWorkerView(metaclass=QABCMeta):
     """
@@ -23,7 +25,7 @@ class IWorkerView(metaclass=QABCMeta):
     export_data_requested: Any
 
     @abstractmethod
-    def update_tasks_list(self, tasks: List[Dict[str, Any]]) -> None:
+    def update_tasks_list(self, tasks: List[WorkerTaskListRowDTO]) -> None:
         """Actualiza la lista de tareas asignadas."""
         pass
 

@@ -92,12 +92,14 @@ class TestProductRepository:
 
     def test_search_products_short_query(self, repos, setup_search_data):
         """
-        Prueba que search_products() con una consulta demasiado corta (< 2 caracteres)
-        devuelve una lista vacía.
+        Prueba que search_products() con un carácter aplica ilike (código o descripción).
         """
         product_repo = repos["product"]
         products = product_repo.search_products("M")
-        assert products == []
+        codes = {p.codigo for p in products}
+        assert "MOTOR-001" in codes
+        assert "PANEL-003" in codes
+        assert "CAJA-002" not in codes
 
     def test_search_products_by_code(self, repos, setup_search_data):
         """

@@ -4,6 +4,8 @@
 Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
 """
 
+from typing import List, Optional
+
 try:
     import cv2
 except ImportError:
@@ -12,14 +14,14 @@ except ImportError:
 from .base import CameraInfo, CameraBackend, CV2_AVAILABLE
 from .manager import CameraManager
 
-def quick_detect_cameras():
+def quick_detect_cameras() -> List[CameraInfo]:
     return CameraManager(max_cameras=5, detection_timeout=1.0).detect_cameras()
 
-def get_working_camera_index():
+def get_working_camera_index() -> Optional[int]:
     cams = quick_detect_cameras()
     return cams[0].index if cams else None
 
-def validate_camera_index(index: int):
+def validate_camera_index(index: int) -> bool:
     return CameraManager().validate_camera(index)[0]
 
 __all__ = [

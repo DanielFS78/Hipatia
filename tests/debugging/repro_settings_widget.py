@@ -19,7 +19,7 @@ class TestSettingsWidgetRepro(unittest.TestCase):
         """Attempts to instantiate SettingsWidget. Should fail if imports are missing."""
         try:
             from ui.widgets.settings_widget import SettingsWidget
-            widget = SettingsWidget(controller=None)
+            widget = SettingsWidget()
             print("SettingsWidget instantiated successfully.")
         except NameError as e:
             print(f"Caught expected NameError: {e}")

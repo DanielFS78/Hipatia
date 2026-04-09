@@ -5,6 +5,10 @@ on:
   push:
   pull_request:
 
+# Acciones en runtime Node 24 (evita avisos de deprecación Node 20 en el runner).
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -18,7 +22,7 @@ jobs:
         python-version: ["3.11", "3.12"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: System libs for PyQt6 (headless Linux)
         run: |
@@ -26,7 +30,7 @@ jobs:
           sudo apt-get install -y --no-install-recommends libegl1 libgl1 libxkbcommon0
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
@@ -34,19 +38,31 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # Contrato UI–negocio (subconjunto): opcional — python -m pytest tests -m contract -q
       - name: Run tests (headless Qt)
         env:
           QT_QPA_PLATFORM: offscreen
         run: python -m pytest tests -q --tb=no --timeout=30
 
+      - name: UI DTO boundary analyzer (Fase 12C gate)
+        run: python scripts/ui_dto_boundary_analyzer.py --enforce-zero
+
+      - name: Upload UI DTO boundary report on failure
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ui-dto-boundary-report-py${{ matrix.python-version }}
+          path: Documentacion/Refactorizacion_Completa/Fase_12C/ui_dto_boundary_report.json
+          if-no-files-found: ignore
+
   # Tipado estático (misma referencia que mypy.ini: python 3.12)
   mypy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -56,13 +72,16 @@ jobs:
 
       - name: Run mypy
         run: |
-          python -m mypy app.py core controllers database features ui
+          # app → módulo `app` endurecido en mypy.ini ([mypy-app]); resto vía globs por paquete.
+          # tests/: reglas relajadas en mypy.ini ([mypy-tests…], scripts/tools ignore_errors).
+          # scripts/init_database.py: bloque [mypy-scripts.init_database] (auditoría 2026-04).
+          python -m mypy app.py core controllers database features ui tests scripts/init_database.py
 
   # Cobertura en una sola corrida (3.12); sube JSON para descarga / update_readme_metrics local
   coverage-report:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: System libs for PyQt6 (headless Linux)
         run: |
@@ -70,7 +89,7 @@ jobs:
           sudo apt-get install -y --no-install-recommends libegl1 libgl1 libxkbcommon0
 
       - name: Set up Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -85,7 +104,7 @@ jobs:
           python -m pytest tests --cov=. --cov-report=json --cov-fail-under=0 -q --tb=no --timeout=30
 
       - name: Upload coverage.json
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: coverage-json
           path: coverage.json

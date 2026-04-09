@@ -2,61 +2,61 @@
 """
 Tests unitarios para el widget de cálculo de tiempos.
 """
-import pytest
-from unittest.mock import MagicMock, patch, create_autospec
-from core.dtos import ProductDTO
 from datetime import datetime
 
-from PyQt6.QtWidgets import QTableWidgetItem, QHeaderView
-from PyQt6.QtCore import Qt
-from core.app_model import AppModel
-from controllers.simulation.controller import SimulationController
-from core.dtos import ProductDTO, FabricacionDTO, LoteDTO, CalculationStepDTO
+import pytest
+from unittest.mock import MagicMock, patch, create_autospec
 
+from controllers.simulation.controller import SimulationController
+from controllers.ui_signals_controller import UISignalsController
+from core.di_container import DIContainer
+from core.dtos import CalculationStepDTO, FabricacionDTO, LoteDTO, ProductDTO
+from core.services.fabricacion_service import FabricacionService
 from ui.widgets.calculate_times_widget import CalculateTimesWidget
 
-pytestmark = pytest.mark.unit
-pytestmark = pytest.mark.setup
+pytestmark = [pytest.mark.unit, pytest.mark.setup]
 
 
 @pytest.fixture
 def mock_controller():
-    from controllers.simulation.controller import SimulationController
-    controller = MagicMock(spec=SimulationController)
-    controller.connect_calculate_signals = MagicMock(spec=[])
-    model = MagicMock(spec=AppModel)
-    controller.model = model
-    
-    # Mock lote
+    # Misma instancia para SimulationController y UISignalsController (DI): hace falta `connect_calculate_signals`.
+    controller = MagicMock(
+        spec=["db", "app", "connect_calculate_signals"],
+    )
+
     mock_lote = MagicMock(spec=LoteDTO)
     prod_mock = MagicMock(spec=ProductDTO)
     prod_mock.codigo = "P1"
     prod_mock.descripcion = "Prod 1"
     mock_lote.productos = [prod_mock]
-    
+
     fab_mock = MagicMock(spec=FabricacionDTO)
     fab_mock.id = 1
     fab_mock.codigo = "F1"
     mock_lote.fabricaciones = [fab_mock]
-    
-    model.get_lote_details.return_value = mock_lote
-    
-    # Mock db fabricacion
+
+    db = MagicMock(spec=["lote_repo"])
+    db.lote_repo = MagicMock(spec=["get_lote_details"])
+    db.lote_repo.get_lote_details.return_value = mock_lote
+    controller.db = db
+
     db_fab = MagicMock(spec=FabricacionDTO)
     db_fab.descripcion = "Fab Desc"
-    model.get_fabricacion_by_id.return_value = db_fab
-    
-    from core.di_container import DIContainer
-    from controllers.simulation.controller import SimulationController
-    from controllers.ui_signals_controller import UISignalsController
+    fabricacion_service = create_autospec(FabricacionService, instance=True)
+    fabricacion_service.get_fabricacion_by_id.return_value = db_fab
+    pc = MagicMock(spec=["fabricacion_service"])
+    pc.fabricacion_service = fabricacion_service
+    app = MagicMock(spec=["product_controller"])
+    app.product_controller = pc
+    controller.app = app
+
     DIContainer.get_instance().register(SimulationController, instance=controller)
     DIContainer.get_instance().register(UISignalsController, instance=controller)
-    
-    # Compliance checks
+
     dto_inst = ProductDTO(codigo="T", descripcion="T")
     assert isinstance(dto_inst, ProductDTO)
-    model.get_lote_details.assert_not_called()
-    
+    db.lote_repo.get_lote_details.assert_not_called()
+
     return controller
 
 
@@ -81,12 +81,13 @@ class TestCalculateTimesWidget:
         from PyQt6.QtGui import QShowEvent
         w.showEvent(QShowEvent())
         assert hasattr(w, '_ui_setup_complete')
-        assert controller.connect_calculate_signals.called
+        controller.connect_calculate_signals.assert_called_once_with()
 
-    def test_set_controller(self, widget):
-        controller = MagicMock(spec=[])
-        widget.set_controller(controller)
-        assert widget.simulation_controller is not None
+    def test_set_controller(self, widget, mock_controller):
+        """set_controller es no-op; el controlador sigue siendo el resuelto por DI."""
+        decoy = MagicMock(spec=["db", "app"])
+        widget.set_controller(decoy)
+        assert widget.simulation_controller is mock_controller
 
     def test_progress_methods(self, widget):
         widget.show_progress()
@@ -144,7 +145,7 @@ class TestCalculateTimesWidget:
 
     def test_get_pila_for_calculation_lote_error(self, widget, mock_controller):
         widget.controller = mock_controller
-        mock_controller.model.get_lote_details.side_effect = Exception("DB Error")
+        mock_controller.db.lote_repo.get_lote_details.side_effect = Exception("DB Error")
         widget.planning_session = [
             CalculationStepDTO(
                 identificador="L1",
@@ -193,7 +194,9 @@ class TestCalculateTimesWidget:
         ]
         widget._update_plan_display()
         assert widget.pila_content_table.rowCount() == 1
-        assert widget.pila_content_table.item(0, 0).text() == "Lote 1"
+        assert widget.pila_content_table.item(0, 0).text() == "1"
+        assert widget.pila_content_table.item(0, 1).text() == "Paso"
+        assert widget.pila_content_table.item(0, 2).text() == "L1"
 
     @patch('ui.widgets.calculate_times_widget.MAX_TASKS_TO_RENDER', new=1)
     @patch('ui.widgets.calculate_times_widget.QMessageBox', autospec=True)
@@ -207,7 +210,11 @@ class TestCalculateTimesWidget:
         widget.display_simulation_results(results, [])
         assert widget.results_table.rowCount() == 2
         assert not widget.timeline_label.isVisible()
-        assert MockMsgBox.information.called
+        MockMsgBox.information.assert_called_once_with(
+            widget,
+            "Visualización Omitida",
+            "Demasiadas tareas (2) para mostrar el gráfico.",
+        )
 
     def test_display_simulation_results_normal(self, widget):
         results = [
@@ -218,10 +225,9 @@ class TestCalculateTimesWidget:
         with patch.object(widget, '_display_audit_log') as mock_audit:
             widget.display_simulation_results(results, [])
             assert widget.results_table.rowCount() == 1
-            # Just check it's populated, not exact float formatting
             assert widget.results_table.item(0, 0).text() == "T1"
             assert not widget.timeline_label.isHidden()
-            assert mock_audit.called
+            mock_audit.assert_called_once_with([])
 
     def test_add_step_to_pila(self, widget):
         assert not widget.add_step_to_pila(None)

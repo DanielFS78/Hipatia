@@ -5,6 +5,9 @@ Grafo de imports entre capas: controladores / servicios / database.
 
 Genera un informe Markdown (y JSON opcional) con aristas ``controllers.*``
 que importan ``core.services.*`` (y referencias cruzadas útiles para revisión).
+
+Para el mapa **completo** por capa (``ui``, ``database``, ``core``, ``controllers``,
+``features``), violaciones y ciclos simples, usar ``scripts/architecture_layer_edges.py``.
 """
 
 from __future__ import annotations

@@ -15,7 +15,7 @@ No se usa autospec en clases Qt.
 import logging
 from typing import Any, cast, Dict, List
 import pytest
-from unittest.mock import MagicMock, patch, ANY
+from unittest.mock import MagicMock, patch
 
 from PyQt6.QtCore import QThreadPool
 from controllers.ui_controller import UIController
@@ -213,9 +213,10 @@ class TestUpdateDashboardView:
         """Actualiza el dashboard exitosamente si el widget tiene update_stats."""
         mock_dashboard = MagicMock()
         ctrl.view.pages = {"dashboard": mock_dashboard}
-        mock_stats = {"kpi1": 100}
-        
-        
+        mock_machine_service.get_machine_usage_stats.return_value = {"kpi1": 100}
+        mock_worker_service.get_worker_load_stats.return_value = {"load": 0}
+        mock_report_service.get_problematic_components_stats.return_value = {"issues": 0}
+
         mock_signal = MagicMock()
         ctrl.dashboard_updated = mock_signal
 
@@ -224,7 +225,12 @@ class TestUpdateDashboardView:
         assert mock_machine_service.get_machine_usage_stats.call_count == 1
         mock_machine_service.get_machine_usage_stats.assert_called_once_with()
         assert mock_dashboard.update_stats.call_count == 1
-        mock_dashboard.update_stats.assert_called_once_with(ANY)
+        expected_stats = {
+            "machine_stats": {"kpi1": 100},
+            "worker_stats": {"load": 0},
+            "component_stats": {"issues": 0},
+        }
+        mock_dashboard.update_stats.assert_called_once_with(expected_stats)
         assert mock_signal.emit.call_count == 1
         mock_signal.emit.assert_called_once_with()
 

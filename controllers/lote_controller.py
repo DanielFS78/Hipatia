@@ -7,14 +7,10 @@ Descripción: Gestiona la lógica de plantillas de lotes, incluyendo su definici
 from __future__ import annotations
 
 import logging
-from typing import Any, TYPE_CHECKING
+from typing import Any
 from PyQt6.QtCore import QObject, pyqtSignal, Qt
 from PyQt6.QtWidgets import QTableWidgetItem, QSpinBox
 from database.database_manager import DatabaseManager
-
-if TYPE_CHECKING:
-    from ui.widgets.calculate_times_widget import CalculateTimesWidget
-    from core.dtos import LoteDTO, CalculationStepDTO
 
 
 class LoteController(QObject):

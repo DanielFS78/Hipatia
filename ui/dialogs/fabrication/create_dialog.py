@@ -10,13 +10,10 @@ from PyQt6.QtWidgets import (
     QSpinBox, QMessageBox
 )
 from PyQt6.QtCore import Qt
-from typing import List, Dict, Any, Tuple, Optional, TYPE_CHECKING
-from ui.dialogs.fabrication.create_presenter import CreateFabricacionPresenter
-from core.dtos import FabricacionDTO
+from typing import List, Dict, Any, Tuple, Optional
 
-if TYPE_CHECKING:
-    from database.models import Preproceso, Producto as Product # Assuming models exist
-    # If not using models, use Any
+from core.dtos import FabricacionDTO
+from ui.dialogs.fabrication.create_presenter import CreateFabricacionPresenter
 
 class CreateFabricacionDialog(QDialog):
     """

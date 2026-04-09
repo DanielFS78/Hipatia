@@ -30,7 +30,7 @@ class TestMainNavPanel:
     def test_planificacion_menu_emits_signal(self, panel, qtbot):
         """Verifica que las acciones del menú de planificación emiten señales."""
         # Obtenemos las acciones del menú
-        menu = panel.btn_planificacion.menu()
+        menu = panel.planificacion_menu
         actions = menu.actions()
         
         # Simular activación de "Definir Plantilla de Lote"
@@ -48,12 +48,12 @@ class TestMainNavPanel:
         panel.update_active_button("reportes")
         assert panel.btn_reportes.isChecked()
         assert not panel.btn_home.isChecked()
-        assert not panel.btn_planificacion.isChecked()
+        assert panel.btn_planificacion.property("navActive") is not True
 
         # Probar caso planificación
         panel.update_active_button("calculate")
-        assert panel.btn_planificacion.isChecked()
+        assert panel.btn_planificacion.property("navActive") is True
         assert not panel.btn_reportes.isChecked()
 
         panel.update_active_button("definir_lote")
-        assert panel.btn_planificacion.isChecked()
+        assert panel.btn_planificacion.property("navActive") is True

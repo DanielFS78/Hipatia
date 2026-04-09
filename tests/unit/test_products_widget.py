@@ -60,9 +60,9 @@ def controller():
     """Controller mock."""
     from core.di_container import DIContainer
     from controllers.product_controller_v2 import ProductController
-    ctrl = MagicMock(spec=["model"])
-    ctrl.model = MagicMock(spec=["get_product_iterations"])
-    ctrl.model.get_product_iterations.return_value = []
+    ctrl = MagicMock(spec=["product_service"])
+    ctrl.product_service = MagicMock(spec=["get_product_iterations"])
+    ctrl.product_service.get_product_iterations.return_value = []
     DIContainer.get_instance().register(ProductController, instance=ctrl)
     return ctrl
 
@@ -74,7 +74,7 @@ class TestProductsWidget:
     @pytest.fixture
     def widget(self, qtbot, controller):
         """Instancia de ProductsWidget con controller mock."""
-        w = ProductsWidget(controller)
+        w = ProductsWidget()
         qtbot.addWidget(w)
         return w
 
@@ -102,7 +102,7 @@ class TestProductsWidget:
 
     def test_update_search_results_with_iterations(self, widget, controller):
         """Verifica el ícono de iteraciones en resultados."""
-        controller.model.get_product_iterations.return_value = ['iter1']
+        controller.product_service.get_product_iterations.return_value = ['iter1']
         products = [_make_product_dto("P1", "Producto 1")]
         widget.update_search_results(products)
         assert "📜" in widget.results_list.item(0).text()

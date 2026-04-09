@@ -4,7 +4,7 @@ Interfaz PyQt6 (`lotes_widget`): widgets, diálogos o recursos visuales conectad
 """
 
 from .base import *
-from typing import Any
+from typing import Any, Optional
 import logging
 
 logger = logging.getLogger(__name__)
@@ -13,11 +13,20 @@ class DefinirLoteWidget(QWidget):
     """Widget para crear y editar plantillas de Lote."""
     save_lote_signal = pyqtSignal()
 
-    def __init__(self, controller: Any = None) -> None:
-        super().__init__()
+    def __init__(self, _app_controller: Any = None, parent: Optional[QWidget] = None) -> None:
+        """`_app_controller` se ignora en ctor; opcionalmente se usa en ``set_controller``."""
+        super().__init__(parent)
         from core.di_container import DIContainer
         from controllers.lote_controller import LoteController
-        self.lote_controller = DIContainer.get_instance().resolve(LoteController)
+        from core.services.product_service import ProductService
+        from core.services.fabricacion_service import FabricacionService
+
+        _c = DIContainer.get_instance()
+        self.lote_controller = _c.resolve(LoteController)
+        self._product_service = _c.resolve(ProductService) if _c.is_registered(ProductService) else None
+        self._fabricacion_service: Any = None
+        if _c.is_registered(FabricacionService):
+            self._fabricacion_service = _c.resolve(FabricacionService)
         self.current_lote_id = None
         self.lote_content: dict[str, set[Any]] = {"products": set(), "fabrications": set()}
         self.setup_ui()
@@ -28,7 +37,8 @@ class DefinirLoteWidget(QWidget):
 
         left_p = QFrame(); left_l = QVBoxLayout(left_p); left_p.setMaximumWidth(450)
         pb = QGroupBox("Añadir Productos"); pl = QVBoxLayout(pb)
-        self.product_search = QLineEdit(); self.product_search.setPlaceholderText("Buscar producto...")
+        self.product_search = QLineEdit()
+        self.product_search.setPlaceholderText("Buscar producto (todos al abrir; filtra al escribir)...")
         self.product_results = QListWidget(); self.add_product_button = QPushButton("Añadir Producto")
         
         # Conectar señal de búsqueda de productos
@@ -37,7 +47,8 @@ class DefinirLoteWidget(QWidget):
         pl.addWidget(self.product_search); pl.addWidget(self.product_results); pl.addWidget(self.add_product_button); left_l.addWidget(pb)
 
         fb = QGroupBox("Añadir Fabricaciones"); fl = QVBoxLayout(fb)
-        self.fab_search = QLineEdit(); self.fab_search.setPlaceholderText("Buscar fabricación...")
+        self.fab_search = QLineEdit()
+        self.fab_search.setPlaceholderText("Buscar fabricación (todas al abrir; filtra al escribir)...")
         self.fab_results = QListWidget(); self.add_fab_button = QPushButton("Añadir Fabricación")
         
         # Conectar señal de búsqueda de fabricaciones
@@ -61,7 +72,14 @@ class DefinirLoteWidget(QWidget):
         right_l.addWidget(sb); main_layout.addWidget(right_p, 1)
 
     def set_controller(self, controller: Any) -> None:
-        pass # Injected
+        """Compat ``MainView``: opcionalmente mejora ``FabricacionService`` vía hub y repuebla listas."""
+        from core.di_container import DIContainer
+        from ui.dialogs.fabrication.dialog_dependencies import resolve_fabricacion_service
+
+        if controller is not None:
+            fs = resolve_fabricacion_service(controller, DIContainer.get_instance())
+            if fs is not None:
+                self._fabricacion_service = fs
         if self.lote_controller:
             self.populate_products_list()
             self.populate_fabrications_list()
@@ -72,9 +90,9 @@ class DefinirLoteWidget(QWidget):
         
         self.fab_results.clear()
         try:
-            # Usar search_fabricaciones("") para obtener todas
-            ctrl: Any = self.lote_controller
-            fabrications = ctrl.model.search_fabricaciones("")
+            if self._fabricacion_service is None:
+                return
+            fabrications = self._fabricacion_service.search_fabricaciones("")
             for fab in fabrications:
                 # Filtrar las fabricaciones que sean tareas de trabajadores (empiezan por TASK-)
                 if fab.codigo and fab.codigo.startswith("TASK-"):
@@ -110,9 +128,9 @@ class DefinirLoteWidget(QWidget):
         
         self.product_results.clear()
         try:
-            # CORREGIDO: Usar search_products("") si get_all_products no existe directamente
-            ctrl: Any = self.lote_controller
-            products = ctrl.model.search_products("")
+            if self._product_service is None:
+                return
+            products = self._product_service.search_products("")
             for product in products:
                 # product es un objeto ProductDTO
                 text = f"{product.codigo} - {product.descripcion}"
@@ -160,14 +178,17 @@ class LotesWidget(QWidget):
     save_lote_signal = pyqtSignal(int)
     delete_lote_signal = pyqtSignal(int)
 
-    def __init__(self, controller: Any = None) -> None:
-        super().__init__()
+    def __init__(self, _app_controller: Any = None, parent: Optional[QWidget] = None) -> None:
+        """`_app_controller` se ignora (compat ``MainView``)."""
+        super().__init__(parent)
         from core.di_container import DIContainer
         from controllers.lote_controller import LoteController
         self.lote_controller = DIContainer.get_instance().resolve(LoteController)
         self.current_lote_id = None; self.setup_ui()
 
-    def set_controller(self, controller: Any) -> None: pass
+    def set_controller(self, controller: Any) -> None:
+        """Compat ``MainView``; listas y CRUD usan ``LoteController`` del DI."""
+        return
 
     def setup_ui(self) -> None:
         main_layout = QHBoxLayout(self)

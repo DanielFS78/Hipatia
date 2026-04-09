@@ -32,7 +32,7 @@ class Apli1861LabelGenerator(IDocumentGenerator):
     por 6 filas, asegurando un ajuste preciso para las 66 etiquetas.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.logger = logging.getLogger("EvolucionTiemposApp.Apli1861LabelGenerator")
 
     def count_qr_placeholders(self, template_path: Path) -> int:

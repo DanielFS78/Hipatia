@@ -6,7 +6,7 @@ Repositorio para consultas estadísticas de seguimiento.
 ========================================================================
 """
 import logging
-from typing import Callable, Optional, Dict, List, cast
+from typing import Any, Callable, Dict, List, Optional
 from datetime import datetime
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
@@ -32,7 +32,7 @@ class TrackingStatsRepository(BaseRepository):
         trabajador_id: int,
         fecha_inicio: Optional[datetime] = None,
         fecha_fin: Optional[datetime] = None
-    ) -> Dict:
+    ) -> Dict[str, Any]:
         """
         Obtiene estadísticas de un trabajador.
         """
@@ -78,7 +78,7 @@ class TrackingStatsRepository(BaseRepository):
     def obtener_estadisticas_fabricacion(
         self,
         fabricacion_id: int
-    ) -> Dict:
+    ) -> Dict[str, Any]:
         """
         Obtiene estadísticas de una fabricación.
         """

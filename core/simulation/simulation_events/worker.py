@@ -5,7 +5,7 @@ Lógica o utilidades del núcleo (`worker`): tipos, servicios auxiliares o infra
 """
 
 from dataclasses import dataclass
-from typing import List
+from typing import Any, List
 from .base import EventoDeSimulacion
 
 @dataclass
@@ -14,7 +14,7 @@ class EventoReasignacionTrabajador(EventoDeSimulacion):
     tipo_evento: str = 'REASIGNACION_TRABAJADOR'
     prioridad: int = 0
 
-    def procesar(self, motor_eventos) -> List['EventoDeSimulacion']:
+    def procesar(self, motor_eventos: Any) -> List[EventoDeSimulacion]:
         """
         Procesa la reasignación de un trabajador con soporte para modo paralelo.
         """
@@ -83,7 +83,7 @@ class EventoTiempoInactivo(EventoDeSimulacion):
     tipo_evento: str = 'TIEMPO_INACTIVO'
     prioridad: int = 5
 
-    def procesar(self, motor_eventos) -> List['EventoDeSimulacion']:
+    def procesar(self, motor_eventos: Any) -> List[EventoDeSimulacion]:
         """
         Registra el tiempo de inactividad en el audit log.
         """

@@ -5,6 +5,8 @@ import pytest
 from unittest.mock import MagicMock, patch, create_autospec
 
 from controllers.backup_controller import BackupController
+from core.security.access_control import set_security_service
+from core.security.security_service import SecurityService
 from database.database_manager import DatabaseManager
 from core.services.backup_service import BackupService
 from ui.main_window import MainView
@@ -107,3 +109,33 @@ class TestBackupController:
             )
             assert mock_dialog_instance.exec.call_count == 1
             mock_dialog_instance.exec.assert_called_once_with()
+
+    def test_on_export_databases_permission_denied_no_file_dialog(self, backup_controller):
+        """Sin MANAGE_SETTINGS no se abre el diálogo de exportación (defensa en profundidad)."""
+        mock_ss = MagicMock(spec=SecurityService)
+        mock_ss.has_permission.return_value = False
+        set_security_service(mock_ss)
+        try:
+            with patch(
+                "controllers.backup_controller_io_manager.zipfile.ZipFile"
+            ) as mock_zip, patch(
+                "controllers.backup_controller.QFileDialog.getSaveFileName",
+                return_value=("/tmp/x.zip", ""),
+            ) as mock_save:
+                backup_controller.on_export_databases()
+                mock_save.assert_not_called()
+                mock_zip.assert_not_called()
+        finally:
+            set_security_service(None)
+
+    def test_show_backup_restore_dialog_permission_denied(self, backup_controller):
+        """Sin permiso no se instancia el diálogo de backup/restore."""
+        mock_ss = MagicMock(spec=SecurityService)
+        mock_ss.has_permission.return_value = False
+        set_security_service(mock_ss)
+        try:
+            with patch("ui.dialogs.backup_restore_dialog.BackupRestoreDialog") as MockDialog:
+                backup_controller.show_backup_restore_dialog()
+                MockDialog.assert_not_called()
+        finally:
+            set_security_service(None)

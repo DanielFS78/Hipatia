@@ -6,16 +6,13 @@ Descripción: Controlador central para la sincronización de la interfaz de usua
 from __future__ import annotations
 
 import logging
-from typing import Optional, Any, TYPE_CHECKING
+from typing import Optional, Any
 from PyQt6.QtCore import QObject, pyqtSignal, QThreadPool
 from core.services.machine_service import MachineService
 from core.services.worker_service import WorkerService
 from core.services.report_service import ReportService
 from core.services.product_service import ProductService
 from core.quote_service import QuoteService
-
-if TYPE_CHECKING:
-    from ui.widgets.home_widget import HomeWidget
 
 
 class UIController(QObject):

@@ -7,11 +7,20 @@ Descripción: Controlador Fachada para la gestión de Pilas y Lotes.
 from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING, List, Dict, Any, Optional, cast
-from PyQt6.QtCore import QObject
+from PyQt6.QtCore import QObject, Qt
+from PyQt6.QtWidgets import QListWidgetItem
 
 from controllers.pila.lote_manager import LoteManager
 from controllers.pila.pila_manager import PilaManager
-from controllers.pila.protocols import IPilaView
+from controllers.pila.protocols import (
+    IPilaView,
+    IPilaDatabase,
+    IProductService,
+    IFabricacionService,
+    IPilaService,
+)
+from core.application_state import ApplicationState
+from core.schedule_config import ScheduleConfig
 from core.dtos import CalculationStepDTO
 
 if TYPE_CHECKING:
@@ -26,12 +35,12 @@ class PilaController(QObject):
         self,
         app_controller: "AppController",
         view: IPilaView,
-        system_integration: Any,
-        product_service: Any,
-        fabricacion_service: Any,
-        pila_service: Any,
-        state: Any,
-        schedule_manager: Any,
+        system_integration: IPilaDatabase,
+        product_service: IProductService,
+        fabricacion_service: IFabricacionService,
+        pila_service: IPilaService,
+        state: ApplicationState,
+        schedule_manager: ScheduleConfig,
     ) -> None:
         super().__init__()
         self.app = app_controller
@@ -102,12 +111,21 @@ class PilaController(QObject):
         calc_page = self.app.view.pages.get("calculate")
         if not calc_page: return
         
-        selected = calc_page.lote_search_results.currentItem()
-        if not selected:
+        selected_data: tuple[int, str] | None = None
+        if hasattr(calc_page, "get_selected_lote_search_result"):
+            selected_data = calc_page.get_selected_lote_search_result()
+        else:
+            selected = calc_page.lote_search_results.currentItem()
+            if selected:
+                raw = selected.data(Qt.ItemDataRole.UserRole)
+                if isinstance(raw, tuple) and len(raw) == 2:
+                    selected_data = raw
+
+        if not selected_data:
             self.app.view.show_message("Selección Requerida", "Por favor, seleccione un lote.", "warning")
             return
-            
-        lote_id, lote_codigo = selected.data(32) # UserRole
+
+        lote_id, lote_codigo = selected_data
         lote_instance_data = CalculationStepDTO(
             lote_template_id=lote_id,
             lote_codigo=lote_codigo,
@@ -137,7 +155,7 @@ class PilaController(QObject):
         if not calc_page.planning_session:
             calc_page.define_flow_button.setEnabled(False)
 
-    def get_preprocesos_for_fabricacion(self, fabricacion_id: int) -> list:
+    def get_preprocesos_for_fabricacion(self, fabricacion_id: int) -> list[dict[str, Any]]:
         """
         Obtiene los preprocesos asociados a una fabricación específica.
 
@@ -185,13 +203,16 @@ class PilaController(QObject):
         save_signal.connect(self._on_update_lote_template_clicked)
         delete_signal.connect(self._on_delete_lote_template_clicked)
 
-    def _on_lote_management_result_selected(self, item: Any) -> None:
+    def _on_lote_management_result_selected(self, item: QListWidgetItem) -> None:
         """
         Maneja la selección de un lote en la lista de resultados de gestión.
         Carga los detalles del lote y los muestra en el formulario de edición.
         """
-        lote_id = item.data(32) # UserRole
-        lote_data = self._system_integration.get_lote_details(lote_id)
+        lote_id = item.data(Qt.ItemDataRole.UserRole)
+        if lote_id is None:
+            self.app.view.show_message("Error", "No se pudo identificar el lote seleccionado.", "warning")
+            return
+        lote_data = self._system_integration.get_lote_details(int(lote_id))
         gestion_page = self.app.view.pages.get("gestion_datos")
         if lote_data and gestion_page:
              gestion_page.lotes_tab.display_lote_details(lote_data)

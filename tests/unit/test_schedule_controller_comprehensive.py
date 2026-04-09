@@ -21,6 +21,9 @@ from PyQt6.QtWidgets import QDialog
 from controllers.schedule_controller import ScheduleController
 from ui.widgets.settings_widget import SettingsWidget
 from core.dtos import ConfigurationDTO
+from database.database_manager import DatabaseManager
+from core.schedule_config import ScheduleConfig
+from core.interfaces.view_interface import IView
 
 pytestmark = pytest.mark.unit
 
@@ -29,26 +32,26 @@ pytestmark = pytest.mark.unit
 # Helpers / Factories
 # ---------------------------------------------------------------------------
 
-def _make_db() -> MagicMock:
+def _make_db() -> DatabaseManager:
     """Crea un mock de DatabaseManager con spec minimo."""
     db = MagicMock(spec=["config_repo"])
     db.config_repo = MagicMock(spec=["get_setting", "set_setting"])
-    return db
+    return cast(DatabaseManager, db)
 
 
-def _make_view() -> MagicMock:
-    """Crea un mock de MainView con spec minimo."""
+def _make_view() -> IView:
+    """Crea un mock de vista principal con spec minimo."""
     view = MagicMock(spec=["pages", "show_message", "show_confirmation_dialog"])
     view.pages = {}
-    return view
+    return cast(IView, view)
 
 
-def _make_schedule_manager() -> MagicMock:
+def _make_schedule_manager() -> ScheduleConfig:
     """Crea un mock de ScheduleConfig con spec minimo."""
-    return MagicMock(spec=["reload_config"])
+    return cast(ScheduleConfig, MagicMock(spec=["reload_config"]))
 
 
-def _make_controller() -> ScheduleController:
+def _make_controller() -> Any:
     """Factory para ScheduleController con dependencias mockeadas estrictamente."""
     return ScheduleController(_make_db(), _make_view(), _make_schedule_manager())
 
@@ -93,13 +96,15 @@ class TestOnAddBreakClicked:
     """Tests para on_add_break_clicked."""
 
     @pytest.fixture
-    def ctrl(self) -> ScheduleController:
+    def ctrl(self) -> Any:
         """ScheduleController con dependencias mockeadas."""
         return _make_controller()
 
-    @patch("controllers.schedule_controller.AddBreakDialog")
-    def test_add_break_accepted(self, MockDlg: MagicMock, ctrl: ScheduleController) -> None:
+    @patch("controllers.schedule_controller.get_add_break_dialog_class")
+    def test_add_break_accepted(self, mock_get_cls: MagicMock, ctrl: Any) -> None:
         """Aceptar el dialogo guarda el descanso y recarga la configuracion."""
+        MockDlg = MagicMock(spec=[])
+        mock_get_cls.return_value = MockDlg
         inst = MockDlg.return_value
         inst.exec.return_value = QDialog.DialogCode.Accepted
         inst.get_times.return_value = {"start": "10:00", "end": "10:30"}
@@ -114,9 +119,11 @@ class TestOnAddBreakClicked:
         ctrl.schedule_manager.reload_config.assert_called_once_with()
         mock_load.assert_called_once_with()
 
-    @patch("controllers.schedule_controller.AddBreakDialog")
-    def test_add_break_cancelled(self, MockDlg: MagicMock, ctrl: ScheduleController) -> None:
+    @patch("controllers.schedule_controller.get_add_break_dialog_class")
+    def test_add_break_cancelled(self, mock_get_cls: MagicMock, ctrl: Any) -> None:
         """Cancelar el dialogo no guarda nada."""
+        MockDlg = MagicMock(spec=[])
+        mock_get_cls.return_value = MockDlg
         inst = MockDlg.return_value
         inst.exec.return_value = QDialog.DialogCode.Rejected
 
@@ -134,18 +141,18 @@ class TestOnRemoveBreakClicked:
     """Tests para on_remove_break_clicked."""
 
     @pytest.fixture
-    def ctrl(self) -> ScheduleController:
+    def ctrl(self) -> Any:
         """ScheduleController con dependencias mockeadas."""
         return _make_controller()
 
-    def test_remove_break_no_settings_widget(self, ctrl: ScheduleController) -> None:
+    def test_remove_break_no_settings_widget(self, ctrl: Any) -> None:
         """Retorno temprano cuando la pagina no es SettingsWidget."""
         ctrl.view.pages = {"settings": None}
         ctrl.on_remove_break_clicked()
         assert ctrl.view.show_message.call_count == 0
         ctrl.view.show_message.assert_not_called()
 
-    def test_remove_break_no_selection(self, ctrl: ScheduleController) -> None:
+    def test_remove_break_no_selection(self, ctrl: Any) -> None:
         """Muestra aviso cuando no hay seleccion."""
         mock_page = _make_settings_page()
         mock_page.breaks_list.selectedItems.return_value = []
@@ -160,7 +167,7 @@ class TestOnRemoveBreakClicked:
             "warning"
         )
 
-    def test_remove_break_confirmed(self, ctrl: ScheduleController) -> None:
+    def test_remove_break_confirmed(self, ctrl: Any) -> None:
         """Elimina el descanso cuando el usuario confirma."""
         mock_page = _make_settings_page()
         mock_item = MagicMock(spec=['text'])
@@ -181,7 +188,7 @@ class TestOnRemoveBreakClicked:
         ctrl.view.show_message.assert_called_with("Éxito", "Descanso eliminado correctamente.", "info")
         mock_page._update_break_buttons_state.assert_called_once_with()
 
-    def test_remove_break_rejected(self, ctrl: ScheduleController) -> None:
+    def test_remove_break_rejected(self, ctrl: Any) -> None:
         """No elimina el descanso cuando el usuario rechaza la confirmacion."""
         mock_page = _make_settings_page()
         mock_item = MagicMock(spec=['text'])
@@ -204,18 +211,18 @@ class TestOnEditBreakClicked:
     """Tests para on_edit_break_clicked."""
 
     @pytest.fixture
-    def ctrl(self) -> ScheduleController:
+    def ctrl(self) -> Any:
         """ScheduleController con dependencias mockeadas."""
         return _make_controller()
 
-    def test_edit_break_no_settings_widget(self, ctrl: ScheduleController) -> None:
+    def test_edit_break_no_settings_widget(self, ctrl: Any) -> None:
         """Retorno temprano cuando la pagina no es SettingsWidget."""
         ctrl.view.pages = {"settings": None}
         ctrl.on_edit_break_clicked()
         assert ctrl.view.show_message.call_count == 0
         ctrl.view.show_message.assert_not_called()
 
-    def test_edit_break_no_selection(self, ctrl: ScheduleController) -> None:
+    def test_edit_break_no_selection(self, ctrl: Any) -> None:
         """Muestra aviso cuando no hay seleccion."""
         mock_page = _make_settings_page()
         mock_page.breaks_list.selectedItems.return_value = []
@@ -230,7 +237,7 @@ class TestOnEditBreakClicked:
             "warning"
         )
 
-    def test_edit_break_parse_error(self, ctrl: ScheduleController) -> None:
+    def test_edit_break_parse_error(self, ctrl: Any) -> None:
         """Muestra error cuando el texto del descanso no se puede parsear."""
         mock_page = _make_settings_page()
         mock_item = MagicMock(spec=['text'])
@@ -245,8 +252,8 @@ class TestOnEditBreakClicked:
             "Error", "No se pudo leer la hora del descanso seleccionado.", "critical"
         )
 
-    @patch("controllers.schedule_controller.AddBreakDialog")
-    def test_edit_break_accepted(self, MockDlg: MagicMock, ctrl: ScheduleController) -> None:
+    @patch("controllers.schedule_controller.get_add_break_dialog_class")
+    def test_edit_break_accepted(self, mock_get_cls: MagicMock, ctrl: Any) -> None:
         """Editar y confirmar actualiza el item y guarda."""
         mock_page = _make_settings_page()
         mock_item = MagicMock(spec=['text', 'setText'])
@@ -254,6 +261,8 @@ class TestOnEditBreakClicked:
         mock_page.breaks_list.selectedItems.return_value = [mock_item]
         ctrl.view.pages = {"settings": mock_page}
 
+        MockDlg = MagicMock(spec=[])
+        mock_get_cls.return_value = MockDlg
         inst = MockDlg.return_value
         inst.exec.return_value = QDialog.DialogCode.Accepted
         inst.get_times.return_value = {"start": "11:00", "end": "11:30"}
@@ -269,8 +278,8 @@ class TestOnEditBreakClicked:
         ctrl.view.show_message.assert_called_with("Éxito", "Descanso actualizado correctamente.", "info")
         mock_page._update_break_buttons_state.assert_called_once_with()
 
-    @patch("controllers.schedule_controller.AddBreakDialog")
-    def test_edit_break_cancelled(self, MockDlg: MagicMock, ctrl: ScheduleController) -> None:
+    @patch("controllers.schedule_controller.get_add_break_dialog_class")
+    def test_edit_break_cancelled(self, mock_get_cls: MagicMock, ctrl: Any) -> None:
         """Cancelar la edicion no modifica el item."""
         mock_page = _make_settings_page()
         mock_item = MagicMock(spec=['text', 'setText'])
@@ -278,6 +287,8 @@ class TestOnEditBreakClicked:
         mock_page.breaks_list.selectedItems.return_value = [mock_item]
         ctrl.view.pages = {"settings": mock_page}
 
+        MockDlg = MagicMock(spec=[])
+        mock_get_cls.return_value = MockDlg
         inst = MockDlg.return_value
         inst.exec.return_value = QDialog.DialogCode.Rejected
 
@@ -295,11 +306,11 @@ class TestOnAddBreak:
     """Tests para on_add_break (dialogo inline)."""
 
     @pytest.fixture
-    def ctrl(self) -> ScheduleController:
+    def ctrl(self) -> Any:
         """ScheduleController con dependencias mockeadas."""
         return _make_controller()
 
-    def test_on_add_break_accepted(self, ctrl: ScheduleController) -> None:
+    def test_on_add_break_accepted(self, ctrl: Any) -> None:
         """Aceptar el dialogo inline anade item a la lista de descansos."""
         mock_settings = MagicMock(spec=['breaks_list'])
         ctrl.view.pages = {"settings": mock_settings}
@@ -309,16 +320,24 @@ class TestOnAddBreak:
         mock_qd_class = MagicMock(spec=['DialogCode'], return_value=mock_dialog)
         mock_qd_class.DialogCode = QDialog.DialogCode
 
+        start_edit = MagicMock()
+        start_edit.time.return_value.toString.return_value = "12:00"
+        end_edit = MagicMock()
+        end_edit.time.return_value.toString.return_value = "13:00"
+
         with patch("controllers.schedule_controller.QDialog", mock_qd_class), \
              patch("controllers.schedule_controller.QFormLayout"), \
-             patch("controllers.schedule_controller.QTimeEdit"), \
+             patch(
+                 "controllers.schedule_controller.QTimeEdit",
+                 side_effect=[start_edit, end_edit],
+             ), \
              patch("controllers.schedule_controller.QDialogButtonBox"):
             ctrl.on_add_break()
 
         assert mock_settings.breaks_list.addItem.call_count == 1
-        mock_settings.breaks_list.addItem.assert_called_once_with(ANY)
+        mock_settings.breaks_list.addItem.assert_called_once_with("12:00 - 13:00")
 
-    def test_on_add_break_cancelled(self, ctrl: ScheduleController) -> None:
+    def test_on_add_break_cancelled(self, ctrl: Any) -> None:
         """Cancelar el dialogo inline no anade ningun item."""
         mock_settings = MagicMock(spec=['breaks_list'])
         ctrl.view.pages = {"settings": mock_settings}
@@ -346,11 +365,11 @@ class TestSaveScheduleSettings:
     """Tests para save_schedule_settings."""
 
     @pytest.fixture
-    def ctrl(self) -> ScheduleController:
+    def ctrl(self) -> Any:
         """ScheduleController con dependencias mockeadas."""
         return _make_controller()
 
-    def test_save_schedule_settings_success(self, ctrl: ScheduleController) -> None:
+    def test_save_schedule_settings_success(self, ctrl: Any) -> None:
         """Guarda la configuracion de horario y muestra mensaje de exito."""
         mock_page = MagicMock(spec=['work_start_time', 'work_end_time', 'breaks_list'])
         mock_page.work_start_time.time.return_value.toString.return_value = "08:00"
@@ -369,7 +388,7 @@ class TestSaveScheduleSettings:
         ctrl.schedule_manager.reload_config.assert_called_once_with(ctrl.db)
         ctrl.view.show_message.assert_called_with("Éxito", "Horario completo guardado y aplicado.", "info")
 
-    def test_schedule_settings_dto_validation(self, ctrl: ScheduleController) -> None:
+    def test_schedule_settings_dto_validation(self, ctrl: Any) -> None:
         """Verifica que ConfigurationDTO valida la forma de la configuracion."""
         config = ConfigurationDTO(clave="work_start_time", valor="08:00")
         assert isinstance(config, ConfigurationDTO)
@@ -385,18 +404,18 @@ class TestLoadScheduleSettings:
     """Tests para load_schedule_settings."""
 
     @pytest.fixture
-    def ctrl(self) -> ScheduleController:
+    def ctrl(self) -> Any:
         """ScheduleController con dependencias mockeadas."""
         return _make_controller()
 
-    def test_load_schedule_settings_no_widget(self, ctrl: ScheduleController) -> None:
+    def test_load_schedule_settings_no_widget(self, ctrl: Any) -> None:
         """Retorno temprano si SettingsWidget no esta presente."""
         ctrl.view.pages = {"settings": None}
         ctrl.load_schedule_settings()
         assert ctrl.db.config_repo.get_setting.call_count == 0
         ctrl.db.config_repo.get_setting.assert_not_called()
 
-    def test_load_schedule_settings_success(self, ctrl: ScheduleController) -> None:
+    def test_load_schedule_settings_success(self, ctrl: Any) -> None:
         """Carga la configuracion valida en la UI."""
         mock_page = _make_settings_page()
         ctrl.view.pages = {"settings": mock_page}
@@ -411,12 +430,12 @@ class TestLoadScheduleSettings:
         assert mock_page.work_end_time.setTime.call_count == 1
         assert mock_page.breaks_list.clear.call_count == 1
         assert mock_page.breaks_list.addItem.call_count == 1
-        mock_page.work_start_time.setTime.assert_called_once_with(ANY)
-        mock_page.work_end_time.setTime.assert_called_once_with(ANY)
+        mock_page.work_start_time.setTime.assert_called_once_with(QTime.fromString("09:00", "HH:mm"))
+        mock_page.work_end_time.setTime.assert_called_once_with(QTime.fromString("17:00", "HH:mm"))
         mock_page.breaks_list.clear.assert_called_once_with()
         mock_page.breaks_list.addItem.assert_called_once_with("12:00 - 13:00")
 
-    def test_load_schedule_settings_json_error(self, ctrl: ScheduleController) -> None:
+    def test_load_schedule_settings_json_error(self, ctrl: Any) -> None:
         """Fallback cuando el JSON de descansos esta malformado — usa valor por defecto."""
         mock_page = _make_settings_page()
         ctrl.view.pages = {"settings": mock_page}
@@ -440,11 +459,11 @@ class TestHolidayMethods:
     """Tests para on_add_holiday y on_remove_holiday."""
 
     @pytest.fixture
-    def ctrl(self) -> ScheduleController:
+    def ctrl(self) -> Any:
         """ScheduleController con dependencias mockeadas."""
         return _make_controller()
 
-    def test_add_holiday_new_date(self, ctrl: ScheduleController) -> None:
+    def test_add_holiday_new_date(self, ctrl: Any) -> None:
         """Anade un nuevo festivo a la configuracion."""
         mock_page = MagicMock(spec=['calendar'])
         mock_page.calendar.selectedDate.return_value.toPyDate.return_value = datetime.date(2025, 5, 1)
@@ -461,7 +480,7 @@ class TestHolidayMethods:
         mock_load.assert_called_once_with()
         ctrl.view.show_message.assert_called_with("Éxito", "Día 01/05/2025 añadido como festivo.", "info")
 
-    def test_add_holiday_duplicate(self, ctrl: ScheduleController) -> None:
+    def test_add_holiday_duplicate(self, ctrl: Any) -> None:
         """No re-anade un festivo duplicado."""
         mock_page = MagicMock(spec=['calendar'])
         mock_page.calendar.selectedDate.return_value.toPyDate.return_value = datetime.date(2025, 5, 1)
@@ -473,7 +492,7 @@ class TestHolidayMethods:
         assert ctrl.db.config_repo.set_setting.call_count == 0
         ctrl.db.config_repo.set_setting.assert_not_called()
 
-    def test_remove_holiday_exists(self, ctrl: ScheduleController) -> None:
+    def test_remove_holiday_exists(self, ctrl: Any) -> None:
         """Elimina un festivo existente de la lista."""
         mock_page = MagicMock(spec=['calendar'])
         mock_page.calendar.selectedDate.return_value.toPyDate.return_value = datetime.date(2025, 5, 1)
@@ -490,7 +509,7 @@ class TestHolidayMethods:
         mock_load.assert_called_once_with()
         ctrl.view.show_message.assert_called_with("Éxito", "Día 01/05/2025 eliminado de festivos.", "info")
 
-    def test_remove_holiday_not_in_list(self, ctrl: ScheduleController) -> None:
+    def test_remove_holiday_not_in_list(self, ctrl: Any) -> None:
         """No hace nada cuando la fecha no esta en la lista."""
         mock_page = MagicMock(spec=['calendar'])
         mock_page.calendar.selectedDate.return_value.toPyDate.return_value = datetime.date(2025, 5, 1)

@@ -18,10 +18,7 @@ from core.dtos import AuthResponseDTO
 
 if TYPE_CHECKING:
     from controllers.app_controller import AppController
-    from ui.dialogs import LoginDialog
-    from ui.widgets import HomeWidget
     from controllers.worker.controller import WorkerController
-    from ui.main_view import MainView
 
 class SessionController:
     """
@@ -59,8 +56,11 @@ class SessionController:
         self.logger = logging.getLogger("EvolucionTiemposApp.Session")
         
         # Inicializar servicios de seguridad
-        self.rate_limiter = RateLimiter(self.db.SessionLocal)
-        self.audit_logger = AuditLogger(self.db.SessionLocal)
+        sf = self.db.SessionLocal
+        if sf is None:
+            raise RuntimeError("SessionLocal no inicializado en DatabaseManager")
+        self.rate_limiter = RateLimiter(sf)
+        self.audit_logger = AuditLogger(sf)
         
         self.current_user: Optional[AuthResponseDTO] = None
         self.worker_window = None
@@ -70,7 +70,9 @@ class SessionController:
         """
         Muestra el diálogo de login y gestiona la autenticación.
         """
-        from ui.dialogs import LoginDialog
+        from controllers.ui_class_loader import ui_class
+
+        LoginDialog = ui_class("ui.dialogs", "LoginDialog")
 
         # Ensure view is available
         parent_view = self.view if hasattr(self.app, 'view') else None
@@ -146,7 +148,7 @@ class SessionController:
              self.view.switch_page("home")
         
         # Disable sensitive buttons
-        main_view = cast('MainView', self.view)
+        main_view = cast(Any, self.view)
         if hasattr(main_view, 'buttons'):
             for btn_name in ['dashboard', 'reportes', 'historial', 'gestion_datos', 'add_product', 'settings']:
                 if btn_name in main_view.buttons:
@@ -171,7 +173,7 @@ class SessionController:
         can_manage_settings = self.security_service.has_permission(Permission.MANAGE_SETTINGS)
 
         # Habilitar/Deshabilitar botones
-        main_view = cast('MainView', self.view)
+        main_view = cast(Any, self.view)
         main_view.buttons['dashboard'].setEnabled(can_view_dashboard)
         main_view.buttons['reportes'].setEnabled(can_generate_reports)
         main_view.buttons['historial'].setEnabled(can_view_history)
@@ -191,8 +193,10 @@ class SessionController:
         Lanza la interfaz simplificada para trabajadores.
         """
         try:
-            from ui.worker.main_window.window import WorkerMainWindow
-            
+            from controllers.ui_class_loader import ui_class
+
+            WorkerMainWindow = ui_class("ui.worker.main_window.window", "WorkerMainWindow")
+
             # Intentar importar el controlador de feature
             try:
                 from features.worker_controller import WorkerController as FeatureWorkerController
@@ -219,13 +223,8 @@ class SessionController:
                 self.logger.error("Fallo al inicializar el QrScanner automáticamente.")
 
             if FeatureWorkerController is not None:
-                # Crear controlador específico para trabajadores (Feature)
-                # La firma debe coincidir con la usada en AppController
-                # (current_user, db_manager, main_window, qr_scanner, ...)
-                
-                # Necesitamos acceso a los repos del app controller o model
-                # app.tracking_repo se inicializó en StartupController y se asignó a app
-                
+                from controllers.worker.worker_camera_config import run_worker_camera_config_dialog
+
                 self.worker_feature_controller = FeatureWorkerController(
                     current_user=self.current_user,
                     db_manager=self.db,
@@ -234,7 +233,12 @@ class SessionController:
                     tracking_repo=self.app.tracking_repo,
                     label_manager=self.app.label_manager,
                     qr_generator=self.app.qr_generator,
-                    label_counter_repo=self.app.label_counter_repo
+                    label_counter_repo=self.app.label_counter_repo,
+                    camera_config_runner=lambda: run_worker_camera_config_dialog(
+                        self.worker_feature_controller,
+                        self.worker_window,
+                        self.logger,
+                    ),
                 )
 
                 # Inicializar el controlador

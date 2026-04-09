@@ -10,9 +10,13 @@ from datetime import datetime
 from PyQt6.QtWidgets import QDialog, QWidget
 
 from controllers.pila.protocols import IPilaView, IPilaService
-from ui.dialogs import LoadPilaDialog, SavePilaDialog, FabricacionBitacoraDialog
+from controllers.ui_class_loader import ui_class
 from core.services.time_calculator import CalculadorDeTiempos
-from core.dtos import SimulationResultTaskDTO, CalculationStepDTO
+
+LoadPilaDialog = ui_class("ui.dialogs", "LoadPilaDialog")
+SavePilaDialog = ui_class("ui.dialogs", "SavePilaDialog")
+FabricacionBitacoraDialog = ui_class("ui.dialogs", "FabricacionBitacoraDialog")
+from core.dtos import CalculationStepDTO, PilaDTO, SimulationResultTaskDTO
 
 class PilaManager:
     """
@@ -72,7 +76,14 @@ class PilaManager:
             else:
                 self._view.show_message("Error", "No se pudo eliminar la pila.", "critical")
 
-    def _apply_loaded_pila_to_ui(self, meta_data, pila_de_calculo, production_flow, results, pila_id) -> None:
+    def _apply_loaded_pila_to_ui(
+        self,
+        meta_data: PilaDTO,
+        pila_de_calculo: Dict[str, Any],
+        production_flow: List[Any],
+        results: List[Any],
+        pila_id: int,
+    ) -> None:
         """Actualiza el estado de la aplicación y la UI con los datos cargados."""
         calc_page = self._view.pages.get("calculate")
         if not calc_page: return
@@ -172,7 +183,13 @@ class PilaManager:
             results_dto.append(SimulationResultTaskDTO(Inicio=inicio, Fin=fin, Tarea=tarea))
 
         dialog = FabricacionBitacoraDialog(
-            pila_id, pila_data.nombre, results_dto, self._app, time_calculator, cast(QWidget, self._view)
+            pila_id,
+            pila_data.nombre,
+            results_dto,
+            self._app,
+            time_calculator,
+            cast(QWidget, self._view),
+            pila_service=self._pila_service,
         )
         dialog.exec()
 

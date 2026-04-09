@@ -10,6 +10,7 @@ from PyQt6.QtCore import QObject, pyqtSignal
 
 from core.dtos import MachineDTO
 from database.database_manager import DatabaseManager
+from database.repositories.machine import MachineRepository
 
 class MachineService(QObject):
     """
@@ -25,7 +26,7 @@ class MachineService(QObject):
         self.logger = logging.getLogger("MachineService")
 
     @property
-    def machine_repo(self):
+    def machine_repo(self) -> MachineRepository:
         return self._db.machine_repo
 
     def get_all_machines(self, include_inactive: bool = False) -> list[MachineDTO]:

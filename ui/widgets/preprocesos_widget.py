@@ -16,6 +16,7 @@ class PreprocesosWidget(QWidget):
     add_button: Any = None
     edit_button: Any = None
     delete_button: Any = None
+    assign_to_fabricaciones_button: Any = None
     search_entry: Any = None
     preprocesos_list: Any = None
     preprocesos_data_cache: list[Any] = []
@@ -31,7 +32,8 @@ class PreprocesosWidget(QWidget):
         self.setup_ui()
 
     def set_controller(self, controller: Any) -> None:
-        pass # DI Injected
+        """Compat ``MainView.set_controller``; la vista usa DI y ``ProductController``."""
+        return
 
     def setup_ui(self) -> None:
         main_layout = QHBoxLayout(self)
@@ -49,6 +51,13 @@ class PreprocesosWidget(QWidget):
         self.add_button = QPushButton("Añadir"); self.edit_button = QPushButton("Editar"); self.delete_button = QPushButton("Eliminar")
         buttons_layout.addWidget(self.add_button); buttons_layout.addWidget(self.edit_button); buttons_layout.addWidget(self.delete_button)
         left_layout.addLayout(buttons_layout)
+
+        self.assign_to_fabricaciones_button = QPushButton("Asignar preprocesos a fabricaciones")
+        self.assign_to_fabricaciones_button.setToolTip(
+            "Abre el listado de fabricaciones para ver o abrir la gestión de preprocesos por fabricación."
+        )
+        self.assign_to_fabricaciones_button.clicked.connect(self._on_assign_to_fabricaciones_clicked)
+        left_layout.addWidget(self.assign_to_fabricaciones_button)
 
         right_panel = QFrame(); right_panel.setFrameShape(QFrame.Shape.StyledPanel)
         self.details_layout = QVBoxLayout(right_panel); self._show_placeholder_details()
@@ -105,3 +114,20 @@ class PreprocesosWidget(QWidget):
             sel = next((p for p in self.preprocesos_data_cache if p.id == self.current_preproceso_id), None)
             if sel:
                 self.preproceso_controller.delete_preproceso(sel.id, sel.nombre)
+
+    def _on_assign_to_fabricaciones_clicked(self) -> None:
+        from core.di_container import DIContainer
+        from ui.dialogs.fabrication.assignment_dialogs import AssignPreprocesosDialog
+        from ui.dialogs.fabrication.dialog_dependencies import resolve_fabricacion_service
+
+        c = DIContainer.get_instance()
+        fs = resolve_fabricacion_service(None, c)
+        if fs is None:
+            return
+        dlg = AssignPreprocesosDialog(
+            None,
+            self,
+            fabricacion_service=fs,
+            opens_fabricacion_preprocesos=self.preproceso_controller,
+        )
+        dlg.exec()

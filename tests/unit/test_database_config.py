@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """Tests unitarios para DatabaseConfig: runtime override, postgresql/sqlite, env vars."""
 import os
+import sys
 import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from pathlib import Path
 from database.config import DatabaseConfig
 
@@ -88,3 +89,25 @@ class TestDatabaseConfig:
     def test_get_backup_dir_absolute(self):
         with patch.dict(os.environ, {"BACKUP_DIR": "/var/backups"}):
             assert DatabaseConfig.get_backup_dir() == "/var/backups"
+
+    def test_sqlite_relative_under_exe_when_frozen(self, monkeypatch, tmp_path):
+        exe = tmp_path / "Hipatia.exe"
+        exe.write_text("", encoding="utf-8")
+        monkeypatch.setattr(sys, "frozen", True, raising=False)
+        monkeypatch.setattr(sys, "executable", str(exe))
+        with patch.dict(os.environ, {"DB_TYPE": "sqlite"}, clear=False):
+            url = DatabaseConfig.get_db_url()
+        assert url.startswith("sqlite:///")
+        assert "montaje.db" in url
+        norm = url.replace("sqlite:///", "").replace("\\", "/")
+        assert str(exe.parent.resolve()).replace("\\", "/") in norm
+
+    def test_get_log_dir_relative_when_frozen(self, monkeypatch, tmp_path):
+        exe = tmp_path / "app.exe"
+        exe.write_text("", encoding="utf-8")
+        monkeypatch.setattr(sys, "frozen", True, raising=False)
+        monkeypatch.setattr(sys, "executable", str(exe))
+        with patch.dict(os.environ, {"DB_TYPE": "sqlite"}, clear=False):
+            log_dir = DatabaseConfig.get_log_dir()
+        assert log_dir.replace("\\", "/").endswith("/logs")
+        assert str(exe.parent.resolve()).replace("\\", "/") in log_dir.replace("\\", "/")
