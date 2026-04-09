@@ -8,7 +8,8 @@ gracias a ``core.paths.get_writable_app_root``.
 """
 from pathlib import Path
 
-ROOT = Path(SPECPATH).resolve().parent
+# SPECPATH (PyInstaller) = directorio que contiene este .spec, no el padre del repo.
+ROOT = Path(SPECPATH).resolve()
 
 block_cipher = None
 
