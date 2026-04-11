@@ -18,7 +18,13 @@ def test_no_cv2_fallback():
     # 1. Force cv2 to be missing
     with patch.dict(sys.modules, {'cv2': None}):
         # 2. Reload modules to trigger top-level execution
-        for mod in ['core.camera_manager.base', 'core.camera_manager.detector', 'core.camera_manager.manager', 'core.camera_manager']:
+        for mod in [
+            'core.camera_manager.base',
+            'core.camera_manager.capture',
+            'core.camera_manager.detector',
+            'core.camera_manager.manager',
+            'core.camera_manager',
+        ]:
             if mod in sys.modules:
                 reload(sys.modules[mod])
         

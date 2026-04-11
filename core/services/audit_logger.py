@@ -1,4 +1,9 @@
-"""Servicio de logging de auditoría para acciones sensibles."""
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: audit_logger
+Descripción: Persistencia de acciones sensibles (login, importación, sincronización, etc.)
+             en la tabla de auditoría de base de datos para trazabilidad y cumplimiento.
+"""
 
 from typing import Callable, Optional
 from sqlalchemy.orm import Session

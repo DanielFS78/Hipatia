@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Subconjunto tipado de AppController usado por ProductManager / FabricacionManager.
-Evita depender del tipo completo del hub en la capa de producto.
+Nombre del Módulo: controllers.product.application_shell
+
+Descripción: Subconjunto tipado de AppController usado por ProductManager / FabricacionManager. Evita depender del tipo completo del hub en la capa de producto.
 """
 from __future__ import annotations
 

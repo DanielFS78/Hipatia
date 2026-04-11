@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 """
-Acciones del diálogo de flujo visual (ciclos, guardar/cargar pila, biblioteca).
+Nombre del Módulo: ui.dialogs.production_flow.flow_action_handler
 
+Descripción: Acciones del diálogo de flujo visual (ciclos, guardar/cargar pila, biblioteca).
 ``load_saved_pila`` obtiene API de pilas vía ``resolve_pila_service``; si no hay servicio,
 usa ``model.planning_facade`` y en último término ``model`` (``get_all_pilas`` / ``load_pila``).
 """

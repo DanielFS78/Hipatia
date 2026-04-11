@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Script para detectar TODAS las cámaras disponibles en el sistema,
-incluyendo las que están en índices no continuos.
+Nombre del Módulo: tools.hardware.detect_cameras
+
+Descripción: Script para detectar TODAS las cámaras disponibles en el sistema, incluyendo las que están en índices no continuos.
 """
 
 import cv2

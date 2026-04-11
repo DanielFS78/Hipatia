@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Paquete: core.label_manager
-Descripción: Sistema de gestión y generación de etiquetas de trazabilidad.
+Nombre del Módulo: core.label_manager.manager
+
+Descripción: Paquete: core.label_manager Descripción: Sistema de gestión y generación de etiquetas de trazabilidad.
 """
 
 import logging

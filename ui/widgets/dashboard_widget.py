@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`dashboard_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: dashboard_widget
+
+Descripción: Cuadrícula de gráficos de producción (máquinas, operarios, componentes, actividad).
+             Los datos se actualizan desde el controlador de UI; no mantiene ``AppController``.
 """
 
 from .base import *

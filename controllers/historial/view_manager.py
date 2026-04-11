@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: view_manager.py (Historial)
+Nombre del Módulo: historial.view_manager
 Descripción: Gestiona la lógica de presentación de los datos históricos, incluyendo 
              el filtrado de listas, resaltado de calendarios y generación de gráficos QtCharts.
 """

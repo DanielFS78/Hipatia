@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: import_manager.services
+Descripción: Servicios de dominio relacionados con la importación de BOM (p. ej. escritura en BD).
 """

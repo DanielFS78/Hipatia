@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Cableado de señales Qt entre vista y controladores (composición; sin herencia múltiple)."""
+"""
+Nombre del Módulo: controllers.ui_signals_wiring
+
+Descripción: Cableado de señales Qt entre vista y controladores (composición; sin herencia múltiple).
+"""
 
 from __future__ import annotations
 

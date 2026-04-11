@@ -1,7 +1,7 @@
 """
-Helpers puros para `ScheduleController`.
+Nombre del Módulo: controllers.schedule_helpers
 
-Se extraen funciones sin dependencia de UI para mantener el controlador pequeño y testeable.
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``parse_break_text``, ``load_breaks_list``, ``break_display_lines_from_json``, ``normalize_holidays``, ``holidays_dates``, ``dump_json``. Integración típica con: ``__future__``, ``json``.
 """
 
 from __future__ import annotations

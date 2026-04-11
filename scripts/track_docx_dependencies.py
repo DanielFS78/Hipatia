@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Script para rastrear dependencias directas de 'docx' (python-docx)
-y generar un informe de archivos afectados.
+Nombre del Módulo: scripts.track_docx_dependencies
+
+Descripción: Script para rastrear dependencias directas de 'docx' (python-docx) y generar un informe de archivos afectados.
 """
 
 import os

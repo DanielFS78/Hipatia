@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Any, Mapping, MutableMapping, Sequence, cast
 
-from core.flow_canvas_io import canvas_task_body, legacy_canvas_task_config
+from core.flow_canvas_io import canvas_task_body, flow_task_entry_config
 
 
 def logical_connection_indices(conn: Mapping[str, Any]) -> tuple[int, int]:
@@ -130,7 +130,7 @@ def inspector_context_all_tasks_rows(
             {
                 "id": canvas_task_data_canvas_unique_id(t),
                 "task": canvas_task_body(t),
-                "config": legacy_canvas_task_config(t),
+                "config": flow_task_entry_config(t),
             }
         )
     return rows

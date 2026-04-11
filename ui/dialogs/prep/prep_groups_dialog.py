@@ -1,6 +1,10 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`prep_groups_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.prep.prep_groups_dialog
+
+Descripción: Define protocolos o tipos principales: ``PrepGroupsDialog``. Diálogo para gestionar los Grupos de Preparación de una máquina. Integración típica con: ``__future__``, ``os``, ``datetime``, ``core``, ``PyQt6``, ``prep_steps_dialog``.
 """
+
 from __future__ import annotations
 
 import os

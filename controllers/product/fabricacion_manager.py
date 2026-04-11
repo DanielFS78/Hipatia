@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: fabricacion_manager.py (Product)
+Nombre del Módulo: product.fabricacion_manager
 Descripción: Gestor de órdenes de fabricación, encargado de coordinar la creación 
              y edición de producciones junto con sus preprocesos y productos asociados.
 """

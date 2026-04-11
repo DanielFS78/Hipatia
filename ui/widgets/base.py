@@ -1,13 +1,10 @@
-"""
-========================================================================
-WIDGETS BASE DE INTERFAZ DE USUARIO
-========================================================================
-Clases base, configuración e imports comunes de los que heredan los
-widgets de la aplicación. Centraliza comportamientos estándar y
-utilidades gráficas compartidas.
-========================================================================
-"""
 # -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: base
+
+Descripción: Imports comunes de PyQt6 y utilidades compartidas por los widgets de escritorio
+(patrón ``from .base import *`` en pantallas legacy). Incluye intento opcional de ``QtCharts``.
+"""
 import logging
 from datetime import datetime, date, timedelta
 from PyQt6.QtWidgets import (

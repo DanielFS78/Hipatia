@@ -1,13 +1,26 @@
-# database/repositories/worker/auth_manager.py
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`auth_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: auth_manager
+Descripción: Comprueba usuario y contraseña de operarios frente a la tabla ``trabajadores``.
+
+El nombre de usuario se normaliza (minúsculas, sin espacios al inicio o al final) y
+se compara con ``func.lower(Trabajador.username)`` para que el inicio de sesión no
+dependa de mayúsculas.
 """
 
 from typing import Optional
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from ...models import Trabajador
 from core.dtos import AuthResponseDTO
 from ..base import BaseRepository
+
+
+def _normalize_username(username: str | None) -> str:
+    """Usuario de login: sin espacios laterales y en minúsculas para comparar con BD."""
+    if not username:
+        return ""
+    return username.strip().lower()
 
 
 class WorkerAuthManager(BaseRepository):
@@ -16,12 +29,26 @@ class WorkerAuthManager(BaseRepository):
     """
 
     def authenticate_user(self, username: str, password: str) -> Optional[AuthResponseDTO]:
-        """Verifica las credenciales de un usuario y devuelve sus datos si son correctas."""
+        """
+        Verifica usuario y contraseña; devuelve ``AuthResponseDTO`` si el trabajador está activo.
+
+        El nombre de usuario se normaliza (minúsculas, sin espacios laterales)
+        antes de consultar la base de datos.
+        """
         def _operation(session: Session) -> Optional[AuthResponseDTO]:
-            trabajador = session.query(Trabajador).filter(
-                Trabajador.username == username,
-                Trabajador.activo == True
-            ).first()
+            un = _normalize_username(username)
+            if not un:
+                return None
+
+            trabajador = (
+                session.query(Trabajador)
+                .filter(
+                    Trabajador.activo == True,  # noqa: E712
+                    Trabajador.username.isnot(None),
+                    func.lower(Trabajador.username) == un,
+                )
+                .first()
+            )
 
             if not trabajador:
                 return None
@@ -47,7 +74,7 @@ class WorkerAuthManager(BaseRepository):
             if not trabajador:
                 return False
 
-            trabajador.username = username
+            trabajador.username = _normalize_username(username) or None
             trabajador.role = role
 
             if password:

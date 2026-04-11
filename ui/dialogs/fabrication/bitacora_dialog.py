@@ -1,10 +1,12 @@
+# -*- coding: utf-8 -*-
 """
-Diálogo de bitácora de pilas (`FabricacionBitacoraDialog`).
+Nombre del Módulo: ui.dialogs.fabrication.bitacora_dialog
 
-Resolución de datos (orden): ``pila_service`` inyectado (p. ej. desde ``pila_manager``) →
-``resolve_pila_service`` (DI → ``pila_controller.pila_service`` → ``model.pila_service``) →
-``model.planning_facade`` (misma API: ``get_diario_bitacora``, ``add_diario_evento``).
-No se usan delegadores eliminados de ``AppModel`` para bitácora.
+Descripción: Diálogo de bitácora de pilas (`FabricacionBitacoraDialog`). Resolución de datos
+(orden): ``pila_service`` inyectado (p. ej. desde ``pila_manager``) → ``resolve_pila_service``
+(DI → ``pila_controller.pila_service`` → ``model.pila_service``) → ``model.planning_facade``
+(misma API: ``get_diario_bitacora``, ``add_diario_evento``). No se usan delegadores eliminados
+de ``AppModel`` para bitácora.
 """
 
 import logging

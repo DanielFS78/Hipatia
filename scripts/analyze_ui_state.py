@@ -1,5 +1,7 @@
 """
-Script ejecutable (`analyze_ui_state`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analyze_ui_state
+
+Descripción: Script ejecutable (`analyze_ui_state`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 """
 
 import os

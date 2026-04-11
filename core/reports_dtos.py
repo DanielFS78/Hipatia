@@ -1,13 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-========================================================================
-REPORTS DTOs - DATA TRANSFER OBJECTS PARA MÓDULO DE REPORTES
-========================================================================
-Este módulo define los DTOs (Data Transfer Objects) utilizados para
-transferir datos entre el ReportsRepository y las capas de UI.
-Cada DTO representa una vista específica de los datos optimizada para
-la visualización en el módulo de Reportes de Producción.
-========================================================================
+Nombre del Módulo: core.reports_dtos
+
+Descripción: Define protocolos o tipos principales: ``ResultadoBusquedaDTO``, ``OrdenFabricacionResumenDTO``, ``OrdenFabricacionDetalleDTO``, ``PromedioTiempoDTO``, ``TiempoTrabajadorDTO``. DTO para resultados de búsqueda inteligente. Integración típica con: ``datetime``.
 """
 from dataclasses import dataclass, field
 from datetime import datetime

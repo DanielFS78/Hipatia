@@ -1,5 +1,7 @@
 """
-Lógica o utilidades del núcleo (`production_context`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.production_context
+
+Descripción: Define protocolos o tipos principales: ``ProductionStatus``, ``ProductionContext``. Data class to hold the status of the current production session.
 """
 
 from dataclasses import dataclass

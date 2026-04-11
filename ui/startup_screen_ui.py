@@ -1,8 +1,7 @@
 """
-Helpers de UI para `StartupScreen`.
+Nombre del Módulo: ui.startup_screen_ui
 
-Se extrae la construcción de secciones y el render de resultados para reducir
-el tamaño del diálogo sin cambiar comportamiento.
+Descripción: Define protocolos o tipos principales: ``StartupSectionWidgets``. Referencias a frame y layouts de una seccion del StartupScreen. Integración típica con: ``__future__``, ``PyQt6``.
 """
 
 from __future__ import annotations

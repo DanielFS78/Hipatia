@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: material_manager.py (Product)
+Nombre del Módulo: product.material_manager
 Descripción: Gestor encargado de la administración de materiales y componentes del sistema, 
              incluyendo su creación, importación masiva y vinculación con productos.
 """

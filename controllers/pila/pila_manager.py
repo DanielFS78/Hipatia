@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: pila_manager.py
+Nombre del Módulo: pila_manager
 Descripción: Gestor especializado en el ciclo de vida de las Pilas de fabricación.
              Maneja el cargado, guardado, eliminación y visualización de la bitácora.
 """

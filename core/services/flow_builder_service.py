@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`flow_builder_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: flow_builder_service
+Descripción: Construcción y ajuste de listas de pasos de flujo de producción (dict en memoria).
+
+Aplica unidades de disparo, copia profunda de overrides del editor visual y asignación
+heurística de trabajadores por nivel de habilidad requerido en la tarea.
 """
 
 import copy
@@ -9,7 +13,7 @@ from typing import List, Dict, Any, Optional
 
 class FlowBuilderService:
     """
-    Service responsible for constructing and refining production flows.
+    Construye y refina flujos de producción antes de simulación o persistencia.
     """
 
     def __init__(self) -> None:
@@ -17,8 +21,14 @@ class FlowBuilderService:
 
     def build_flow_from_override(self, production_flow_override: List[Dict[str, Any]], units: int) -> List[Dict[str, Any]]:
         """
-        Creates a production flow from an override (e.g., from Visual Editor),
-        updating units for each step.
+        Clona el flujo definido por el usuario (p. ej. editor) y fija ``trigger_units`` en cada paso.
+
+        Args:
+            production_flow_override: Secuencia de pasos con tareas y metadatos.
+            units: Unidades de disparo a aplicar a cada paso.
+
+        Returns:
+            Lista nueva de pasos o lista vacía si no hay override.
         """
         if not production_flow_override:
             return []
@@ -30,27 +40,23 @@ class FlowBuilderService:
 
     def resolve_worker_assignments(self, production_flow: List[Dict[str, Any]], available_workers_sorted: List[Any]) -> List[Dict[str, Any]]:
         """
-        Assigns default workers to steps that don't have them, based on skill level.
-        
+        Rellena ``workers`` en pasos vacíos eligiendo el primer operario que cumple el nivel requerido.
+
         Args:
-            production_flow: The list of flow steps.
-            available_workers_sorted: List of worker objects, ideally sorted by skill level (descending).
-            
+            production_flow: Pasos del flujo; se mutan entradas sin trabajadores asignados.
+            available_workers_sorted: Candidatos ordenados (p. ej. de mayor a menor habilidad).
+
         Returns:
-            The modified production flow with workers assigned where possible.
+            El mismo flujo con listas ``workers`` rellenadas o vacías si no hay candidato.
         """
         for step in production_flow:
-            # Check if workers are already assigned
             workers_in_step = step.get('workers')
             if not workers_in_step:
                 task_data = step.get('task', {})
                 required_skill = task_data.get('required_skill_level', 1)
                 
                 assigned_worker = None
-                # Try to find the first worker who meets the skill requirement
                 for worker in available_workers_sorted:
-                    # Assuming worker object has 'tipo_trabajador' and 'nombre_completo'
-                    # We use duck typing here or could strict type with a Protocol if needed
                     if getattr(worker, 'tipo_trabajador', 0) >= required_skill:
                         assigned_worker = worker
                         break

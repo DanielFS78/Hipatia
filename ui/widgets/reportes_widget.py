@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-========================================================================
-REPORTES WIDGET - Módulo Principal de Reportes de Producción
-========================================================================
-Widget principal que integra búsqueda, lista de órdenes y gráficas.
+Nombre del Módulo: reportes_widget
 
-``ReportService`` se resuelve desde ``hub.container`` o, en su defecto, ``hub.model.report_service``
-(misma instancia que el DI). Los sub-widgets **solo** usan ``ReportService``, sin pasar por
-delegadores de ``AppModel``.
-========================================================================
+Descripción: Vista principal de reportes: búsqueda inteligente, lista de órdenes y gráficas.
+             ``ReportService`` se resuelve desde el contenedor del hub o desde ``model.report_service``;
+             los sub-widgets consumen solo ese servicio.
 """
 from __future__ import annotations
 

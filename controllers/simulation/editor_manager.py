@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Coordinación y señales del subsistema «editor_manager»: enlaza UI, servicios y persistencia para este ámbito de la aplicación Hipatia.
+Nombre del Módulo: controllers.simulation.editor_manager
+
+Descripción: Coordinación y señales del subsistema «editor_manager»: enlaza UI, servicios y persistencia para este ámbito de la aplicación Hipatia.
 """
 from __future__ import annotations
 

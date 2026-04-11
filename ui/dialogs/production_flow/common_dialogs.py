@@ -1,4 +1,9 @@
-"""Re-exports de diálogos comunes del flujo de producción."""
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: ui.dialogs.production_flow.common_dialogs
+
+Descripción: Re-exporta diálogos comunes del flujo de producción y tipos Qt usados conjuntamente.
+"""
 
 from PyQt6.QtGui import QBrush, QColor, QFont
 from PyQt6.QtWidgets import QListWidgetItem

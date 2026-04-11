@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`materials_widget`): lista de materiales de un producto.
+Nombre del Módulo: materials_widget
+
+Descripción: Lista y edición de materiales (componentes) de un producto dentro de un ``QTableWidget``.
 """
 from __future__ import annotations
 

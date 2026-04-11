@@ -1,5 +1,7 @@
 """
-Script ejecutable (`check_typing_coverage`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.check_typing_coverage
+
+Descripción: Script ejecutable (`check_typing_coverage`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 """
 
 import os

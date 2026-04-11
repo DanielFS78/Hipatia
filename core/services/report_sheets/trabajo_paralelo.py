@@ -1,7 +1,8 @@
-# core/services/report_sheets/trabajo_paralelo.py
-
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`trabajo_paralelo`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: report_sheets.trabajo_paralelo
+
+Descripción: Define protocolos o tipos principales: ``TrabajoParaleloSheet``. Genera la hoja de análisis de trabajo paralelo por instancia para el reporte Excel. Integración típica con: ``datetime``, ``openpyxl``, ``base``.
 """
 
 from typing import List, Dict, Any, TYPE_CHECKING

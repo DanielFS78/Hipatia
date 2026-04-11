@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: execution_manager.py (Simulation)
+Nombre del Módulo: simulation.execution_manager
 Descripción: Gestor encargado de la ejecución física de las simulaciones, 
              manejando hilos de trabajo, optimizadores y comunicación de resultados a la UI.
 """

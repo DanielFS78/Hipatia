@@ -1,6 +1,8 @@
-# database/repositories/tracking/mappers.py
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`mappers`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: tracking.mappers
+
+Descripción: Define protocolos o tipos principales: ``TrackingMapper``. Utilidad para mapear modelos de Trazabilidad a DTOs. Integración típica con: ``datetime``, ``database``, ``core``.
 """
 
 from typing import Optional, Any, cast

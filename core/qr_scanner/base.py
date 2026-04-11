@@ -1,7 +1,9 @@
 # core/qr_scanner/base.py
 
 """
-Lógica o utilidades del núcleo (`base`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.qr_scanner.base
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``logger``, consumidos por la UI y controladores. Integración típica con: ``re``, ``datetime``.
 """
 
 import re

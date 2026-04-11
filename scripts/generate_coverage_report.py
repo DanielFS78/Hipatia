@@ -1,6 +1,8 @@
 
 """
-Script ejecutable (`generate_coverage_report`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.generate_coverage_report
+
+Descripción: Script ejecutable (`generate_coverage_report`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 """
 
 import json

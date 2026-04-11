@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`flow_display_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: flow_display_panel
+
+Descripción: Panel derecho del diálogo de definición de pila: lista ordenada de tareas del flujo
+             y botones de edición, borrado, asignación de operarios y guardado.
 """
 
 from PyQt6.QtWidgets import (

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Security Audit Analyzer Script
-Analyzes the codebase for security issues identified in the technical audit.
+Nombre del Módulo: scripts.security_audit_analyzer
+
+Descripción: Security Audit Analyzer Script Analyzes the codebase for security issues identified in the technical audit.
 """
 
 import os

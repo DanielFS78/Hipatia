@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: preproceso_manager.py (Product)
+Nombre del Módulo: product.preproceso_manager
 Descripción: Gestor de rutinas de preproceso, encargado de la definición, edición 
              y eliminación de tareas previas necesarias para la fabricación.
 """

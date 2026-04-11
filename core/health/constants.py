@@ -1,5 +1,7 @@
 """
-Constantes de salud del sistema para startup checks.
+Nombre del Módulo: core.health.constants
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``CRITICAL_TABLES``, ``THRESHOLDS``, consumidos por la UI y controladores.
 """
 
 TABLE_FRIENDLY: dict[str, tuple[str, str]] = {

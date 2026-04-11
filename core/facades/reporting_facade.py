@@ -1,4 +1,8 @@
-"""Fachada de dominio de reporting."""
+"""
+Nombre del Módulo: core.facades.reporting_facade
+
+Descripción: Expone ``ReportingFacade`` como API estable de aplicación sobre servicios ya inyectados; no contiene reglas de persistencia directa. Integración típica con: ``__future__``.
+"""
 
 from __future__ import annotations
 

@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: worker.repository
+Descripción: Datos de trabajadores, anotaciones y repositorio compuesto del subpaquete worker.
 """
 
 from typing import List, Optional, Union, Callable

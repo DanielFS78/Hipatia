@@ -1,9 +1,7 @@
-"""add_security_tables
+"""
+Nombre del Módulo: migrations.versions.a195b5f170d2_add_security_tables
 
-Revision ID: a195b5f170d2
-Revises: c1444b2546d3
-Create Date: 2026-02-15 15:13:38.733337
-
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``upgrade``, ``downgrade``. Integración típica con: ``alembic``, ``sqlalchemy``.
 """
 from typing import Sequence, Union
 

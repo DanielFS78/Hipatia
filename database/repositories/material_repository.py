@@ -1,7 +1,9 @@
-# database/repositories/material_repository.py
+# -*- coding: utf-8 -*-
 """
-Repositorio para la gestión de materiales y componentes.
-Incluye materiales y la gestión de enlaces producto–material en el mismo repositorio.
+Nombre del Módulo: material_repository
+Descripción: Materiales de catálogo y tabla de enlace producto–material (BOM parcial).
+
+Expone consultas y altas/bajas usadas por ``ProductService`` y la importación BOM.
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING, List, Optional, Any

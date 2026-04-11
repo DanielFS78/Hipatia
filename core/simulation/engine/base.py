@@ -1,6 +1,8 @@
 # core/simulation/engine/base.py
 """
-Definición de estructuras de datos base para el motor de simulación.
+Nombre del Módulo: core.simulation.engine.base
+
+Descripción: Define protocolos o tipos principales: ``SimulationState``. Mantiene el estado volátil y reactivo de una simulación en curso. Integración típica con: ``datetime``, ``timeline_task``.
 """
 import logging
 from dataclasses import dataclass, field

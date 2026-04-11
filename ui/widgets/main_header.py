@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Nombre del Módulo: main_header
-Descripcion: Cabecera superior de la ventana principal con herramientas globales.
+
+Descripción: Define protocolos o tipos principales: ``MainHeader``. Widget de cabecera que contiene el botón de auto-ajuste de escala. Integración típica con: ``PyQt6``.
 """
 from typing import Optional
 

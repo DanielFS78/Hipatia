@@ -1,7 +1,9 @@
 # core/qr_scanner/ui.py
 
 """
-Dibujo de overlays QR sobre frames OpenCV (`core.qr_scanner`, no el paquete de interfaz `ui/`).
+Nombre del Módulo: core.qr_scanner.ui
+
+Descripción: Dibujo de overlays QR sobre frames OpenCV (`core.qr_scanner`, no el paquete de interfaz `ui/`).
 """
 
 from typing import Any, Optional

@@ -8,7 +8,9 @@
 # =================================================================================
 
 """
-Capa de datos (`database_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.database_manager
+
+Descripción: Define protocolos o tipos principales: ``DatabaseManager``. Gestiona todas las operaciones de la base de datos para la aplicación. Integración típica con: ``__future__``, ``types``, ``sqlalchemy``, ``models``, ``config``, ``repositories``.
 """
 from __future__ import annotations
 

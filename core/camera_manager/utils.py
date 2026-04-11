@@ -1,6 +1,7 @@
 """
 Nombre del Módulo: camera_manager.utils
-Descripcion: Utilidades de plataforma para seleccionar backend de captura OpenCV.
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``get_system_backend``. Integración típica con: ``platform``, ``base``.
 """
 
 import platform

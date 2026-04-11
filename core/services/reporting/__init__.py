@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: reporting
+Descripción: Subpaquete de generación de informes (estrategias Excel/PDF y piezas compartidas).
+
+Ver ``report_strategy`` en el nivel superior del paquete ``core.services`` para imports cómodos.
 """

@@ -1,6 +1,7 @@
 """
-Analiza un archivo Python (clase grande o módulo acoplado): lista atributos y llamadas vía self.*
-Útil para planificar extracción a composición o a gestores independientes.
+Nombre del Módulo: scripts.analyze_mixin
+
+Descripción: Analiza un archivo Python (clase grande o módulo acoplado): lista atributos y llamadas vía self.* Útil para planificar extracción a composición o a gestores independientes.
 """
 
 import ast

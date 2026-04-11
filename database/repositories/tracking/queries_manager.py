@@ -1,6 +1,6 @@
 """
 Nombre del Módulo: tracking.queries_manager
-Descripcion: Gestor central de consultas complejas para el sistema de tracking.
+Descripción: Gestor central de consultas complejas para el sistema de tracking.
              Incluye exportación de datos y recuperación de fabricaciones asignadas.
 """
 import logging

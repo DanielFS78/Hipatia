@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`camera_info_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: camera_info_panel
+
+Descripción: Muestra detalle y estado de validación de la cámara seleccionada (trabajador / hardware).
 """
 
 from PyQt6.QtWidgets import QGroupBox, QLabel, QVBoxLayout, QWidget

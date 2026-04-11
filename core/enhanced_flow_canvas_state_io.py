@@ -13,7 +13,7 @@ from typing import Any, List, Mapping, MutableMapping, Optional
 from core.flow_canvas_io import (
     canvas_task_body,
     canvas_task_display_name,
-    legacy_canvas_task_config,
+    flow_task_entry_config,
 )
 from core.inspector_task_payload_io import (
     inspector_config_next_cyclic_index,
@@ -87,7 +87,7 @@ def canvas_state_find_worker_by_name(
     worker_name: str,
 ) -> Optional[dict[str, Any]]:
     clean_name = worker_name.replace(" 🔧", "").strip()
-    config = legacy_canvas_task_config(task_entry)
+    config = flow_task_entry_config(task_entry)
     workers = config.get("workers", [])
     if not isinstance(workers, list):
         return None
@@ -137,7 +137,7 @@ def canvas_state_logical_connections_for_index(
 
     connections: List[dict[str, Any]] = []
     n = len(canvas_tasks)
-    task_config = legacy_canvas_task_config(canvas_tasks[selected_index])
+    task_config = flow_task_entry_config(canvas_tasks[selected_index])
     start_cond = inspector_config_start_condition(task_config)
 
     if inspector_start_condition_type(start_cond) == "dependency":
@@ -148,7 +148,7 @@ def canvas_state_logical_connections_for_index(
             )
 
     for i, t in enumerate(canvas_tasks):
-        t_cfg = legacy_canvas_task_config(t)
+        t_cfg = flow_task_entry_config(t)
         t_cond = inspector_config_start_condition(t_cfg)
         if inspector_start_condition_type(t_cond) == "dependency":
             v = inspector_start_condition_value(t_cond)
@@ -169,7 +169,7 @@ def canvas_state_logical_connections_for_index(
         )
 
     for i, t in enumerate(canvas_tasks):
-        t_cfg = legacy_canvas_task_config(t)
+        t_cfg = flow_task_entry_config(t)
         nc = inspector_config_next_cyclic_index(t_cfg)
         if nc == selected_index:
             connections.append({"from": i, "to": selected_index, "type": "cyclic", "highlight_origin": True})
@@ -207,7 +207,7 @@ def canvas_state_all_logical_connections(
         out.append({"from": frm, "to": to, "type": ctype})
 
     for i, t in enumerate(canvas_tasks):
-        t_cfg = legacy_canvas_task_config(t)
+        t_cfg = flow_task_entry_config(t)
         start_cond = inspector_config_start_condition(t_cfg)
         if inspector_start_condition_type(start_cond) == "dependency":
             parent_idx = inspector_start_condition_value(start_cond)

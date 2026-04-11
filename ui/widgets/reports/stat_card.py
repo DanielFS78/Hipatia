@@ -1,4 +1,9 @@
-"""Tarjeta reutilizable de estadísticas para reportes."""
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: stat_card
+
+Descripción: Tarjeta compacta de métrica (título, valor y subtítulo) para el panel de reportes.
+"""
 
 from PyQt6.QtWidgets import QFrame, QLabel, QVBoxLayout
 

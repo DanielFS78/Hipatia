@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Presenter para la configuración de cámara.
-Gestiona la lógica de detección, validación y estado de cámaras usando DTOs.
+Nombre del Módulo: camera_config_presenter
+
+Descripción: Lógica de sondeo, detalle y validación de cámaras para ``CameraConfigDialog``,
+             usando ``CameraManager`` y DTOs de configuración.
 """
 
 import logging

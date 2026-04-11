@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`historial_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: historial_widget
+
+Descripción: Historial de iteraciones de producto y de fabricaciones con filtros, calendario
+             e impresión de informes (señales hacia el controlador de historial).
 """
 
 from .base import *

@@ -1,20 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Cobertura enfocada a archivos modificados (Hipatia).
+Nombre del Módulo: scripts.coverage_focus
 
-Objetivo: exigir 100% de cobertura en un conjunto de archivos/rutas concretas
-sin forzar 100% del proyecto completo.
-
-Requiere: pytest + pytest-cov instalados (ya se usa cobertura en el proyecto).
-
-Uso:
-  python3 scripts/coverage_focus.py --paths ui/widgets/reports/order_list.py core/app_model.py
-  python3 scripts/coverage_focus.py --paths controllers --tests tests/unit/test_main_window.py
-
-Notas:
-- Este script ejecuta pytest con `--cov` y lee un `coverage.json` temporal.
-- Por defecto omite `tests/*` y `scripts/*` del cálculo global de cobertura.
+Descripción: Concentra datos de configuración o catálogos estáticos: ``REPO_ROOT``, consumidos por la UI y controladores. Integración típica con: ``__future__``, ``argparse``, ``json``, ``os``, ``subprocess``, ``sys``.
 """
 
 from __future__ import annotations

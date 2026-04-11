@@ -1,5 +1,7 @@
 """
-Lógica o utilidades del núcleo (`tracking_dtos`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.tracking_dtos
+
+Descripción: Define protocolos o tipos principales: ``FabricacionAsignadaDTO``, ``IncidenciaAdjuntoDTO``, ``IncidenciaLogDTO``, ``PasoTrazabilidadDTO``, ``TrabajoLogDTO``. DTO para fabricaciones asignadas a un trabajador. Integración típica con: ``datetime``, ``core``.
 """
 
 from dataclasses import dataclass, field

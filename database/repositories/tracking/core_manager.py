@@ -1,6 +1,8 @@
-# database/repositories/tracking/core_manager.py
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`core_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: tracking.core_manager
+
+Descripción: Define protocolos o tipos principales: ``TrackingCoreManager``. Gestor DAO para la gestión central de trabajos (obtención, creación, finalización). Integración típica con: ``datetime``, ``sqlalchemy``, ``database``, ``core``, ``base``, ``mappers``.
 """
 
 import logging

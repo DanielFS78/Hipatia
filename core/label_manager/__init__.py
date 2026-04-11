@@ -1,7 +1,9 @@
 # core/labels/__init__.py
 
 """
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.label_manager
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``__all__``, consumidos por la UI y controladores. Integración típica con: ``pathlib``, ``base``, ``manager``.
 """
 
 from pathlib import Path

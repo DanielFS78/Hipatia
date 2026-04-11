@@ -1,5 +1,10 @@
-# database/repositories/iteration_repository_helpers.py
-"""Helpers de mapeo para `IterationRepository`."""
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: iteration_repository_helpers
+Descripción: Funciones puras de mapeo entre filas ORM de iteración y ``ProductIterationDTO``.
+
+Mantiene ``IterationRepository`` enfocado en SQL; sin dependencia de sesión aquí.
+"""
 
 from __future__ import annotations
 
@@ -34,4 +39,3 @@ def iteration_to_dto(iteracion: Any, include_materiales: bool = True, include_pr
         ruta_plano=iteracion.ruta_plano,
         producto_descripcion=product_desc,
     )
-

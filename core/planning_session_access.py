@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Lectura uniforme de ítems en ``planning_session`` (dict legado o DTOs)."""
+"""
+Nombre del Módulo: core.planning_session_access
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``planning_unidades``, ``planning_identificador``, ``planning_deadline``, ``planning_lote_codigo``, ``deadline_to_date``. Integración típica con: ``__future__``, ``datetime``, ``core``.
+"""
 
 from __future__ import annotations
 

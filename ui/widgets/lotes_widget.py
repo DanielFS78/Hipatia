@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`lotes_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: lotes_widget
+
+Descripción: Listado y edición de plantillas de lote (``DefinirLoteWidget``) y vista de gestión
+             asociada; dependencias de dominio vía DI.
 """
 
 from .base import *

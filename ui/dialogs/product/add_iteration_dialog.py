@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Diálogo para añadir iteración de producto (PyQt6).
+Nombre del Módulo: ui.dialogs.product.add_iteration_dialog
 
-``AddIterationFormData`` concentra los campos del formulario; el widget de iteraciones
-pasa ``asdict(form)`` al controlador para mantener la firma histórica basada en dict.
+Descripción: Diálogo para añadir iteración de producto. ``AddIterationFormData`` concentra los
+campos del formulario; el widget de iteraciones pasa ``asdict(form)`` al controlador para
+mantener la firma histórica basada en dict.
 """
 from __future__ import annotations
 

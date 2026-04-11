@@ -1,6 +1,7 @@
-# database/repositories/machine/preparation_manager.py
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`preparation_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: machine.preparation_manager
+Descripción: Acceso a datos de máquinas (CRUD, mantenimiento, preparación y estadísticas).
 """
 
 from typing import List, Optional, Tuple, Union, Dict, Any, cast

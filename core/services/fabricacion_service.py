@@ -1,8 +1,10 @@
-# core/services/fabricacion_service.py
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: FabricacionService
-Descripción: Servicio de lógica de negocio para la gestión de fabricaciones, órdenes de seguimiento y preprocesos.
+Nombre del Módulo: fabricacion_service
+Descripción: Órdenes de fabricación, preprocesos vinculados y datos para seguimiento.
+
+Orquesta validaciones y persistencia usando DTOs (``FabricacionDTO``, ``PreprocesoDTO``)
+como frontera estable hacia controladores y vistas.
 """
 import logging
 from datetime import datetime
@@ -19,13 +21,10 @@ from database.repositories.tracking_repository import TrackingRepository
 
 class FabricacionService(QObject):
     """
-    Servicio de dominio para la gestión centralizada de Fabricaciones y Preprocesos.
-    
-    Actúa como una capa de orquestación (Fase 11C/12C) que:
-    1. Valida las reglas de negocio antes de persistir los datos.
-    2. Coordina la creación de fabricaciones complejas que incluyen preprocesos y productos.
-    3. Garantiza que toda la comunicación sea mediante `FabricacionDTO` y `PreprocesoDTO`,
-       sirviendo como frontera limpia para los controladores de la UI.
+    Gestión centralizada de fabricaciones y preprocesos asociados.
+
+    Valida reglas de negocio antes de persistir, coordina creaciones con varios productos
+    o preprocesos y expone solo DTOs hacia la capa de interfaz.
     """
 
     def __init__(self, db_manager: DatabaseManager):

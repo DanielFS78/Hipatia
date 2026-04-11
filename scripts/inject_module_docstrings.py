@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Inyecta docstrings de módulo donde faltan (criterio doc_audit_common), sin tocar
-archivos que ya tienen docstring aceptable.
+Nombre del Módulo: scripts.inject_module_docstrings
 
-Uso::
-
-    python3 scripts/inject_module_docstrings.py --dry-run
-    python3 scripts/inject_module_docstrings.py --apply
+Descripción: Inyecta docstrings de módulo donde faltan (criterio doc_audit_common), sin tocar archivos que ya tienen docstring aceptable.
 """
 
 from __future__ import annotations

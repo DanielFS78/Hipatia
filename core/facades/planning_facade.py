@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Fachada de aplicación: pilas, bitácora y datos de cálculo."""
+"""
+Nombre del Módulo: core.facades.planning_facade
+
+Descripción: Expone ``PlanningFacade`` como API estable de aplicación sobre servicios ya inyectados; no contiene reglas de persistencia directa. Integración típica con: ``__future__``, ``datetime``, ``core``.
+"""
 
 from __future__ import annotations
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: report_manager.py (Historial)
+Nombre del Módulo: historial.report_manager
 Descripción: Gestor encargado de la generación de informes PDF para el historial de 
              iteraciones y fabricaciones, utilizando estrategias de reporte personalizadas.
 """

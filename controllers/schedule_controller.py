@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: schedule_controller.py
+Nombre del Módulo: schedule_controller
 Descripción: Controlador orquestador para la gestión de la planificación de la producción.
 Gestiona la configuración de horarios laborales, descansos y festivos mediante componentes delegados.
 """

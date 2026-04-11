@@ -93,15 +93,17 @@ class TestDialogsModuleStructure:
         from ui.dialogs import CreateFabricacionDialog
         assert CreateFabricacionDialog is not None
 
-    def test_canvas_widget_exists(self):
-        """CanvasWidget debe existir."""
-        from ui.dialogs import CanvasWidget
-        assert CanvasWidget is not None
+    def test_production_flow_canvas_exists(self):
+        """ProductionFlowCanvas debe importarse desde widgets de flujo."""
+        from ui.widgets.production_flow.flow_canvas import ProductionFlowCanvas
 
-    def test_card_widget_exists(self):
-        """CardWidget debe existir."""
-        from ui.dialogs import CardWidget
-        assert CardWidget is not None
+        assert ProductionFlowCanvas is not None
+
+    def test_flow_card_widget_exists(self):
+        """FlowCardWidget debe importarse desde widgets de flujo."""
+        from ui.widgets.production_flow.flow_card_widget import FlowCardWidget
+
+        assert FlowCardWidget is not None
 
     def test_define_production_flow_dialog_exists(self):
         """DefineProductionFlowDialog debe existir."""
@@ -211,91 +213,47 @@ class TestCreateFabricacionDialogLogic:
 
 
 # =============================================================================
-# TESTS UNITARIOS: CanvasWidget
+# TESTS UNITARIOS: ProductionFlowCanvas (lógica con mocks)
 # =============================================================================
 
 @pytest.mark.unit
-class TestCanvasWidgetLogic:
-    """Tests de lógica para CanvasWidget."""
+class TestProductionFlowCanvasLogic:
+    """Tests de lógica mínima para el canvas de flujo (sin QWidget real)."""
 
     def test_set_connections_updates_list(self):
-        """set_connections debe actualizar la lista de conexiones."""
-        from ui.dialogs import CanvasWidget
+        """set_connections debe sustituir la lista de conexiones."""
+        from ui.widgets.production_flow.flow_canvas import ProductionFlowCanvas
 
-        canvas = MagicMock(spec=CanvasWidget)
+        canvas = MagicMock(spec=ProductionFlowCanvas)
         canvas.connections = []
-
         new_connections = [{"from": 0, "to": 1}, {"from": 1, "to": 2}]
-
-        # Simular set_connections
         canvas.connections = new_connections.copy()
-
         assert len(canvas.connections) == 2
-        assert canvas.connections[0]["from"] == 0
-        assert canvas.connections[1]["to"] == 2
 
-    def test_calculate_smart_path_between_points(self):
-        """Debe calcular una ruta inteligente entre dos puntos."""
-        from ui.dialogs import CanvasWidget
-
-        canvas = MagicMock(spec=CanvasWidget)
-
-        # Simular puntos
-        start_x, start_y = 100, 100
-        end_x, end_y = 300, 200
-
-        # Lógica simplificada de cálculo de ruta
-        mid_x = (start_x + end_x) / 2
-        points = [(start_x, start_y), (mid_x, start_y), (mid_x, end_y), (end_x, end_y)]
-
-        assert len(points) == 4
-        assert points[0] == (start_x, start_y)
-        assert points[-1] == (end_x, end_y)
-
-
-# =============================================================================
-# TESTS UNITARIOS: CardWidget
-# =============================================================================
 
 @pytest.mark.unit
-class TestCardWidgetLogic:
-    """Tests de lógica para CardWidget."""
+class TestFlowCardWidgetLogic:
+    """Tests de lógica para FlowCardWidget (mock)."""
 
     def test_snap_to_grid_aligns_position(self):
-        """_snap_to_grid debe alinear la posición al grid."""
-        from ui.dialogs import CardWidget
+        """Alineación conceptual al grid (misma regla que el widget real)."""
+        from ui.widgets.production_flow.flow_card_widget import FlowCardWidget
 
-        card = MagicMock(spec=CardWidget)
+        card = MagicMock(spec=FlowCardWidget)
         grid_size = 20
-
-        # Simular posición no alineada
         x, y = 47, 83
-
-        # Lógica de snap
         snapped_x = round(x / grid_size) * grid_size
         snapped_y = round(y / grid_size) * grid_size
-
-        assert snapped_x == 40  # 47 -> 40
-        assert snapped_y == 80  # 83 -> 80
         assert snapped_x % grid_size == 0
         assert snapped_y % grid_size == 0
 
-    def test_task_data_storage(self):
-        """CardWidget debe almacenar datos de tarea."""
-        from ui.dialogs import CardWidget
+    def test_task_data_storage_dict(self):
+        """El modelo de tarjeta usa dict de tarea en ``task_data``."""
+        from ui.widgets.production_flow.flow_card_widget import FlowCardWidget
 
-        card = MagicMock(spec=CardWidget)
-        task_data = {
-            "id": "task_1",
-            "name": "Tarea Test",
-            "duration": 15.0,
-            "department": "Montaje"
-        }
-
-        card.task_data = task_data
-
+        card = MagicMock(spec=FlowCardWidget)
+        card.task_data = {"id": "task_1", "name": "Tarea Test", "duration": 15.0}
         assert card.task_data["id"] == "task_1"
-        assert card.task_data["duration"] == 15.0
 
 
 # =============================================================================

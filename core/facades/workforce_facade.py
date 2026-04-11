@@ -1,4 +1,8 @@
-"""Fachada de dominio de trabajadores y asignaciones."""
+"""
+Nombre del Módulo: core.facades.workforce_facade
+
+Descripción: Expone ``WorkforceFacade`` como API estable de aplicación sobre servicios ya inyectados; no contiene reglas de persistencia directa. Integración típica con: ``__future__``.
+"""
 
 from __future__ import annotations
 

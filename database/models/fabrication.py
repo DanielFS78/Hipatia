@@ -1,7 +1,9 @@
 # database/models/fabrication.py
 
 """
-Capa de datos (`fabrication`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.models.fabrication
+
+Descripción: Define protocolos o tipos principales: ``Fabricacion``, ``FabricacionContador``. Entidad principal que representa una Orden de Fabricación (OF). Integración típica con: ``sqlalchemy``, ``base``.
 """
 
 from sqlalchemy import Integer, String, ForeignKey, Table

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Diálogo «Definir / editar pila de producción» (árbol de tareas + flujo + guardado).
+Nombre del Módulo: ui.dialogs.production_flow.define_flow_dialog
 
+Descripción: Diálogo «Definir / editar pila de producción» (árbol de tareas, flujo y guardado).
 Construye ``DefineFlowPresenter`` solo con servicios de dominio (``MachineService``,
 ``PreparationService``, ``FabricacionService``) resueltos por DI o extraídos de ``hub.model``;
 el presenter no mantiene referencia a ``AppModel``.

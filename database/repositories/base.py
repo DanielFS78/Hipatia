@@ -1,6 +1,8 @@
-# repositories/base.py
+# -*- coding: utf-8 -*-
 """
-Repositorio base que proporciona funcionalidades comunes para todos los repositorios.
+Nombre del Módulo: base
+Descripción: Clase base de repositorios: fábrica de sesiones SQLAlchemy, ``safe_execute``
+             y registro de errores comunes a toda la capa de acceso a datos.
 """
 
 import logging

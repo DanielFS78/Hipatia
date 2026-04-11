@@ -1,6 +1,8 @@
-# database/repositories/tracking/steps_manager.py
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`steps_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: tracking.steps_manager
+
+Descripción: Define protocolos o tipos principales: ``TrackingStepsManager``. Gestor DAO para la gestión de pasos de trazabilidad. Integración típica con: ``datetime``, ``sqlalchemy``, ``database``, ``core``, ``base``, ``mappers``.
 """
 
 import logging

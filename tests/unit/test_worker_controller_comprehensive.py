@@ -531,10 +531,13 @@ class TestOnWorkerProductSearchChanged:
         except Exception as e:
             pytest.fail(f"No debería lanzar excepción sin gestion page: {e}")
 
-    def test_short_text_clears_results(self, ctrl: WorkerController, mock_app: MagicMock,
-                                        gestion_with_workers: MagicMock, mock_workers_page: MagicMock) -> None:
+    def test_short_text_loads_latest_products(self, ctrl: WorkerController, mock_app: MagicMock,
+                                              gestion_with_workers: MagicMock, mock_workers_page: MagicMock) -> None:
+        latest = [MagicMock()]
+        mock_app.model.product_service.get_latest_products.return_value = latest
         ctrl.task_manager._on_worker_product_search_changed("a")  # Solo 1 char, menor que MIN_SEARCH_LENGTH=2
-        mock_workers_page.update_product_search_results.assert_called_once_with([])
+        mock_app.model.product_service.get_latest_products.assert_called_once_with(50)
+        mock_workers_page.update_product_search_results.assert_called_once_with(latest)
 
     def test_valid_search(self, ctrl: WorkerController, mock_app: MagicMock,
                           gestion_with_workers: MagicMock, mock_workers_page: MagicMock) -> None:

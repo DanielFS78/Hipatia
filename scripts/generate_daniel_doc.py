@@ -28,7 +28,13 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_FILE = OUTPUT_DIR / "Documentacion Daniel.md"
 
 INCLUDE_DIRS = ["controllers", "core", "database", "features", "ui", "scripts", "tools", "migrations"]
-INCLUDE_ROOT_FILES = ["app.py", "analyze_ui.py", "generate_ui_report.py"]
+INCLUDE_ROOT_FILES = [
+    "app.py",
+    "analyze_ui.py",
+    "generate_ui_report.py",
+    "run_tests.py",
+    "run_tests_safe.py",
+]
 INDEX_SCOPE_DIRS = ["controllers", "core", "database", "features", "ui", "scripts", "tools", "migrations"]
 INDEX_MAX_CLASS_LINKS = 12  # Evita líneas descomunales en el índice.
 IGNORE_NAMES = {
@@ -204,6 +210,7 @@ graph TD
         SIMC[SimulationController]
         RPC[ReportController]
         HRC[HistorialController + HistorialReportManager]
+        BCIO[BackupControllerIOManager ZIP/TAR import export sync]
         AC --> SC
         AC --> LC
         AC --> FC
@@ -212,6 +219,7 @@ graph TD
         AC --> SIMC
         AC --> RPC
         AC --> HRC
+        AC -.->|copias y fusión BD| BCIO
         ST -.->|registro DI + wiring| AC
     end
 
@@ -241,6 +249,8 @@ graph TD
 
     subgraph DB["🗄️ Capa Database"]
         DM[DatabaseManager]
+        SYN[SyncService compare/apply SQLite]
+        DM -.->|compare_with_db apply_sync_changes| SYN
         WR[WorkerRepository]
         PR[ProductRepository]
         IR[IterationRepository]
@@ -1369,9 +1379,8 @@ _TESTING_DECISIONS: dict[str, str] = {
         "datos solo vía `report_service=` / `set_report_service` (`create_autospec(ReportService)`)"
     ),
     "test_canvas_widgets_coverage.py": (
-        "CardWidget (×2) y CanvasWidget/ProductionFlowCanvas son QWidget/QLabel (PyQt6) → "
-        "MagicMock() inevitable; CardWidget de canvas_widgets.py requiere parent_dialog como "
-        "QWidget real con atributos añadidos manualmente porque addWidget() rechaza MagicMock()"
+        "FlowCardWidget y ProductionFlowCanvas (PyQt6): widgets reales en tests; "
+        "MagicMock() solo en extremos de aristas en set_connections; ver testing_pyqt6_headless."
     ),
     "test_define_flow_dialog_edge.py": (
         "DefineProductionFlowDialog depende de DefineControlPanel (QWidget) → sustituido por "

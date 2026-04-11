@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: file_controller.py
+Nombre del Módulo: file_controller
 Descripción: Gestiona la persistencia de archivos adjuntos, la apertura de documentos 
              del sistema y la importación de datos externos en formato JSON.
 """

@@ -1,6 +1,8 @@
 # core/simulation/engine/dependency_handler.py
 """
-Lógica o utilidades del núcleo (`dependency_handler`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.simulation.engine.dependency_handler
+
+Descripción: Define protocolos o tipos principales: ``DependencyHandler``. Gestiona la validación y propagación de dependencias entre tareas. Integración típica con: ``datetime``, ``simulation_events``.
 """
 
 import logging

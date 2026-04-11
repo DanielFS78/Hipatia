@@ -1,14 +1,15 @@
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: flow_canvas
+
+Descripción: Canvas PyQt6 del flujo de producción: tarjetas ``FlowCardWidget`` arrastrables,
+             rejilla de fondo y conexiones en un hijo ``_FlowConnectionsLayer`` encima de las tarjetas
+             (sin capa, las flechas quedarían tapadas). Ajusta geometría en ``resizeEvent``,
+             ``set_connections`` y ``add_task_widget``; clic en fondo emite ``backgroundClicked``.
+             Las aristas se delegan a ``FlowConnectionPainter``.
+"""
+
 from __future__ import annotations
-"""
-Nombre del Modulo: flow_canvas
-Descripcion: Canvas PyQt6 del flujo de produccion: tarjetas ``FlowCardWidget`` arrastrables,
-             rejilla de fondo en el propio widget y conexiones dibujadas en un hijo
-             ``_FlowConnectionsLayer`` encima de las tarjetas (Qt pinta primero el padre y luego
-             los hijos; sin capa, las flechas quedarian tapadas). Ajusta geometria de la capa en
-             ``resizeEvent``, ``set_connections`` y ``add_task_widget``, y la mantiene al frente
-             con ``raise_``. Clic en fondo: ``mousePressEvent`` ignora la capa transparente para
-             emitir ``backgroundClicked``. Las aristas se delegan a ``FlowConnectionPainter``.
-"""
 
 from typing import Any, List, Optional
 

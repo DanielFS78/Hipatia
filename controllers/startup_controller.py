@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: startup_controller.py
+Nombre del Módulo: startup_controller
 Descripción: Orquestador del arranque de la aplicación. Se encarga de instanciar 
              servicios, repositorios y todos los controladores del sistema.
 """
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 from core.di_container import DIContainer, ServiceLifecycle
 from database.database_manager import DatabaseManager
 
-# Domain services & facades (singletons viven en AppModel; se exponen en DI)
+# Servicios de dominio y fachadas (registrados en el contenedor de inyección)
 from core.services.product_service import ProductService
 from core.services.pila_service import PilaService
 from core.services.worker_service import WorkerService
@@ -30,7 +30,7 @@ from core.facades import ProductFacade, PlanningFacade
 from core.services.system_integration_service import SystemIntegrationService
 from core.application_state import ApplicationState
 
-# Services
+# Infraestructura de producto (QR, etiquetas, seguridad, citas)
 from core.qr_generator import QrGenerator
 from core.label_manager import LabelManager
 from core.security.security_service import SecurityService
@@ -40,7 +40,7 @@ from database.repositories import LabelCounterRepository
 from core.interfaces.view_interface import IView
 from controllers.product.protocols import IFabricacionControllerDelegate
 
-# Controllers
+# Controladores de dominio principal
 from controllers.backup_controller import BackupController
 from controllers.report_controller import ReportController
 from controllers.hardware_controller import HardwareController
@@ -54,7 +54,7 @@ from controllers.historial.controller import HistorialController
 from controllers.schedule_controller import ScheduleController
 from controllers.session_controller import SessionController
 
-# New controllers (Refactor Fase 2)
+# Controladores de apoyo (archivos, lotes, navegación, señales UI)
 from controllers.file_controller import FileController
 from controllers.preproceso_controller import PreprocesoController
 from controllers.fabricacion_controller import FabricacionController
@@ -320,7 +320,7 @@ class StartupController:
             self.app, self.container.resolve(DatabaseManager), self.container.resolve(WorkerService)
         ))
         
-        # Resolve instances and attach to AppController
+        # Resolver instancias y enlazarlas en AppController
         self.app.backup_controller = self.container.resolve(BackupController)
         self.app.report_controller = self.container.resolve(ReportController)
         self.app.hardware_controller = self.container.resolve(HardwareController)
@@ -335,8 +335,7 @@ class StartupController:
         self.app.historial_controller = self.container.resolve(HistorialController)
         self.app.session_controller = self.container.resolve(SessionController)
         
-        # NEW CONTROLLERS (Refactor Fase 2)
-        # Register them in DI setup
+        # Registro de controladores de apoyo en el contenedor DI
         self.container.register(FileController, factory=lambda: FileController(
             self.container.resolve(DatabaseManager), self.view, self.app.logger
         ))

@@ -1,4 +1,9 @@
-"""Diálogo modal para registrar incidencias del operario."""
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: worker_incidence_dialog
+
+Descripción: Diálogo PyQt para que el operario registre una incidencia (tipo, descripción y fotos).
+"""
 
 from __future__ import annotations
 

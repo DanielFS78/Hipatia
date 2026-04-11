@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
 """
-Nombre del Módulo: analyze_ui.py
-Descripción: Script para analizar la complejidad y estructura de los archivos de la interfaz de usuario (UI).
-             Extrae clases, métodos, complejidad ciclomática aproximada y uso de señales/conexiones.
+Nombre del Módulo: analyze_ui
+
+Descripción: Análisis estático (AST) de la capa UI: clases, métodos, complejidad aproximada y
+             señales/conexiones; emite JSON para informes (p. ej. ``generate_ui_report``).
 """
 import ast
 import os

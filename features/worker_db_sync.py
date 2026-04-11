@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 """
-Servicio para la sincronización y persistencia de datos del trabajador.
-Actúa como fachada para el repositorio de trazabilidad y otras operaciones de BD.
+Nombre del Módulo: worker_db_sync
 
-Las fabricaciones asignadas a la lista del trabajador se exponen como
-``WorkerTaskListRowDTO`` (ver ``get_assigned_fabricaciones``), no como dicts opacos.
+Descripción: Lectura y escritura de datos del rol trabajador frente al repositorio de trazabilidad.
+             Las fabricaciones asignadas se exponen como ``WorkerTaskListRowDTO`` en
+             ``get_assigned_fabricaciones`` (no como dicts opacos).
 """
 
 import logging

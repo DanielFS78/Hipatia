@@ -1,6 +1,10 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`prep_steps_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.prep.prep_steps_dialog
+
+Descripción: Define protocolos o tipos principales: ``PrepStepsDialog``. Diálogo para gestionar los pasos individuales de un grupo de preparación. Integración típica con: ``__future__``, ``os``, ``datetime``, ``core``, ``PyQt6``.
 """
+
 from __future__ import annotations
 
 import os

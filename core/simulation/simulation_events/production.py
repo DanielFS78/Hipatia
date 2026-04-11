@@ -1,7 +1,9 @@
 # core/simulation/events/production.py
 
 """
-Lógica o utilidades del núcleo (`production`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.simulation.simulation_events.production
+
+Descripción: Define protocolos o tipos principales: ``EventoInicioUnidad``, ``EventoFinUnidad``. Evento que marca el inicio del trabajo en una unidad de una tarea. Integración típica con: ``datetime``, ``base``, ``worker``.
 """
 
 from dataclasses import dataclass

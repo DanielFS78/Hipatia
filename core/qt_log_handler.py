@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 Nombre del Módulo: qt_log_handler
-Descripcion: Handler de logging de Python que integra el sistema de registro
-             estándar con el hilo de interfaz de Qt. Captura mensajes de nivel
-             WARNING, ERROR y CRITICAL y los reenvía a la UI mediante señales
-             Qt (thread-safe) para su visualización en tiempo real.
+Descripcion: Handler de logging de Python que integra el registro estándar con
+             el hilo de la interfaz Qt. Por defecto el nivel del handler es
+             ``INFO``, por lo que los mensajes ``INFO`` y superiores se reenvían
+             a la UI mediante señales Qt (apto para uso desde otros hilos).
 
              Diseño:
              - ``QtLogHandler`` hereda de ``logging.Handler`` (no puede ser
@@ -44,32 +44,23 @@ class _SignalEmitter(QObject):
 
 class QtLogHandler(logging.Handler):
     """
-    Handler de logging que reenvía mensajes WARNING/ERROR/CRITICAL a la UI de Qt.
+    Handler que reenvía a la UI de Qt los registros desde el nivel del handler
+    (por defecto ``INFO``) en adelante.
 
-    Conecta el sistema de logging de Python con un widget de visualización en la
-    interfaz gráfica de forma thread-safe: usa una señal Qt para cruzar
-    desde hilos de fondo al event-loop del hilo principal.
+    Conexión thread-safe vía señal ``log_emitted``. Buffer interno hasta la
+    primera llamada a ``connect_to_widget()`` (arranque y login sin terminal).
 
-    Incorpora un buffer interno que almacena mensajes mientras la UI no está
-    lista (antes e incluso durante el proceso de login). Al llamar a
-    ``connect_to_widget()``, el buffer se reproduce completo y a partir de
-    ese momento los mensajes llegan en tiempo real.
-
-    Uso típico::
-
-        handler = QtLogHandler()
-        logging.getLogger().addHandler(handler)
-        # ... más tarde, una vez creado el HomeWidget ...
-        handler.connect_to_widget(home_widget.append_log)
+    En la aplicación, ``app.py`` delega en ``HomeWidget.connect_log_handler`` o
+    ``WorkerMainWindow.connect_log_handler``, que a su vez llaman a este método
+    con el ``append_log`` del ``LogTerminalWidget`` correspondiente.
 
     Attributes:
-        emitter: instancia de ``_SignalEmitter`` cuya señal ``log_emitted``
-                 puede conectarse manualmente al slot del widget de destino.
+        emitter: ``_SignalEmitter`` con la señal ``log_emitted(str)``.
     """
 
     def __init__(self) -> None:
         """
-        Inicializa el handler con nivel WARNING, formatter estándar y buffer vacío.
+        Inicializa el handler con nivel ``INFO``, formatter estándar y buffer vacío.
 
         El formatter incluye hora, nivel y nombre del logger para facilitar
         la identificación del origen del mensaje en la terminal visual.
@@ -111,13 +102,13 @@ class QtLogHandler(logging.Handler):
         """
         Conecta el handler al slot del widget y reproduce el buffer acumulado.
 
-        Debe llamarse una sola vez, una vez que el ``HomeWidget`` ha sido creado
-        y mostrado. A partir de este momento los mensajes fluyen en tiempo real
-        y no se buferizan más.
+        Debe llamarse **una sola vez por sesión**, cuando ya existe el widget de
+        destino: terminal de ``HomeWidget`` (vista principal) o de
+        ``WorkerMainWindow`` (pestaña Log). A partir de aquí los mensajes van en
+        tiempo real al slot y dejan de acumularse solo en memoria.
 
         Args:
-            slot: Callable del widget de destino que acepta un único argumento
-                  de tipo ``str`` (el mensaje formateado). Típicamente
+            slot: Callable que recibe el mensaje ya formateado; habitualmente
                   ``LogTerminalWidget.append_log``.
         """
         self._widget_slot = slot

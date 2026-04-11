@@ -428,6 +428,28 @@ class TestWorkerRepositoryAuthentication:
         assert result.nombre_completo == "Usuario Auth"
         assert result.role == "Trabajador"
 
+    def test_authenticate_user_case_insensitive_username(self, repos, session):
+        """El login debe aceptar el mismo usuario con distinta capitalización."""
+        worker_repo = repos["worker"]
+        password = "Secret1a"
+        from core.security.password_service import PasswordService
+
+        password_hash = PasswordService.hash_password(password)
+        w = Trabajador(
+            nombre_completo="Mayus Test",
+            activo=True,
+            notas="",
+            tipo_trabajador=1,
+            username="josete",
+            password_hash=password_hash,
+            role="Trabajador",
+        )
+        session.add(w)
+        session.commit()
+
+        assert worker_repo.authenticate_user("JOSETE", password) is not None
+        assert worker_repo.authenticate_user("  Josete ", password) is not None
+
     def test_authenticate_user_wrong_password(self, repos, session):
         """
         Prueba que autenticación falla con contraseña incorrecta.

@@ -1,7 +1,7 @@
-# core/services/report_sheets/base.py
-
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`base`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: report_sheets.base
+Descripción: Clase base abstracta para cada hoja Excel del informe de pila de fabricación.
 """
 
 import logging
@@ -16,7 +16,5 @@ class ExcelSheetStrategy(ABC):
 
     @abstractmethod
     def create_sheet(self, wb: Workbook, **_kwargs: Any) -> None:
-        """
-        Creates a sheet in the workbook with specific logic.
-        """
-        pass
+        """Añade una hoja al libro ``wb`` según el análisis recibido en ``kwargs``."""
+        ...

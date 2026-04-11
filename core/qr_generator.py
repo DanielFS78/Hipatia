@@ -1,19 +1,7 @@
 """
-========================================================================
-GENERADOR DE CÓDIGOS QR - SISTEMA DE TRAZABILIDAD
-========================================================================
-Genera códigos QR únicos para trazabilidad de unidades individuales
-y proporciona funciones para convertirlos a diferentes formatos.
+Nombre del Módulo: core.qr_generator
 
-Características:
-- Generación de IDs únicos con timestamp y hash
-- Códigos QR con corrección de errores alta (nivel H)
-- Conversión a PIL Image y PyQt6 QPixmap
-- Generación en lote
-
-Autor: Sistema de Trazabilidad
-Fecha: 2025
-========================================================================
+Descripción: ======================================================================== GENERADOR DE CÓDIGOS QR - SISTEMA DE TRAZABILIDAD ======================================================================== Genera códigos QR únicos para trazabilidad de unidades individuales y proporciona funciones para convertirlos a diferente…
 """
 
 import logging

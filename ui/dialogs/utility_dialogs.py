@@ -1,9 +1,9 @@
-# =================================================================================
-# ui/dialogs.py
-# Contiene todas las clases de Diálogos personalizados para la aplicación.
-# =================================================================================
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`utility_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: utility_dialogs
+Descripción: Diálogos PyQt6 reutilizables (descansos, login, contraseña, sincronización de BD,
+             selección de hojas Excel, etc.). Incluye ``SyncDialog`` para la fusión selectiva
+             contra una copia SQLite y mapeo de títulos de pestaña legibles.
 """
 
 import os
@@ -11,8 +11,8 @@ import logging
 from datetime import datetime, date, timedelta, time
 from core.services.time_calculator import CalculadorDeTiempos
 import math
-import uuid # Importado para ID único
-import copy # Importado para copias profundas
+import uuid
+import copy
 
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QFormLayout,
@@ -33,9 +33,6 @@ from PyQt6.QtGui import (
     QPolygonF
 )
 from typing import Any, Iterator, Tuple
-
-
-# --- Split Dialogs Imports ---
 
 
 class AddBreakDialog(QDialog):
@@ -86,8 +83,12 @@ class LoginDialog(QDialog):
         layout.addRow(self.buttons)
 
     def get_credentials(self) -> tuple[str, str]:
-        """Devuelve el usuario y la contraseña introducidos."""
-        return self.username_edit.text().strip(), self.password_edit.text().strip()
+        """Devuelve el usuario y la contraseña introducidos.
+
+        El nombre de usuario se normaliza con strip (espacios accidentales).
+        La contraseña no se recorta: debe coincidir byte a byte con la guardada al crear el usuario.
+        """
+        return self.username_edit.text().strip(), self.password_edit.text()
 
 
 class ChangePasswordDialog(QDialog):
@@ -139,7 +140,15 @@ from core.dtos import (
 
 
 def _sync_dialog_tab_title(table_name: str) -> str:
-    """Título de pestaña legible; el nombre interno de tabla va en la propiedad sync_table_name."""
+    """
+    Convierte el nombre técnico de tabla (p. ej. ``producto_material_link``) en título de pestaña.
+
+    Args:
+        table_name: Identificador igual al usado en ``SyncTableDifferencesDTO.table_name``.
+
+    Returns:
+        Cadena para ``QTabWidget.addTab``; el nombre canónico se guarda aparte en ``sync_table_name``.
+    """
     titles = {
         "productos": "Productos",
         "trabajadores": "Trabajadores",
@@ -155,9 +164,20 @@ def _sync_dialog_tab_title(table_name: str) -> str:
 
 
 class SyncDialog(QDialog):
-    """Diálogo para mostrar diferencias entre dos bases de datos y seleccionar cuáles importar."""
+    """
+    Presenta las diferencias detectadas por ``SyncService.compare_databases`` en pestañas por tabla.
+
+    Por defecto todas las filas quedan marcadas para importar; el usuario puede desmarcar filas
+    o pestañas enteras vía «Desmarcar todo». Al aceptar, ``get_selected_changes`` construye el
+    DTO parcial para ``apply_sync_changes``.
+    """
 
     def __init__(self, comparison: DatabaseComparisonDTO, parent: Any = None) -> None:
+        """
+        Args:
+            comparison: Resultado completo de la comparación local vs copia.
+            parent: Ventana padre opcional.
+        """
         super().__init__(parent)
         self.setWindowTitle("Sincronizar Bases de Datos")
         self.setMinimumSize(900, 600)
@@ -194,7 +214,7 @@ class SyncDialog(QDialog):
         main_layout.addWidget(buttons)
 
     def _populate_tabs(self) -> None:
-        """Crea una pestaña por cada tabla con diferencias."""
+        """Genera una pestaña con ``QTableWidget`` por cada ``SyncTableDifferencesDTO`` no vacío."""
         for table_diff in self.comparison.tables:
             table_name = table_diff.table_name
             diff_data = table_diff.differences
@@ -253,6 +273,7 @@ class SyncDialog(QDialog):
             yield table_name, table_widget
 
     def _check_all_rows(self) -> None:
+        """Marca la columna «Importar» en todas las filas de todas las pestañas."""
         for _name, table_widget in self._iter_sync_tables():
             for row in range(table_widget.rowCount()):
                 item = table_widget.item(row, 0)
@@ -260,6 +281,7 @@ class SyncDialog(QDialog):
                     item.setCheckState(Qt.CheckState.Checked)
 
     def _uncheck_all_rows(self) -> None:
+        """Desmarca todas las filas importables (útil para seleccionar solo un subconjunto manual)."""
         for _name, table_widget in self._iter_sync_tables():
             for row in range(table_widget.rowCount()):
                 item = table_widget.item(row, 0)
@@ -267,7 +289,12 @@ class SyncDialog(QDialog):
                     item.setCheckState(Qt.CheckState.Unchecked)
 
     def get_selected_changes(self) -> DatabaseComparisonDTO:
-        """Recopila todos los elementos marcados por el usuario para ser importados."""
+        """
+        Recopila filas con checkbox marcado y devuelve un DTO listo para ``apply_sync_changes``.
+
+        Returns:
+            ``DatabaseComparisonDTO`` que puede estar vacío si no hubo selección.
+        """
         selected_tables = []
         for table_name, table_widget in self._iter_sync_tables():
             selected_records = []

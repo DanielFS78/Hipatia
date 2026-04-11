@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Criterios compartidos para auditoría de docstrings de módulo (Daniel doc + audit_module_docstrings)."""
+"""
+Nombre del Módulo: scripts.doc_audit_common
+
+Descripción: Criterios compartidos para auditoría de docstrings de módulo (Daniel doc + audit_module_docstrings).
+"""
 
 from __future__ import annotations
 

@@ -1,6 +1,9 @@
-# controllers/worker/__init__.py
+# -*- coding: utf-8 -*-
 """
-Coordinación y señales del subsistema «__init__»: enlaza UI, servicios y persistencia para este ámbito de la aplicación Hipatia.
+Nombre del Módulo: worker
+Descripción: Subpaquete del controlador de trabajadores en la vista administración / operario.
+
+Exporta ``WorkerController`` para registro en el contenedor de dependencias.
 """
 
 from .controller import WorkerController

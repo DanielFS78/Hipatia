@@ -1,15 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Grafo de imports entre capas de primer nivel (ui, controllers, core, database, features).
+Nombre del Módulo: scripts.architecture_layer_edges
 
-Escanea AST de todos los .py bajo esos directorios, clasifica aristas por capa origen/destino,
-lista violaciones de arquitectura (reglas del plan Hipatia) y detecta ciclos simples
-entre capas (2- y 3-ciclos explícitos).
-
-Uso:
-  python3 scripts/architecture_layer_edges.py
-  python3 scripts/architecture_layer_edges.py --json reports/architecture_layer_edges.json
+Descripción: Grafo de imports entre capas de primer nivel (ui, controllers, core, database, features).
 """
 
 from __future__ import annotations

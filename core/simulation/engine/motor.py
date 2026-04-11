@@ -1,9 +1,8 @@
 # core/simulation/engine/motor.py
 """
-Módulo del Motor de Eventos (Event Loop).
+Nombre del Módulo: core.simulation.engine.motor
 
-Gestiona la cola de prioridad de eventos de simulación, permitiendo 
-el avance del tiempo virtual y la ejecución de la lógica de negocio.
+Descripción: Define protocolos o tipos principales: ``MotorDeEventos``. Orquestador principal del motor de simulación basado en eventos. Integración típica con: ``__future__``, ``heapq``, ``time``, ``os``, ``tempfile``, ``datetime``.
 """
 from __future__ import annotations
 import logging

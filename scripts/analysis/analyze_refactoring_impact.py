@@ -1,5 +1,7 @@
 """
-Script ejecutable (`analyze_refactoring_impact`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analysis.analyze_refactoring_impact
+
+Descripción: Script ejecutable (`analyze_refactoring_impact`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 """
 
 import os

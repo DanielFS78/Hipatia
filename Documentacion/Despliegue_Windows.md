@@ -40,6 +40,19 @@ Rutas de solo lectura (iconos, migraciones Alembic embebidas, `config` inicial) 
 
 DPI 100/125/150 %, cámara/QR, checklist §6 de `preparacion_windows`, y prueba en PC **sin** Python. Marcar esas casillas en la skill tras ejecutarlas.
 
+## C1 — Auditoría de rutas, DPI y cámara (abril 2026)
+
+Comandos ejecutados en desarrollo (repetir en Windows tras cambios en rutas o empaquetado):
+
+```bash
+python scripts/windows_path_audit.py
+pytest tests/unit
+```
+
+- **Informe de rutas:** [`reports/windows_path_audit.md`](../reports/windows_path_audit.md) (severidades P0/P1/P2). Última generación del script: sin hallazgos P0/P1 en el árbol auditado (`core/`, `controllers/`, `database/`, `features/`, `ui/`, `app.py`).
+- **DPI:** [`app.py`](../app.py) aplica `QApplication.setHighDpiScaleFactorRoundingPolicy(PassThrough)` antes de crear `QApplication`. `core/utils/ui_scaler.py` documenta que usa geometría lógica Qt6; comprobar en 125 %/150 % que el QSS no queda desmesurado.
+- **Cámara / OpenCV:** [`core/camera_manager/capture.py`](../core/camera_manager/capture.py) (`open_video_capture`, `open_video_capture_with_backends`) unifica backends con `CameraManager` y alternativas en Windows; [`controllers/hardware_controller.py`](../controllers/hardware_controller.py) abre la captura vía ese helper.
+
 ## Qt en Windows
 
-[`app.py`](../app.py): `_fix_qt_macos()` solo se ejecuta en `darwin`. En Windows no se aplica ese workaround; el `onedir` debe incluir los plugins de PyQt6 que recoja PyInstaller.
+[`app.py`](../app.py): `_fix_qt_macos()` solo se ejecuta en `darwin`. En Windows no se aplica ese workaround; el `onedir` debe incluir los plugins de PyQt6 que recoja PyInstaller. La política de redondeo High DPI anterior es independiente y aplica también en Windows.

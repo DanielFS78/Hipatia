@@ -1,6 +1,8 @@
 
 """
-Capa de datos (`config`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.config
+
+Descripción: Define protocolos o tipos principales: ``DatabaseConfig``. Integración típica con: ``os``, ``pathlib``, ``dotenv``, ``core``.
 """
 
 import os

@@ -1,4 +1,10 @@
-"""Servicio de limitación de tasa para prevenir ataques de fuerza bruta."""
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: rate_limiter
+Descripción: Limita intentos de inicio de sesión fallidos (bloqueo temporal y limpieza de históricos).
+
+Registra cada intento en base de datos y bloquea el usuario unos minutos tras superar el umbral.
+"""
 
 from datetime import datetime, timedelta
 from typing import Callable, Optional

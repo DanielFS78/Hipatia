@@ -1,4 +1,9 @@
-"""Funciones utilitarias para operación de backups."""
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: backup_utils
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``check_disk_space``, ``verify_tar_backup``, ``create_checksum``, ``verify_checksum``. Integración típica con: ``__future__``, ``hashlib``, ``shutil``, ``tarfile``, ``pathlib``.
+"""
 
 from __future__ import annotations
 

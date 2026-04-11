@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`preprocesos_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: preprocesos_widget
+
+Descripción: Gestión de preprocesos: lista a la izquierda, detalle y acciones a la derecha.
 """
 
 from .base import *
@@ -11,8 +13,7 @@ class PreprocesosWidget(QWidget):
     Widget rediseñado para la gestión de Preprocesos.
     Muestra una lista a la izquierda y los detalles del seleccionado a la derecha.
     """
-    
-    # Attributes for strict mocks
+
     add_button: Any = None
     edit_button: Any = None
     delete_button: Any = None

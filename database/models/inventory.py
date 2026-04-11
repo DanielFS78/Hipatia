@@ -1,7 +1,9 @@
 # database/models/inventory.py
 
 """
-Capa de datos (`inventory`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.models.inventory
+
+Descripción: Define protocolos o tipos principales: ``Material``, ``Pila``, ``PasoPila``, ``DiarioBitacora``, ``EntradaDiario``. Representa un componente físico o materia prima. Integración típica con: ``sqlalchemy``, ``base``, ``datetime``.
 """
 
 from sqlalchemy import Integer, String, ForeignKey, Text, DateTime, Date, Table

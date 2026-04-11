@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
 """
-Resolución centralizada de servicios para diálogos de fabricación.
+Nombre del Módulo: ui.dialogs.fabrication.dialog_dependencies
 
-Prioridad fija (testeable vía ``resolve_fabricacion_service`` / ``resolve_pila_service``):
+Descripción: Resolución centralizada de servicios para diálogos de fabricación. Prioridad fija
+(testeable vía ``resolve_fabricacion_service`` / ``resolve_pila_service``):
 
 - **FabricacionService**: DI registrado → ``product_controller.fabricacion_service`` → ``model.fabricacion_service``.
 - **PilaService**: DI registrado → ``pila_controller.pila_service`` → ``model.pila_service``.

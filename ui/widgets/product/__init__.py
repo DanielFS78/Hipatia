@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: product
+
+Descripción: Subpaquete de widgets de detalle de producto (materiales e iteraciones).
 """
 
 from .materials_widget import ProductMaterialsWidget

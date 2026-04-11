@@ -1,6 +1,7 @@
 """
 Nombre del Módulo: scripts.analysis.analyze_typing_deep
-Descripcion: Auditoría de cobertura de anotaciones de tipos por archivo/función.
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``analyze_file``, ``analyze_directory``, ``print_summary``. Integración típica con: ``ast``, ``os``, ``sys``.
 """
 
 import ast

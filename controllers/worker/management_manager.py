@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: management_manager.py (Worker)
-Descripción: Gestor de administración de personal. Maneja el CRUD de trabajadores 
-             y la visualización de sus detalles en el panel de administración.
+Nombre del Módulo: management_manager
+Descripción: Gestión de personal desde «Gestión de datos»: alta, edición y baja
+             lógica de trabajadores, formulario de ficha y carga de órdenes de
+             fabricación para el autocompletado al asignar tareas.
 """
 import logging
 from typing import Any, TYPE_CHECKING, Optional, List
@@ -32,6 +33,27 @@ class WorkerManagementManager:
         self.fabricacion_service = fabricacion_service
         self.logger = logging.getLogger("EvolucionTiemposApp")
 
+    def _product_service_for_assignment(self) -> Any:
+        """Resuelve ProductService desde AppController (product_controller o model)."""
+        app = self.app
+        pc = getattr(app, "product_controller", None)
+        if pc is not None and getattr(pc, "product_service", None) is not None:
+            return pc.product_service
+        model = getattr(app, "model", None)
+        if model is not None and getattr(model, "product_service", None) is not None:
+            return model.product_service
+        return None
+
+    def _load_default_products_for_assignment(self, workers_page: Any) -> None:
+        """Rellena la lista de productos al abrir un trabajador (asignación de tareas)."""
+        ps = self._product_service_for_assignment()
+        if ps is None:
+            return
+        try:
+            workers_page.update_product_search_results(ps.get_latest_products(50))
+        except Exception as e:
+            self.logger.warning("No se pudieron cargar productos sugeridos para asignación: %s", e)
+
     def _on_worker_selected_in_list(self, item: Any) -> None:
         """
         Maneja la selección de un trabajador en la lista de la UI.
@@ -52,9 +74,9 @@ class WorkerManagementManager:
 
         if worker_data:
             workers_page.show_worker_details(worker_data)
-            # CAMBIO: Usar el servicio inyectado directamente
             of_list = self.fabricacion_service.get_all_ordenes_fabricacion() if self.fabricacion_service else []
             workers_page.setup_of_completer(of_list)
+            self._load_default_products_for_assignment(workers_page)
         else:
             workers_page.clear_details_area()
 

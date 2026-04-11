@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.fabrication
+Descripción: Diálogos de fabricación: crear orden, seleccionar preprocesos/productos, bitácora y asignaciones.
+
+Reexporta las clases más usadas para imports desde ``ui.dialogs`` o controladores.
 """
 
 from .input_dialogs import GetLoteInstanceParametersDialog, GetOptimizationParametersDialog, GetUnitsDialog

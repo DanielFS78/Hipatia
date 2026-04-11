@@ -1,11 +1,12 @@
+# -*- coding: utf-8 -*-
 """
-Controlador para la interfaz de trabajador.
+Nombre del Módulo: worker_controller
 
-Maneja la lógica de negocio para trabajadores:
-- Carga de fabricaciones asignadas
-- Registro de tiempos mediante QR
-- Gestión de incidencias
-- Comunicación con la base de datos
+Descripción: Cerebro de la ventana del rol trabajador: lista de tareas asignadas,
+             inicio y fin de trabajo con QR, incidencias, etiquetas e importación/exportación.
+
+La persistencia y las reglas de datos van a ``WorkerDbSync`` y al repositorio de
+trazabilidad; la vista solo emite señales que este controlador atiende.
 """
 
 import logging
@@ -21,19 +22,14 @@ from PyQt6.QtWidgets import (
     QDialog, QMessageBox
 )
 
-# New Imports for Phase 4
 from core.production_context import ProductionContext
 from features.worker_validation_service import WorkerValidationService
 from features.worker_db_sync import WorkerDbSync
 from features.worker_incidence_dialog import IncidenceDialog
 from features.worker_controller_io_manager import WorkerIOManager
 
-# ============================================================================
-# CLASE DEL CONTROLADOR
-# ============================================================================
-
 class WorkerController:
-    """Controlador para gestionar las operaciones de trabajadores."""
+    """Controlador PyQt de la ventana de trabajador; enlaza vista, BD y hardware opcional (QR)."""
 
     def __init__(
             self,
@@ -51,8 +47,7 @@ class WorkerController:
         self.db_manager = db_manager
         self.main_window = main_window
         self.qr_scanner = qr_scanner
-        
-        # Servicios
+
         self.tracking_repo = tracking_repo or db_manager.tracking_repo
         self.db_sync = WorkerDbSync(self.tracking_repo)
         self.validation_service = WorkerValidationService(self.qr_scanner)
@@ -101,8 +96,18 @@ class WorkerController:
         self.main_window.export_data_requested.connect(self._handle_export_data)
 
     def _load_assigned_fabricaciones(self) -> None:
+        """
+        Consulta fabricaciones asignadas al usuario logueado y actualiza la lista en la vista.
+
+        Registra en log el ``trabajador_id`` y el número de filas para diagnóstico.
+        """
         trabajador_id = self.current_user.id
         items = self.db_sync.get_assigned_fabricaciones(trabajador_id) if trabajador_id else []
+        self.logger.info(
+            "Fabricaciones asignadas para la vista trabajador: trabajador_id=%s, count=%s",
+            trabajador_id,
+            len(items),
+        )
         self.main_window.update_tasks_list(items)
 
     def _load_active_trabajos(self) -> None:

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`product_details_dialog`): detalle de producto con pestañas de componentes e iteraciones.
+Nombre del Módulo: ui.dialogs.product.product_details_dialog
+
+Descripción: Define protocolos o tipos principales: ``ProductDetailsDialog``. Diálogo que utiliza sub-widgets para gestionar componentes e iteraciones. Integración típica con: ``__future__``, ``PyQt6``, ``ui``.
 """
 from __future__ import annotations
 

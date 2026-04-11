@@ -1,6 +1,6 @@
 # Documentación Técnica: Hipatia
 
-> Generado automáticamente el 2026-04-08 14:09:04
+> Generado automáticamente el 2026-04-11 10:22:21
 
 ---
 
@@ -10,8 +10,8 @@
 
 | Métrica | Valor |
 |---|---:|
-| Archivos `.py` listados en el índice | 437 |
-| Incluidos en el cuerpo (tienen bloque en el PDF) | 437 |
+| Archivos `.py` listados en el índice | 442 |
+| Incluidos en el cuerpo (tienen bloque en el PDF) | 442 |
 | Omitidos (reglas de docstrings/otros) | 0 |
 
 Leyenda:
@@ -22,83 +22,81 @@ Leyenda:
 - `Mypy Parcial`: el proyecto usa una configuración gradual allí; se prioriza estabilidad/coste de esfuerzo.
 
 - analysis/
-  - `scripts/analysis/analyze_codebase.py` → p0485 | clases: FileStats, DirectorySummary | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_controller.py` → p0486 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_coverage_risks.py` → p0487 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_db_usage.py` → p0488 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_dependencies.py` → p0489 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_fabrication_dialogs.py` → p0490 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_loose_mocks.py` → p0491 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_refactoring_impact.py` → p0492 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_repository_connections.py` → p0493 | clases: FileAnalysisResult, RepoUsageData, ProjectAnalysisResult, RepositoryConnectionAnalyzer | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_root_files.py` → p0494 | clases: DefinitionsDict, DefinitionsPayload, ErrorPayload, MissingResult, RootFileAnalysis | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_structure.py` → p0495 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_tracking_impact.py` → p0496 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_typing_deep.py` → p0497 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/analyze_ui_structure.py` → p0498 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/detect_obsolete_code.py` → p0499 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `scripts/analysis/verify_naming_conventions.py` → p0500 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_codebase.py` → p0488 | clases: FileStats, DirectorySummary | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_controller.py` → p0489 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_coverage_risks.py` → p0490 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_db_usage.py` → p0491 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_dependencies.py` → p0492 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_fabrication_dialogs.py` → p0493 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_loose_mocks.py` → p0494 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_refactoring_impact.py` → p0495 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_repository_connections.py` → p0496 | clases: FileAnalysisResult, RepoUsageData, ProjectAnalysisResult, RepositoryConnectionAnalyzer | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_root_files.py` → p0497 | clases: DefinitionsDict, DefinitionsPayload, ErrorPayload, MissingResult, RootFileAnalysis | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_structure.py` → p0498 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_tracking_impact.py` → p0499 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_typing_deep.py` → p0500 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/analyze_ui_structure.py` → p0501 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/detect_obsolete_code.py` → p0502 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `scripts/analysis/verify_naming_conventions.py` → p0503 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - camera_manager/
-  - `core/camera_manager/__init__.py` → p0150 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/camera_manager/base.py` → p0151 | clases: CameraBackend, CameraInfo | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/camera_manager/__init__.py` → p0149 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/camera_manager/base.py` → p0150 | clases: CameraBackend, CameraInfo | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/camera_manager/capture.py` → p0151 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/camera_manager/detector.py` → p0152 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/camera_manager/manager.py` → p0153 | clases: CameraManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/camera_manager/utils.py` → p0154 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - dialogs/
   - effects/
-    - `ui/dialogs/effects/__init__.py` → p0341 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/effects/golden_glow.py` → p0342 | clases: GoldenGlowEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/effects/green_cycle.py` → p0343 | clases: GreenCycleEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/effects/mixed_gold_green.py` → p0344 | clases: MixedGoldGreenEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/effects/processing_glow.py` → p0345 | clases: ProcessingGlowEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/effects/progress.py` → p0346 | clases: SimulationProgressEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/__init__.py` → p0339 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/golden_glow.py` → p0340 | clases: GoldenGlowEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/green_cycle.py` → p0341 | clases: GreenCycleEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/mixed_gold_green.py` → p0342 | clases: MixedGoldGreenEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/processing_glow.py` → p0343 | clases: ProcessingGlowEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/effects/progress.py` → p0344 | clases: SimulationProgressEffect | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - fabrication/
-    - `ui/dialogs/fabrication/__init__.py` → p0347 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/assignment_dialogs.py` → p0348 | clases: AssignPreprocesosDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/bitacora_dialog.py` → p0349 | clases: BitacoraEntryDTO, FabricacionBitacoraDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/create_dialog.py` → p0350 | clases: CreateFabricacionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/create_presenter.py` → p0351 | clases: CreateFabricacionPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/dialog_dependencies.py` → p0352 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/input_dialogs.py` → p0353 | clases: GetLoteInstanceParametersDialog, GetOptimizationParametersDialog, GetUnitsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/persistence_dialogs.py` → p0354 | clases: SavePilaDialog, LoadPilaDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/products_dialog.py` → p0355 | clases: ProductsSelectionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/selection_dialogs.py` → p0356 | clases: PreprocesosSelectionDialog, PreprocesosForCalculationDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/fabrication/ui_dialog_protocols.py` → p0357 | clases: OpensFabricacionPreprocesos, ShowsUserMessage | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/__init__.py` → p0345 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/assignment_dialogs.py` → p0346 | clases: AssignPreprocesosDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/bitacora_dialog.py` → p0347 | clases: BitacoraEntryDTO, FabricacionBitacoraDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/create_dialog.py` → p0348 | clases: CreateFabricacionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/create_presenter.py` → p0349 | clases: CreateFabricacionPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/dialog_dependencies.py` → p0350 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/input_dialogs.py` → p0351 | clases: GetLoteInstanceParametersDialog, GetOptimizationParametersDialog, GetUnitsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/persistence_dialogs.py` → p0352 | clases: SavePilaDialog, LoadPilaDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/products_dialog.py` → p0353 | clases: ProductsSelectionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/selection_dialogs.py` → p0354 | clases: PreprocesosSelectionDialog, PreprocesosForCalculationDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/fabrication/ui_dialog_protocols.py` → p0355 | clases: OpensFabricacionPreprocesos, ShowsUserMessage | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - prep/
-    - `ui/dialogs/prep/__init__.py` → p0358 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/prep/prep_groups_dialog.py` → p0359 | clases: PrepGroupsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/prep/prep_steps_dialog.py` → p0360 | clases: PrepStepsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/prep/preproceso_dialog.py` → p0361 | clases: PreprocesoDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/prep/__init__.py` → p0356 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/prep/prep_groups_dialog.py` → p0357 | clases: PrepGroupsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/prep/prep_steps_dialog.py` → p0358 | clases: PrepStepsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/prep/preproceso_dialog.py` → p0359 | clases: PreprocesoDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - product/
-    - `ui/dialogs/product/__init__.py` → p0362 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/product/add_iteration_dialog.py` → p0363 | clases: AddIterationFormData, AddIterationDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/product/bom_import_preview_dialog.py` → p0364 | clases: BOMImportPreviewDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/product/procesos_mecanicos_dialog.py` → p0365 | clases: ProcesosMecanicosDialog, AddProcesoMecanicoDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/product/product_details_dialog.py` → p0366 | clases: ProductDetailsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/product/subfabricaciones_dialog.py` → p0367 | clases: SubfabricacionesDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/product/__init__.py` → p0360 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/product/add_iteration_dialog.py` → p0361 | clases: AddIterationFormData, AddIterationDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/product/bom_import_preview_dialog.py` → p0362 | clases: BOMImportPreviewDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/product/procesos_mecanicos_dialog.py` → p0363 | clases: ProcesosMecanicosDialog, AddProcesoMecanicoDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/product/product_details_dialog.py` → p0364 | clases: ProductDetailsDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/product/subfabricaciones_dialog.py` → p0365 | clases: SubfabricacionesDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - production_flow/
-    - `ui/dialogs/production_flow/__init__.py` → p0368 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/common_dialogs.py` → p0369 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/cycle_end_config_dialog.py` → p0370 | clases: CycleEndConfigDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/define_flow_dialog.py` → p0371 | clases: DefineProductionFlowDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/define_flow_presenter.py` → p0372 | clases: DefineFlowPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/definir_cantidades_dialog.py` → p0373 | clases: DefinirCantidadesDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/enhanced_flow_dialog.py` → p0374 | clases: EnhancedProductionFlowDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/enhanced_flow_presenter.py` → p0375 | clases: EnhancedFlowPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/enhanced_flow_state_manager.py` → p0376 | clases: EnhancedFlowStateManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/flow_action_handler.py` → p0377 | clases: FlowActionHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/flow_builder.py` → p0378 | clases: FlowBuilder | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/flow_simulation_handler.py` → p0379 | clases: FlowSimulationHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/machine_resource_manager.py` → p0380 | clases: MachineResourceManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/dialogs/production_flow/reassignment_rule_dialog.py` → p0381 | clases: ReassignmentRuleDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/__init__.py` → p0366 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/common_dialogs.py` → p0367 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/cycle_end_config_dialog.py` → p0368 | clases: CycleEndConfigDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/define_flow_dialog.py` → p0369 | clases: DefineProductionFlowDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/define_flow_presenter.py` → p0370 | clases: DefineFlowPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/definir_cantidades_dialog.py` → p0371 | clases: DefinirCantidadesDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/enhanced_flow_dialog.py` → p0372 | clases: EnhancedProductionFlowDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/enhanced_flow_presenter.py` → p0373 | clases: EnhancedFlowPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/enhanced_flow_state_manager.py` → p0374 | clases: EnhancedFlowStateManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/flow_action_handler.py` → p0375 | clases: FlowActionHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/flow_builder.py` → p0376 | clases: FlowBuilder | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/flow_simulation_handler.py` → p0377 | clases: FlowSimulationHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/machine_resource_manager.py` → p0378 | clases: MachineResourceManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/dialogs/production_flow/reassignment_rule_dialog.py` → p0379 | clases: ReassignmentRuleDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `ui/dialogs/__init__.py` → p0333 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `ui/dialogs/backup_restore_dialog.py` → p0334 | clases: BackupRestoreDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/dialogs/canvas_widget.py` → p0335 | clases: CanvasWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/dialogs/canvas_widgets.py` → p0336 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/dialogs/card_widget.py` → p0337 | clases: CardWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/dialogs/connection_dialog.py` → p0338 | clases: ConnectionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/dialogs/tracking_dialogs.py` → p0339 | clases: OrderSetupDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/dialogs/utility_dialogs.py` → p0340 | clases: AddBreakDialog, LoginDialog, ChangePasswordDialog, SyncDialog, SeleccionarHojasExcelDialog, MultiWorkerSelectionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/dialogs/connection_dialog.py` → p0335 | clases: ConnectionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/dialogs/tracking_dialogs.py` → p0336 | clases: OrderSetupDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/dialogs/utility_dialogs.py` → p0337 | clases: AddBreakDialog, LoginDialog, ChangePasswordDialog, SyncDialog, SeleccionarHojasExcelDialog, MultiWorkerSelectionDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - facades/
   - `core/facades/__init__.py` → p0155 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/facades/planning_facade.py` → p0156 | clases: PlanningFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
@@ -108,7 +106,7 @@ Leyenda:
   - `core/facades/system_facade.py` → p0160 | clases: SystemFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/facades/workforce_facade.py` → p0161 | clases: WorkforceFacade | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - hardware/
-  - `tools/hardware/detect_cameras.py` → p0508 | clases: CameraInfo | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `tools/hardware/detect_cameras.py` → p0511 | clases: CameraInfo | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - health/
   - `core/health/__init__.py` → p0162 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/health/constants.py` → p0163 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
@@ -116,12 +114,12 @@ Leyenda:
   - `core/health/health_worker.py` → p0165 | clases: HealthCheckWorker | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/health/test_runner.py` → p0166 | clases: TestRunner | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - historial/
-  - `controllers/historial/__init__.py` → p0079 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/historial/controller.py` → p0080 | clases: HistorialController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/historial/interaction_manager.py` → p0081 | clases: HistorialInteractionManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/historial/protocols.py` → p0082 | clases: HistorialControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/historial/report_manager.py` → p0083 | clases: HistorialReportManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/historial/view_manager.py` → p0084 | clases: HistorialViewManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/historial/__init__.py` → p0081 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/historial/controller.py` → p0082 | clases: HistorialController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/historial/interaction_manager.py` → p0083 | clases: HistorialInteractionManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/historial/protocols.py` → p0084 | clases: HistorialControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/historial/report_manager.py` → p0085 | clases: HistorialReportManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/historial/view_manager.py` → p0086 | clases: HistorialViewManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - import_manager/
   - adapters/
     - `core/import_manager/adapters/__init__.py` → p0170 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
@@ -131,7 +129,7 @@ Leyenda:
     - `core/import_manager/services/__init__.py` → p0173 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
     - `core/import_manager/services/bom_import_service.py` → p0174 | clases: BOMImportService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/import_manager/__init__.py` → p0167 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `core/import_manager/dto.py` → p0168 | clases: BOMNodeDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `core/import_manager/dto.py` → p0168 | clases: BOMImportRole, BOMNodeDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/import_manager/ports.py` → p0169 | clases: IBOMImporter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - interfaces/
   - `core/interfaces/controller_interface.py` → p0175 | clases: QABCMeta, IController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
@@ -144,8 +142,8 @@ Leyenda:
   - `core/label_manager/ports.py` → p0181 | clases: IDocumentGenerator | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/label_manager/printer.py` → p0182 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - maintenance/
-  - `scripts/maintenance/backup_database.py` → p0501 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `scripts/maintenance/reset_admin.py` → p0502 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `scripts/maintenance/backup_database.py` → p0504 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `scripts/maintenance/reset_admin.py` → p0505 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - models/
   - `database/models/__init__.py` → p0258 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `database/models/base.py` → p0259 | clases: Base | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
@@ -157,19 +155,19 @@ Leyenda:
   - `database/models/tracking.py` → p0266 | clases: TrabajoLog, PasoTrazabilidad, IncidenciaLog, IncidenciaAdjunto | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `database/models/worker.py` → p0267 | clases: Trabajador, TrabajadorPilaAnotacion | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - pila/
-  - `controllers/pila/controller.py` → p0085 | clases: PilaController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/pila/lote_manager.py` → p0086 | clases: LoteManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/pila/pila_manager.py` → p0087 | clases: PilaManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/pila/protocols.py` → p0088 | clases: IPilaView, IPilaDatabase, IPilaService, IProductService, IFabricacionService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/pila/controller.py` → p0087 | clases: PilaController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/pila/lote_manager.py` → p0088 | clases: LoteManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/pila/pila_manager.py` → p0089 | clases: PilaManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/pila/protocols.py` → p0090 | clases: IPilaView, IPilaDatabase, IPilaService, IProductService, IFabricacionService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - product/
-  - `controllers/product/__init__.py` → p0089 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/product/application_shell.py` → p0090 | clases: IApplicationShell | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/product/fabricacion_manager.py` → p0091 | clases: FabricacionManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/product/fabricacion_products_handler.py` → p0092 | clases: IPlanningCalculationProvider, FabricacionProductsHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/product/material_manager.py` → p0093 | clases: MaterialManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/product/preproceso_manager.py` → p0094 | clases: PreprocesoManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/product/product_manager.py` → p0095 | clases: ProductManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/product/protocols.py` → p0096 | clases: IProductView, IProductModel, IFabricacionControllerDelegate, ProductControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/__init__.py` → p0091 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/application_shell.py` → p0092 | clases: IApplicationShell | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/fabricacion_manager.py` → p0093 | clases: FabricacionManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/fabricacion_products_handler.py` → p0094 | clases: IPlanningCalculationProvider, FabricacionProductsHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/material_manager.py` → p0095 | clases: MaterialManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/preproceso_manager.py` → p0096 | clases: PreprocesoManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/product_manager.py` → p0097 | clases: ProductManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/product/protocols.py` → p0098 | clases: IProductView, IProductModel, IFabricacionControllerDelegate, ProductControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - protocols/
   - `core/protocols/__init__.py` → p0183 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/protocols/domain.py` → p0184 | clases: IProductService, IFabricacionService, IMaterialService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
@@ -290,13 +288,13 @@ Leyenda:
     - `core/simulation/simulation_events/base.py` → p0243 | clases: EventoDeSimulacion | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
     - `core/simulation/simulation_events/production.py` → p0244 | clases: EventoInicioUnidad, EventoFinUnidad | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
     - `core/simulation/simulation_events/worker.py` → p0245 | clases: EventoReasignacionTrabajador, EventoTiempoInactivo | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/__init__.py` → p0097 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/controller.py` → p0098 | clases: SimulationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/editor_manager.py` → p0099 | clases: SimulationEditorManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/execution_helpers.py` → p0100 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/execution_manager.py` → p0101 | clases: SimulationExecutionManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/optimizer_worker.py` → p0102 | clases: OptimizerWorker | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/simulation/protocols.py` → p0103 | clases: SimulationControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/__init__.py` → p0099 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/controller.py` → p0100 | clases: SimulationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/editor_manager.py` → p0101 | clases: SimulationEditorManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/execution_helpers.py` → p0102 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/execution_manager.py` → p0103 | clases: SimulationExecutionManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/optimizer_worker.py` → p0104 | clases: OptimizerWorker | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/simulation/protocols.py` → p0105 | clases: SimulationControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/simulation/__init__.py` → p0230 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/simulation/event_engine.py` → p0231 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - `core/simulation/resource_manager.py` → p0232 | clases: IntervaloOcupacion, ReglaReasignacion, GestorDeRecursos | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
@@ -312,136 +310,136 @@ Leyenda:
 - validation/
   - `core/validation/validator_service.py` → p0251 | clases: ValidationResult, ValidatorService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - versions/
-  - `migrations/versions/a195b5f170d2_add_security_tables.py` → p0513 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-  - `migrations/versions/c1444b2546d3_initial_clean_migration.py` → p0514 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `migrations/versions/a195b5f170d2_add_security_tables.py` → p0516 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+  - `migrations/versions/c1444b2546d3_initial_clean_migration.py` → p0517 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - widgets/
   - product/
-    - `ui/widgets/product/__init__.py` → p0403 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/product/iterations_widget.py` → p0404 | clases: ProductIterationsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/product/materials_widget.py` → p0405 | clases: ProductMaterialsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/product/__init__.py` → p0401 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/product/iterations_widget.py` → p0402 | clases: ProductIterationsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/product/materials_widget.py` → p0403 | clases: ProductMaterialsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - production_flow/
-    - `ui/widgets/production_flow/__init__.py` → p0406 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/define_control_panel.py` → p0407 | clases: DefineControlPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/flow_canvas.py` → p0408 | clases: _FlowConnectionsLayer, ProductionFlowCanvas | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/flow_card_widget.py` → p0409 | clases: FlowCardWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/flow_connection_painter.py` → p0410 | clases: FlowConnectionPainter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/flow_display_panel.py` → p0412 | clases: FlowDisplayPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/flow_graph_manager.py` → p0413 | clases: FlowGraphManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/flow_item_widget.py` → p0414 | clases: FlowItemWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/flow_toolbar.py` → p0415 | clases: FlowToolbarWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/inspector_panel.py` → p0416 | clases: ProductionTaskInspector | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/inspector_presenter.py` → p0417 | clases: InspectorPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/inspector_task_loader.py` → p0418 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/inspector_ui.py` → p0419 | clases: InspectorWidgets | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/production_flow/library_panel.py` → p0420 | clases: TaskLibraryPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/__init__.py` → p0404 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/define_control_panel.py` → p0405 | clases: DefineControlPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/flow_canvas.py` → p0406 | clases: _FlowConnectionsLayer, ProductionFlowCanvas | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/flow_card_widget.py` → p0407 | clases: FlowCardWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/flow_connection_painter.py` → p0408 | clases: FlowConnectionPainter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/flow_display_panel.py` → p0410 | clases: FlowDisplayPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/flow_graph_manager.py` → p0411 | clases: FlowGraphManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/flow_item_widget.py` → p0412 | clases: FlowItemWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/flow_toolbar.py` → p0413 | clases: FlowToolbarWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/inspector_panel.py` → p0414 | clases: ProductionTaskInspector | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/inspector_presenter.py` → p0415 | clases: InspectorPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/inspector_task_loader.py` → p0416 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/inspector_ui.py` → p0417 | clases: InspectorWidgets | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/production_flow/library_panel.py` → p0418 | clases: TaskLibraryPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - reports/
-    - `ui/widgets/reports/__init__.py` → p0421 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/reports/charts_container.py` → p0422 | clases: ReportsChartsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/reports/charts_renderers.py` → p0423 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/reports/order_list.py` → p0424 | clases: OrderCard, OrderListWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/reports/smart_search.py` → p0425 | clases: SmartSearchWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/reports/stat_card.py` → p0426 | clases: StatCard | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/reports/__init__.py` → p0419 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/reports/charts_container.py` → p0420 | clases: ReportsChartsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/reports/charts_renderers.py` → p0421 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/reports/order_list.py` → p0422 | clases: OrderCard, OrderListWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/reports/smart_search.py` → p0423 | clases: SmartSearchWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/reports/stat_card.py` → p0424 | clases: StatCard | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
   - worker/
-    - `ui/widgets/worker/camera_info_panel.py` → p0427 | clases: CameraInfoPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/worker/camera_selector_panel.py` → p0428 | clases: CameraSelectorPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/worker/worker_activity_panel.py` → p0429 | clases: WorkerActivityPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/worker/worker_details_panel.py` → p0430 | clases: WorkerDetailsPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/widgets/worker/worker_incidence_dialog.py` → p0431 | clases: WorkerIncidenceDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/__init__.py` → p0382 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/base.py` → p0383 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/calculate_times_widget.py` → p0384 | clases: CalculateTimesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/dashboard_widget.py` → p0385 | clases: DashboardWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/fabrications_widget.py` → p0386 | clases: FabricationsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/gestion_datos_widget.py` → p0387 | clases: GestionDatosWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/help_widget.py` → p0388 | clases: HelpWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/historial_widget.py` → p0389 | clases: HistorialWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/home_widget.py` → p0390 | clases: HomeWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/log_terminal_widget.py` → p0391 | clases: LogTerminalWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/lotes_widget.py` → p0392 | clases: DefinirLoteWidget, LotesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/machines_widget.py` → p0393 | clases: MachinesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/main_header.py` → p0394 | clases: MainHeader | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/main_nav_panel.py` → p0395 | clases: MainNavPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/prep_steps_widget.py` → p0396 | clases: PrepStepsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/preprocesos_widget.py` → p0397 | clases: PreprocesosWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/products_widget.py` → p0398 | clases: ProductsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/reportes_widget.py` → p0399 | clases: ReportesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/settings_widget.py` → p0400 | clases: SettingsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/timeline_widget.py` → p0401 | clases: TimelineVisualizationWidget, TaskAnalysisPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/widgets/workers_widget.py` → p0402 | clases: WorkersWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/worker/camera_info_panel.py` → p0425 | clases: CameraInfoPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/worker/camera_selector_panel.py` → p0426 | clases: CameraSelectorPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/worker/worker_activity_panel.py` → p0427 | clases: WorkerActivityPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/worker/worker_details_panel.py` → p0428 | clases: WorkerDetailsPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/widgets/worker/worker_incidence_dialog.py` → p0429 | clases: WorkerIncidenceDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/__init__.py` → p0380 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/base.py` → p0381 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/calculate_times_widget.py` → p0382 | clases: CalculateTimesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/dashboard_widget.py` → p0383 | clases: DashboardWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/fabrications_widget.py` → p0384 | clases: FabricationsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/gestion_datos_widget.py` → p0385 | clases: GestionDatosWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/help_widget.py` → p0386 | clases: HelpWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/historial_widget.py` → p0387 | clases: HistorialWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/home_widget.py` → p0388 | clases: HomeWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/log_terminal_widget.py` → p0389 | clases: LogTerminalWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/lotes_widget.py` → p0390 | clases: DefinirLoteWidget, LotesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/machines_widget.py` → p0391 | clases: MachinesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/main_header.py` → p0392 | clases: MainHeader | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/main_nav_panel.py` → p0393 | clases: MainNavPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/prep_steps_widget.py` → p0394 | clases: PrepStepsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/preprocesos_widget.py` → p0395 | clases: PreprocesosWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/products_widget.py` → p0396 | clases: ProductsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/reportes_widget.py` → p0397 | clases: ReportesWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/settings_widget.py` → p0398 | clases: SettingsWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/timeline_widget.py` → p0399 | clases: TimelineVisualizationWidget, TaskAnalysisPanel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/widgets/workers_widget.py` → p0400 | clases: WorkersWidget | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - worker/
   - main_window/
-    - `ui/worker/main_window/__init__.py` → p0435 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/worker/main_window/ui_manager.py` → p0436 | clases: WorkerMainWindowUIManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-    - `ui/worker/main_window/window.py` → p0437 | clases: WorkerMainWindow | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/worker/__init__.py` → p0104 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/worker/auth_manager.py` → p0105 | clases: WorkerAuthManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/worker/controller.py` → p0106 | clases: WorkerController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/worker/management_manager.py` → p0107 | clases: WorkerManagementManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/worker/protocols.py` → p0108 | clases: IWorkerView, IWorkerService, IWorkerModel, WorkerControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/worker/task_manager.py` → p0109 | clases: WorkerTaskManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `controllers/worker/worker_camera_config.py` → p0110 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/worker/__init__.py` → p0432 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/worker/camera_config_dialog.py` → p0433 | clases: CameraConfigDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-  - `ui/worker/camera_config_presenter.py` → p0434 | clases: CameraConfigPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/worker/main_window/__init__.py` → p0433 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/worker/main_window/ui_manager.py` → p0434 | clases: WorkerMainWindowUIManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+    - `ui/worker/main_window/window.py` → p0435 | clases: WorkerMainWindow | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/__init__.py` → p0106 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/auth_manager.py` → p0107 | clases: WorkerAuthManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/controller.py` → p0108 | clases: WorkerController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/management_manager.py` → p0109 | clases: WorkerManagementManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/protocols.py` → p0110 | clases: IWorkerView, IWorkerService, IWorkerModel, WorkerControllerProtocol | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/task_manager.py` → p0111 | clases: WorkerTaskManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `controllers/worker/worker_camera_config.py` → p0112 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/worker/__init__.py` → p0430 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/worker/camera_config_dialog.py` → p0431 | clases: CameraConfigDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+  - `ui/worker/camera_config_presenter.py` → p0432 | clases: CameraConfigPresenter | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `analyze_ui.py` → p0050 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `app.py` → p0049 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/__init__.py` → p0055 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/app_controller.py` → p0056 | clases: AppController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/backup_controller.py` → p0057 | clases: IBackupControllerDatabase, BackupController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/backup_controller_io_manager.py` → p0058 | clases: BackupControllerIOContext, BackupIOManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/calculation_controller.py` → p0059 | clases: CalculationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/fabricacion_controller.py` → p0060 | clases: FabricacionController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/file_controller.py` → p0061 | clases: FileController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/hardware_controller.py` → p0062 | clases: HardwareController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/lote_controller.py` → p0063 | clases: LoteController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/machine_controller.py` → p0064 | clases: MachineController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/navigation_controller.py` → p0065 | clases: NavigationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/preproceso_controller.py` → p0066 | clases: PreprocesoController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/product_controller_v2.py` → p0067 | clases: ProductController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/report_controller.py` → p0068 | clases: ReportController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/report_export_helper.py` → p0069 | clases: ReportExportHelper | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/schedule_controller.py` → p0070 | clases: ScheduleController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/schedule_helpers.py` → p0071 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/schedule_ui_helper.py` → p0072 | clases: ScheduleUiOpsHelper | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/session_controller.py` → p0073 | clases: SessionController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/startup_controller.py` → p0074 | clases: StartupController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/ui_class_loader.py` → p0075 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/ui_controller.py` → p0076 | clases: UIController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/ui_signals_controller.py` → p0077 | clases: UISignalsController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `controllers/ui_signals_wiring.py` → p0078 | clases: UISignalsWiring | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/__init__.py` → p0114 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/app_model.py` → p0115 | clases: AppModel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/application_state.py` → p0116 | clases: ApplicationState | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/constants.py` → p0117 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/define_flow_form_io.py` → p0118 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/define_flow_presenter_io.py` → p0119 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/definir_cantidades_dialog_io.py` → p0120 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/di_container.py` → p0121 | clases: ServiceLifecycle, ServiceRegistration, DIContainer | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/dtos.py` → p0122 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/dtos_catalog.py` → p0123 | clases: ProductDTO, SubfabricacionDTO, ProcesoMecanicoDTO, MaterialDTO, PilaDTO, MaterialStatsDTO, ComponenteDTO, FabricacionProductoDTO, PreprocesoDTO, FabricacionDTO, LoteDTO, ConfigurationDTO (+4) | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/dtos_flow_camera.py` → p0124 | clases: FlowTaskDataDTO, CanvasCyclicConnectionFlags, ProductFlowLibraryProductDTO, FlowTaskConfigDTO, ProductionFlowStepDTO, FlowCanvasTaskDTO, CameraConfigDTO, CameraDetailDTO, FlowItemDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/dtos_models.py` → p0125 | clases: MachineDTO, MachineMaintenanceDTO, PreparationGroupDTO, PreparationStepDTO, WorkerDTO, WorkerAnnotationDTO, WorkerDetailDTO, AuthResponseDTO, BackupInfoDTO, SimulationResultTaskDTO, CalculationSubPartDTO, CalculationProductDTO (+11) | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/enhanced_flow_canvas_state_io.py` → p0126 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/enhanced_flow_presenter_io.py` → p0127 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/flow_canvas_io.py` → p0128 | clases: CanvasVisualConnection | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/flow_card_labels.py` → p0129 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/flow_graph_manager_io.py` → p0130 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/flow_inspector_context.py` → p0131 | clases: FlowInspectorTaskContext | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/holidays_config_io.py` → p0132 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/inspector_task_payload_io.py` → p0133 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/paths.py` → p0134 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/planning_session_access.py` → p0135 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/production_context.py` → p0136 | clases: ProductionStatus, ProductionContext | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/qr_generator.py` → p0137 | clases: QrGenerator | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/qt_log_handler.py` → p0139 | clases: _SignalEmitter, QtLogHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/__init__.py` → p0057 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/app_controller.py` → p0058 | clases: AppController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/backup_controller.py` → p0059 | clases: IBackupControllerDatabase, BackupController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/backup_controller_io_manager.py` → p0060 | clases: BackupControllerIOContext, BackupIOManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/calculation_controller.py` → p0061 | clases: CalculationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/fabricacion_controller.py` → p0062 | clases: FabricacionController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/file_controller.py` → p0063 | clases: FileController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/hardware_controller.py` → p0064 | clases: HardwareController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/lote_controller.py` → p0065 | clases: LoteController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/machine_controller.py` → p0066 | clases: MachineController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/navigation_controller.py` → p0067 | clases: NavigationController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/preproceso_controller.py` → p0068 | clases: PreprocesoController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/product_controller_v2.py` → p0069 | clases: ProductController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/report_controller.py` → p0070 | clases: ReportController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/report_export_helper.py` → p0071 | clases: ReportExportHelper | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/schedule_controller.py` → p0072 | clases: ScheduleController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/schedule_helpers.py` → p0073 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/schedule_ui_helper.py` → p0074 | clases: ScheduleUiOpsHelper | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/session_controller.py` → p0075 | clases: SessionController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/startup_controller.py` → p0076 | clases: StartupController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/ui_class_loader.py` → p0077 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/ui_controller.py` → p0078 | clases: UIController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/ui_signals_controller.py` → p0079 | clases: UISignalsController | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `controllers/ui_signals_wiring.py` → p0080 | clases: UISignalsWiring | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/__init__.py` → p0116 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/app_model.py` → p0117 | clases: AppModel | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/application_state.py` → p0118 | clases: ApplicationState | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/constants.py` → p0119 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/define_flow_form_io.py` → p0120 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/define_flow_presenter_io.py` → p0121 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/definir_cantidades_dialog_io.py` → p0122 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/di_container.py` → p0123 | clases: ServiceLifecycle, ServiceRegistration, DIContainer | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/dtos.py` → p0124 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/dtos_catalog.py` → p0125 | clases: ProductDTO, SubfabricacionDTO, ProcesoMecanicoDTO, MaterialDTO, PilaDTO, MaterialStatsDTO, ComponenteDTO, FabricacionProductoDTO, PreprocesoDTO, FabricacionDTO, LoteDTO, ConfigurationDTO (+4) | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/dtos_flow_camera.py` → p0126 | clases: FlowTaskDataDTO, CanvasCyclicConnectionFlags, ProductFlowLibraryProductDTO, FlowTaskConfigDTO, ProductionFlowStepDTO, FlowCanvasTaskDTO, CameraConfigDTO, CameraDetailDTO, FlowItemDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/dtos_models.py` → p0127 | clases: MachineDTO, MachineMaintenanceDTO, PreparationGroupDTO, PreparationStepDTO, WorkerDTO, WorkerAnnotationDTO, WorkerDetailDTO, AuthResponseDTO, BackupInfoDTO, SimulationResultTaskDTO, CalculationSubPartDTO, CalculationProductDTO (+11) | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/enhanced_flow_canvas_state_io.py` → p0128 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/enhanced_flow_presenter_io.py` → p0129 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/flow_canvas_io.py` → p0130 | clases: CanvasVisualConnection | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/flow_card_labels.py` → p0131 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/flow_graph_manager_io.py` → p0132 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/flow_inspector_context.py` → p0133 | clases: FlowInspectorTaskContext | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/holidays_config_io.py` → p0134 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/inspector_task_payload_io.py` → p0135 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/paths.py` → p0136 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/planning_session_access.py` → p0137 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/production_context.py` → p0138 | clases: ProductionStatus, ProductionContext | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/qr_generator.py` → p0139 | clases: QrGenerator | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/qt_log_handler.py` → p0140 | clases: _SignalEmitter, QtLogHandler | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `core/quote_service.py` → p0141 | clases: QuoteService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `core/reassignment_rule_dialog_io.py` → p0142 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `core/reports_dtos.py` → p0143 | clases: ResultadoBusquedaDTO, OrdenFabricacionResumenDTO, OrdenFabricacionDetalleDTO, PromedioTiempoDTO, TiempoTrabajadorDTO, IncidenciaResumenDTO, PuntoEvolucionDTO, UnidadTrabajoDTO, ResumenProductoDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/schedule_config.py` → p0145 | clases: ScheduleConfig | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/subfabricacion_rows.py` → p0146 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/sync_service.py` → p0147 | clases: SyncService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/tracking_dtos.py` → p0148 | clases: FabricacionAsignadaDTO, IncidenciaAdjuntoDTO, IncidenciaLogDTO, PasoTrazabilidadDTO, TrabajoLogDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `core/worker_ui_dtos.py` → p0149 | clases: WorkerTaskListRowDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/schedule_config.py` → p0144 | clases: ScheduleConfig | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/subfabricacion_rows.py` → p0145 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/sync_service.py` → p0146 | clases: SyncService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/tracking_dtos.py` → p0147 | clases: FabricacionAsignadaDTO, IncidenciaAdjuntoDTO, IncidenciaLogDTO, PasoTrazabilidadDTO, TrabajoLogDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `core/worker_ui_dtos.py` → p0148 | clases: WorkerTaskListRowDTO | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `database/__init__.py` → p0255 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `database/config.py` → p0256 | clases: DatabaseConfig | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `database/database_manager.py` → p0257 | clases: DatabaseManager | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
@@ -452,15 +450,19 @@ Leyenda:
 - `features/worker_incidence_dialog.py` → p0322 | clases: IncidenceDialog | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `features/worker_validation_service.py` → p0323 | clases: QRScannerProtocol, WorkerValidationService | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `generate_ui_report.py` → p0051 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `migrations/env.py` → p0512 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/__init__.py` → p0441 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/analyze_mixin.py` → p0442 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/analyze_pila_controller.py` → p0443 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/analyze_product_controller_coverage.py` → p0444 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/analyze_ui_state.py` → p0445 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/architecture_layer_edges.py` → p0446 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/audit_import_graph.py` → p0447 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/audit_module_docstrings.py` → p0448 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `migrations/env.py` → p0515 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `run_tests.py` → p0052 | clases: Colors | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `run_tests_safe.py` → p0053 | clases: C | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/__init__.py` → p0439 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/analyze_mixin.py` → p0440 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/analyze_pila_controller.py` → p0441 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/analyze_product_controller_coverage.py` → p0442 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/analyze_ui_state.py` → p0443 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/architecture_layer_edges.py` → p0444 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/audit_import_graph.py` → p0445 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/audit_module_description_quality.py` → p0446 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/audit_module_docstrings.py` → p0447 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/bootstrap_module_docstrings.py` → p0448 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `scripts/build_executable.py` → p0449 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `scripts/check_documentation_omissions.py` → p0450 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `scripts/check_typing_coverage.py` → p0451 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
@@ -468,37 +470,40 @@ Leyenda:
 - `scripts/coverage_focus.py` → p0453 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `scripts/detect_dead_code.py` → p0454 | clases: MethodExtractor | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `scripts/doc_audit_common.py` → p0455 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/download_opencv_resources.py` → p0456 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/extract_test_quality_in_progress.py` → p0457 | clases: BacklogItem | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/generate_comprehensive_report.py` → p0458 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/generate_coverage_report.py` → p0459 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/generate_daniel_doc.py` → p0460 | clases: FileIndexInfo, DirIndexNode | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/generate_monolitos_finales.py` → p0461 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/generate_quotes_db.py` → p0462 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/init_database.py` → p0463 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
-- `scripts/inject_module_docstrings.py` → p0464 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/legacy_analyzer.py` → p0465 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/list_mypy_core_services_gaps.py` → p0466 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/monolith_analyzer.py` → p0467 | clases: FileNode, GraphStats, _ImportCollector | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/print_summary.py` → p0468 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/profile_queries.py` → p0469 | clases: QueryCounter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/reorder_docstring_before_future.py` → p0470 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/run_quality_audit.py` → p0471 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/security_audit_analyzer.py` → p0472 | clases: SecurityAuditAnalyzer | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/seed_data.py` → p0473 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/sync_worktree_to_icloud.py` → p0474 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/test_quality_analyzer.py` → p0475 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/track_docx_dependencies.py` → p0476 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/ui_dto_boundary_analyzer.py` → p0477 | clases: Finding | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/ui_dto_boundary_decision_report.py` → p0478 | clases: Decision | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/ui_dto_findings_catalog.py` → p0479 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/update_readme_metrics.py` → p0480 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/update_test_imports.py` → p0481 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/verify_migration.py` → p0482 | clases: CodeIssue | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/verify_qr_optimization.py` → p0483 | clases: TestQrScannerOptimization | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `scripts/verify_structure.py` → p0484 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `tools/__init__.py` → p0506 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
-- `tools/analyze_app_controller.py` → p0507 | clases: AppControllerVisitor | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/docstrings_queue.py` → p0456 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/download_opencv_resources.py` → p0457 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/extract_test_quality_in_progress.py` → p0458 | clases: BacklogItem | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_comprehensive_report.py` → p0459 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_coverage_report.py` → p0460 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_daniel_doc.py` → p0461 | clases: FileIndexInfo, DirIndexNode | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_monolitos_finales.py` → p0462 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/generate_quotes_db.py` → p0463 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/init_database.py` → p0464 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
+- `scripts/inject_module_docstrings.py` → p0465 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/legacy_analyzer.py` → p0466 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/list_mypy_core_services_gaps.py` → p0467 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/monolith_analyzer.py` → p0468 | clases: FileNode, GraphStats, _ImportCollector | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/print_summary.py` → p0469 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/profile_queries.py` → p0470 | clases: QueryCounter | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/refine_module_descriptions.py` → p0471 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/reorder_docstring_before_future.py` → p0472 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/run_quality_audit.py` → p0473 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/security_audit_analyzer.py` → p0474 | clases: SecurityAuditAnalyzer | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/seed_data.py` → p0475 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/sync_worktree_to_icloud.py` → p0476 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/test_quality_analyzer.py` → p0477 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/track_docx_dependencies.py` → p0478 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/ui_dto_boundary_analyzer.py` → p0479 | clases: Finding | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/ui_dto_boundary_decision_report.py` → p0480 | clases: Decision | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/ui_dto_findings_catalog.py` → p0481 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/update_readme_metrics.py` → p0482 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/update_test_imports.py` → p0483 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/verify_migration.py` → p0484 | clases: CodeIssue | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/verify_qr_optimization.py` → p0485 | clases: TestQrScannerOptimization | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/verify_structure.py` → p0486 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `scripts/windows_path_audit.py` → p0487 | clases: Finding | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `tools/__init__.py` → p0509 | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
+- `tools/analyze_app_controller.py` → p0510 | clases: AppControllerVisitor | Mypy: Parcial (configuración gradual: disallow_untyped_defs=False en mypy.ini tipar todo al 100% no compensa el esfuerzo; se prioriza estabilidad.)
 - `ui/__init__.py` → p0327 | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `ui/main_window.py` → p0328 | clases: MainView | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
 - `ui/startup_screen.py` → p0329 | clases: StartupScreen | Mypy: Sí (disallow_untyped_defs=True en mypy.ini (fase avanzada/módulo completado).)
@@ -612,6 +617,7 @@ graph TD
         SIMC[SimulationController]
         RPC[ReportController]
         HRC[HistorialController + HistorialReportManager]
+        BCIO[BackupControllerIOManager ZIP/TAR import export sync]
         AC --> SC
         AC --> LC
         AC --> FC
@@ -620,6 +626,7 @@ graph TD
         AC --> SIMC
         AC --> RPC
         AC --> HRC
+        AC -.->|copias y fusión BD| BCIO
         ST -.->|registro DI + wiring| AC
     end
 
@@ -649,6 +656,8 @@ graph TD
 
     subgraph DB["🗄️ Capa Database"]
         DM[DatabaseManager]
+        SYN[SyncService compare/apply SQLite]
+        DM -.->|compare_with_db apply_sync_changes| SYN
         WR[WorkerRepository]
         PR[ProductRepository]
         IR[IterationRepository]
@@ -778,7 +787,6 @@ graph TD
     tests --> tests_logic["logic/"]
     ROOT --> migrations["📦 migrations"]
     migrations --> migrations_versions["versions/"]
-    migrations --> migrations_versions 2["versions 2/"]
 ```
 
 | Carpeta | Contenido |
@@ -1204,13 +1212,13 @@ Cuando un archivo alcanza su **techo real** (`score optimizado = techo`), el ana
 
 | Métrica | Valor |
 |---|---|
-| Archivos analizados | 240 |
-| Actualizados (≥80 techo) | 214 |
+| Archivos analizados | 239 |
+| Actualizados (≥80 techo) | 213 |
 | En Progreso (50-79) | 26 |
 | Legacy / Pendiente (<50) | 0 |
 | Score absoluto medio | 75.1/100 |
 | Score optimizado medio | 76.9/100 |
-| Archivos en su techo real | 240/240 |
+| Archivos en su techo real | 239/239 |
 
 ### Detalle por Archivo
 
@@ -1251,10 +1259,10 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_qapp_crash.py` | 100 | 100 ✅ | Actualizado | — |
 | `test_simulation_controller_comprehensive.py` | 100 | 100 ✅ | Actualizado | SimulationEngine puro Python → `create_autospec(SimulationEngine)`; widgets de resultado Qt → `MagicMock()` |
 | `test_define_flow_dialog_edge.py` | 70 | 100 ✅ | Actualizado | DefineProductionFlowDialog depende de DefineControlPanel (QWidget) → sustituido por FakeControlPanel(QWidget) real co... |
+| `test_backup_controller_comprehensive.py` | 100 | 100 ✅ | Actualizado | — |
 | `test_product_controller_preprocesos.py` | 70 | 100 ✅ | Actualizado | ProductController depende de AppController → MagicMock() estándar; QDialog/QMessageBox parcheados con patch() para in... |
 | `test_di_container_lifecycle.py` | 100 | 100 ✅ | Actualizado | — |
 | `test_charts_container.py` | 100 | 100 ✅ | Actualizado | — |
-| `test_canvas_widgets.py` | 100 | 100 ✅ | Actualizado | — |
 | `__init__.py` | 100 | 100 ✅ | Actualizado | — |
 | `__init__.py` | 100 | 100 ✅ | Actualizado | — |
 | `__init__.py` | 100 | 100 ✅ | Actualizado | — |
@@ -1327,7 +1335,6 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_flow_canvas.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_order_list.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_bitacora_dialog.py` | 85 | 85 ✅ | Actualizado | FabricacionBitacoraDialog (Qt) → mock `controller.model.planning_facade` o `pila_service`; ya no se asertan llamadas ... |
-| `test_backup_controller_comprehensive.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_product_repository.py` | 85 | 85 ✅ | En Progreso | — |
 | `test_hardware_controller.py` | 85 | 85 ✅ | Actualizado | — |
 | `test_historial_report_manager_security.py` | 85 | 85 ✅ | Actualizado | `require_permission` + `set_security_service` con `MagicMock(spec=SecurityService)`; sin Qt real |
@@ -1372,7 +1379,7 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_dialogs_flow.py` | 70 | 70 ✅ | Actualizado | — |
 | `test_health_worker.py` | 70 | 70 ✅ | Actualizado | — |
 | `test_fabrications_widget.py` | 70 | 70 ✅ | Actualizado | — |
-| `test_canvas_widgets_coverage.py` | 70 | 70 ✅ | Actualizado | CardWidget (×2) y CanvasWidget/ProductionFlowCanvas son QWidget/QLabel (PyQt6) → MagicMock() inevitable; CardWidget d... |
+| `test_canvas_widgets_coverage.py` | 70 | 70 ✅ | Actualizado | FlowCardWidget y ProductionFlowCanvas (PyQt6): widgets reales en tests; MagicMock() solo en extremos de aristas en se... |
 | `test_tracking_repository_full.py` | 70 | 70 ✅ | En Progreso | — |
 | `test_security_validation.py` | 70 | 70 ✅ | Actualizado | Validación de seguridad pura → tests sin mocks, solo asserts sobre lógica |
 | `test_camera_config_dialog.py` | 70 | 70 ✅ | Actualizado | — |
@@ -1420,6 +1427,7 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_report_sheets.py` | 50 | 50 ✅ | Actualizado | Hojas de reporte con openpyxl → `create_autospec(Workbook)` para libro Excel |
 | `test_temporal_storage.py` | 50 | 50 ✅ | Actualizado | RegistroTemporal en archivo temporal real → un evento, `close()`, `consultar_eventos`; `cleanup()` en finally |
 | `test_library_panel.py` | 50 | 50 ✅ | Actualizado | TaskLibraryPanel es QWidget (PyQt6) → MagicMock() inevitable para dependencias visuales; update_visual_state() parche... |
+| `test_bom_import_preview_dialog.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_startup_screen_report.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_database_config.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_opt4_ast_guard_no_static_ui_imports.py` | 50 | 50 ✅ | Actualizado | — |
@@ -1456,7 +1464,6 @@ Columnas: **Score** = score absoluto · **Techo** = score máximo alcanzable · 
 | `test_main_nav_panel.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_flow_simulation_handler.py` | 50 | 50 ✅ | Actualizado | — |
 | `test_planning_session_access.py` | 40 | 40 ✅ | Actualizado | — |
-| `test_bom_import_preview_dialog.py` | 40 | 40 ✅ | Actualizado | — |
 | `test_bom_importer.py` | 25 | 25 ✅ | Actualizado | — |
 
 ---
@@ -1484,19 +1491,26 @@ graph TD
 
 </div>
 
-Nombre del Módulo: app.py
-Descripcion: Punto de entrada principal para la aplicación Hipatia (Cálculo de Tiempos de Fabricación).
-             Se encarga de la inicialización de QT, configuración de BD, logging y arranque de controladores.
-             También crea e instala el ``QtLogHandler`` que alimenta la terminal interna de advertencias
-             y errores visible en la pantalla de inicio.
+Nombre del Módulo: app
 
-             En ejecutable PyInstaller (Windows), ``_fix_qt_macos`` no aplica; BD, logs y config editable
-             se resuelven con ``core.paths`` (directorio del ``.exe``).
+Descripción: Punto de entrada principal para la aplicación Hipatia (cálculo de tiempos de fabricación).
+             Inicializa Qt, configuración de BD, logging y arranque de controladores.
+
+             Crea e instala ``QtLogHandler`` para la terminal visual de logs: tras el login se conecta
+             a ``HomeWidget`` (rol Responsable u otros con vista principal) o a ``WorkerMainWindow``
+             (rol Trabajador, pestaña Log), una sola vez por sesión.
+
+             En ejecutable PyInstaller (Windows), ``_fix_qt_macos`` no aplica; BD, logs y configuración
+             editable se resuelven con ``core.paths`` (directorio del ``.exe``).
+
+             En ``main()``, antes de ``QApplication(sys.argv)``, se aplica
+             ``QApplication.setHighDpiScaleFactorRoundingPolicy(PassThrough)`` cuando Qt6 lo permite,
+             para alinear el escalado fraccional del SO (p. ej. 125 % / 150 % en Windows) con el motor Qt.
 
 - 🔧 `_check_dependencies`: Verifica e importa dependencias opcionales dinámicamente. En particular, intenta cargar OpenCV (cv2) para funcionalidades de cámara.
 - 🔧 `_fix_qt_macos`: Aplica correcciones específicas para macOS. Resuelve problemas conocidos de Qt con espacios en rutas y configuración de plugins.
 - 🔧 `setup_logging`: Configura el sistema de registro (logging) en archivo y consola. Implementa rotación de archivos concurrente y salida por consola con diferentes niveles de detalle. El ``QtLogHandler`` NO se crea aquí: se instala en ``main()`` después de crear ``QApplication``, ya que ``QObject`` requiere que exista una instancia de ``QApplication``.
-- 🔧 `main`: Punto de entrada principal que orquesta el arranque de la aplicación. Inicializa la base de datos, el modelo, la vista y el controlador principal, gestionando también el proceso de autenticación de usuario. Después del login conecta el ``QtLogHandler`` al ``HomeWidget`` para que la terminal interna de la pantalla de inicio reciba los mensajes de advertencia y error generados durante la sesión. El ``QtLogHandler`` se crea DESPUÉS de ``QApplication`` porque ``QObject`` no puede instanciarse antes de que exista un event-loop de Qt. El buffer interno del handler almacena los warnings del arranque y los reproduce en cuanto el widget está listo.
+- 🔧 `main`: Punto de entrada principal que orquesta el arranque de la aplicación. Inicializa la base de datos, el modelo, la vista y el controlador principal, y el flujo de autenticación. Tras el login y la pantalla de salud del sistema: - Rol distinto de ``Trabajador``: conecta ``QtLogHandler`` al terminal de ``HomeWidget`` y muestra ``MainView``. - Rol ``Trabajador``: abre la interfaz de operario y conecta el mismo handler al ``LogTerminalWidget`` de la pestaña Log en ``WorkerMainWindow``. ``QtLogHandler`` se crea después de ``QApplication`` (requiere ``QObject``). El buffer interno guarda mensajes hasta la primera ``connect_to_widget`` y luego los reproduce en la terminal activa.
 
 ---
 
@@ -1506,9 +1520,10 @@ Descripcion: Punto de entrada principal para la aplicación Hipatia (Cálculo de
 
 </div>
 
-Nombre del Módulo: analyze_ui.py
-Descripción: Script para analizar la complejidad y estructura de los archivos de la interfaz de usuario (UI).
-             Extrae clases, métodos, complejidad ciclomática aproximada y uso de señales/conexiones.
+Nombre del Módulo: analyze_ui
+
+Descripción: Análisis estático (AST) de la capa UI: clases, métodos, complejidad aproximada y
+             señales/conexiones; emite JSON para informes (p. ej. ``generate_ui_report``).
 
 - 🔧 `analyze_file`: Analiza un archivo Python individual para extraer métricas de estructura y complejidad. Args: filepath: Ruta absoluta o relativa al archivo .py que se desea analizar. Returns: Un diccionario con el recuento de líneas, ruta del archivo y una lista de clases encontradas con sus métodos y métricas asociadas.
 - 🔧 `main`: Punto de entrada principal del script. Escanea los directorios de UI y genera un informe en formato JSON.
@@ -1521,7 +1536,48 @@ Descripción: Script para analizar la complejidad y estructura de los archivos d
 
 </div>
 
+Nombre del Módulo: generate_ui_report
+
+Descripción: Convierte el JSON generado por ``analyze_ui`` en un informe Markdown de la interfaz Hipatia.
+
 - 🔧 `generate_markdown`: Lee un informe JSON de análisis de UI y genera un documento Markdown estructurado. Args: json_path: Ruta al archivo JSON generado por analyze_ui.py. output_path: Ruta donde se guardará el informe Markdown resultante.
+
+---
+
+<div id='sec_run_tests_py'>
+
+### 📄 `run_tests.py`
+
+</div>
+
+Nombre del Módulo: run_tests
+
+Descripción: Orquestador local de pytest y métricas de calidad por archivo de test (cobertura,
+             resumen visual en consola). Ignora duplicados tipo ``test_foo 2.py`` de Finder/iCloud.
+
+- 🔧 `_is_finder_duplicate_test`: True si es copia accidental tipo ``test_foo 2.py`` / ``test_foo 3.py`` (Finder/iCloud).
+- 🔧 `_collect_test_files`: Devuelve todos los archivos test_*.py bajo tests/ (sin duplicados ``* N.py``).
+- 🔧 `_run_file_with_coverage`: Ejecuta un archivo de test con cobertura en subproceso aislado. Cada archivo genera su propio .coverage.<n> que luego se combina. Devuelve (passed, output_summary).
+- 🔧 `_print_worst_files`: Muestra los archivos con peor score corregible para priorizar mejoras.
+
+---
+
+<div id='sec_run_tests_safe_py'>
+
+### 📄 `run_tests_safe.py`
+
+</div>
+
+Nombre del Módulo: run_tests_safe
+
+Descripción: Ejecuta cada archivo de test en un subproceso aparte para reducir abortos por acumulación
+             de widgets PyQt6 en un solo proceso.
+
+             Uso: ``python3 run_tests_safe.py`` (todos), ``python3 run_tests_safe.py tests/unit/``,
+             ``python3 run_tests_safe.py -k "nombre"``, ``python3 run_tests_safe.py --fail-fast``.
+
+- 🔧 `collect_test_files`: Devuelve todos los archivos test_*.py bajo los paths indicados.
+- 🔧 `run_file`: Ejecuta un archivo de test en subproceso aislado. Returns: (passed, output, duration_seconds)
 
 ---
 
@@ -1556,7 +1612,7 @@ graph TD
 
 </div>
 
-Nombre del Paquete: controllers
+Nombre del Módulo: controllers
 Descripción: Centraliza y exporta todos los controladores del sistema Hipatia.
              Sigue el patrón MVC, donde los controladores actúan como mediadores entre 
              los modelos de datos y las vistas de la interfaz de usuario.
@@ -1569,7 +1625,7 @@ Descripción: Centraliza y exporta todos los controladores del sistema Hipatia.
 
 </div>
 
-Nombre del Módulo: app_controller.py
+Nombre del Módulo: app_controller
 Descripción: Orquestador central de la aplicación. Gestiona el ciclo de vida de los 
              sub-controladores y coordina la comunicación entre el modelo global y la vista principal.
 
@@ -1603,7 +1659,7 @@ del contenedor DI y la delegación de tareas a controladores especializados.
 
 </div>
 
-Nombre del Módulo: backup_controller.py
+Nombre del Módulo: backup_controller
 Descripción: Gestiona las operaciones de copia de seguridad (backup), restauración, 
              exportación e importación de la base de datos y logs del sistema.
 
@@ -1636,18 +1692,39 @@ archivos de base de datos SQLite.
 
 </div>
 
-Operaciones I/O de importación, exportación y sincronización para backups.
-
-``BackupController`` instancia ``BackupIOManager`` y delega en ``on_import_databases`` /
-``on_export_databases`` / ``on_sync_databases``; sin herencia múltiple.
+Nombre del Módulo: backup_controller_io_manager
+Descripción: Operaciones I/O de importación, exportación y sincronización de la base de datos.
+             ``BackupController`` compone ``BackupIOManager`` y delega ``on_import_databases``,
+             ``on_export_databases`` y ``on_sync_databases`` sin herencia múltiple. La sincronización
+             acepta SQLite suelto o copias ZIP/TAR.GZ (extracción temporal), compara con
+             ``DatabaseComparisonDTO`` y aplica cambios vía ``SyncDialog``.
 
 #### 🏛️ Clase `BackupControllerIOContext`
 
-Contrato mínimo que el I/O manager necesita del controlador (solo composición).
+Contrato mínimo que ``BackupIOManager`` exige del controlador (composición, no herencia).
+
+Attributes:
+    view: Vista principal para diálogos y mensajes.
+    db: Gestor de base de datos con ``compare_with_db``, ``apply_sync_changes``, etc.
+    logger: Logger de aplicación.
+    audit_logger: Servicio de auditoría opcional.
 
 #### 🏛️ Clase `BackupIOManager`
 
-Colaborador de composición para operaciones I/O de backup.
+Colaborador que centraliza importación ZIP completa, exportación ZIP de la BD y sincronización
+selectiva frente a otra copia SQLite. No sustituye al ``BackupController``; solo ejecuta I/O y UI
+asociada bajo su contrato ``BackupControllerIOContext``.
+
+**Métodos Principales:**
+
+- `__init__`: Args: controller: Instancia del controlador de backup que cumple el protocolo de contexto.
+- `on_import_databases`: Restaura datos desde un ZIP de copia de seguridad: extrae junto al directorio de la BD, cierra la conexión actual, sustituye ficheros y reinstancia ``DatabaseManager``. Args: on_success_callback: Opcional; se invoca tras importación exitosa (p. ej. refrescar UI).
+- `on_export_databases`: Ofrece guardar la base de datos actual en un ZIP (un único miembro, nombre basado en ``db_path``). Registra exportación en auditoría si está disponible.
+- `on_sync_databases`: Compara la BD local con otra SQLite (o ZIP/TAR que la contenga), muestra ``SyncDialog`` y aplica solo los registros marcados por el usuario mediante ``apply_sync_changes``. Args: on_success_callback: Opcional; se llama tras una sincronización aplicada con éxito.
+
+- 🔧 `_comparison_has_differences`: Indica si hay diferencias reales entre bases según el DTO devuelto por ``compare_with_db``. Args: comparison: Resultado de la comparación local vs extranjero. Returns: True si alguna tabla incluye al menos un registro en ``differences``.
+- 🔧 `_find_sqlite_under`: Localiza un fichero SQLite dentro de un directorio (p. ej. tras descomprimir un ZIP). Args: root: Directorio raíz de búsqueda recursiva. Returns: Ruta al ``.db`` elegido, o None si no hay ninguno. Se prefiere ``montaje.db`` si existe.
+- 🔧 `_prepare_foreign_sqlite_path`: Obtiene la ruta absoluta al SQLite que debe usarse para la comparación. Si el usuario eligió ``.db``/``.sqlite``, se valida que exista. Si eligió ``.zip`` o ``.tar.gz``, se extrae en un directorio temporal y se busca un ``.db``; el caller debe borrar ese directorio en un ``finally`` cuando el segundo valor no sea None. Args: chosen_path: Ruta seleccionada en el diálogo de ficheros. logger: Logger del controlador para avisos de formato o corrupción. Returns: Tupla ``(ruta_sqlite, tmpdir_o_None)``. Si falla la resolución, ``(None, None)`` o ``(None, tmp)`` tras limpiar el temporal en errores de extracción.
 
 ---
 
@@ -1657,7 +1734,7 @@ Colaborador de composición para operaciones I/O de backup.
 
 </div>
 
-Nombre del Módulo: calculation_controller.py
+Nombre del Módulo: calculation_controller
 Descripción: Gestiona la lógica de cálculo de tiempos de fabricación, incluyendo la 
              interacción con la pila de preprocesos y la exportación de logs de auditoría.
 
@@ -1689,7 +1766,7 @@ señales y procesar las operaciones sobre la pila de preprocesos.
 
 </div>
 
-Nombre del Módulo: fabricacion_controller.py
+Nombre del Módulo: fabricacion_controller
 Descripción: Controlador central para la gestión del ciclo de vida de las fabricaciones.
              Maneja la creación, búsqueda y la integración con preprocesos.
 
@@ -1718,7 +1795,7 @@ parte de la lógica pesada a `ProductControllerV2` para mantener la consistencia
 
 </div>
 
-Nombre del Módulo: file_controller.py
+Nombre del Módulo: file_controller
 Descripción: Gestiona la persistencia de archivos adjuntos, la apertura de documentos 
              del sistema y la importación de datos externos en formato JSON.
 
@@ -1746,9 +1823,10 @@ de tareas y registros de trabajo.
 
 </div>
 
-Nombre del Módulo: hardware_controller.py
-Descripción: Gestiona la interacción con dispositivos de hardware, principalmente 
-             cámaras de video para el escaneo de códigos QR.
+Nombre del Módulo: hardware_controller
+Descripción: Gestiona la interacción con dispositivos de hardware, principalmente
+             cámaras de video para el escaneo de códigos QR. La apertura de captura usa
+             ``core.camera_manager.capture.open_video_capture`` (misma cadena de backends que ``CameraManager``).
 
 #### 🏛️ Clase `HardwareController`
 
@@ -1760,7 +1838,7 @@ compatibles, la configuración de resolución y la integración con el escáner 
 **Métodos Principales:**
 
 - `__init__`: Inicializa el controlador de hardware. Args: db: Gestor de base de datos para acceder a la configuración de dispositivos. view: Referencia a la vista principal de la aplicación. logger: Instancia opcional para el registro de eventos de hardware.
-- `initialize_qr_scanner`: Inicializa el escáner QR configurando el dispositivo de captura de video. Este método busca la cámara preferida, la abre y vincula el objeto VideoCapture al QrScanner. Args: worker_controller: Opcional; instancia del controlador de operario para inyectar el scanner.
+- `initialize_qr_scanner`: Inicializa el escáner QR configurando el dispositivo de captura de video. Resuelve el índice de cámara (configuración guardada, mejor cámara o índice 0), abre la captura con ``open_video_capture`` (política de backend alineada con ``CameraManager``) y pasa el ``cv2.VideoCapture`` resultante a ``QrScanner``. Args: worker_controller: Opcional; instancia del controlador de operario para inyectar el scanner.
 - `_get_settings_page_with_camera_combo`: Obtiene la página de ajustes si expone `camera_combo`.
 - `detect_cameras`: Detecta cámaras y actualiza la UI de configuración.
 - `load_hardware_settings`: Carga la configuración de hardware guardada en la UI.
@@ -1775,7 +1853,7 @@ compatibles, la configuración de resolución y la integración con el escáner 
 
 </div>
 
-Nombre del Módulo: lote_controller.py
+Nombre del Módulo: lote_controller
 Descripción: Gestiona la lógica de plantillas de lotes, incluyendo su definición, 
              búsqueda y la actualización de su contenido en la interfaz de cálculo.
 
@@ -1805,7 +1883,7 @@ al controlador de pilas.
 
 </div>
 
-Nombre del Módulo: machine_controller.py
+Nombre del Módulo: machine_controller
 Descripción: Controlador encargado de la gestión de maquinaria, mantenimientos 
              y configuración de grupos de preparación de máquinas.
 
@@ -1819,7 +1897,7 @@ los registros de mantenimiento preventivo/correctivo y los grupos de preparació
 **Métodos Principales:**
 
 - `__init__`: Inicializa el controlador de máquinas con sus dependencias. Args: machine_service: Servicio lógico de gestión de máquinas. preparation_service: Grupos y pasos de preparación de máquinas. product_service: Catálogo de productos (diálogos de prep). view: Interfaz de usuario para interacciones y mensajes. logger: Sistema de registro de eventos.
-- `update_machines_view`: Actualiza la vista de máquinas con TODAS las máquinas.
+- `update_machines_view`: Actualiza la vista de máquinas con el listado completo del catálogo.
 - `get_distinct_machine_processes`: Obtiene el conjunto de procesos únicos (ej. 'Inyección', 'Montaje') asignados a las máquinas registradas.
 
 ---
@@ -1830,7 +1908,7 @@ los registros de mantenimiento preventivo/correctivo y los grupos de preparació
 
 </div>
 
-Nombre del Módulo: navigation_controller.py
+Nombre del Módulo: navigation_controller
 Descripción: Gestiona la navegación entre las diferentes páginas de la aplicación, 
              controlando la carga de datos específicos y el flujo de transiciones.
 
@@ -1862,7 +1940,7 @@ asegurando que los datos necesarios se refresquen al entrar en cada sección.
 
 </div>
 
-Nombre del Módulo: preproceso_controller.py
+Nombre del Módulo: preproceso_controller
 Descripción: Gestiona la lógica de preprocesos, incluyendo su carga desde el modelo, 
              vínculo con componentes y conversión a pasos operativos en la pila.
 
@@ -1890,7 +1968,7 @@ Controlador para la gestión de preprocesos de fabricación.
 
 </div>
 
-Nombre del Módulo: product_controller_v2.py
+Nombre del Módulo: product_controller_v2
 Descripción: Controlador centralizado para la gestión de productos, fabricaciones y 
              preprocesos. Actúa como fachada (Facade) delegando en gestores especializados.
 
@@ -1913,7 +1991,7 @@ Fachada que orquesta la lógica distribuida en Managers especializados.
 
 </div>
 
-Nombre del Módulo: report_controller.py
+Nombre del Módulo: report_controller
 Descripción: Gestiona la generación y exportación de informes en diversos formatos 
              (Excel, PDF), incluyendo resultados de simulación e historiales.
 
@@ -1941,7 +2019,9 @@ datos de simulación, históricos de piezas o registros de actividad.
 
 </div>
 
-Exportaciones Excel/PDF desde la última simulación (composición sobre ReportController).
+Nombre del Módulo: controllers.report_export_helper
+
+Descripción: Exportaciones Excel/PDF desde la última simulación (composición sobre ReportController).
 
 #### 🏛️ Clase `ReportExportHelper`
 
@@ -1955,7 +2035,7 @@ Delegado sin herencia múltiple; usa el controlador para estado y handle_error.
 
 </div>
 
-Nombre del Módulo: schedule_controller.py
+Nombre del Módulo: schedule_controller
 Descripción: Controlador orquestador para la gestión de la planificación de la producción.
 Gestiona la configuración de horarios laborales, descansos y festivos mediante componentes delegados.
 
@@ -1995,9 +2075,9 @@ Utiliza composición para delegar la lógica de UI y API legacy en helpers espec
 
 </div>
 
-Helpers puros para `ScheduleController`.
+Nombre del Módulo: controllers.schedule_helpers
 
-Se extraen funciones sin dependencia de UI para mantener el controlador pequeño y testeable.
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``parse_break_text``, ``load_breaks_list``, ``break_display_lines_from_json``, ``normalize_holidays``, ``holidays_dates``, ``dump_json``. Integración típica con: ``__future__``, ``json``.
 
 - 🔧 `parse_break_text`: Parsea un texto `HH:mm - HH:mm` y devuelve (start, end) o None.
 - 🔧 `load_breaks_list`: Convierte JSON de breaks a lista normalizada de dicts.
@@ -2014,7 +2094,7 @@ Se extraen funciones sin dependencia de UI para mantener el controlador pequeño
 
 </div>
 
-Nombre del Módulo: schedule_ui_helper.py
+Nombre del Módulo: schedule_ui_helper
 Descripción: Helper para operaciones de interfaz de usuario del ScheduleController.
 Maneja la lógica de interacción con widgets y diálogos de configuración de horarios.
 
@@ -2045,9 +2125,11 @@ Extraído de ScheduleController para mejorar la cohesión y reducir el tamaño d
 
 </div>
 
-Nombre del Módulo: session_controller.py
-Descripción: Gestiona el ciclo de vida de la sesión del usuario, incluyendo la 
-             autenticación, cierre de sesión, control de acceso por roles y auditoría.
+Nombre del Módulo: session_controller
+Descripción: Orquesta el acceso de cada usuario a la aplicación: ventana de login,
+             comprobación de credenciales, bloqueo temporal tras intentos fallidos,
+             cierre de sesión y apertura de la vista adecuada (responsable o trabajador)
+             según el rol. Registra intentos en auditoría cuando procede.
 
 #### 🏛️ Clase `SessionController`
 
@@ -2072,7 +2154,7 @@ Responsable de validar credenciales, manejar el bloqueo por intentos fallidos
 
 </div>
 
-Nombre del Módulo: startup_controller.py
+Nombre del Módulo: startup_controller
 Descripción: Orquestador del arranque de la aplicación. Se encarga de instanciar 
              servicios, repositorios y todos los controladores del sistema.
 
@@ -2099,10 +2181,9 @@ Maneja la configuración de servicios, repositorios y sub-controladores.
 
 </div>
 
-Resolución de clases del paquete `ui` sin `import ui.*` en el AST.
+Nombre del Módulo: controllers.ui_class_loader
 
-El informe `architecture_layer_edges` solo cuenta `import` / `import from` estáticos;
-`importlib.import_module` evita aristas `controllers`→`ui` manteniendo el mismo comportamiento en runtime.
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``ui_class``. Integración típica con: ``__future__``, ``importlib``.
 
 - 🔧 `ui_class`: Devuelve un atributo (típicamente una clase QWidget/QDialog) de un submódulo `ui`. Sin caché inter-test: los tests pueden parchear ``ui.dialogs.*`` o el nombre reexportado en el módulo controlador antes de cada llamada.
 
@@ -2114,8 +2195,9 @@ El informe `architecture_layer_edges` solo cuenta `import` / `import from` está
 
 </div>
 
-Nombre del Módulo: ui_controller.py
-Descripción: Controlador central para la sincronización de la interfaz de usuario.
+Nombre del Módulo: ui_controller
+
+Descripción: Define protocolos o tipos principales: ``UIController``. Controlador de sincronización de la interfaz. Integración típica con: ``__future__``, ``PyQt6``, ``core``.
 
 #### 🏛️ Clase `UIController`
 
@@ -2142,7 +2224,7 @@ gestionar barras de progreso y cargar elementos informativos como frases célebr
 
 </div>
 
-Nombre del Módulo: ui_signals_controller.py
+Nombre del Módulo: ui_signals_controller
 Descripción: Centralizador de la interconexión mediante señales y slots. Desacopla
              la lógica de los widgets de los controladores principales.
 
@@ -2166,7 +2248,9 @@ cambios de texto) y los métodos de negocio de los diversos controladores.
 
 </div>
 
-Cableado de señales Qt entre vista y controladores (composición; sin herencia múltiple).
+Nombre del Módulo: controllers.ui_signals_wiring
+
+Descripción: Cableado de señales Qt entre vista y controladores (composición; sin herencia múltiple).
 
 #### 🏛️ Clase `UISignalsWiring`
 
@@ -2184,9 +2268,9 @@ Encapsula la conexión de widgets y slots; recibe app, vista y logger del contro
 
 </div>
 
-Nombre del Paquete: historial
-Descripción: Gestiona la visualización e interacción con los registros históricos,
-             auditorías e iteraciones de productos.
+Nombre del Módulo: controllers.historial
+
+Descripción: Nombre del Paquete: historial Descripción: Gestiona la visualización e interacción con los registros históricos, auditorías e iteraciones de productos.
 
 ---
 
@@ -2196,7 +2280,7 @@ Descripción: Gestiona la visualización e interacción con los registros histó
 
 </div>
 
-Nombre del Módulo: controller.py (Historial)
+Nombre del Módulo: historial.controller
 Descripción: Controlador principal del sub-paquete de historial. Utiliza composición 
              para delegar la gestión de UI, interacciones y reportes.
 
@@ -2204,7 +2288,7 @@ Descripción: Controlador principal del sub-paquete de historial. Utiliza compos
 
 Controlador central para el historial.
 
-Orquestra los diferentes gestores (Vista, Interacción, Reportes) para 
+Orquesta los diferentes gestores (Vista, Interacción, Reportes) para 
 proporcionar una interfaz unificada de consulta de auditoría y bitácoras.
 
 **Métodos Principales:**
@@ -2220,7 +2304,7 @@ proporcionar una interfaz unificada de consulta de auditoría y bitácoras.
 
 </div>
 
-Nombre del Módulo: interaction_manager.py (Historial)
+Nombre del Módulo: historial.interaction_manager
 Descripción: Gestiona la lógica de interacción del usuario en la sección de historial,
              como la selección de elementos y filtros por calendario.
 
@@ -2244,7 +2328,7 @@ iteraciones o fabricaciones, actualizando los detalles y resaltando fechas.
 
 </div>
 
-Nombre del Módulo: protocols.py (Historial)
+Nombre del Módulo: historial.protocols
 Descripción: Define los protocolos (interfaces estructurales) para garantizar el 
              tipado correcto y la compatibilidad entre el controlador de historial y sus gestores.
 
@@ -2256,7 +2340,7 @@ Descripción: Define los protocolos (interfaces estructurales) para garantizar e
 
 </div>
 
-Nombre del Módulo: report_manager.py (Historial)
+Nombre del Módulo: historial.report_manager
 Descripción: Gestor encargado de la generación de informes PDF para el historial de 
              iteraciones y fabricaciones, utilizando estrategias de reporte personalizadas.
 
@@ -2280,7 +2364,7 @@ y disparar la generación de documentos PDF.
 
 </div>
 
-Nombre del Módulo: view_manager.py (Historial)
+Nombre del Módulo: historial.view_manager
 Descripción: Gestiona la lógica de presentación de los datos históricos, incluyendo 
              el filtrado de listas, resaltado de calendarios y generación de gráficos QtCharts.
 
@@ -2307,7 +2391,7 @@ y la actualización del gráfico de actividad.
 
 </div>
 
-Nombre del Módulo: controller.py
+Nombre del Módulo: controller
 Descripción: Controlador Fachada para la gestión de Pilas y Lotes.
              Delega la lógica pesada a LoteManager y PilaManager.
 
@@ -2329,7 +2413,7 @@ Implementa Composición sobre Herencia delegando en Gestores.
 
 </div>
 
-Nombre del Módulo: lote_manager.py
+Nombre del Módulo: lote_manager
 Descripción: Gestor especializado en la lógica de plantillas de lote (Templates).
              Se encarga de la búsqueda de productos, fabricaciones y el guardado
              de la estructura del lote.
@@ -2356,7 +2440,7 @@ Maneja la interacción entre la vista de definición de lotes y los repositorios
 
 </div>
 
-Nombre del Módulo: pila_manager.py
+Nombre del Módulo: pila_manager
 Descripción: Gestor especializado en el ciclo de vida de las Pilas de fabricación.
              Maneja el cargado, guardado, eliminación y visualización de la bitácora.
 
@@ -2382,7 +2466,7 @@ Coordina la persistencia y recuperación de sesiones de planificación.
 
 </div>
 
-Nombre del Módulo: protocols.py
+Nombre del Módulo: pila.protocols
 Descripción: Define las interfaces (Protocolos) necesarias para que los gestores 
              de Lotes y Pilas interactúen con la Vista y la Base de Datos de 
              forma desacoplada.
@@ -2415,9 +2499,9 @@ Interfaz para el servicio de Fabricaciones.
 
 </div>
 
-Nombre del Paquete: product
-Descripción: Gestiona la lógica de productos, materiales, sub-fabricaciones y 
-             preprocesos asociados mediante gestores especializados (Managers).
+Nombre del Módulo: controllers.product
+
+Descripción: Nombre del Paquete: product Descripción: Gestiona la lógica de productos, materiales, sub-fabricaciones y preprocesos asociados mediante gestores especializados (Managers).
 
 ---
 
@@ -2427,8 +2511,9 @@ Descripción: Gestiona la lógica de productos, materiales, sub-fabricaciones y
 
 </div>
 
-Subconjunto tipado de AppController usado por ProductManager / FabricacionManager.
-Evita depender del tipo completo del hub en la capa de producto.
+Nombre del Módulo: controllers.product.application_shell
+
+Descripción: Subconjunto tipado de AppController usado por ProductManager / FabricacionManager. Evita depender del tipo completo del hub en la capa de producto.
 
 #### 🏛️ Clase `IApplicationShell`
 
@@ -2442,7 +2527,7 @@ Operaciones del hub requeridas por los gestores de producto/fabricación.
 
 </div>
 
-Nombre del Módulo: fabricacion_manager.py (Product)
+Nombre del Módulo: product.fabricacion_manager
 Descripción: Gestor de órdenes de fabricación, encargado de coordinar la creación 
              y edición de producciones junto con sus preprocesos y productos asociados.
 
@@ -2497,7 +2582,7 @@ preparación para el motor de cálculo.
 
 </div>
 
-Nombre del Módulo: material_manager.py (Product)
+Nombre del Módulo: product.material_manager
 Descripción: Gestor encargado de la administración de materiales y componentes del sistema, 
              incluyendo su creación, importación masiva y vinculación con productos.
 
@@ -2526,7 +2611,7 @@ su persistencia y su relación con los productos terminados.
 
 </div>
 
-Nombre del Módulo: preproceso_manager.py (Product)
+Nombre del Módulo: product.preproceso_manager
 Descripción: Gestor de rutinas de preproceso, encargado de la definición, edición 
              y eliminación de tareas previas necesarias para la fabricación.
 
@@ -2554,7 +2639,7 @@ modificación y eliminación, así como su visualización en la interfaz de gest
 
 </div>
 
-Nombre del Módulo: product_manager.py (Product)
+Nombre del Módulo: product.product_manager
 Descripción: Gestor central para la administración de productos, incluyendo su creación, 
              edición, eliminación y gestión de iteraciones de diseño.
 
@@ -2570,6 +2655,8 @@ y la coordinación con los servicios de persistencia e iteraciones.
 - `__init__`: Inicializa el gestor de productos. Args: app: Shell del hub (adjuntos, sesión, UI). machine_service: Servicio de máquinas para listados en diálogos. view: Referencia a la vista principal (IProductView). product_facade: Fachada de catálogo / iteraciones (cumple IProductService). state: Estado compartido de la aplicación (ApplicationState). controller_ref: Referencia opcional al controlador de productos.
 - `handle_add_product_iteration`: Gestiona la lógica para añadir una nueva iteración de producto.
 - `handle_add_iteration_image`: Añade una imagen a la galería de la iteración.
+- `_final_product_code_from_tree`: Código del nodo marcado como producto final (recorrido tolerante a ciclos).
+- `_select_product_in_list_and_reload`: Selecciona el producto en la lista de resultados y recarga la ficha derecha.
 - `_log_audit`: Helper para registrar auditoría.
 - `_connect_products_signals`: Conecta las señales del widget de gestión de Productos.
 
@@ -2581,10 +2668,9 @@ y la coordinación con los servicios de persistencia e iteraciones.
 
 </div>
 
-Protocolos de la capa producto: vista, modelo de fachada y contrato del controlador.
+Nombre del Módulo: controllers.product.protocols
 
-Los protocolos de dominio (`IProductService`, `IFabricacionService`, `IMaterialService`)
-viven en `core.protocols` e implementan nominalmente los servicios en `core.services`.
+Descripción: Protocolos de la capa producto: vista, modelo de fachada y contrato del controlador.
 
 #### 🏛️ Clase `IProductView`
 
@@ -2613,7 +2699,7 @@ Contrato estructural que cumple ProductController (vista, servicios, estado, cal
 
 </div>
 
-Nombre del Paquete: simulation
+Nombre del Módulo: simulation
 Descripción: Contiene la lógica para la simulación de flujos de producción, 
              optimización de tiempos y gestión del editor visual de tareas.
 
@@ -2625,7 +2711,7 @@ Descripción: Contiene la lógica para la simulación de flujos de producción,
 
 </div>
 
-Nombre del Módulo: controller.py (Simulation)
+Nombre del Módulo: simulation.controller
 Descripción: Controlador principal para el módulo de simulación. Orquesta la ejecución 
              de hilos de cálculo, la optimización de recursos y la persistencia de flujos.
 
@@ -2651,7 +2737,9 @@ gestionando hilos de ejecución para evitar bloqueos y delegando tareas a los ma
 
 </div>
 
-Coordinación y señales del subsistema «editor_manager»: enlaza UI, servicios y persistencia para este ámbito de la aplicación Hipatia.
+Nombre del Módulo: controllers.simulation.editor_manager
+
+Descripción: Coordinación y señales del subsistema «editor_manager»: enlaza UI, servicios y persistencia para este ámbito de la aplicación Hipatia.
 
 #### 🏛️ Clase `SimulationEditorManager`
 
@@ -2665,10 +2753,9 @@ Gestor para la gestión del Editor Visual de Flujo de Producción.
 
 </div>
 
-Utilidades de apoyo para `SimulationExecutionManager`.
+Nombre del Módulo: controllers.simulation.execution_helpers
 
-Estas funciones encapsulan bloques repetidos (construcción de scheduler,
-activación de botones y arranque de hilos) para mantener el manager pequeño.
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``build_scheduler``, ``set_planning_units``, ``enable_result_actions``, ``start_optimizer_thread``. Integración típica con: ``__future__``, ``datetime``, ``core``.
 
 - 🔧 `build_scheduler`: Construye el motor de simulación a partir del estado actual de workers y máquinas.
 - 🔧 `set_planning_units`: Aplica unidades de producción a cada ítem (dict o DTO).
@@ -2683,7 +2770,7 @@ activación de botones y arranque de hilos) para mantener el manager pequeño.
 
 </div>
 
-Nombre del Módulo: execution_manager.py (Simulation)
+Nombre del Módulo: simulation.execution_manager
 Descripción: Gestor encargado de la ejecución física de las simulaciones, 
              manejando hilos de trabajo, optimizadores y comunicación de resultados a la UI.
 
@@ -2707,7 +2794,9 @@ hilos de ejecución de cálculo manual y disparar el proceso de optimización.
 
 </div>
 
-Coordinación y señales del subsistema «optimizer_worker»: enlaza UI, servicios y persistencia para este ámbito de la aplicación Hipatia.
+Nombre del Módulo: controllers.simulation.optimizer_worker
+
+Descripción: Coordinación y señales del subsistema «optimizer_worker»: enlaza UI, servicios y persistencia para este ámbito de la aplicación Hipatia.
 
 #### 🏛️ Clase `OptimizerWorker`
 
@@ -2726,7 +2815,7 @@ Worker para ejecutar el Optimizer en un hilo separado.
 
 </div>
 
-Nombre del Módulo: protocols.py (Simulation)
+Nombre del Módulo: simulation.protocols
 Descripción: Define los protocolos para asegurar la interoperabilidad entre el 
              SimulationController y sus gestores delegados (Execution y Editor).
 
@@ -2738,7 +2827,10 @@ Descripción: Define los protocolos para asegurar la interoperabilidad entre el
 
 </div>
 
-Coordinación y señales del subsistema «__init__»: enlaza UI, servicios y persistencia para este ámbito de la aplicación Hipatia.
+Nombre del Módulo: worker
+Descripción: Subpaquete del controlador de trabajadores en la vista administración / operario.
+
+Exporta ``WorkerController`` para registro en el contenedor de dependencias.
 
 ---
 
@@ -2748,7 +2840,7 @@ Coordinación y señales del subsistema «__init__»: enlaza UI, servicios y per
 
 </div>
 
-Nombre del Módulo: auth_manager.py (Worker)
+Nombre del Módulo: worker.auth_manager
 Descripción: Gestor encargado de la seguridad y autenticación de trabajadores, 
              específicamente el cambio de contraseñas propias y ajenas.
 
@@ -2787,9 +2879,10 @@ Implementa WorkerControllerProtocol (Fachada).
 
 </div>
 
-Nombre del Módulo: management_manager.py (Worker)
-Descripción: Gestor de administración de personal. Maneja el CRUD de trabajadores 
-             y la visualización de sus detalles en el panel de administración.
+Nombre del Módulo: management_manager
+Descripción: Gestión de personal desde «Gestión de datos»: alta, edición y baja
+             lógica de trabajadores, formulario de ficha y carga de órdenes de
+             fabricación para el autocompletado al asignar tareas.
 
 #### 🏛️ Clase `WorkerManagementManager`
 
@@ -2798,6 +2891,8 @@ Gestor para la administración de trabajadores (CRUD).
 **Métodos Principales:**
 
 - `__init__`: Inicializa el gestor de administración de trabajadores. Args: app: Instancia del controlador principal. view: Interfaz de usuario. worker_service: Servicio lógico de gestión de trabajadores. fabricacion_service: Servicio opcional para gestión de fabricaciones.
+- `_product_service_for_assignment`: Resuelve ProductService desde AppController (product_controller o model).
+- `_load_default_products_for_assignment`: Rellena la lista de productos al abrir un trabajador (asignación de tareas).
 - `update_workers_view`: Actualiza la vista de trabajadores con TODOS los trabajadores.
 
 ---
@@ -2809,8 +2904,11 @@ Gestor para la administración de trabajadores (CRUD).
 </div>
 
 
-Nombre del Módulo: protocols.py (Worker)
-Paquete: controllers.worker — interfaces estructurales para administración de trabajadores.
+Nombre del Módulo: worker.protocols
+
+Descripción: Contratos ``Protocol`` del subpaquete ``controllers.worker``: vista mínima (``IWorkerView``),
+             servicio de dominio (``IWorkerService``), modelo y fachada del controlador worker, alineados
+             con DTOs de ``core`` y trazabilidad sin acoplar PyQt en la definición del protocolo.
 
 
 #### 🏛️ Clase `IWorkerView`
@@ -2838,9 +2936,11 @@ Interfaz para el controlador fachada de Worker.
 
 </div>
 
-Nombre del Módulo: task_manager.py (Worker)
-Descripción: Gestor de asignación de tareas. Permite buscar productos y asignar 
-             órdenes de fabricación específicas a los trabajadores.
+Nombre del Módulo: worker.task_manager
+Descripción: Gestor de asignación de tareas desde la vista de administración
+             (Gestión de datos / trabajadores). Búsqueda de productos, creación
+             de fabricación tipo tarea y enlace al trabajador seleccionado,
+             incluyendo orden de fabricación (O.F.) opcional pasada al servicio.
 
 #### 🏛️ Clase `WorkerTaskManager`
 
@@ -2854,7 +2954,9 @@ Gestor para la asignación y cancelación de tareas a trabajadores.
 
 </div>
 
-Diálogo de configuración de cámara para la interfaz operario (controllers + ui; no features).
+Nombre del Módulo: controllers.worker.worker_camera_config
+
+Descripción: Diálogo de configuración de cámara para la interfaz operario (controllers + ui; no features).
 
 - 🔧 `run_worker_camera_config_dialog`: Abre `CameraConfigDialog` y actualiza `QrScanner` en el feature controller.
 
@@ -2870,10 +2972,10 @@ Diálogo de configuración de cámara para la interfaz operario (controllers + u
 
 | Métrica | Valor |
 |---|---:|
-| Archivos `.py` en `core/` | 135 |
-| Incluidos en el cuerpo | 135 |
+| Archivos `.py` en `core/` | 136 |
+| Incluidos en el cuerpo | 136 |
 | Omitidos (docstrings/reglas) | 0 |
-| Clases detectadas (AST) | 180 |
+| Clases detectadas (AST) | 181 |
 
 ```mermaid
 graph TD
@@ -2891,7 +2993,9 @@ graph TD
 
 </div>
 
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core
+
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo).
 
 ---
 
@@ -2964,10 +3068,11 @@ entre componentes desacoplados.
 
 </div>
 
-Módulo de Constantes Globales.
+Nombre del Módulo: core.constants
 
-Define iconos, colores, estados y parámetros de configuración compartidos 
-por toda la aplicación Hipatia.
+Descripción: Mapas estáticos compartidos por widgets y controladores: ``ICONS`` y ``DEPARTMENT_COLORS``
+             para la UI, ``PILA_STATES`` para etiquetas de estado de pilas y ``VALIDATION`` con límites de
+             búsqueda y longitud de textos de producto.
 
 ---
 
@@ -3055,10 +3160,9 @@ configurar el ciclo de vida de cada componente.
 
 </div>
 
-Fachada de compatibilidad para DTOs de dominio.
+Nombre del Módulo: core.dtos
 
-`core.dtos` se mantiene como punto de import estable para todo el proyecto.
-Las definiciones concretas viven en `core.dtos_models`.
+Descripción: Módulo shim que reexporta los DTOs definidos en ``core.dtos_models`` bajo el import estable ``core.dtos``, para que el resto del código no acople nombres internos del paquete de modelos.
 
 ---
 
@@ -3068,7 +3172,9 @@ Las definiciones concretas viven en `core.dtos_models`.
 
 </div>
 
-DTOs de catálogo/producción (productos, lotes, pilas, iteraciones).
+Nombre del Módulo: core.dtos_catalog
+
+Descripción: Define protocolos o tipos principales: ``ProductDTO``, ``SubfabricacionDTO``, ``ProcesoMecanicoDTO``, ``MaterialDTO``, ``PilaDTO``. Integración típica con: ``datetime``.
 
 ---
 
@@ -3078,7 +3184,9 @@ DTOs de catálogo/producción (productos, lotes, pilas, iteraciones).
 
 </div>
 
-DTOs de flujo de producción y cámara.
+Nombre del Módulo: core.dtos_flow_camera
+
+Descripción: Define protocolos o tipos principales: ``FlowTaskDataDTO``, ``CanvasCyclicConnectionFlags``, ``ProductFlowLibraryProductDTO``, ``FlowTaskConfigDTO``, ``ProductionFlowStepDTO``. Metadatos de pintado para aristas cíclicas en el canvas de flujo (UI). Integración típica con: ``__future__``, ``datetime``.
 
 #### 🏛️ Clase `FlowTaskDataDTO`
 
@@ -3110,7 +3218,9 @@ DTO para representar un ítem del flujo en la vista (Fase 12C).
 
 </div>
 
-Definiciones concretas de DTOs del dominio Hipatia.
+Nombre del Módulo: core.dtos_models
+
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo). Integración típica con: ``datetime``, ``core``.
 
 #### 🏛️ Clase `FileOperationResultDTO`
 
@@ -3193,31 +3303,32 @@ Descripcion: Carga de flujo, biblioteca de productos y exportacion a dicts para
 </div>
 
 Nombre del Módulo: flow_canvas_io
-Descripcion: Lectura de mapas de conexion del canvas de flujo desde capa no-UI,
-             para que los widgets no usen .get/.[] sobre dicts en bucles de pintado.
-             Incluye acceso al cuerpo `data` de tareas canvas y flags de ciclo en `config`.
+Descripcion: Lectura tipada de mapas del grafo de flujo (entradas ``canvas_tasks`` del presenter)
+             desde capa no-UI, para que los widgets no usen ``.get``/``[]`` en bucles de pintado.
+             Expone ``canvas_task_body``, ``flow_task_entry_config``, ``flow_task_entry_widget``,
+             normalización de aristas (``CanvasVisualConnection``) y flags de ciclo en ``config``.
 
 #### 🏛️ Clase `CanvasVisualConnection`
 
-Arista visual entre dos widgets del canvas (define-flow y production flow).
+Arista visual entre dos widgets del canvas de flujo de producción (``ProductionFlowCanvas``).
 
 - 🔧 `canvas_visual_connection_from_mapping`: Construye una conexion visual desde el dict historico start/end/type.
 - 🔧 `normalize_canvas_visual_connections`: Normaliza entradas dict o DTO a lista homogenea.
-- 🔧 `legacy_canvas_task_widget`: Widget asociado a una entrada `canvas_tasks[i]` del dialogo legacy.
-- 🔧 `legacy_canvas_task_config`: Subdict `config` de una tarea en canvas legacy.
-- 🔧 `legacy_canvas_task_is_cycle_start`: True si la tarea marca inicio de ciclo en el modelo legacy.
+- 🔧 `flow_task_entry_widget`: Widget PyQt asociado a una entrada ``canvas_tasks[i]`` (clave ``widget``).
+- 🔧 `flow_task_entry_config`: Subdict ``config`` de una entrada de tarea en el canvas de flujo.
+- 🔧 `flow_task_entry_is_cycle_start`: True si la entrada marca inicio de ciclo en ``config``.
 - 🔧 `canvas_task_body`: Cuerpo `data` de una entrada `presenter.canvas_tasks[i]`.
 - 🔧 `canvas_task_display_name`: Nombre de tarea para listas de dialogo (`data` dict o DTO con `.name`).
 - 🔧 `flow_task_config_is_cycle_end_flag`: True si config marca fin de ciclo.
 - 🔧 `flow_task_config_is_cycle_start_flag`: True si config marca inicio de ciclo.
-- 🔧 `flow_task_config_cycle_return_to_index`: Indice de tarea a la que regresa el ciclo (`cycle_return_to_index` en config legacy).
+- 🔧 `flow_task_config_cycle_return_to_index`: Índice de tarea a la que regresa el ciclo (clave ``cycle_return_to_index`` en ``config``).
 - 🔧 `cycle_end_dialog_configuration_values`: Par (is_cycle_end, return_to_index) del dict de `CycleEndConfigDialog.get_configuration`.
 - 🔧 `worker_line_config_display_name`: Nombre visible de una linea de trabajador en el canvas (clave `name`).
 - 🔧 `worker_line_config_reassignment_rule`: Regla de reasignacion asociada a la linea de trabajador, si existe.
 - 🔧 `worker_line_config_set_reassignment_rule`: Persiste la regla de reasignacion en la config mutable de la linea.
 - 🔧 `connection_widgets_pair`: Devuelve (start, end) tal como los guarda el modelo de conexiones del canvas.
 - 🔧 `connection_link_type`: Tipo de arista: 'normal' o 'cyclic'.
-- 🔧 `connection_cyclic_paint_flags`: Flags de pintado para aristas ciclicas (dict legacy o DTO).
+- 🔧 `connection_cyclic_paint_flags`: Flags de pintado para aristas cíclicas (mapeo serializable o ``CanvasVisualConnection``).
 
 ---
 
@@ -3307,12 +3418,15 @@ Descripcion: Lectura de filas task/config del inspector de flujo, fuera de ui/ (
 
 </div>
 
-Nombre del Modulo: paths
-Descripcion: Rutas de aplicacion: desarrollo vs ejecutable PyInstaller (``sys.frozen``).
+Nombre del Módulo: paths
+Descripción: Rutas de aplicación: desarrollo frente a ejecutable PyInstaller (``sys.frozen``).
 
 - Solo lectura embebida: usar ``core.utils.helpers.resource_path`` (``_MEIPASS``).
 - Escritura (SQLite, logs, backups, copia de usuario de ``config.ini``): directorio del
   ejecutable en frozen; raíz del repositorio en desarrollo.
+- Evitar situar esa carpeta de datos escribibles bajo sincronización en la nube
+  (iCloud, OneDrive, etc.): para estabilidad del SQLite y trazabilidad, preferir
+  backup/restauración explícitos en lugar de sync transparente del directorio.
 
 - 🔧 `get_writable_app_root`: Directorio donde la app puede crear ``data/``, ``logs/``, etc. En binario PyInstaller (``onedir``/``onefile``) coincide con la carpeta del ``.exe``. En desarrollo, la raíz del repositorio (padre de ``core/``).
 - 🔧 `resolve_user_config_ini`: Ruta efectiva de ``config/config.ini``. En desarrollo lee el fichero del repo. En frozen copia una vez desde el bundle a ``<exe_dir>/config/config.ini`` para que la conexión recordada sea escribible.
@@ -3325,7 +3439,9 @@ Descripcion: Rutas de aplicacion: desarrollo vs ejecutable PyInstaller (``sys.fr
 
 </div>
 
-Lectura uniforme de ítems en ``planning_session`` (dict legado o DTOs).
+Nombre del Módulo: core.planning_session_access
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``planning_unidades``, ``planning_identificador``, ``planning_deadline``, ``planning_lote_codigo``, ``deadline_to_date``. Integración típica con: ``__future__``, ``datetime``, ``core``.
 
 - 🔧 `planning_unidades`: Unidades de fabricación asociadas al ítem de sesión.
 
@@ -3337,7 +3453,9 @@ Lectura uniforme de ítems en ``planning_session`` (dict legado o DTOs).
 
 </div>
 
-Lógica o utilidades del núcleo (`production_context`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.production_context
+
+Descripción: Define protocolos o tipos principales: ``ProductionStatus``, ``ProductionContext``. Data class to hold the status of the current production session.
 
 #### 🏛️ Clase `ProductionStatus`
 
@@ -3364,21 +3482,9 @@ Keeps track of the current Order (OF), progress (1 of X), and current process la
 
 </div>
 
-========================================================================
-GENERADOR DE CÓDIGOS QR - SISTEMA DE TRAZABILIDAD
-========================================================================
-Genera códigos QR únicos para trazabilidad de unidades individuales
-y proporciona funciones para convertirlos a diferentes formatos.
+Nombre del Módulo: core.qr_generator
 
-Características:
-- Generación de IDs únicos con timestamp y hash
-- Códigos QR con corrección de errores alta (nivel H)
-- Conversión a PIL Image y PyQt6 QPixmap
-- Generación en lote
-
-Autor: Sistema de Trazabilidad
-Fecha: 2025
-========================================================================
+Descripción: ======================================================================== GENERADOR DE CÓDIGOS QR - SISTEMA DE TRAZABILIDAD ======================================================================== Genera códigos QR únicos para trazabilidad de unidades individuales y proporciona funciones para convertirlos a diferente…
 
 #### 🏛️ Clase `QrGenerator`
 
@@ -3412,10 +3518,10 @@ Attributes:
 </div>
 
 Nombre del Módulo: qt_log_handler
-Descripcion: Handler de logging de Python que integra el sistema de registro
-             estándar con el hilo de interfaz de Qt. Captura mensajes de nivel
-             WARNING, ERROR y CRITICAL y los reenvía a la UI mediante señales
-             Qt (thread-safe) para su visualización en tiempo real.
+Descripcion: Handler de logging de Python que integra el registro estándar con
+             el hilo de la interfaz Qt. Por defecto el nivel del handler es
+             ``INFO``, por lo que los mensajes ``INFO`` y superiores se reenvían
+             a la UI mediante señales Qt (apto para uso desde otros hilos).
 
              Diseño:
              - ``QtLogHandler`` hereda de ``logging.Handler`` (no puede ser
@@ -3443,33 +3549,24 @@ Signals:
 
 #### 🏛️ Clase `QtLogHandler`
 
-Handler de logging que reenvía mensajes WARNING/ERROR/CRITICAL a la UI de Qt.
+Handler que reenvía a la UI de Qt los registros desde el nivel del handler
+(por defecto ``INFO``) en adelante.
 
-Conecta el sistema de logging de Python con un widget de visualización en la
-interfaz gráfica de forma thread-safe: usa una señal Qt para cruzar
-desde hilos de fondo al event-loop del hilo principal.
+Conexión thread-safe vía señal ``log_emitted``. Buffer interno hasta la
+primera llamada a ``connect_to_widget()`` (arranque y login sin terminal).
 
-Incorpora un buffer interno que almacena mensajes mientras la UI no está
-lista (antes e incluso durante el proceso de login). Al llamar a
-``connect_to_widget()``, el buffer se reproduce completo y a partir de
-ese momento los mensajes llegan en tiempo real.
-
-Uso típico::
-
-    handler = QtLogHandler()
-    logging.getLogger().addHandler(handler)
-    # ... más tarde, una vez creado el HomeWidget ...
-    handler.connect_to_widget(home_widget.append_log)
+En la aplicación, ``app.py`` delega en ``HomeWidget.connect_log_handler`` o
+``WorkerMainWindow.connect_log_handler``, que a su vez llaman a este método
+con el ``append_log`` del ``LogTerminalWidget`` correspondiente.
 
 Attributes:
-    emitter: instancia de ``_SignalEmitter`` cuya señal ``log_emitted``
-             puede conectarse manualmente al slot del widget de destino.
+    emitter: ``_SignalEmitter`` con la señal ``log_emitted(str)``.
 
 **Métodos Principales:**
 
-- `__init__`: Inicializa el handler con nivel WARNING, formatter estándar y buffer vacío. El formatter incluye hora, nivel y nombre del logger para facilitar la identificación del origen del mensaje en la terminal visual.
+- `__init__`: Inicializa el handler con nivel ``INFO``, formatter estándar y buffer vacío. El formatter incluye hora, nivel y nombre del logger para facilitar la identificación del origen del mensaje en la terminal visual.
 - `emit`: Procesa un registro de log y emite la señal Qt con el mensaje formateado. Si el widget de destino aún no está conectado, el mensaje se almacena en el buffer interno para ser reproducido posteriormente. Llamado automáticamente por el sistema de logging cada vez que se genera un mensaje cuyo nivel supera el mínimo del handler. Args: record: Registro de log generado por el framework estándar de Python.
-- `connect_to_widget`: Conecta el handler al slot del widget y reproduce el buffer acumulado. Debe llamarse una sola vez, una vez que el ``HomeWidget`` ha sido creado y mostrado. A partir de este momento los mensajes fluyen en tiempo real y no se buferizan más. Args: slot: Callable del widget de destino que acepta un único argumento de tipo ``str`` (el mensaje formateado). Típicamente ``LogTerminalWidget.append_log``.
+- `connect_to_widget`: Conecta el handler al slot del widget y reproduce el buffer acumulado. Debe llamarse **una sola vez por sesión**, cuando ya existe el widget de destino: terminal de ``HomeWidget`` (vista principal) o de ``WorkerMainWindow`` (pestaña Log). A partir de aquí los mensajes van en tiempo real al slot y dejan de acumularse solo en memoria. Args: slot: Callable que recibe el mensaje ya formateado; habitualmente ``LogTerminalWidget.append_log``.
 
 ---
 
@@ -3479,15 +3576,24 @@ Attributes:
 
 </div>
 
-Lógica o utilidades del núcleo (`quote_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: quote_service
+Descripción: Frases inspiradoras para la pantalla de inicio y textos secundarios de la UI.
+
+Carga ``resources/quotes.json``; si no existe o es inválido, usa una lista integrada.
+Opcionalmente enriquece con resumen o imagen del autor desde Wikipedia en español (con caché
+en memoria por sesión; sin red, solo se muestra la cita).
 
 #### 🏛️ Clase `QuoteService`
 
-Servicio para mostrar frases célebres y enriquecerlas con datos de Wikipedia.
+Expone frases aleatorias y búsqueda de resumen/imagen de autor con caché en memoria por sesión.
+
+Las llamadas a Wikipedia son perezosas y pueden fallar sin red; en ese caso ``get_author_info``
+devuelve None y la UI puede mostrar solo la cita.
 
 **Métodos Principales:**
 
-- `_load_quotes`: Carga las frases del JSON local.
+- `__init__`: Args: quotes_json_path: Ruta absoluta opcional al JSON; por defecto ``resource_path('resources/quotes.json')``.
+- `_load_quotes`: Carga las frases del JSON local (`resources/quotes.json`); si no existe, usa frases integradas.
 - `get_random_quote`: Devuelve una frase aleatoria. Returns: Instancia de QuoteDTO con la frase y el autor.
 - `get_author_info`: Busca información del autor en Wikipedia (Bio + Imagen). Args: author_name: Nombre del autor a buscar. Returns: AuthorInfoDTO con el resumen e imagen, o None si no se encuentra.
 
@@ -3511,14 +3617,9 @@ Descripcion: Lectura de tareas canvas y reglas de reasignacion para el dialogo,
 
 </div>
 
-========================================================================
-REPORTS DTOs - DATA TRANSFER OBJECTS PARA MÓDULO DE REPORTES
-========================================================================
-Este módulo define los DTOs (Data Transfer Objects) utilizados para
-transferir datos entre el ReportsRepository y las capas de UI.
-Cada DTO representa una vista específica de los datos optimizada para
-la visualización en el módulo de Reportes de Producción.
-========================================================================
+Nombre del Módulo: core.reports_dtos
+
+Descripción: Define protocolos o tipos principales: ``ResultadoBusquedaDTO``, ``OrdenFabricacionResumenDTO``, ``OrdenFabricacionDetalleDTO``, ``PromedioTiempoDTO``, ``TiempoTrabajadorDTO``. DTO para resultados de búsqueda inteligente. Integración típica con: ``datetime``.
 
 #### 🏛️ Clase `ResultadoBusquedaDTO`
 
@@ -3573,7 +3674,9 @@ Información general mostrada al seleccionar un producto.
 
 </div>
 
-Lógica o utilidades del núcleo (`schedule_config`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.schedule_config
+
+Descripción: Define protocolos o tipos principales: ``ScheduleConfig``. Integración típica con: ``datetime``, ``json``.
 
 #### 🏛️ Clase `ScheduleConfig`
 
@@ -3609,23 +3712,32 @@ Descripcion: Normaliza filas de subfabricación (dict legado u objetos con atrib
 
 </div>
 
-SyncService: Database Comparison and Merge for USB Sync
-========================================================
-Enables "sneakernet" synchronization by comparing local database with
-an imported SQLite file and allowing selective merge of differences.
+Nombre del Módulo: sync_service
+Descripción: Comparación y fusión selectiva entre la base SQLite local y un fichero SQLite
+             externo (``sneakernet`` / USB / copia exportada). Construye ``DatabaseComparisonDTO``
+             para la UI y aplica cambios elegidos respetando orden de claves foráneas e incluyendo
+             tablas de asociación (BOM producto–material).
 
 #### 🏛️ Clase `SyncService`
 
-Service for comparing and synchronizing two SQLAlchemy databases.
-Designed for USB-based sync workflow between disconnected machines.
+Servicio que compara y fusiona registros entre la sesión local y una segunda base SQLite.
+
+La lista ``SYNCABLE_TABLES`` define el orden de comparación y de aplicación (productos y máquinas
+antes que subfabricaciones y procesos mecánicos; materiales antes que ``producto_material_link``).
+Las tablas en ``ASSOCIATION_TABLES`` solo generan filas ``new`` cuando el vínculo existe en
+extranjero y no en local.
 
 **Métodos Principales:**
 
-- `__init__`: Initialize SyncService with the local database session factory. Args: local_session_factory: SQLAlchemy sessionmaker for local DB
-- `compare_databases`: Compare local database with a foreign SQLite database file. Args: foreign_db_path: Path to the foreign .db file (from USB) Returns: DatabaseComparisonDTO containing differences per table.
-- `_compare_table`: Compare a single table between local and foreign databases. Args: local_session: Local database session foreign_session: Foreign database session model_class: SQLAlchemy model class primary_key: Name of the primary key column Returns: List of SyncRecordDTOs that differ (new or updated in foreign DB). Each DTO contains a SyncRecordPayloadDTO with the fields.
-- `apply_changes`: Apply selected changes to the local database. Args: comparison: DatabaseComparisonDTO containing changes to apply Returns: Number of records successfully applied
-- `_apply_single_record`: Apply a single record to the local database. Args: session: Local database session model_class: SQLAlchemy model class primary_key: Name of primary key column record_dto: SyncRecordDTO Returns: True if successfully applied.
+- `__init__`: Args: local_session_factory: Fábrica que devuelve sesiones SQLAlchemy sobre la BD local (típicamente ``sessionmaker`` ligado al motor de la app).
+- `compare_databases`: Compara todas las tablas configuradas entre local y el fichero SQLite externo. Args: foreign_db_path: Ruta absoluta al ``.db`` ya resuelto (no comprimido). Returns: DTO con una entrada por tabla que tenga diferencias (``new`` o ``updated`` en extranjero).
+- `_compare_table`: Compara una tabla ORM columna a columna (sin relaciones cargadas). Args: local_session: Sesión sobre la BD local. foreign_session: Sesión sobre la BD extranjera. model_class: Modelo declarativo SQLAlchemy. primary_key: Nombre del atributo que actúa como clave primaria. Returns: Lista de ``SyncRecordDTO`` con ``action`` ``new`` o ``updated`` respecto a local. Los ``datetime`` se consideran distintos si difieren en más de un segundo.
+- `_association_row_set`: Lee todas las filas de una tabla de enlace como conjunto de tuplas de claves. Args: session: Sesión activa. table: Objeto ``Table`` SQLAlchemy (p. ej. ``producto_material_link``). key_columns: Columnas que forman la identidad de la fila. Returns: Conjunto de tuplas hashables para comparación de presencia.
+- `_compare_association_table`: Detecta vínculos que existen en extranjero y faltan en local (solo inserciones). Args: local_session: Sesión local. foreign_session: Sesión extranjera. table: Tabla de asociación. key_columns: Columnas de la clave compuesta. Returns: Lista de ``SyncRecordDTO`` con ``action='new'`` por cada fila a insertar.
+- `_sort_table_diffs_for_apply`: Reordena los bloques seleccionados por el usuario según ``SYNCABLE_TABLES`` + ``ASSOCIATION_TABLES``. Args: tables: Fragmentos del DTO tal como devuelve el diálogo (orden de pestañas). Returns: Misma información ordenada para minimizar errores de FK al aplicar.
+- `apply_changes`: Aplica en la BD local los registros incluidos en ``comparison`` (una transacción con commit). Args: comparison: Subconjunto devuelto por ``SyncDialog.get_selected_changes``. Returns: Número de filas aplicadas con éxito (ORM + asociaciones).
+- `_apply_single_record`: Inserta o actualiza una fila ORM según ``record_dto.action``. Args: session: Sesión local (sin commit aún). model_class: Modelo destino. primary_key: Nombre del campo PK en el modelo. record_dto: Carga útil con campos serializables. Returns: False si ``updated`` y no existe la fila local; True en caso contrario.
+- `_apply_association_row`: Ejecuta ``INSERT`` en una tabla ``Table`` de metadatos compartidos. Args: session: Sesión local. table: Tabla de enlace. record_dto: Debe traer ``action=='new'`` y campos alineados con las columnas. Returns: True si se insertó; False si la acción no es de alta.
 
 ---
 
@@ -3635,7 +3747,9 @@ Designed for USB-based sync workflow between disconnected machines.
 
 </div>
 
-Lógica o utilidades del núcleo (`tracking_dtos`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.tracking_dtos
+
+Descripción: Define protocolos o tipos principales: ``FabricacionAsignadaDTO``, ``IncidenciaAdjuntoDTO``, ``IncidenciaLogDTO``, ``PasoTrazabilidadDTO``, ``TrabajoLogDTO``. DTO para fabricaciones asignadas a un trabajador. Integración típica con: ``datetime``, ``core``.
 
 #### 🏛️ Clase `FabricacionAsignadaDTO`
 
@@ -3665,11 +3779,9 @@ DTO para el log principal de trabajo (Pasaporte).
 
 </div>
 
-Nombre del Modulo: worker_ui_dtos
-Descripcion: DTOs tipados para la vista trabajador (lista de fabricaciones asignadas).
+Nombre del Módulo: core.worker_ui_dtos
 
-Origen típico: ``WorkerDbSync.get_assigned_fabricaciones``. La UI serializa filas con
-``to_signal_dict()`` cuando el receptor aún espera un mapping plano.
+Descripción: Nombre del Modulo: worker_ui_dtos Descripcion: DTOs tipados para la vista trabajador (lista de fabricaciones asignadas).
 
 #### 🏛️ Clase `WorkerTaskListRowDTO`
 
@@ -3688,7 +3800,9 @@ Fila plana para la lista de tareas/fabricaciones en WorkerMainWindow.
 
 </div>
 
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.camera_manager
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``__all__``, consumidos por la UI y controladores. Integración típica con: ``base``, ``manager``.
 
 - 🔧 `main`: Función principal para pruebas manuales.
 
@@ -3701,7 +3815,27 @@ Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o inf
 </div>
 
 Nombre del Módulo: camera_manager.base
-Descripcion: Tipos base para detección de cámaras y metadatos de dispositivos.
+
+Descripción: Define protocolos o tipos principales: ``CameraBackend``, ``CameraInfo``.
+
+---
+
+<div id='sec_core_camera_manager_capture_py'>
+
+### 📄 `core/camera_manager/capture.py`
+
+</div>
+
+Nombre del Módulo: camera_manager.capture
+
+Descripción: Apertura unificada de ``cv2.VideoCapture`` con el mismo criterio que ``CameraManager``
+             (vía ``get_system_backend``). En Windows el primario es DirectShow y se prueban a continuación
+             MSMF y AUTO como respaldo si una webcam no abre con un solo API.
+
+- 🔧 `default_capture_backend_chain`: Construye la lista ordenada de backends a probar al abrir una cámara. Returns: Cadena sin duplicados: primero el backend del SO (p. ej. DSHOW en Windows, AVFoundation en macOS), luego en Windows MSMF y AUTO; en el resto, AUTO si faltaba.
+- 🔧 `merge_backend_priority`: Prioriza un backend explícito y añade el resto según ``default_capture_backend_chain``. Args: primary: Backend solicitado por el llamador (p. ej. validación con backend concreto). Returns: Lista de backends sin duplicados, con ``primary`` en primer lugar.
+- 🔧 `open_video_capture_with_backends`: Intenta ``VideoCapture(index, backend)`` en orden hasta que ``isOpened()`` sea verdadero. Libera cada captura que no abre antes de probar la siguiente. Si ``cv2`` no está disponible, devuelve ``None`` sin lanzar excepción. Args: index: Índice de dispositivo de vídeo. backends: Secuencia de backends OpenCV a probar (valores del enum ``CameraBackend``). Returns: Instancia de ``cv2.VideoCapture`` abierta, o ``None`` si ningún backend abre el índice.
+- 🔧 `open_video_capture`: Abre la cámara en ``index`` usando ``default_capture_backend_chain``. Args: index: Índice de dispositivo de vídeo. Returns: ``VideoCapture`` listo para usar, o ``None`` si no hay ``cv2`` o no abre con ningún backend.
 
 ---
 
@@ -3711,9 +3845,16 @@ Descripcion: Tipos base para detección de cámaras y metadatos de dispositivos.
 
 </div>
 
-Nombre del Módulo: detector.py (CameraDetector)
-Descripción: Utilidades para la detección y filtrado de dispositivos de cámara 
-             compatibles conectados al sistema.
+Nombre del Módulo: camera_manager.detector
+
+Descripción: Detección y prueba de cámaras vía OpenCV: nombres heurísticos por SO,
+             validación de hardware con lectura de frames y vista previa. La apertura
+             de ``VideoCapture`` se delega en ``capture.open_video_capture_with_backends``
+             para mantener la misma cadena de backends que el resto del gestor de cámara.
+
+- 🔧 `get_camera_name`: Devuelve un nombre legible y si la cámara se considera externa (heurística por índice y SO). Args: index: Índice del dispositivo de vídeo. backend: Backend OpenCV asociado (se usa sobre todo para trazas; la heurística es por SO). Returns: Tupla ``(nombre, es_externa)``.
+- 🔧 `validate_hardware`: Abre la cámara con la cadena de backends fusionada y valida lectura de frames. Args: index: Índice del dispositivo de vídeo. backend: Backend preferido; se combina con ``default_capture_backend_chain`` vía ``merge_backend_priority``. frames: Número de intentos de lectura para decidir si la cámara ``is_working``. Returns: ``CameraInfo`` con dimensiones y estado, o ``None`` si no hay ``cv2`` o no abre la cámara.
+- 🔧 `test_preview`: Muestra una ventana de previsualización durante ``duration`` segundos (o hasta ESC). Args: index: Índice del dispositivo de vídeo. backend: Backend preferido para construir la cadena de apertura. duration: Segundos máximos de bucle de captura. Returns: True si se mostró al menos un frame; False si no hay OpenCV, no abre la cámara o no hay frames.
 
 ---
 
@@ -3742,7 +3883,8 @@ y seleccionar la mejor cámara para una aplicación.
 </div>
 
 Nombre del Módulo: camera_manager.utils
-Descripcion: Utilidades de plataforma para seleccionar backend de captura OpenCV.
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``get_system_backend``. Integración típica con: ``platform``, ``base``.
 
 ---
 
@@ -3752,7 +3894,9 @@ Descripcion: Utilidades de plataforma para seleccionar backend de captura OpenCV
 
 </div>
 
-Fachadas de aplicación por dominio (encima de servicios / repos).
+Nombre del Módulo: core.facades
+
+Descripción: Expone ``Facade`` como API estable de aplicación sobre servicios ya inyectados; no contiene reglas de persistencia directa. Integración típica con: ``__future__``, ``core``.
 
 ---
 
@@ -3762,7 +3906,9 @@ Fachadas de aplicación por dominio (encima de servicios / repos).
 
 </div>
 
-Fachada de aplicación: pilas, bitácora y datos de cálculo.
+Nombre del Módulo: core.facades.planning_facade
+
+Descripción: Expone ``PlanningFacade`` como API estable de aplicación sobre servicios ya inyectados; no contiene reglas de persistencia directa. Integración típica con: ``__future__``, ``datetime``, ``core``.
 
 #### 🏛️ Clase `PlanningFacade`
 
@@ -3776,7 +3922,9 @@ Punto estable para planificación; delega en ``PilaService``.
 
 </div>
 
-Fachada de aplicación: catálogo, iteraciones y materiales.
+Nombre del Módulo: core.facades.product_facade
+
+Descripción: Expone ``ProductFacade`` como API estable de aplicación sobre servicios ya inyectados; no contiene reglas de persistencia directa. Integración típica con: ``__future__``, ``core``.
 
 #### 🏛️ Clase `ProductFacade`
 
@@ -3794,7 +3942,9 @@ Punto estable para el dominio producto; delega en ``ProductService``.
 
 </div>
 
-Fachada de dominio de fabricación y preprocesos.
+Nombre del Módulo: core.facades.production_facade
+
+Descripción: Expone ``ProductionFacade`` como API estable de aplicación sobre servicios ya inyectados; no contiene reglas de persistencia directa. Integración típica con: ``__future__``.
 
 #### 🏛️ Clase `ProductionFacade`
 
@@ -3808,7 +3958,9 @@ Agrupa FabricacionService y operaciones de repositorio pendientes de migrar.
 
 </div>
 
-Fachada de dominio de reporting.
+Nombre del Módulo: core.facades.reporting_facade
+
+Descripción: Expone ``ReportingFacade`` como API estable de aplicación sobre servicios ya inyectados; no contiene reglas de persistencia directa. Integración típica con: ``__future__``.
 
 #### 🏛️ Clase `ReportingFacade`
 
@@ -3822,7 +3974,9 @@ Agrupa operaciones de ReportService.
 
 </div>
 
-Fachada de dominio de sistema (máquinas, preparación y utilidades DB).
+Nombre del Módulo: core.facades.system_facade
+
+Descripción: Expone ``SystemFacade`` como API estable de aplicación sobre servicios ya inyectados; no contiene reglas de persistencia directa. Integración típica con: ``__future__``.
 
 #### 🏛️ Clase `SystemFacade`
 
@@ -3836,7 +3990,9 @@ Agrupa MachineService, PreparationService y utilidades de configuración/lotes.
 
 </div>
 
-Fachada de dominio de trabajadores y asignaciones.
+Nombre del Módulo: core.facades.workforce_facade
+
+Descripción: Expone ``WorkforceFacade`` como API estable de aplicación sobre servicios ya inyectados; no contiene reglas de persistencia directa. Integración típica con: ``__future__``.
 
 #### 🏛️ Clase `WorkforceFacade`
 
@@ -3850,10 +4006,9 @@ Agrupa operaciones de WorkerService y TrackingAssignmentService.
 
 </div>
 
-Módulo de verificación de salud del sistema al arranque.
+Nombre del Módulo: core.health
 
-Exporta DatabaseHealthChecker, HealthReport y las dataclasses de resultado
-para su uso desde health_worker y startup_screen.
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo).
 
 ---
 
@@ -3863,7 +4018,9 @@ para su uso desde health_worker y startup_screen.
 
 </div>
 
-Constantes de salud del sistema para startup checks.
+Nombre del Módulo: core.health.constants
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``CRITICAL_TABLES``, ``THRESHOLDS``, consumidos por la UI y controladores.
 
 ---
 
@@ -3954,7 +4111,11 @@ Ejecuta pytest -m unit en un subprocess y emite progreso línea a línea.
 
 </div>
 
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: import_manager
+Descripción: Paquete de importación de listas de materiales (BOM) desde formatos A3RP.
+
+Incluye adaptadores de fichero, DTOs de árbol y el servicio que persiste en la base
+de datos tras la revisión en pantalla.
 
 ---
 
@@ -3965,7 +4126,29 @@ Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o inf
 </div>
 
 Nombre del Módulo: import_manager.dto
-Descripcion: DTOs para representar árboles BOM importados desde A3RP.
+Descripción: Estructuras de datos para un listado de materiales (BOM) leído desde Excel A3RP.
+
+Cada nodo puede marcarse en pantalla para importar o no, y recibir un rol (producto final,
+subfabricación, proceso mecánico o componente) antes de persistir en base de datos.
+
+#### 🏛️ Clase `BOMImportRole`
+
+Clasificación explícita de cada fila marcada en la supervisión de importación A3RP.
+
+#### 🏛️ Clase `BOMNodeDTO`
+
+Nodo del árbol BOM leído desde A3RP y enriquecido en la supervisión de importación.
+
+Attributes:
+    nivel: Profundidad en la lista de materiales.
+    codigo_componente: Identificador de fila (código de pieza o operación según contexto).
+    capitulo: Metadato de capítulo del listado, si existe.
+    denominacion: Texto descriptivo mostrado al usuario.
+    es_subfabricacion: Hint del adaptador Excel (``Compuesto``); la verdad operativa es ``import_role``.
+    cantidad: Cantidad de la línea.
+    hijos: Subárbol recursivo.
+    import_selected: Si True, el usuario marcó la fila para persistir.
+    import_role: Rol asignado en el diálogo (obligatorio si está marcada).
 
 ---
 
@@ -3975,13 +4158,16 @@ Descripcion: DTOs para representar árboles BOM importados desde A3RP.
 
 </div>
 
-Lógica o utilidades del núcleo (`ports`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: import_manager.ports
+Descripción: Contratos mínimos para lectores de BOM (interfaz común entre adaptadores y tests).
 
 #### 🏛️ Clase `IBOMImporter`
 
+Lector de fichero que devuelve la raíz del árbol de materiales como ``BOMNodeDTO``.
+
 **Métodos Principales:**
 
-- `parse_file`: Debe leer un archivo y devolver la raíz del árbol de fabricación (BOMNodeDTO)
+- `parse_file`: Lee la ruta indicada y devuelve el nodo raíz del BOM.
 
 ---
 
@@ -3991,7 +4177,8 @@ Lógica o utilidades del núcleo (`ports`): tipos, servicios auxiliares o infrae
 
 </div>
 
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: import_manager.adapters
+Descripción: Adaptadores que leen ficheros A3RP (Excel, CSV) y producen un ``BOMNodeDTO``.
 
 ---
 
@@ -4001,8 +4188,9 @@ Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o inf
 
 </div>
 
-Nombre del Módulo: import_manager.adapters.a3rp_csv_adapter
-Descripcion: Adaptador CSV de A3RP para construir un árbol BOM jerárquico.
+Nombre del Módulo: a3rp_csv_adapter
+Descripción: Lee exportaciones CSV de A3RP (con cabecera Nivel/Componente) y arma el mismo
+             árbol ``BOMNodeDTO`` que el adaptador Excel, para entornos sin .xlsx.
 
 ---
 
@@ -4012,11 +4200,11 @@ Descripcion: Adaptador CSV de A3RP para construir un árbol BOM jerárquico.
 
 </div>
 
-A3RPExcelAdapter: Adaptador para importar estructuras BOM desde archivos Excel de A3RP.
-=======================================================================================
-Implementa el puerto `IBOMImporter` leyendo archivos `.xlsx` mediante `pandas`.
-Reconstruye el árbol de lista de materiales (BOM) analizando los niveles de indentación
-y las dependencias implícitas en el formato exportado por el ERP A3RP.
+Nombre del Módulo: a3rp_excel_adapter
+Descripción: Lee hojas Excel (.xlsx) exportadas por A3RP y construye el árbol BOM en memoria.
+
+Implementa ``IBOMImporter`` con ``pandas``: interpreta columnas como Nivel, Componente y
+Tipo (Compuesto/Simple) para enlazar padres e hijos antes de la supervisión en UI.
 
 #### 🏛️ Clase `A3RPExcelAdapter`
 
@@ -4044,7 +4232,8 @@ Atributos de columna esperados:
 
 </div>
 
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: import_manager.services
+Descripción: Servicios de dominio relacionados con la importación de BOM (p. ej. escritura en BD).
 
 ---
 
@@ -4054,23 +4243,31 @@ Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o inf
 
 </div>
 
-BOMImportService: Servicio de dominio para importar estructuras supervisadas.
-=============================================================================
-Toma el árbol `BOMNodeDTO` (ya supervisado por el usuario en la UI) y
-se coordina con `ProductService` para inyectar estos nodos en la base de datos,
-creando o actualizando los productos según sea necesario.
+Nombre del Módulo: bom_import_service
+Descripción: Servicio de dominio que persiste un BOM A3RP tras la supervisión en UI.
+             Lee ``BOMNodeDTO`` con ``import_selected`` e ``import_role``, exige un único
+             producto final, actualiza el registro en ``productos`` y crea/vincula
+             subfabricaciones, procesos mecánicos y materiales al código final.
 
 #### 🏛️ Clase `BOMImportService`
 
-Servicio encargado de importar un árbol BOM a la base de datos de Hipatia.
+Orquesta la escritura en BD a partir del árbol supervisado en ``BOMImportPreviewDialog``.
+
+No crea productos de catálogo para subfabricaciones: estas van a la tabla
+``subfabricaciones`` del producto final. El tiempo óptimo del producto se incrementa
+con la suma de tiempos de procesos mecánicos realmente nuevos respecto al estado previo.
 
 **Métodos Principales:**
 
-- `__init__`: Inicializa el servicio de importación. Args: product_service: Interfaz o instancia capaz de crear/actualizar productos y manejar subfabricaciones (por e.g., ProductService o ProductManager).
-- `import_bom_tree`: Recorre el árbol BOM recursivamente y procesa la inserción o actualización de productos y sus relaciones de subfabricación. Sólo procesa subfabricaciones si `nodo.es_subfabricacion` es True. Args: root_node: El nodo raíz supervisado. Returns: Dict con estadísticas de importación (ej. {'creados': X, 'actualizados': Y}).
-- `_process_node`: Proceso recursivo interno para manejar cada nodo y sus hijos. Asegura la creación del producto, procesa sus dependencias (hijos) y evita ciclos infinitos mediante el conjunto 'procesados'. Args: node: Nodo actual a procesar. stats: Diccionario de estadísticas para acumular resultados. procesados: Conjunto de códigos ya visitados para evitar ciclos.
-- `_ensure_product_exists`: Verifica si el producto existe. Si no, lo crea de forma básica.
-- `_update_product_dependencies`: Actualiza el registro del producto padre con la nueva lista de hijos.
+- `__init__`: Args: product_service: Fachada/servicio con CRUD de productos y, si aplica, ``add_material`` / ``link_material_to_product`` / ``get_materials_for_product``.
+- `import_bom_tree`: Importa únicamente nodos con ``import_selected=True`` y ``import_role`` definido. Requiere exactamente un nodo ``BOMImportRole.FINAL_PRODUCT`` entre los seleccionados. Args: root_node: Raíz del árbol (se recorre en profundidad). Returns: Diccionario de contadores: ``creados``, ``actualizados``, ``errores``, ``subfabricaciones_vinculadas``, ``procesos_mecanicos``, ``componentes``.
+- `_collect_selected`: Recorre el árbol y devuelve nodos marcados con código y rol válidos (sin duplicar por ``id``). Args: node: Nodo raíz desde el que iniciar el DFS. Returns: Lista plana de nodos elegibles para importación.
+- `_ensure_main_product`: Garantiza que exista la fila de producto final antes de fusionar detalles. Args: node: Nodo producto final. has_subfabs: Si hay subfabricaciones seleccionadas (afecta departamento y flag). stats: Contadores mutables (creación vs error).
+- `_sub_row_from_node`: Construye el dict de subfabricación esperado por ``update_product`` desde un nodo.
+- `_proceso_dict_from_node`: Mapea un nodo de proceso mecánico al payload de proceso en producto.
+- `_merge_subfabricaciones`: Une subfabricaciones ya persistidas con filas nuevas sin duplicar por código lógico.
+- `_merge_procesos`: Concatena procesos existentes y propuestos, evitando duplicados por nombre (casefold).
+- `_link_component`: Crea material si hace falta y lo enlaza al producto final vía ``link_material_to_product``. Args: final_code: Código del producto final. node: Nodo componente seleccionado. stats: Contador ``componentes`` / ``errores``.
 
 ---
 
@@ -4080,7 +4277,9 @@ Servicio encargado de importar un árbol BOM a la base de datos de Hipatia.
 
 </div>
 
-Lógica o utilidades del núcleo (`controller_interface`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.interfaces.controller_interface
+
+Descripción: Define protocolos o tipos principales: ``QABCMeta``, ``IController``. Interface base para todos los controladores de la aplicación. Integración típica con: ``PyQt6``.
 
 #### 🏛️ Clase `IController`
 
@@ -4102,7 +4301,9 @@ Establece un contrato estándar para inicialización, limpieza y manejo de error
 
 </div>
 
-Lógica o utilidades del núcleo (`view_interface`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.interfaces.view_interface
+
+Descripción: Define protocolos o tipos principales: ``IView``. Interfaz abstracta para la vista principal.
 
 #### 🏛️ Clase `IView`
 
@@ -4128,7 +4329,9 @@ de la implementación concreta de PyQt.
 
 </div>
 
-Lógica o utilidades del núcleo (`worker_view_interface`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.interfaces.worker_view_interface
+
+Descripción: Define protocolos o tipos principales: ``IWorkerView``. Interfaz abstracta para la vista del trabajador. Integración típica con: ``core``.
 
 #### 🏛️ Clase `IWorkerView`
 
@@ -4150,7 +4353,9 @@ Interfaz abstracta para la vista del trabajador.
 
 </div>
 
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.label_manager
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``__all__``, consumidos por la UI y controladores. Integración típica con: ``pathlib``, ``base``, ``manager``.
 
 ---
 
@@ -4161,7 +4366,8 @@ Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o inf
 </div>
 
 Nombre del Módulo: core.label_manager.base
-Descripcion: Define los formatos de etiquetas soportados y sus parámetros técnicos.
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``LABEL_FORMATS``, consumidos por la UI y controladores. Integración típica con: ``pathlib``.
 
 ---
 
@@ -4171,8 +4377,9 @@ Descripcion: Define los formatos de etiquetas soportados y sus parámetros técn
 
 </div>
 
-Paquete: core.label_manager
-Descripción: Sistema de gestión y generación de etiquetas de trazabilidad.
+Nombre del Módulo: core.label_manager.manager
+
+Descripción: Paquete: core.label_manager Descripción: Sistema de gestión y generación de etiquetas de trazabilidad.
 
 #### 🏛️ Clase `LabelManager`
 
@@ -4200,7 +4407,9 @@ Attributes:
 
 </div>
 
-Contratos (Ports) para la gestión de generación de documentos.
+Nombre del Módulo: core.label_manager.ports
+
+Descripción: Define protocolos o tipos principales: ``IDocumentGenerator``. Protocolo que define cómo debe comportarse un generador de documentos. Integración típica con: ``pathlib``.
 
 #### 🏛️ Clase `IDocumentGenerator`
 
@@ -4221,12 +4430,18 @@ sin acoplarse a librerías específicas (como python-docx).
 
 </div>
 
-Lógica o utilidades del núcleo (`printer`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: printer
+Descripción: Envío a impresora y copia de respaldo de documentos de etiquetas (macOS/Linux
+             con CUPS ``lpr``/``lp``, Windows).
 
+Si no hay impresora predeterminada o el envío falla, copia el fichero a
+``Documentos/Etiquetas`` y abre esa carpeta para que el usuario pueda imprimir manualmente.
+
+- 🔧 `_lpstat_says_no_default`: Detecta ausencia de impresora predeterminada (inglés / español en macOS).
 - 🔧 `is_printer_available`: Comprueba si hay una impresora predeterminada configurada.
 - 🔧 `save_to_documents`: Guarda el documento en la carpeta de Documentos del usuario.
 - 🔧 `open_file_location`: Abre la ubicación del archivo en el explorador de archivos.
-- 🔧 `print_document`: Envía un documento a imprimir o lo guarda si no hay impresora.
+- 🔧 `print_document`: Envía ``doc_path`` a la impresora predeterminada o a la indicada. Si no hay cola predeterminada o ``lp``/``lpr`` fallan, intenta copiar el archivo a ``Documentos/Etiquetas`` y devuelve ``(True, ruta_copiada)``. Returns: Tupla ``(éxito, ruta_opcional)``: en impresión directa exitosa la ruta suele ser ``None``; si solo se guardó copia, la ruta del archivo guardado.
 
 ---
 
@@ -4236,7 +4451,9 @@ Lógica o utilidades del núcleo (`printer`): tipos, servicios auxiliares o infr
 
 </div>
 
-Protocolos de dominio compartidos (servicios). Implementados nominalmente en `core.services`.
+Nombre del Módulo: core.protocols
+
+Descripción: Protocolos de dominio compartidos (servicios). Implementados nominalmente en `core.services`.
 
 ---
 
@@ -4246,11 +4463,9 @@ Protocolos de dominio compartidos (servicios). Implementados nominalmente en `co
 
 </div>
 
-Protocolos de dominio para productos, fabricaciones y materiales.
+Nombre del Módulo: core.protocols.domain
 
-No heredar de estos protocolos en clases `QObject` (PyQt6): conflicto de metaclases
-en tiempo de ejecución. Se usan para tipado estático (mypy), `create_autospec` y
-reexportación desde `controllers.product.protocols`.
+Descripción: Define protocolos o tipos principales: ``IProductService``, ``IFabricacionService``, ``IMaterialService``. Contrato del servicio de catálogo, iteraciones e imágenes de producto. Integración típica con: ``__future__``, ``core``.
 
 #### 🏛️ Clase `IProductService`
 
@@ -4272,7 +4487,9 @@ Subconjunto de operaciones de materiales (vía `ProductService`), incluida la le
 
 </div>
 
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.qr_scanner
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``__all__``, consumidos por la UI y controladores. Integración típica con: ``scanner``, ``detector``, ``base``.
 
 ---
 
@@ -4282,7 +4499,9 @@ Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o inf
 
 </div>
 
-Lógica o utilidades del núcleo (`base`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.qr_scanner.base
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``logger``, consumidos por la UI y controladores. Integración típica con: ``re``, ``datetime``.
 
 - 🔧 `validate_qr`: Valida que un QR tenga el formato correcto de trazabilidad.
 - 🔧 `get_qr_info`: Obtiene información de un QR de trazabilidad.
@@ -4296,7 +4515,8 @@ Lógica o utilidades del núcleo (`base`): tipos, servicios auxiliares o infraes
 </div>
 
 Nombre del Módulo: qr_scanner.detector
-Descripcion: Detector QR con backend WeChat/OpenCV y fallback automático.
+
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo). Integración típica con: ``os``.
 
 ---
 
@@ -4320,7 +4540,9 @@ Descripción: Sistema de detección y decodificación de códigos QR en tiempo r
 
 </div>
 
-Dibujo de overlays QR sobre frames OpenCV (`core.qr_scanner`, no el paquete de interfaz `ui/`).
+Nombre del Módulo: core.qr_scanner.ui
+
+Descripción: Dibujo de overlays QR sobre frames OpenCV (`core.qr_scanner`, no el paquete de interfaz `ui/`).
 
 - 🔧 `draw_qr_detection`: Dibuja indicadores visuales en el frame.
 
@@ -4349,7 +4571,9 @@ Descripción: Proporciona decoradores y utilidades para el control de acceso
 
 </div>
 
-Lógica o utilidades del núcleo (`password_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.security.password_service
+
+Descripción: Define protocolos o tipos principales: ``PasswordService``. Servicio para el manejo seguro de contraseñas utilizando bcrypt. Integración típica con: ``bcrypt``.
 
 #### 🏛️ Clase `PasswordService`
 
@@ -4370,7 +4594,9 @@ Reemplaza el uso de SHA-256 simple.
 
 </div>
 
-Excepciones personalizadas para el sistema de seguridad.
+Nombre del Módulo: core.security.security_exceptions
+
+Descripción: Define protocolos o tipos principales: ``SecurityError``, ``SecurityServiceNotInitializedError``, ``InsufficientPermissionsError``, ``RateLimitExceededError``. Excepción base para errores de seguridad.
 
 #### 🏛️ Clase `SecurityError`
 
@@ -4420,7 +4646,9 @@ Servicio central de seguridad para autenticación y autorización (RBAC).
 
 </div>
 
-Servicio de logging de auditoría para acciones sensibles.
+Nombre del Módulo: audit_logger
+Descripción: Persistencia de acciones sensibles (login, importación, sincronización, etc.)
+             en la tabla de auditoría de base de datos para trazabilidad y cumplimiento.
 
 #### 🏛️ Clase `AuditLogger`
 
@@ -4445,7 +4673,10 @@ Registra acciones sensibles en la base de datos.
 
 </div>
 
-Servicio de backup automatizado para protección de datos.
+Nombre del Módulo: backup_service
+Descripción: Copias de seguridad automáticas del directorio de datos (empaquetado, rotación y comprobaciones).
+
+Incluye retención por días y verificación de integridad de los archivos generados.
 
 #### 🏛️ Clase `BackupService`
 
@@ -4467,7 +4698,9 @@ Gestiona backups automatizados con rotación y verificación.
 
 </div>
 
-Funciones utilitarias para operación de backups.
+Nombre del Módulo: backup_utils
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``check_disk_space``, ``verify_tar_backup``, ``create_checksum``, ``verify_checksum``. Integración típica con: ``__future__``, ``hashlib``, ``shutil``, ``tarfile``, ``pathlib``.
 
 - 🔧 `check_disk_space`: Verifica que exista espacio libre suficiente en el disco.
 - 🔧 `verify_tar_backup`: Verifica que el archivo de backup se pueda abrir y tenga contenido.
@@ -4482,7 +4715,11 @@ Funciones utilitarias para operación de backups.
 
 </div>
 
-Lógica o utilidades del núcleo (`calculation_audit`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: calculation_audit
+Descripción: Tipos para auditar decisiones del motor de cálculo (estado visual y motivo legible).
+
+``CalculationDecision`` enriquece cada paso con contexto de producto/tarea para informes
+Excel/PDF y depuración sin leer logs crudos.
 
 #### 🏛️ Clase `DecisionStatus`
 
@@ -4501,7 +4738,11 @@ enriquecida con contexto para una mejor experiencia de usuario (UX).
 
 </div>
 
-Lógica o utilidades del núcleo (`calendar_helper`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: calendar_helper
+Descripción: Acceso global opcional a la configuración de calendario y jornada (compatibilidad).
+
+Algunos módulos históricos leen el horario vía ``get_schedule_config`` tras un
+``set_schedule_config`` en el arranque de la aplicación.
 
 - 🔧 `set_schedule_config`: Establece la configuración de horario global para compatibilidad.
 - 🔧 `get_schedule_config`: Obtiene la configuración de horario global.
@@ -4514,7 +4755,10 @@ Lógica o utilidades del núcleo (`calendar_helper`): tipos, servicios auxiliare
 
 </div>
 
-Lógica o utilidades del núcleo (`data_importer`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: data_importer
+Descripción: Importación de materiales desde fichero (patrón factoría: interfaz común,
+             implementación Excel con ``pandas``). Devuelve objetos ``Material`` listos
+             para validación o persistencia según el flujo que invoque el módulo.
 
 #### 🏛️ Clase `Material`
 
@@ -4554,18 +4798,18 @@ Clase factoría que decide qué importador crear basado en la extensión del arc
 
 </div>
 
-Nombre del Módulo: FabricacionService
-Descripción: Servicio de lógica de negocio para la gestión de fabricaciones, órdenes de seguimiento y preprocesos.
+Nombre del Módulo: fabricacion_service
+Descripción: Órdenes de fabricación, preprocesos vinculados y datos para seguimiento.
+
+Orquesta validaciones y persistencia usando DTOs (``FabricacionDTO``, ``PreprocesoDTO``)
+como frontera estable hacia controladores y vistas.
 
 #### 🏛️ Clase `FabricacionService`
 
-Servicio de dominio para la gestión centralizada de Fabricaciones y Preprocesos.
+Gestión centralizada de fabricaciones y preprocesos asociados.
 
-Actúa como una capa de orquestación (Fase 11C/12C) que:
-1. Valida las reglas de negocio antes de persistir los datos.
-2. Coordina la creación de fabricaciones complejas que incluyen preprocesos y productos.
-3. Garantiza que toda la comunicación sea mediante `FabricacionDTO` y `PreprocesoDTO`,
-   sirviendo como frontera limpia para los controladores de la UI.
+Valida reglas de negocio antes de persistir, coordina creaciones con varios productos
+o preprocesos y expone solo DTOs hacia la capa de interfaz.
 
 **Métodos Principales:**
 
@@ -4586,16 +4830,20 @@ Actúa como una capa de orquestación (Fase 11C/12C) que:
 
 </div>
 
-Lógica o utilidades del núcleo (`flow_builder_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: flow_builder_service
+Descripción: Construcción y ajuste de listas de pasos de flujo de producción (dict en memoria).
+
+Aplica unidades de disparo, copia profunda de overrides del editor visual y asignación
+heurística de trabajadores por nivel de habilidad requerido en la tarea.
 
 #### 🏛️ Clase `FlowBuilderService`
 
-Service responsible for constructing and refining production flows.
+Construye y refina flujos de producción antes de simulación o persistencia.
 
 **Métodos Principales:**
 
-- `build_flow_from_override`: Creates a production flow from an override (e.g., from Visual Editor), updating units for each step.
-- `resolve_worker_assignments`: Assigns default workers to steps that don't have them, based on skill level. Args: production_flow: The list of flow steps. available_workers_sorted: List of worker objects, ideally sorted by skill level (descending). Returns: The modified production flow with workers assigned where possible.
+- `build_flow_from_override`: Clona el flujo definido por el usuario (p. ej. editor) y fija ``trigger_units`` en cada paso. Args: production_flow_override: Secuencia de pasos con tareas y metadatos. units: Unidades de disparo a aplicar a cada paso. Returns: Lista nueva de pasos o lista vacía si no hay override.
+- `resolve_worker_assignments`: Rellena ``workers`` en pasos vacíos eligiendo el primer operario que cumple el nivel requerido. Args: production_flow: Pasos del flujo; se mutan entradas sin trabajadores asignados. available_workers_sorted: Candidatos ordenados (p. ej. de mayor a menor habilidad). Returns: El mismo flujo con listas ``workers`` rellenadas o vacías si no hay candidato.
 
 ---
 
@@ -4605,7 +4853,11 @@ Service responsible for constructing and refining production flows.
 
 </div>
 
-Lógica o utilidades del núcleo (`flow_simulation_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: flow_simulation_service
+Descripción: Simulación paso a paso de flujos de producción y orden de ejecución de tareas.
+
+Incluye ``SimulationSession`` para avanzar tarea a tarea y ``FlowSimulationService`` para
+preparar el orden y datos auxiliares del motor de simulación.
 
 #### 🏛️ Clase `SimulationSession`
 
@@ -4634,13 +4886,12 @@ para flujos de producción.
 
 </div>
 
-Nombre del Módulo: MachineService
+Nombre del Módulo: machine_service
 Descripción: Servicio de dominio especializado en la gestión de máquinas, mantenimientos y procesos.
 
 #### 🏛️ Clase `MachineService`
 
-Servicio de dominio para gestionar máquinas.
-Extraído de FabricacionService para cumplir con SRP.
+Catálogo y mantenimiento lógico de máquinas de planta (consultas y cambios vía repositorio).
 
 **Métodos Principales:**
 
@@ -4663,8 +4914,11 @@ Extraído de FabricacionService para cumplir con SRP.
 
 </div>
 
-Servicio de mantenimiento automatizado del sistema.
-Ejecuta tareas de limpieza y verificación en segundo plano para asegurar la higiene del sistema.
+Nombre del Módulo: maintenance_service
+Descripción: Mantenimiento programado en segundo plano: limpieza de intentos de login,
+             retención de auditoría, copias de seguridad y rotación de ficheros antiguos.
+
+``MaintenanceService`` encola un ``MaintenanceWorker`` en el ``QThreadPool`` global.
 
 #### 🏛️ Clase `MaintenanceWorker`
 
@@ -4691,9 +4945,11 @@ Servicio que orquesta tareas de mantenimiento:
 
 </div>
 
-Nombre del Modulo: pila_service
-Descripcion: Servicio de dominio para pilas de fabricacion, simulacion y preparacion de datos
-             de calculo (DTOs para el motor). Usa ``DatabaseManager`` y repositorios asociados.
+Nombre del Módulo: pila_service
+Descripción: Pilas de trabajo, simulación y ensamblado de DTOs para el motor de cálculo.
+
+Delega persistencia en ``DatabaseManager`` y ``PilaRepository``; emite señales cuando cambian
+pilas o terminan simulaciones.
 
 #### 🏛️ Clase `PilaService`
 
@@ -4713,13 +4969,12 @@ Servicio de dominio para gestionar Pilas de fabricación y Simulaciones.
 
 </div>
 
-Nombre del Módulo: PreparationService
+Nombre del Módulo: preparation_service
 Descripción: Servicio de dominio especializado en la gestión de grupos y pasos de preparación de máquinas.
 
 #### 🏛️ Clase `PreparationService`
 
-Servicio de dominio para gestionar grupos y pasos de preparación.
-Extraído de FabricacionService para cumplir con SRP.
+Grupos y pasos de preparación de máquinas (tiempos y secuencias usados antes de fabricar).
 
 **Métodos Principales:**
 
@@ -4744,7 +4999,9 @@ Extraído de FabricacionService para cumplir con SRP.
 
 </div>
 
-Lógica o utilidades del núcleo (`product_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: product_service
+Descripción: Catálogo de productos: búsqueda, detalle, iteraciones, materiales y altas o bajas
+             lógicas. Expone señales PyQt6 para que la interfaz refresque listas tras cambios.
 
 #### 🏛️ Clase `ProductService`
 
@@ -4767,7 +5024,10 @@ Maneja:
 
 </div>
 
-Servicio de limitación de tasa para prevenir ataques de fuerza bruta.
+Nombre del Módulo: rate_limiter
+Descripción: Limita intentos de inicio de sesión fallidos (bloqueo temporal y limpieza de históricos).
+
+Registra cada intento en base de datos y bloquea el usuario unos minutos tras superar el umbral.
 
 #### 🏛️ Clase `RateLimiter`
 
@@ -4787,7 +5047,11 @@ Gestiona el rate limiting para intentos de login.
 
 </div>
 
-Lógica o utilidades del núcleo (`report_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: report_service
+Descripción: Informes y estadísticas de producción (órdenes, tiempos, incidencias, evolución).
+
+Interfaz delgada entre controladores de informes y ``ReportsRepository``; los DTOs de
+salida viven en ``core.reports_dtos``.
 
 #### 🏛️ Clase `ReportService`
 
@@ -4806,9 +5070,11 @@ Actúa como interfaz entre la UI/Controladores y el repositorio de reportes.
 
 </div>
 
-Fachada de compatibilidad para estrategias de informes: reexporta interfaces y
-implementaciones desde core.services.reporting (Excel/PDF) sin acoplar
-importadores al subpaquete interno.
+Nombre del Módulo: report_strategy
+Descripción: Punto de entrada estable para estrategias de informe (Excel y PDF).
+
+Reexporta ``IReporteEstrategia``, ``GeneradorDeInformes`` y las clases concretas del
+subpaquete ``core.services.reporting`` para imports simples desde controladores.
 
 ---
 
@@ -4818,9 +5084,11 @@ importadores al subpaquete interno.
 
 </div>
 
-Operaciones de sistema: lotes, configuración persistente y órdenes de tracking.
+Nombre del Módulo: system_integration_service
+Descripción: Operaciones transversales de sistema: lotes, configuración persistente y tracking.
 
-Centraliza el acceso que antes hacía AppModel directamente contra repositorios.
+Fachada delgada sobre los repositorios expuestos por ``DatabaseManager`` para evitar acoplar
+widgets a la capa de datos.
 
 #### 🏛️ Clase `SystemIntegrationService`
 
@@ -4838,12 +5106,17 @@ Fachada delgada sobre repos de lotes, config y tracking.
 
 </div>
 
-Lógica o utilidades del núcleo (`temporal_storage`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: temporal_storage
+Descripción: Registro incremental de eventos de simulación en SQLite (disco o memoria).
+
+``RegistroTemporal`` es seguro entre hilos: buffer con volcado periódico y conexión por hilo
+para no bloquear el motor de eventos al escribir trazas largas.
 
 #### 🏛️ Clase `RegistroTemporal`
 
-[cite_start]Gestiona el almacenamiento incremental de eventos procesados en disco.
-CORREGIDO: Ahora es seguro para usar en múltiples hilos (thread-safe).
+Almacenamiento incremental de eventos de simulación en disco (o ``:memory:``) con buffer.
+
+El acceso concurrente se serializa con un candado y conexiones SQLite locales al hilo.
 
 **Métodos Principales:**
 
@@ -4864,7 +5137,11 @@ CORREGIDO: Ahora es seguro para usar en múltiples hilos (thread-safe).
 
 </div>
 
-Lógica o utilidades del núcleo (`time_calculator`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: time_calculator
+Descripción: Cálculo de fechas y duraciones respetando jornada laboral, descansos y festivos.
+
+``CalculadorDeTiempos`` avanza por bloques de trabajo continuos (no minuto a minuto) para
+sumar o restar tiempo de forma eficiente y coherente con la configuración de planta.
 
 #### 🏛️ Clase `CalculadorDeTiempos`
 
@@ -4900,15 +5177,22 @@ precisión O(1) por salto sobre noches, fines de semana y festivos.
 
 </div>
 
-Lógica o utilidades del núcleo (`tracking_assignment_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: tracking_assignment_service
+Descripción: Enlaza y desenlaza trabajadores con órdenes de fabricación en base de datos.
+
+Escribe en la tabla ``trabajador_fabricacion_link`` (fecha de asignación en UTC y
+estado, por ejemplo ``activo`` o ``cancelado``) para que la vista de operario y los
+informes de trazabilidad reflejen siempre las asignaciones vigentes.
 
 #### 🏛️ Clase `TrackingAssignmentService`
 
-Servicio de dominio para gestionar asignaciones trabajador↔fabricación.
+Operaciones de dominio sobre el vínculo trabajador–fabricación (asignar, actualizar estado, desasignar).
 
 **Métodos Principales:**
 
 - `get_fabricaciones_por_trabajador`: Recupera las fabricaciones asignadas a un trabajador desde el repositorio. Args: trabajador_id: ID del trabajador. Returns: Lista de fabricaciones asignadas.
+- `asignar_trabajador_a_fabricacion`: Enlaza un trabajador con una fabricación si ambos existen y el enlace no existe aún. Inserta una fila en ``trabajador_fabricacion_link`` con ``fecha_asignacion`` en UTC y ``estado`` ``activo``. Si el par ya estaba enlazado, devuelve True sin duplicar.
+- `desasignar_trabajador_de_fabricacion`: Elimina la fila de ``trabajador_fabricacion_link`` para el par dado. Returns: True si se borró al menos una fila; False si no existía el enlace.
 
 ---
 
@@ -4918,13 +5202,12 @@ Servicio de dominio para gestionar asignaciones trabajador↔fabricación.
 
 </div>
 
-Nombre del Módulo: WorkerService
+Nombre del Módulo: worker_service
 Descripción: Servicio de dominio especializado en la gestión de trabajadores, historial y carga de trabajo.
 
 #### 🏛️ Clase `WorkerService`
 
-Servicio de dominio para gestionar trabajadores.
-Extraído de FabricacionService para cumplir con SRP.
+Operaciones de dominio sobre trabajadores: listados, detalle, historial y asignación de tareas.
 
 **Métodos Principales:**
 
@@ -4950,7 +5233,10 @@ Extraído de FabricacionService para cumplir con SRP.
 
 </div>
 
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: report_sheets
+Descripción: Hojas Excel reutilizables del informe de pila (resumen, cronograma, gráficas, etc.).
+
+Cada módulo define una subclase de ``ExcelSheetStrategy`` que añade una pestaña al libro.
 
 ---
 
@@ -4961,7 +5247,8 @@ Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o inf
 </div>
 
 Nombre del Módulo: report_sheets.audit
-Descripcion: Hoja Excel de auditoría de decisiones de cálculo y eventos críticos.
+
+Descripción: Define protocolos o tipos principales: ``AuditSheet``. Integración típica con: ``datetime``, ``openpyxl``, ``base``, ``core``.
 
 ---
 
@@ -4971,13 +5258,14 @@ Descripcion: Hoja Excel de auditoría de decisiones de cálculo y eventos críti
 
 </div>
 
-Lógica o utilidades del núcleo (`base`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: report_sheets.base
+Descripción: Clase base abstracta para cada hoja Excel del informe de pila de fabricación.
 
 #### 🏛️ Clase `ExcelSheetStrategy`
 
 **Métodos Principales:**
 
-- `create_sheet`: Creates a sheet in the workbook with specific logic.
+- `create_sheet`: Añade una hoja al libro ``wb`` según el análisis recibido en ``kwargs``.
 
 ---
 
@@ -4988,7 +5276,8 @@ Lógica o utilidades del núcleo (`base`): tipos, servicios auxiliares o infraes
 </div>
 
 Nombre del Módulo: report_sheets.cronograma
-Descripcion: Hoja Excel cronológica detallada por unidad/tarea de producción.
+
+Descripción: Define protocolos o tipos principales: ``CronogramaSheet``. Integración típica con: ``datetime``, ``openpyxl``, ``base``.
 
 ---
 
@@ -4999,7 +5288,8 @@ Descripcion: Hoja Excel cronológica detallada por unidad/tarea de producción.
 </div>
 
 Nombre del Módulo: report_sheets.cuellos_botella
-Descripcion: Hoja Excel para análisis de inactividad, bloqueos y cuellos de botella.
+
+Descripción: Define protocolos o tipos principales: ``CuellosBotollaSheet``. Integración típica con: ``re``, ``datetime``, ``openpyxl``, ``base``, ``core``.
 
 ---
 
@@ -5009,7 +5299,8 @@ Descripcion: Hoja Excel para análisis de inactividad, bloqueos y cuellos de bot
 
 </div>
 
-Lógica o utilidades del núcleo (`graficas`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: report_sheets.graficas
+Descripción: Hoja Excel de gráficos (barras, circular) a partir de resultados de simulación.
 
 #### 🏛️ Clase `GraficasSheet`
 
@@ -5024,7 +5315,8 @@ Genera la hoja de gráficas y visualizaciones para el reporte Excel.
 </div>
 
 Nombre del Módulo: report_sheets.resumen
-Descripcion: Hoja Excel de resumen ejecutivo con métricas agregadas de producción.
+
+Descripción: Define protocolos o tipos principales: ``ResumenEjecutivoSheet``. Integración típica con: ``datetime``, ``openpyxl``, ``base``.
 
 ---
 
@@ -5035,7 +5327,8 @@ Descripcion: Hoja Excel de resumen ejecutivo con métricas agregadas de producci
 </div>
 
 Nombre del Módulo: report_sheets.trabajadores
-Descripcion: Hoja Excel con carga, tiempos y productividad por trabajador.
+
+Descripción: Define protocolos o tipos principales: ``AnalisisTrabajadoresSheet``. Integración típica con: ``datetime``, ``openpyxl``, ``base``.
 
 ---
 
@@ -5045,7 +5338,9 @@ Descripcion: Hoja Excel con carga, tiempos y productividad por trabajador.
 
 </div>
 
-Lógica o utilidades del núcleo (`trabajo_paralelo`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: report_sheets.trabajo_paralelo
+
+Descripción: Define protocolos o tipos principales: ``TrabajoParaleloSheet``. Genera la hoja de análisis de trabajo paralelo por instancia para el reporte Excel. Integración típica con: ``datetime``, ``openpyxl``, ``base``.
 
 #### 🏛️ Clase `TrabajoParaleloSheet`
 
@@ -5059,7 +5354,10 @@ Genera la hoja de análisis de trabajo paralelo por instancia para el reporte Ex
 
 </div>
 
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: reporting
+Descripción: Subpaquete de generación de informes (estrategias Excel/PDF y piezas compartidas).
+
+Ver ``report_strategy`` en el nivel superior del paquete ``core.services`` para imports cómodos.
 
 ---
 
@@ -5069,17 +5367,17 @@ Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o inf
 
 </div>
 
-========================================================================
-BASE DE REPORTING — ESTRATEGIAS DE GENERACIÓN DE INFORMES
-========================================================================
-Define las interfaces base (IReporteEstrategia) y el contexto
-(GeneradorDeInformes) para el patrón Strategy en la exportación de
-reportes.
+Nombre del Módulo: reporting.base
+Descripción: Contrato común (``IReporteEstrategia``) y contexto ``GeneradorDeInformes`` para exportar informes.
 
-Desacopla la recolección de datos del formato de salida (Excel, PDF,
-etc.) para que la UI no dependa de los detalles de las librerías de
-ofimática.
-========================================================================
+Desacopla la recogida de datos del formato de salida (Excel, PDF, etc.) para que la UI no
+dependa de librerías de ofimática concretas.
+
+#### 🏛️ Clase `IReporteEstrategia`
+
+**Métodos Principales:**
+
+- `generar_reporte`: Genera el informe y lo deja en ``output_path`` (o delega en submétodos según la estrategia).
 
 ---
 
@@ -5089,7 +5387,11 @@ ofimática.
 
 </div>
 
-Lógica o utilidades del núcleo (`excel_report_strategy`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: excel_report_strategy
+Descripción: Generación de informes Excel de pilas de fabricación (varias hojas: resumen,
+             cronograma, trabajadores, auditoría, gráficas, etc.).
+
+Implementa ``IReporteEstrategia`` usando ``openpyxl`` y las clases de ``report_sheets``.
 
 #### 🏛️ Clase `ReportePilaFabricacionExcelMejorado`
 
@@ -5109,7 +5411,10 @@ y presentación clara de grupos secuenciales.
 
 </div>
 
-Secciones reutilizables para reportes PDF de planificación.
+Nombre del Módulo: pdf_report_sections
+Descripción: Bloques reutilizables de contenido ReportLab (tablas de auditoría, diagnósticos).
+
+Ensambla párrafos y tablas que consume ``pdf_report_strategy`` sin duplicar maquetación.
 
 - 🔧 `add_diagnostics_section`: Añade diagnósticos de recursos e inactividad al PDF.
 - 🔧 `add_sequential_group_diagnostics_section`: Añade diagnóstico de grupos secuenciales.
@@ -5123,7 +5428,10 @@ Secciones reutilizables para reportes PDF de planificación.
 
 </div>
 
-Lógica o utilidades del núcleo (`pdf_report_strategy`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: pdf_report_strategy
+Descripción: Informes PDF de historial de fabricación e iteraciones (``reportlab``).
+
+Incluye resumen ejecutivo, diagnósticos de secuencia y tablas de auditoría vía secciones reutilizables.
 
 #### 🏛️ Clase `ReporteHistorialFabricacion`
 
@@ -5138,7 +5446,9 @@ resumen ejecutivo, diagnóstico de cuellos de botella y log detallado.
 
 </div>
 
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.simulation
+
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo).
 
 ---
 
@@ -5148,13 +5458,9 @@ Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o inf
 
 </div>
 
-========================================================================
-MOTOR DE EVENTOS — PUNTO DE ENTRADA DEL PAQUETE
-========================================================================
-Fachada de compatibilidad (Fase 2.2): reexporta MotorDeEventos desde
-core.simulation.engine para orquestar el bucle de eventos de simulación
-sin acoplar importadores al subpaquete interno.
-========================================================================
+Nombre del Módulo: core.simulation.event_engine
+
+Descripción: ======================================================================== MOTOR DE EVENTOS — PUNTO DE ENTRADA DEL PAQUETE ======================================================================== Fachada de compatibilidad (Fase 2.2): reexporta MotorDeEventos desde core.simulation.engine para orquestar el bucle de even…
 
 ---
 
@@ -5281,7 +5587,9 @@ Gestiona sus propios recursos, dependencias y genera sus propios eventos de simu
 
 </div>
 
-Operaciones de instancias paralelas para `LineaTemporalTarea`.
+Nombre del Módulo: core.simulation.timeline_task_parallel
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``agregar_instancia_paralela_ops``, ``completar_unidad_instancia_ops``. Integración típica con: ``__future__``, ``uuid``, ``datetime``.
 
 - 🔧 `agregar_instancia_paralela_ops`: Crea una instancia paralela y programa su evento de inicio.
 - 🔧 `completar_unidad_instancia_ops`: Completa unidad de una instancia y retorna su estado agregado.
@@ -5294,7 +5602,9 @@ Operaciones de instancias paralelas para `LineaTemporalTarea`.
 
 </div>
 
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.simulation.engine
+
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo).
 
 ---
 
@@ -5304,7 +5614,9 @@ Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o inf
 
 </div>
 
-Definición de estructuras de datos base para el motor de simulación.
+Nombre del Módulo: core.simulation.engine.base
+
+Descripción: Define protocolos o tipos principales: ``SimulationState``. Mantiene el estado volátil y reactivo de una simulación en curso. Integración típica con: ``datetime``, ``timeline_task``.
 
 #### 🏛️ Clase `SimulationState`
 
@@ -5321,10 +5633,9 @@ el estado actual de los recursos asignados.
 
 </div>
 
-Módulo del Ejecutor Core de la Simulación.
+Nombre del Módulo: core.simulation.engine.core_runner
 
-Gestiona la cola de prioridad de eventos, el avance del tiempo y la
-persistencia de estados mediante checkpoints (serialización).
+Descripción: Define protocolos o tipos principales: ``CoreSimulationRunner``. Gestiona el bucle principal de la simulación y la cola de eventos. Integración típica con: ``heapq``, ``time``, ``pickle``, ``os``, ``datetime``, ``threading``.
 
 #### 🏛️ Clase `CoreSimulationRunner`
 
@@ -5346,7 +5657,9 @@ Gestiona el bucle principal de la simulación y la cola de eventos.
 
 </div>
 
-Lógica o utilidades del núcleo (`dependency_handler`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.simulation.engine.dependency_handler
+
+Descripción: Define protocolos o tipos principales: ``DependencyHandler``. Gestiona la validación y propagación de dependencias entre tareas. Integración típica con: ``datetime``, ``simulation_events``.
 
 #### 🏛️ Clase `DependencyHandler`
 
@@ -5365,10 +5678,9 @@ Gestiona la validación y propagación de dependencias entre tareas.
 
 </div>
 
-Módulo del Motor de Eventos (Event Loop).
+Nombre del Módulo: core.simulation.engine.motor
 
-Gestiona la cola de prioridad de eventos de simulación, permitiendo 
-el avance del tiempo virtual y la ejecución de la lógica de negocio.
+Descripción: Define protocolos o tipos principales: ``MotorDeEventos``. Orquestador principal del motor de simulación basado en eventos. Integración típica con: ``__future__``, ``heapq``, ``time``, ``os``, ``tempfile``, ``datetime``.
 
 #### 🏛️ Clase `MotorDeEventos`
 
@@ -5400,7 +5712,9 @@ Responsabilidades:
 
 </div>
 
-Lógica o utilidades del núcleo (`results_compiler`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.simulation.engine.results_compiler
+
+Descripción: Define protocolos o tipos principales: ``ResultsCompiler``. Compila los resultados de la simulación y genera el log de auditoría. Integración típica con: ``datetime``, ``core``.
 
 #### 🏛️ Clase `ResultsCompiler`
 
@@ -5420,7 +5734,9 @@ Compila los resultados de la simulación y genera el log de auditoría.
 
 </div>
 
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.simulation.simulation_events
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``__all__``, consumidos por la UI y controladores. Integración típica con: ``base``, ``production``, ``worker``.
 
 ---
 
@@ -5430,7 +5746,9 @@ Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o inf
 
 </div>
 
-Lógica o utilidades del núcleo (`base`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.simulation.simulation_events.base
+
+Descripción: Define protocolos o tipos principales: ``EventoDeSimulacion``. Clase base para todos los eventos de la simulación. Integración típica con: ``datetime``.
 
 #### 🏛️ Clase `EventoDeSimulacion`
 
@@ -5451,7 +5769,9 @@ prioridad y la lógica para ser procesado por el motor de eventos.
 
 </div>
 
-Lógica o utilidades del núcleo (`production`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.simulation.simulation_events.production
+
+Descripción: Define protocolos o tipos principales: ``EventoInicioUnidad``, ``EventoFinUnidad``. Evento que marca el inicio del trabajo en una unidad de una tarea. Integración típica con: ``datetime``, ``base``, ``worker``.
 
 #### 🏛️ Clase `EventoInicioUnidad`
 
@@ -5473,7 +5793,9 @@ Evento que marca la finalización de una unidad, liberando recursos.
 
 </div>
 
-Lógica o utilidades del núcleo (`worker`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.simulation.simulation_events.worker
+
+Descripción: Define protocolos o tipos principales: ``EventoReasignacionTrabajador``, ``EventoTiempoInactivo``. Evento que reasigna un trabajador de una tarea a otra. Integración típica con: ``base``.
 
 #### 🏛️ Clase `EventoReasignacionTrabajador`
 
@@ -5520,7 +5842,9 @@ Worker para cargar información de Wikipedia en segundo plano sin bloquear la UI
 
 </div>
 
-Lógica o utilidades del núcleo (`helpers`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.utils.helpers
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``resource_path``. Integración típica con: ``sys``, ``os``.
 
 - 🔧 `resource_path`: Get absolute path to resource, works for dev and for PyInstaller
 
@@ -5532,8 +5856,9 @@ Lógica o utilidades del núcleo (`helpers`): tipos, servicios auxiliares o infr
 
 </div>
 
-🛡️ Serializador robusto para pilas de cálculo.
-Maneja correctamente todos los tipos de datos y previene pérdida de información.
+Nombre del Módulo: core.utils.pila_serializer
+
+Descripción: 🛡️ Serializador robusto para pilas de cálculo. Maneja correctamente todos los tipos de datos y previene pérdida de información.
 
 #### 🏛️ Clase `PilaJSONEncoder`
 
@@ -5552,9 +5877,12 @@ Encoder personalizado para serializar pilas con todos sus tipos de datos.
 </div>
 
 Nombre del Módulo: ui_scaler.py
-Descripción: Proporciona la lógica matemática y de generación de estilos 
-             para el escalado dinámico de la interfaz gráfica en función de la resolución,
-             permitiendo que la aplicación se adapte a pantallas pequeñas (como portátiles).
+Descripción: Proporciona la lógica matemática y de generación de estilos
+             para el escalado dinámico de la interfaz en función de la geometría de pantalla.
+
+             Usa ``QScreen.availableGeometry()`` (píxeles lógicos Qt6), alineado con el escalado
+             alto DPI del sistema: no multiplicar de nuevo por ``devicePixelRatio`` salvo un
+             estudio explícito en Windows (evitar doble escalado con ``PassThrough`` en ``app``).
 
 #### 🏛️ Clase `UIScaler`
 
@@ -5640,7 +5968,9 @@ graph TD
 
 </div>
 
-Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database
+
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo).
 
 ---
 
@@ -5650,7 +5980,9 @@ Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionad
 
 </div>
 
-Capa de datos (`config`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.config
+
+Descripción: Define protocolos o tipos principales: ``DatabaseConfig``. Integración típica con: ``os``, ``pathlib``, ``dotenv``, ``core``.
 
 #### 🏛️ Clase `DatabaseConfig`
 
@@ -5670,7 +6002,9 @@ Capa de datos (`config`): modelos, repositorios o acceso SQLAlchemy relacionado 
 
 </div>
 
-Capa de datos (`database_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.database_manager
+
+Descripción: Define protocolos o tipos principales: ``DatabaseManager``. Gestiona todas las operaciones de la base de datos para la aplicación. Integración típica con: ``__future__``, ``types``, ``sqlalchemy``, ``models``, ``config``, ``repositories``.
 
 #### 🏛️ Clase `DatabaseManager`
 
@@ -5696,7 +6030,9 @@ utilizando SQLAlchemy.
 
 </div>
 
-Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.models
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``__all__``, consumidos por la UI y controladores. Integración típica con: ``base``, ``product``, ``fabrication``, ``worker``, ``tracking``, ``machine``.
 
 ---
 
@@ -5706,8 +6042,9 @@ Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionad
 
 </div>
 
-Modelos ORM base (SQLAlchemy): DeclarativeBase, metadatos compartidos y tablas de
-enlace many-to-many entre productos, materiales y preprocesos.
+Nombre del Módulo: database.models.base
+
+Descripción: Modelos ORM base (SQLAlchemy): DeclarativeBase, metadatos compartidos y tablas de enlace many-to-many entre productos, materiales y preprocesos.
 
 ---
 
@@ -5717,7 +6054,9 @@ enlace many-to-many entre productos, materiales y preprocesos.
 
 </div>
 
-Capa de datos (`fabrication`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.models.fabrication
+
+Descripción: Define protocolos o tipos principales: ``Fabricacion``, ``FabricacionContador``. Entidad principal que representa una Orden de Fabricación (OF). Integración típica con: ``sqlalchemy``, ``base``.
 
 #### 🏛️ Clase `Fabricacion`
 
@@ -5757,7 +6096,9 @@ Relaciones:
 
 </div>
 
-Capa de datos (`inventory`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.models.inventory
+
+Descripción: Define protocolos o tipos principales: ``Material``, ``Pila``, ``PasoPila``, ``DiarioBitacora``, ``EntradaDiario``. Representa un componente físico o materia prima. Integración típica con: ``sqlalchemy``, ``base``, ``datetime``.
 
 #### 🏛️ Clase `Material`
 
@@ -5795,7 +6136,9 @@ una misma prioridad de entrega/procesamiento.
 
 </div>
 
-Capa de datos (`machine`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.models.machine
+
+Descripción: Define protocolos o tipos principales: ``Maquina``, ``MachineMaintenanc``, ``GrupoPreparacion``, ``PreparacionPaso``. Representa un recurso físico (fresa, torno, etc.) en planta. Integración típica con: ``sqlalchemy``, ``base``.
 
 #### 🏛️ Clase `Maquina`
 
@@ -5825,7 +6168,9 @@ de primera pieza.
 
 </div>
 
-Capa de datos (`product`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.models.product
+
+Descripción: Define protocolos o tipos principales: ``Producto``, ``Preproceso``, ``Subfabricacion``, ``ProcesoMecanico``, ``ProductIteration``. Modelo que representa un Producto en el catálogo. Integración típica con: ``sqlalchemy``, ``base``, ``datetime``.
 
 #### 🏛️ Clase `Producto`
 
@@ -5937,13 +6282,9 @@ Relaciones:
 
 </div>
 
-Modelos ORM de seguridad y auditoria.
+Nombre del Módulo: database.models.security
 
-Este modulo define las tablas de configuracion global y de seguridad
-operativa del sistema:
-- `Configuration`: clave/valor de ajustes persistentes.
-- `LoginAttempt`: historial de intentos de autenticacion para rate limiting.
-- `AuditLog`: trazabilidad de acciones sensibles (RBAC/auditoria).
+Descripción: Define protocolos o tipos principales: ``Configuration``, ``LoginAttempt``, ``AuditLog``. Par clave/valor para configuraciones persistentes del sistema. Integración típica con: ``sqlalchemy``, ``base``, ``datetime``.
 
 #### 🏛️ Clase `Configuration`
 
@@ -5965,13 +6306,9 @@ Registro auditable de acciones de seguridad y administracion.
 
 </div>
 
-Modelos ORM para trazabilidad de fabricacion.
+Nombre del Módulo: database.models.tracking
 
-Agrupa el registro historico de ejecucion en planta:
-- `TrabajoLog`: cabecera de seguimiento por QR/orden.
-- `PasoTrazabilidad`: pasos intermedios de ejecucion.
-- `IncidenciaLog`: incidencias reportadas durante la fabricacion.
-- `IncidenciaAdjunto`: archivos asociados a incidencias.
+Descripción: Define protocolos o tipos principales: ``TrabajoLog``, ``PasoTrazabilidad``, ``IncidenciaLog``, ``IncidenciaAdjunto``. Registro principal de trabajo ejecutado para una fabricacion. Integración típica con: ``sqlalchemy``, ``base``, ``datetime``.
 
 #### 🏛️ Clase `TrabajoLog`
 
@@ -5997,7 +6334,9 @@ Adjunto asociado a una incidencia (archivo, tipo y metadatos).
 
 </div>
 
-Capa de datos (`worker`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.models.worker
+
+Descripción: Define protocolos o tipos principales: ``Trabajador``, ``TrabajadorPilaAnotacion``. Modelo que representa a un operario o administrador del sistema. Integración típica con: ``sqlalchemy``, ``base``, ``datetime``.
 
 #### 🏛️ Clase `Trabajador`
 
@@ -6021,10 +6360,13 @@ Diccionario de Datos:
 
 </div>
 
-Este archivo hace que el directorio 'repositories' sea un paquete de Python
-y expone las clases de repositorio para facilitar su importación.
+Nombre del Módulo: repositories
+Descripción: Paquete de acceso a datos: repositorios por dominio (producto, máquina, pila,
+             trabajador, informes, tracking, etc.) y exportaciones para ``DatabaseManager``.
 
-- 🔧 `__getattr__`: Carga perezosa de `ReportsRepository` para no exigir el subpaquete `reports` en imports parciales.
+Las clases públicas se listan en ``__all__`` para imports explícitos desde ``database.repositories``.
+
+- 🔧 `__getattr__`: Carga perezosa de ``ReportsRepository`` para no exigir el subpaquete ``reports`` en imports parciales.
 
 ---
 
@@ -6034,7 +6376,9 @@ y expone las clases de repositorio para facilitar su importación.
 
 </div>
 
-Repositorio base que proporciona funcionalidades comunes para todos los repositorios.
+Nombre del Módulo: base
+Descripción: Clase base de repositorios: fábrica de sesiones SQLAlchemy, ``safe_execute``
+             y registro de errores comunes a toda la capa de acceso a datos.
 
 #### 🏛️ Clase `BaseRepository`
 
@@ -6056,7 +6400,10 @@ Proporciona funcionalidades comunes como manejo de sesiones, logging y operacion
 
 </div>
 
-Repositorio para la gestión de configuración de la aplicación.
+Nombre del Módulo: configuration_repository
+Descripción: Pares clave–valor de configuración persistente (JSON o tipos simples) en base de datos.
+
+Lectura y escritura sobre el modelo ``Configuration`` con valores por defecto opcionales.
 
 #### 🏛️ Clase `ConfigurationRepository`
 
@@ -6080,10 +6427,10 @@ Almacena pares clave-valor de configuración.
 
 </div>
 
-INCIDENCIA REPOSITORY
-========================================================================
-Repositorio para la gestión de incidencias y adjuntos.
-========================================================================
+Nombre del Módulo: incidencia_repository
+Descripción: Registro de incidencias en planta, adjuntos en disco y vínculo con ``TrabajoLog``.
+
+Persistencia de ``IncidenciaLog`` e ``IncidenciaAdjunto`` con rutas de fichero bajo el directorio de datos.
 
 #### 🏛️ Clase `IncidenciaRepository`
 
@@ -6107,8 +6454,10 @@ Repositorio para gestión de incidencias.
 
 </div>
 
-Repositorio para gestión de iteraciones de productos.
-Módulo único que concentra la persistencia de iteraciones (antes repartida en varias piezas).
+Nombre del Módulo: iteration_repository
+Descripción: Historial de iteraciones de producto, imágenes asociadas y consultas para la UI.
+
+Persistencia y mapeo a DTOs sobre los modelos ``ProductIteration`` y ``Material``.
 
 #### 🏛️ Clase `IterationRepository`
 
@@ -6138,7 +6487,10 @@ Maneja el historial de cambios, mejoras y gestión de imágenes.
 
 </div>
 
-Helpers de mapeo para `IterationRepository`.
+Nombre del Módulo: iteration_repository_helpers
+Descripción: Funciones puras de mapeo entre filas ORM de iteración y ``ProductIterationDTO``.
+
+Mantiene ``IterationRepository`` enfocado en SQL; sin dependencia de sesión aquí.
 
 - 🔧 `material_to_dto`: Convierte un material ORM a DTO.
 - 🔧 `iteration_to_dto`: Convierte una iteración ORM a DTO.
@@ -6151,13 +6503,14 @@ Helpers de mapeo para `IterationRepository`.
 
 </div>
 
-Repositorio para gestionar contadores de etiquetas usando SQLAlchemy.
-Migrado de SQLite local a base de datos central.
+Nombre del Módulo: label_counter_repository
+Descripción: Reserva atómica de rangos de numeración de unidad para etiquetas por fabricación.
+
+Usa el modelo ``FabricacionContador`` en la base principal para evitar colisiones al imprimir lotes.
 
 #### 🏛️ Clase `LabelCounterRepository`
 
-Gestiona la numeración de unidades de fabricación usando la BD principal.
-Reemplaza la implementación anterior basada en 'etiquetas.db'.
+Numeración secuencial de unidades por orden de fabricación (reserva en transacción).
 
 **Métodos Principales:**
 
@@ -6173,7 +6526,10 @@ Reemplaza la implementación anterior basada en 'etiquetas.db'.
 
 </div>
 
-Repositorio para la gestión de plantillas de Lote.
+Nombre del Módulo: lote_repository
+Descripción: Plantillas de lote: CRUD, vínculos con productos y fabricaciones, consultas para cálculo.
+
+Opera sobre los modelos ``Lote``, ``Producto`` y ``Fabricacion`` vía SQLAlchemy.
 
 #### 🏛️ Clase `LoteRepository`
 
@@ -6195,8 +6551,10 @@ Gestiona las operaciones CRUD para el modelo Lote utilizando SQLAlchemy.
 
 </div>
 
-Repositorio para la gestión de materiales y componentes.
-Incluye materiales y la gestión de enlaces producto–material en el mismo repositorio.
+Nombre del Módulo: material_repository
+Descripción: Materiales de catálogo y tabla de enlace producto–material (BOM parcial).
+
+Expone consultas y altas/bajas usadas por ``ProductService`` y la importación BOM.
 
 #### 🏛️ Clase `MaterialRepository`
 
@@ -6226,8 +6584,11 @@ Maneja la persistencia y relaciones de componentes industriales.
 
 </div>
 
-Repositorio para la gestión de productos.
-Incluye la persistencia de productos y la parte relacionada con fabricación en el mismo repositorio.
+Nombre del Módulo: product_repository
+Descripción: Persistencia y consultas del catálogo de productos (subfabricaciones, procesos
+             mecánicos, materiales y vínculos con fabricaciones).
+
+Convierte filas SQLAlchemy a DTOs de dominio para servicios y controladores.
 
 #### 🏛️ Clase `ProductRepository`
 
@@ -6257,7 +6618,10 @@ Maneja la persistencia de artículos, escandallos y relaciones de fabricación.
 
 </div>
 
-Helpers de mapeo y normalización para `ProductRepository`.
+Nombre del Módulo: product_repository_helpers
+Descripción: Mapeo de modelos ORM de producto a DTOs y normalización de identificadores de máquina.
+
+Funciones puras usadas por ``ProductRepository`` para no duplicar conversiones en cada consulta.
 
 - 🔧 `to_product_dto`: Convierte el modelo `Producto` a `ProductDTO`.
 - 🔧 `to_subfabricacion_dto`: Convierte el modelo `Subfabricacion` a `SubfabricacionDTO`.
@@ -6273,7 +6637,8 @@ Helpers de mapeo y normalización para `ProductRepository`.
 
 </div>
 
-Capa de datos (`protocols`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: protocols
+Descripción: Protocolos tipados compartidos por repositorios y servicios de acceso a datos.
 
 #### 🏛️ Clase `RepositoryProtocol`
 
@@ -6295,11 +6660,11 @@ Protocolo específico para el repositorio de Tracking.
 
 </div>
 
-TRACKING LOG REPOSITORY (Modularizado)
-========================================================================
-Repositorio para la gestión central de logs de trabajo y pasos.
-Organiza la lógica por dominios delegando en gestores especializados (composición).
-========================================================================
+Nombre del Módulo: tracking_log_repository
+Descripción: Logs de trabajo, pasos de trazabilidad y consultas pesadas vía subgestores.
+
+Compone ``TrackingCoreManager``, ``TrackingStepsManager``, ``TrackingQueriesManager`` y
+``TrackingMapper`` para no concentrar todo el SQL en una sola clase.
 
 #### 🏛️ Clase `TrackingLogRepository`
 
@@ -6321,17 +6686,11 @@ Implementa el patrón Fachada delegando en managers especializados.
 
 </div>
 
-========================================================================
-TRACKING REPOSITORY - GESTIÓN DE TRAZABILIDAD Y SEGUIMIENTO (FACADE)
-========================================================================
-Repositorio principal que ahora actúa como Facade delegando a:
-- TrackingLogRepository
-- IncidenciaRepository
-- TrackingStatsRepository
+Nombre del Módulo: tracking_repository
+Descripción: Fachada de trazabilidad: delega en repositorios de logs, incidencias y estadísticas.
 
-Autor: Sistema de Trazabilidad
-Fecha: 2025
-========================================================================
+Unifica el acceso que la aplicación usa para seguimiento operario–fabricación sin acoplar
+la capa de servicios a cada subrepositorio por separado.
 
 #### 🏛️ Clase `TrackingRepository`
 
@@ -6352,10 +6711,10 @@ Delega la lógica a repositorios especializados.
 
 </div>
 
-TRACKING STATS REPOSITORY
-========================================================================
-Repositorio para consultas estadísticas de seguimiento.
-========================================================================
+Nombre del Módulo: tracking_stats_repository
+Descripción: Agregados y estadísticas de seguimiento (tiempos por trabajador, incidencias, etc.).
+
+Consultas de solo lectura sobre ``TrabajoLog``, ``IncidenciaLog`` y tablas relacionadas.
 
 #### 🏛️ Clase `TrackingStatsRepository`
 
@@ -6375,7 +6734,8 @@ Repositorio para consultas estadísticas de seguimiento.
 
 </div>
 
-Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: machine
+Descripción: Acceso a datos de máquinas (CRUD, mantenimiento, preparación y estadísticas).
 
 ---
 
@@ -6385,7 +6745,8 @@ Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionad
 
 </div>
 
-Capa de datos (`crud_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: machine.crud_manager
+Descripción: Acceso a datos de máquinas (CRUD, mantenimiento, preparación y estadísticas).
 
 #### 🏛️ Clase `MachineCRUDManager`
 
@@ -6402,7 +6763,8 @@ maquinaria en la base de datos, convirtiéndolos automáticamente a DTOs.
 
 </div>
 
-Capa de datos (`maintenance_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: machine.maintenance_manager
+Descripción: Acceso a datos de máquinas (CRUD, mantenimiento, preparación y estadísticas).
 
 #### 🏛️ Clase `MachineMaintenanceManager`
 
@@ -6416,7 +6778,8 @@ Gestor DAO para el historial de mantenimiento de máquinas.
 
 </div>
 
-Capa de datos (`preparation_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: machine.preparation_manager
+Descripción: Acceso a datos de máquinas (CRUD, mantenimiento, preparación y estadísticas).
 
 #### 🏛️ Clase `MachinePreparationManager`
 
@@ -6434,7 +6797,8 @@ Gestor DAO para la configuración de preparación de máquinas.
 
 </div>
 
-Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: machine.repository
+Descripción: Acceso a datos de máquinas (CRUD, mantenimiento, preparación y estadísticas).
 
 #### 🏛️ Clase `MachineRepository`
 
@@ -6455,7 +6819,8 @@ Implementa el patrón Fachada delegando en DAO Managers especializados.
 
 </div>
 
-Capa de datos (`stats_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: machine.stats_manager
+Descripción: Acceso a datos de máquinas (CRUD, mantenimiento, preparación y estadísticas).
 
 #### 🏛️ Clase `MachineStatsManager`
 
@@ -6469,7 +6834,8 @@ Gestor DAO para estadísticas relacionadas con máquinas.
 
 </div>
 
-Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: pila
+Descripción: Persistencia y consultas de pilas, lotes, bitácora y flujo de trabajo de fabricación.
 
 ---
 
@@ -6479,7 +6845,8 @@ Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionad
 
 </div>
 
-Capa de datos (`pila_base_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: pila.pila_base_manager
+Descripción: Persistencia y consultas de pilas, lotes, bitácora y flujo de trabajo de fabricación.
 
 #### 🏛️ Clase `PilaBaseManager`
 
@@ -6498,7 +6865,8 @@ Gestor de utilidades base para el dominio de Pilas (serialización de flujos).
 
 </div>
 
-Capa de datos (`pila_bitacora_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: pila.pila_bitacora_manager
+Descripción: Persistencia y consultas de pilas, lotes, bitácora y flujo de trabajo de fabricación.
 
 #### 🏛️ Clase `PilaBitacoraManager`
 
@@ -6516,7 +6884,8 @@ Gestor DAO para la bitácora diaria de seguimiento de pilas.
 
 </div>
 
-Capa de datos (`pila_crud_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: pila.pila_crud_manager
+Descripción: Persistencia y consultas de pilas, lotes, bitácora y flujo de trabajo de fabricación.
 
 #### 🏛️ Clase `PilaCRUDManager`
 
@@ -6530,7 +6899,8 @@ Gestor DAO para operaciones CRUD básicas de pilas.
 
 </div>
 
-Capa de datos (`pila_workflow_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: pila.pila_workflow_manager
+Descripción: Persistencia y consultas de pilas, lotes, bitácora y flujo de trabajo de fabricación.
 
 #### 🏛️ Clase `PilaWorkflowManager`
 
@@ -6544,7 +6914,8 @@ Gestor DAO para la lógica de negocio y persistencia de flujos de trabajo (Pilas
 
 </div>
 
-Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: pila.repository
+Descripción: Persistencia y consultas de pilas, lotes, bitácora y flujo de trabajo de fabricación.
 
 #### 🏛️ Clase `PilaRepository`
 
@@ -6559,7 +6930,9 @@ Implementa el patrón Fachada delegando en DAO Managers especializados.
 
 </div>
 
-Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: preproceso
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``__all__``, consumidos por la UI y controladores. Integración típica con: ``repository``.
 
 ---
 
@@ -6569,7 +6942,9 @@ Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionad
 
 </div>
 
-Capa de datos (`fabricacion_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: preproceso.fabricacion_manager
+
+Descripción: Define protocolos o tipos principales: ``FabricacionManager``. Gestor DAO para la entidad Fabricacion. Integración típica con: ``sqlalchemy``, ``models``, ``core``, ``base``.
 
 #### 🏛️ Clase `FabricacionManager`
 
@@ -6604,7 +6979,9 @@ operaciones de lectura y escritura se normalizan mediante `FabricacionDTO`.
 
 </div>
 
-Capa de datos (`preproceso_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: preproceso.preproceso_manager
+
+Descripción: Define protocolos o tipos principales: ``PreprocesoManager``. Gestor DAO para la entidad Preproceso. Integración típica con: ``sqlalchemy``, ``models``, ``core``, ``base``.
 
 #### 🏛️ Clase `PreprocesoManager`
 
@@ -6627,7 +7004,9 @@ Hereda de BaseRepository para utilizar safe_execute.
 
 </div>
 
-Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: preproceso.repository
+
+Descripción: Define protocolos o tipos principales: ``PreprocesoRepository``. Gestiona las operaciones CRUD para los modelos Preproceso y Fabricacion. Integración típica con: ``sqlalchemy``, ``core``, ``base``, ``preproceso_manager``, ``fabricacion_manager``.
 
 #### 🏛️ Clase `PreprocesoRepository`
 
@@ -6648,7 +7027,8 @@ Implementa el patrón Fachada delegando en managers especializados.
 
 </div>
 
-Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: reports
+Descripción: Consultas SQL para informes: órdenes, productos, incidencias, búsqueda y estadísticas.
 
 ---
 
@@ -6658,7 +7038,8 @@ Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionad
 
 </div>
 
-Capa de datos (`reports_incidences_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: reports.reports_incidences_manager
+Descripción: Consultas SQL para informes: órdenes, productos, incidencias, búsqueda y estadísticas.
 
 #### 🏛️ Clase `ReportsIncidencesManager`
 
@@ -6672,7 +7053,8 @@ Gestor DAO para análisis de incidencias en reportes.
 
 </div>
 
-Capa de datos (`reports_orders_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: reports.reports_orders_manager
+Descripción: Consultas SQL para informes: órdenes, productos, incidencias, búsqueda y estadísticas.
 
 #### 🏛️ Clase `ReportsOrdersManager`
 
@@ -6686,7 +7068,8 @@ Gestor DAO para consultas sobre órdenes de fabricación en reportes.
 
 </div>
 
-Capa de datos (`reports_products_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: reports.reports_products_manager
+Descripción: Consultas SQL para informes: órdenes, productos, incidencias, búsqueda y estadísticas.
 
 #### 🏛️ Clase `ReportsProductsManager`
 
@@ -6700,7 +7083,8 @@ Gestor DAO para resúmenes de productos en reportes.
 
 </div>
 
-Capa de datos (`reports_search_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: reports.reports_search_manager
+Descripción: Consultas SQL para informes: órdenes, productos, incidencias, búsqueda y estadísticas.
 
 #### 🏛️ Clase `ReportsSearchManager`
 
@@ -6714,7 +7098,8 @@ Gestor DAO para búsquedas transversales orientadas a reportes.
 
 </div>
 
-Capa de datos (`reports_stats_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: reports.reports_stats_manager
+Descripción: Consultas SQL para informes: órdenes, productos, incidencias, búsqueda y estadísticas.
 
 #### 🏛️ Clase `ReportsStatsManager`
 
@@ -6728,7 +7113,8 @@ Gestor DAO para cálculos estadísticos complejos en reportes.
 
 </div>
 
-Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: reports.repository
+Descripción: Consultas SQL para informes: órdenes, productos, incidencias, búsqueda y estadísticas.
 
 #### 🏛️ Clase `ReportsRepository`
 
@@ -6747,7 +7133,9 @@ Implementa el patrón Fachada delegando en DAO Managers especializados.
 
 </div>
 
-Capa de datos (`core_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: tracking.core_manager
+
+Descripción: Define protocolos o tipos principales: ``TrackingCoreManager``. Gestor DAO para la gestión central de trabajos (obtención, creación, finalización). Integración típica con: ``datetime``, ``sqlalchemy``, ``database``, ``core``, ``base``, ``mappers``.
 
 #### 🏛️ Clase `TrackingCoreManager`
 
@@ -6761,7 +7149,9 @@ Gestor DAO para la gestión central de trabajos (obtención, creación, finaliza
 
 </div>
 
-Capa de datos (`mappers`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: tracking.mappers
+
+Descripción: Define protocolos o tipos principales: ``TrackingMapper``. Utilidad para mapear modelos de Trazabilidad a DTOs. Integración típica con: ``datetime``, ``database``, ``core``.
 
 #### 🏛️ Clase `TrackingMapper`
 
@@ -6776,7 +7166,7 @@ Utilidad para mapear modelos de Trazabilidad a DTOs.
 </div>
 
 Nombre del Módulo: tracking.queries_manager
-Descripcion: Gestor central de consultas complejas para el sistema de tracking.
+Descripción: Gestor central de consultas complejas para el sistema de tracking.
              Incluye exportación de datos y recuperación de fabricaciones asignadas.
 
 #### 🏛️ Clase `TrackingQueriesManager`
@@ -6798,7 +7188,9 @@ a DTOs para la interfaz de trabajador y exportaciones.
 
 </div>
 
-Capa de datos (`steps_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: tracking.steps_manager
+
+Descripción: Define protocolos o tipos principales: ``TrackingStepsManager``. Gestor DAO para la gestión de pasos de trazabilidad. Integración típica con: ``datetime``, ``sqlalchemy``, ``database``, ``core``, ``base``, ``mappers``.
 
 #### 🏛️ Clase `TrackingStepsManager`
 
@@ -6812,7 +7204,8 @@ Gestor DAO para la gestión de pasos de trazabilidad.
 
 </div>
 
-Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: worker
+Descripción: Datos de trabajadores, anotaciones y repositorio compuesto del subpaquete worker.
 
 ---
 
@@ -6822,7 +7215,8 @@ Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionad
 
 </div>
 
-Capa de datos (`annotation_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: worker.annotation_manager
+Descripción: Datos de trabajadores, anotaciones y repositorio compuesto del subpaquete worker.
 
 #### 🏛️ Clase `WorkerAnnotationManager`
 
@@ -6841,7 +7235,12 @@ Gestor DAO para la gestión de anotaciones de trabajadores.
 
 </div>
 
-Capa de datos (`auth_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: auth_manager
+Descripción: Comprueba usuario y contraseña de operarios frente a la tabla ``trabajadores``.
+
+El nombre de usuario se normaliza (minúsculas, sin espacios al inicio o al final) y
+se compara con ``func.lower(Trabajador.username)`` para que el inicio de sesión no
+dependa de mayúsculas.
 
 #### 🏛️ Clase `WorkerAuthManager`
 
@@ -6849,9 +7248,11 @@ Gestor DAO para la gestión de autenticación y credenciales de trabajadores.
 
 **Métodos Principales:**
 
-- `authenticate_user`: Verifica las credenciales de un usuario y devuelve sus datos si son correctas.
+- `authenticate_user`: Verifica usuario y contraseña; devuelve ``AuthResponseDTO`` si el trabajador está activo. El nombre de usuario se normaliza (minúsculas, sin espacios laterales) antes de consultar la base de datos.
 - `update_user_credentials`: Actualiza los datos de login de un trabajador.
 - `update_user_password`: Actualiza únicamente la contraseña de un trabajador.
+
+- 🔧 `_normalize_username`: Usuario de login: sin espacios laterales y en minúsculas para comparar con BD.
 
 ---
 
@@ -6861,7 +7262,8 @@ Gestor DAO para la gestión de autenticación y credenciales de trabajadores.
 
 </div>
 
-Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: worker.repository
+Descripción: Datos de trabajadores, anotaciones y repositorio compuesto del subpaquete worker.
 
 #### 🏛️ Clase `WorkerRepository`
 
@@ -6876,7 +7278,11 @@ Implementa el patrón Fachada delegando en DAO Managers especializados.
 
 </div>
 
-Capa de datos (`worker_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: worker_manager
+Descripción: Acceso a datos de trabajadores (listados, detalle, altas y modificaciones).
+
+``WorkerCoreManager`` encapsula consultas SQLAlchemy sobre ``Trabajador`` y devuelve
+DTOs listos para la capa de servicios o la interfaz de administración.
 
 #### 🏛️ Clase `WorkerCoreManager`
 
@@ -6890,6 +7296,8 @@ Gestor DAO para la gestión de datos básicos de trabajadores.
 - `add_worker`: Añade un nuevo trabajador o actualiza uno existente.
 - `update_worker`: Actualiza los datos de un trabajador existente.
 - `delete_worker`: Elimina un trabajador de la base de datos.
+
+- 🔧 `_persist_username`: Unifica el nombre de usuario en BD (minúsculas, sin espacios). None = sin cambiar en callers.
 
 ---
 
@@ -6924,7 +7332,10 @@ graph TD
 
 </div>
 
-Funcionalidad encapsulada (`__init__`): reglas de dominio o integración opcional usada por controladores o servicios.
+Nombre del Módulo: features
+
+Descripción: Capa de funcionalidad vertical del rol trabajador: controlador, sincronización con BD,
+             validaciones, E/S de UI y diálogo de incidencias (consumidos desde ``app`` y la vista).
 
 ---
 
@@ -6934,21 +7345,22 @@ Funcionalidad encapsulada (`__init__`): reglas de dominio o integración opciona
 
 </div>
 
-Controlador para la interfaz de trabajador.
+Nombre del Módulo: worker_controller
 
-Maneja la lógica de negocio para trabajadores:
-- Carga de fabricaciones asignadas
-- Registro de tiempos mediante QR
-- Gestión de incidencias
-- Comunicación con la base de datos
+Descripción: Cerebro de la ventana del rol trabajador: lista de tareas asignadas,
+             inicio y fin de trabajo con QR, incidencias, etiquetas e importación/exportación.
+
+La persistencia y las reglas de datos van a ``WorkerDbSync`` y al repositorio de
+trazabilidad; la vista solo emite señales que este controlador atiende.
 
 #### 🏛️ Clase `WorkerController`
 
-Controlador para gestionar las operaciones de trabajadores.
+Controlador PyQt de la ventana de trabajador; enlaza vista, BD y hardware opcional (QR).
 
 **Métodos Principales:**
 
 - `initialize`: Inicializa los datos y conecta señales.
+- `_load_assigned_fabricaciones`: Consulta fabricaciones asignadas al usuario logueado y actualiza la lista en la vista. Registra en log el ``trabajador_id`` y el número de filas para diagnóstico.
 - `refresh_data`: Recarga todos los datos.
 - `_handle_task_selected`: Actualiza el estado de la UI al seleccionar una tarea.
 - `_handle_consult_qr`: Maneja la consulta de un código QR.
@@ -6964,7 +7376,10 @@ Controlador para gestionar las operaciones de trabajadores.
 
 </div>
 
-Operaciones IO/UI para `WorkerController`.
+Nombre del Módulo: worker_controller_io_manager
+
+Descripción: Colaborador de ``WorkerController`` para diálogos Qt, ficheros y flujos de E/S
+             (etiquetas QR, exportaciones, mensajes y apertura de configuración de cámara).
 
 #### 🏛️ Clase `WorkerIOManager`
 
@@ -6978,11 +7393,11 @@ Colaborador de composición para operaciones I/O del WorkerController.
 
 </div>
 
-Servicio para la sincronización y persistencia de datos del trabajador.
-Actúa como fachada para el repositorio de trazabilidad y otras operaciones de BD.
+Nombre del Módulo: worker_db_sync
 
-Las fabricaciones asignadas a la lista del trabajador se exponen como
-``WorkerTaskListRowDTO`` (ver ``get_assigned_fabricaciones``), no como dicts opacos.
+Descripción: Lectura y escritura de datos del rol trabajador frente al repositorio de trazabilidad.
+             Las fabricaciones asignadas se exponen como ``WorkerTaskListRowDTO`` en
+             ``get_assigned_fabricaciones`` (no como dicts opacos).
 
 #### 🏛️ Clase `WorkerDbSync`
 
@@ -7010,7 +7425,9 @@ Maneja las operaciones de lectura/escritura en base de datos para el trabajador.
 
 </div>
 
-Diálogo modal para registrar incidencias del operario.
+Nombre del Módulo: worker_incidence_dialog
+
+Descripción: Diálogo PyQt para que el operario registre una incidencia (tipo, descripción y fotos).
 
 #### 🏛️ Clase `IncidenceDialog`
 
@@ -7025,8 +7442,10 @@ incluyendo título, descripción y la posibilidad de adjuntar fotos.
 
 </div>
 
-Servicio para la validación de reglas de negocio en la interfaz de trabajador.
-Maneja comprobaciones de formatos QR, transiciones de estado y coherencia de datos.
+Nombre del Módulo: worker_validation_service
+
+Descripción: Validaciones de negocio para el flujo trabajador: parseo de QR, coincidencia de producto
+             y coherencia de datos antes de persistir (sin depender de widgets).
 
 #### 🏛️ Clase `WorkerValidationService`
 
@@ -7051,10 +7470,10 @@ Desacopla la lógica de decisión del controlador UI.
 
 | Métrica | Valor |
 |---|---:|
-| Archivos `.py` en `ui/` | 110 |
-| Incluidos en el cuerpo | 110 |
+| Archivos `.py` en `ui/` | 107 |
+| Incluidos en el cuerpo | 107 |
 | Omitidos (docstrings/reglas) | 0 |
-| Clases detectadas (AST) | 106 |
+| Clases detectadas (AST) | 104 |
 
 ```mermaid
 graph TD
@@ -7072,7 +7491,9 @@ graph TD
 
 </div>
 
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui
+
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo).
 
 ---
 
@@ -7082,7 +7503,9 @@ Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados a
 
 </div>
 
-Interfaz PyQt6 (`main_window`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.main_window
+
+Descripción: Define protocolos o tipos principales: ``MainView``. Vista principal de la aplicación (la ventana). Integración típica con: ``sys``, ``os``, ``PyQt6``, ``ui``, ``core``.
 
 #### 🏛️ Clase `MainView`
 
@@ -7141,8 +7564,9 @@ Diseñado para usuarios no técnicos con mensajes contextuales.
 
 </div>
 
-Constantes usadas por la ventana de arranque (StartupScreen).
-Extraídas para reducir LOC del monolito y facilitar tests.
+Nombre del Módulo: ui.startup_screen_constants
+
+Descripción: Constantes usadas por la ventana de arranque (StartupScreen). Extraídas para reducir LOC del monolito y facilitar tests.
 
 ---
 
@@ -7152,8 +7576,9 @@ Extraídas para reducir LOC del monolito y facilitar tests.
 
 </div>
 
-Generación de texto del informe de verificación del sistema (StartupScreen).
-Lógica pura sin Qt; testeable con HealthReport mock o real.
+Nombre del Módulo: ui.startup_screen_report
+
+Descripción: Generación de texto del informe de verificación del sistema (StartupScreen). Lógica pura sin Qt; testeable con HealthReport mock o real.
 
 - 🔧 `generate_startup_report_text`: Genera el texto completo del informe para exportación. Args: report: Informe de salud. Si es None, devuelve "Sin datos disponibles". log_path: Ruta al archivo de log. Si None, usa ``<writable_root>/logs/EvolucionTiempos.log``. Returns: Texto formateado del informe.
 
@@ -7165,10 +7590,9 @@ Lógica pura sin Qt; testeable con HealthReport mock o real.
 
 </div>
 
-Helpers de UI para `StartupScreen`.
+Nombre del Módulo: ui.startup_screen_ui
 
-Se extrae la construcción de secciones y el render de resultados para reducir
-el tamaño del diálogo sin cambiar comportamiento.
+Descripción: Define protocolos o tipos principales: ``StartupSectionWidgets``. Referencias a frame y layouts de una seccion del StartupScreen. Integración típica con: ``__future__``, ``PyQt6``.
 
 #### 🏛️ Clase `StartupSectionWidgets`
 
@@ -7187,8 +7611,13 @@ Referencias a frame y layouts de una seccion del StartupScreen.
 
 </div>
 
-Este módulo sirve como punto de entrada para todos los diálogos de la aplicación.
-Refactorización Phase 3 Extended completada: Todas las clases han sido extraídas.
+Nombre del Módulo: ui.dialogs
+Descripción: Paquete de diálogos PyQt6 (fabricación, flujo, productos, preparación y utilidades).
+
+Reexporta las clases públicas más usadas para simplificar ``from ui.dialogs import …``.
+
+El grafo visual de flujo de producción vive en ``ui.widgets.production_flow``
+(``ProductionFlowCanvas``, ``FlowCardWidget``); no se reexportan widgets de canvas aquí.
 
 ---
 
@@ -7198,8 +7627,9 @@ Refactorización Phase 3 Extended completada: Todas las clases han sido extraíd
 
 </div>
 
-Backup Restore Dialog
-Permite visualizar, seleccionar y restaurar backups automáticos.
+Nombre del Módulo: backup_restore_dialog
+
+Descripción: Define protocolos o tipos principales: ``BackupRestoreDialog``. Diálogo para gestionar la restauración de backups. Integración típica con: ``pathlib``, ``datetime``, ``PyQt6``, ``core``.
 
 #### 🏛️ Clase `BackupRestoreDialog`
 
@@ -7212,95 +7642,19 @@ Diálogo para gestionar la restauración de backups.
 
 ---
 
-<div id='sec_ui_dialogs_canvas_widget_py'>
-
-### 📄 `ui/dialogs/canvas_widget.py`
-
-</div>
-
-Nombre del Módulo: canvas_widget
-Descripcion: Canvas **legacy** del dialogo historico de definicion de flujo (tareas en
-             ``parent_dialog.canvas_tasks``). Mantiene su propio pintado de conexiones y
-             ``_calculate_smart_path`` local.
-
-             El canvas reutilizable del flujo de produccion (planificacion/simulacion mejorada)
-             es ``ui.widgets.production_flow.flow_canvas.ProductionFlowCanvas`` junto con
-             ``flow_connection_painter.FlowConnectionPainter`` (enrutado ortogonal, capa de
-             flechas, etc.). No unificar aqui salvo refactor explicito del dialogo legacy.
-
-#### 🏛️ Clase `CanvasWidget`
-
-Canvas embebido en el dialogo legacy: pinta rejilla y flechas con logica propia
-(no usa ``ProductionFlowCanvas``). Depende de ``parent_dialog`` para resolver indices
-de tareas y datos de ciclo al dibujar aristas.
-
-**Métodos Principales:**
-
-- `set_connections`: Recibe conexiones (dict legacy o DTO) y fuerza un redibujado.
-- `paintEvent`: Se llama cuando el widget necesita ser redibujado. Dibuja el grid de fondo y las conexiones con el estilo adecuado según su tipo.
-- `_get_task_index_by_widget`: Obtiene el índice de una tarea por su widget.
-- `_draw_cyclic_arrow_with_glow`: Dibuja una flecha cíclica con efecto neón y gradiente de color.
-- `_draw_grid`: Dibuja una cuadrícula de fondo tipo papel milimétrico.
-- `_calculate_smart_path`: Calcula una ruta inteligente siguiendo el grid entre dos puntos evitando tarjetas.
-- `_count_path_collisions`: Cuenta cuántos segmentos del path colisionan con obstáculos.
-- `_line_intersects_rect`: Comprueba si una línea intersecta con un rectángulo.
-- `_adjust_path_to_avoid_obstacles`: Intenta ajustar el path para evitar obstáculos desplazándolo.
-- `_draw_arrowhead`: Dibuja la punta de una flecha.
-- `mousePressEvent`: Detecta clics en el canvas (fondo) para ocultar el inspector.
-
----
-
-<div id='sec_ui_dialogs_canvas_widgets_py'>
-
-### 📄 `ui/dialogs/canvas_widgets.py`
-
-</div>
-
-Compatibilidad: módulo histórico que expone `CanvasWidget` y `CardWidget`.
-
-Este archivo existe para mantener imports estables (`ui.dialogs.canvas_widgets`)
-tras la división del monolito en módulos más pequeños.
-
----
-
-<div id='sec_ui_dialogs_card_widget_py'>
-
-### 📄 `ui/dialogs/card_widget.py`
-
-</div>
-
-Nombre del Módulo: card_widget
-Descripción: Tarjeta visual movible que representa una tarea dentro de un `CanvasWidget`.
-
-#### 🏛️ Clase `CardWidget`
-
-Una tarjeta visual y MOVIBLE que representa una tarea en el canvas.
-Emite 'clicked' al ser seleccionada y 'moved' al ser movida.
-
-**Métodos Principales:**
-
-- `mousePressEvent`: Se activa al hacer clic en la tarjeta.
-- `mouseMoveEvent`: Se activa al mover el ratón mientras se mantiene presionado.
-- `mouseReleaseEvent`: Se activa al soltar el botón del ratón.
-- `_snap_to_grid`: Ajusta la posición de la tarjeta al punto más cercano de la cuadrícula.
-- `_task_name_duration`: Devuelve nombre y duración desde el DTO de tarea.
-
----
-
 <div id='sec_ui_dialogs_connection_dialog_py'>
 
 ### 📄 `ui/dialogs/connection_dialog.py`
 
 </div>
 
-Connection Mode Selection Dialog
-================================
-Allows the user to choose between Local (SQLite) and Server (PostgreSQL) 
-modes at application startup.
+Nombre del Módulo: connection_dialog
+Descripción: Diálogo de arranque para elegir modo de base de datos local (SQLite) o
+             servidor (PostgreSQL), antes de abrir la aplicación principal.
 
 #### 🏛️ Clase `ConnectionDialog`
 
-Dialog displayed at startup to select database connection mode.
+Ventana modal que captura la preferencia de conexión a datos (fichero local vs motor servidor).
 
 **Métodos Principales:**
 
@@ -7314,12 +7668,14 @@ Dialog displayed at startup to select database connection mode.
 
 </div>
 
-Interfaz PyQt6 (`tracking_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: tracking_dialogs
+Descripción: Diálogos auxiliares de trazabilidad y arranque de sesión de producción (orden y cantidad).
+
+Formularios simples reutilizados desde controladores de fabricación o seguimiento.
 
 #### 🏛️ Clase `OrderSetupDialog`
 
-Dialog to setup the start of a production session.
-Asks for the Order Number (OF) and the Total Quantity to produce.
+Solicita número de orden de fabricación (O.F.) y cantidad total al iniciar una serie de producción.
 
 ---
 
@@ -7329,7 +7685,10 @@ Asks for the Order Number (OF) and the Total Quantity to produce.
 
 </div>
 
-Interfaz PyQt6 (`utility_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: utility_dialogs
+Descripción: Diálogos PyQt6 reutilizables (descansos, login, contraseña, sincronización de BD,
+             selección de hojas Excel, etc.). Incluye ``SyncDialog`` para la fusión selectiva
+             contra una copia SQLite y mapeo de títulos de pestaña legibles.
 
 #### 🏛️ Clase `AddBreakDialog`
 
@@ -7345,7 +7704,7 @@ Diálogo para la autenticación de usuarios.
 
 **Métodos Principales:**
 
-- `get_credentials`: Devuelve el usuario y la contraseña introducidos.
+- `get_credentials`: Devuelve el usuario y la contraseña introducidos. El nombre de usuario se normaliza con strip (espacios accidentales). La contraseña no se recorta: debe coincidir byte a byte con la guardada al crear el usuario.
 
 #### 🏛️ Clase `ChangePasswordDialog`
 
@@ -7357,12 +7716,20 @@ Diálogo para cambiar la contraseña de un usuario.
 
 #### 🏛️ Clase `SyncDialog`
 
-Diálogo para mostrar diferencias entre dos bases de datos y seleccionar cuáles importar.
+Presenta las diferencias detectadas por ``SyncService.compare_databases`` en pestañas por tabla.
+
+Por defecto todas las filas quedan marcadas para importar; el usuario puede desmarcar filas
+o pestañas enteras vía «Desmarcar todo». Al aceptar, ``get_selected_changes`` construye el
+DTO parcial para ``apply_sync_changes``.
 
 **Métodos Principales:**
 
-- `_populate_tabs`: Crea una pestaña por cada tabla con diferencias.
-- `get_selected_changes`: Recopila todos los elementos marcados por el usuario para ser importados.
+- `__init__`: Args: comparison: Resultado completo de la comparación local vs copia. parent: Ventana padre opcional.
+- `_populate_tabs`: Genera una pestaña con ``QTableWidget`` por cada ``SyncTableDifferencesDTO`` no vacío.
+- `_iter_sync_tables`: Recorre cada pestaña y su QTableWidget (búsqueda recursiva por si el layout oculta el hijo directo).
+- `_check_all_rows`: Marca la columna «Importar» en todas las filas de todas las pestañas.
+- `_uncheck_all_rows`: Desmarca todas las filas importables (útil para seleccionar solo un subconjunto manual).
+- `get_selected_changes`: Recopila filas con checkbox marcado y devuelve un DTO listo para ``apply_sync_changes``. Returns: ``DatabaseComparisonDTO`` que puede estar vacío si no hubo selección.
 
 #### 🏛️ Clase `SeleccionarHojasExcelDialog`
 
@@ -7380,6 +7747,8 @@ Diálogo para seleccionar múltiples trabajadores de una lista.
 
 - `get_selected_workers`: Devuelve una lista con los nombres de los trabajadores seleccionados.
 
+- 🔧 `_sync_dialog_tab_title`: Convierte el nombre técnico de tabla (p. ej. ``producto_material_link``) en título de pestaña. Args: table_name: Identificador igual al usado en ``SyncTableDifferencesDTO.table_name``. Returns: Cadena para ``QTabWidget.addTab``; el nombre canónico se guarda aparte en ``sync_table_name``.
+
 ---
 
 <div id='sec_ui_dialogs_effects___init___py'>
@@ -7388,7 +7757,8 @@ Diálogo para seleccionar múltiples trabajadores de una lista.
 
 </div>
 
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.effects
+Descripción: Efectos visuales Qt (resplandores y progreso) usados en canvas y simulación.
 
 ---
 
@@ -7398,7 +7768,8 @@ Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados a
 
 </div>
 
-Interfaz PyQt6 (`golden_glow`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.effects.golden_glow
+Descripción: Efecto visual o animación para el canvas de flujo o simulación (pintado con QTimer).
 
 #### 🏛️ Clase `GoldenGlowEffect`
 
@@ -7428,7 +7799,8 @@ Usa EventFilters en sus padres para recálculos morfológicos "Lazy" optimizados
 
 </div>
 
-Interfaz PyQt6 (`green_cycle`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.effects.green_cycle
+Descripción: Efecto visual o animación para el canvas de flujo o simulación (pintado con QTimer).
 
 #### 🏛️ Clase `GreenCycleEffect`
 
@@ -7446,7 +7818,8 @@ Widget que dibuja un aro verde con efecto neón para tareas intermedias del cicl
 
 </div>
 
-Interfaz PyQt6 (`mixed_gold_green`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.effects.mixed_gold_green
+Descripción: Efecto visual o animación para el canvas de flujo o simulación (pintado con QTimer).
 
 #### 🏛️ Clase `MixedGoldGreenEffect`
 
@@ -7464,7 +7837,8 @@ Widget que dibuja un aro con efecto mixto dorado-verde para tareas finales de ci
 
 </div>
 
-Interfaz PyQt6 (`processing_glow`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.effects.processing_glow
+Descripción: Efecto visual o animación para el canvas de flujo o simulación (pintado con QTimer).
 
 #### 🏛️ Clase `ProcessingGlowEffect`
 
@@ -7493,7 +7867,8 @@ a golpe de latidos guiados por el `QEventLoop` del sistema, evitando atascos.
 
 </div>
 
-Interfaz PyQt6 (`progress`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.effects.progress
+Descripción: Efecto visual o animación para el canvas de flujo o simulación (pintado con QTimer).
 
 #### 🏛️ Clase `SimulationProgressEffect`
 
@@ -7514,7 +7889,10 @@ para indicar que una tarjeta está siendo procesada por la simulación.
 
 </div>
 
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.fabrication
+Descripción: Diálogos de fabricación: crear orden, seleccionar preprocesos/productos, bitácora y asignaciones.
+
+Reexporta las clases más usadas para imports desde ``ui.dialogs`` o controladores.
 
 ---
 
@@ -7524,7 +7902,8 @@ Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados a
 
 </div>
 
-Interfaz PyQt6 (`assignment_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.fabrication.assignment_dialogs
+Descripción: Diálogo o presentador de fabricación: órdenes, preprocesos, productos y persistencia de pilas.
 
 #### 🏛️ Clase `AssignPreprocesosDialog`
 
@@ -7545,12 +7924,13 @@ Diálogo para asignar preprocesos a fabricaciones desde el menú de Preprocesos.
 
 </div>
 
-Diálogo de bitácora de pilas (`FabricacionBitacoraDialog`).
+Nombre del Módulo: ui.dialogs.fabrication.bitacora_dialog
 
-Resolución de datos (orden): ``pila_service`` inyectado (p. ej. desde ``pila_manager``) →
-``resolve_pila_service`` (DI → ``pila_controller.pila_service`` → ``model.pila_service``) →
-``model.planning_facade`` (misma API: ``get_diario_bitacora``, ``add_diario_evento``).
-No se usan delegadores eliminados de ``AppModel`` para bitácora.
+Descripción: Diálogo de bitácora de pilas (`FabricacionBitacoraDialog`). Resolución de datos
+(orden): ``pila_service`` inyectado (p. ej. desde ``pila_manager``) → ``resolve_pila_service``
+(DI → ``pila_controller.pila_service`` → ``model.pila_service``) → ``model.planning_facade``
+(misma API: ``get_diario_bitacora``, ``add_diario_evento``). No se usan delegadores eliminados
+de ``AppModel`` para bitácora.
 
 #### 🏛️ Clase `BitacoraEntryDTO`
 
@@ -7578,20 +7958,15 @@ Persistencia vía ``_bitacora_backend`` (``PilaService`` o ``PlanningFacade``), 
 
 </div>
 
-Interfaz PyQt6 (`create_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.fabrication.create_dialog
+Descripción: Diálogo o presentador de fabricación: órdenes, preprocesos, productos y persistencia de pilas.
 
 #### 🏛️ Clase `CreateFabricacionDialog`
 
-Diálogo especializado para la creación de nuevas Fabricaciones (Fase 12C).
+Diálogo para crear fabricaciones: preprocesos, productos con cantidades y validación del código.
 
-Permite la configuración integral de una fabricación mediante:
-- Asignación dinámica de Preprocesos (Checklist técnica).
-- Asignación de Productos con gestión de cantidades (Packing list).
-- Validación en tiempo real del código de fabricación y dependencias.
-
-Utiliza el patrón Model-View-Presenter (MVP) para desacoplar la lógica de
-recolección de datos de la interfaz de usuario, consolidando el resultado
-en un objeto `FabricacionDTO`.
+La recogida de datos y la validación se delegan en ``CreateFabricacionPresenter``; al aceptar,
+el resultado se expresa como ``FabricacionDTO``.
 
 **Métodos Principales:**
 
@@ -7608,7 +7983,8 @@ en un objeto `FabricacionDTO`.
 
 </div>
 
-Interfaz PyQt6 (`create_presenter`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.fabrication.create_presenter
+Descripción: Diálogo o presentador de fabricación: órdenes, preprocesos, productos y persistencia de pilas.
 
 #### 🏛️ Clase `CreateFabricacionPresenter`
 
@@ -7632,9 +8008,10 @@ Responsabilidades:
 
 </div>
 
-Resolución centralizada de servicios para diálogos de fabricación.
+Nombre del Módulo: ui.dialogs.fabrication.dialog_dependencies
 
-Prioridad fija (testeable vía ``resolve_fabricacion_service`` / ``resolve_pila_service``):
+Descripción: Resolución centralizada de servicios para diálogos de fabricación. Prioridad fija
+(testeable vía ``resolve_fabricacion_service`` / ``resolve_pila_service``):
 
 - **FabricacionService**: DI registrado → ``product_controller.fabricacion_service`` → ``model.fabricacion_service``.
 - **PilaService**: DI registrado → ``pila_controller.pila_service`` → ``model.pila_service``.
@@ -7653,7 +8030,8 @@ la UI puede usar ``model.planning_facade`` (no métodos de bitácora en ``AppMod
 
 </div>
 
-Interfaz PyQt6 (`input_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.fabrication.input_dialogs
+Descripción: Diálogo o presentador de fabricación: órdenes, preprocesos, productos y persistencia de pilas.
 
 #### 🏛️ Clase `GetLoteInstanceParametersDialog`
 
@@ -7679,7 +8057,8 @@ Diálogo simple para solicitar el número de unidades a producir.
 
 </div>
 
-Interfaz PyQt6 (`persistence_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.fabrication.persistence_dialogs
+Descripción: Diálogo o presentador de fabricación: órdenes, preprocesos, productos y persistencia de pilas.
 
 #### 🏛️ Clase `SavePilaDialog`
 
@@ -7705,7 +8084,8 @@ Diálogo para mostrar y seleccionar pilas guardadas.
 
 </div>
 
-Interfaz PyQt6 (`products_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.fabrication.products_dialog
+Descripción: Diálogo o presentador de fabricación: órdenes, preprocesos, productos y persistencia de pilas.
 
 #### 🏛️ Clase `ProductsSelectionDialog`
 
@@ -7724,7 +8104,8 @@ Permite añadir, quitar y modificar cantidades.
 
 </div>
 
-Interfaz PyQt6 (`selection_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.fabrication.selection_dialogs
+Descripción: Diálogo o presentador de fabricación: órdenes, preprocesos, productos y persistencia de pilas.
 
 #### 🏛️ Clase `PreprocesosSelectionDialog`
 
@@ -7753,7 +8134,9 @@ para añadir al cálculo de tiempos de una fabricación.
 
 </div>
 
-Protocolos mínimos para comandos de aplicación usados desde diálogos de fabricación.
+Nombre del Módulo: ui.dialogs.fabrication.ui_dialog_protocols
+
+Descripción: Protocolos mínimos para comandos de aplicación usados desde diálogos de fabricación.
 
 #### 🏛️ Clase `OpensFabricacionPreprocesos`
 
@@ -7771,7 +8154,8 @@ Muestra mensajes al usuario (alineado con `IView.show_message` / `MainView`).
 
 </div>
 
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.prep
+Descripción: Diálogos de grupos y pasos de preparación de máquinas y preprocesos asociados.
 
 ---
 
@@ -7781,7 +8165,9 @@ Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados a
 
 </div>
 
-Interfaz PyQt6 (`prep_groups_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.prep.prep_groups_dialog
+
+Descripción: Define protocolos o tipos principales: ``PrepGroupsDialog``. Diálogo para gestionar los Grupos de Preparación de una máquina. Integración típica con: ``__future__``, ``os``, ``datetime``, ``core``, ``PyQt6``, ``prep_steps_dialog``.
 
 #### 🏛️ Clase `PrepGroupsDialog`
 
@@ -7806,7 +8192,9 @@ Permite organizar fases de preparación en grupos lógicos.
 
 </div>
 
-Interfaz PyQt6 (`prep_steps_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.prep.prep_steps_dialog
+
+Descripción: Define protocolos o tipos principales: ``PrepStepsDialog``. Diálogo para gestionar los pasos individuales de un grupo de preparación. Integración típica con: ``__future__``, ``os``, ``datetime``, ``core``, ``PyQt6``.
 
 #### 🏛️ Clase `PrepStepsDialog`
 
@@ -7829,7 +8217,9 @@ Permite visualizar, añadir, actualizar y eliminar pasos.
 
 </div>
 
-Interfaz PyQt6 (`preproceso_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.prep.preproceso_dialog
+
+Descripción: Define protocolos o tipos principales: ``PreprocesoDialog``. Diálogo para crear o editar un Preproceso, permitiendo la asignación. Integración típica con: ``__future__``, ``os``, ``datetime``, ``core``, ``PyQt6``.
 
 #### 🏛️ Clase `PreprocesoDialog`
 
@@ -7853,7 +8243,8 @@ de materiales (componentes).
 
 </div>
 
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.product
+Descripción: Diálogos del catálogo de productos (detalle, iteraciones, subfabricaciones, procesos mecánicos).
 
 ---
 
@@ -7863,10 +8254,11 @@ Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados a
 
 </div>
 
-Diálogo para añadir iteración de producto (PyQt6).
+Nombre del Módulo: ui.dialogs.product.add_iteration_dialog
 
-``AddIterationFormData`` concentra los campos del formulario; el widget de iteraciones
-pasa ``asdict(form)`` al controlador para mantener la firma histórica basada en dict.
+Descripción: Diálogo para añadir iteración de producto. ``AddIterationFormData`` concentra los
+campos del formulario; el widget de iteraciones pasa ``asdict(form)`` al controlador para
+mantener la firma histórica basada en dict.
 
 #### 🏛️ Clase `AddIterationFormData`
 
@@ -7884,20 +8276,30 @@ Diálogo para añadir una nueva iteración con todos los campos requeridos.
 
 </div>
 
-BOMImportPreviewDialog: Diálogo de supervisión para la importación de estructuras.
-==================================================================================
-Muestra un árbol jerárquico (QTreeWidget) que representa la estructura A3RP.
-Permite al usuario marcar/desmarcar qué nodos desea importar como subfabricaciones.
+Nombre del Módulo: bom_import_preview_dialog
+Descripción: Diálogo PyQt6 de supervisión previa a importar un BOM A3RP. Muestra un
+             árbol (QTreeWidget) con columna «Importar» (desmarcada por defecto) y
+             desplegable de ``BOMImportRole`` habilitado solo si la fila está marcada.
+             Valida que exista exactamente un producto final antes de ``accept``.
 
 #### 🏛️ Clase `BOMImportPreviewDialog`
 
-Diálogo interactivo para previsualizar y supervisar el árbol BOM antes de importar.
+Permite al usuario decidir qué ramas del BOM se persisten y con qué rol semántico.
+
+Tras ``accept``, ``get_supervised_tree`` devuelve el mismo ``BOMNodeDTO`` raíz con
+``import_selected`` e ``import_role`` rellenados para el servicio de importación.
 
 **Métodos Principales:**
 
-- `_populate_tree`: Rellena recursivamente el QTreeWidget con la estructura del nodo. Args: node: DTO del nodo BOM a visualizar. parent_item: Item del árbol que actuará como padre.
-- `get_supervised_tree`: Recorre el árbol de la UI y actualiza los flags 'es_subfabricacion' según lo que el usuario haya marcado/desmarcado.
-- `_sync_node_from_item`: Sincroniza el estado del checkbox de la UI de vuelta al DTO de forma recursiva. Args: item: Item del árbol a sincronizar.
+- `validate_row_selections_from_states`: Valida la selección sin depender de Qt (testeable en unit puro). Args: states: Lista de ``(marcado, rol)`` por fila. ``rol`` es None si no aplica o equivale al placeholder. Returns: Mensaje de error o None si la selección es válida.
+- `__init__`: Args: root_node: Árbol BOM (se muta al confirmar con ``get_supervised_tree``). parent: Ventana padre opcional de Qt.
+- `_make_role_combo`: Crea el QComboBox de rol con ítem placeholder y estilo de error vía señal.
+- `_item_for_combo`: Localiza la fila del árbol que contiene el combo dado (recorrido en profundidad).
+- `_populate_tree`: Crea un ``QTreeWidgetItem`` por nodo DTO, checkbox desmarcado y combo asociado.
+- `_iter_items`: Recorre en preorden el subárbol colgando de ``item`` (generador).
+- `_validation_error_message`: Compone la lista de estados de fila y delega en ``validate_row_selections_from_states``.
+- `get_supervised_tree`: Recorre el árbol de la UI y escribe ``import_selected`` / ``import_role`` en cada DTO. Returns: La misma instancia ``root_node`` mutada para pasar a ``BOMImportService.import_bom_tree``.
+- `_sync_node_from_item`: Propaga checkbox y combo del ítem al ``BOMNodeDTO`` almacenado en ``UserRole``.
 
 ---
 
@@ -7907,7 +8309,8 @@ Diálogo interactivo para previsualizar y supervisar el árbol BOM antes de impo
 
 </div>
 
-Interfaz PyQt6 (`procesos_mecanicos_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.product.procesos_mecanicos_dialog
+Descripción: Formulario PyQt6 del catálogo de productos (detalle, iteraciones, subfabricaciones o procesos).
 
 #### 🏛️ Clase `ProcesosMecanicosDialog`
 
@@ -7930,7 +8333,9 @@ Diálogo para añadir un nuevo proceso mecánico.
 
 </div>
 
-Interfaz PyQt6 (`product_details_dialog`): detalle de producto con pestañas de componentes e iteraciones.
+Nombre del Módulo: ui.dialogs.product.product_details_dialog
+
+Descripción: Define protocolos o tipos principales: ``ProductDetailsDialog``. Diálogo que utiliza sub-widgets para gestionar componentes e iteraciones. Integración típica con: ``__future__``, ``PyQt6``, ``ui``.
 
 #### 🏛️ Clase `ProductDetailsDialog`
 
@@ -7951,7 +8356,8 @@ delegan en ese controlador y en la vista principal como padre para diálogos Qt.
 
 </div>
 
-Interfaz PyQt6 (`subfabricaciones_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.product.subfabricaciones_dialog
+Descripción: Formulario PyQt6 del catálogo de productos (detalle, iteraciones, subfabricaciones o procesos).
 
 #### 🏛️ Clase `SubfabricacionesDialog`
 
@@ -7971,7 +8377,10 @@ Diálogo para gestionar (CRUD) la lista de sub-fabricaciones de un producto.
 
 </div>
 
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow
+Descripción: Diálogos de definición y simulación de flujo de producción (canvas, reglas, cantidades).
+
+Punto de entrada para ``DefineProductionFlowDialog``, ``EnhancedProductionFlowDialog`` y auxiliares.
 
 ---
 
@@ -7981,7 +8390,9 @@ Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados a
 
 </div>
 
-Re-exports de diálogos comunes del flujo de producción.
+Nombre del Módulo: ui.dialogs.production_flow.common_dialogs
+
+Descripción: Re-exporta diálogos comunes del flujo de producción y tipos Qt usados conjuntamente.
 
 ---
 
@@ -7991,7 +8402,11 @@ Re-exports de diálogos comunes del flujo de producción.
 
 </div>
 
-Interfaz PyQt6 (`cycle_end_config_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow.cycle_end_config_dialog
+
+Descripción: Diálogo modal para marcar el fin de ciclo de una tarea y elegir a qué tarea
+             de inicio de ciclo debe volver el flujo. Lee el estado vía ``flow_task_entry_*``
+             y ``canvas_task_display_name`` sobre la lista ``canvas_tasks`` del flujo mejorado.
 
 #### 🏛️ Clase `CycleEndConfigDialog`
 
@@ -8006,8 +8421,9 @@ Permite seleccionar a qué tarea de inicio de ciclo regresar.
 
 </div>
 
-Diálogo «Definir / editar pila de producción» (árbol de tareas + flujo + guardado).
+Nombre del Módulo: ui.dialogs.production_flow.define_flow_dialog
 
+Descripción: Diálogo «Definir / editar pila de producción» (árbol de tareas, flujo y guardado).
 Construye ``DefineFlowPresenter`` solo con servicios de dominio (``MachineService``,
 ``PreparationService``, ``FabricacionService``) resueltos por DI o extraídos de ``hub.model``;
 el presenter no mantiene referencia a ``AppModel``.
@@ -8039,8 +8455,9 @@ Diálogo orquestador para definir la secuencia de tareas, dependencias y trabaja
 
 </div>
 
-Presenter del diálogo «Definir pila de producción» (lógica pura, sin Qt).
+Nombre del Módulo: ui.dialogs.production_flow.define_flow_presenter
 
+Descripción: Presenter del diálogo «Definir pila de producción» (lógica pura, sin Qt).
 Consultas de dominio solo a través de ``machine_service``, ``preparation_service`` y
 ``fabricacion_service`` inyectados o resueltos en ``DefineProductionFlowDialog`` (DI o atributos
 en ``AppModel``). No recibe ni usa ``AppModel`` como fachada.
@@ -8076,7 +8493,8 @@ de la vista (DefineProductionFlowDialog).
 
 </div>
 
-Interfaz PyQt6 (`definir_cantidades_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow.definir_cantidades_dialog
+Descripción: Definición o simulación del flujo de producción (estado, presentadores, reglas y diálogos auxiliares).
 
 #### 🏛️ Clase `DefinirCantidadesDialog`
 
@@ -8091,7 +8509,8 @@ Diálogo para definir la cantidad a producir para cada tarea/grupo.
 </div>
 
 
-Interfaz PyQt6 (`enhanced_flow_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow.enhanced_flow_dialog
+Descripción: Definición o simulación del flujo de producción (estado, presentadores, reglas y diálogos auxiliares).
 
 
 #### 🏛️ Clase `EnhancedProductionFlowDialog`
@@ -8113,7 +8532,8 @@ Delegado en FlowGraphManager (UI Canvas) y EnhancedFlowPresenter (Lógica).
 
 </div>
 
-Interfaz PyQt6 (`enhanced_flow_presenter`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow.enhanced_flow_presenter
+Descripción: Definición o simulación del flujo de producción (estado, presentadores, reglas y diálogos auxiliares).
 
 #### 🏛️ Clase `EnhancedFlowPresenter`
 
@@ -8127,7 +8547,8 @@ Presenter/Lógica para aislar el ensamblado de datos y configuraciones de la vis
 
 </div>
 
-Interfaz PyQt6 (`enhanced_flow_state_manager`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow.enhanced_flow_state_manager
+Descripción: Definición o simulación del flujo de producción (estado, presentadores, reglas y diálogos auxiliares).
 
 #### 🏛️ Clase `EnhancedFlowStateManager`
 
@@ -8141,8 +8562,9 @@ Colaborador de composición para estado del canvas y preview de simulación.
 
 </div>
 
-Acciones del diálogo de flujo visual (ciclos, guardar/cargar pila, biblioteca).
+Nombre del Módulo: ui.dialogs.production_flow.flow_action_handler
 
+Descripción: Acciones del diálogo de flujo visual (ciclos, guardar/cargar pila, biblioteca).
 ``load_saved_pila`` obtiene API de pilas vía ``resolve_pila_service``; si no hay servicio,
 usa ``model.planning_facade`` y en último término ``model`` (``get_all_pilas`` / ``load_pila``).
 
@@ -8165,7 +8587,9 @@ y persistencia (guardar/cargar) del diálogo visual.
 
 </div>
 
-Construcción y serialización de flujos de producción (composición con EnhancedFlowPresenter).
+Nombre del Módulo: ui.dialogs.production_flow.flow_builder
+
+Descripción: Construcción y serialización de flujos de producción (composición con ``EnhancedFlowPresenter``).
 
 #### 🏛️ Clase `FlowBuilder`
 
@@ -8185,7 +8609,8 @@ Carga/reconstrucción de estado y construcción/preparación de flujos (delegado
 
 </div>
 
-Interfaz PyQt6 (`flow_simulation_handler`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow.flow_simulation_handler
+Descripción: Definición o simulación del flujo de producción (estado, presentadores, reglas y diálogos auxiliares).
 
 #### 🏛️ Clase `FlowSimulationHandler`
 
@@ -8207,7 +8632,8 @@ la interacción con el presenter y canvas.
 
 </div>
 
-Interfaz PyQt6 (`machine_resource_manager`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow.machine_resource_manager
+Descripción: Definición o simulación del flujo de producción (estado, presentadores, reglas y diálogos auxiliares).
 
 #### 🏛️ Clase `MachineResourceManager`
 
@@ -8227,7 +8653,8 @@ Desacopla la carga dinámica de componentes de la UI del diálogo principal.
 
 </div>
 
-Interfaz PyQt6 (`reassignment_rule_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow.reassignment_rule_dialog
+Descripción: Definición o simulación del flujo de producción (estado, presentadores, reglas y diálogos auxiliares).
 
 #### 🏛️ Clase `ReassignmentRuleDialog`
 
@@ -8241,7 +8668,10 @@ Diálogo para definir la regla de reasignación de un trabajador para una tarea.
 
 </div>
 
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: widgets
+
+Descripción: Reexporta los widgets principales de la vista de escritorio y los subpaquetes
+``product``, ``production_flow`` y ``reports``.
 
 ---
 
@@ -8251,13 +8681,10 @@ Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados a
 
 </div>
 
-========================================================================
-WIDGETS BASE DE INTERFAZ DE USUARIO
-========================================================================
-Clases base, configuración e imports comunes de los que heredan los
-widgets de la aplicación. Centraliza comportamientos estándar y
-utilidades gráficas compartidas.
-========================================================================
+Nombre del Módulo: base
+
+Descripción: Imports comunes de PyQt6 y utilidades compartidas por los widgets de escritorio
+(patrón ``from .base import *`` en pantallas legacy). Incluye intento opcional de ``QtCharts``.
 
 ---
 
@@ -8267,7 +8694,10 @@ utilidades gráficas compartidas.
 
 </div>
 
-Interfaz PyQt6 (`calculate_times_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: calculate_times_widget
+
+Descripción: Pantalla de simulación y cálculo de tiempos: búsqueda de fabricación/producto,
+             línea de tiempo, auditoría y acciones de exportación o limpieza vía señales Qt.
 
 #### 🏛️ Clase `CalculateTimesWidget`
 
@@ -8277,6 +8707,9 @@ Widget para la pantalla de cálculo de tiempos de fabricación.
 
 - `apply_empty_plan_results_state`: Sin simulación reciente coherente con la pila: oculta cronograma/log y limpia tablas.
 - `_plan_table_row_values`: Textos de fila: (#, tipo, detalle, unidades, fecha).
+- `clear_lote_search_results`: Limpia la tabla de resultados de búsqueda de lotes.
+- `set_lote_search_results`: Reemplaza los resultados de búsqueda de lotes (id, código, descripción).
+- `get_selected_lote_search_result`: Devuelve (id, código) del lote seleccionado en la tabla de búsqueda.
 - `add_step_to_pila`: Añade un paso (tarea/preproceso) a la pila manualmente.
 
 ---
@@ -8287,7 +8720,10 @@ Widget para la pantalla de cálculo de tiempos de fabricación.
 
 </div>
 
-Interfaz PyQt6 (`dashboard_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: dashboard_widget
+
+Descripción: Cuadrícula de gráficos de producción (máquinas, operarios, componentes, actividad).
+             Los datos se actualizan desde el controlador de UI; no mantiene ``AppController``.
 
 #### 🏛️ Clase `DashboardWidget`
 
@@ -8332,7 +8768,10 @@ Widget específico para la gestión de Fabricaciones (CRUD).
 
 </div>
 
-Interfaz PyQt6 (`gestion_datos_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: gestion_datos_widget
+
+Descripción: Pestañas unificadas para productos, fabricaciones, máquinas, trabajadores y lotes.
+             Cada pestaña resuelve su controlador vía DI.
 
 #### 🏛️ Clase `GestionDatosWidget`
 
@@ -8350,7 +8789,9 @@ desde esta vista ni se mantiene referencia al hub.
 
 </div>
 
-Interfaz PyQt6 (`help_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: help_widget
+
+Descripción: Ayuda embebida en HTML («Cómo funciona») dentro de un ``QTextEdit`` de solo lectura.
 
 #### 🏛️ Clase `HelpWidget`
 
@@ -8364,7 +8805,10 @@ Widget para mostrar la página de ayuda 'Cómo Funciona'.
 
 </div>
 
-Interfaz PyQt6 (`historial_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: historial_widget
+
+Descripción: Historial de iteraciones de producto y de fabricaciones con filtros, calendario
+             e impresión de informes (señales hacia el controlador de historial).
 
 #### 🏛️ Clase `HistorialWidget`
 
@@ -8379,11 +8823,15 @@ Widget para la nueva sección de historial de iteraciones y fabricaciones.
 </div>
 
 Nombre del Módulo: home_widget
-Descripcion: Pantalla de inicio de la aplicación Hipatia. Muestra el resumen
+Descripción: Pantalla de inicio de la aplicación Hipatia. Muestra el resumen
              del último arranque del sistema (estado de BD, integridad, datos)
              y alberga la terminal interna de advertencias y errores en tiempo
              real para que el usuario pueda revisar la salud del programa en
              cualquier momento sin necesidad de acceder a archivos de log.
+
+             El mismo tipo de terminal (``LogTerminalWidget``) existe en la vista
+             de trabajador (pestaña Log); el ``QtLogHandler`` solo se conecta a
+             uno u otro según el rol tras el login.
 
 #### 🏛️ Clase `HomeWidget`
 
@@ -8391,12 +8839,13 @@ Widget de inicio: resumen esquemático del último arranque y terminal interna.
 
 Integra dos paneles verticales:
 - Panel de salud del sistema: estado de BD, tablas y último backup.
-- Terminal de log: muestra en tiempo real los WARNING/ERROR/CRITICAL
-  generados durante la sesión, con botones de limpieza y exportación.
+- Terminal de log: mensajes desde el nivel del ``QtLogHandler`` (INFO por
+  defecto) en tiempo real, con resaltado para WARNING/ERROR/CRITICAL y
+  exportación a archivo.
 
 **Métodos Principales:**
 
-- `connect_log_handler`: Conecta el handler de logging Qt a la terminal interna del widget. Invoca ``connect_to_widget()`` del handler, que además de conectar la señal reproduce el buffer de mensajes acumulados durante el arranque (antes de que la UI estuviera lista). Debe llamarse una vez desde el punto de entrada (``app.py``) después de crear el ``QtLogHandler`` y registrarlo en el logger root. Args: handler: Instancia de ``QtLogHandler`` ya añadida al logger root mediante ``logging.getLogger().addHandler(handler)``.
+- `connect_log_handler`: Conecta el handler de logging Qt a la terminal interna del widget. Invoca ``connect_to_widget()`` del handler, que además de conectar la señal reproduce el buffer de mensajes acumulados durante el arranque (antes de que la UI estuviera lista). Debe llamarse una vez desde ``app.py`` en la rama de vista principal (no Trabajador), tras registrar el handler en el logger root. Args: handler: Instancia de ``QtLogHandler`` ya añadida al logger root mediante ``logging.getLogger().addHandler(handler)``.
 - `update_health_report`: Actualiza el panel con el HealthReport de forma esquemática y descriptiva. Args: report: instancia de HealthReport.
 
 ---
@@ -8408,33 +8857,20 @@ Integra dos paneles verticales:
 </div>
 
 Nombre del Módulo: log_terminal_widget
-Descripcion: Widget de terminal interna para la pantalla de inicio de Hipatia.
-             Muestra en tiempo real los mensajes de nivel WARNING, ERROR y CRITICAL
-             generados por el sistema de logging durante la ejecución, con
-             coloración diferenciada por nivel y botones de limpieza y exportación.
-
-             El widget está pensado para uso no técnico: el operario puede trabajar
-             con normalidad y consultar este panel antes de cerrar el programa para
-             detectar posibles incidencias internas, o exportarlo a un archivo .txt
-             para enviar al soporte técnico.
+Descripción: Terminal interna reutilizable en inicio (responsable) y en la vista
+             trabajador (pestaña Log). Recibe líneas desde ``QtLogHandler`` (nivel
+             por defecto ``INFO`` y superior); colorea de forma destacada
+             ``WARNING``, ``ERROR`` y ``CRITICAL``, y deja otros niveles en tono
+             neutro. Incluye limpieza de la vista y exportación a ``.txt`` para
+             soporte, sin borrar el archivo de log en disco.
 
 #### 🏛️ Clase `LogTerminalWidget`
 
-Panel tipo terminal que muestra advertencias y errores internos en tiempo real.
+Panel de texto enriquecido conectado al ``QtLogHandler`` (vía ``connect_to_widget``
+sobre ``append_log``, o ``connect_handler`` si solo se enlaza la señal).
 
-Características:
-- Muestra únicamente mensajes de nivel WARNING, ERROR y CRITICAL del sistema
-  de logging de Python, coloreando cada nivel con un color distinto.
-- Botón **Limpiar** para vaciar la visualización sin afectar los logs en disco.
-- Botón **Exportar** para guardar el contenido completo en un archivo ``.txt``
-  seleccionado por el usuario mediante diálogo de sistema.
-- Se integra con ``QtLogHandler`` mediante ``connect_handler()``.
-
-Uso típico::
-
-    terminal = LogTerminalWidget()
-    terminal.connect_handler(qt_log_handler)
-    layout.addWidget(terminal)
+Colores: WARNING / ERROR / CRITICAL resaltados; resto de niveles en gris claro.
+Botones Limpiar (solo vista) y Exportar ``.txt``.
 
 **Métodos Principales:**
 
@@ -8453,7 +8889,10 @@ Uso típico::
 
 </div>
 
-Interfaz PyQt6 (`lotes_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: lotes_widget
+
+Descripción: Listado y edición de plantillas de lote (``DefinirLoteWidget``) y vista de gestión
+             asociada; dependencias de dominio vía DI.
 
 #### 🏛️ Clase `DefinirLoteWidget`
 
@@ -8485,7 +8924,10 @@ Widget específico para editar y visualizar las plantillas de Lote.
 
 </div>
 
-Interfaz PyQt6 (`machines_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: machines_widget
+
+Descripción: CRUD de máquinas con lista filtrable, formulario de detalle y señales para grupos
+             y mantenimiento.
 
 #### 🏛️ Clase `MachinesWidget`
 
@@ -8504,7 +8946,8 @@ Widget para gestionar la base de datos de máquinas (CRUD).
 </div>
 
 Nombre del Módulo: main_header
-Descripcion: Cabecera superior de la ventana principal con herramientas globales.
+
+Descripción: Define protocolos o tipos principales: ``MainHeader``. Widget de cabecera que contiene el botón de auto-ajuste de escala. Integración típica con: ``PyQt6``.
 
 #### 🏛️ Clase `MainHeader`
 
@@ -8524,7 +8967,7 @@ Widget de cabecera que contiene el botón de auto-ajuste de escala.
 </div>
 
 Nombre del Módulo: main_nav_panel
-Descripcion: Widget lateral de navegación para la ventana principal.
+Descripción: Widget lateral de navegación para la ventana principal.
              Gestiona los botones de acceso a las diferentes secciones y el menú de planificación.
 
 #### 🏛️ Clase `MainNavPanel`
@@ -8538,6 +8981,8 @@ Panel lateral de navegación con botones categorizados y menú de operaciones.
 - `_init_ui`: Crea los botones y categorías del panel, dentro de un área con scroll.
 - `_create_category_label`: Crea una etiqueta de categoría estilizada.
 - `_create_nav_button`: Crea un botón de navegación que emite una señal al ser pulsado.
+- `_show_planificacion_menu`: Abre el menú de planificación bajo el botón (sin acoplar menú al QPushButton).
+- `planificacion_menu`: Menú contextual de planificación (tests y depuración).
 - `update_active_button`: Actualiza visualmente qué botón aparece marcado como activo. Args: active_page: nombre interno de la página activa.
 
 ---
@@ -8548,7 +8993,9 @@ Panel lateral de navegación con botones categorizados y menú de operaciones.
 
 </div>
 
-Interfaz PyQt6 (`prep_steps_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: prep_steps_widget
+
+Descripción: CRUD de fases de preparación (pasos) con validación y señales hacia el controlador.
 
 #### 🏛️ Clase `PrepStepsWidget`
 
@@ -8560,7 +9007,7 @@ Widget para gestionar la base de datos de fases de preparación (CRUD).
 - `clear_details_area`: Limpia el panel de detalles.
 - `_create_form_widgets`: Crea la estructura del formulario de detalles.
 
-- 🔧 `_ui_record_field`: Lee un campo de un dict o de un objeto/DTO (Fase 12C: UI tolerante a ambas formas).
+- 🔧 `_ui_record_field`: Lee un campo de un dict o de un objeto/DTO (la UI acepta ambas formas).
 
 ---
 
@@ -8570,7 +9017,9 @@ Widget para gestionar la base de datos de fases de preparación (CRUD).
 
 </div>
 
-Interfaz PyQt6 (`preprocesos_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: preprocesos_widget
+
+Descripción: Gestión de preprocesos: lista a la izquierda, detalle y acciones a la derecha.
 
 #### 🏛️ Clase `PreprocesosWidget`
 
@@ -8589,18 +9038,22 @@ Muestra una lista a la izquierda y los detalles del seleccionado a la derecha.
 
 </div>
 
-Módulo base para el widget de gestión de productos en la UI principal.
+Nombre del Módulo: products_widget
+Descripción: Widget de catálogo de productos (búsqueda, formulario, subfabricaciones y procesos).
+             Emite señales hacia ``ProductController`` e incluye entrada para importar BOM A3RP.
 
 #### 🏛️ Clase `ProductsWidget`
 
-Widget para editar y visualizar Productos.
+Vista principal de la pestaña Productos: lista, detalle editable y accesos a diálogos relacionados.
+
+Resuelve ``ProductController`` vía ``DIContainer`` en ``__init__`` (patrón sin ``AppController`` en el widget).
 
 **Métodos Principales:**
 
 - `__init__`: `_app_controller` se ignora (compat ``MainView``); dependencias vía DI.
 - `display_product_form`: Muestra el formulario para editar un producto o crear uno nuevo. Args: data: DTO del producto o código (si es nuevo). sub_data: Lista de subfabricaciones existentes. is_new: Si es True, configura el formulario para creación.
 
-- 🔧 `_subfabricacion_row_from_domain`: Serializa una subfabricación de dominio a dict para el formulario y persistencia.
+- 🔧 `_subfabricacion_row_from_domain`: Serializa una subfabricación de dominio a dict para el formulario y persistencia. Args: sub: ``SubfabricacionDTO`` o objeto con atributos homólogos. Returns: Diccionario con claves ``id``, ``descripcion``, ``tiempo``, ``tipo_trabajador``, ``maquina_id``.
 
 ---
 
@@ -8610,15 +9063,11 @@ Widget para editar y visualizar Productos.
 
 </div>
 
-========================================================================
-REPORTES WIDGET - Módulo Principal de Reportes de Producción
-========================================================================
-Widget principal que integra búsqueda, lista de órdenes y gráficas.
+Nombre del Módulo: reportes_widget
 
-``ReportService`` se resuelve desde ``hub.container`` o, en su defecto, ``hub.model.report_service``
-(misma instancia que el DI). Los sub-widgets **solo** usan ``ReportService``, sin pasar por
-delegadores de ``AppModel``.
-========================================================================
+Descripción: Vista principal de reportes: búsqueda inteligente, lista de órdenes y gráficas.
+             ``ReportService`` se resuelve desde el contenedor del hub o desde ``model.report_service``;
+             los sub-widgets consumen solo ese servicio.
 
 #### 🏛️ Clase `ReportesWidget`
 
@@ -8675,7 +9124,10 @@ no mantiene referencia a ``AppController``.
 
 </div>
 
-Interfaz PyQt6 (`timeline_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: timeline_widget
+
+Descripción: Diagrama de Gantt interactivo (``TimelineVisualizationWidget``) y panel de análisis
+             de tareas (``TaskAnalysisPanel``) para resultados de simulación.
 
 #### 🏛️ Clase `TimelineVisualizationWidget`
 
@@ -8693,9 +9145,9 @@ Widget que muestra el detalle de una tarea seleccionada.
 
 </div>
 
-Nombre del Módulo: workers_widget.py
-Descripción: Widget orquestador para la gestión de trabajadores en el panel de administración.
-             Gestiona la lista, detalles, asignaciones y sincronización con el controlador.
+Nombre del Módulo: workers_widget
+Descripción: Pestaña de trabajadores en «Gestión de datos»: lista, ficha, asignación de tareas
+             e historial, coordinada con ``WorkerController`` mediante señales PyQt6.
 
 #### 🏛️ Clase `WorkersWidget`
 
@@ -8729,7 +9181,9 @@ Incluye un área de scroll para asegurar la visibilidad de los botones de acció
 
 </div>
 
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: product
+
+Descripción: Subpaquete de widgets de detalle de producto (materiales e iteraciones).
 
 ---
 
@@ -8739,7 +9193,8 @@ Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados a
 
 </div>
 
-Nombre del Módulo: iterations_widget.py
+Nombre del Módulo: iterations_widget
+
 Descripción: Widget para visualizar y gestionar el historial de iteraciones de un producto.
 Incluye la gestión de materiales asociados y galería de imágenes.
 
@@ -8777,7 +9232,9 @@ Gestiona el listado de cambios y la galería de imágenes asociada.
 
 </div>
 
-Interfaz PyQt6 (`materials_widget`): lista de materiales de un producto.
+Nombre del Módulo: materials_widget
+
+Descripción: Lista y edición de materiales (componentes) de un producto dentro de un ``QTableWidget``.
 
 #### 🏛️ Clase `ProductMaterialsWidget`
 
@@ -8798,7 +9255,9 @@ para ``show_message`` / ``show_confirmation_dialog`` (protocolo IView).
 
 </div>
 
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: production_flow
+
+Descripción: Subpaquete de widgets del planificador y del flujo de producción (canvas, tarjetas, inspector).
 
 ---
 
@@ -8808,7 +9267,9 @@ Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados a
 
 </div>
 
-Interfaz PyQt6 (`define_control_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: define_control_panel
+
+Descripción: Panel lateral para añadir o editar pasos del flujo (tareas, condiciones de inicio y recursos).
 
 #### 🏛️ Clase `DefineControlPanel`
 
@@ -8828,16 +9289,13 @@ Encapsula la interfaz de configuración de tareas, condiciones de inicio y recur
 
 </div>
 
+Nombre del Módulo: flow_canvas
 
-Nombre del Modulo: flow_canvas
-Descripcion: Canvas PyQt6 del flujo de produccion: tarjetas ``FlowCardWidget`` arrastrables,
-             rejilla de fondo en el propio widget y conexiones dibujadas en un hijo
-             ``_FlowConnectionsLayer`` encima de las tarjetas (Qt pinta primero el padre y luego
-             los hijos; sin capa, las flechas quedarian tapadas). Ajusta geometria de la capa en
-             ``resizeEvent``, ``set_connections`` y ``add_task_widget``, y la mantiene al frente
-             con ``raise_``. Clic en fondo: ``mousePressEvent`` ignora la capa transparente para
-             emitir ``backgroundClicked``. Las aristas se delegan a ``FlowConnectionPainter``.
-
+Descripción: Canvas PyQt6 del flujo de producción: tarjetas ``FlowCardWidget`` arrastrables,
+             rejilla de fondo y conexiones en un hijo ``_FlowConnectionsLayer`` encima de las tarjetas
+             (sin capa, las flechas quedarían tapadas). Ajusta geometría en ``resizeEvent``,
+             ``set_connections`` y ``add_task_widget``; clic en fondo emite ``backgroundClicked``.
+             Las aristas se delegan a ``FlowConnectionPainter``.
 
 #### 🏛️ Clase `_FlowConnectionsLayer`
 
@@ -8896,7 +9354,8 @@ Emite 'clicked' al ser seleccionada y 'moved' al ser movida.
 </div>
 
 Nombre del Módulo: flow_connection_painter
-Descripcion: Pintado y enrutado de conectores entre tarjetas del canvas de flujo de produccion.
+
+Descripción: Pintado y enrutado de conectores entre tarjetas del canvas de flujo de producción.
 
     - Enrutado (``calculate_smart_path``): polilinea ortogonal Manhattan que no cruza ninguna
       tarjeta visible, incluidos origen y destino. Margen de exclusion ``CONNECTOR_OBSTACLE_PAD``;
@@ -8944,7 +9403,10 @@ con resplandor. Los metodos publicos de interes para tests o reutilizacion son
 
 </div>
 
-Interfaz PyQt6 (`flow_display_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: flow_display_panel
+
+Descripción: Panel derecho del diálogo de definición de pila: lista ordenada de tareas del flujo
+             y botones de edición, borrado, asignación de operarios y guardado.
 
 #### 🏛️ Clase `FlowDisplayPanel`
 
@@ -8964,12 +9426,12 @@ Gestiona la visualización de la secuencia de tareas y las acciones sobre el flu
 
 </div>
 
-Nombre del Modulo: flow_graph_manager
-Descripcion: Coordina el presenter del flujo mejorado con un ``ProductionFlowCanvas``: creacion
-             de tarjetas, sincronizacion de indices, efectos de ciclo/simulacion y conexiones
-             logicas. Escucha ``cardMoved`` y ``cardSelected`` del canvas; ``update_connections``
-             obtiene todas las aristas con ``canvas_state_all_logical_connections`` y las pinta
-             en bloque, resaltando tarjetas relacionadas cuando hay tarea seleccionada.
+Nombre del Módulo: flow_graph_manager
+
+Descripción: Coordina el presenter del flujo mejorado con un ``ProductionFlowCanvas``: creación
+             de tarjetas, sincronización de índices, efectos de ciclo/simulación y conexiones
+             lógicas. Escucha ``cardMoved`` y ``cardSelected`` del canvas; ``update_connections``
+             obtiene las aristas con ``canvas_state_all_logical_connections`` y las pinta en bloque.
 
 #### 🏛️ Clase `FlowGraphManager`
 
@@ -9004,7 +9466,9 @@ aplica efectos (madre de ciclo, simulacion) y delega el dibujo de flechas en el 
 
 </div>
 
-Interfaz PyQt6 (`flow_item_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: flow_item_widget
+
+Descripción: Fila o grupo en la lista textual de la pila de producción (vista ``FlowItemDTO``).
 
 #### 🏛️ Clase `FlowItemWidget`
 
@@ -9023,7 +9487,9 @@ en la lista de la pila de producción.
 
 </div>
 
-Interfaz PyQt6 (`flow_toolbar`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: flow_toolbar
+
+Descripción: Barra inferior del planificador visual: limpiar, cargar, guardar y calcular (señales Qt).
 
 #### 🏛️ Clase `FlowToolbarWidget`
 
@@ -9042,7 +9508,10 @@ Gestiona las acciones principales (limpiar, cargar, guardar, calcular).
 
 </div>
 
-Interfaz PyQt6 (`inspector_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: inspector_panel
+
+Descripción: ``ProductionTaskInspector``: panel lateral para ver y editar la configuración de la
+             tarea seleccionada en el canvas (presenter + widgets generados en ``inspector_ui``).
 
 #### 🏛️ Clase `ProductionTaskInspector`
 
@@ -9066,9 +9535,10 @@ seleccionada en el flujo de producción.
 
 </div>
 
+Nombre del Módulo: inspector_presenter
 
-Interfaz PyQt6 (`inspector_presenter`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
-
+Descripción: Lógica pura del inspector de tareas: estado de la tarea actual, trabajadores posibles
+             y mutaciones sobre el payload de configuración.
 
 #### 🏛️ Clase `InspectorPresenter`
 
@@ -9088,7 +9558,9 @@ Interfaz PyQt6 (`inspector_presenter`): widgets, diálogos o recursos visuales c
 
 </div>
 
-Carga de datos en `ProductionTaskInspector` (set_task).
+Nombre del Módulo: inspector_task_loader
+
+Descripción: Aplica el payload de una tarea a los controles del inspector (``apply_task_to_widgets``).
 
 - 🔧 `apply_task_to_widgets`: Aplica `task_data` a los widgets del inspector y sincroniza presenter. Retorna (current_task_id, current_task_data).
 
@@ -9100,10 +9572,10 @@ Carga de datos en `ProductionTaskInspector` (set_task).
 
 </div>
 
-Construcción de UI para `ProductionTaskInspector`.
+Nombre del Módulo: inspector_ui
 
-Se extrae a un módulo separado para reducir el tamaño del panel sin cambiar su
-API pública; los controles se exponen como atributos de `InspectorWidgets`.
+Descripción: Construcción de la UI del inspector de tareas: factoría ``build_inspector_ui`` y
+             dataclass ``InspectorWidgets`` con referencias a los controles Qt.
 
 #### 🏛️ Clase `InspectorWidgets`
 
@@ -9119,7 +9591,9 @@ Referencias tipadas a los controles del inspector de tarea.
 
 </div>
 
-Interfaz PyQt6 (`library_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: library_panel
+
+Descripción: Biblioteca de tareas por producto (árbol) para arrastrar plantillas al canvas del flujo.
 
 #### 🏛️ Clase `TaskLibraryPanel`
 
@@ -9140,7 +9614,9 @@ Permite arrastrar tareas al canvas.
 
 </div>
 
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: reports
+
+Descripción: Reexporta widgets de reportes usados desde ``reportes_widget`` (p. ej. búsqueda).
 
 ---
 
@@ -9150,15 +9626,10 @@ Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados a
 
 </div>
 
-========================================================================
-CHARTS CONTAINER WIDGET - Contenedor de Gráficas de Análisis
-========================================================================
-Widget contenedor que muestra múltiples gráficas de análisis para
-un producto seleccionado: tiempo promedio, evolución temporal,
-tiempos por trabajador y patrón de incidencias.
+Nombre del Módulo: charts_container
 
-Datos: únicamente ``report_service=`` (``ReportService``).
-========================================================================
+Descripción: Pestañas de gráficas y tarjetas de resumen para un producto seleccionado en reportes.
+             Los datos llegan solo vía ``ReportService`` inyectado en el widget.
 
 #### 🏛️ Clase `ReportsChartsWidget`
 
@@ -9183,7 +9654,9 @@ Muestra estadísticas y gráficas para un producto seleccionado.
 
 </div>
 
-Render helpers seguros para `ReportsChartsWidget`.
+Nombre del Módulo: charts_renderers
+
+Descripción: Funciones auxiliares para poblar tarjetas de estadísticas del contenedor de gráficas.
 
 - 🔧 `clear_stats_layout`: Limpia el layout de estadísticas del contenedor.
 
@@ -9195,14 +9668,9 @@ Render helpers seguros para `ReportsChartsWidget`.
 
 </div>
 
-========================================================================
-ORDER LIST WIDGET - Widget de Lista de Órdenes de Fabricación
-========================================================================
-Widget que muestra las órdenes de fabricación de un producto,
-con información resumida y opción de expandir para ver detalles.
+Nombre del Módulo: order_list
 
-Datos: únicamente vía ``report_service=`` (``ReportService`` desde DI o ``model.report_service``).
-========================================================================
+Descripción: Lista de órdenes de fabricación de un producto con tarjetas expandibles; datos vía ``ReportService``.
 
 #### 🏛️ Clase `OrderCard`
 
@@ -9237,10 +9705,10 @@ Signals:
 
 </div>
 
-Búsqueda con autocompletado en el módulo de reportes.
+Nombre del Módulo: smart_search
 
-La consulta usa exclusivamente ``ReportService`` (inyectado o vía ``set_report_service`` /
-``set_controller``).
+Descripción: Búsqueda con autocompletado y resultados en tiempo real para el módulo de reportes,
+             usando exclusivamente ``ReportService``.
 
 #### 🏛️ Clase `SmartSearchWidget`
 
@@ -9263,7 +9731,9 @@ filtrado en tiempo real para el módulo de reportes.
 
 </div>
 
-Tarjeta reutilizable de estadísticas para reportes.
+Nombre del Módulo: stat_card
+
+Descripción: Tarjeta compacta de métrica (título, valor y subtítulo) para el panel de reportes.
 
 #### 🏛️ Clase `StatCard`
 
@@ -9277,7 +9747,9 @@ Tarjeta de estadística individual.
 
 </div>
 
-Interfaz PyQt6 (`camera_info_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: camera_info_panel
+
+Descripción: Muestra detalle y estado de validación de la cámara seleccionada (trabajador / hardware).
 
 #### 🏛️ Clase `CameraInfoPanel`
 
@@ -9295,7 +9767,9 @@ Panel para mostrar información detallada y estados de validación.
 
 </div>
 
-Interfaz PyQt6 (`camera_selector_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: camera_selector_panel
+
+Descripción: Selector de cámara con sondeo rápido y señales hacia la vista de trabajador.
 
 #### 🏛️ Clase `CameraSelectorPanel`
 
@@ -9315,7 +9789,9 @@ Panel para la selección y detección de cámaras.
 
 </div>
 
-Interfaz PyQt6 (`worker_activity_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: worker_activity_panel
+
+Descripción: Tabla de tareas asignadas, registro de trabajo e incidencias del trabajador seleccionado.
 
 #### 🏛️ Clase `WorkerActivityPanel`
 
@@ -9323,6 +9799,8 @@ Panel que muestra el historial de tareas y logs de actividad de un trabajador.
 
 **Métodos Principales:**
 
+- `_configure_history_table_header`: Distribuye el espacio: fechas y códigos legibles; producto absorbe el resto.
+- `_configure_activity_log_header`: Misma idea: columnas de tiempo compactas; descripción amplia.
 - `populate_history`: Puebla la tabla de historial de tareas.
 - `populate_activity_log`: Puebla la tabla de logs de actividad.
 - `clear`: Limpia las tablas.
@@ -9335,7 +9813,11 @@ Panel que muestra el historial de tareas y logs de actividad de un trabajador.
 
 </div>
 
-Interfaz PyQt6 (`worker_details_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: worker_details_panel
+Descripción: Formulario y zona de asignación rápida de un trabajador (datos personales,
+             acceso al sistema, búsqueda de producto y orden de fabricación, botón asignar).
+
+Emite señales hacia ``WorkersWidget`` / ``WorkerController``; no contiene reglas de negocio.
 
 #### 🏛️ Clase `WorkerDetailsPanel`
 
@@ -9358,7 +9840,9 @@ Panel que contiene el formulario de detalles y asignación de un trabajador.
 
 </div>
 
-Interfaz PyQt6 (`worker_incidence_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: worker_incidence_dialog
+
+Descripción: Define protocolos o tipos principales: ``WorkerIncidenceDialog``. Diálogo para mostrar el detalle de las incidencias de un trabajador. Integración típica con: ``PyQt6``, ``datetime``.
 
 #### 🏛️ Clase `WorkerIncidenceDialog`
 
@@ -9376,7 +9860,10 @@ Diálogo para mostrar el detalle de las incidencias de un trabajador.
 
 </div>
 
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: worker
+
+Descripción: Paquete de la ventana de trabajador (login de operario): diálogo de cámara y
+             ``main_window`` con ``WorkerMainWindow``.
 
 ---
 
@@ -9386,12 +9873,14 @@ Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados a
 
 </div>
 
-DIÁLOGO DE CONFIGURACIÓN DE CÁMARA - INTERFAZ TRABAJADOR
-Versión Refactorizada (Monolito #5) - Fase 12C (DTOs)
+Nombre del Módulo: camera_config_dialog
+
+Descripción: Diálogo modal de configuración de cámara QR para la vista trabajador: selector,
+             panel de detalle y ``CameraConfigPresenter`` sobre ``CameraManager``.
 
 #### 🏛️ Clase `CameraConfigDialog`
 
-Diálogo para configurar cámara, refactorizado con Presenter y Paneles.
+Configuración de cámara con presenter y paneles reutilizables.
 
 ---
 
@@ -9401,8 +9890,10 @@ Diálogo para configurar cámara, refactorizado con Presenter y Paneles.
 
 </div>
 
-Presenter para la configuración de cámara.
-Gestiona la lógica de detección, validación y estado de cámaras usando DTOs.
+Nombre del Módulo: camera_config_presenter
+
+Descripción: Lógica de sondeo, detalle y validación de cámaras para ``CameraConfigDialog``,
+             usando ``CameraManager`` y DTOs de configuración.
 
 #### 🏛️ Clase `CameraConfigPresenter`
 
@@ -9424,7 +9915,9 @@ Presentador que desacopla la lógica de CameraManager de la UI de configuración
 
 </div>
 
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: main_window
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``__all__``, consumidos por la UI y controladores. Integración típica con: ``window``.
 
 ---
 
@@ -9434,15 +9927,27 @@ Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados a
 
 </div>
 
-Construcción de la interfaz de WorkerMainWindow mediante WorkerMainWindowUIManager (composición).
+Nombre del Módulo: ui_manager
+Descripción: Montaje visual de la ventana del trabajador (cabecera, pie, pestañas Tareas y Log).
+
+``WorkerMainWindowUIManager`` construye el layout sobre ``WorkerMainWindow``: lista de tareas,
+detalle, botones de acción y la terminal de log enlazada a ``QtLogHandler`` como en la vista
+del responsable.
 
 #### 🏛️ Clase `WorkerMainWindowUIManager`
 
 Gestor de layout y widgets iniciales de :class:`WorkerMainWindow`.
 
+Responsable de cabecera, pie, ``stacked_widget`` y la pantalla ``dashboard``
+con pestañas Tareas / Log.
+
 **Métodos Principales:**
 
 - `setup_main_window`: Configura la interfaz de usuario principal sobre la ventana.
+- `_create_initial_screens`: Registra la pantalla ``dashboard`` (pestañas Tareas y Log) en el stack.
+- `_create_dashboard_screen`: Pantalla principal: ``QTabWidget`` con pestaña Tareas y pestaña Log. Asigna ``w.log_terminal`` al :class:`~ui.widgets.log_terminal_widget.LogTerminalWidget` de la segunda pestaña (para ``connect_log_handler`` en ``app.py``).
+- `_create_tasks_tab_content`: Contenido del panel de tareas (splitter lista + detalles).
+- `_create_task_actions_widget`: Panel derecho: estado de la tarea y botones (etiquetas, QR, incidencia, fin).
 
 ---
 
@@ -9452,19 +9957,26 @@ Gestor de layout y widgets iniciales de :class:`WorkerMainWindow`.
 
 </div>
 
-Ventana principal del rol trabajador (PyQt6).
+Nombre del Módulo: window
+Descripción: Ventana principal del operario: tareas asignadas, acciones (QR, incidencias,
+             etiquetas) y pestaña Log con la misma terminal que ve el responsable en inicio.
 
-La lista de tareas recibe filas ``WorkerTaskListRowDTO``; las señales hacia controladores
-siguen emitiendo ``dict`` plano vía ``WorkerTaskListRowDTO.to_signal_dict()`` para no romper contratos existentes.
+Las señales hacia ``WorkerController`` llevan datos de tarea como diccionario plano
+(``WorkerTaskListRowDTO.to_signal_dict()``). La conexión del log se hace desde ``app.py``.
 
 #### 🏛️ Clase `WorkerMainWindow`
 
 Ventana principal para el rol de trabajador.
 
-Estado de selección: ``current_selected_task`` es un ``WorkerTaskListRowDTO`` cuando hay fila activa.
+Atributos relevantes:
+    ``current_selected_task``: ``WorkerTaskListRowDTO`` cuando hay tarea seleccionada
+    en la pestaña Tareas; ``None`` si no.
+    ``log_terminal``: :class:`~ui.widgets.log_terminal_widget.LogTerminalWidget`
+    de la pestaña Log (conexión con ``QtLogHandler`` desde ``app.py``).
 
 **Métodos Principales:**
 
+- `connect_log_handler`: Conecta el handler de logging Qt a la terminal de la pestaña Log. Equivalente a ``HomeWidget.connect_log_handler``: llama a ``handler.connect_to_widget(self.log_terminal.append_log)``, reproduce el buffer acumulado hasta el login y a partir de ahí muestra en tiempo real los mensajes según el nivel del handler (por defecto INFO y superior).
 - `enable_action_buttons`: Habilita o deshabilita los botones de control de tareas.
 - `_forzar_auto_ajuste`: Fuerza un recalculo dinámico del factor de escala y repinta toda la aplicación iterando sobre sus hijos.
 - `add_screen`: Añade una nueva vista al contenedor de pantallas de la ventana.
@@ -9482,10 +9994,10 @@ Estado de selección: ``current_selected_task`` es un ``WorkerTaskListRowDTO`` c
 
 | Métrica | Valor |
 |---|---:|
-| Archivos `.py` en `scripts/` | 62 |
-| Incluidos en el cuerpo | 62 |
+| Archivos `.py` en `scripts/` | 67 |
+| Incluidos en el cuerpo | 67 |
 | Omitidos (docstrings/reglas) | 0 |
-| Clases detectadas (AST) | 24 |
+| Clases detectadas (AST) | 25 |
 
 ```mermaid
 graph TD
@@ -9502,7 +10014,9 @@ graph TD
 
 </div>
 
-Script ejecutable (`__init__`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts
+
+Descripción: Script ejecutable (`__init__`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9512,8 +10026,9 @@ Script ejecutable (`__init__`): automatización, informes o mantenimiento del pr
 
 </div>
 
-Analiza un archivo Python (clase grande o módulo acoplado): lista atributos y llamadas vía self.*
-Útil para planificar extracción a composición o a gestores independientes.
+Nombre del Módulo: scripts.analyze_mixin
+
+Descripción: Analiza un archivo Python (clase grande o módulo acoplado): lista atributos y llamadas vía self.* Útil para planificar extracción a composición o a gestores independientes.
 
 ---
 
@@ -9523,7 +10038,9 @@ Analiza un archivo Python (clase grande o módulo acoplado): lista atributos y l
 
 </div>
 
-Script ejecutable (`analyze_pila_controller`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analyze_pila_controller
+
+Descripción: Script ejecutable (`analyze_pila_controller`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9533,7 +10050,9 @@ Script ejecutable (`analyze_pila_controller`): automatización, informes o mante
 
 </div>
 
-Script ejecutable (`analyze_product_controller_coverage`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analyze_product_controller_coverage
+
+Descripción: Script ejecutable (`analyze_product_controller_coverage`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9543,7 +10062,9 @@ Script ejecutable (`analyze_product_controller_coverage`): automatización, info
 
 </div>
 
-Script ejecutable (`analyze_ui_state`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analyze_ui_state
+
+Descripción: Script ejecutable (`analyze_ui_state`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9553,15 +10074,9 @@ Script ejecutable (`analyze_ui_state`): automatización, informes o mantenimient
 
 </div>
 
-Grafo de imports entre capas de primer nivel (ui, controllers, core, database, features).
+Nombre del Módulo: scripts.architecture_layer_edges
 
-Escanea AST de todos los .py bajo esos directorios, clasifica aristas por capa origen/destino,
-lista violaciones de arquitectura (reglas del plan Hipatia) y detecta ciclos simples
-entre capas (2- y 3-ciclos explícitos).
-
-Uso:
-  python3 scripts/architecture_layer_edges.py
-  python3 scripts/architecture_layer_edges.py --json reports/architecture_layer_edges.json
+Descripción: Grafo de imports entre capas de primer nivel (ui, controllers, core, database, features).
 
 - 🔧 `collect_import_targets`: Nombres de módulo completos importados (sin relativos).
 - 🔧 `scan_layers`: module_name -> conjunto de strings importados (módulos).
@@ -9576,13 +10091,22 @@ Uso:
 
 </div>
 
-Grafo de imports entre capas: controladores / servicios / database.
+Nombre del Módulo: scripts.audit_import_graph
 
-Genera un informe Markdown (y JSON opcional) con aristas ``controllers.*``
-que importan ``core.services.*`` (y referencias cruzadas útiles para revisión).
+Descripción: Concentra datos de configuración o catálogos estáticos: ``PREFIXES``, consumidos por la UI y controladores. Integración típica con: ``__future__``, ``argparse``, ``ast``, ``json``, ``pathlib``.
 
-Para el mapa **completo** por capa (``ui``, ``database``, ``core``, ``controllers``,
-``features``), violaciones y ciclos simples, usar ``scripts/architecture_layer_edges.py``.
+---
+
+<div id='sec_scripts_audit_module_description_quality_py'>
+
+### 📄 `scripts/audit_module_description_quality.py`
+
+</div>
+
+Nombre del Módulo: audit_module_description_quality
+
+Descripción: Detecta ``Descripción`` de módulo débiles (genéricas, cortas o con frases prohibidas)
+             en el alcance Daniel y escribe un informe Markdown bajo ``reports/``.
 
 ---
 
@@ -9592,10 +10116,24 @@ Para el mapa **completo** por capa (``ui``, ``database``, ``core``, ``controller
 
 </div>
 
-Auditoría de docstrings de módulo: lista archivos .py sin descripción útil al nivel de módulo.
+Nombre del Módulo: scripts.audit_module_docstrings
 
-Salida: informe JSON bajo reports/ y resumen por stdout. Criterios alineados con
-doc_audit_common / generate_daniel_doc.py.
+Descripción: Auditoría de docstrings de módulo: lista archivos .py sin descripción útil al nivel de módulo.
+
+---
+
+<div id='sec_scripts_bootstrap_module_docstrings_py'>
+
+### 📄 `scripts/bootstrap_module_docstrings.py`
+
+</div>
+
+Nombre del Módulo: bootstrap_module_docstrings
+
+Descripción: Inserta o sustituye el docstring inicial de módulo con ``Nombre del Módulo`` y
+             ``Descripción``, reutilizando el primer párrafo del docstring existente cuando sea útil.
+
+- 🔧 `_leading_special_lines`: Devuelve n líneas iniciales (shebang, coding, noqa de archivo) a conservar.
 
 ---
 
@@ -9605,7 +10143,9 @@ doc_audit_common / generate_daniel_doc.py.
 
 </div>
 
-Script ejecutable (`build_executable`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.build_executable
+
+Descripción: Script ejecutable (`build_executable`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `clean_build_environment`: Limpia compilaciones anteriores para evitar basura o conflictos.
 - 🔧 `build_hipatia`: Ejecuta PyInstaller de forma programática con toda la configuración de Hipatia.
@@ -9634,7 +10174,9 @@ Descripción: Verifica automáticamente que la documentación técnica generada
 
 </div>
 
-Script ejecutable (`check_typing_coverage`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.check_typing_coverage
+
+Descripción: Script ejecutable (`check_typing_coverage`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9644,7 +10186,9 @@ Script ejecutable (`check_typing_coverage`): automatización, informes o manteni
 
 </div>
 
-Script ejecutable (`codebase_analyzer`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.codebase_analyzer
+
+Descripción: Script ejecutable (`codebase_analyzer`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9654,20 +10198,9 @@ Script ejecutable (`codebase_analyzer`): automatización, informes o mantenimien
 
 </div>
 
-Cobertura enfocada a archivos modificados (Hipatia).
+Nombre del Módulo: scripts.coverage_focus
 
-Objetivo: exigir 100% de cobertura en un conjunto de archivos/rutas concretas
-sin forzar 100% del proyecto completo.
-
-Requiere: pytest + pytest-cov instalados (ya se usa cobertura en el proyecto).
-
-Uso:
-  python3 scripts/coverage_focus.py --paths ui/widgets/reports/order_list.py core/app_model.py
-  python3 scripts/coverage_focus.py --paths controllers --tests tests/unit/test_main_window.py
-
-Notas:
-- Este script ejecuta pytest con `--cov` y lee un `coverage.json` temporal.
-- Por defecto omite `tests/*` y `scripts/*` del cálculo global de cobertura.
+Descripción: Concentra datos de configuración o catálogos estáticos: ``REPO_ROOT``, consumidos por la UI y controladores. Integración típica con: ``__future__``, ``argparse``, ``json``, ``os``, ``subprocess``, ``sys``.
 
 ---
 
@@ -9677,17 +10210,9 @@ Notas:
 
 </div>
 
-Detección de código muerto en el paquete ``ui/dialogs/``.
-======================================================
-Recorre cada ``*.py`` bajo ``ui/dialogs/``, extrae métodos por clase y
-busca referencias en ``app.py``, ``ui/``, ``controllers/``, ``core/``, ``tests/``.
+Nombre del Módulo: scripts.detect_dead_code
 
-Clasificación heurística (revisar manualmente antes de borrar):
-- USADO: referencias fuera del fichero de definición
-- INTERNO: solo llamadas desde la misma clase/paquete
-- MUERTO: sin referencias detectables (falsos positivos: slots Qt, getattr, etc.)
-
-Genera un Markdown bajo ``Documentacion/``.
+Descripción: Detección de código muerto en el paquete ``ui/dialogs/``. ====================================================== Recorre cada ``*.py`` bajo ``ui/dialogs/``, extrae métodos por clase y busca referencias en ``app.py``, ``ui/``, ``controllers/``, ``core/``, ``tests/``.
 
 #### 🏛️ Clase `MethodExtractor`
 
@@ -9709,12 +10234,30 @@ Extrae todos los métodos de cada clase.
 
 </div>
 
-Criterios compartidos para auditoría de docstrings de módulo (Daniel doc + audit_module_docstrings).
+Nombre del Módulo: scripts.doc_audit_common
+
+Descripción: Criterios compartidos para auditoría de docstrings de módulo (Daniel doc + audit_module_docstrings).
 
 - 🔧 `module_docstring_raw`: Texto del docstring de módulo. Incluye el caso frecuente ``from __future__ ...`` seguido de un literal ``"""..."""``, que **no** expone ``ast.get_docstring`` pero es doc de módulo válido en tiempo de ejecución.
 - 🔧 `module_docstring_is_acceptable`: True si el módulo tiene docstring de módulo no trivial según FRASES_IGNORADAS. Equivale a 'doc_valid' en generate_daniel_doc para el nodo raíz.
 - 🔧 `parse_module`: Parsea un archivo UTF-8; devuelve (tree, None) o (None, mensaje de error).
 - 🔧 `summarize_module_for_audit`: Resumen para informes JSON (clases/funcs top-level sin depender del docstring).
+
+---
+
+<div id='sec_scripts_docstrings_queue_py'>
+
+### 📄 `scripts/docstrings_queue.py`
+
+</div>
+
+Nombre del Módulo: docstrings_queue
+
+Descripción: Genera la cola ordenada de módulos sin ``Nombre del Módulo`` (oleadas A–F) y
+             permite verificar cuántos faltan; debe mantenerse alineado con ``generate_daniel_doc``.
+
+- 🔧 `collect_missing_ordered`: Lista (wave_id, path) en orden A→F, luego alfabético dentro de cada oleada.
+- 🔧 `verify`: Devuelve (total_scope, missing_count, missing_rel_paths).
 
 ---
 
@@ -9724,11 +10267,9 @@ Criterios compartidos para auditoría de docstrings de módulo (Daniel doc + aud
 
 </div>
 
-Descarga recursos auxiliares para usar OpenCV (modelos y documentación).
+Nombre del Módulo: scripts.download_opencv_resources
 
-Este script se ejecuta desde la raíz del proyecto y escribe los artefactos en:
-- `core/models/` (modelos WeChatQRCode)
-- `Documentacion/opencv/` (zip de documentación)
+Descripción: Descarga recursos auxiliares para usar OpenCV (modelos y documentación).
 
 - 🔧 `download_file`: Descarga un fichero y lo guarda en `dest_path`.
 - 🔧 `main`: Punto de entrada del script de descargas.
@@ -9763,7 +10304,9 @@ Salidas:
 
 </div>
 
-Script ejecutable (`generate_comprehensive_report`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.generate_comprehensive_report
+
+Descripción: Script ejecutable (`generate_comprehensive_report`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9773,7 +10316,9 @@ Script ejecutable (`generate_comprehensive_report`): automatización, informes o
 
 </div>
 
-Script ejecutable (`generate_coverage_report`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.generate_coverage_report
+
+Descripción: Script ejecutable (`generate_coverage_report`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `run_coverage`: Runs pytest with coverage json report.
 - 🔧 `load_coverage_data`: Loads coverage.json.
@@ -9827,7 +10372,9 @@ Descripción: Genera documentación técnica completa de Hipatia en Markdown con
 
 </div>
 
-Script ejecutable (`generate_monolitos_finales`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.generate_monolitos_finales
+
+Descripción: Script ejecutable (`generate_monolitos_finales`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `main`: Genera bajo demanda `Documentacion/Monolitos_finales.md` (no versionado por defecto).
 
@@ -9839,7 +10386,9 @@ Script ejecutable (`generate_monolitos_finales`): automatización, informes o ma
 
 </div>
 
-Script ejecutable (`generate_quotes_db`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.generate_quotes_db
+
+Descripción: Script ejecutable (`generate_quotes_db`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `fetch_quotes`: Descarga frases de múltiples fuentes JSON.
 - 🔧 `generate_database`: Genera el fichero JSON final con las frases.
@@ -9852,7 +10401,9 @@ Script ejecutable (`generate_quotes_db`): automatización, informes o mantenimie
 
 </div>
 
-Script ejecutable (`init_database`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.init_database
+
+Descripción: Script ejecutable (`init_database`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `init_database`: Inicializa la base de datos creando todas las tablas.
 
@@ -9864,13 +10415,9 @@ Script ejecutable (`init_database`): automatización, informes o mantenimiento d
 
 </div>
 
-Inyecta docstrings de módulo donde faltan (criterio doc_audit_common), sin tocar
-archivos que ya tienen docstring aceptable.
+Nombre del Módulo: scripts.inject_module_docstrings
 
-Uso::
-
-    python3 scripts/inject_module_docstrings.py --dry-run
-    python3 scripts/inject_module_docstrings.py --apply
+Descripción: Inyecta docstrings de módulo donde faltan (criterio doc_audit_common), sin tocar archivos que ya tienen docstring aceptable.
 
 - 🔧 `_describe_module`: Una o dos frases en español; suficientemente específicas para no caer en frases genéricas prohibidas.
 
@@ -9882,18 +10429,9 @@ Uso::
 
 </div>
 
-Analizador de Código Legacy — Proyecto Hipatia
-==============================================
-Fase 4 del Plan de Mejora de Calidad: detecta patrones legacy para su
-eliminación o sustitución (print → logger, marcadores deprecated, docstrings
-obsoletos, delegaciones/shim y código muerto candidato).
+Nombre del Módulo: scripts.legacy_analyzer
 
-Genera:
-- legacy_report.json: datos estructurados para el agente
-- legacy_report.md: informe legible en Documentacion/Refactorizacion_Completa/Legacy/
-
-Uso:
-  python3 scripts/legacy_analyzer.py [--json-only] [--md-only]
+Descripción: Analizador de Código Legacy — Proyecto Hipatia ============================================== Fase 4 del Plan de Mejora de Calidad: detecta patrones legacy para su eliminación o sustitución (print → logger, marcadores deprecated, docstrings obsoletos, delegaciones/shim y código muerto candidato).
 
 - 🔧 `get_production_python_files`: Lista todos los archivos .py en directorios de producción.
 - 🔧 `get_all_python_files`: Lista todos los .py del proyecto (excepto venv/git).
@@ -9918,13 +10456,9 @@ Uso:
 
 </div>
 
-Lista módulos bajo ``core/services`` que aún no aparecen en ``mypy.ini`` dentro
-de un bloque ``[mypy-...]`` con ``disallow_untyped_defs = True``.
+Nombre del Módulo: scripts.list_mypy_core_services_gaps
 
-Uso::
-
-    python3 scripts/list_mypy_core_services_gaps.py
-    python3 scripts/list_mypy_core_services_gaps.py --json reports/mypy_core_services_gaps.json
+Descripción: Lista módulos bajo ``core/services`` que aún no aparecen en ``mypy.ini`` dentro de un bloque ``[mypy-...]`` con ``disallow_untyped_defs = True``.
 
 ---
 
@@ -9934,17 +10468,9 @@ Uso::
 
 </div>
 
-Analizador de monolitos y dependencias (Hipatia).
+Nombre del Módulo: scripts.monolith_analyzer
 
-Genera:
-- Ranking de archivos Python por tamaño (LOC) y acoplamiento (in/out degree).
-- Grafo de imports por módulo (package-level) y por archivo (file-level).
-- Detección básica de ciclos (SCC) en el grafo.
-- Reporte Markdown + JSON para alimentar la fase "Monolitos".
-
-Uso:
-  python3 scripts/monolith_analyzer.py
-  python3 scripts/monolith_analyzer.py --min-loc 500 --top 30
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo). Integración típica con: ``argparse``, ``ast``, ``json``, ``datetime``, ``pathlib``.
 
 #### 🏛️ Clase `_ImportCollector`
 
@@ -9963,7 +10489,9 @@ Uso:
 
 </div>
 
-Script ejecutable (`print_summary`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.print_summary
+
+Descripción: Script ejecutable (`print_summary`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -9973,9 +10501,26 @@ Script ejecutable (`print_summary`): automatización, informes o mantenimiento d
 
 </div>
 
-Script ejecutable (`profile_queries`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.profile_queries
+
+Descripción: Script ejecutable (`profile_queries`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `profile_method`: Executes a method and counts SQL queries.
+
+---
+
+<div id='sec_scripts_refine_module_descriptions_py'>
+
+### 📄 `scripts/refine_module_descriptions.py`
+
+</div>
+
+Nombre del Módulo: refine_module_descriptions
+
+Descripción: Sustituye el párrafo ``Descripción:`` del docstring de módulo usando heurísticas
+             sobre imports, clases y constantes de nivel superior; conserva ``Nombre del Módulo``.
+
+- 🔧 `_mostly_reexports_from_single_module`: True si el módulo solo importa y reexporta (p. ej. shim ``core.dtos``).
 
 ---
 
@@ -9985,9 +10530,9 @@ Script ejecutable (`profile_queries`): automatización, informes o mantenimiento
 
 </div>
 
-Reordena el docstring de módulo inmediatamente **antes** del bloque ``from __future__``.
+Nombre del Módulo: scripts.reorder_docstring_before_future
 
-Homogeneidad con PEP 236 (docstring antes de future). Idempotente si ya está bien ordenado.
+Descripción: Reordena el docstring de módulo inmediatamente **antes** del bloque ``from __future__``.
 
 - 🔧 `reorder_source`: Devuelve texto reordenado o None si no aplica.
 
@@ -9999,7 +10544,9 @@ Homogeneidad con PEP 236 (docstring antes de future). Idempotente si ya está bi
 
 </div>
 
-Script ejecutable (`run_quality_audit`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.run_quality_audit
+
+Descripción: Script ejecutable (`run_quality_audit`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -10009,8 +10556,9 @@ Script ejecutable (`run_quality_audit`): automatización, informes o mantenimien
 
 </div>
 
-Security Audit Analyzer Script
-Analyzes the codebase for security issues identified in the technical audit.
+Nombre del Módulo: scripts.security_audit_analyzer
+
+Descripción: Security Audit Analyzer Script Analyzes the codebase for security issues identified in the technical audit.
 
 #### 🏛️ Clase `SecurityAuditAnalyzer`
 
@@ -10035,7 +10583,9 @@ Analyzes code for security vulnerabilities.
 
 </div>
 
-Script ejecutable (`seed_data`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.seed_data
+
+Descripción: Script ejecutable (`seed_data`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `seed_data`: Inserta datos de prueba en la base de datos.
 
@@ -10047,14 +10597,9 @@ Script ejecutable (`seed_data`): automatización, informes o mantenimiento del p
 
 </div>
 
-Copia archivos modificados o sin seguimiento desde SOURCE_ROOT a HIPATIA_ICLOUD.
+Nombre del Módulo: scripts.sync_worktree_to_icloud
 
-Uso típico (macOS)::
-
-    export HIPATIA_ICLOUD="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion"
-    python3 scripts/sync_worktree_to_icloud.py
-
-El agente debe ejecutarlo tras cada lote de ediciones si el workspace no es ya iCloud.
+Descripción: Copia archivos modificados o sin seguimiento desde SOURCE_ROOT a HIPATIA_ICLOUD.
 
 ---
 
@@ -10064,25 +10609,9 @@ El agente debe ejecutarlo tras cada lote de ediciones si el workspace no es ya i
 
 </div>
 
-Analizador de calidad de tests (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.test_quality_analyzer
 
-Calcula score absoluto (0–100), penalizaciones y «techo real» (_calculate_ceiling): parte del
-castigo por mocks/patches se perdona cuando PyQt6 u otros externos hacen inevitable el patrón.
-
-Cohortes (test_tier / strict_domain):
-    Los tests de servicios, repositorios y persistencia bajo tests/db/ se clasifican como
-    strict_domain. Para ellos el estado «Actualizado» exige score absoluto 100; no basta estar
-    en techo de mocks. El resto (ui_qt) sigue la regla histórica basada en ceiling_score y
-    at_ceiling. Ver classify_test_tier() y resolve_analyzer_status().
-
-Salida:
-    Al ejecutar como script, escribe test_reports/compliance_data.json con campos entre otros
-    score, ceiling_score, status, test_tier, strict_domain, domain_status.
-
-Heurísticas adicionales (desconexión UI–dominio):
-    contract_test_hints en cada entrada: conteo informativo de literales ``32`` como rol Qt en
-    archivos bajo ``tests/``. weak_any_only_interaction_count y penalización asociada en tests
-    de controller/service: empuja a no limitarse a assert_called_*_with(ANY, ANY, ...).
+Descripción: Concentra datos de configuración o catálogos estáticos: ``_RE_STRICT_MOCK``, ``_RE_LOOSE_MOCK``, ``_RE_FINDER_DUP_TEST``, ``_RE_FINDER_DUP_CONFTEST``, ``_RE_PATCH_NO_AUTOSPEC``, ``_RE_PATCH_WITH_AUTOSPEC``, ``_RE_ASSERT_CALLED``, ``_RE_ASSERT_CALLED_NO_ARGS``, consumidos por la UI y controladores. Integración típica con: ``os``, ``re``, ``json``, ``pathlib``, ``ast``.
 
 - 🔧 `_is_whitelisted_patch`: Devuelve True si el target del patch está en la whitelist de inevitables.
 - 🔧 `_count_inevitable_patches`: Cuenta @patch sin autospec que son inevitables (builtins, Qt, OS).
@@ -10107,8 +10636,9 @@ Heurísticas adicionales (desconexión UI–dominio):
 
 </div>
 
-Script para rastrear dependencias directas de 'docx' (python-docx)
-y generar un informe de archivos afectados.
+Nombre del Módulo: scripts.track_docx_dependencies
+
+Descripción: Script para rastrear dependencias directas de 'docx' (python-docx) y generar un informe de archivos afectados.
 
 ---
 
@@ -10161,17 +10691,9 @@ Hallazgo de acceso tipo diccionario dentro de UI.
 
 </div>
 
-Genera un informe de decisión (por hallazgo) para la Fase 12C.
+Nombre del Módulo: scripts.ui_dto_boundary_decision_report
 
-Lee:
-  Documentacion/Refactorizacion_Completa/Fase_12C/ui_dto_boundary_report.json
-Genera:
-  Documentacion/Refactorizacion_Completa/Fase_12C/ui_dto_boundary_decision_report.md
-
-Decisión conservadora:
-- `ui/**/production_flow/**`: dict deliberado (payload/config serializable interno de UI)
-- `ui/dialogs/canvas_widget.py` y `ui/dialogs/card_widget.py`: estado interno de UI
-- Cualquier otro archivo (si apareciera): "Posible cambio" hacia atributos DTO.
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo). Integración típica con: ``json``, ``pathlib``.
 
 ---
 
@@ -10206,14 +10728,9 @@ Salida (por defecto):
 
 </div>
 
-Actualiza el bloque de métricas del README entre los marcadores HIPATIA_METRICS.
+Nombre del Módulo: scripts.update_readme_metrics
 
-Requisitos para cifras completas:
-  - `python scripts/test_quality_analyzer.py` → `test_reports/compliance_data.json`
-  - `QT_QPA_PLATFORM=offscreen python -m pytest tests --cov=. --cov-report=json`
-    → `coverage.json` (ignorado por git; no se sube al repo)
-
-El bloque del README sí se commitea con valores de la última corrida local o de CI.
+Descripción: Actualiza el bloque de métricas del README entre los marcadores HIPATIA_METRICS.
 
 ---
 
@@ -10223,7 +10740,9 @@ El bloque del README sí se commitea con valores de la última corrida local o d
 
 </div>
 
-Script ejecutable (`update_test_imports`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.update_test_imports
+
+Descripción: Script ejecutable (`update_test_imports`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -10233,19 +10752,9 @@ Script ejecutable (`update_test_imports`): automatización, informes o mantenimi
 
 </div>
 
-Migration Verification Script
-==============================
-Detects orphan code patterns that may have been left behind during the
-SQLAlchemy/DTO migration.
+Nombre del Módulo: scripts.verify_migration
 
-Usage:
-    python scripts/verify_migration.py
-
-Checks for:
-1. Direct db.set_setting() / db.get_setting() calls (should use config_repo)
-2. Tuple access patterns on DTO results ([0], [1], etc.)
-3. Usage of removed methods from DatabaseManager
-4. Old import patterns
+Descripción: Migration Verification Script ============================== Detects orphan code patterns that may have been left behind during the SQLAlchemy/DTO migration.
 
 #### 🏛️ Clase `CodeIssue`
 
@@ -10267,7 +10776,9 @@ Represents a potential code issue found during verification.
 
 </div>
 
-Script ejecutable (`verify_qr_optimization`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.verify_qr_optimization
+
+Descripción: Script ejecutable (`verify_qr_optimization`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -10277,7 +10788,22 @@ Script ejecutable (`verify_qr_optimization`): automatización, informes o manten
 
 </div>
 
-Script ejecutable (`verify_structure`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.verify_structure
+
+Descripción: Script ejecutable (`verify_structure`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+
+---
+
+<div id='sec_scripts_windows_path_audit_py'>
+
+### 📄 `scripts/windows_path_audit.py`
+
+</div>
+
+Nombre del Módulo: windows_path_audit
+
+Descripción: Recorre código de producto y lista patrones de rutas que pueden fallar en Windows
+             (concatenación con ``/``, ``/tmp`` sin guard Darwin, etc.). Escribe ``reports/windows_path_audit.md``.
 
 ---
 
@@ -10287,7 +10813,9 @@ Script ejecutable (`verify_structure`): automatización, informes o mantenimient
 
 </div>
 
-Script ejecutable (`analyze_codebase`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analysis.analyze_codebase
+
+Descripción: Script ejecutable (`analyze_codebase`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 #### 🏛️ Clase `FileStats`
 
@@ -10306,7 +10834,8 @@ Resumen agregado por directorio.
 </div>
 
 Nombre del Módulo: scripts.analysis.analyze_controller
-Descripcion: Analizador AST ad-hoc para revisar tipado en métodos de un controlador.
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``analyze_file``. Integración típica con: ``ast``, ``os``, ``sys``.
 
 ---
 
@@ -10316,7 +10845,9 @@ Descripcion: Analizador AST ad-hoc para revisar tipado en métodos de un control
 
 </div>
 
-Script ejecutable (`analyze_coverage_risks`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analysis.analyze_coverage_risks
+
+Descripción: Script ejecutable (`analyze_coverage_risks`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -10326,7 +10857,9 @@ Script ejecutable (`analyze_coverage_risks`): automatización, informes o manten
 
 </div>
 
-Script ejecutable (`analyze_db_usage`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analysis.analyze_db_usage
+
+Descripción: Script ejecutable (`analyze_db_usage`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `analyze_file`: Analyzes a python file for DB related keywords and AST nodes.
 
@@ -10339,7 +10872,8 @@ Script ejecutable (`analyze_db_usage`): automatización, informes o mantenimient
 </div>
 
 Nombre del Módulo: scripts.analysis.analyze_dependencies
-Descripcion: Construye un grafo de dependencias Python y detecta hubs/acoplamientos.
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``get_imports``, ``analyze_dependencies``. Integración típica con: ``ast``, ``os``, ``sys``.
 
 ---
 
@@ -10349,7 +10883,9 @@ Descripcion: Construye un grafo de dependencias Python y detecta hubs/acoplamien
 
 </div>
 
-Script ejecutable (`analyze_fabrication_dialogs`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analysis.analyze_fabrication_dialogs
+
+Descripción: Script ejecutable (`analyze_fabrication_dialogs`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -10359,7 +10895,9 @@ Script ejecutable (`analyze_fabrication_dialogs`): automatización, informes o m
 
 </div>
 
-Script ejecutable (`analyze_loose_mocks`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analysis.analyze_loose_mocks
+
+Descripción: Script ejecutable (`analyze_loose_mocks`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -10369,7 +10907,9 @@ Script ejecutable (`analyze_loose_mocks`): automatización, informes o mantenimi
 
 </div>
 
-Script ejecutable (`analyze_refactoring_impact`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analysis.analyze_refactoring_impact
+
+Descripción: Script ejecutable (`analyze_refactoring_impact`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -10379,13 +10919,9 @@ Script ejecutable (`analyze_refactoring_impact`): automatización, informes o ma
 
 </div>
 
-Script de Análisis de Conexiones de Repositorios
+Nombre del Módulo: scripts.analysis.analyze_repository_connections
 
-Analiza todas las conexiones a un repositorio específico:
-- Funciones que lo utilizan
-- Archivos que dependen de él
-- Métodos llamados
-- Mapa de dependencias
+Descripción: Define protocolos o tipos principales: ``FileAnalysisResult``, ``RepoUsageData``, ``ProjectAnalysisResult``, ``RepositoryConnectionAnalyzer``. Analiza conexiones y dependencias de repositorios. Integración típica con: ``os``, ``re``, ``ast``, ``sys``, ``pathlib``.
 
 #### 🏛️ Clase `RepositoryConnectionAnalyzer`
 
@@ -10408,14 +10944,9 @@ Analiza conexiones y dependencias de repositorios.
 
 </div>
 
-Script de Análisis de Archivos Raíz
-===================================
-Analiza los scripts Python en la raíz del proyecto para determinar:
-1. Qué definen (Clases, Funciones).
-2. De qué dependen (Imports).
-3. Dónde se usan (Referencias en el resto del proyecto).
+Nombre del Módulo: scripts.analysis.analyze_root_files
 
-Ayuda a decidir si moverlos a `core/`, `ui/`, `tools/` o eliminarlos.
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo). Integración típica con: ``ast``, ``os``, ``re``, ``pathlib``, ``json``.
 
 - 🔧 `get_definitions_and_imports`: Extrae clases, funciones e imports de un archivo.
 - 🔧 `find_usages`: Busca ocurrencias del nombre del módulo o sus definiciones en el proyecto.
@@ -10428,7 +10959,9 @@ Ayuda a decidir si moverlos a `core/`, `ui/`, `tools/` o eliminarlos.
 
 </div>
 
-Script ejecutable (`analyze_structure`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analysis.analyze_structure
+
+Descripción: Script ejecutable (`analyze_structure`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -10438,7 +10971,9 @@ Script ejecutable (`analyze_structure`): automatización, informes o mantenimien
 
 </div>
 
-Script ejecutable (`analyze_tracking_impact`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analysis.analyze_tracking_impact
+
+Descripción: Script ejecutable (`analyze_tracking_impact`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 ---
 
@@ -10449,7 +10984,8 @@ Script ejecutable (`analyze_tracking_impact`): automatización, informes o mante
 </div>
 
 Nombre del Módulo: scripts.analysis.analyze_typing_deep
-Descripcion: Auditoría de cobertura de anotaciones de tipos por archivo/función.
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``analyze_file``, ``analyze_directory``, ``print_summary``. Integración típica con: ``ast``, ``os``, ``sys``.
 
 ---
 
@@ -10459,7 +10995,9 @@ Descripcion: Auditoría de cobertura de anotaciones de tipos por archivo/funció
 
 </div>
 
-Script ejecutable (`analyze_ui_structure`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analysis.analyze_ui_structure
+
+Descripción: Script ejecutable (`analyze_ui_structure`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `analyze_file`: Analyzes a Python file and produces a markdown report.
 - 🔧 `analyze_class`: Analyzes a class node.
@@ -10474,7 +11012,9 @@ Script ejecutable (`analyze_ui_structure`): automatización, informes o mantenim
 
 </div>
 
-Script ejecutable (`detect_obsolete_code`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analysis.detect_obsolete_code
+
+Descripción: Script ejecutable (`detect_obsolete_code`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `get_python_files`: Recursively find all Python files in the directory.
 - 🔧 `extract_definitions`: Extract class and function names defined in a file.
@@ -10489,7 +11029,9 @@ Script ejecutable (`detect_obsolete_code`): automatización, informes o mantenim
 
 </div>
 
-Script ejecutable (`verify_naming_conventions`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analysis.verify_naming_conventions
+
+Descripción: Script ejecutable (`verify_naming_conventions`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 
 - 🔧 `get_python_files`: Recursively find all Python files in the directory.
 - 🔧 `is_snake_case`: Check if string is snake_case.
@@ -10504,14 +11046,9 @@ Script ejecutable (`verify_naming_conventions`): automatización, informes o man
 
 </div>
 
-========================================================================
-SCRIPT DE BACKUP - BASE DE DATOS
-========================================================================
-Este script crea una copia de seguridad de tu base de datos ANTES de
-realizar cualquier modificación al esquema.
+Nombre del Módulo: scripts.maintenance.backup_database
 
-IMPORTANTE: Ejecuta este script ANTES de añadir los nuevos modelos.
-========================================================================
+Descripción: ======================================================================== SCRIPT DE BACKUP - BASE DE DATOS ======================================================================== Este script crea una copia de seguridad de tu base de datos ANTES de realizar cualquier modificación al esquema.
 
 - 🔧 `create_backup`: Crea una copia de seguridad de la base de datos. Args: db_path: Ruta a la base de datos (por defecto usa la config de entorno)
 - 🔧 `backup_all_databases`: Crea backup de la base de datos principal configurada.
@@ -10524,8 +11061,9 @@ IMPORTANTE: Ejecuta este script ANTES de añadir los nuevos modelos.
 
 </div>
 
-Script de mantenimiento: restablece o crea el usuario admin local en SQLite
-con contraseña conocida; uso manual en entornos de desarrollo.
+Nombre del Módulo: scripts.maintenance.reset_admin
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``_PROJECT_ROOT``, consumidos por la UI y controladores. Integración típica con: ``__future__``, ``sys``, ``pathlib``, ``sqlalchemy``, ``database``, ``core``.
 
 - 🔧 `_resolve_sqlite_db_path`: Devuelve la ruta del fichero SQLite según ``DatabaseConfig``, o None si no aplica.
 - 🔧 `reset_admin_password`: Pone la contraseña del usuario ``admin`` a ``admin`` (solo SQLite configurado).
@@ -10562,7 +11100,9 @@ graph TD
 
 </div>
 
-Herramienta de consola (`__init__`): análisis estático o asistencia al desarrollo.
+Nombre del Módulo: tools
+
+Descripción: Herramienta de consola (`__init__`): análisis estático o asistencia al desarrollo.
 
 ---
 
@@ -10572,8 +11112,9 @@ Herramienta de consola (`__init__`): análisis estático o asistencia al desarro
 
 </div>
 
-Herramienta de análisis AST: compara métodos y atributos de AppController con
-la documentación de nomenclatura en Markdown (informe de cobertura doc vs código).
+Nombre del Módulo: tools.analyze_app_controller
+
+Descripción: Herramienta de análisis AST: compara métodos y atributos de AppController con la documentación de nomenclatura en Markdown (informe de cobertura doc vs código).
 
 ---
 
@@ -10583,8 +11124,9 @@ la documentación de nomenclatura en Markdown (informe de cobertura doc vs códi
 
 </div>
 
-Script para detectar TODAS las cámaras disponibles en el sistema,
-incluyendo las que están en índices no continuos.
+Nombre del Módulo: tools.hardware.detect_cameras
+
+Descripción: Script para detectar TODAS las cámaras disponibles en el sistema, incluyendo las que están en índices no continuos.
 
 ---
 
@@ -10618,6 +11160,10 @@ graph TD
 
 </div>
 
+Nombre del Módulo: migrations.env
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``config``, ``target_metadata``, consumidos por la UI y controladores. Integración típica con: ``sqlalchemy``, ``alembic``, ``os``, ``sys``, ``database``.
+
 - 🔧 `run_migrations_offline`: Run migrations in 'offline' mode. This configures the context with just a URL and not an Engine, though an Engine is acceptable here as well.  By skipping the Engine creation we don't even need a DBAPI to be available. Calls to context.execute() here emit the given string to the script output.
 - 🔧 `run_migrations_online`: Run migrations in 'online' mode. In this scenario we need to create an Engine and associate a connection with the context.
 
@@ -10629,11 +11175,9 @@ graph TD
 
 </div>
 
-add_security_tables
+Nombre del Módulo: migrations.versions.a195b5f170d2_add_security_tables
 
-Revision ID: a195b5f170d2
-Revises: c1444b2546d3
-Create Date: 2026-02-15 15:13:38.733337
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``upgrade``, ``downgrade``. Integración típica con: ``alembic``, ``sqlalchemy``.
 
 - 🔧 `upgrade`: Upgrade schema.
 - 🔧 `downgrade`: Downgrade schema.
@@ -10646,11 +11190,9 @@ Create Date: 2026-02-15 15:13:38.733337
 
 </div>
 
-Initial clean migration
+Nombre del Módulo: migrations.versions.c1444b2546d3_initial_clean_migration
 
-Revision ID: c1444b2546d3
-Revises: 
-Create Date: 2026-02-07 11:21:28.029952
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``upgrade``, ``downgrade``. Integración típica con: ``alembic``, ``sqlalchemy``.
 
 - 🔧 `upgrade`: Upgrade schema.
 - 🔧 `downgrade`: Downgrade schema.

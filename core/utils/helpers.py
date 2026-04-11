@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`helpers`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.utils.helpers
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``resource_path``. Integración típica con: ``sys``, ``os``.
 """
 
 import sys

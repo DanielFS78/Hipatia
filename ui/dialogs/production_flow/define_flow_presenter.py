@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 """
-Presenter del diálogo «Definir pila de producción» (lógica pura, sin Qt).
+Nombre del Módulo: ui.dialogs.production_flow.define_flow_presenter
 
+Descripción: Presenter del diálogo «Definir pila de producción» (lógica pura, sin Qt).
 Consultas de dominio solo a través de ``machine_service``, ``preparation_service`` y
 ``fabricacion_service`` inyectados o resueltos en ``DefineProductionFlowDialog`` (DI o atributos
 en ``AppModel``). No recibe ni usa ``AppModel`` como fachada.

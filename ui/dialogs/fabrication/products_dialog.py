@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`products_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.fabrication.products_dialog
+Descripción: Diálogo o presentador de fabricación: órdenes, preprocesos, productos y persistencia de pilas.
 """
 
 from PyQt6.QtWidgets import (

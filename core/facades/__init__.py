@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Fachadas de aplicación por dominio (encima de servicios / repos)."""
+"""
+Nombre del Módulo: core.facades
+
+Descripción: Expone ``Facade`` como API estable de aplicación sobre servicios ya inyectados; no contiene reglas de persistencia directa. Integración típica con: ``__future__``, ``core``.
+"""
 
 from __future__ import annotations
 

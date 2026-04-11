@@ -1,6 +1,7 @@
 """
 Nombre del Módulo: scripts.analysis.analyze_controller
-Descripcion: Analizador AST ad-hoc para revisar tipado en métodos de un controlador.
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``analyze_file``. Integración típica con: ``ast``, ``os``, ``sys``.
 """
 
 import ast

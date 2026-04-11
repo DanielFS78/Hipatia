@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: session_controller.py
-Descripción: Gestiona el ciclo de vida de la sesión del usuario, incluyendo la 
-             autenticación, cierre de sesión, control de acceso por roles y auditoría.
+Nombre del Módulo: session_controller
+Descripción: Orquesta el acceso de cada usuario a la aplicación: ventana de login,
+             comprobación de credenciales, bloqueo temporal tras intentos fallidos,
+             cierre de sesión y apertura de la vista adecuada (responsable o trabajador)
+             según el rol. Registra intentos en auditoría cuando procede.
 """
 from __future__ import annotations
 import logging
@@ -74,33 +76,44 @@ class SessionController:
 
         LoginDialog = ui_class("ui.dialogs", "LoginDialog")
 
-        # Ensure view is available
-        parent_view = self.view if hasattr(self.app, 'view') else None
+        parent_view = self.view if hasattr(self.app, "view") else None
         
         dialog = LoginDialog(parent_view)
         if dialog.exec() == QDialog.DialogCode.Accepted:
             username, password = dialog.get_credentials()
-            
+            # Misma normalización que en BD/repositorio (evita fallos por mayúsculas o espacios)
+            username_key = username.strip().lower() if username.strip() else ""
+
             # Verificar si el usuario está bloqueado por rate limiting
-            if self.rate_limiter.is_blocked(username):
-                self.logger.warning(f"Usuario '{username}' bloqueado temporalmente por exceso de intentos")
+            if username_key and self.rate_limiter.is_blocked(username_key):
+                self.logger.warning(f"Usuario '{username_key}' bloqueado temporalmente por exceso de intentos")
                 self.view.show_message(
                     "Cuenta Bloqueada Temporalmente",
                     "Demasiados intentos de login fallidos. Por favor, espere 5 minutos.",
                     "warning"
                 )
-                self.audit_logger.log_login(username, success=False, error_message="Bloqueado por rate limiting")
+                self.audit_logger.log_login(username_key, success=False, error_message="Bloqueado por rate limiting")
                 return (None, False)
-            
+
+            if not username_key:
+                self.rate_limiter.check_and_record_attempt("", success=False)
+                self.audit_logger.log_login(
+                    username="",
+                    success=False,
+                    error_message="Usuario vacío",
+                )
+                self.logger.warning("Intento de login sin nombre de usuario")
+                return (None, False)
+
             # Usar el método original del repositorio
-            user_data = self.worker_service.authenticate_user(username, password)
+            user_data = self.worker_service.authenticate_user(username_key, password)
             if user_data:
                 # Registrar intento exitoso en rate limiter
-                self.rate_limiter.check_and_record_attempt(username, success=True)
-                
+                self.rate_limiter.check_and_record_attempt(username_key, success=True)
+
                 # Registrar en audit log
                 self.audit_logger.log_login(
-                    username=username,
+                    username=username_key,
                     success=True,
                     user_id=user_data.id
                 )
@@ -115,7 +128,7 @@ class SessionController:
                 self.view.show_message("Login Exitoso", f"Bienvenido, {user_data.nombre_completo}", "info")
                 self._update_ui_for_role()
             
-                self.logger.info(f"Login exitoso para el usuario '{username}' con rol '{user_data.role}'.")
+                self.logger.info(f"Login exitoso para el usuario '{username_key}' con rol '{user_data.role}'.")
                 
                 # Cargar frase célebre
                 assert self.app.ui_controller is not None
@@ -124,9 +137,9 @@ class SessionController:
                 return (user_data, True)
             else:
                 # Registrar intento fallido
-                self.rate_limiter.check_and_record_attempt(username, success=False)
+                self.rate_limiter.check_and_record_attempt(username_key, success=False)
                 self.audit_logger.log_login(
-                    username=username,
+                    username=username_key,
                     success=False,
                     error_message="Credenciales incorrectas"
                 )

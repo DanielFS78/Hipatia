@@ -1,6 +1,7 @@
 """
 Nombre del Módulo: report_sheets.cuellos_botella
-Descripcion: Hoja Excel para análisis de inactividad, bloqueos y cuellos de botella.
+
+Descripción: Define protocolos o tipos principales: ``CuellosBotollaSheet``. Integración típica con: ``re``, ``datetime``, ``openpyxl``, ``base``, ``core``.
 """
 
 import re

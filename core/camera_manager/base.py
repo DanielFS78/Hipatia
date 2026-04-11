@@ -1,6 +1,7 @@
 """
 Nombre del Módulo: camera_manager.base
-Descripcion: Tipos base para detección de cámaras y metadatos de dispositivos.
+
+Descripción: Define protocolos o tipos principales: ``CameraBackend``, ``CameraInfo``.
 """
 
 from enum import Enum

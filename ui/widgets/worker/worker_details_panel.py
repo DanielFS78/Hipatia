@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`worker_details_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: worker_details_panel
+Descripción: Formulario y zona de asignación rápida de un trabajador (datos personales,
+             acceso al sistema, búsqueda de producto y orden de fabricación, botón asignar).
+
+Emite señales hacia ``WorkersWidget`` / ``WorkerController``; no contiene reglas de negocio.
 """
 
 from PyQt6.QtWidgets import (
@@ -39,7 +43,6 @@ class WorkerDetailsPanel(QWidget):
         self.title_label.setFont(font)
         layout.addWidget(self.title_label)
 
-        # Usamos un formulario interno para organizar
         form_container = QWidget()
         form_layout = QFormLayout(form_container)
 
@@ -54,7 +57,7 @@ class WorkerDetailsPanel(QWidget):
 
         # Acceso al sistema
         self.form_widgets['username'] = QLineEdit()
-        self.form_widgets['username'].setPlaceholderText("Usuario acceso...")
+        self.form_widgets['username'].setPlaceholderText("Usuario de acceso (se guarda en minúsculas)")
         self.form_widgets['password'] = QLineEdit()
         self.form_widgets['password'].setEchoMode(QLineEdit.EchoMode.Password)
         self.form_widgets['password'].setPlaceholderText("Nueva contraseña...")
@@ -82,9 +85,16 @@ class WorkerDetailsPanel(QWidget):
         assign_layout = QFormLayout(self.assign_group)
         
         self.form_widgets['product_search'] = QLineEdit()
-        self.form_widgets['product_search'].setPlaceholderText("Buscar producto...")
+        self.form_widgets['product_search'].setPlaceholderText(
+            "Escriba para filtrar (mín. 2 caracteres)…"
+        )
         self.form_widgets['product_results'] = QListWidget()
         self.form_widgets['product_results'].setFixedHeight(100)
+        self._product_hint = QLabel(
+            "<small>Se muestran los últimos productos hasta que filtre. "
+            "<b>Debe pulsar una fila</b> de la lista antes de «Asignar tarea».</small>"
+        )
+        self._product_hint.setWordWrap(True)
         self.form_widgets['of_search'] = QLineEdit()
         self.form_widgets['of_search'].setPlaceholderText("Orden de fabricación...")
         self.form_widgets['quantity'] = QSpinBox()
@@ -93,6 +103,7 @@ class WorkerDetailsPanel(QWidget):
         self.form_widgets['assign_button'].setStyleSheet("background-color: #3498db; color: white; font-weight: bold;")
 
         assign_layout.addRow("Producto:", self.form_widgets['product_search'])
+        assign_layout.addRow(self._product_hint)
         assign_layout.addRow(self.form_widgets['product_results'])
         assign_layout.addRow("O.F. (Pedido):", self.form_widgets['of_search'])
         assign_layout.addRow("Cantidad:", self.form_widgets['quantity'])
@@ -182,6 +193,9 @@ class WorkerDetailsPanel(QWidget):
             item = QListWidgetItem(f"{prod.codigo} | {prod.descripcion}")
             item.setData(Qt.ItemDataRole.UserRole, prod.codigo)
             self.form_widgets['product_results'].addItem(item)
+        lw = self.form_widgets["product_results"]
+        if lw.count() == 1:
+            lw.setCurrentRow(0)
 
     def clear_assignment_search_fields(self) -> None:
         """Vacía el buscador de producto y reinicia la cantidad en el bloque de asignación."""

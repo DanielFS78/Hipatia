@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 Nombre del Módulo: flow_canvas_io
-Descripcion: Lectura de mapas de conexion del canvas de flujo desde capa no-UI,
-             para que los widgets no usen .get/.[] sobre dicts en bucles de pintado.
-             Incluye acceso al cuerpo `data` de tareas canvas y flags de ciclo en `config`.
+Descripcion: Lectura tipada de mapas del grafo de flujo (entradas ``canvas_tasks`` del presenter)
+             desde capa no-UI, para que los widgets no usen ``.get``/``[]`` en bucles de pintado.
+             Expone ``canvas_task_body``, ``flow_task_entry_config``, ``flow_task_entry_widget``,
+             normalización de aristas (``CanvasVisualConnection``) y flags de ciclo en ``config``.
 """
 
 from __future__ import annotations
@@ -16,7 +17,7 @@ from core.dtos import CanvasCyclicConnectionFlags
 
 @dataclass
 class CanvasVisualConnection:
-    """Arista visual entre dos widgets del canvas (define-flow y production flow)."""
+    """Arista visual entre dos widgets del canvas de flujo de producción (``ProductionFlowCanvas``)."""
 
     start: Any
     end: Any
@@ -50,20 +51,20 @@ def normalize_canvas_visual_connections(
     return out
 
 
-def legacy_canvas_task_widget(task: Mapping[str, Any]) -> Any:
-    """Widget asociado a una entrada `canvas_tasks[i]` del dialogo legacy."""
+def flow_task_entry_widget(task: Mapping[str, Any]) -> Any:
+    """Widget PyQt asociado a una entrada ``canvas_tasks[i]`` (clave ``widget``)."""
     return task.get("widget")
 
 
-def legacy_canvas_task_config(task: Mapping[str, Any]) -> Mapping[str, Any]:
-    """Subdict `config` de una tarea en canvas legacy."""
+def flow_task_entry_config(task: Mapping[str, Any]) -> Mapping[str, Any]:
+    """Subdict ``config`` de una entrada de tarea en el canvas de flujo."""
     raw = task.get("config")
     return raw if isinstance(raw, dict) else {}
 
 
-def legacy_canvas_task_is_cycle_start(task: Mapping[str, Any]) -> bool:
-    """True si la tarea marca inicio de ciclo en el modelo legacy."""
-    return bool(legacy_canvas_task_config(task).get("is_cycle_start", False))
+def flow_task_entry_is_cycle_start(task: Mapping[str, Any]) -> bool:
+    """True si la entrada marca inicio de ciclo en ``config``."""
+    return bool(flow_task_entry_config(task).get("is_cycle_start", False))
 
 
 def canvas_task_body(task: Mapping[str, Any]) -> Any:
@@ -94,7 +95,7 @@ def flow_task_config_is_cycle_start_flag(cfg: Mapping[str, Any]) -> bool:
 
 
 def flow_task_config_cycle_return_to_index(cfg: Mapping[str, Any]) -> Any:
-    """Indice de tarea a la que regresa el ciclo (`cycle_return_to_index` en config legacy)."""
+    """Índice de tarea a la que regresa el ciclo (clave ``cycle_return_to_index`` en ``config``)."""
     return cfg.get("cycle_return_to_index")
 
 
@@ -136,7 +137,7 @@ def connection_link_type(conn: Mapping[str, Any] | CanvasVisualConnection) -> st
 def connection_cyclic_paint_flags(
     conn: Mapping[str, Any] | CanvasVisualConnection,
 ) -> CanvasCyclicConnectionFlags:
-    """Flags de pintado para aristas ciclicas (dict legacy o DTO)."""
+    """Flags de pintado para aristas cíclicas (mapeo serializable o ``CanvasVisualConnection``)."""
     if isinstance(conn, CanvasVisualConnection):
         return CanvasCyclicConnectionFlags(
             is_from_mother=conn.is_from_mother,

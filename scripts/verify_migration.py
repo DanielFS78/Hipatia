@@ -1,19 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Migration Verification Script
-==============================
-Detects orphan code patterns that may have been left behind during the
-SQLAlchemy/DTO migration.
+Nombre del Módulo: scripts.verify_migration
 
-Usage:
-    python scripts/verify_migration.py
-
-Checks for:
-1. Direct db.set_setting() / db.get_setting() calls (should use config_repo)
-2. Tuple access patterns on DTO results ([0], [1], etc.)
-3. Usage of removed methods from DatabaseManager
-4. Old import patterns
+Descripción: Migration Verification Script ============================== Detects orphan code patterns that may have been left behind during the SQLAlchemy/DTO migration.
 """
 
 import os

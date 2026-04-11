@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Construcción de la interfaz de WorkerMainWindow mediante WorkerMainWindowUIManager (composición).
+Nombre del Módulo: ui_manager
+Descripción: Montaje visual de la ventana del trabajador (cabecera, pie, pestañas Tareas y Log).
+
+``WorkerMainWindowUIManager`` construye el layout sobre ``WorkerMainWindow``: lista de tareas,
+detalle, botones de acción y la terminal de log enlazada a ``QtLogHandler`` como en la vista
+del responsable.
 """
 
 from __future__ import annotations
@@ -18,13 +23,21 @@ from PyQt6.QtWidgets import (
     QPushButton,
     QSplitter,
     QStackedWidget,
+    QTabWidget,
     QVBoxLayout,
     QWidget,
 )
 
+from ui.widgets.log_terminal_widget import LogTerminalWidget
+
 
 class WorkerMainWindowUIManager:
-    """Gestor de layout y widgets iniciales de :class:`WorkerMainWindow`."""
+    """
+    Gestor de layout y widgets iniciales de :class:`WorkerMainWindow`.
+
+    Responsable de cabecera, pie, ``stacked_widget`` y la pantalla ``dashboard``
+    con pestañas Tareas / Log.
+    """
 
     def __init__(self, window: Any) -> None:
         self._w = window
@@ -184,15 +197,44 @@ class WorkerMainWindowUIManager:
         return footer
 
     def _create_initial_screens(self) -> None:
+        """Registra la pantalla ``dashboard`` (pestañas Tareas y Log) en el stack."""
         w = self._w
         dashboard_widget = self._create_dashboard_screen()
         w.add_screen("dashboard", dashboard_widget)
         w.switch_screen(0)
 
     def _create_dashboard_screen(self) -> QWidget:
+        """
+        Pantalla principal: ``QTabWidget`` con pestaña Tareas y pestaña Log.
+
+        Asigna ``w.log_terminal`` al :class:`~ui.widgets.log_terminal_widget.LogTerminalWidget`
+        de la segunda pestaña (para ``connect_log_handler`` en ``app.py``).
+        """
         w = self._w
         widget = QWidget()
         main_layout = QVBoxLayout(widget)
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
+
+        tabs = QTabWidget()
+        tasks_tab = self._create_tasks_tab_content()
+        tabs.addTab(tasks_tab, "Tareas")
+
+        log_tab = QWidget()
+        log_layout = QVBoxLayout(log_tab)
+        log_layout.setContentsMargins(12, 12, 12, 12)
+        w.log_terminal = LogTerminalWidget(log_tab)
+        log_layout.addWidget(w.log_terminal, 1)
+        tabs.addTab(log_tab, "Log")
+
+        main_layout.addWidget(tabs)
+        return widget
+
+    def _create_tasks_tab_content(self) -> QWidget:
+        """Contenido del panel de tareas (splitter lista + detalles)."""
+        w = self._w
+        container = QWidget()
+        main_layout = QVBoxLayout(container)
         main_layout.setContentsMargins(15, 15, 15, 15)
 
         splitter = QSplitter(Qt.Orientation.Horizontal)
@@ -233,9 +275,10 @@ class WorkerMainWindowUIManager:
         splitter.setSizes([400, 600])
         main_layout.addWidget(splitter)
 
-        return widget
+        return container
 
     def _create_task_actions_widget(self) -> QWidget:
+        """Panel derecho: estado de la tarea y botones (etiquetas, QR, incidencia, fin)."""
         w = self._w
         widget = QWidget()
         layout = QVBoxLayout(widget)

@@ -1,7 +1,10 @@
-# calculation_audit.py
-
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`calculation_audit`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: calculation_audit
+Descripción: Tipos para auditar decisiones del motor de cálculo (estado visual y motivo legible).
+
+``CalculationDecision`` enriquece cada paso con contexto de producto/tarea para informes
+Excel/PDF y depuración sin leer logs crudos.
 """
 
 from dataclasses import dataclass, field

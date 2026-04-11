@@ -1,9 +1,7 @@
-"""Initial clean migration
+"""
+Nombre del Módulo: migrations.versions.c1444b2546d3_initial_clean_migration
 
-Revision ID: c1444b2546d3
-Revises: 
-Create Date: 2026-02-07 11:21:28.029952
-
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``upgrade``, ``downgrade``. Integración típica con: ``alembic``, ``sqlalchemy``.
 """
 from typing import Sequence, Union
 

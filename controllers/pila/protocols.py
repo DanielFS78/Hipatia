@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: protocols.py
+Nombre del Módulo: pila.protocols
 Descripción: Define las interfaces (Protocolos) necesarias para que los gestores 
              de Lotes y Pilas interactúen con la Vista y la Base de Datos de 
              forma desacoplada.

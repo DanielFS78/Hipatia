@@ -13,7 +13,7 @@ from typing import Any, Dict, List, Mapping, Optional, Sequence, cast
 
 from core.define_flow_presenter_io import find_first_positive_duration
 from core.dtos import CalculationProductDTO, FlowTaskDataDTO, ProductFlowLibraryProductDTO
-from core.flow_canvas_io import canvas_task_body, legacy_canvas_task_config
+from core.flow_canvas_io import canvas_task_body, flow_task_entry_config
 
 
 _EXPORT_TASK_DATA_EXCLUDE = frozenset({"canvas_unique_id", "glow_effect_widget"})
@@ -181,7 +181,7 @@ def canvas_task_to_export_step(
     if not isinstance(task_data_original, Mapping) or not task_data_original:
         return None
 
-    task_config = legacy_canvas_task_config(canvas_task)
+    task_config = flow_task_entry_config(canvas_task)
     widget_pos = _canvas_entry_position(canvas_task)
 
     start_cond_raw = task_config.get("start_condition", {})

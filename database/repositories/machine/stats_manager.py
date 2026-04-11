@@ -1,6 +1,7 @@
-# database/repositories/machine/stats_manager.py
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`stats_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: machine.stats_manager
+Descripción: Acceso a datos de máquinas (CRUD, mantenimiento, preparación y estadísticas).
 """
 
 from typing import List, Tuple

@@ -1,6 +1,7 @@
 """
 Nombre del Módulo: report_sheets.resumen
-Descripcion: Hoja Excel de resumen ejecutivo con métricas agregadas de producción.
+
+Descripción: Define protocolos o tipos principales: ``ResumenEjecutivoSheet``. Integración típica con: ``datetime``, ``openpyxl``, ``base``.
 """
 
 from typing import Dict, Any, List

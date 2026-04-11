@@ -1,6 +1,8 @@
 # scripts/analyze_pila_controller.py
 """
-Script ejecutable (`analyze_pila_controller`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analyze_pila_controller
+
+Descripción: Script ejecutable (`analyze_pila_controller`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 """
 
 import ast

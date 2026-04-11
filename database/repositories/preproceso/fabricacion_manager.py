@@ -1,6 +1,8 @@
-# database/repositories/preproceso/fabricacion_manager.py
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`fabricacion_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: preproceso.fabricacion_manager
+
+Descripción: Define protocolos o tipos principales: ``FabricacionManager``. Gestor DAO para la entidad Fabricacion. Integración típica con: ``sqlalchemy``, ``models``, ``core``, ``base``.
 """
 
 from typing import List, Optional, Dict, Any

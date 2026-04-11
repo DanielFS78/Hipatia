@@ -1,5 +1,10 @@
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`excel_report_strategy`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: excel_report_strategy
+Descripción: Generación de informes Excel de pilas de fabricación (varias hojas: resumen,
+             cronograma, trabajadores, auditoría, gráficas, etc.).
+
+Implementa ``IReporteEstrategia`` usando ``openpyxl`` y las clases de ``report_sheets``.
 """
 from __future__ import annotations
 

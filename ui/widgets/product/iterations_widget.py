@@ -1,6 +1,7 @@
-# ui/widgets/product/iterations_widget.py
+# -*- coding: utf-8 -*-
 """
-Nombre del Módulo: iterations_widget.py
+Nombre del Módulo: iterations_widget
+
 Descripción: Widget para visualizar y gestionar el historial de iteraciones de un producto.
 Incluye la gestión de materiales asociados y galería de imágenes.
 

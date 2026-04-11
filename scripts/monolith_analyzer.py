@@ -1,17 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Analizador de monolitos y dependencias (Hipatia).
+Nombre del Módulo: scripts.monolith_analyzer
 
-Genera:
-- Ranking de archivos Python por tamaño (LOC) y acoplamiento (in/out degree).
-- Grafo de imports por módulo (package-level) y por archivo (file-level).
-- Detección básica de ciclos (SCC) en el grafo.
-- Reporte Markdown + JSON para alimentar la fase "Monolitos".
-
-Uso:
-  python3 scripts/monolith_analyzer.py
-  python3 scripts/monolith_analyzer.py --min-loc 500 --top 30
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo). Integración típica con: ``argparse``, ``ast``, ``json``, ``datetime``, ``pathlib``.
 """
 
 from __future__ import annotations

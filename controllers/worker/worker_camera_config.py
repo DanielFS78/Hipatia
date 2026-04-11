@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Diálogo de configuración de cámara para la interfaz operario (controllers + ui; no features)."""
+"""
+Nombre del Módulo: controllers.worker.worker_camera_config
+
+Descripción: Diálogo de configuración de cámara para la interfaz operario (controllers + ui; no features).
+"""
 
 from __future__ import annotations
 

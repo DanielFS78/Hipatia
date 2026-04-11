@@ -1,7 +1,9 @@
-# database/repositories/label_counter_repository.py
+# -*- coding: utf-8 -*-
 """
-Repositorio para gestionar contadores de etiquetas usando SQLAlchemy.
-Migrado de SQLite local a base de datos central.
+Nombre del Módulo: label_counter_repository
+Descripción: Reserva atómica de rangos de numeración de unidad para etiquetas por fabricación.
+
+Usa el modelo ``FabricacionContador`` en la base principal para evitar colisiones al imprimir lotes.
 """
 
 from typing import Optional
@@ -15,8 +17,7 @@ from core.dtos import LabelRangeDTO
 
 class LabelCounterRepository(BaseRepository):
     """
-    Gestiona la numeración de unidades de fabricación usando la BD principal.
-    Reemplaza la implementación anterior basada en 'etiquetas.db'.
+    Numeración secuencial de unidades por orden de fabricación (reserva en transacción).
     """
 
     def get_next_unit_range(self, fabricacion_id: int, cantidad: int) -> Optional[LabelRangeDTO]:

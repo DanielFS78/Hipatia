@@ -14,6 +14,7 @@ Windows 10/11 usa escalado de pantalla (DPI scaling) por defecto al 125% o 150%.
 
 ### Acciones
 - [ ] Probar la aplicación en Windows con escalado al **100%**, **125%** y **150%**
+- [x] **Código (C4):** En `app.py`, antes de instanciar `QApplication`, se fija `QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)` (evita redondeos raros del factor OS/Qt6). La validación visual en los tres escalados sigue siendo obligatoria.
 - [ ] Verificar que `UIScaler` (si existe) no entra en bucle con el DPI scaling de Windows
 - [ ] Confirmar que los `QScrollArea` aplicados en SettingsWidget y otros widgets pesados funcionan correctamente
 - [ ] Verificar que las columnas de tablas con `setColumnWidth()` se ven bien en las 3 resoluciones
@@ -34,10 +35,12 @@ Rutas con caracteres especiales (`C:\Users\José García\...`), separadores `\` 
 
 ### Acciones
 - [ ] Verificar que `pathlib.Path` se usa en lugar de concatenación de strings para rutas
-- [ ] Buscar uso de `/` hardcodeado en rutas: `grep -rn "os.path.join\|'/'" core/ controllers/ database/`
+- [x] **C1 — Auditoría:** Ejecutar `python scripts/windows_path_audit.py` en la raíz del repo; revisar `reports/windows_path_audit.md` (P0/P1/P2). Regenerar tras cambios relevantes en rutas.
+- [ ] Buscar uso de `/` hardcodeado en rutas: `grep -rn "os.path.join\|'/'" core/ controllers/ database/` (complementario al script; el informe es la fuente de verdad)
 - [ ] Probar con un usuario Windows cuyo nombre contenga Ñ, acentos o espacios
 - [ ] Verificar que `resource_path()` resuelve correctamente en Windows
 - [ ] Comprobar que la BD SQLite se crea en la ruta correcta (`data/montaje.db`)
+- [ ] No instalar la carpeta de la aplicación (donde vive `data/montaje.db`) dentro de **OneDrive** u otra carpeta sincronizada en segundo plano: el mismo patrón de riesgo que SQLite bajo iCloud en desarrollo; usar backup/restauración explícitos para mover datos entre PCs
 
 ## 3. Sistema de Cámaras (OpenCV)
 
@@ -46,6 +49,7 @@ En macOS, OpenCV usa **AVFoundation**. En Windows usa **DirectShow** o **MSMF**.
 
 ### Acciones
 - [ ] Conectar una webcam al PC Windows y verificar que `CameraManager` la detecta
+- [x] **Código (C5):** Apertura unificada con `core/camera_manager/capture.py` → `open_video_capture` (cadena de backends alineada con `get_system_backend()`, con alternativas en Windows). `HardwareController` y el detector usan el mismo criterio que `CameraManager`.
 - [ ] Verificar que el QR scanner funciona con la cámara de Windows
 - [ ] Confirmar que los warnings de AVFoundation NO aparecen en Windows (son exclusivos de macOS)
 - [ ] Si la cámara no funciona, verificar la instalación de `opencv-contrib-python` en Windows
@@ -112,6 +116,14 @@ SCHEDULED_BACKUP_TIME = QTime(2, 0)  # 02:00 AM
 - [ ] El Health Check pre-arranque completa sin errores
 - [ ] La terminal de log interna captura mensajes correctamente
 - [ ] `generate_daniel_doc.py` genera documentación en Windows
+
+## C1 — Resumen implementado en código (abril 2026)
+
+| Tema | Qué quedó hecho | Validación manual |
+|------|-----------------|-------------------|
+| Paths | Script `scripts/windows_path_audit.py` e informe `reports/windows_path_audit.md` | Ejecutar en Windows tras cambios; última pasada sin P0/P1 en repo de desarrollo |
+| DPI (C4) | `PassThrough` en `app.py` | 100 % / 125 % / 150 % (pestañas, tablas, diálogos con scroll) |
+| Cámara (C5) | `open_video_capture` + uso en `HardwareController` / detector / manager | Webcam + escaneo QR en PC de fábrica |
 
 ## Estado
 

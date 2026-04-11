@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`inspector_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: inspector_panel
+
+Descripción: ``ProductionTaskInspector``: panel lateral para ver y editar la configuración de la
+             tarea seleccionada en el canvas (presenter + widgets generados en ``inspector_ui``).
 """
 
 from dataclasses import fields

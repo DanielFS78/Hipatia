@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow
+Descripción: Diálogos de definición y simulación de flujo de producción (canvas, reglas, cantidades).
+
+Punto de entrada para ``DefineProductionFlowDialog``, ``EnhancedProductionFlowDialog`` y auxiliares.
 """
 
 from .define_flow_dialog import DefineProductionFlowDialog

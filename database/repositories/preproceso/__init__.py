@@ -1,6 +1,8 @@
-# database/repositories/preproceso/__init__.py
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: preproceso
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``__all__``, consumidos por la UI y controladores. Integración típica con: ``repository``.
 """
 
 from .repository import PreprocesoRepository

@@ -1,5 +1,5 @@
 """
-Nombre del Módulo: interaction_manager.py (Historial)
+Nombre del Módulo: historial.interaction_manager
 Descripción: Gestiona la lógica de interacción del usuario en la sección de historial,
              como la selección de elementos y filtros por calendario.
 """

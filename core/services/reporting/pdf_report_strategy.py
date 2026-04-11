@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`pdf_report_strategy`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: pdf_report_strategy
+Descripción: Informes PDF de historial de fabricación e iteraciones (``reportlab``).
+
+Incluye resumen ejecutivo, diagnósticos de secuencia y tablas de auditoría vía secciones reutilizables.
 """
 from __future__ import annotations
 

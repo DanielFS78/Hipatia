@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-DIÁLOGO DE CONFIGURACIÓN DE CÁMARA - INTERFAZ TRABAJADOR
-Versión Refactorizada (Monolito #5) - Fase 12C (DTOs)
+Nombre del Módulo: camera_config_dialog
+
+Descripción: Diálogo modal de configuración de cámara QR para la vista trabajador: selector,
+             panel de detalle y ``CameraConfigPresenter`` sobre ``CameraManager``.
 """
 
 import logging
@@ -19,9 +21,7 @@ from ui.widgets.worker.camera_selector_panel import CameraSelectorPanel
 from ui.widgets.worker.camera_info_panel import CameraInfoPanel
 
 class CameraConfigDialog(QDialog):
-    """
-    Diálogo para configurar cámara, refactorizado con Presenter y Paneles.
-    """
+    """Configuración de cámara con presenter y paneles reutilizables."""
 
     def __init__(self, camera_manager: CameraManager, current_camera_index: int, parent: Optional[QWidget] = None):
         super().__init__(parent)

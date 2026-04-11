@@ -1,7 +1,10 @@
-# database/repositories/product_repository.py
+# -*- coding: utf-8 -*-
 """
-Repositorio para la gestión de productos.
-Incluye la persistencia de productos y la parte relacionada con fabricación en el mismo repositorio.
+Nombre del Módulo: product_repository
+Descripción: Persistencia y consultas del catálogo de productos (subfabricaciones, procesos
+             mecánicos, materiales y vínculos con fabricaciones).
+
+Convierte filas SQLAlchemy a DTOs de dominio para servicios y controladores.
 """
 from __future__ import annotations
 from typing import List, Optional, Any

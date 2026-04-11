@@ -1,16 +1,8 @@
 #!/usr/bin/env python3
 """
-Genera un informe de decisión (por hallazgo) para la Fase 12C.
+Nombre del Módulo: scripts.ui_dto_boundary_decision_report
 
-Lee:
-  Documentacion/Refactorizacion_Completa/Fase_12C/ui_dto_boundary_report.json
-Genera:
-  Documentacion/Refactorizacion_Completa/Fase_12C/ui_dto_boundary_decision_report.md
-
-Decisión conservadora:
-- `ui/**/production_flow/**`: dict deliberado (payload/config serializable interno de UI)
-- `ui/dialogs/canvas_widget.py` y `ui/dialogs/card_widget.py`: estado interno de UI
-- Cualquier otro archivo (si apareciera): "Posible cambio" hacia atributos DTO.
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo). Integración típica con: ``json``, ``pathlib``.
 """
 
 from __future__ import annotations
@@ -45,14 +37,6 @@ def _decide(file_rel: str) -> Decision:
             decision_label="NO (dict deliberado UI/serializable)",
             reason="El analizador clasifica `production_flow` como dict interno deliberado de UI (payload/config del canvas/flujo).",
             risk="Convertirlo a DTO puede introducir fricción alta (muchos archivos) y riesgo de romper serialización/compat.",
-        )
-
-    if file_rel in {"ui/dialogs/canvas_widget.py", "ui/dialogs/card_widget.py"}:
-        return Decision(
-            deserves_change=False,
-            decision_label="NO (estado interno widget)",
-            reason="Este widget usa dicts como estructura interna de tareas/estado; no es frontera UI→DTO estricta.",
-            risk="Cambiarlo puede aumentar fragilidad del UI y afectar lógica de arrastre/render.",
         )
 
     return Decision(

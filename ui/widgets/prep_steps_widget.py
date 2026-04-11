@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`prep_steps_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: prep_steps_widget
+
+Descripción: CRUD de fases de preparación (pasos) con validación y señales hacia el controlador.
 """
 
 from .base import *
@@ -8,7 +10,7 @@ from typing import Any
 
 
 def _ui_record_field(record: Any, key: str, default: Any = None) -> Any:
-    """Lee un campo de un dict o de un objeto/DTO (Fase 12C: UI tolerante a ambas formas)."""
+    """Lee un campo de un dict o de un objeto/DTO (la UI acepta ambas formas)."""
     if isinstance(record, dict):
         return record.get(key, default)
     return getattr(record, key, default)

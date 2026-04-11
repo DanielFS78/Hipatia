@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Definiciones concretas de DTOs del dominio Hipatia."""
+"""
+Nombre del Módulo: core.dtos_models
+
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo). Integración típica con: ``datetime``, ``core``.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass, field

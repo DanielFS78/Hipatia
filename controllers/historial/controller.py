@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: controller.py (Historial)
+Nombre del Módulo: historial.controller
 Descripción: Controlador principal del sub-paquete de historial. Utiliza composición 
              para delegar la gestión de UI, interacciones y reportes.
 """
@@ -18,7 +18,7 @@ class HistorialController:
     """
     Controlador central para el historial.
 
-    Orquestra los diferentes gestores (Vista, Interacción, Reportes) para 
+    Orquesta los diferentes gestores (Vista, Interacción, Reportes) para 
     proporcionar una interfaz unificada de consulta de auditoría y bitácoras.
     """
 

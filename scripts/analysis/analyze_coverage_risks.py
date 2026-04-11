@@ -1,5 +1,7 @@
 """
-Script ejecutable (`analyze_coverage_risks`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analysis.analyze_coverage_risks
+
+Descripción: Script ejecutable (`analyze_coverage_risks`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 """
 
 import json

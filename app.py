@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: app.py
-Descripcion: Punto de entrada principal para la aplicación Hipatia (Cálculo de Tiempos de Fabricación).
-             Se encarga de la inicialización de QT, configuración de BD, logging y arranque de controladores.
-             También crea e instala el ``QtLogHandler`` que alimenta la terminal interna de advertencias
-             y errores visible en la pantalla de inicio.
+Nombre del Módulo: app
 
-             En ejecutable PyInstaller (Windows), ``_fix_qt_macos`` no aplica; BD, logs y config editable
-             se resuelven con ``core.paths`` (directorio del ``.exe``).
+Descripción: Punto de entrada principal para la aplicación Hipatia (cálculo de tiempos de fabricación).
+             Inicializa Qt, configuración de BD, logging y arranque de controladores.
+
+             Crea e instala ``QtLogHandler`` para la terminal visual de logs: tras el login se conecta
+             a ``HomeWidget`` (rol Responsable u otros con vista principal) o a ``WorkerMainWindow``
+             (rol Trabajador, pestaña Log), una sola vez por sesión.
+
+             En ejecutable PyInstaller (Windows), ``_fix_qt_macos`` no aplica; BD, logs y configuración
+             editable se resuelven con ``core.paths`` (directorio del ``.exe``).
+
+             En ``main()``, antes de ``QApplication(sys.argv)``, se aplica
+             ``QApplication.setHighDpiScaleFactorRoundingPolicy(PassThrough)`` cuando Qt6 lo permite,
+             para alinear el escalado fraccional del SO (p. ej. 125 % / 150 % en Windows) con el motor Qt.
 """
 from __future__ import annotations
 import configparser
@@ -108,18 +115,27 @@ def main() -> None:
     Punto de entrada principal que orquesta el arranque de la aplicación.
 
     Inicializa la base de datos, el modelo, la vista y el controlador principal,
-    gestionando también el proceso de autenticación de usuario. Después del
-    login conecta el ``QtLogHandler`` al ``HomeWidget`` para que la terminal
-    interna de la pantalla de inicio reciba los mensajes de advertencia y error
-    generados durante la sesión.
+    y el flujo de autenticación. Tras el login y la pantalla de salud del sistema:
 
-    El ``QtLogHandler`` se crea DESPUÉS de ``QApplication`` porque ``QObject``
-    no puede instanciarse antes de que exista un event-loop de Qt. El buffer
-    interno del handler almacena los warnings del arranque y los reproduce
-    en cuanto el widget está listo.
+    - Rol distinto de ``Trabajador``: conecta ``QtLogHandler`` al terminal de
+      ``HomeWidget`` y muestra ``MainView``.
+    - Rol ``Trabajador``: abre la interfaz de operario y conecta el mismo handler
+      al ``LogTerminalWidget`` de la pestaña Log en ``WorkerMainWindow``.
+
+    ``QtLogHandler`` se crea después de ``QApplication`` (requiere ``QObject``).
+    El buffer interno guarda mensajes hasta la primera ``connect_to_widget`` y
+    luego los reproduce en la terminal activa.
     """
     _fix_qt_macos()
     setup_logging()
+
+    # Escalado fraccional del SO (p. ej. Windows 125 % / 150 %): alinear con Qt6 antes de crear la app.
+    try:
+        QApplication.setHighDpiScaleFactorRoundingPolicy(
+            Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
+        )
+    except (AttributeError, RuntimeError):
+        pass
 
     app = QApplication(sys.argv)
 
@@ -212,6 +228,15 @@ def main() -> None:
     role = getattr(user_data, 'role', '')
     if role == 'Trabajador':
         controller.session_controller.launch_worker_interface()
+        worker_window = getattr(
+            controller.session_controller, "worker_window", None
+        )
+        if (
+            worker_window is not None
+            and qt_handler is not None
+            and hasattr(worker_window, "connect_log_handler")
+        ):
+            worker_window.connect_log_handler(qt_handler)
     else:
         controller.connect_all_signals()
         if isinstance(controller.view, QWidget):

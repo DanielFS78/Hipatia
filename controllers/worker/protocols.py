@@ -2,8 +2,11 @@
 from __future__ import annotations
 
 """
-Nombre del Módulo: protocols.py (Worker)
-Paquete: controllers.worker — interfaces estructurales para administración de trabajadores.
+Nombre del Módulo: worker.protocols
+
+Descripción: Contratos ``Protocol`` del subpaquete ``controllers.worker``: vista mínima (``IWorkerView``),
+             servicio de dominio (``IWorkerService``), modelo y fachada del controlador worker, alineados
+             con DTOs de ``core`` y trazabilidad sin acoplar PyQt en la definición del protocolo.
 """
 from typing import Protocol, Any, List, Optional, Dict, Tuple
 import logging

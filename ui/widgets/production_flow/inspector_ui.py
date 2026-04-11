@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 """
-Construcción de UI para `ProductionTaskInspector`.
+Nombre del Módulo: inspector_ui
 
-Se extrae a un módulo separado para reducir el tamaño del panel sin cambiar su
-API pública; los controles se exponen como atributos de `InspectorWidgets`.
+Descripción: Construcción de la UI del inspector de tareas: factoría ``build_inspector_ui`` y
+             dataclass ``InspectorWidgets`` con referencias a los controles Qt.
 """
 
 from __future__ import annotations

@@ -38,7 +38,7 @@ Skill de referencia: `.agents/skills/ejecucion_secuencial_calidad/SKILL.md` (si 
 - **Estado:** Completado
 - **Prioridad:** P0
 - **Alcance:** `core/flow_canvas_io.py`; eliminado `core/flow_dialog_bridges.py`; imports actualizados en `enhanced_flow_canvas_state_io.py`, `flow_graph_manager_io.py`, `enhanced_flow_presenter_io.py`, `ui/dialogs/production_flow/flow_action_handler.py`, `cycle_end_config_dialog.py`, `flow_builder.py`, `ui/widgets/production_flow/flow_graph_manager.py`.
-- **Cambio:** `canvas_task_body`, `canvas_task_display_name`, `flow_task_config_is_cycle_end_flag` y `flow_task_config_is_cycle_start_flag` viven junto a `legacy_canvas_task_*` en `flow_canvas_io`; una sola capa de lectura sobre mapas del canvas.
+- **Cambio:** `canvas_task_body`, `canvas_task_display_name`, `flow_task_config_is_cycle_end_flag` y `flow_task_config_is_cycle_start_flag` viven junto a `flow_task_entry_*` en `flow_canvas_io`; una sola capa de lectura sobre mapas del canvas.
 - **Gates:** mypy global OK (656 archivos); pytest global OK (2644 passed); docs regeneradas y `check_documentation_omissions.py` → omitidos=0.
 - **Fecha cierre:** 2026-04-02
 

@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Grafo de imports entre capas: controladores / servicios / database.
+Nombre del Módulo: scripts.audit_import_graph
 
-Genera un informe Markdown (y JSON opcional) con aristas ``controllers.*``
-que importan ``core.services.*`` (y referencias cruzadas útiles para revisión).
-
-Para el mapa **completo** por capa (``ui``, ``database``, ``core``, ``controllers``,
-``features``), violaciones y ciclos simples, usar ``scripts/architecture_layer_edges.py``.
+Descripción: Concentra datos de configuración o catálogos estáticos: ``PREFIXES``, consumidos por la UI y controladores. Integración típica con: ``__future__``, ``argparse``, ``ast``, ``json``, ``pathlib``.
 """
 
 from __future__ import annotations

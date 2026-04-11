@@ -45,11 +45,7 @@ DEFAULT_EXCLUDE_SUBDIRS = {
     str(Path("ui") / "widgets" / "production_flow"),
 }
 
-DEFAULT_EXCLUDE_FILES = {
-    # Estructuras internas de UI que usan dict como payload/configuración
-    str(Path("ui") / "dialogs" / "canvas_widget.py"),
-    str(Path("ui") / "dialogs" / "card_widget.py"),
-}
+DEFAULT_EXCLUDE_FILES: set[str] = set()
 
 # Atributos/variables de UI que son diccionarios internos por diseño.
 # No representan frontera UI/DTO (son estado/estructuras de widgets).

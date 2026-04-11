@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-TRACKING STATS REPOSITORY
-========================================================================
-Repositorio para consultas estadísticas de seguimiento.
-========================================================================
+Nombre del Módulo: tracking_stats_repository
+Descripción: Agregados y estadísticas de seguimiento (tiempos por trabajador, incidencias, etc.).
+
+Consultas de solo lectura sobre ``TrabajoLog``, ``IncidenciaLog`` y tablas relacionadas.
 """
 import logging
 from typing import Any, Callable, Dict, List, Optional

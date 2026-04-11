@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Lista módulos bajo ``core/services`` que aún no aparecen en ``mypy.ini`` dentro
-de un bloque ``[mypy-...]`` con ``disallow_untyped_defs = True``.
+Nombre del Módulo: scripts.list_mypy_core_services_gaps
 
-Uso::
-
-    python3 scripts/list_mypy_core_services_gaps.py
-    python3 scripts/list_mypy_core_services_gaps.py --json reports/mypy_core_services_gaps.json
+Descripción: Lista módulos bajo ``core/services`` que aún no aparecen en ``mypy.ini`` dentro de un bloque ``[mypy-...]`` con ``disallow_untyped_defs = True``.
 """
 
 from __future__ import annotations

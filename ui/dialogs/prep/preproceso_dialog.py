@@ -1,6 +1,10 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`preproceso_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.prep.preproceso_dialog
+
+Descripción: Define protocolos o tipos principales: ``PreprocesoDialog``. Diálogo para crear o editar un Preproceso, permitiendo la asignación. Integración típica con: ``__future__``, ``os``, ``datetime``, ``core``, ``PyQt6``.
 """
+
 from __future__ import annotations
 
 import os

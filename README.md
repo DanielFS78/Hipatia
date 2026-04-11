@@ -44,7 +44,7 @@ gestión de máquinas y trabajadores, y generación de informes. Desarrollado en
 | `.agents/skills/backlog_tests/SKILL.md` | Backlog priorizado de archivos a mejorar |
 | `Documentacion/Mejora_Calidad/` | Informes históricos por fase |
 | `Documentacion/Analisis_Inicial/` | Análisis inicial del proyecto (referencial) |
-| `Documentacion Daniel.md` | Documentación técnica generada automáticamente |
+| `Documentacion/Documentacion Daniel.md` | Documentación técnica generada automáticamente (Markdown y PDF al ejecutar el script) |
 | `Documentacion/Despliegue_Windows.md` | Empaquetado PyInstaller, rutas de datos y checklist de fábrica |
 
 ---

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Paquete: controllers
+Nombre del Módulo: controllers
 Descripción: Centraliza y exporta todos los controladores del sistema Hipatia.
              Sigue el patrón MVC, donde los controladores actúan como mediadores entre 
              los modelos de datos y las vistas de la interfaz de usuario.
@@ -21,7 +21,6 @@ from controllers.simulation.controller import SimulationController
 from controllers.startup_controller import StartupController
 from controllers.worker.controller import WorkerController
 
-# Nuevos controllers (Refactorización Fase 1)
 from controllers.lote_controller import LoteController
 from controllers.file_controller import FileController
 from controllers.preproceso_controller import PreprocesoController
@@ -44,7 +43,6 @@ __all__ = [
     'SimulationController',
     'StartupController',
     'WorkerController',
-    # Nuevos controllers
     'LoteController',
     'FileController',
     'PreprocesoController',

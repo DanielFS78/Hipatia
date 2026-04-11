@@ -1,6 +1,7 @@
 """
 Nombre del Módulo: scripts.analysis.analyze_dependencies
-Descripcion: Construye un grafo de dependencias Python y detecta hubs/acoplamientos.
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``get_imports``, ``analyze_dependencies``. Integración típica con: ``ast``, ``os``, ``sys``.
 """
 
 import ast

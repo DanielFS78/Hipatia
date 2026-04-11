@@ -1,6 +1,8 @@
 
 """
-Script ejecutable (`profile_queries`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.profile_queries
+
+Descripción: Script ejecutable (`profile_queries`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 """
 
 import sys

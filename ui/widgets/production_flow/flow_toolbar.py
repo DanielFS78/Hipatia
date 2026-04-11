@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`flow_toolbar`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: flow_toolbar
+
+Descripción: Barra inferior del planificador visual: limpiar, cargar, guardar y calcular (señales Qt).
 """
 from __future__ import annotations
 

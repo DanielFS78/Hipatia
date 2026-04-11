@@ -31,6 +31,11 @@ def test_login_dialog(qtbot):
     creds = dialog.get_credentials()
     assert creds == ("testuser", "testpass")
 
+    dialog.password_edit.setText("  pass con espacios  ")
+    u, p = dialog.get_credentials()
+    assert u == "testuser"
+    assert p == "  pass con espacios  "
+
 def test_change_password_dialog(qtbot):
     dialog = ChangePasswordDialog(require_current_password=True)
     qtbot.addWidget(dialog)
@@ -69,8 +74,12 @@ def test_sync_dialog(qtbot):
     assert table is not None
     assert table.rowCount() == 2
 
-    assert table.item(0, 0).checkState() == Qt.CheckState.Checked
-    table.item(1, 0).setCheckState(Qt.CheckState.Unchecked)
+    item0 = table.item(0, 0)
+    assert item0 is not None
+    assert item0.checkState() == Qt.CheckState.Checked
+    item1 = table.item(1, 0)
+    assert item1 is not None
+    item1.setCheckState(Qt.CheckState.Unchecked)
 
     changes = dialog.get_selected_changes()
     assert isinstance(changes, DatabaseComparisonDTO)

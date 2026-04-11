@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: reports
+
+Descripción: Reexporta widgets de reportes usados desde ``reportes_widget`` (p. ej. búsqueda).
 """
 
 from .smart_search import SmartSearchWidget

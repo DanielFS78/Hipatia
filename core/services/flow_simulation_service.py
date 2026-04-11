@@ -1,5 +1,10 @@
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`flow_simulation_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: flow_simulation_service
+Descripción: Simulación paso a paso de flujos de producción y orden de ejecución de tareas.
+
+Incluye ``SimulationSession`` para avanzar tarea a tarea y ``FlowSimulationService`` para
+preparar el orden y datos auxiliares del motor de simulación.
 """
 from __future__ import annotations
 

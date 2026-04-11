@@ -1,5 +1,7 @@
 """
-Lógica o utilidades del núcleo (`worker_view_interface`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.interfaces.worker_view_interface
+
+Descripción: Define protocolos o tipos principales: ``IWorkerView``. Interfaz abstracta para la vista del trabajador. Integración típica con: ``core``.
 """
 
 from abc import abstractmethod

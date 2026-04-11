@@ -4,7 +4,7 @@
 
 ## Inventario activo real
 
-- Lectura unificada de tareas canvas y flags de ciclo en `core/flow_canvas_io.py` (`canvas_task_body`, `canvas_task_display_name`, `flow_task_config_is_cycle_*`, `legacy_canvas_task_*`).
+- Lectura unificada de tareas canvas y flags de ciclo en `core/flow_canvas_io.py` (`canvas_task_body`, `canvas_task_display_name`, `flow_task_config_is_cycle_*`, `flow_task_entry_*`).
 
 ## Retirado del runtime (2026-04-02, ITEM 003 — fase B)
 

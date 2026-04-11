@@ -1,6 +1,7 @@
 """
 Nombre del Módulo: core.label_manager.base
-Descripcion: Define los formatos de etiquetas soportados y sus parámetros técnicos.
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``LABEL_FORMATS``, consumidos por la UI y controladores. Integración típica con: ``pathlib``.
 """
 
 import logging

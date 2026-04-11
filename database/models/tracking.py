@@ -1,10 +1,7 @@
-"""Modelos ORM para trazabilidad de fabricacion.
+"""
+Nombre del Módulo: database.models.tracking
 
-Agrupa el registro historico de ejecucion en planta:
-- `TrabajoLog`: cabecera de seguimiento por QR/orden.
-- `PasoTrazabilidad`: pasos intermedios de ejecucion.
-- `IncidenciaLog`: incidencias reportadas durante la fabricacion.
-- `IncidenciaAdjunto`: archivos asociados a incidencias.
+Descripción: Define protocolos o tipos principales: ``TrabajoLog``, ``PasoTrazabilidad``, ``IncidenciaLog``, ``IncidenciaAdjunto``. Registro principal de trabajo ejecutado para una fabricacion. Integración típica con: ``sqlalchemy``, ``base``, ``datetime``.
 """
 
 from sqlalchemy import Integer, String, ForeignKey, Text, DateTime

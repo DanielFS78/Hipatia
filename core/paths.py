@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Modulo: paths
-Descripcion: Rutas de aplicacion: desarrollo vs ejecutable PyInstaller (``sys.frozen``).
+Nombre del Módulo: paths
+Descripción: Rutas de aplicación: desarrollo frente a ejecutable PyInstaller (``sys.frozen``).
 
 - Solo lectura embebida: usar ``core.utils.helpers.resource_path`` (``_MEIPASS``).
 - Escritura (SQLite, logs, backups, copia de usuario de ``config.ini``): directorio del
   ejecutable en frozen; raíz del repositorio en desarrollo.
+- Evitar situar esa carpeta de datos escribibles bajo sincronización en la nube
+  (iCloud, OneDrive, etc.): para estabilidad del SQLite y trazabilidad, preferir
+  backup/restauración explícitos en lugar de sync transparente del directorio.
 """
 from __future__ import annotations
 

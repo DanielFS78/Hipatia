@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: WorkerService
+Nombre del Módulo: worker_service
 Descripción: Servicio de dominio especializado en la gestión de trabajadores, historial y carga de trabajo.
 """
 import logging
@@ -16,8 +16,7 @@ from database.database_manager import DatabaseManager
 
 class WorkerService(QObject):
     """
-    Servicio de dominio para gestionar trabajadores.
-    Extraído de FabricacionService para cumplir con SRP.
+    Operaciones de dominio sobre trabajadores: listados, detalle, historial y asignación de tareas.
     """
 
     workers_changed_signal = pyqtSignal()

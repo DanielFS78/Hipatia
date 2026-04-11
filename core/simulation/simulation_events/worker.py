@@ -1,7 +1,9 @@
 # core/simulation/events/worker.py
 
 """
-Lógica o utilidades del núcleo (`worker`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.simulation.simulation_events.worker
+
+Descripción: Define protocolos o tipos principales: ``EventoReasignacionTrabajador``, ``EventoTiempoInactivo``. Evento que reasigna un trabajador de una tarea a otra. Integración típica con: ``base``.
 """
 
 from dataclasses import dataclass

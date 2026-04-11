@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`create_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.fabrication.create_dialog
+Descripción: Diálogo o presentador de fabricación: órdenes, preprocesos, productos y persistencia de pilas.
 """
 
 from PyQt6.QtWidgets import (
@@ -17,16 +19,10 @@ from ui.dialogs.fabrication.create_presenter import CreateFabricacionPresenter
 
 class CreateFabricacionDialog(QDialog):
     """
-    Diálogo especializado para la creación de nuevas Fabricaciones (Fase 12C).
-    
-    Permite la configuración integral de una fabricación mediante:
-    - Asignación dinámica de Preprocesos (Checklist técnica).
-    - Asignación de Productos con gestión de cantidades (Packing list).
-    - Validación en tiempo real del código de fabricación y dependencias.
-    
-    Utiliza el patrón Model-View-Presenter (MVP) para desacoplar la lógica de
-    recolección de datos de la interfaz de usuario, consolidando el resultado
-    en un objeto `FabricacionDTO`.
+    Diálogo para crear fabricaciones: preprocesos, productos con cantidades y validación del código.
+
+    La recogida de datos y la validación se delegan en ``CreateFabricacionPresenter``; al aceptar,
+    el resultado se expresa como ``FabricacionDTO``.
     """
 
     def __init__(self, all_preprocesos: List[Any], all_products: Optional[List[Any]] = None, parent: Optional[QWidget] = None) -> None:

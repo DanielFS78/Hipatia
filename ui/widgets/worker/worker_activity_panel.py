@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`worker_activity_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: worker_activity_panel
+
+Descripción: Tabla de tareas asignadas, registro de trabajo e incidencias del trabajador seleccionado.
 """
 
 from PyQt6.QtWidgets import (

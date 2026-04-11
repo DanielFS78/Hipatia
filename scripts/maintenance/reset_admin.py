@@ -1,6 +1,7 @@
 """
-Script de mantenimiento: restablece o crea el usuario admin local en SQLite
-con contraseña conocida; uso manual en entornos de desarrollo.
+Nombre del Módulo: scripts.maintenance.reset_admin
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``_PROJECT_ROOT``, consumidos por la UI y controladores. Integración típica con: ``__future__``, ``sys``, ``pathlib``, ``sqlalchemy``, ``database``, ``core``.
 """
 from __future__ import annotations
 

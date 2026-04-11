@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-SyncService: Database Comparison and Merge for USB Sync
-========================================================
-Enables "sneakernet" synchronization by comparing local database with
-an imported SQLite file and allowing selective merge of differences.
+Nombre del Módulo: sync_service
+Descripción: Comparación y fusión selectiva entre la base SQLite local y un fichero SQLite
+             externo (``sneakernet`` / USB / copia exportada). Construye ``DatabaseComparisonDTO``
+             para la UI y aplica cambios elegidos respetando orden de claves foráneas e incluyendo
+             tablas de asociación (BOM producto–material).
 """
 
 import logging
@@ -36,8 +37,12 @@ from core.dtos import (
 
 class SyncService:
     """
-    Service for comparing and synchronizing two SQLAlchemy databases.
-    Designed for USB-based sync workflow between disconnected machines.
+    Servicio que compara y fusiona registros entre la sesión local y una segunda base SQLite.
+
+    La lista ``SYNCABLE_TABLES`` define el orden de comparación y de aplicación (productos y máquinas
+    antes que subfabricaciones y procesos mecánicos; materiales antes que ``producto_material_link``).
+    Las tablas en ``ASSOCIATION_TABLES`` solo generan filas ``new`` cuando el vínculo existe en
+    extranjero y no en local.
     """
 
     # Tablas ORM a sincronizar (orden respetando FKs: producto/maquina antes de subfabricación, etc.).
@@ -59,28 +64,26 @@ class SyncService:
 
     def __init__(self, local_session_factory: Callable[[], Session]) -> None:
         """
-        Initialize SyncService with the local database session factory.
-        
         Args:
-            local_session_factory: SQLAlchemy sessionmaker for local DB
+            local_session_factory: Fábrica que devuelve sesiones SQLAlchemy sobre la BD local
+                (típicamente ``sessionmaker`` ligado al motor de la app).
         """
         self.logger = logging.getLogger("SyncService")
         self.local_session_factory = local_session_factory
 
     def compare_databases(self, foreign_db_path: str) -> DatabaseComparisonDTO:
         """
-        Compare local database with a foreign SQLite database file.
-        
+        Compara todas las tablas configuradas entre local y el fichero SQLite externo.
+
         Args:
-            foreign_db_path: Path to the foreign .db file (from USB)
-            
+            foreign_db_path: Ruta absoluta al ``.db`` ya resuelto (no comprimido).
+
         Returns:
-            DatabaseComparisonDTO containing differences per table.
+            DTO con una entrada por tabla que tenga diferencias (``new`` o ``updated`` en extranjero).
         """
         self.logger.info(f"Comparing with foreign DB: {foreign_db_path}")
         tables_diffs = []
         
-        # Connect to foreign SQLite database
         foreign_engine = create_engine(f"sqlite:///{foreign_db_path}")
         ForeignSession = sessionmaker(bind=foreign_engine)
         foreign_session = ForeignSession()
@@ -127,28 +130,26 @@ class SyncService:
         primary_key: str
     ) -> List[SyncRecordDTO]:
         """
-        Compare a single table between local and foreign databases.
-        
+        Compara una tabla ORM columna a columna (sin relaciones cargadas).
+
         Args:
-            local_session: Local database session
-            foreign_session: Foreign database session
-            model_class: SQLAlchemy model class
-            primary_key: Name of the primary key column
-            
+            local_session: Sesión sobre la BD local.
+            foreign_session: Sesión sobre la BD extranjera.
+            model_class: Modelo declarativo SQLAlchemy.
+            primary_key: Nombre del atributo que actúa como clave primaria.
+
         Returns:
-            List of SyncRecordDTOs that differ (new or updated in foreign DB).
-            Each DTO contains a SyncRecordPayloadDTO with the fields.
+            Lista de ``SyncRecordDTO`` con ``action`` ``new`` o ``updated`` respecto a local.
+            Los ``datetime`` se consideran distintos si difieren en más de un segundo.
         """
         differences = []
         
-        # Get all records from both databases
         local_records = {
             getattr(r, primary_key): r 
             for r in local_session.query(model_class).all()
         }
         foreign_records = foreign_session.query(model_class).all()
         
-        # Get column names for comparison (exclude relationships)
         mapper = inspect(model_class)
         columns = [c.key for c in mapper.columns]
         
@@ -156,20 +157,16 @@ class SyncService:
             pk_value = getattr(foreign_record, primary_key)
             local_record = local_records.get(pk_value)
             
-            # Convert to dict for comparison and display
             record_dict = {col: getattr(foreign_record, col) for col in columns}
             
             if local_record is None:
-                # New record in foreign DB
                 differences.append(SyncRecordDTO(action='new', data=SyncRecordPayloadDTO(fields=record_dict)))
             else:
-                # Check if modified
                 is_modified = False
                 for col in columns:
                     local_val = getattr(local_record, col)
                     foreign_val = getattr(foreign_record, col)
                     
-                    # Handle datetime comparison
                     if isinstance(local_val, datetime) and isinstance(foreign_val, datetime):
                         if abs((local_val - foreign_val).total_seconds()) > 1:
                             is_modified = True
@@ -186,6 +183,17 @@ class SyncService:
     def _association_row_set(
         self, session: Session, table: Table, key_columns: Tuple[str, ...]
     ) -> set[tuple[Any, ...]]:
+        """
+        Lee todas las filas de una tabla de enlace como conjunto de tuplas de claves.
+
+        Args:
+            session: Sesión activa.
+            table: Objeto ``Table`` SQLAlchemy (p. ej. ``producto_material_link``).
+            key_columns: Columnas que forman la identidad de la fila.
+
+        Returns:
+            Conjunto de tuplas hashables para comparación de presencia.
+        """
         stmt = select(*(table.c[col] for col in key_columns))
         rows = session.execute(stmt).all()
         return {tuple(row) for row in rows}
@@ -197,7 +205,18 @@ class SyncService:
         table: Table,
         key_columns: Tuple[str, ...],
     ) -> List[SyncRecordDTO]:
-        """Filas del enlace presentes en extranjero y ausentes en local (p. ej. BOM producto–material)."""
+        """
+        Detecta vínculos que existen en extranjero y faltan en local (solo inserciones).
+
+        Args:
+            local_session: Sesión local.
+            foreign_session: Sesión extranjera.
+            table: Tabla de asociación.
+            key_columns: Columnas de la clave compuesta.
+
+        Returns:
+            Lista de ``SyncRecordDTO`` con ``action='new'`` por cada fila a insertar.
+        """
         local_set = self._association_row_set(local_session, table, key_columns)
         foreign_set = self._association_row_set(foreign_session, table, key_columns)
         differences: List[SyncRecordDTO] = []
@@ -212,24 +231,32 @@ class SyncService:
     def _sort_table_diffs_for_apply(
         self, tables: List[SyncTableDifferencesDTO]
     ) -> List[SyncTableDifferencesDTO]:
-        """Orden según FKs (p. ej. materiales antes que producto_material_link) aunque el diálogo devuelva otro orden."""
+        """
+        Reordena los bloques seleccionados por el usuario según ``SYNCABLE_TABLES`` + ``ASSOCIATION_TABLES``.
+
+        Args:
+            tables: Fragmentos del DTO tal como devuelve el diálogo (orden de pestañas).
+
+        Returns:
+            Misma información ordenada para minimizar errores de FK al aplicar.
+        """
         order: dict[str, int] = {}
         for idx, spec in enumerate(self.SYNCABLE_TABLES):
             order[spec[0]] = idx
         offset = len(order)
-        for j, spec in enumerate(self.ASSOCIATION_TABLES):
-            order[spec[0]] = offset + j
+        for j, assoc_spec in enumerate(self.ASSOCIATION_TABLES):
+            order[assoc_spec[0]] = offset + j
         return sorted(tables, key=lambda t: order.get(t.table_name, 9999))
 
     def apply_changes(self, comparison: DatabaseComparisonDTO) -> int:
         """
-        Apply selected changes to the local database.
-        
+        Aplica en la BD local los registros incluidos en ``comparison`` (una transacción con commit).
+
         Args:
-            comparison: DatabaseComparisonDTO containing changes to apply
-            
+            comparison: Subconjunto devuelto por ``SyncDialog.get_selected_changes``.
+
         Returns:
-            Number of records successfully applied
+            Número de filas aplicadas con éxito (ORM + asociaciones).
         """
         sorted_tables = self._sort_table_diffs_for_apply(list(comparison.tables))
         self.logger.info(f"Applying sync changes for tables: {[t.table_name for t in sorted_tables]}")
@@ -295,32 +322,29 @@ class SyncService:
         record_dto: SyncRecordDTO
     ) -> bool:
         """
-        Apply a single record to the local database.
-        
+        Inserta o actualiza una fila ORM según ``record_dto.action``.
+
         Args:
-            session: Local database session
-            model_class: SQLAlchemy model class
-            primary_key: Name of primary key column
-            record_dto: SyncRecordDTO
-            
+            session: Sesión local (sin commit aún).
+            model_class: Modelo destino.
+            primary_key: Nombre del campo PK en el modelo.
+            record_dto: Carga útil con campos serializables.
+
         Returns:
-            True if successfully applied.
+            False si ``updated`` y no existe la fila local; True en caso contrario.
         """
         sync_action = record_dto.action
         record_data = record_dto.data.fields
         
-        # Remove internal keys if any (prefixed with _)
         clean_dict = {k: v for k, v in record_data.items() if not k.startswith('_')}
         
         pk_value = clean_dict.get(primary_key)
         
         if sync_action == 'new':
-            # Insert new record
             new_record = model_class(**clean_dict)
             session.add(new_record)
             self.logger.debug(f"Inserted new {model_class.__name__}: {pk_value}")
         else:
-            # Update existing record
             existing = session.query(model_class).filter(
                 getattr(model_class, primary_key) == pk_value
             ).first()
@@ -341,7 +365,17 @@ class SyncService:
         table: Table,
         record_dto: SyncRecordDTO,
     ) -> bool:
-        """Inserta una fila de tabla de enlace (solo acción 'new')."""
+        """
+        Ejecuta ``INSERT`` en una tabla ``Table`` de metadatos compartidos.
+
+        Args:
+            session: Sesión local.
+            table: Tabla de enlace.
+            record_dto: Debe traer ``action=='new'`` y campos alineados con las columnas.
+
+        Returns:
+            True si se insertó; False si la acción no es de alta.
+        """
         if record_dto.action != 'new':
             return False
         clean_dict = {k: v for k, v in record_dto.data.fields.items() if not k.startswith('_')}

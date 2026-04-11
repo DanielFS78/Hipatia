@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: navigation_controller.py
+Nombre del Módulo: navigation_controller
 Descripción: Gestiona la navegación entre las diferentes páginas de la aplicación, 
              controlando la carga de datos específicos y el flujo de transiciones.
 """

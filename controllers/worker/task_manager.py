@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: task_manager.py (Worker)
-Descripción: Gestor de asignación de tareas. Permite buscar productos y asignar 
-             órdenes de fabricación específicas a los trabajadores.
+Nombre del Módulo: worker.task_manager
+Descripción: Gestor de asignación de tareas desde la vista de administración
+             (Gestión de datos / trabajadores). Búsqueda de productos, creación
+             de fabricación tipo tarea y enlace al trabajador seleccionado,
+             incluyendo orden de fabricación (O.F.) opcional pasada al servicio.
 """
 import logging
 from typing import TYPE_CHECKING, Any
@@ -28,11 +30,16 @@ class WorkerTaskManager:
         self.view = view
         self.worker_service = worker_service
         self.product_service = product_service
-        self.controller = controller_ref  # p.ej. management_manager vía protocolo
+        self.controller = controller_ref
         self.logger = logging.getLogger("EvolucionTiemposApp")
 
     def _on_worker_product_search_changed(self, text: str) -> None:
-        """Maneja la búsqueda de productos en la pestaña de asignación de tareas del trabajador."""
+        """
+        Actualiza la lista de productos del formulario de asignación.
+
+        Con texto más corto que el mínimo configurado muestra los últimos productos
+        (evita lista vacía); con texto suficiente delega en ``search_products``.
+        """
         gestion_datos_page = self.view.pages.get("gestion_datos")
         if not gestion_datos_page:
             return
@@ -41,8 +48,11 @@ class WorkerTaskManager:
         if not workers_page:
             return
 
-        if len(text) < constants.VALIDATION['MIN_SEARCH_LENGTH']:
-            workers_page.update_product_search_results([])
+        min_len = constants.VALIDATION["MIN_SEARCH_LENGTH"]
+        if len(text.strip()) < min_len:
+            # Sin texto suficiente: mostrar últimos productos (la lista vacía parecía un fallo de datos).
+            latest = self.product_service.get_latest_products(50)
+            workers_page.update_product_search_results(latest)
             return
 
         results = self.product_service.search_products(text)
@@ -50,6 +60,11 @@ class WorkerTaskManager:
 
     @require_permission(Permission.CREATE_FABRICATION)
     def _on_assign_task_to_worker_clicked(self) -> None:
+        """
+        Crea fabricación + producto y asigna al trabajador actual del formulario.
+
+        Incluye ``orden_fabricacion`` del formulario cuando el usuario la rellena.
+        """
         gestion_datos_page = self.view.pages.get("gestion_datos")
         if not gestion_datos_page:
             return
@@ -73,14 +88,15 @@ class WorkerTaskManager:
 
         try:
             self.logger.info(f"Creando nueva Tarea/OF para producto {product_code}")
-            success, message = self.worker_service.assign_task_to_worker(worker_id, product_code, quantity)
+            orden_fabricacion = data.get("orden_fabricacion")
+            success, message = self.worker_service.assign_task_to_worker(
+                worker_id, product_code, quantity, orden_fabricacion=orden_fabricacion
+            )
 
             if success:
                 self.view.show_message("Éxito", message, "info")
-                # Usamos el nuevo método de alto nivel para desacoplar el controlador de la UI
                 if hasattr(workers_page, "clear_assignment_form"):
                     workers_page.clear_assignment_form()
-                # Delegamos de vuelta al otro gestor (o al controller) para refrescar detalles
                 item = workers_page.workers_list.currentItem()
                 if item:
                     self.controller.management_manager._on_worker_selected_in_list(item)

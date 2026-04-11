@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`report_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: report_service
+Descripción: Informes y estadísticas de producción (órdenes, tiempos, incidencias, evolución).
+
+Interfaz delgada entre controladores de informes y ``ReportsRepository``; los DTOs de
+salida viven en ``core.reports_dtos``.
 """
 
 from typing import TYPE_CHECKING, Any

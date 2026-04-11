@@ -1,6 +1,10 @@
-# database/repositories/worker/worker_manager.py
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`worker_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: worker_manager
+Descripción: Acceso a datos de trabajadores (listados, detalle, altas y modificaciones).
+
+``WorkerCoreManager`` encapsula consultas SQLAlchemy sobre ``Trabajador`` y devuelve
+DTOs listos para la capa de servicios o la interfaz de administración.
 """
 
 from typing import List, Optional, Union
@@ -9,6 +13,14 @@ from sqlalchemy.exc import IntegrityError
 from ...models import Trabajador
 from core.dtos import WorkerDTO, WorkerDetailDTO
 from ..base import BaseRepository
+
+
+def _persist_username(username: Optional[str]) -> Optional[str]:
+    """Unifica el nombre de usuario en BD (minúsculas, sin espacios). None = sin cambiar en callers."""
+    if username is None:
+        return None
+    cleaned = username.strip().lower()
+    return cleaned if cleaned else None
 
 
 class WorkerCoreManager(BaseRepository):
@@ -89,7 +101,8 @@ class WorkerCoreManager(BaseRepository):
                     target_worker.notas = notas
                     target_worker.tipo_trabajador = tipo_trabajador
                     target_worker.activo = activo
-                    if username is not None: target_worker.username = username
+                    if username is not None:
+                        target_worker.username = _persist_username(username)
                     if password_hash is not None: target_worker.password_hash = password_hash
                     if role is not None: target_worker.role = role
                     return True
@@ -97,12 +110,13 @@ class WorkerCoreManager(BaseRepository):
                     return False
             else:
                 try:
+                    uname = None if username is None else _persist_username(username)
                     nuevo_trabajador = Trabajador(
                         nombre_completo=nombre_completo,
                         notas=notas,
                         tipo_trabajador=tipo_trabajador,
                         activo=activo,
-                        username=username,
+                        username=uname,
                         password_hash=password_hash,
                         role=role
                     )

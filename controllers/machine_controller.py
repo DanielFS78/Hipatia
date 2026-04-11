@@ -1,7 +1,6 @@
-# controllers/machine_controller.py
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: machine_controller.py
+Nombre del Módulo: machine_controller
 Descripción: Controlador encargado de la gestión de maquinaria, mantenimientos 
              y configuración de grupos de preparación de máquinas.
 """
@@ -56,12 +55,11 @@ class MachineController(QObject):
         self.logger: logging.Logger = logger
 
     def update_machines_view(self) -> None:
-        """Actualiza la vista de máquinas con TODAS las máquinas."""
+        """Actualiza la vista de máquinas con el listado completo del catálogo."""
         self.logger.info("Actualizando la vista de máquinas...")
         gestion_datos_page = self.view.pages.get("gestion_datos")
         if gestion_datos_page:
             machines_page = gestion_datos_page.maquinas_tab
-            # CAMBIO: Usar get_all_machines en lugar de get_latest_machines
             machines_data = self.machine_service.get_all_machines()
             machines_page.populate_list(machines_data)
 

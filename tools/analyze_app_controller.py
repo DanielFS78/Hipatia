@@ -1,6 +1,7 @@
 """
-Herramienta de análisis AST: compara métodos y atributos de AppController con
-la documentación de nomenclatura en Markdown (informe de cobertura doc vs código).
+Nombre del Módulo: tools.analyze_app_controller
+
+Descripción: Herramienta de análisis AST: compara métodos y atributos de AppController con la documentación de nomenclatura en Markdown (informe de cobertura doc vs código).
 """
 
 import ast

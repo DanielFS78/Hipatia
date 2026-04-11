@@ -1,7 +1,9 @@
 # database/models/worker.py
 
 """
-Capa de datos (`worker`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.models.worker
+
+Descripción: Define protocolos o tipos principales: ``Trabajador``, ``TrabajadorPilaAnotacion``. Modelo que representa a un operario o administrador del sistema. Integración típica con: ``sqlalchemy``, ``base``, ``datetime``.
 """
 
 from sqlalchemy import Integer, String, Boolean, Text, ForeignKey, DateTime

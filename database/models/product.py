@@ -1,7 +1,9 @@
 # database/models/product.py
 
 """
-Capa de datos (`product`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.models.product
+
+Descripción: Define protocolos o tipos principales: ``Producto``, ``Preproceso``, ``Subfabricacion``, ``ProcesoMecanico``, ``ProductIteration``. Modelo que representa un Producto en el catálogo. Integración típica con: ``sqlalchemy``, ``base``, ``datetime``.
 """
 
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, Boolean, Text, DateTime

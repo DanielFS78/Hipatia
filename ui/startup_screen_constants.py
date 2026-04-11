@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Constantes usadas por la ventana de arranque (StartupScreen).
-Extraídas para reducir LOC del monolito y facilitar tests.
+Nombre del Módulo: ui.startup_screen_constants
+
+Descripción: Constantes usadas por la ventana de arranque (StartupScreen). Extraídas para reducir LOC del monolito y facilitar tests.
 """
 
 # Colores por estado de verificación (hex, icono, etiqueta)

@@ -1,4 +1,9 @@
 
+"""
+Nombre del Módulo: migrations.env
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``config``, ``target_metadata``, consumidos por la UI y controladores. Integración típica con: ``sqlalchemy``, ``alembic``, ``os``, ``sys``, ``database``.
+"""
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config

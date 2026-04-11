@@ -1,6 +1,10 @@
-# temporal_storage.py
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`temporal_storage`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: temporal_storage
+Descripción: Registro incremental de eventos de simulación en SQLite (disco o memoria).
+
+``RegistroTemporal`` es seguro entre hilos: buffer con volcado periódico y conexión por hilo
+para no bloquear el motor de eventos al escribir trazas largas.
 """
 
 import json
@@ -16,8 +20,9 @@ import threading
 
 class RegistroTemporal:
     """
-    [cite_start]Gestiona el almacenamiento incremental de eventos procesados en disco.
-    CORREGIDO: Ahora es seguro para usar en múltiples hilos (thread-safe).
+    Almacenamiento incremental de eventos de simulación en disco (o ``:memory:``) con buffer.
+
+    El acceso concurrente se serializa con un candado y conexiones SQLite locales al hilo.
     """
 
     def __init__(self, db_path: str = ':memory:', buffer_size: int = 1000) -> None:

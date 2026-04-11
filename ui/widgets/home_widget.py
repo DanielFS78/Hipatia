@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 """
 Nombre del Módulo: home_widget
-Descripcion: Pantalla de inicio de la aplicación Hipatia. Muestra el resumen
+Descripción: Pantalla de inicio de la aplicación Hipatia. Muestra el resumen
              del último arranque del sistema (estado de BD, integridad, datos)
              y alberga la terminal interna de advertencias y errores en tiempo
              real para que el usuario pueda revisar la salud del programa en
              cualquier momento sin necesidad de acceder a archivos de log.
+
+             El mismo tipo de terminal (``LogTerminalWidget``) existe en la vista
+             de trabajador (pestaña Log); el ``QtLogHandler`` solo se conecta a
+             uno u otro según el rol tras el login.
 """
 from __future__ import annotations
 
@@ -38,8 +42,9 @@ class HomeWidget(QWidget):
 
     Integra dos paneles verticales:
     - Panel de salud del sistema: estado de BD, tablas y último backup.
-    - Terminal de log: muestra en tiempo real los WARNING/ERROR/CRITICAL
-      generados durante la sesión, con botones de limpieza y exportación.
+    - Terminal de log: mensajes desde el nivel del ``QtLogHandler`` (INFO por
+      defecto) en tiempo real, con resaltado para WARNING/ERROR/CRITICAL y
+      exportación a archivo.
     """
 
     def __init__(self) -> None:
@@ -122,8 +127,8 @@ class HomeWidget(QWidget):
         señal reproduce el buffer de mensajes acumulados durante el arranque
         (antes de que la UI estuviera lista).
 
-        Debe llamarse una vez desde el punto de entrada (``app.py``) después de
-        crear el ``QtLogHandler`` y registrarlo en el logger root.
+        Debe llamarse una vez desde ``app.py`` en la rama de vista principal
+        (no Trabajador), tras registrar el handler en el logger root.
 
         Args:
             handler: Instancia de ``QtLogHandler`` ya añadida al logger root

@@ -1,14 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Copia archivos modificados o sin seguimiento desde SOURCE_ROOT a HIPATIA_ICLOUD.
+Nombre del Módulo: scripts.sync_worktree_to_icloud
 
-Uso típico (macOS)::
-
-    export HIPATIA_ICLOUD="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion"
-    python3 scripts/sync_worktree_to_icloud.py
-
-El agente debe ejecutarlo tras cada lote de ediciones si el workspace no es ya iCloud.
+Descripción: Copia archivos modificados o sin seguimiento desde SOURCE_ROOT a HIPATIA_ICLOUD.
 """
 
 from __future__ import annotations
