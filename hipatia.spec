@@ -6,12 +6,16 @@ Ejecutar en Windows: ``build_windows.bat`` o ``pyinstaller hipatia.spec``.
 Los datos de usuario (SQLite, logs, ``config/config.ini`` editable) se crean junto al ``.exe``
 gracias a ``core.paths.get_writable_app_root``.
 """
+import sys
 from pathlib import Path
 
 from PyInstaller.utils.hooks import collect_submodules
 
 # SPECPATH (PyInstaller) = directorio que contiene este .spec, no el padre del repo.
 ROOT = Path(SPECPATH).resolve()
+_root = str(ROOT)
+if _root not in sys.path:
+    sys.path.insert(0, _root)
 
 block_cipher = None
 

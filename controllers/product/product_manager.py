@@ -18,8 +18,8 @@ from core.security.access_control import require_permission
 from core.security.security_service import Permission
 from core.validation.validator_service import ValidatorService
 from controllers.ui_class_loader import ui_class
+from ui.dialogs.product.bom_import_preview_dialog import BOMImportPreviewDialog
 
-BOMImportPreviewDialog = ui_class("ui.dialogs.product.bom_import_preview_dialog", "BOMImportPreviewDialog")
 ProductDetailsDialog = ui_class("ui.dialogs", "ProductDetailsDialog")
 SubfabricacionesDialog = ui_class("ui.dialogs", "SubfabricacionesDialog")
 ProcesosMecanicosDialog = ui_class("ui.dialogs", "ProcesosMecanicosDialog")
