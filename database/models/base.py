@@ -1,6 +1,7 @@
 """
-Modelos ORM base (SQLAlchemy): DeclarativeBase, metadatos compartidos y tablas de
-enlace many-to-many entre productos, materiales y preprocesos.
+Nombre del Módulo: database.models.base
+
+Descripción: Modelos ORM base (SQLAlchemy): DeclarativeBase, metadatos compartidos y tablas de enlace many-to-many entre productos, materiales y preprocesos.
 """
 
 from sqlalchemy import Column, Integer, String, ForeignKey, Table, DateTime

@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
 """
-Carga de datos en `ProductionTaskInspector` (set_task).
+Nombre del Módulo: inspector_task_loader
+
+Descripción: Aplica el payload de una tarea a los controles del inspector (``apply_task_to_widgets``).
 """
 
 from __future__ import annotations

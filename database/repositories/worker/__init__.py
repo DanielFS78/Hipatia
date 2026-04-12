@@ -1,6 +1,7 @@
-# database/repositories/worker/__init__.py
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: worker
+Descripción: Datos de trabajadores, anotaciones y repositorio compuesto del subpaquete worker.
 """
 
 from .repository import WorkerRepository

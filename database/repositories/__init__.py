@@ -1,8 +1,10 @@
-# EN: database/repositories/__init__.py
-
+# -*- coding: utf-8 -*-
 """
-Este archivo hace que el directorio 'repositories' sea un paquete de Python
-y expone las clases de repositorio para facilitar su importación.
+Nombre del Módulo: repositories
+Descripción: Paquete de acceso a datos: repositorios por dominio (producto, máquina, pila,
+             trabajador, informes, tracking, etc.) y exportaciones para ``DatabaseManager``.
+
+Las clases públicas se listan en ``__all__`` para imports explícitos desde ``database.repositories``.
 """
 
 from __future__ import annotations
@@ -25,26 +27,25 @@ from .label_counter_repository import LabelCounterRepository
 if TYPE_CHECKING:
     from .reports import ReportsRepository
 
-# Qué expone `from database.repositories import *` (y documentación pública del paquete).
 __all__ = [
-    'BaseRepository',
-    'ProductRepository',
-    'WorkerRepository',
-    'MachineRepository',
-    'PilaRepository',
-    'PreprocesoRepository',
-    'ConfigurationRepository',
-    'MaterialRepository',
-    'IterationRepository',
-    'LoteRepository',
-    'TrackingRepository',
-    'LabelCounterRepository',
-    'ReportsRepository',
+    "BaseRepository",
+    "ProductRepository",
+    "WorkerRepository",
+    "MachineRepository",
+    "PilaRepository",
+    "PreprocesoRepository",
+    "ConfigurationRepository",
+    "MaterialRepository",
+    "IterationRepository",
+    "LoteRepository",
+    "TrackingRepository",
+    "LabelCounterRepository",
+    "ReportsRepository",
 ]
 
 
 def __getattr__(name: str) -> Any:
-    """Carga perezosa de `ReportsRepository` para no exigir el subpaquete `reports` en imports parciales."""
+    """Carga perezosa de ``ReportsRepository`` para no exigir el subpaquete ``reports`` en imports parciales."""
     if name == "ReportsRepository":
         from .reports import ReportsRepository as _ReportsRepository
 

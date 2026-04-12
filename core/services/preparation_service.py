@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: PreparationService
+Nombre del Módulo: preparation_service
 Descripción: Servicio de dominio especializado en la gestión de grupos y pasos de preparación de máquinas.
 """
 from typing import Any, Optional, Tuple
@@ -11,8 +11,7 @@ from database.repositories.machine import MachineRepository
 
 class PreparationService:
     """
-    Servicio de dominio para gestionar grupos y pasos de preparación.
-    Extraído de FabricacionService para cumplir con SRP.
+    Grupos y pasos de preparación de máquinas (tiempos y secuencias usados antes de fabricar).
     """
 
     def __init__(self, db_manager: DatabaseManager):

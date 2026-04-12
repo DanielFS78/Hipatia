@@ -1,6 +1,8 @@
 from __future__ import annotations
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`enhanced_flow_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow.enhanced_flow_dialog
+Descripción: Definición o simulación del flujo de producción (estado, presentadores, reglas y diálogos auxiliares).
 """
 
 import logging

@@ -1,5 +1,7 @@
 """
-Lógica o utilidades del núcleo (`password_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.security.password_service
+
+Descripción: Define protocolos o tipos principales: ``PasswordService``. Servicio para el manejo seguro de contraseñas utilizando bcrypt. Integración típica con: ``bcrypt``.
 """
 
 import bcrypt

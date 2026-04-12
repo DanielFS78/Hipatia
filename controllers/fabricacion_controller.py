@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: fabricacion_controller.py
+Nombre del Módulo: fabricacion_controller
 Descripción: Controlador central para la gestión del ciclo de vida de las fabricaciones.
              Maneja la creación, búsqueda y la integración con preprocesos.
 """

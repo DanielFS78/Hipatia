@@ -1,6 +1,7 @@
 """
 Nombre del Módulo: report_sheets.trabajadores
-Descripcion: Hoja Excel con carga, tiempos y productividad por trabajador.
+
+Descripción: Define protocolos o tipos principales: ``AnalisisTrabajadoresSheet``. Integración típica con: ``datetime``, ``openpyxl``, ``base``.
 """
 
 from typing import List, Dict, Any

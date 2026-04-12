@@ -1,10 +1,16 @@
-"""Servicio de backup automatizado para protección de datos."""
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: backup_service
+Descripción: Copias de seguridad automáticas del directorio de datos (empaquetado, rotación y comprobaciones).
+
+Incluye retención por días y verificación de integridad de los archivos generados.
+"""
 
 import os
 import logging
 import tarfile
 import shutil
-import hashlib  # Compatibilidad para tests legacy que parchean este símbolo.
+import hashlib  # Algunos tests parchean este símbolo; mantener import a nivel de módulo.
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import List, Optional, Tuple

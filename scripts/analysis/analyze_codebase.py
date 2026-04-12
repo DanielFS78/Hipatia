@@ -1,5 +1,7 @@
 """
-Script ejecutable (`analyze_codebase`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.analysis.analyze_codebase
+
+Descripción: Script ejecutable (`analyze_codebase`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 """
 
 import ast

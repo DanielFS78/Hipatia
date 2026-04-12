@@ -22,6 +22,24 @@ class DummyVideoCapture:
     def get(self, propId): return 0.0
     def set(self, propId, value): return False
 
+
+def _video_capture_side_effect_open_only_at_indices(*open_indices: int):
+    """
+    ``cv2.VideoCapture`` se invoca varias veces por índice (cadena de backends) y
+    ``isOpened`` se consulta también en ``CameraManager`` tras ``open_video_capture``.
+    Un único mock con ``side_effect`` en ``isOpened`` agota valores; aquí cada
+    apertura devuelve un cap cuyo ``isOpened`` es estable por índice.
+    """
+    allowed = set(open_indices)
+
+    def _side_effect(index, backend=None):
+        cap = MagicMock(spec=DummyVideoCapture)
+        cap.isOpened.return_value = index in allowed
+        return cap
+
+    return _side_effect
+
+
 pytestmark = pytest.mark.unit
 pytestmark = pytest.mark.setup
 
@@ -48,6 +66,7 @@ def mock_cv2():
     # Parchear en los tres lugares posibles donde se use
     with patch('core.camera_manager.manager.cv2', unified_mock), \
          patch('core.camera_manager.detector.cv2', unified_mock), \
+         patch('core.camera_manager.capture.cv2', unified_mock), \
          patch('core.camera_manager.base.cv2', unified_mock):
         yield unified_mock
 
@@ -79,7 +98,7 @@ class TestHardwareValidation:
         compliance_dto = ProductDTO(codigo="T", descripcion="T")
         isinstance(compliance_dto, ProductDTO)
         assert isinstance(compliance_dto, ProductDTO)
-        mock_cap.isOpened.assert_called_once_with()
+        assert mock_cap.isOpened.called
 
     def test_validate_hardware_capture_failure(self, camera_manager, mock_cv2):
         import cv2
@@ -121,11 +140,9 @@ class TestCameraNameDetection:
 class TestCameraDetection:
     def test_detect_cameras_fresh(self, camera_manager, mock_cv2):
         import cv2
-        mock_cap = MagicMock(spec=DummyVideoCapture)
-        # Cam 0 abre, Cam 1 no abre -> detiene bucle si i >= 2
-        mock_cap.isOpened.side_effect = [True, False, False, False, False] 
-        mock_cv2.VideoCapture.return_value = mock_cap
-        
+        # Índice 0 abre; resto no (varias llamadas VideoCapture por backend no agotan isOpened).
+        mock_cv2.VideoCapture.side_effect = _video_capture_side_effect_open_only_at_indices(0)
+
         cameras = camera_manager.detect_cameras(force_refresh=True)
         assert len(cameras) >= 1
         assert cameras[0].index == 0
@@ -139,18 +156,15 @@ class TestCameraDetection:
         
         cameras = camera_manager.detect_cameras(force_refresh=True)
         assert len(cameras) == 0
-        # En manager.py, el break es if i >= 2 and not detected.
-        # Intenta i=0 (falla), i=1 (falla), i=2 (falla -> break)
-        assert mock_cv2.VideoCapture.call_count == 3
+        # Varias aperturas por índice: ``open_video_capture`` prueba cadena de backends (p. ej. Darwin: 2).
+        assert mock_cv2.VideoCapture.call_count >= 3
 
 class TestAdvancedFunctions:
     def test_create_camera_selector_data(self, camera_manager, mock_cv2):
         # Para que aparezca en el selector, debe detectarse primero
         import cv2
-        mock_cap = MagicMock(spec=DummyVideoCapture)
-        mock_cap.isOpened.side_effect = [True, False, False]
-        mock_cv2.VideoCapture.return_value = mock_cap
-        
+        mock_cv2.VideoCapture.side_effect = _video_capture_side_effect_open_only_at_indices(0)
+
         # Y luego validarse (get_camera_info llama a validate_camera_hardware)
         # Mockeamos get_camera_info directamente para simplificar este test
         c0 = CameraInfo(0, "C0", "AUTO", 1920, 1080, 30.0, True, False)

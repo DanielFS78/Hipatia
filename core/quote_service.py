@@ -1,6 +1,10 @@
-
 """
-Lógica o utilidades del núcleo (`quote_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: quote_service
+Descripción: Frases inspiradoras para la pantalla de inicio y textos secundarios de la UI.
+
+Carga ``resources/quotes.json``; si no existe o es inválido, usa una lista integrada.
+Opcionalmente enriquece con resumen o imagen del autor desde Wikipedia en español (con caché
+en memoria por sesión; sin red, solo se muestra la cita).
 """
 
 import json
@@ -27,9 +31,17 @@ _FALLBACK_QUOTES: list[dict[str, str]] = [
 
 class QuoteService:
     """
-    Servicio para mostrar frases célebres y enriquecerlas con datos de Wikipedia.
+    Expone frases aleatorias y búsqueda de resumen/imagen de autor con caché en memoria por sesión.
+
+    Las llamadas a Wikipedia son perezosas y pueden fallar sin red; en ese caso ``get_author_info``
+    devuelve None y la UI puede mostrar solo la cita.
     """
+
     def __init__(self, quotes_json_path: str | None = None) -> None:
+        """
+        Args:
+            quotes_json_path: Ruta absoluta opcional al JSON; por defecto ``resource_path('resources/quotes.json')``.
+        """
         self.logger = logging.getLogger("EvolucionTiemposApp")
         self.resource_path = quotes_json_path or resource_path("resources/quotes.json")
         self.quotes: List[QuoteDTO] = []

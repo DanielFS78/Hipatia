@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: app_controller.py
+Nombre del Módulo: app_controller
 Descripción: Orquestador central de la aplicación. Gestiona el ciclo de vida de los 
              sub-controladores y coordina la comunicación entre el modelo global y la vista principal.
 """

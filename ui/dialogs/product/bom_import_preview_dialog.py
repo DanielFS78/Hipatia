@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-BOMImportPreviewDialog: Diálogo de supervisión para la importación de estructuras.
-==================================================================================
-Muestra un árbol jerárquico (QTreeWidget) que representa la estructura A3RP.
-Por fila: casilla «Importar» (desmarcada por defecto) y desplegable de tipo
-(Producto final, Subfabricación, Proceso mecánico, Componente) activo solo si
-la fila está marcada.
+Nombre del Módulo: bom_import_preview_dialog
+Descripción: Diálogo PyQt6 de supervisión previa a importar un BOM A3RP. Muestra un
+             árbol (QTreeWidget) con columna «Importar» (desmarcada por defecto) y
+             desplegable de ``BOMImportRole`` habilitado solo si la fila está marcada.
+             Valida que exista exactamente un producto final antes de ``accept``.
 """
 
 from __future__ import annotations
 
-from typing import Iterator, Optional
+from typing import Iterator, Optional, cast
 
 from PyQt6.QtWidgets import (
     QComboBox,
@@ -35,7 +34,10 @@ from core.import_manager.dto import BOMImportRole, BOMNodeDTO
 
 class BOMImportPreviewDialog(QDialog):
     """
-    Diálogo interactivo para previsualizar y supervisar el árbol BOM antes de importar.
+    Permite al usuario decidir qué ramas del BOM se persisten y con qué rol semántico.
+
+    Tras ``accept``, ``get_supervised_tree`` devuelve el mismo ``BOMNodeDTO`` raíz con
+    ``import_selected`` e ``import_role`` rellenados para el servicio de importación.
     """
 
     _PLACEHOLDER_INDEX = 0
@@ -72,6 +74,11 @@ class BOMImportPreviewDialog(QDialog):
         return None
 
     def __init__(self, root_node: BOMNodeDTO, parent: Optional[QWidget] = None) -> None:
+        """
+        Args:
+            root_node: Árbol BOM (se muta al confirmar con ``get_supervised_tree``).
+            parent: Ventana padre opcional de Qt.
+        """
         super().__init__(parent)
         self.root_node = root_node
         self.setWindowTitle("Supervisión de Importación de Estructura A3RP")
@@ -136,6 +143,7 @@ class BOMImportPreviewDialog(QDialog):
         layout.addLayout(btn_layout)
 
     def _make_role_combo(self) -> QComboBox:
+        """Crea el QComboBox de rol con ítem placeholder y estilo de error vía señal."""
         combo = QComboBox()
         combo.addItem("— Elegir tipo —", None)
         combo.addItem("Producto final", BOMImportRole.FINAL_PRODUCT)
@@ -162,6 +170,7 @@ class BOMImportPreviewDialog(QDialog):
             item.setForeground(1, QBrush())
 
     def _item_for_combo(self, combo: QComboBox) -> Optional[QTreeWidgetItem]:
+        """Localiza la fila del árbol que contiene el combo dado (recorrido en profundidad)."""
         it = QTreeWidgetItemIterator(self.tree)
         while it.value() is not None:
             item = it.value()
@@ -173,9 +182,10 @@ class BOMImportPreviewDialog(QDialog):
     def _on_item_changed(self, item: QTreeWidgetItem, column: int) -> None:
         if column != 0:
             return
-        combo = self.tree.itemWidget(item, 1)
-        if combo is None:
+        w = self.tree.itemWidget(item, 1)
+        if w is None:
             return
+        combo = cast(QComboBox, w)
         if item.checkState(0) == Qt.CheckState.Checked:
             combo.setEnabled(True)
         else:
@@ -188,6 +198,7 @@ class BOMImportPreviewDialog(QDialog):
             item.setForeground(1, QBrush())
 
     def _populate_tree(self, node: BOMNodeDTO, parent_item: QTreeWidgetItem) -> None:
+        """Crea un ``QTreeWidgetItem`` por nodo DTO, checkbox desmarcado y combo asociado."""
         item = QTreeWidgetItem(parent_item)
         item.setFlags(
             item.flags()
@@ -212,6 +223,7 @@ class BOMImportPreviewDialog(QDialog):
             self._populate_tree(hijo, item)
 
     def _iter_items(self, item: Optional[QTreeWidgetItem]) -> Iterator[QTreeWidgetItem]:
+        """Recorre en preorden el subárbol colgando de ``item`` (generador)."""
         if item is None:
             return
         yield item
@@ -220,17 +232,19 @@ class BOMImportPreviewDialog(QDialog):
             yield from self._iter_items(child)
 
     def _validation_error_message(self) -> Optional[str]:
+        """Compone la lista de estados de fila y delega en ``validate_row_selections_from_states``."""
         top = self.tree.topLevelItem(0)
         states: list[tuple[bool, Optional[BOMImportRole]]] = []
         for tree_item in self._iter_items(top):
             checked = tree_item.checkState(0) == Qt.CheckState.Checked
-            combo = self.tree.itemWidget(tree_item, 1)
+            w = self.tree.itemWidget(tree_item, 1)
             role: Optional[BOMImportRole] = None
-            if combo is None:
+            if w is None:
                 if checked:
                     return "Falta el desplegable de tipo en una fila marcada."
                 states.append((checked, None))
                 continue
+            combo = cast(QComboBox, w)
             if checked and combo.currentIndex() != self._PLACEHOLDER_INDEX:
                 raw = combo.currentData(Qt.ItemDataRole.UserRole)
                 if isinstance(raw, BOMImportRole):
@@ -248,6 +262,9 @@ class BOMImportPreviewDialog(QDialog):
     def get_supervised_tree(self) -> BOMNodeDTO:
         """
         Recorre el árbol de la UI y escribe ``import_selected`` / ``import_role`` en cada DTO.
+
+        Returns:
+            La misma instancia ``root_node`` mutada para pasar a ``BOMImportService.import_bom_tree``.
         """
         top_item = self.tree.topLevelItem(0)
         if top_item is not None:
@@ -255,14 +272,19 @@ class BOMImportPreviewDialog(QDialog):
         return self.root_node
 
     def _sync_node_from_item(self, item: QTreeWidgetItem) -> None:
+        """Propaga checkbox y combo del ítem al ``BOMNodeDTO`` almacenado en ``UserRole``."""
         node: BOMNodeDTO | None = item.data(0, Qt.ItemDataRole.UserRole)
         if node:
             checked = item.checkState(0) == Qt.CheckState.Checked
             node.import_selected = checked
-            combo = self.tree.itemWidget(item, 1)
-            if checked and combo is not None and combo.currentIndex() != self._PLACEHOLDER_INDEX:
-                role = combo.currentData(Qt.ItemDataRole.UserRole)
-                node.import_role = role if isinstance(role, BOMImportRole) else None
+            w = self.tree.itemWidget(item, 1)
+            if checked and w is not None:
+                combo = cast(QComboBox, w)
+                if combo.currentIndex() != self._PLACEHOLDER_INDEX:
+                    role_raw = combo.currentData(Qt.ItemDataRole.UserRole)
+                    node.import_role = role_raw if isinstance(role_raw, BOMImportRole) else None
+                else:
+                    node.import_role = None
             else:
                 node.import_role = None
             # Compat: mantener hint legacy alineado con subfabricación explícita

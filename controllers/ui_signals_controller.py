@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: ui_signals_controller.py
+Nombre del Módulo: ui_signals_controller
 Descripción: Centralizador de la interconexión mediante señales y slots. Desacopla
              la lógica de los widgets de los controladores principales.
 """

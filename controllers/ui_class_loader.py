@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Resolución de clases del paquete `ui` sin `import ui.*` en el AST.
+Nombre del Módulo: controllers.ui_class_loader
 
-El informe `architecture_layer_edges` solo cuenta `import` / `import from` estáticos;
-`importlib.import_module` evita aristas `controllers`→`ui` manteniendo el mismo comportamiento en runtime.
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``ui_class``. Integración típica con: ``__future__``, ``importlib``.
 """
 
 from __future__ import annotations

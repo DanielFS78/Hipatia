@@ -1,7 +1,8 @@
-# database/repositories/reports/reports_products_manager.py
 
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`reports_products_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: reports.reports_products_manager
+Descripción: Consultas SQL para informes: órdenes, productos, incidencias, búsqueda y estadísticas.
 """
 
 from typing import Optional

@@ -112,7 +112,9 @@ class TestWorkerTaskManager:
         manager._on_assign_task_to_worker_clicked()
         
         # Verificar
-        mock_service.assign_task_to_worker.assert_called_once_with(1, "P1", 10)
+        mock_service.assign_task_to_worker.assert_called_once_with(
+            1, "P1", 10, orden_fabricacion=None
+        )
         mock_view.show_message.assert_called_with("Éxito", "OK", "info")
         # Verificar refresh
         mock_controller.management_manager._on_worker_selected_in_list.assert_called_once_with(current_item)

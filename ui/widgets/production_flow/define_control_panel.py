@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`define_control_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: define_control_panel
+
+Descripción: Panel lateral para añadir o editar pasos del flujo (tareas, condiciones de inicio y recursos).
 """
 
 import logging

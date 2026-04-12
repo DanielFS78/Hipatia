@@ -1,9 +1,12 @@
 # =================================================================================
 # ui/dialogs/product/subfabricaciones_dialog.py
 # =================================================================================
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`subfabricaciones_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.product.subfabricaciones_dialog
+Descripción: Formulario PyQt6 del catálogo de productos (detalle, iteraciones, subfabricaciones o procesos).
 """
+
 from __future__ import annotations
 
 import os

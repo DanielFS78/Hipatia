@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-A3RPExcelAdapter: Adaptador para importar estructuras BOM desde archivos Excel de A3RP.
-=======================================================================================
-Implementa el puerto `IBOMImporter` leyendo archivos `.xlsx` mediante `pandas`.
-Reconstruye el árbol de lista de materiales (BOM) analizando los niveles de indentación
-y las dependencias implícitas en el formato exportado por el ERP A3RP.
+Nombre del Módulo: a3rp_excel_adapter
+Descripción: Lee hojas Excel (.xlsx) exportadas por A3RP y construye el árbol BOM en memoria.
+
+Implementa ``IBOMImporter`` con ``pandas``: interpreta columnas como Nivel, Componente y
+Tipo (Compuesto/Simple) para enlazar padres e hijos antes de la supervisión en UI.
 """
 
 import math

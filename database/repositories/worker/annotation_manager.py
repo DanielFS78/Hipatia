@@ -1,6 +1,7 @@
-# database/repositories/worker/annotation_manager.py
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`annotation_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: worker.annotation_manager
+Descripción: Datos de trabajadores, anotaciones y repositorio compuesto del subpaquete worker.
 """
 
 from typing import List

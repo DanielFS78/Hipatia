@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Connection Mode Selection Dialog
-================================
-Allows the user to choose between Local (SQLite) and Server (PostgreSQL) 
-modes at application startup.
+Nombre del Módulo: connection_dialog
+Descripción: Diálogo de arranque para elegir modo de base de datos local (SQLite) o
+             servidor (PostgreSQL), antes de abrir la aplicación principal.
 """
 
 from PyQt6.QtWidgets import (
@@ -16,7 +15,7 @@ from typing import Any
 
 class ConnectionDialog(QDialog):
     """
-    Dialog displayed at startup to select database connection mode.
+    Ventana modal que captura la preferencia de conexión a datos (fichero local vs motor servidor).
     """
     def __init__(self, parent: Any = None) -> None:
         super().__init__(parent)

@@ -1,4 +1,10 @@
-"""Secciones reutilizables para reportes PDF de planificación."""
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: pdf_report_sections
+Descripción: Bloques reutilizables de contenido ReportLab (tablas de auditoría, diagnósticos).
+
+Ensambla párrafos y tablas que consume ``pdf_report_strategy`` sin duplicar maquetación.
+"""
 
 from __future__ import annotations
 

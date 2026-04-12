@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Modulo: worker_ui_dtos
-Descripcion: DTOs tipados para la vista trabajador (lista de fabricaciones asignadas).
+Nombre del Módulo: core.worker_ui_dtos
 
-Origen típico: ``WorkerDbSync.get_assigned_fabricaciones``. La UI serializa filas con
-``to_signal_dict()`` cuando el receptor aún espera un mapping plano.
+Descripción: Nombre del Modulo: worker_ui_dtos Descripcion: DTOs tipados para la vista trabajador (lista de fabricaciones asignadas).
 """
 from __future__ import annotations
 

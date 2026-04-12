@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`worker_incidence_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: worker_incidence_dialog
+
+Descripción: Define protocolos o tipos principales: ``WorkerIncidenceDialog``. Diálogo para mostrar el detalle de las incidencias de un trabajador. Integración típica con: ``PyQt6``, ``datetime``.
 """
 
 from PyQt6.QtWidgets import (

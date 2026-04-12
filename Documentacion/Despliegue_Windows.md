@@ -19,6 +19,28 @@
 
 3. Salida esperada: `dist\Hipatia\Hipatia.exe` junto con DLLs y carpeta `_internal` (o equivalente según versión de PyInstaller).
 
+### Compilar solo desde la terminal (sin el `.bat`)
+
+En la raíz del repo, con un venv ya activado y dependencias instaladas (`pip install -r requirements.txt` y `pip install -r requirements-build.txt`):
+
+```bat
+pyinstaller --noconfirm hipatia.spec
+```
+
+Equivalente multiplataforma (misma limpieza + spec que CI):
+
+```bash
+python scripts/build_executable.py
+```
+
+**No hace falta GitHub** para obtener un `.exe`: cualquier PC Windows con Python sirve como máquina de build.
+
+### Si el error del `.exe` no coincide con el código del repo
+
+PyInstaller incrusta el `app.py` que había en disco **en el momento del build**. Si el traceback menciona `app.py`, línea 29, y en tu `app.py` actual la línea relevante está mucho más abajo (por ejemplo el `import` de `AppController` cambió de sitio), el ejecutable **no se generó con esa versión del código**: vuelve a compilar tras `git pull` en la rama correcta, borra la carpeta antigua `dist\Hipatia` y prueba solo el nuevo `dist\Hipatia\Hipatia.exe`.
+
+En GitHub Actions, el workflow **Build Windows EXE** solo hace push automático en `main`; en ejecución manual (*Run workflow*) elige la rama que contenga el commit deseado. En el log del job aparece el commit tras el checkout (ver paso «Show git revision» en el workflow).
+
 Para depuración con consola, en `hipatia.spec` se puede poner `console=True` en `EXE` y volver a empaquetar.
 
 ## Datos de usuario junto al ejecutable
@@ -40,6 +62,19 @@ Rutas de solo lectura (iconos, migraciones Alembic embebidas, `config` inicial) 
 
 DPI 100/125/150 %, cámara/QR, checklist §6 de `preparacion_windows`, y prueba en PC **sin** Python. Marcar esas casillas en la skill tras ejecutarlas.
 
+## C1 — Auditoría de rutas, DPI y cámara (abril 2026)
+
+Comandos ejecutados en desarrollo (repetir en Windows tras cambios en rutas o empaquetado):
+
+```bash
+python scripts/windows_path_audit.py
+pytest tests/unit
+```
+
+- **Informe de rutas:** [`reports/windows_path_audit.md`](../reports/windows_path_audit.md) (severidades P0/P1/P2). Última generación del script: sin hallazgos P0/P1 en el árbol auditado (`core/`, `controllers/`, `database/`, `features/`, `ui/`, `app.py`).
+- **DPI:** [`app.py`](../app.py) aplica `QApplication.setHighDpiScaleFactorRoundingPolicy(PassThrough)` antes de crear `QApplication`. `core/utils/ui_scaler.py` documenta que usa geometría lógica Qt6; comprobar en 125 %/150 % que el QSS no queda desmesurado.
+- **Cámara / OpenCV:** [`core/camera_manager/capture.py`](../core/camera_manager/capture.py) (`open_video_capture`, `open_video_capture_with_backends`) unifica backends con `CameraManager` y alternativas en Windows; [`controllers/hardware_controller.py`](../controllers/hardware_controller.py) abre la captura vía ese helper.
+
 ## Qt en Windows
 
-[`app.py`](../app.py): `_fix_qt_macos()` solo se ejecuta en `darwin`. En Windows no se aplica ese workaround; el `onedir` debe incluir los plugins de PyQt6 que recoja PyInstaller.
+[`app.py`](../app.py): `_fix_qt_macos()` solo se ejecuta en `darwin`. En Windows no se aplica ese workaround; el `onedir` debe incluir los plugins de PyQt6 que recoja PyInstaller. La política de redondeo High DPI anterior es independiente y aplica también en Windows.

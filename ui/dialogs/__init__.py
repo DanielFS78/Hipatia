@@ -1,20 +1,19 @@
-# =================================================================================
-# ui/dialogs/__init__.py
-# Módulo de Diálogos - Exporta todas las clases públicas.
-# =================================================================================
+# -*- coding: utf-8 -*-
 """
-Este módulo sirve como punto de entrada para todos los diálogos de la aplicación.
-Refactorización Phase 3 Extended completada: Todas las clases han sido extraídas.
+Nombre del Módulo: ui.dialogs
+Descripción: Paquete de diálogos PyQt6 (fabricación, flujo, productos, preparación y utilidades).
+
+Reexporta las clases públicas más usadas para simplificar ``from ui.dialogs import …``.
+
+El grafo visual de flujo de producción vive en ``ui.widgets.production_flow``
+(``ProductionFlowCanvas``, ``FlowCardWidget``); no se reexportan widgets de canvas aquí.
 """
 
-# Importar desde módulos ya extraídos
-from .canvas_widgets import CanvasWidget, CardWidget
 from .effects import (
     GoldenGlowEffect, GreenCycleEffect, MixedGoldGreenEffect,
     ProcessingGlowEffect, SimulationProgressEffect
 )
 
-# Importar desde nuevos módulos refactorizados
 from .production_flow import (
     DefineProductionFlowDialog,
     EnhancedProductionFlowDialog,
@@ -65,9 +64,6 @@ from .utility_dialogs import (
 )
 
 __all__ = [
-    # Canvas y Cards
-    'CanvasWidget', 'CardWidget',
-    
     # Efectos visuales
     'GoldenGlowEffect', 'GreenCycleEffect', 'MixedGoldGreenEffect',
     'ProcessingGlowEffect', 'SimulationProgressEffect',

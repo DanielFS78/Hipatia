@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
 """
-Script de Análisis de Conexiones de Repositorios
+Nombre del Módulo: scripts.analysis.analyze_repository_connections
 
-Analiza todas las conexiones a un repositorio específico:
-- Funciones que lo utilizan
-- Archivos que dependen de él
-- Métodos llamados
-- Mapa de dependencias
+Descripción: Define protocolos o tipos principales: ``FileAnalysisResult``, ``RepoUsageData``, ``ProjectAnalysisResult``, ``RepositoryConnectionAnalyzer``. Analiza conexiones y dependencias de repositorios. Integración típica con: ``os``, ``re``, ``ast``, ``sys``, ``pathlib``.
 """
 
 import os

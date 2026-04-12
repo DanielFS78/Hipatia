@@ -1,16 +1,8 @@
 #!/usr/bin/env python3
 """
-Detección de código muerto en el paquete ``ui/dialogs/``.
-======================================================
-Recorre cada ``*.py`` bajo ``ui/dialogs/``, extrae métodos por clase y
-busca referencias en ``app.py``, ``ui/``, ``controllers/``, ``core/``, ``tests/``.
+Nombre del Módulo: scripts.detect_dead_code
 
-Clasificación heurística (revisar manualmente antes de borrar):
-- USADO: referencias fuera del fichero de definición
-- INTERNO: solo llamadas desde la misma clase/paquete
-- MUERTO: sin referencias detectables (falsos positivos: slots Qt, getattr, etc.)
-
-Genera un Markdown bajo ``Documentacion/``.
+Descripción: Detección de código muerto en el paquete ``ui/dialogs/``. ====================================================== Recorre cada ``*.py`` bajo ``ui/dialogs/``, extrae métodos por clase y busca referencias en ``app.py``, ``ui/``, ``controllers/``, ``core/``, ``tests/``.
 """
 
 import ast

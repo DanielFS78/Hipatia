@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-TRACKING LOG REPOSITORY (Modularizado)
-========================================================================
-Repositorio para la gestión central de logs de trabajo y pasos.
-Organiza la lógica por dominios delegando en gestores especializados (composición).
-========================================================================
+Nombre del Módulo: tracking_log_repository
+Descripción: Logs de trabajo, pasos de trazabilidad y consultas pesadas vía subgestores.
+
+Compone ``TrackingCoreManager``, ``TrackingStepsManager``, ``TrackingQueriesManager`` y
+``TrackingMapper`` para no concentrar todo el SQL en una sola clase.
 """
 from __future__ import annotations
 

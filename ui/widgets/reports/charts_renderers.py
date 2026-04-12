@@ -1,4 +1,9 @@
-"""Render helpers seguros para `ReportsChartsWidget`."""
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: charts_renderers
+
+Descripción: Funciones auxiliares para poblar tarjetas de estadísticas del contenedor de gráficas.
+"""
 
 from __future__ import annotations
 

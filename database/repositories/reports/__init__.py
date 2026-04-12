@@ -1,7 +1,8 @@
-# database/repositories/reports/__init__.py
 
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: reports
+Descripción: Consultas SQL para informes: órdenes, productos, incidencias, búsqueda y estadísticas.
 """
 
 from .repository import ReportsRepository

@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`tracking_dialogs`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: tracking_dialogs
+Descripción: Diálogos auxiliares de trazabilidad y arranque de sesión de producción (orden y cantidad).
+
+Formularios simples reutilizados desde controladores de fabricación o seguimiento.
 """
 
 from PyQt6.QtWidgets import (
@@ -11,8 +15,7 @@ from typing import Any
 
 class OrderSetupDialog(QDialog):
     """
-    Dialog to setup the start of a production session.
-    Asks for the Order Number (OF) and the Total Quantity to produce.
+    Solicita número de orden de fabricación (O.F.) y cantidad total al iniciar una serie de producción.
     """
     def __init__(self, parent: Any = None, default_order: str = "") -> None:
         super().__init__(parent)

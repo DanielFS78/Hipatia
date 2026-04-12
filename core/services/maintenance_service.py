@@ -1,6 +1,10 @@
+# -*- coding: utf-8 -*-
 """
-Servicio de mantenimiento automatizado del sistema.
-Ejecuta tareas de limpieza y verificación en segundo plano para asegurar la higiene del sistema.
+Nombre del Módulo: maintenance_service
+Descripción: Mantenimiento programado en segundo plano: limpieza de intentos de login,
+             retención de auditoría, copias de seguridad y rotación de ficheros antiguos.
+
+``MaintenanceService`` encola un ``MaintenanceWorker`` en el ``QThreadPool`` global.
 """
 from __future__ import annotations
 

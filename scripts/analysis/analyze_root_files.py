@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
 """
-Script de Análisis de Archivos Raíz
-===================================
-Analiza los scripts Python en la raíz del proyecto para determinar:
-1. Qué definen (Clases, Funciones).
-2. De qué dependen (Imports).
-3. Dónde se usan (Referencias en el resto del proyecto).
+Nombre del Módulo: scripts.analysis.analyze_root_files
 
-Ayuda a decidir si moverlos a `core/`, `ui/`, `tools/` o eliminarlos.
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo). Integración típica con: ``ast``, ``os``, ``re``, ``pathlib``, ``json``.
 """
 
 import ast

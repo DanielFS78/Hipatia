@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`machines_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: machines_widget
+
+Descripción: CRUD de máquinas con lista filtrable, formulario de detalle y señales para grupos
+             y mantenimiento.
 """
 
 from .base import *

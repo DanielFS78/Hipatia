@@ -1,6 +1,7 @@
 """
 Nombre del Módulo: report_sheets.cronograma
-Descripcion: Hoja Excel cronológica detallada por unidad/tarea de producción.
+
+Descripción: Define protocolos o tipos principales: ``CronogramaSheet``. Integración típica con: ``datetime``, ``openpyxl``, ``base``.
 """
 
 from typing import List, Dict, Any

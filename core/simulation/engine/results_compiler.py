@@ -1,6 +1,8 @@
 # core/simulation/engine/results_compiler.py
 """
-Lógica o utilidades del núcleo (`results_compiler`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.simulation.engine.results_compiler
+
+Descripción: Define protocolos o tipos principales: ``ResultsCompiler``. Compila los resultados de la simulación y genera el log de auditoría. Integración típica con: ``datetime``, ``core``.
 """
 
 import logging

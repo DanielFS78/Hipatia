@@ -1,7 +1,9 @@
 # database/models/__init__.py
 
 """
-Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.models
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``__all__``, consumidos por la UI y controladores. Integración típica con: ``base``, ``product``, ``fabrication``, ``worker``, ``tracking``, ``machine``.
 """
 
 from .base import (

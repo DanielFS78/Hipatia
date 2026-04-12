@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-========================================================================
-CHARTS CONTAINER WIDGET - Contenedor de Gráficas de Análisis
-========================================================================
-Widget contenedor que muestra múltiples gráficas de análisis para
-un producto seleccionado: tiempo promedio, evolución temporal,
-tiempos por trabajador y patrón de incidencias.
+Nombre del Módulo: charts_container
 
-Datos: únicamente ``report_service=`` (``ReportService``).
-========================================================================
+Descripción: Pestañas de gráficas y tarjetas de resumen para un producto seleccionado en reportes.
+             Los datos llegan solo vía ``ReportService`` inyectado en el widget.
 """
 import logging
 from PyQt6.QtWidgets import (

@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Auditoría de docstrings de módulo: lista archivos .py sin descripción útil al nivel de módulo.
+Nombre del Módulo: scripts.audit_module_docstrings
 
-Salida: informe JSON bajo reports/ y resumen por stdout. Criterios alineados con
-doc_audit_common / generate_daniel_doc.py.
+Descripción: Auditoría de docstrings de módulo: lista archivos .py sin descripción útil al nivel de módulo.
 """
 
 from __future__ import annotations

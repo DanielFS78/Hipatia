@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Contratos (Ports) para la gestión de generación de documentos.
+Nombre del Módulo: core.label_manager.ports
+
+Descripción: Define protocolos o tipos principales: ``IDocumentGenerator``. Protocolo que define cómo debe comportarse un generador de documentos. Integración típica con: ``pathlib``.
 """
 
 from typing import Protocol, List, Dict, Any, Optional

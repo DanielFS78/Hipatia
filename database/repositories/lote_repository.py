@@ -1,6 +1,9 @@
-# database/repositories/lote_repository.py
+# -*- coding: utf-8 -*-
 """
-Repositorio para la gestión de plantillas de Lote.
+Nombre del Módulo: lote_repository
+Descripción: Plantillas de lote: CRUD, vínculos con productos y fabricaciones, consultas para cálculo.
+
+Opera sobre los modelos ``Lote``, ``Producto`` y ``Fabricacion`` vía SQLAlchemy.
 """
 from typing import List, Tuple, Optional, Dict, Any
 from sqlalchemy.orm import joinedload, Session

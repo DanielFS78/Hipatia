@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Nombre del Módulo: main_nav_panel
-Descripcion: Widget lateral de navegación para la ventana principal.
+Descripción: Widget lateral de navegación para la ventana principal.
              Gestiona los botones de acceso a las diferentes secciones y el menú de planificación.
 """
 import logging
@@ -181,5 +181,7 @@ class MainNavPanel(QFrame):
         # Planificación no usa setCheckable (menú suelto): estado activo vía propiedad QSS
         is_planificacion = active_page in ["calculate", "definir_lote"]
         self.btn_planificacion.setProperty("navActive", is_planificacion)
-        self.btn_planificacion.style().unpolish(self.btn_planificacion)
-        self.btn_planificacion.style().polish(self.btn_planificacion)
+        nav_style = self.btn_planificacion.style()
+        if nav_style is not None:
+            nav_style.unpolish(self.btn_planificacion)
+            nav_style.polish(self.btn_planificacion)

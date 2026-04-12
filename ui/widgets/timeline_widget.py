@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`timeline_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: timeline_widget
+
+Descripción: Diagrama de Gantt interactivo (``TimelineVisualizationWidget``) y panel de análisis
+             de tareas (``TaskAnalysisPanel``) para resultados de simulación.
 """
 
 from .base import *

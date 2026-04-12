@@ -37,6 +37,10 @@ description: Hub central del plan de mejora de calidad del proyecto Hipatia. Def
 
 No sustituye este plan de calidad ni el flujo de tests. Vive en **`.agents/skills/arquitectura_dependencias_hipatia/SKILL.md`** y el estado entre sesiones en **`Documentacion/Refactorizacion_Completa/Arquitectura_Dependencias/PROGRESO_OPTIMIZACION_CAPAS.md`** (fases Opt-0 … Opt-5). Agente sugerido: **`.cursor/agents/hipatia-arquitectura-dependencias.md`**.
 
+### Docstrings de módulo (oleada secuencial)
+
+Cierre y mantenimiento del bloque **`Nombre del Módulo` + `Descripción`** en el alcance de `generate_daniel_doc.py`: **`.agents/skills/docstrings_oleada_secuencial/SKILL.md`**, cola [`Documentacion/OLEADA_DOCSTRINGS_COLA.md`](../../../Documentacion/OLEADA_DOCSTRINGS_COLA.md) y registro [`Documentacion/REGISTRO_DOCSTRINGS_MODULO.md`](../../../Documentacion/REGISTRO_DOCSTRINGS_MODULO.md).
+
 ---
 
 ## Mapa de Fases y Estado

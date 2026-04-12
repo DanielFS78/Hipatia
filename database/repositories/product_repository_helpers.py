@@ -1,4 +1,10 @@
-"""Helpers de mapeo y normalización para `ProductRepository`."""
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: product_repository_helpers
+Descripción: Mapeo de modelos ORM de producto a DTOs y normalización de identificadores de máquina.
+
+Funciones puras usadas por ``ProductRepository`` para no duplicar conversiones en cada consulta.
+"""
 
 from __future__ import annotations
 

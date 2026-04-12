@@ -1,4 +1,8 @@
-"""Fachada de dominio de fabricación y preprocesos."""
+"""
+Nombre del Módulo: core.facades.production_facade
+
+Descripción: Expone ``ProductionFacade`` como API estable de aplicación sobre servicios ya inyectados; no contiene reglas de persistencia directa. Integración típica con: ``__future__``.
+"""
 
 from __future__ import annotations
 

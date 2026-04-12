@@ -1,6 +1,10 @@
-# time_calculator.py
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`time_calculator`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: time_calculator
+Descripción: Cálculo de fechas y duraciones respetando jornada laboral, descansos y festivos.
+
+``CalculadorDeTiempos`` avanza por bloques de trabajo continuos (no minuto a minuto) para
+sumar o restar tiempo de forma eficiente y coherente con la configuración de planta.
 """
 
 import logging

@@ -1,13 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-========================================================================
-ORDER LIST WIDGET - Widget de Lista de Órdenes de Fabricación
-========================================================================
-Widget que muestra las órdenes de fabricación de un producto,
-con información resumida y opción de expandir para ver detalles.
+Nombre del Módulo: order_list
 
-Datos: únicamente vía ``report_service=`` (``ReportService`` desde DI o ``model.report_service``).
-========================================================================
+Descripción: Lista de órdenes de fabricación de un producto con tarjetas expandibles; datos vía ``ReportService``.
 """
 import logging
 from datetime import datetime

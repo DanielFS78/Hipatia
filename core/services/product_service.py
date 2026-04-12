@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`product_service`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: product_service
+Descripción: Catálogo de productos: búsqueda, detalle, iteraciones, materiales y altas o bajas
+             lógicas. Expone señales PyQt6 para que la interfaz refresque listas tras cambios.
 """
 
 import logging

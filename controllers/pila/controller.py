@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: controller.py
+Nombre del Módulo: controller
 Descripción: Controlador Fachada para la gestión de Pilas y Lotes.
              Delega la lógica pesada a LoteManager y PilaManager.
 """

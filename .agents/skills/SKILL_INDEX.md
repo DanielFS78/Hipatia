@@ -18,6 +18,7 @@ Actualizado: 2026-04. Se retiraron **autopilots** y el hub histórico **refactor
 | `backlog_tests` | Backlog por impacto |
 | `backlog_tests_en_progreso` | Tests en progreso |
 | `estandar_documentacion` | Docstrings y docs técnicas |
+| `docstrings_oleada_secuencial` | Cola `OLEADA_DOCSTRINGS_COLA`, registro, gates; cierre por archivo del bloque `Nombre del Módulo` |
 | `plan_produccion_coordinador` | Prioridades hacia Windows |
 | `preparacion_windows` | DPI, Qt, PyInstaller |
 | `ui_pyqt_layout_freezes` | Congelaciones UI PyQt6 |

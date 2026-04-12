@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
 """
-Fachada de compatibilidad para estrategias de informes: reexporta interfaces y
-implementaciones desde core.services.reporting (Excel/PDF) sin acoplar
-importadores al subpaquete interno.
+Nombre del Módulo: report_strategy
+Descripción: Punto de entrada estable para estrategias de informe (Excel y PDF).
+
+Reexporta ``IReporteEstrategia``, ``GeneradorDeInformes`` y las clases concretas del
+subpaquete ``core.services.reporting`` para imports simples desde controladores.
 """
 
 from core.services.reporting.base import IReporteEstrategia, GeneradorDeInformes

@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`enhanced_flow_state_manager`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow.enhanced_flow_state_manager
+Descripción: Definición o simulación del flujo de producción (estado, presentadores, reglas y diálogos auxiliares).
 """
+
 from __future__ import annotations
 
 from datetime import date

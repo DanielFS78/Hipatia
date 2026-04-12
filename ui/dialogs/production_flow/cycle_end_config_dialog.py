@@ -1,6 +1,12 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`cycle_end_config_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow.cycle_end_config_dialog
+
+Descripción: Diálogo modal para marcar el fin de ciclo de una tarea y elegir a qué tarea
+             de inicio de ciclo debe volver el flujo. Lee el estado vía ``flow_task_entry_*``
+             y ``canvas_task_display_name`` sobre la lista ``canvas_tasks`` del flujo mejorado.
 """
+
 from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
@@ -9,8 +15,8 @@ from core.flow_canvas_io import (
     canvas_task_display_name,
     flow_task_config_cycle_return_to_index,
     flow_task_config_is_cycle_end_flag,
-    legacy_canvas_task_config,
-    legacy_canvas_task_is_cycle_start,
+    flow_task_entry_config,
+    flow_task_entry_is_cycle_start,
 )
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont
@@ -47,7 +53,7 @@ class CycleEndConfigDialog(QDialog):
         self.current_return_index_from_config = None
         self.is_currently_marked_as_end = False
         if 0 <= self.current_task_index < len(self.all_canvas_tasks):
-            current_config = legacy_canvas_task_config(
+            current_config = flow_task_entry_config(
                 self.all_canvas_tasks[self.current_task_index]
             )
             self.current_return_index_from_config = flow_task_config_cycle_return_to_index(
@@ -101,7 +107,7 @@ class CycleEndConfigDialog(QDialog):
         for i, task in enumerate(self.all_canvas_tasks):
             if i == self.current_task_index:
                 continue
-            is_cycle_start = legacy_canvas_task_is_cycle_start(task)
+            is_cycle_start = flow_task_entry_is_cycle_start(task)
             task_name = canvas_task_display_name(task, "Tarea Desconocida")
             if is_cycle_start:
                 item = QListWidgetItem(f"⭐ {task_name} (Inicio de Ciclo)")

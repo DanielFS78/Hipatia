@@ -1,16 +1,21 @@
 # -*- coding: utf-8 -*-
 """
-Ventana principal del rol trabajador (PyQt6).
+Nombre del Módulo: window
+Descripción: Ventana principal del operario: tareas asignadas, acciones (QR, incidencias,
+             etiquetas) y pestaña Log con la misma terminal que ve el responsable en inicio.
 
-La lista de tareas recibe filas ``WorkerTaskListRowDTO``; las señales hacia controladores
-siguen emitiendo ``dict`` plano vía ``WorkerTaskListRowDTO.to_signal_dict()`` para no romper contratos existentes.
+Las señales hacia ``WorkerController`` llevan datos de tarea como diccionario plano
+(``WorkerTaskListRowDTO.to_signal_dict()``). La conexión del log se hace desde ``app.py``.
 """
 
 import logging
 from PyQt6.QtWidgets import QMainWindow, QWidget, QMessageBox, QListWidgetItem
 from PyQt6.QtCore import Qt, pyqtSignal
 
-from typing import Optional, Dict, Any, List, cast
+from typing import TYPE_CHECKING, Optional, Dict, Any, List, cast
+
+if TYPE_CHECKING:
+    from core.qt_log_handler import QtLogHandler
 
 from core.interfaces.worker_view_interface import IWorkerView
 from core.worker_ui_dtos import WorkerTaskListRowDTO
@@ -21,7 +26,11 @@ class WorkerMainWindow(QMainWindow, IWorkerView):
     """
     Ventana principal para el rol de trabajador.
 
-    Estado de selección: ``current_selected_task`` es un ``WorkerTaskListRowDTO`` cuando hay fila activa.
+    Atributos relevantes:
+        ``current_selected_task``: ``WorkerTaskListRowDTO`` cuando hay tarea seleccionada
+        en la pestaña Tareas; ``None`` si no.
+        ``log_terminal``: :class:`~ui.widgets.log_terminal_widget.LogTerminalWidget`
+        de la pestaña Log (conexión con ``QtLogHandler`` desde ``app.py``).
     """
 
     # Señales
@@ -47,6 +56,7 @@ class WorkerMainWindow(QMainWindow, IWorkerView):
     selected_task_code_label: Any
     selected_task_desc_label: Any
     current_selected_task: Optional[WorkerTaskListRowDTO]
+    log_terminal: Any
 
     def __init__(self, current_user: Any, parent: Optional[QWidget] = None) -> None:
         super().__init__(parent)
@@ -58,6 +68,17 @@ class WorkerMainWindow(QMainWindow, IWorkerView):
         self._ui_manager.setup_main_window()
 
         self.logger.info(f"WorkerMainWindow inicializada para {getattr(current_user, 'nombre_completo', 'Usuario')}")
+
+    def connect_log_handler(self, handler: "QtLogHandler") -> None:
+        """
+        Conecta el handler de logging Qt a la terminal de la pestaña Log.
+
+        Equivalente a ``HomeWidget.connect_log_handler``: llama a
+        ``handler.connect_to_widget(self.log_terminal.append_log)``, reproduce
+        el buffer acumulado hasta el login y a partir de ahí muestra en tiempo
+        real los mensajes según el nivel del handler (por defecto INFO y superior).
+        """
+        handler.connect_to_widget(self.log_terminal.append_log)
 
     def enable_action_buttons(self, enabled: bool) -> None:
         """Habilita o deshabilita los botones de control de tareas."""
@@ -149,7 +170,9 @@ class WorkerMainWindow(QMainWindow, IWorkerView):
     def update_tasks_list(self, tasks: List[WorkerTaskListRowDTO]) -> None:
         self.tasks_list.clear()
         if not tasks:
-            self.tasks_list.addItem("No tienes tareas asignadas.")
+            ph = QListWidgetItem("No tienes tareas asignadas.")
+            ph.setFlags(Qt.ItemFlag.NoItemFlags)
+            self.tasks_list.addItem(ph)
             return
 
         for task in tasks:
@@ -174,7 +197,9 @@ class WorkerMainWindow(QMainWindow, IWorkerView):
             row = item.data(Qt.ItemDataRole.UserRole)
             if not isinstance(row, WorkerTaskListRowDTO):
                 self.current_selected_task = None
-                self.logger.warning("El item seleccionado no tiene datos (UserRole).")
+                self.logger.debug(
+                    "Selección ignorada: fila sin WorkerTaskListRowDTO (p. ej. mensaje informativo)."
+                )
                 self.details_stack.setCurrentIndex(0)
                 return
 

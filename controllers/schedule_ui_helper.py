@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: schedule_ui_helper.py
+Nombre del Módulo: schedule_ui_helper
 Descripción: Helper para operaciones de interfaz de usuario del ScheduleController.
 Maneja la lógica de interacción con widgets y diálogos de configuración de horarios.
 """

@@ -1,7 +1,8 @@
 # pila_serializer.py
 """
-🛡️ Serializador robusto para pilas de cálculo.
-Maneja correctamente todos los tipos de datos y previene pérdida de información.
+Nombre del Módulo: core.utils.pila_serializer
+
+Descripción: 🛡️ Serializador robusto para pilas de cálculo. Maneja correctamente todos los tipos de datos y previene pérdida de información.
 """
 import json
 import logging

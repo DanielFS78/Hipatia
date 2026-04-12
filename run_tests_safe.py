@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-run_tests_safe.py — Ejecutor seguro de tests para proyectos con PyQt6.
+Nombre del Módulo: run_tests_safe
 
-Ejecuta cada archivo de test en un subproceso independiente para evitar
-el segfault/abort que ocurre cuando se acumulan demasiados widgets Qt
-en el mismo proceso.
+Descripción: Ejecuta cada archivo de test en un subproceso aparte para reducir abortos por acumulación
+             de widgets PyQt6 en un solo proceso.
 
-Uso:
-    python3 run_tests_safe.py                  # todos los tests
-    python3 run_tests_safe.py tests/unit/      # solo una carpeta
-    python3 run_tests_safe.py -k "nombre"      # filtro por nombre
-    python3 run_tests_safe.py --fail-fast      # parar al primer fallo
+             Uso: ``python3 run_tests_safe.py`` (todos), ``python3 run_tests_safe.py tests/unit/``,
+             ``python3 run_tests_safe.py -k \"nombre\"``, ``python3 run_tests_safe.py --fail-fast``.
 """
 
 import sys

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Generación de texto del informe de verificación del sistema (StartupScreen).
-Lógica pura sin Qt; testeable con HealthReport mock o real.
+Nombre del Módulo: ui.startup_screen_report
+
+Descripción: Generación de texto del informe de verificación del sistema (StartupScreen). Lógica pura sin Qt; testeable con HealthReport mock o real.
 """
 from __future__ import annotations
 

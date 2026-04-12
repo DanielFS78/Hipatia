@@ -1,4 +1,9 @@
-"""Protocolos mínimos para comandos de aplicación usados desde diálogos de fabricación."""
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: ui.dialogs.fabrication.ui_dialog_protocols
+
+Descripción: Protocolos mínimos para comandos de aplicación usados desde diálogos de fabricación.
+"""
 
 from __future__ import annotations
 

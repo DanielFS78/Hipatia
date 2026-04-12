@@ -1,8 +1,9 @@
 """
-Módulo de Constantes Globales.
+Nombre del Módulo: core.constants
 
-Define iconos, colores, estados y parámetros de configuración compartidos 
-por toda la aplicación Hipatia.
+Descripción: Mapas estáticos compartidos por widgets y controladores: ``ICONS`` y ``DEPARTMENT_COLORS``
+             para la UI, ``PILA_STATES`` para etiquetas de estado de pilas y ``VALIDATION`` con límites de
+             búsqueda y longitud de textos de producto.
 """
 from typing import Dict, Union
 

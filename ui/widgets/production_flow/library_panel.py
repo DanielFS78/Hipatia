@@ -1,8 +1,8 @@
-# =================================================================================
-# ui/widgets/production_flow/library_panel.py
-# =================================================================================
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`library_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: library_panel
+
+Descripción: Biblioteca de tareas por producto (árbol) para arrastrar plantillas al canvas del flujo.
 """
 
 from PyQt6.QtWidgets import (

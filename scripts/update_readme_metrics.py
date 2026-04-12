@@ -1,14 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Actualiza el bloque de métricas del README entre los marcadores HIPATIA_METRICS.
+Nombre del Módulo: scripts.update_readme_metrics
 
-Requisitos para cifras completas:
-  - `python scripts/test_quality_analyzer.py` → `test_reports/compliance_data.json`
-  - `QT_QPA_PLATFORM=offscreen python -m pytest tests --cov=. --cov-report=json`
-    → `coverage.json` (ignorado por git; no se sube al repo)
-
-El bloque del README sí se commitea con valores de la última corrida local o de CI.
+Descripción: Actualiza el bloque de métricas del README entre los marcadores HIPATIA_METRICS.
 """
 from __future__ import annotations
 

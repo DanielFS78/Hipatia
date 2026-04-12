@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.effects
+Descripción: Efectos visuales Qt (resplandores y progreso) usados en canvas y simulación.
 """
 
 from .golden_glow import GoldenGlowEffect
@@ -9,9 +11,9 @@ from .mixed_gold_green import MixedGoldGreenEffect
 from .processing_glow import ProcessingGlowEffect
 
 __all__ = [
-    'GoldenGlowEffect',
-    'SimulationProgressEffect',
-    'GreenCycleEffect',
-    'MixedGoldGreenEffect',
-    'ProcessingGlowEffect'
+    "GoldenGlowEffect",
+    "SimulationProgressEffect",
+    "GreenCycleEffect",
+    "MixedGoldGreenEffect",
+    "ProcessingGlowEffect",
 ]

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: controller.py (Simulation)
+Nombre del Módulo: simulation.controller
 Descripción: Controlador principal para el módulo de simulación. Orquesta la ejecución 
              de hilos de cálculo, la optimización de recursos y la persistencia de flujos.
 """

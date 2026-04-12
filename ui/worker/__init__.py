@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: worker
+
+Descripción: Paquete de la ventana de trabajador (login de operario): diálogo de cámara y
+             ``main_window`` con ``WorkerMainWindow``.
 """

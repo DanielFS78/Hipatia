@@ -1,5 +1,10 @@
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`calendar_helper`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: calendar_helper
+Descripción: Acceso global opcional a la configuración de calendario y jornada (compatibilidad).
+
+Algunos módulos históricos leen el horario vía ``get_schedule_config`` tras un
+``set_schedule_config`` en el arranque de la aplicación.
 """
 
 from typing import Any

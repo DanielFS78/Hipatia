@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 """
 Nombre del Módulo: flow_connection_painter
-Descripcion: Pintado y enrutado de conectores entre tarjetas del canvas de flujo de produccion.
+
+Descripción: Pintado y enrutado de conectores entre tarjetas del canvas de flujo de producción.
 
     - Enrutado (``calculate_smart_path``): polilinea ortogonal Manhattan que no cruza ninguna
       tarjeta visible, incluidos origen y destino. Margen de exclusion ``CONNECTOR_OBSTACLE_PAD``;

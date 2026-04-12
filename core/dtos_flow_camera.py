@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-"""DTOs de flujo de producción y cámara."""
+"""
+Nombre del Módulo: core.dtos_flow_camera
+
+Descripción: Define protocolos o tipos principales: ``FlowTaskDataDTO``, ``CanvasCyclicConnectionFlags``, ``ProductFlowLibraryProductDTO``, ``FlowTaskConfigDTO``, ``ProductionFlowStepDTO``. Metadatos de pintado para aristas cíclicas en el canvas de flujo (UI). Integración típica con: ``__future__``, ``datetime``.
+"""
 
 from __future__ import annotations
 

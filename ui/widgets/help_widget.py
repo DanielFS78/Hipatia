@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`help_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: help_widget
+
+Descripción: Ayuda embebida en HTML («Cómo funciona») dentro de un ``QTextEdit`` de solo lectura.
 """
 
 from .base import *

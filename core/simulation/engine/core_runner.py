@@ -1,9 +1,8 @@
 # core/simulation/engine/core_runner.py
 """
-Módulo del Ejecutor Core de la Simulación.
+Nombre del Módulo: core.simulation.engine.core_runner
 
-Gestiona la cola de prioridad de eventos, el avance del tiempo y la
-persistencia de estados mediante checkpoints (serialización).
+Descripción: Define protocolos o tipos principales: ``CoreSimulationRunner``. Gestiona el bucle principal de la simulación y la cola de eventos. Integración típica con: ``heapq``, ``time``, ``pickle``, ``os``, ``datetime``, ``threading``.
 """
 import logging
 import heapq

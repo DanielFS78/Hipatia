@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`create_presenter`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.fabrication.create_presenter
+Descripción: Diálogo o presentador de fabricación: órdenes, preprocesos, productos y persistencia de pilas.
 """
 
 from typing import List, Dict, Any, Tuple, Optional, TYPE_CHECKING

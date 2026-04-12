@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`flow_simulation_handler`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow.flow_simulation_handler
+Descripción: Definición o simulación del flujo de producción (estado, presentadores, reglas y diálogos auxiliares).
 """
+
 from __future__ import annotations
 
 from typing import Optional, Any

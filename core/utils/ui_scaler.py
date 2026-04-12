@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 """
 Nombre del Módulo: ui_scaler.py
-Descripción: Proporciona la lógica matemática y de generación de estilos 
-             para el escalado dinámico de la interfaz gráfica en función de la resolución,
-             permitiendo que la aplicación se adapte a pantallas pequeñas (como portátiles).
+Descripción: Proporciona la lógica matemática y de generación de estilos
+             para el escalado dinámico de la interfaz en función de la geometría de pantalla.
+
+             Usa ``QScreen.availableGeometry()`` (píxeles lógicos Qt6), alineado con el escalado
+             alto DPI del sistema: no multiplicar de nuevo por ``devicePixelRatio`` salvo un
+             estudio explícito en Windows (evitar doble escalado con ``PassThrough`` en ``app``).
 """
 
 import math

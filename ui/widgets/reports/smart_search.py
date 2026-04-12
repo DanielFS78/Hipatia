@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Búsqueda con autocompletado en el módulo de reportes.
+Nombre del Módulo: smart_search
 
-La consulta usa exclusivamente ``ReportService`` (inyectado o vía ``set_report_service`` /
-``set_controller``).
+Descripción: Búsqueda con autocompletado y resultados en tiempo real para el módulo de reportes,
+             usando exclusivamente ``ReportService``.
 """
 
 import logging

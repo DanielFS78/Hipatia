@@ -1,6 +1,7 @@
 """
 Nombre del Módulo: report_sheets.audit
-Descripcion: Hoja Excel de auditoría de decisiones de cálculo y eventos críticos.
+
+Descripción: Define protocolos o tipos principales: ``AuditSheet``. Integración típica con: ``datetime``, ``openpyxl``, ``base``, ``core``.
 """
 
 from typing import List, Any

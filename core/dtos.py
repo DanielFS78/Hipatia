@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Fachada de compatibilidad para DTOs de dominio.
+"""
+Nombre del Módulo: core.dtos
 
-`core.dtos` se mantiene como punto de import estable para todo el proyecto.
-Las definiciones concretas viven en `core.dtos_models`.
+Descripción: Módulo shim que reexporta los DTOs definidos en ``core.dtos_models`` bajo el import estable ``core.dtos``, para que el resto del código no acople nombres internos del paquete de modelos.
 """
 from __future__ import annotations
 

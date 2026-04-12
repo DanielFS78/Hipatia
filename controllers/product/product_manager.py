@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: product_manager.py (Product)
+Nombre del Módulo: product.product_manager
 Descripción: Gestor central para la administración de productos, incluyendo su creación, 
              edición, eliminación y gestión de iteraciones de diseño.
 """

@@ -1,4 +1,8 @@
-"""Excepciones personalizadas para el sistema de seguridad."""
+"""
+Nombre del Módulo: core.security.security_exceptions
+
+Descripción: Define protocolos o tipos principales: ``SecurityError``, ``SecurityServiceNotInitializedError``, ``InsufficientPermissionsError``, ``RateLimitExceededError``. Excepción base para errores de seguridad.
+"""
 
 
 class SecurityError(Exception):

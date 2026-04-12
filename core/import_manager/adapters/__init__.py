@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: import_manager.adapters
+Descripción: Adaptadores que leen ficheros A3RP (Excel, CSV) y producen un ``BOMNodeDTO``.
 """

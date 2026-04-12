@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: report_controller.py
+Nombre del Módulo: report_controller
 Descripción: Gestiona la generación y exportación de informes en diversos formatos 
              (Excel, PDF), incluyendo resultados de simulación e historiales.
 """

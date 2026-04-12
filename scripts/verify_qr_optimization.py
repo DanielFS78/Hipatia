@@ -1,6 +1,8 @@
 
 """
-Script ejecutable (`verify_qr_optimization`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.verify_qr_optimization
+
+Descripción: Script ejecutable (`verify_qr_optimization`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 """
 
 import sys

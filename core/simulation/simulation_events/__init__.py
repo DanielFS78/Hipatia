@@ -1,7 +1,9 @@
 # core/simulation/events/__init__.py
 
 """
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.simulation.simulation_events
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``__all__``, consumidos por la UI y controladores. Integración típica con: ``base``, ``production``, ``worker``.
 """
 
 from .base import EventoDeSimulacion

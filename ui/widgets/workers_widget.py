@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 """
-Nombre del Módulo: workers_widget.py
-Descripción: Widget orquestador para la gestión de trabajadores en el panel de administración.
-             Gestiona la lista, detalles, asignaciones y sincronización con el controlador.
+Nombre del Módulo: workers_widget
+Descripción: Pestaña de trabajadores en «Gestión de datos»: lista, ficha, asignación de tareas
+             e historial, coordinada con ``WorkerController`` mediante señales PyQt6.
 """
 from .base import *
 from typing import Any, List, Optional, TYPE_CHECKING
@@ -69,7 +70,6 @@ class WorkersWidget(QWidget):
         self.right_tabs.addTab(self.details_panel, "Detalles y Asignación")
         self.right_tabs.addTab(self.activity_panel, "Actividad e Historial")
         
-        # Wrap right tabs in a ScrollArea to prevent clipping on small screens
         self.right_scroll = QScrollArea()
         self.right_scroll.setWidgetResizable(True)
         self.right_scroll.setWidget(self.right_tabs)
@@ -175,8 +175,9 @@ class WorkersWidget(QWidget):
 
     def clear_assignment_form(self) -> None:
         """Limpia los campos de asignación de tareas en el panel de detalles."""
-        self.update_product_search_results([])
         self.details_panel.clear_assignment_search_fields()
+        # Recargar sugerencias (si el buscador ya estaba vacío, clear() no emite textChanged).
+        self.worker_controller.task_manager._on_worker_product_search_changed("")
 
     @property
     def form_widgets(self) -> dict[str, Any]:

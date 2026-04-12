@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
 """
-Servicio para la validación de reglas de negocio en la interfaz de trabajador.
-Maneja comprobaciones de formatos QR, transiciones de estado y coherencia de datos.
+Nombre del Módulo: worker_validation_service
+
+Descripción: Validaciones de negocio para el flujo trabajador: parseo de QR, coincidencia de producto
+             y coherencia de datos antes de persistir (sin depender de widgets).
 """
 
 import logging

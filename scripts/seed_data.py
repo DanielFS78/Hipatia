@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Script ejecutable (`seed_data`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.seed_data
+
+Descripción: Script ejecutable (`seed_data`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 """
 from __future__ import annotations
 

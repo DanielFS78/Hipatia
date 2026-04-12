@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: calculation_controller.py
+Nombre del Módulo: calculation_controller
 Descripción: Gestiona la lógica de cálculo de tiempos de fabricación, incluyendo la 
              interacción con la pila de preprocesos y la exportación de logs de auditoría.
 """

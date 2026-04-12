@@ -1,4 +1,10 @@
-"""Operaciones IO/UI para `WorkerController`."""
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: worker_controller_io_manager
+
+Descripción: Colaborador de ``WorkerController`` para diálogos Qt, ficheros y flujos de E/S
+             (etiquetas QR, exportaciones, mensajes y apertura de configuración de cámara).
+"""
 
 from __future__ import annotations
 

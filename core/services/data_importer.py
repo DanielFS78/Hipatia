@@ -1,10 +1,9 @@
-# =================================================================================
-# importer.py
-# Implementa el patrón Factory Method para la importación de datos.
-# =================================================================================
-
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`data_importer`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: data_importer
+Descripción: Importación de materiales desde fichero (patrón factoría: interfaz común,
+             implementación Excel con ``pandas``). Devuelve objetos ``Material`` listos
+             para validación o persistencia según el flujo que invoque el módulo.
 """
 from __future__ import annotations
 

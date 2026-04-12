@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: lote_manager.py
+Nombre del Módulo: lote_manager
 Descripción: Gestor especializado en la lógica de plantillas de lote (Templates).
              Se encarga de la búsqueda de productos, fabricaciones y el guardado
              de la estructura del lote.

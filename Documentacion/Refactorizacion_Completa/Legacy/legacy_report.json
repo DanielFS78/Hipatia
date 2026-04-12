@@ -1,20 +1,250 @@
 {
-  "generated_at": "2026-03-18T09:56:51.493362",
+  "generated_at": "2026-04-11T08:28:46.055829",
   "base_dir": "/Users/danielsanz/Library/Mobile Documents/com~apple~CloudDocs/Programacion/Calcular_tiempos_fabricacion",
   "summary": {
     "print_en_produccion": 0,
     "bare_except": 0,
     "deprecated_markers": 0,
-    "docstring_legacy": 0,
+    "docstring_legacy": 20,
     "simple_delegation": 0,
-    "legacy_comment": 0
+    "legacy_comment": 8
   },
   "items": {
     "print_en_produccion": [],
     "bare_except": [],
     "deprecated_markers": [],
-    "docstring_legacy": [],
+    "docstring_legacy": [
+      {
+        "file": "controllers/schedule_controller.py",
+        "line": 34,
+        "symbol": "ScheduleController",
+        "kind": "class",
+        "keyword": "legacy",
+        "doc_excerpt": "Controlador de horarios y descansos. Utiliza composición para delegar la lógica de UI y API legacy en helpers especializados.",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "controllers/schedule_controller.py",
+        "line": 94,
+        "symbol": "on_add_break",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Método de compatibilidad para el flujo legacy de añadir descansos.",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "controllers/schedule_helpers.py",
+        "line": 55,
+        "symbol": "normalize_holidays",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Normaliza holidays legacy (list[str] o list[dict]) a list[dict{date,desc}].",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "controllers/schedule_ui_helper.py",
+        "line": 187,
+        "symbol": "on_add_break",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Legacy helper: Abre un diálogo genérico para añadir un descanso.",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "controllers/schedule_ui_helper.py",
+        "line": 220,
+        "symbol": "add_break",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Añade un descanso de forma programática (API legacy / tests).",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "controllers/schedule_ui_helper.py",
+        "line": 232,
+        "symbol": "delete_break",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Elimina un descanso por índice (API legacy / tests).",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "controllers/schedule_ui_helper.py",
+        "line": 246,
+        "symbol": "save_work_hours",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Guarda horas laborales y descansos en configuración (API legacy).",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "controllers/worker/protocols.py",
+        "line": 84,
+        "symbol": "IWorkerModel",
+        "kind": "class",
+        "keyword": "legacy",
+        "doc_excerpt": "Interfaz legacy para tests que aún mockean el modelo agregado.",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "core/define_flow_presenter_io.py",
+        "line": 67,
+        "symbol": "find_first_positive_duration",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Primera clave con valor float > 0 (misma logica que el presenter legacy).",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "core/flow_canvas_io.py",
+        "line": 53,
+        "symbol": "legacy_canvas_task_widget",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Widget asociado a una entrada `canvas_tasks[i]` del dialogo legacy.",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "core/flow_canvas_io.py",
+        "line": 58,
+        "symbol": "legacy_canvas_task_config",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Subdict `config` de una tarea en canvas legacy.",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "core/flow_canvas_io.py",
+        "line": 64,
+        "symbol": "legacy_canvas_task_is_cycle_start",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "True si la tarea marca inicio de ciclo en el modelo legacy.",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "core/flow_canvas_io.py",
+        "line": 96,
+        "symbol": "flow_task_config_cycle_return_to_index",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Indice de tarea a la que regresa el ciclo (`cycle_return_to_index` en config legacy).",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "core/flow_canvas_io.py",
+        "line": 136,
+        "symbol": "connection_cyclic_paint_flags",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Flags de pintado para aristas ciclicas (dict legacy o DTO).",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "scripts/test_quality_analyzer.py",
+        "line": 490,
+        "symbol": "resolve_analyzer_status",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Deriva status (Actualizado / En Progreso / Legacy), texto de detalle y domain_status.  strict_domain: «Actualizado» solo con score >= 100; domain_status Listo/Pendiente dominio.     Con score < 100 y ",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "ui/dialogs/canvas_widget.py",
+        "line": 27,
+        "symbol": "CanvasWidget",
+        "kind": "class",
+        "keyword": "legacy",
+        "doc_excerpt": "Canvas embebido en el dialogo legacy: pinta rejilla y flechas con logica propia (no usa ``ProductionFlowCanvas``). Depende de ``parent_dialog`` para resolver indices de tareas y datos de ciclo al dibu",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "ui/dialogs/canvas_widget.py",
+        "line": 48,
+        "symbol": "set_connections",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Recibe conexiones (dict legacy o DTO) y fuerza un redibujado.",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "ui/dialogs/product/procesos_mecanicos_dialog.py",
+        "line": 62,
+        "symbol": "_normalize_procesos",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Normaliza `current_procesos` a DTOs para evitar dicts en la UI (Fase 12C).  Acepta listas de dicts legacy por compatibilidad, pero internamente usa `ProcesoMecanicoDTO` para que el widget no dependa d",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "ui/main_window.py",
+        "line": 190,
+        "symbol": "buttons",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Compatibilidad legacy: expone los botones del panel de navegación.",
+        "category": "docstring_legacy"
+      },
+      {
+        "file": "ui/main_window.py",
+        "line": 256,
+        "symbol": "run_simulation_and_display",
+        "kind": "function",
+        "keyword": "legacy",
+        "doc_excerpt": "Legacy helper para mostrar resultados de simulación.",
+        "category": "docstring_legacy"
+      }
+    ],
     "simple_delegation": [],
-    "legacy_comment": []
+    "legacy_comment": [
+      {
+        "file": "controllers/product/protocols.py",
+        "line": 19,
+        "context": "# Reexport para imports existentes `from controllers.product.protocols import ...`",
+        "category": "legacy_comment"
+      },
+      {
+        "file": "controllers/schedule_ui_helper.py",
+        "line": 218,
+        "context": "# --- API programática (antes ScheduleLegacyApiHelper; composición unificada) ---",
+        "category": "legacy_comment"
+      },
+      {
+        "file": "core/services/backup_service.py",
+        "line": 7,
+        "context": "import hashlib  # Compatibilidad para tests legacy que parchean este símbolo.",
+        "category": "legacy_comment"
+      },
+      {
+        "file": "core/services/backup_service.py",
+        "line": 248,
+        "context": "# Compatibilidad API legacy (tests y callers antiguos)",
+        "category": "legacy_comment"
+      },
+      {
+        "file": "core/simulation/engine/motor.py",
+        "line": 108,
+        "context": "# Compatibilidad para dicts legacy que puedan tener 'tiempo' en lugar de 'duration'",
+        "category": "legacy_comment"
+      },
+      {
+        "file": "tests/unit/test_define_flow_presenter.py",
+        "line": 208,
+        "context": "# 10 / 0 guard -> total_cycles no se calcula en group_tasks ahora sino en set_production_flow (legacy logic) o se asume ",
+        "category": "legacy_comment"
+      },
+      {
+        "file": "ui/dialogs/fabrication/create_dialog.py",
+        "line": 39,
+        "context": "# API legacy (alias de la pestaña de preprocesos; sin capa intermedia)",
+        "category": "legacy_comment"
+      },
+      {
+        "file": "ui/dialogs/product/bom_import_preview_dialog.py",
+        "line": 290,
+        "context": "# Compat: mantener hint legacy alineado con subfabricación explícita",
+        "category": "legacy_comment"
+      }
+    ]
   }
 }

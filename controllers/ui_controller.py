@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: ui_controller.py
-Descripción: Controlador central para la sincronización de la interfaz de usuario.
+Nombre del Módulo: ui_controller
+
+Descripción: Define protocolos o tipos principales: ``UIController``. Controlador de sincronización de la interfaz. Integración típica con: ``__future__``, ``PyQt6``, ``core``.
 """
 from __future__ import annotations
 

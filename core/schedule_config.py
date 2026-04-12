@@ -1,5 +1,7 @@
 """
-Lógica o utilidades del núcleo (`schedule_config`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.schedule_config
+
+Descripción: Define protocolos o tipos principales: ``ScheduleConfig``. Integración típica con: ``datetime``, ``json``.
 """
 
 from datetime import datetime, time, date

@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`green_cycle`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.effects.green_cycle
+Descripción: Efecto visual o animación para el canvas de flujo o simulación (pintado con QTimer).
 """
 
 from PyQt6.QtWidgets import QWidget

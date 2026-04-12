@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`protocols`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: protocols
+Descripción: Protocolos tipados compartidos por repositorios y servicios de acceso a datos.
 """
 
 from typing import Any, Callable, Dict, List, Optional, Protocol, TypeVar

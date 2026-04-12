@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`flow_item_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: flow_item_widget
+
+Descripción: Fila o grupo en la lista textual de la pila de producción (vista ``FlowItemDTO``).
 """
 
 from typing import Optional, List

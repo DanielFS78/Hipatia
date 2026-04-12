@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: protocols.py (Simulation)
+Nombre del Módulo: simulation.protocols
 Descripción: Define los protocolos para asegurar la interoperabilidad entre el 
              SimulationController y sus gestores delegados (Execution y Editor).
 """

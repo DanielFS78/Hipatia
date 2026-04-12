@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 """
 Nombre del Módulo: log_terminal_widget
-Descripcion: Widget de terminal interna para la pantalla de inicio de Hipatia.
-             Muestra en tiempo real los mensajes de nivel WARNING, ERROR y CRITICAL
-             generados por el sistema de logging durante la ejecución, con
-             coloración diferenciada por nivel y botones de limpieza y exportación.
-
-             El widget está pensado para uso no técnico: el operario puede trabajar
-             con normalidad y consultar este panel antes de cerrar el programa para
-             detectar posibles incidencias internas, o exportarlo a un archivo .txt
-             para enviar al soporte técnico.
+Descripción: Terminal interna reutilizable en inicio (responsable) y en la vista
+             trabajador (pestaña Log). Recibe líneas desde ``QtLogHandler`` (nivel
+             por defecto ``INFO`` y superior); colorea de forma destacada
+             ``WARNING``, ``ERROR`` y ``CRITICAL``, y deja otros niveles en tono
+             neutro. Incluye limpieza de la vista y exportación a ``.txt`` para
+             soporte, sin borrar el archivo de log en disco.
 """
 from __future__ import annotations
 
@@ -56,21 +53,11 @@ _LEVEL_COLORS: dict[str, str] = {
 
 class LogTerminalWidget(QWidget):
     """
-    Panel tipo terminal que muestra advertencias y errores internos en tiempo real.
+    Panel de texto enriquecido conectado al ``QtLogHandler`` (vía ``connect_to_widget``
+    sobre ``append_log``, o ``connect_handler`` si solo se enlaza la señal).
 
-    Características:
-    - Muestra únicamente mensajes de nivel WARNING, ERROR y CRITICAL del sistema
-      de logging de Python, coloreando cada nivel con un color distinto.
-    - Botón **Limpiar** para vaciar la visualización sin afectar los logs en disco.
-    - Botón **Exportar** para guardar el contenido completo en un archivo ``.txt``
-      seleccionado por el usuario mediante diálogo de sistema.
-    - Se integra con ``QtLogHandler`` mediante ``connect_handler()``.
-
-    Uso típico::
-
-        terminal = LogTerminalWidget()
-        terminal.connect_handler(qt_log_handler)
-        layout.addWidget(terminal)
+    Colores: WARNING / ERROR / CRITICAL resaltados; resto de niveles en gris claro.
+    Botones Limpiar (solo vista) y Exportar ``.txt``.
     """
 
     def __init__(self, parent: QWidget | None = None) -> None:

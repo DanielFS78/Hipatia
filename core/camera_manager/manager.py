@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 Nombre del Módulo: manager.py (CameraManager)
-Descripción: Gestor de hardware de cámara. Controla el acceso, la captura de frames 
-             y la liberación de recursos de video.
+Descripción: Gestor de hardware de cámara. Controla el acceso, la captura de frames
+             y la liberación de recursos de video. La detección ligera usa ``capture.open_video_capture``
+             para alinear backends con ``validate_hardware`` y el resto de la aplicación.
 """
 
 import time
@@ -17,6 +18,7 @@ except ImportError:
 from .base import CameraInfo, CameraBackend
 from .detector import validate_hardware, get_camera_name, test_preview
 from .utils import get_system_backend
+from .capture import open_video_capture
 
 class CameraManager:
     """
@@ -50,9 +52,9 @@ class CameraManager:
         for i in range(self.max_cameras):
             cap = None
             try:
-                if cv2: 
-                    cap = cv2.VideoCapture(i, backend.value)
-                    if cap.isOpened():
+                if cv2:
+                    cap = open_video_capture(i)
+                    if cap is not None and cap.isOpened():
                         name, ext = get_camera_name(i, backend)
                         # Lightweight CameraInfo: width=0, height=0, fps=0, is_working=False
                         detected.append(CameraInfo(

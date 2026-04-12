@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`machine_resource_manager`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.production_flow.machine_resource_manager
+Descripción: Definición o simulación del flujo de producción (estado, presentadores, reglas y diálogos auxiliares).
 """
 
 from PyQt6.QtWidgets import QLabel, QCheckBox

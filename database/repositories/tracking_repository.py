@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-========================================================================
-TRACKING REPOSITORY - GESTIÓN DE TRAZABILIDAD Y SEGUIMIENTO (FACADE)
-========================================================================
-Repositorio principal que ahora actúa como Facade delegando a:
-- TrackingLogRepository
-- IncidenciaRepository
-- TrackingStatsRepository
+Nombre del Módulo: tracking_repository
+Descripción: Fachada de trazabilidad: delega en repositorios de logs, incidencias y estadísticas.
 
-Autor: Sistema de Trazabilidad
-Fecha: 2025
-========================================================================
+Unifica el acceso que la aplicación usa para seguimiento operario–fabricación sin acoplar
+la capa de servicios a cada subrepositorio por separado.
 """
 
 from __future__ import annotations

@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: pila.repository
+Descripción: Persistencia y consultas de pilas, lotes, bitácora y flujo de trabajo de fabricación.
 """
 
 from datetime import date

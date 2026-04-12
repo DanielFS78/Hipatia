@@ -1,7 +1,8 @@
-# database/repositories/reports/reports_stats_manager.py
 
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`reports_stats_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: reports.reports_stats_manager
+Descripción: Consultas SQL para informes: órdenes, productos, incidencias, búsqueda y estadísticas.
 """
 
 from typing import List, Optional

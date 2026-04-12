@@ -1,6 +1,8 @@
-# database/repositories/preproceso/preproceso_manager.py
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`preproceso_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: preproceso.preproceso_manager
+
+Descripción: Define protocolos o tipos principales: ``PreprocesoManager``. Gestor DAO para la entidad Preproceso. Integración típica con: ``sqlalchemy``, ``models``, ``core``, ``base``.
 """
 
 from typing import List

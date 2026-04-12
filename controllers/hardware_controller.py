@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: hardware_controller.py
-Descripción: Gestiona la interacción con dispositivos de hardware, principalmente 
-             cámaras de video para el escaneo de códigos QR.
+Nombre del Módulo: hardware_controller
+Descripción: Gestiona la interacción con dispositivos de hardware, principalmente
+             cámaras de video para el escaneo de códigos QR. La apertura de captura usa
+             ``core.camera_manager.capture.open_video_capture`` (misma cadena de backends que ``CameraManager``).
 """
 import cv2
 import logging
@@ -15,6 +16,7 @@ if TYPE_CHECKING:
     from controllers.worker.controller import WorkerController
 
 from core.camera_manager import CameraManager
+from core.camera_manager.capture import open_video_capture
 from core.qr_scanner import QrScanner
 
 class HardwareController(QObject):
@@ -45,7 +47,10 @@ class HardwareController(QObject):
     def initialize_qr_scanner(self, worker_controller: Optional['WorkerController'] = None) -> None:
         """
         Inicializa el escáner QR configurando el dispositivo de captura de video.
-        Este método busca la cámara preferida, la abre y vincula el objeto VideoCapture al QrScanner.
+
+        Resuelve el índice de cámara (configuración guardada, mejor cámara o índice 0),
+        abre la captura con ``open_video_capture`` (política de backend alineada con ``CameraManager``)
+        y pasa el ``cv2.VideoCapture`` resultante a ``QrScanner``.
 
         Args:
             worker_controller: Opcional; instancia del controlador de operario para inyectar el scanner.
@@ -91,10 +96,10 @@ class HardwareController(QObject):
                     self.logger.warning("No se encontró ninguna cámara funcional. Intentando fallback a índice 0.")
                     final_camera_index = 0
 
-            # 4. ABRIR LA CÁMARA
+            # 4. ABRIR LA CÁMARA (mismo criterio de backend que CameraManager: DSHOW/MSMF en Windows)
             if final_camera_index >= 0:
                 self.logger.info(f"Intentando abrir hardware de cámara {final_camera_index}...")
-                camera_object = cv2.VideoCapture(final_camera_index)
+                camera_object = open_video_capture(final_camera_index)
 
                 if not camera_object or not camera_object.isOpened():
                     self.logger.error(f"¡Fallo crítico! No se pudo abrir la cámara {final_camera_index}.")

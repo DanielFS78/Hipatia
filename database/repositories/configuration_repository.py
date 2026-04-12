@@ -1,6 +1,9 @@
-# database/repositories/configuration_repository.py
+# -*- coding: utf-8 -*-
 """
-Repositorio para la gestión de configuración de la aplicación.
+Nombre del Módulo: configuration_repository
+Descripción: Pares clave–valor de configuración persistente (JSON o tipos simples) en base de datos.
+
+Lectura y escritura sobre el modelo ``Configuration`` con valores por defecto opcionales.
 """
 from typing import Optional, Any, List
 from datetime import date

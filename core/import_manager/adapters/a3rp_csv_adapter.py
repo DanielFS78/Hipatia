@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 """
-Nombre del Módulo: import_manager.adapters.a3rp_csv_adapter
-Descripcion: Adaptador CSV de A3RP para construir un árbol BOM jerárquico.
+Nombre del Módulo: a3rp_csv_adapter
+Descripción: Lee exportaciones CSV de A3RP (con cabecera Nivel/Componente) y arma el mismo
+             árbol ``BOMNodeDTO`` que el adaptador Excel, para entornos sin .xlsx.
 """
 
 import csv

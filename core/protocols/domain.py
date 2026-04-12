@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Protocolos de dominio para productos, fabricaciones y materiales.
+Nombre del Módulo: core.protocols.domain
 
-No heredar de estos protocolos en clases `QObject` (PyQt6): conflicto de metaclases
-en tiempo de ejecución. Se usan para tipado estático (mypy), `create_autospec` y
-reexportación desde `controllers.product.protocols`.
+Descripción: Define protocolos o tipos principales: ``IProductService``, ``IFabricacionService``, ``IMaterialService``. Contrato del servicio de catálogo, iteraciones e imágenes de producto. Integración típica con: ``__future__``, ``core``.
 """
 from __future__ import annotations
 

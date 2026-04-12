@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: backup_controller.py
+Nombre del Módulo: backup_controller
 Descripción: Gestiona las operaciones de copia de seguridad (backup), restauración, 
              exportación e importación de la base de datos y logs del sistema.
 """

@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Operaciones de sistema: lotes, configuración persistente y órdenes de tracking.
+"""
+Nombre del Módulo: system_integration_service
+Descripción: Operaciones transversales de sistema: lotes, configuración persistente y tracking.
 
-Centraliza el acceso que antes hacía AppModel directamente contra repositorios.
+Fachada delgada sobre los repositorios expuestos por ``DatabaseManager`` para evitar acoplar
+widgets a la capa de datos.
 """
 
 from __future__ import annotations

@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`golden_glow`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.effects.golden_glow
+Descripción: Efecto visual o animación para el canvas de flujo o simulación (pintado con QTimer).
 """
 
 from PyQt6.QtWidgets import QWidget

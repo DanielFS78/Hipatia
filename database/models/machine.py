@@ -1,7 +1,9 @@
 # database/models/machine.py
 
 """
-Capa de datos (`machine`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: database.models.machine
+
+Descripción: Define protocolos o tipos principales: ``Maquina``, ``MachineMaintenanc``, ``GrupoPreparacion``, ``PreparacionPaso``. Representa un recurso físico (fresa, torno, etc.) en planta. Integración típica con: ``sqlalchemy``, ``base``.
 """
 
 from sqlalchemy import Integer, String, Boolean, Text, ForeignKey, DateTime, Float

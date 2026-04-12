@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-🚀 HIPATIA MASTER TEST RUNNER & QA DASHBOARD
-============================================
-Orquesta la ejecución de tests y genera un reporte visual de cobertura
-y calidad real de código por cada archivo de test.
+Nombre del Módulo: run_tests
+
+Descripción: Orquestador local de pytest y métricas de calidad por archivo de test (cobertura,
+             resumen visual en consola). Ignora duplicados tipo ``test_foo 2.py`` de Finder/iCloud.
 """
 
 import hashlib

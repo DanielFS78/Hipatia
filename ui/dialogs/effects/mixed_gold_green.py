@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`mixed_gold_green`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.effects.mixed_gold_green
+Descripción: Efecto visual o animación para el canvas de flujo o simulación (pintado con QTimer).
 """
 
 from PyQt6.QtWidgets import QWidget

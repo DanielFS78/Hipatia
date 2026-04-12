@@ -1,17 +1,8 @@
 #!/usr/bin/env python3
 """
-Analizador de Código Legacy — Proyecto Hipatia
-==============================================
-Fase 4 del Plan de Mejora de Calidad: detecta patrones legacy para su
-eliminación o sustitución (print → logger, marcadores deprecated, docstrings
-obsoletos, delegaciones/shim y código muerto candidato).
+Nombre del Módulo: scripts.legacy_analyzer
 
-Genera:
-- legacy_report.json: datos estructurados para el agente
-- legacy_report.md: informe legible en Documentacion/Refactorizacion_Completa/Legacy/
-
-Uso:
-  python3 scripts/legacy_analyzer.py [--json-only] [--md-only]
+Descripción: Analizador de Código Legacy — Proyecto Hipatia ============================================== Fase 4 del Plan de Mejora de Calidad: detecta patrones legacy para su eliminación o sustitución (print → logger, marcadores deprecated, docstrings obsoletos, delegaciones/shim y código muerto candidato).
 """
 
 from __future__ import annotations

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`gestion_datos_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: gestion_datos_widget
+
+Descripción: Pestañas unificadas para productos, fabricaciones, máquinas, trabajadores y lotes.
+             Cada pestaña resuelve su controlador vía DI.
 """
 
 from .base import *

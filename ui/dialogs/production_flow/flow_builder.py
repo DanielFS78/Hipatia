@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Construcción y serialización de flujos de producción (composición con EnhancedFlowPresenter)."""
+"""
+Nombre del Módulo: ui.dialogs.production_flow.flow_builder
+
+Descripción: Construcción y serialización de flujos de producción (composición con ``EnhancedFlowPresenter``).
+"""
 
 from __future__ import annotations
 

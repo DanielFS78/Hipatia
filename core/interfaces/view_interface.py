@@ -1,5 +1,7 @@
 """
-Lógica o utilidades del núcleo (`view_interface`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.interfaces.view_interface
+
+Descripción: Define protocolos o tipos principales: ``IView``. Interfaz abstracta para la vista principal.
 """
 
 from abc import abstractmethod

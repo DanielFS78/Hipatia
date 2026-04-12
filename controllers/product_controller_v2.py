@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: product_controller_v2.py
+Nombre del Módulo: product_controller_v2
 Descripción: Controlador centralizado para la gestión de productos, fabricaciones y 
              preprocesos. Actúa como fachada (Facade) delegando en gestores especializados.
 """

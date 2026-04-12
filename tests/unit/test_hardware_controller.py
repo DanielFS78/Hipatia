@@ -15,6 +15,13 @@ from PyQt6.QtWidgets import QMessageBox
 pytestmark = pytest.mark.unit
 
 
+def _mock_opencv_capture(*, opened: bool = True) -> MagicMock:
+    """Stub mínimo de ``cv2.VideoCapture`` para rutas felices y de error en ``HardwareController``."""
+    cap = MagicMock(spec=["isOpened", "set", "release"])
+    cap.isOpened.return_value = opened
+    return cap
+
+
 class DummySettingsWidget(SettingsWidget):
     """Clase dummy para simular el widget de configuración sin inicializar Qt."""
     def __init__(self):
@@ -85,17 +92,18 @@ class TestHardwareController:
         cam_info.is_working = True
         mock_controller.camera_manager.get_camera_info.return_value = cam_info
         
-        with patch('controllers.hardware_controller.cv2.VideoCapture') as mock_vc:
-            
-            mock_cap = mock_vc.return_value
-            mock_cap.isOpened.return_value = True
-            
+        with patch(
+            "controllers.hardware_controller.open_video_capture", autospec=True
+        ) as mock_open:
+            mock_cap = _mock_opencv_capture()
+            mock_open.return_value = mock_cap
+
             mock_scanner_inst = mock_controller.mock_scanner_class.return_value
             mock_scanner_inst.is_camera_ready = True
-            
+
             mock_controller.initialize_qr_scanner()
-            assert mock_vc.call_count == 1
-            mock_vc.assert_called_once_with(1)
+            assert mock_open.call_count == 1
+            mock_open.assert_called_once_with(1)
             assert mock_controller.mock_scanner_class.call_count == 1
             mock_controller.mock_scanner_class.assert_called_once_with(
                 camera_manager=mock_controller.camera_manager,
@@ -117,16 +125,18 @@ class TestHardwareController:
         best_cam.name = "BestCam"
         mock_controller.camera_manager.get_best_camera.return_value = best_cam
         
-        with patch('controllers.hardware_controller.cv2.VideoCapture') as mock_vc:
-            
-            mock_vc.return_value.isOpened.return_value = True
+        with patch(
+            "controllers.hardware_controller.open_video_capture", autospec=True
+        ) as mock_open:
+            mock_cap = _mock_opencv_capture()
+            mock_open.return_value = mock_cap
             mock_controller.mock_scanner_class.return_value.is_camera_ready = True
-            
+
             mock_controller.initialize_qr_scanner()
             assert mock_controller.camera_manager.get_best_camera.call_count == 1
             mock_controller.camera_manager.get_best_camera.assert_called_once_with()
-            assert mock_vc.call_count >= 1
-            mock_vc.assert_called_with(0)
+            assert mock_open.call_count >= 1
+            mock_open.assert_called_with(0)
 
     def test_detect_cameras_success(self, mock_controller):
         """Verifica que la detección de cámaras actualice el combo box."""
@@ -172,11 +182,13 @@ class TestHardwareController:
         cam_info.fps = 30.0
         mock_controller.camera_manager.get_camera_info.return_value = cam_info
         
-        with patch('controllers.hardware_controller.cv2.VideoCapture') as mock_vc:
-            
-            mock_vc.return_value.isOpened.return_value = True
+        with patch(
+            "controllers.hardware_controller.open_video_capture", autospec=True
+        ) as mock_open:
+            mock_cap = _mock_opencv_capture()
+            mock_open.return_value = mock_cap
             mock_controller.mock_scanner_class.return_value.is_camera_ready = True
-            
+
             mock_controller.save_hardware_settings()
             assert mock_controller.db.config_repo.set_setting.call_count == 1
             mock_controller.db.config_repo.set_setting.assert_called_once_with('camera_index', '1')
@@ -248,10 +260,11 @@ class TestHardwareController:
         cam_info.fps = 30.0
         mock_controller.camera_manager.get_camera_info.return_value = cam_info
         
-        with patch('controllers.hardware_controller.cv2.VideoCapture') as mock_vc:
-            mock_cap = mock_vc.return_value
-            mock_cap.isOpened.return_value = False
-            
+        with patch(
+            "controllers.hardware_controller.open_video_capture", autospec=True
+        ) as mock_open:
+            mock_open.return_value = None
+
             mock_controller.initialize_qr_scanner()
 
             mock_controller.view.show_message.assert_called_once_with(
@@ -274,13 +287,15 @@ class TestHardwareController:
         cam_info.is_working = True
         mock_controller.camera_manager.get_camera_info.return_value = cam_info
         
-        with patch('controllers.hardware_controller.cv2.VideoCapture') as mock_vc:
-            
-            mock_vc.return_value.isOpened.return_value = True
+        with patch(
+            "controllers.hardware_controller.open_video_capture", autospec=True
+        ) as mock_open:
+            mock_cap = _mock_opencv_capture()
+            mock_open.return_value = mock_cap
             mock_controller.mock_scanner_class.return_value.is_camera_ready = True
-            
+
             mock_controller.initialize_qr_scanner()
-            
+
             assert existing_scanner.release_camera.call_count == 1
             existing_scanner.release_camera.assert_called_once_with()
             assert mock_controller.qr_scanner is not None
@@ -316,14 +331,16 @@ class TestHardwareController:
         
         worker_ctrl = MagicMock(spec=["qr_scanner"])
         
-        with patch('controllers.hardware_controller.cv2.VideoCapture') as mock_vc:
-            
-            mock_vc.return_value.isOpened.return_value = True
+        with patch(
+            "controllers.hardware_controller.open_video_capture", autospec=True
+        ) as mock_open:
+            mock_cap = _mock_opencv_capture()
+            mock_open.return_value = mock_cap
             mock_scanner_inst = mock_controller.mock_scanner_class.return_value
             mock_scanner_inst.is_camera_ready = True
-            
+
             mock_controller.initialize_qr_scanner(worker_ctrl)
-            
+
             assert worker_ctrl.qr_scanner == mock_scanner_inst
 
     def test_scanner_not_ready_exception(self, mock_controller):
@@ -338,12 +355,14 @@ class TestHardwareController:
         cam_info.fps = 30.0
         mock_controller.camera_manager.get_camera_info.return_value = cam_info
         
-        with patch('controllers.hardware_controller.cv2.VideoCapture') as mock_vc:
-            
-            mock_vc.return_value.isOpened.return_value = True
+        with patch(
+            "controllers.hardware_controller.open_video_capture", autospec=True
+        ) as mock_open:
+            mock_cap = _mock_opencv_capture()
+            mock_open.return_value = mock_cap
             mock_scanner_inst = mock_controller.mock_scanner_class.return_value
             mock_scanner_inst.is_camera_ready = False
-            
+
             mock_controller.initialize_qr_scanner()
 
             mock_controller.view.show_message.assert_called_once_with(

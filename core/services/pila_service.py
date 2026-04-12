@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Modulo: pila_service
-Descripcion: Servicio de dominio para pilas de fabricacion, simulacion y preparacion de datos
-             de calculo (DTOs para el motor). Usa ``DatabaseManager`` y repositorios asociados.
+Nombre del Módulo: pila_service
+Descripción: Pilas de trabajo, simulación y ensamblado de DTOs para el motor de cálculo.
+
+Delega persistencia en ``DatabaseManager`` y ``PilaRepository``; emite señales cuando cambian
+pilas o terminan simulaciones.
 """
 
 import logging

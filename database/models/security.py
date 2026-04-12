@@ -1,10 +1,7 @@
-"""Modelos ORM de seguridad y auditoria.
+"""
+Nombre del Módulo: database.models.security
 
-Este modulo define las tablas de configuracion global y de seguridad
-operativa del sistema:
-- `Configuration`: clave/valor de ajustes persistentes.
-- `LoginAttempt`: historial de intentos de autenticacion para rate limiting.
-- `AuditLog`: trazabilidad de acciones sensibles (RBAC/auditoria).
+Descripción: Define protocolos o tipos principales: ``Configuration``, ``LoginAttempt``, ``AuditLog``. Par clave/valor para configuraciones persistentes del sistema. Integración típica con: ``sqlalchemy``, ``base``, ``datetime``.
 """
 
 from sqlalchemy import Integer, String, Boolean, Text, ForeignKey, DateTime

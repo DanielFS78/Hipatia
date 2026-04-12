@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: generate_ui_report
+
+Descripción: Convierte el JSON generado por ``analyze_ui`` en un informe Markdown de la interfaz Hipatia.
+"""
+
 import json
 import os
 from datetime import datetime

@@ -1,7 +1,9 @@
-# database/repositories/iteration_repository.py
+# -*- coding: utf-8 -*-
 """
-Repositorio para gestión de iteraciones de productos.
-Módulo único que concentra la persistencia de iteraciones (antes repartida en varias piezas).
+Nombre del Módulo: iteration_repository
+Descripción: Historial de iteraciones de producto, imágenes asociadas y consultas para la UI.
+
+Persistencia y mapeo a DTOs sobre los modelos ``ProductIteration`` y ``Material``.
 """
 from __future__ import annotations
 from typing import List, Any, Optional, Dict, cast

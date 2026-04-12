@@ -1,9 +1,8 @@
 
-"""Descarga recursos auxiliares para usar OpenCV (modelos y documentación).
+"""
+Nombre del Módulo: scripts.download_opencv_resources
 
-Este script se ejecuta desde la raíz del proyecto y escribe los artefactos en:
-- `core/models/` (modelos WeChatQRCode)
-- `Documentacion/opencv/` (zip de documentación)
+Descripción: Descarga recursos auxiliares para usar OpenCV (modelos y documentación).
 """
 
 import os

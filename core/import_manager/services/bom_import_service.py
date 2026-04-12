@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-BOMImportService: Servicio de dominio para importar estructuras supervisadas.
-=============================================================================
-Toma el árbol ``BOMNodeDTO`` tras la supervisión en UI (``import_selected`` /
-``import_role``) y persiste producto final, subfabricaciones, procesos mecánicos
-y componentes (materiales) vinculados al producto final.
+Nombre del Módulo: bom_import_service
+Descripción: Servicio de dominio que persiste un BOM A3RP tras la supervisión en UI.
+             Lee ``BOMNodeDTO`` con ``import_selected`` e ``import_role``, exige un único
+             producto final, actualiza el registro en ``productos`` y crea/vincula
+             subfabricaciones, procesos mecánicos y materiales al código final.
 """
 
 from __future__ import annotations
@@ -17,7 +17,11 @@ from core.import_manager.dto import BOMImportRole, BOMNodeDTO
 
 class BOMImportService:
     """
-    Servicio encargado de importar un árbol BOM clasificado a la base de datos de Hipatia.
+    Orquesta la escritura en BD a partir del árbol supervisado en ``BOMImportPreviewDialog``.
+
+    No crea productos de catálogo para subfabricaciones: estas van a la tabla
+    ``subfabricaciones`` del producto final. El tiempo óptimo del producto se incrementa
+    con la suma de tiempos de procesos mecánicos realmente nuevos respecto al estado previo.
     """
 
     _PROC_MIN_TIME = 0.01
@@ -36,6 +40,13 @@ class BOMImportService:
         Importa únicamente nodos con ``import_selected=True`` y ``import_role`` definido.
 
         Requiere exactamente un nodo ``BOMImportRole.FINAL_PRODUCT`` entre los seleccionados.
+
+        Args:
+            root_node: Raíz del árbol (se recorre en profundidad).
+
+        Returns:
+            Diccionario de contadores: ``creados``, ``actualizados``, ``errores``,
+            ``subfabricaciones_vinculadas``, ``procesos_mecanicos``, ``componentes``.
         """
         stats: Dict[str, int] = {
             "creados": 0,
@@ -115,6 +126,15 @@ class BOMImportService:
         return stats
 
     def _collect_selected(self, node: BOMNodeDTO) -> List[BOMNodeDTO]:
+        """
+        Recorre el árbol y devuelve nodos marcados con código y rol válidos (sin duplicar por ``id``).
+
+        Args:
+            node: Nodo raíz desde el que iniciar el DFS.
+
+        Returns:
+            Lista plana de nodos elegibles para importación.
+        """
         out: List[BOMNodeDTO] = []
         visited: Set[int] = set()
 
@@ -132,6 +152,14 @@ class BOMImportService:
         return out
 
     def _ensure_main_product(self, node: BOMNodeDTO, has_subfabs: bool, stats: Dict[str, int]) -> None:
+        """
+        Garantiza que exista la fila de producto final antes de fusionar detalles.
+
+        Args:
+            node: Nodo producto final.
+            has_subfabs: Si hay subfabricaciones seleccionadas (afecta departamento y flag).
+            stats: Contadores mutables (creación vs error).
+        """
         codigo = node.codigo_componente
         try:
             existing = self.product_service.get_product_by_code(codigo)
@@ -159,6 +187,7 @@ class BOMImportService:
 
     @staticmethod
     def _sub_row_from_node(n: BOMNodeDTO) -> Dict[str, Any]:
+        """Construye el dict de subfabricación esperado por ``update_product`` desde un nodo."""
         desc = (n.denominacion or "").strip()
         label = f"{n.codigo_componente} — {desc}" if desc else str(n.codigo_componente)
         return {
@@ -170,6 +199,7 @@ class BOMImportService:
         }
 
     def _proceso_dict_from_node(self, n: BOMNodeDTO) -> Dict[str, Any]:
+        """Mapea un nodo de proceso mecánico al payload de proceso en producto."""
         nombre = (n.codigo_componente or "Proceso").strip() or "Proceso"
         desc = (n.denominacion or "").strip()
         return {
@@ -180,6 +210,7 @@ class BOMImportService:
         }
 
     def _merge_subfabricaciones(self, existing: Any, new_rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Une subfabricaciones ya persistidas con filas nuevas sin duplicar por código lógico."""
         rows: List[Dict[str, Any]] = []
         seen_codes: Set[str] = set()
         for s in existing or []:
@@ -201,6 +232,7 @@ class BOMImportService:
         return rows
 
     def _merge_procesos(self, existing: Any, new_dicts: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Concatena procesos existentes y propuestos, evitando duplicados por nombre (casefold)."""
         out: List[Dict[str, Any]] = []
         seen: Set[str] = set()
         for p in existing or []:
@@ -211,15 +243,23 @@ class BOMImportService:
                 "tipo_trabajador": int(getattr(p, "tipo_trabajador", 1) or 1),
             }
             out.append(d)
-            seen.add(d["nombre"].strip().lower())
+            seen.add(str(d["nombre"]).strip().lower())
         for nd in new_dicts:
-            key = nd["nombre"].strip().lower()
+            key = str(nd.get("nombre", "") or "").strip().lower()
             if key not in seen:
                 out.append(nd)
                 seen.add(key)
         return out
 
     def _link_component(self, final_code: str, node: BOMNodeDTO, stats: Dict[str, int]) -> None:
+        """
+        Crea material si hace falta y lo enlaza al producto final vía ``link_material_to_product``.
+
+        Args:
+            final_code: Código del producto final.
+            node: Nodo componente seleccionado.
+            stats: Contador ``componentes`` / ``errores``.
+        """
         codigo = node.codigo_componente.strip()
         desc = (node.denominacion or "").strip() or f"Componente {codigo}"
         add_m = getattr(self.product_service, "add_material", None)

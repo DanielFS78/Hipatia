@@ -1,7 +1,8 @@
-# database/repositories/pila/pila_workflow_manager.py
 
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`pila_workflow_manager`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: pila.pila_workflow_manager
+Descripción: Persistencia y consultas de pilas, lotes, bitácora y flujo de trabajo de fabricación.
 """
 
 import json

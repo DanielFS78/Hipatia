@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: machine.repository
+Descripción: Acceso a datos de máquinas (CRUD, mantenimiento, preparación y estadísticas).
 """
 
 from datetime import date

@@ -1,7 +1,8 @@
-# database/repositories/pila/__init__.py
 
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`__init__`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: pila
+Descripción: Persistencia y consultas de pilas, lotes, bitácora y flujo de trabajo de fabricación.
 """
 
 from .repository import PilaRepository

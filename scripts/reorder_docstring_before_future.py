@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Reordena el docstring de módulo inmediatamente **antes** del bloque ``from __future__``.
+Nombre del Módulo: scripts.reorder_docstring_before_future
 
-Homogeneidad con PEP 236 (docstring antes de future). Idempotente si ya está bien ordenado.
+Descripción: Reordena el docstring de módulo inmediatamente **antes** del bloque ``from __future__``.
 """
 
 from __future__ import annotations

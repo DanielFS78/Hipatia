@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Fachada de aplicación: catálogo, iteraciones y materiales."""
+"""
+Nombre del Módulo: core.facades.product_facade
+
+Descripción: Expone ``ProductFacade`` como API estable de aplicación sobre servicios ya inyectados; no contiene reglas de persistencia directa. Integración típica con: ``__future__``, ``core``.
+"""
 
 from __future__ import annotations
 

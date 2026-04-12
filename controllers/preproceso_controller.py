@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: preproceso_controller.py
+Nombre del Módulo: preproceso_controller
 Descripción: Gestiona la lógica de preprocesos, incluyendo su carga desde el modelo, 
              vínculo con componentes y conversión a pasos operativos en la pila.
 """

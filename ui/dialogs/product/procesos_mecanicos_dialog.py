@@ -2,9 +2,12 @@
 # ui/dialogs/product/procesos_mecanicos_dialog.py
 # Diálogos de procesos mecánicos del producto.
 # =================================================================================
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`procesos_mecanicos_dialog`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.product.procesos_mecanicos_dialog
+Descripción: Formulario PyQt6 del catálogo de productos (detalle, iteraciones, subfabricaciones o procesos).
 """
+
 from __future__ import annotations
 
 import os

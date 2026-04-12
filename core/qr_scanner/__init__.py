@@ -1,7 +1,9 @@
 # core/qr_scanner/__init__.py
 
 """
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.qr_scanner
+
+Descripción: Concentra datos de configuración o catálogos estáticos: ``__all__``, consumidos por la UI y controladores. Integración típica con: ``scanner``, ``detector``, ``base``.
 """
 
 from .scanner import QrScanner, QrScannerCallback

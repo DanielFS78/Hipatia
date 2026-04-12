@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: lote_controller.py
+Nombre del Módulo: lote_controller
 Descripción: Gestiona la lógica de plantillas de lotes, incluyendo su definición, 
              búsqueda y la actualización de su contenido en la interfaz de cálculo.
 """

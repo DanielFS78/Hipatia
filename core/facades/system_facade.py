@@ -1,4 +1,8 @@
-"""Fachada de dominio de sistema (máquinas, preparación y utilidades DB)."""
+"""
+Nombre del Módulo: core.facades.system_facade
+
+Descripción: Expone ``SystemFacade`` como API estable de aplicación sobre servicios ya inyectados; no contiene reglas de persistencia directa. Integración típica con: ``__future__``.
+"""
 
 from __future__ import annotations
 

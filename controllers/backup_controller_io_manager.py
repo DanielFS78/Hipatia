@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Operaciones I/O de importación, exportación y sincronización para backups.
-
-``BackupController`` instancia ``BackupIOManager`` y delega en ``on_import_databases`` /
-``on_export_databases`` / ``on_sync_databases``; sin herencia múltiple.
+Nombre del Módulo: backup_controller_io_manager
+Descripción: Operaciones I/O de importación, exportación y sincronización de la base de datos.
+             ``BackupController`` compone ``BackupIOManager`` y delega ``on_import_databases``,
+             ``on_export_databases`` y ``on_sync_databases`` sin herencia múltiple. La sincronización
+             acepta SQLite suelto o copias ZIP/TAR.GZ (extracción temporal), compara con
+             ``DatabaseComparisonDTO`` y aplica cambios vía ``SyncDialog``.
 """
 
 from __future__ import annotations
@@ -24,12 +26,28 @@ from core.services.audit_logger import AuditLogger
 
 
 def _comparison_has_differences(comparison: DatabaseComparisonDTO) -> bool:
-    """True si la comparación incluye al menos un registro distinto."""
+    """
+    Indica si hay diferencias reales entre bases según el DTO devuelto por ``compare_with_db``.
+
+    Args:
+        comparison: Resultado de la comparación local vs extranjero.
+
+    Returns:
+        True si alguna tabla incluye al menos un registro en ``differences``.
+    """
     return any(len(td.differences) > 0 for td in comparison.tables)
 
 
 def _find_sqlite_under(root: Path) -> Path | None:
-    """Busca un .db bajo root; prioriza montaje.db como en exportaciones típicas."""
+    """
+    Localiza un fichero SQLite dentro de un directorio (p. ej. tras descomprimir un ZIP).
+
+    Args:
+        root: Directorio raíz de búsqueda recursiva.
+
+    Returns:
+        Ruta al ``.db`` elegido, o None si no hay ninguno. Se prefiere ``montaje.db`` si existe.
+    """
     dbs = sorted(root.rglob("*.db"))
     if not dbs:
         return None
@@ -41,10 +59,19 @@ def _find_sqlite_under(root: Path) -> Path | None:
 
 def _prepare_foreign_sqlite_path(chosen_path: str, logger: logging.Logger) -> tuple[str | None, str | None]:
     """
-    Resuelve la ruta al fichero SQLite.
+    Obtiene la ruta absoluta al SQLite que debe usarse para la comparación.
+
+    Si el usuario eligió ``.db``/``.sqlite``, se valida que exista. Si eligió ``.zip`` o ``.tar.gz``,
+    se extrae en un directorio temporal y se busca un ``.db``; el caller debe borrar ese directorio
+    en un ``finally`` cuando el segundo valor no sea None.
+
+    Args:
+        chosen_path: Ruta seleccionada en el diálogo de ficheros.
+        logger: Logger del controlador para avisos de formato o corrupción.
 
     Returns:
-        (ruta_al_sqlite, directorio_temporal_a_borrar_o_None).
+        Tupla ``(ruta_sqlite, tmpdir_o_None)``. Si falla la resolución, ``(None, None)`` o
+        ``(None, tmp)`` tras limpiar el temporal en errores de extracción.
     """
     lower = chosen_path.lower()
     if lower.endswith((".db", ".sqlite", ".sqlite3")):
@@ -80,7 +107,15 @@ def _prepare_foreign_sqlite_path(chosen_path: str, logger: logging.Logger) -> tu
 
 
 class BackupControllerIOContext(Protocol):
-    """Contrato mínimo que el I/O manager necesita del controlador (solo composición)."""
+    """
+    Contrato mínimo que ``BackupIOManager`` exige del controlador (composición, no herencia).
+
+    Attributes:
+        view: Vista principal para diálogos y mensajes.
+        db: Gestor de base de datos con ``compare_with_db``, ``apply_sync_changes``, etc.
+        logger: Logger de aplicación.
+        audit_logger: Servicio de auditoría opcional.
+    """
 
     view: Any
     db: Any
@@ -91,12 +126,27 @@ class BackupControllerIOContext(Protocol):
 
 
 class BackupIOManager:
-    """Colaborador de composición para operaciones I/O de backup."""
+    """
+    Colaborador que centraliza importación ZIP completa, exportación ZIP de la BD y sincronización
+    selectiva frente a otra copia SQLite. No sustituye al ``BackupController``; solo ejecuta I/O y UI
+    asociada bajo su contrato ``BackupControllerIOContext``.
+    """
 
     def __init__(self, controller: BackupControllerIOContext) -> None:
+        """
+        Args:
+            controller: Instancia del controlador de backup que cumple el protocolo de contexto.
+        """
         self.controller = controller
 
     def on_import_databases(self, on_success_callback: Callable[[], None] | None = None) -> None:
+        """
+        Restaura datos desde un ZIP de copia de seguridad: extrae junto al directorio de la BD,
+        cierra la conexión actual, sustituye ficheros y reinstancia ``DatabaseManager``.
+
+        Args:
+            on_success_callback: Opcional; se invoca tras importación exitosa (p. ej. refrescar UI).
+        """
         import controllers.backup_controller as backup_controller_module
         controller = self.controller
 
@@ -165,6 +215,10 @@ class BackupIOManager:
                     )
 
     def on_export_databases(self) -> None:
+        """
+        Ofrece guardar la base de datos actual en un ZIP (un único miembro, nombre basado en ``db_path``).
+        Registra exportación en auditoría si está disponible.
+        """
         import controllers.backup_controller as backup_controller_module
         controller = self.controller
 
@@ -204,6 +258,13 @@ class BackupIOManager:
                 )
 
     def on_sync_databases(self, on_success_callback: Callable[[], None] | None = None) -> None:
+        """
+        Compara la BD local con otra SQLite (o ZIP/TAR que la contenga), muestra ``SyncDialog`` y
+        aplica solo los registros marcados por el usuario mediante ``apply_sync_changes``.
+
+        Args:
+            on_success_callback: Opcional; se llama tras una sincronización aplicada con éxito.
+        """
         import controllers.backup_controller as backup_controller_module
         controller = self.controller
 

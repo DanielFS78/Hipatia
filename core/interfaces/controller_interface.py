@@ -1,5 +1,7 @@
 """
-Lógica o utilidades del núcleo (`controller_interface`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.interfaces.controller_interface
+
+Descripción: Define protocolos o tipos principales: ``QABCMeta``, ``IController``. Interface base para todos los controladores de la aplicación. Integración típica con: ``PyQt6``.
 """
 
 import logging

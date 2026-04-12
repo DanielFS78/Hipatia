@@ -1,4 +1,8 @@
-"""Operaciones de instancias paralelas para `LineaTemporalTarea`."""
+"""
+Nombre del Módulo: core.simulation.timeline_task_parallel
+
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``agregar_instancia_paralela_ops``, ``completar_unidad_instancia_ops``. Integración típica con: ``__future__``, ``uuid``, ``datetime``.
+"""
 
 from __future__ import annotations
 

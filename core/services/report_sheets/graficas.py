@@ -1,7 +1,7 @@
-# core/services/report_sheets/graficas.py
-
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`graficas`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: report_sheets.graficas
+Descripción: Hoja Excel de gráficos (barras, circular) a partir de resultados de simulación.
 """
 
 from typing import List, Dict, Any, TYPE_CHECKING

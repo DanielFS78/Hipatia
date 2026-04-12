@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Funcionalidad encapsulada (`__init__`): reglas de dominio o integración opcional usada por controladores o servicios.
+Nombre del Módulo: features
+
+Descripción: Capa de funcionalidad vertical del rol trabajador: controlador, sincronización con BD,
+             validaciones, E/S de UI y diálogo de incidencias (consumidos desde ``app`` y la vista).
 """

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`calculate_times_widget`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: calculate_times_widget
+
+Descripción: Pantalla de simulación y cálculo de tiempos: búsqueda de fabricación/producto,
+             línea de tiempo, auditoría y acciones de exportación o limpieza vía señales Qt.
 """
 from __future__ import annotations
 

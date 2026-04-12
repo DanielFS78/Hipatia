@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Módulo base para el widget de gestión de productos en la UI principal."""
+"""
+Nombre del Módulo: products_widget
+Descripción: Widget de catálogo de productos (búsqueda, formulario, subfabricaciones y procesos).
+             Emite señales hacia ``ProductController`` e incluye entrada para importar BOM A3RP.
+"""
 from __future__ import annotations
 
 import logging
@@ -17,7 +21,15 @@ _logger = logging.getLogger(__name__)
 
 
 def _subfabricacion_row_from_domain(sub: Any) -> dict[str, Any]:
-    """Serializa una subfabricación de dominio a dict para el formulario y persistencia."""
+    """
+    Serializa una subfabricación de dominio a dict para el formulario y persistencia.
+
+    Args:
+        sub: ``SubfabricacionDTO`` o objeto con atributos homólogos.
+
+    Returns:
+        Diccionario con claves ``id``, ``descripcion``, ``tiempo``, ``tipo_trabajador``, ``maquina_id``.
+    """
     if isinstance(sub, SubfabricacionDTO):
         return {
             "id": sub.id,
@@ -36,17 +48,19 @@ def _subfabricacion_row_from_domain(sub: Any) -> dict[str, Any]:
 
 
 class ProductsWidget(QWidget):
-    """Widget para editar y visualizar Productos."""
+    """
+    Vista principal de la pestaña Productos: lista, detalle editable y accesos a diálogos relacionados.
+
+    Resuelve ``ProductController`` vía ``DIContainer`` en ``__init__`` (patrón sin ``AppController`` en el widget).
+    """
     save_product_signal = pyqtSignal(str)
     delete_product_signal = pyqtSignal(str)
     manage_subs_signal = pyqtSignal()
     manage_procesos_signal = pyqtSignal()
     manage_details_signal = pyqtSignal(str)
     search_or_add_signal = pyqtSignal(str)
-    import_bom_signal = pyqtSignal() # Nueva señal para importación A3RP
-    
-    # Attributes for strict mocks and type hinting
-    # Attributes for strict mocks and type hinting
+    import_bom_signal = pyqtSignal()
+
     results_list: Optional[QListWidget] = None
     search_entry: Optional[QLineEdit] = None
     current_subfabricaciones: List[Dict[str, Any]] = []

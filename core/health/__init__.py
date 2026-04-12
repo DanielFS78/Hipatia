@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Módulo de verificación de salud del sistema al arranque.
+Nombre del Módulo: core.health
 
-Exporta DatabaseHealthChecker, HealthReport y las dataclasses de resultado
-para su uso desde health_worker y startup_screen.
+Descripción: Funciones y datos de apoyo del paquete; conviene enlazar qué controlador o servicio las consume y qué estructuras devuelven (ver firmas al inicio del archivo).
 """

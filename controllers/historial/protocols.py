@@ -1,5 +1,5 @@
 """
-Nombre del Módulo: protocols.py (Historial)
+Nombre del Módulo: historial.protocols
 Descripción: Define los protocolos (interfaces estructurales) para garantizar el 
              tipado correcto y la compatibilidad entre el controlador de historial y sus gestores.
 """

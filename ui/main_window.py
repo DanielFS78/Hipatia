@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`main_window`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.main_window
+
+Descripción: Define protocolos o tipos principales: ``MainView``. Vista principal de la aplicación (la ventana). Integración típica con: ``sys``, ``os``, ``PyQt6``, ``ui``, ``core``.
 """
 
 import logging

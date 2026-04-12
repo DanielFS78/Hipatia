@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 """
-Nombre del Modulo: flow_graph_manager
-Descripcion: Coordina el presenter del flujo mejorado con un ``ProductionFlowCanvas``: creacion
-             de tarjetas, sincronizacion de indices, efectos de ciclo/simulacion y conexiones
-             logicas. Escucha ``cardMoved`` y ``cardSelected`` del canvas; ``update_connections``
-             obtiene todas las aristas con ``canvas_state_all_logical_connections`` y las pinta
-             en bloque, resaltando tarjetas relacionadas cuando hay tarea seleccionada.
+Nombre del Módulo: flow_graph_manager
+
+Descripción: Coordina el presenter del flujo mejorado con un ``ProductionFlowCanvas``: creación
+             de tarjetas, sincronización de índices, efectos de ciclo/simulación y conexiones
+             lógicas. Escucha ``cardMoved`` y ``cardSelected`` del canvas; ``update_connections``
+             obtiene las aristas con ``canvas_state_all_logical_connections`` y las pinta en bloque.
 """
 
 import logging

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Protocolos de la capa producto: vista, modelo de fachada y contrato del controlador.
+Nombre del Módulo: controllers.product.protocols
 
-Los protocolos de dominio (`IProductService`, `IFabricacionService`, `IMaterialService`)
-viven en `core.protocols` e implementan nominalmente los servicios en `core.services`.
+Descripción: Protocolos de la capa producto: vista, modelo de fachada y contrato del controlador.
 """
 from __future__ import annotations
 

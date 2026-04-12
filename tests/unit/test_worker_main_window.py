@@ -16,8 +16,10 @@ from PyQt6.QtWidgets import QWidget, QMessageBox, QStackedWidget
 from PyQt6.QtCore import Qt
 
 from ui.worker.main_window.window import WorkerMainWindow
+from ui.widgets.log_terminal_widget import LogTerminalWidget
 from core.dtos import WorkerDTO  # Añadimos mención a DTO y la importación para cumplimiento
 from core.worker_ui_dtos import WorkerTaskListRowDTO
+from core.qt_log_handler import QtLogHandler
 
 MODULE = "ui.worker.main_window.window"
 
@@ -55,7 +57,8 @@ class TestWorkerMainWindowInitAndUI:
 
         # Verificar botones del header
         assert hasattr(main_window, "export_data_btn")
-        
+        assert isinstance(main_window.log_terminal, LogTerminalWidget)
+
     def test_enable_action_buttons_true(self, main_window):
         """enable_action_buttons(True) activa finalizar/incidencia, inactiva iniciar."""
         main_window.enable_action_buttons(True)
@@ -69,6 +72,17 @@ class TestWorkerMainWindowInitAndUI:
         assert main_window.register_incidence_btn.isEnabled() is False
         assert main_window.end_task_btn.isEnabled() is False
         assert main_window.start_task_btn.isEnabled() is True
+
+
+@pytest.mark.unit
+class TestWorkerMainWindowLogHandler:
+    """Conexión del QtLogHandler a la pestaña Log (misma API que HomeWidget)."""
+
+    def test_connect_log_handler_calls_handler_connect_to_widget(self, main_window):
+        handler = QtLogHandler()
+        with patch.object(handler, "connect_to_widget") as mock_connect:
+            main_window.connect_log_handler(handler)
+            mock_connect.assert_called_once_with(main_window.log_terminal.append_log)
 
 
 @pytest.mark.unit

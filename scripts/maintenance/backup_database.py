@@ -1,12 +1,7 @@
 """
-========================================================================
-SCRIPT DE BACKUP - BASE DE DATOS
-========================================================================
-Este script crea una copia de seguridad de tu base de datos ANTES de
-realizar cualquier modificación al esquema.
+Nombre del Módulo: scripts.maintenance.backup_database
 
-IMPORTANTE: Ejecuta este script ANTES de añadir los nuevos modelos.
-========================================================================
+Descripción: ======================================================================== SCRIPT DE BACKUP - BASE DE DATOS ======================================================================== Este script crea una copia de seguridad de tu base de datos ANTES de realizar cualquier modificación al esquema.
 """
 
 from __future__ import annotations

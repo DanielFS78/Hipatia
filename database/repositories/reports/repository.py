@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Capa de datos (`repository`): modelos, repositorios o acceso SQLAlchemy relacionado con este módulo.
+Nombre del Módulo: reports.repository
+Descripción: Consultas SQL para informes: órdenes, productos, incidencias, búsqueda y estadísticas.
 """
 
 from __future__ import annotations

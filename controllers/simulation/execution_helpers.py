@@ -1,8 +1,7 @@
 """
-Utilidades de apoyo para `SimulationExecutionManager`.
+Nombre del Módulo: controllers.simulation.execution_helpers
 
-Estas funciones encapsulan bloques repetidos (construcción de scheduler,
-activación de botones y arranque de hilos) para mantener el manager pequeño.
+Descripción: Funciones puras de apoyo (sin estado de proceso): ``build_scheduler``, ``set_planning_units``, ``enable_result_actions``, ``start_optimizer_thread``. Integración típica con: ``__future__``, ``datetime``, ``core``.
 """
 
 from __future__ import annotations

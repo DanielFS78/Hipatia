@@ -1,7 +1,9 @@
-# core/services/report_sheets/__init__.py
-
+# -*- coding: utf-8 -*-
 """
-Lógica o utilidades del núcleo (`__init__`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: report_sheets
+Descripción: Hojas Excel reutilizables del informe de pila (resumen, cronograma, gráficas, etc.).
+
+Cada módulo define una subclase de ``ExcelSheetStrategy`` que añade una pestaña al libro.
 """
 
 from .base import ExcelSheetStrategy
@@ -14,12 +16,12 @@ from .graficas import GraficasSheet
 from .trabajo_paralelo import TrabajoParaleloSheet
 
 __all__ = [
-    'ExcelSheetStrategy',
-    'ResumenEjecutivoSheet',
-    'AnalisisTrabajadoresSheet',
-    'CronogramaSheet',
-    'CuellosBotellaSheet',
-    'AuditSheet',
-    'GraficasSheet',
-    'TrabajoParaleloSheet'
+    "ExcelSheetStrategy",
+    "ResumenEjecutivoSheet",
+    "AnalisisTrabajadoresSheet",
+    "CronogramaSheet",
+    "CuellosBotollaSheet",
+    "AuditSheet",
+    "GraficasSheet",
+    "TrabajoParaleloSheet",
 ]

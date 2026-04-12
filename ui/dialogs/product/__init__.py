@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: ui.dialogs.product
+Descripción: Diálogos del catálogo de productos (detalle, iteraciones, subfabricaciones, procesos mecánicos).
 """
 
 from .product_details_dialog import ProductDetailsDialog
@@ -8,9 +10,9 @@ from .subfabricaciones_dialog import SubfabricacionesDialog
 from .procesos_mecanicos_dialog import ProcesosMecanicosDialog, AddProcesoMecanicoDialog
 
 __all__ = [
-    'ProductDetailsDialog',
-    'AddIterationDialog',
-    'SubfabricacionesDialog',
-    'ProcesosMecanicosDialog',
-    'AddProcesoMecanicoDialog'
+    "ProductDetailsDialog",
+    "AddIterationDialog",
+    "SubfabricacionesDialog",
+    "ProcesosMecanicosDialog",
+    "AddProcesoMecanicoDialog",
 ]

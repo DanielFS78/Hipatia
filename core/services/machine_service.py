@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: MachineService
+Nombre del Módulo: machine_service
 Descripción: Servicio de dominio especializado en la gestión de máquinas, mantenimientos y procesos.
 """
 import logging
@@ -14,8 +14,7 @@ from database.repositories.machine import MachineRepository
 
 class MachineService(QObject):
     """
-    Servicio de dominio para gestionar máquinas.
-    Extraído de FabricacionService para cumplir con SRP.
+    Catálogo y mantenimiento lógico de máquinas de planta (consultas y cambios vía repositorio).
     """
 
     machines_changed_signal = pyqtSignal()

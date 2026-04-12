@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`__init__`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: widgets
+
+Descripción: Reexporta los widgets principales de la vista de escritorio y los subpaquetes
+``product``, ``production_flow`` y ``reports``.
 """
 
 from .home_widget import HomeWidget

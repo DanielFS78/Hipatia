@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-INCIDENCIA REPOSITORY
-========================================================================
-Repositorio para la gestión de incidencias y adjuntos.
-========================================================================
+Nombre del Módulo: incidencia_repository
+Descripción: Registro de incidencias en planta, adjuntos en disco y vínculo con ``TrabajoLog``.
+
+Persistencia de ``IncidenciaLog`` e ``IncidenciaAdjunto`` con rutas de fichero bajo el directorio de datos.
 """
 import os
 import logging

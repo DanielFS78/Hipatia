@@ -18,6 +18,8 @@ from pathlib import Path
 
 # Ruta al directorio de diálogos
 DIALOGS_DIR = Path(__file__).resolve().parent.parent.parent / "ui" / "dialogs"
+# Widgets de canvas de flujo (canónico; ya no viven bajo ui/dialogs)
+PRODUCTION_FLOW_DIR = Path(__file__).resolve().parent.parent.parent / "ui" / "widgets" / "production_flow"
 
 
 def _ast_class_is_dataclass(class_node: ast.ClassDef) -> bool:
@@ -29,6 +31,30 @@ def _ast_class_is_dataclass(class_node: ast.ClassDef) -> bool:
         if isinstance(target, ast.Attribute) and target.attr == "dataclass":
             return True
     return False
+
+
+def _parse_classes_from_file(file_path: Path) -> dict[str, dict]:
+    """Parsea un único .py y devuelve mapa nombre_clase → metadatos AST."""
+    classes: dict[str, dict] = {}
+    with open(file_path, encoding="utf-8") as f:
+        tree = ast.parse(f.read())
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ClassDef):
+            classes[node.name] = {
+                "bases": [
+                    base.id
+                    if isinstance(base, ast.Name)
+                    else base.attr
+                    if isinstance(base, ast.Attribute)
+                    else str(base)
+                    for base in node.bases
+                ],
+                "methods": [n.name for n in node.body if isinstance(n, ast.FunctionDef)],
+                "is_dataclass": _ast_class_is_dataclass(node),
+                "line": node.lineno,
+                "file": file_path.name,
+            }
+    return classes
 
 
 # =============================================================================
@@ -74,6 +100,17 @@ def dialogs_classes():
     return classes
 
 
+@pytest.fixture(scope="module")
+def production_flow_widget_classes():
+    """Clases públicas del canvas de flujo (``ui/widgets/production_flow``)."""
+    merged: dict[str, dict] = {}
+    for name in ("flow_canvas.py", "flow_card_widget.py"):
+        path = PRODUCTION_FLOW_DIR / name
+        if path.is_file():
+            merged.update(_parse_classes_from_file(path))
+    return merged
+
+
 # =============================================================================
 # TESTS DE ESTRUCTURA: Verificación de Existencia de Clases
 # =============================================================================
@@ -106,10 +143,10 @@ class TestDialogsClassesExist:
         "DefinirCantidadesDialog",
     ]
 
-    # Clases de widgets auxiliares
-    REQUIRED_WIDGET_CLASSES = [
-        "CanvasWidget",
-        "CardWidget",
+    # Canvas/tarjetas de flujo (fuera de ui/dialogs)
+    REQUIRED_PRODUCTION_FLOW_WIDGET_CLASSES = [
+        "ProductionFlowCanvas",
+        "FlowCardWidget",
     ]
 
     # Clases de efectos visuales
@@ -131,11 +168,12 @@ class TestDialogsClassesExist:
             assert class_name in dialogs_classes, \
                 f"Falta la clase de diálogo: {class_name}"
 
-    def test_widget_classes_exist(self, dialogs_classes):
-        """Todas las clases de widgets auxiliares deben existir."""
-        for class_name in self.REQUIRED_WIDGET_CLASSES:
-            assert class_name in dialogs_classes, \
-                f"Falta la clase de widget: {class_name}"
+    def test_production_flow_widget_classes_exist(self, production_flow_widget_classes):
+        """Canvas y tarjeta de flujo deben existir bajo ui/widgets/production_flow."""
+        for class_name in self.REQUIRED_PRODUCTION_FLOW_WIDGET_CLASSES:
+            assert class_name in production_flow_widget_classes, (
+                f"Falta la clase de widget de flujo: {class_name}"
+            )
 
     def test_effect_classes_exist(self, dialogs_classes):
         """Todas las clases de efectos visuales deben existir."""
@@ -182,20 +220,12 @@ class TestDialogsInheritance:
                 assert has_qdialog, \
                     f"{class_name} debe heredar de QDialog, tiene: {bases}"
 
-    def test_widget_classes_inherit_from_qwidget(self, dialogs_classes):
-        """Las clases de widget deben heredar de QWidget o derivados."""
-        valid_bases = ["QWidget", "QFrame", "QGraphicsEffect", "QLabel"]
-        
-        widget_classes = ["CanvasWidget", "CardWidget"]
-        for class_name in widget_classes:
-            if class_name in dialogs_classes:
-                bases = dialogs_classes[class_name]["bases"]
-                has_valid_base = any(
-                    any(vb in base for vb in valid_bases) 
-                    for base in bases
-                )
-                assert has_valid_base, \
-                    f"{class_name} debe heredar de QWidget o similar, tiene: {bases}"
+    def test_production_flow_widgets_inherit_qt(self, production_flow_widget_classes):
+        """ProductionFlowCanvas y FlowCardWidget deben heredar de QWidget/QLabel."""
+        canvas_bases = production_flow_widget_classes["ProductionFlowCanvas"]["bases"]
+        assert any("QWidget" in b for b in canvas_bases)
+        card_bases = production_flow_widget_classes["FlowCardWidget"]["bases"]
+        assert any("QLabel" in b for b in card_bases)
 
     def test_effect_classes_inherit_from_qwidget(self, dialogs_classes):
         """Las clases de efectos deben heredar de QWidget o tener Effect en su base."""
@@ -288,46 +318,36 @@ class TestDialogsRequiredMethods:
 # =============================================================================
 
 @pytest.mark.setup
-class TestCanvasWidgetSetup:
-    """Verifica la configuración del CanvasWidget."""
+class TestProductionFlowCanvasSetup:
+    """Verifica la API mínima de ProductionFlowCanvas."""
 
-    def test_canvas_has_set_connections(self, dialogs_classes):
-        """CanvasWidget debe tener método set_connections."""
-        if "CanvasWidget" in dialogs_classes:
-            methods = dialogs_classes["CanvasWidget"]["methods"]
-            assert "set_connections" in methods
+    def test_canvas_has_set_connections(self, production_flow_widget_classes):
+        methods = production_flow_widget_classes["ProductionFlowCanvas"]["methods"]
+        assert "set_connections" in methods
 
-    def test_canvas_has_paint_event(self, dialogs_classes):
-        """CanvasWidget debe tener paintEvent."""
-        if "CanvasWidget" in dialogs_classes:
-            methods = dialogs_classes["CanvasWidget"]["methods"]
-            assert "paintEvent" in methods
+    def test_canvas_has_paint_event(self, production_flow_widget_classes):
+        methods = production_flow_widget_classes["ProductionFlowCanvas"]["methods"]
+        assert "paintEvent" in methods
 
-    def test_canvas_has_drag_events(self, dialogs_classes):
-        """CanvasWidget debe manejar eventos de drag & drop."""
-        if "CanvasWidget" in dialogs_classes:
-            methods = dialogs_classes["CanvasWidget"]["methods"]
-            assert "dragEnterEvent" in methods
-            assert "dropEvent" in methods
+    def test_canvas_has_drag_events(self, production_flow_widget_classes):
+        methods = production_flow_widget_classes["ProductionFlowCanvas"]["methods"]
+        assert "dragEnterEvent" in methods
+        assert "dropEvent" in methods
 
 
 @pytest.mark.setup
-class TestCardWidgetSetup:
-    """Verifica la configuración del CardWidget."""
+class TestFlowCardWidgetSetup:
+    """Verifica la API mínima de FlowCardWidget."""
 
-    def test_card_has_mouse_events(self, dialogs_classes):
-        """CardWidget debe manejar eventos de ratón."""
-        if "CardWidget" in dialogs_classes:
-            methods = dialogs_classes["CardWidget"]["methods"]
-            assert "mousePressEvent" in methods
-            assert "mouseMoveEvent" in methods
-            assert "mouseReleaseEvent" in methods
+    def test_card_has_mouse_events(self, production_flow_widget_classes):
+        methods = production_flow_widget_classes["FlowCardWidget"]["methods"]
+        assert "mousePressEvent" in methods
+        assert "mouseMoveEvent" in methods
+        assert "mouseReleaseEvent" in methods
 
-    def test_card_has_snap_to_grid(self, dialogs_classes):
-        """CardWidget debe tener _snap_to_grid."""
-        if "CardWidget" in dialogs_classes:
-            methods = dialogs_classes["CardWidget"]["methods"]
-            assert "_snap_to_grid" in methods
+    def test_card_has_snap_to_grid(self, production_flow_widget_classes):
+        methods = production_flow_widget_classes["FlowCardWidget"]["methods"]
+        assert "_snap_to_grid" in methods
 
 
 # =============================================================================
@@ -378,14 +398,14 @@ class TestDialogsImports:
         from ui.dialogs import (
             PreprocesosSelectionDialog,
             CreateFabricacionDialog,
-            CanvasWidget,
-            CardWidget,
         )
-        
+        from ui.widgets.production_flow.flow_canvas import ProductionFlowCanvas
+        from ui.widgets.production_flow.flow_card_widget import FlowCardWidget
+
         assert PreprocesosSelectionDialog is not None
         assert CreateFabricacionDialog is not None
-        assert CanvasWidget is not None
-        assert CardWidget is not None
+        assert ProductionFlowCanvas is not None
+        assert FlowCardWidget is not None
 
     def test_flow_dialogs_importable(self):
         """Los diálogos de flujo deben ser importables."""
@@ -445,5 +465,5 @@ class TestDialogsMetrics:
             total_lines += len(p.read_text(encoding='utf-8').splitlines())
             
         assert len(py_files) >= 5, "Debe haber múltiples archivos .py en el paquete"
-        assert total_lines > 1000, \
-            f"El paquete tiene solo {total_lines} líneas, se esperan más de 1000"
+        assert total_lines > 900, \
+            f"El paquete tiene solo {total_lines} líneas, se esperan más de 900"

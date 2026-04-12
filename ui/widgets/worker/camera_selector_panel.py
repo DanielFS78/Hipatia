@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Interfaz PyQt6 (`camera_selector_panel`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
+Nombre del Módulo: camera_selector_panel
+
+Descripción: Selector de cámara con sondeo rápido y señales hacia la vista de trabajador.
 """
 
 from PyQt6.QtWidgets import (

@@ -1,8 +1,12 @@
-from __future__ import annotations
+# -*- coding: utf-8 -*-
+"""
+Nombre del Módulo: inspector_presenter
 
+Descripción: Lógica pura del inspector de tareas: estado de la tarea actual, trabajadores posibles
+             y mutaciones sobre el payload de configuración.
 """
-Interfaz PyQt6 (`inspector_presenter`): widgets, diálogos o recursos visuales conectados al flujo de usuario.
-"""
+
+from __future__ import annotations
 
 from typing import Any, List, Tuple
 

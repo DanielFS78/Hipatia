@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Backup Restore Dialog
-Permite visualizar, seleccionar y restaurar backups automáticos.
+Nombre del Módulo: backup_restore_dialog
+
+Descripción: Define protocolos o tipos principales: ``BackupRestoreDialog``. Diálogo para gestionar la restauración de backups. Integración típica con: ``pathlib``, ``datetime``, ``PyQt6``, ``core``.
 """
 import logging
 from typing import List, Optional, Any

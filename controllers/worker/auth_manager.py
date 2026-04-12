@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Nombre del Módulo: auth_manager.py (Worker)
+Nombre del Módulo: worker.auth_manager
 Descripción: Gestor encargado de la seguridad y autenticación de trabajadores, 
              específicamente el cambio de contraseñas propias y ajenas.
 """

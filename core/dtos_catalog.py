@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-"""DTOs de catálogo/producción (productos, lotes, pilas, iteraciones)."""
+"""
+Nombre del Módulo: core.dtos_catalog
+
+Descripción: Define protocolos o tipos principales: ``ProductDTO``, ``SubfabricacionDTO``, ``ProcesoMecanicoDTO``, ``MaterialDTO``, ``PilaDTO``. Integración típica con: ``datetime``.
+"""
 
 from dataclasses import dataclass, field
 from datetime import date, datetime

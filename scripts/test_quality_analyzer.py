@@ -1,23 +1,7 @@
 """
-Analizador de calidad de tests (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.test_quality_analyzer
 
-Calcula score absoluto (0–100), penalizaciones y «techo real» (_calculate_ceiling): parte del
-castigo por mocks/patches se perdona cuando PyQt6 u otros externos hacen inevitable el patrón.
-
-Cohortes (test_tier / strict_domain):
-    Los tests de servicios, repositorios y persistencia bajo tests/db/ se clasifican como
-    strict_domain. Para ellos el estado «Actualizado» exige score absoluto 100; no basta estar
-    en techo de mocks. El resto (ui_qt) sigue la regla histórica basada en ceiling_score y
-    at_ceiling. Ver classify_test_tier() y resolve_analyzer_status().
-
-Salida:
-    Al ejecutar como script, escribe test_reports/compliance_data.json con campos entre otros
-    score, ceiling_score, status, test_tier, strict_domain, domain_status.
-
-Heurísticas adicionales (desconexión UI–dominio):
-    contract_test_hints en cada entrada: conteo informativo de literales ``32`` como rol Qt en
-    archivos bajo ``tests/``. weak_any_only_interaction_count y penalización asociada en tests
-    de controller/service: empuja a no limitarse a assert_called_*_with(ANY, ANY, ...).
+Descripción: Concentra datos de configuración o catálogos estáticos: ``_RE_STRICT_MOCK``, ``_RE_LOOSE_MOCK``, ``_RE_FINDER_DUP_TEST``, ``_RE_FINDER_DUP_CONFTEST``, ``_RE_PATCH_NO_AUTOSPEC``, ``_RE_PATCH_WITH_AUTOSPEC``, ``_RE_ASSERT_CALLED``, ``_RE_ASSERT_CALLED_NO_ARGS``, consumidos por la UI y controladores. Integración típica con: ``os``, ``re``, ``json``, ``pathlib``, ``ast``.
 """
 
 import os

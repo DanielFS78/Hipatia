@@ -1,7 +1,9 @@
 # core/simulation/events/base.py
 
 """
-Lógica o utilidades del núcleo (`base`): tipos, servicios auxiliares o infraestructura compartida fuera de la capa de interfaz.
+Nombre del Módulo: core.simulation.simulation_events.base
+
+Descripción: Define protocolos o tipos principales: ``EventoDeSimulacion``. Clase base para todos los eventos de la simulación. Integración típica con: ``datetime``.
 """
 
 from dataclasses import dataclass, field

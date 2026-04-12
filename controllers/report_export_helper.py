@@ -1,4 +1,8 @@
-"""Exportaciones Excel/PDF desde la última simulación (composición sobre ReportController)."""
+"""
+Nombre del Módulo: controllers.report_export_helper
+
+Descripción: Exportaciones Excel/PDF desde la última simulación (composición sobre ReportController).
+"""
 
 from __future__ import annotations
 

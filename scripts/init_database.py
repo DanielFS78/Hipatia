@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Script ejecutable (`init_database`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
+Nombre del Módulo: scripts.init_database
+
+Descripción: Script ejecutable (`init_database`): automatización, informes o mantenimiento del proyecto (no forma parte del runtime de la app).
 """
 from __future__ import annotations
 
