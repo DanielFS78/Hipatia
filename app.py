@@ -33,6 +33,12 @@ from PyQt6.QtWidgets import QApplication, QMessageBox, QWidget
 # Módulos locales
 from database.database_manager import DatabaseManager
 from core.app_model import AppModel
+
+# PyInstaller: ``product_manager`` resuelve este diálogo con ``importlib`` (``ui_class``);
+# el análisis estático no enlaza el submódulo. Import aquí (fuera de ``controllers/``, Opt-4b)
+# fuerza su inclusión en el ejecutable.
+import ui.dialogs.product.bom_import_preview_dialog  # noqa: F401
+
 from controllers.app_controller import AppController
 from core.services import calendar_helper
 from core.schedule_config import ScheduleConfig

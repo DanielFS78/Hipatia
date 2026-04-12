@@ -47,6 +47,8 @@ a = Analysis(
     binaries=[],
     datas=datas,
     hiddenimports=[
+        # ui_class en product_manager; redundante con import en app.py y con el hook del mismo módulo.
+        "ui.dialogs.product.bom_import_preview_dialog",
         "sqlalchemy.dialects.sqlite",
         "sqlalchemy.sql.default_comparator",
         "bcrypt",
