@@ -61,7 +61,7 @@ a = Analysis(
         "jinja2",
         *_hidden_ui_dynamic,
     ],
-    hookspath=[],
+    hookspath=[str(ROOT / "pyinstaller_hooks")],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[],
