@@ -2,9 +2,12 @@
 Tests unitarios para DatabaseManager (SQLAlchemy).
 Reescrito para la API actual: db_url, engine, SessionLocal, repositorios.
 """
+import sys
+
 import pytest
 from unittest.mock import MagicMock, patch, PropertyMock
 from database.database_manager import DatabaseManager
+from database.models import Trabajador
 from sqlalchemy import create_engine
 
 
@@ -19,6 +22,20 @@ class TestDatabaseManagerFull:
         with DatabaseManager(db_url=db_url) as db:
             assert db.engine is not None
             assert db.SessionLocal is not None
+
+    def test_bootstrap_admin_when_frozen_sqlite_empty(self, tmp_path, monkeypatch: pytest.MonkeyPatch) -> None:
+        """PyInstaller: BD nueva en fichero sin usuarios con login recibe admin/admin."""
+        monkeypatch.setattr(sys, "frozen", True, raising=False)
+        db_path = str(tmp_path / "frozen_bootstrap.db")
+        db_url = f"sqlite:///{db_path}"
+        with DatabaseManager(db_url=db_url) as db:
+            session = db.get_session()
+            try:
+                row = session.query(Trabajador).filter(Trabajador.username == "admin").one()
+                assert row.activo is True
+                assert (row.role or "").lower() == "admin"
+            finally:
+                session.close()
 
     def test_init_with_engine(self):
         """Test inicialización con engine pre-configurado."""

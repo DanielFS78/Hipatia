@@ -45,6 +45,8 @@ Para depuración con consola, en `hipatia.spec` se puede poner `console=True` en
 
 ## Datos de usuario junto al ejecutable
 
+**Primer arranque (SQLite nueva):** si no hay ningún trabajador con `username` en la base, el ejecutable PyInstaller crea automáticamente el usuario **admin** / **admin** (rol Admin) y deja un aviso en el log. En desarrollo con `python app.py` sigue siendo válido `python scripts/maintenance/reset_admin.py` o la variable `HIPATIA_BOOTSTRAP_DEFAULT_ADMIN=1` para el mismo comportamiento sobre un fichero SQLite.
+
 En binario congelado (`sys.frozen`):
 
 - **SQLite** por defecto: `<carpeta_del_exe>\data\montaje.db`
