@@ -15,6 +15,8 @@ Descripción: Define protocolos o tipos principales: ``DatabaseManager``. Gestio
 from __future__ import annotations
 
 import logging
+import os
+import sys
 from types import TracebackType
 from typing import Any, Callable, Dict, Optional
 
@@ -88,6 +90,8 @@ class DatabaseManager:
             self._create_tables_if_not_exist()
             # Para inicialización correcta, usar: python scripts/init_database.py
 
+            self._bootstrap_default_admin_frozen_sqlite_if_no_login_users()
+
             # --- INICIALIZACIÓN DE REPOSITORIOS ---
             self._init_repositories()
 
@@ -106,6 +110,56 @@ class DatabaseManager:
                 self.logger.error("Engine no inicializado, no se pueden crear tablas.")
         except Exception as e:
             self.logger.error(f"Error creando tablas: {e}")
+
+    def _bootstrap_default_admin_frozen_sqlite_if_no_login_users(self) -> None:
+        """
+        En ejecutable PyInstaller (``sys.frozen``), la BD SQLite nueva tiene tablas pero
+        ningún usuario con login: ``scripts/maintenance/reset_admin.py`` no se ejecuta en fábrica.
+        Si no hay ningún ``Trabajador`` con ``username``, crea ``admin`` / ``admin`` (rol Admin).
+
+        En desarrollo se puede forzar con la variable de entorno ``HIPATIA_BOOTSTRAP_DEFAULT_ADMIN=1``.
+        No aplica a ``:memory:`` (tests).
+        """
+        if ":memory:" in self.db_url:
+            return
+        if not self.db_url.startswith("sqlite"):
+            return
+        if not (getattr(sys, "frozen", False) or os.environ.get("HIPATIA_BOOTSTRAP_DEFAULT_ADMIN") == "1"):
+            return
+        if not self.engine or not self.SessionLocal:
+            return
+        try:
+            from database.models import Trabajador
+            from core.security.password_service import PasswordService
+
+            session = self.SessionLocal()
+            try:
+                has_login = (
+                    session.query(Trabajador)
+                    .filter(Trabajador.username.isnot(None))
+                    .filter(Trabajador.username != "")
+                    .count()
+                )
+                if has_login > 0:
+                    return
+                admin = Trabajador(
+                    nombre_completo="Administrador",
+                    username="admin",
+                    role="Admin",
+                    activo=True,
+                    tipo_trabajador=1,
+                )
+                admin.password_hash = PasswordService.hash_password("admin")
+                session.add(admin)
+                session.commit()
+                self.logger.warning(
+                    "SQLite sin usuarios con login: se creó el usuario por defecto admin/admin. "
+                    "Cambie la contraseña tras el primer acceso."
+                )
+            finally:
+                session.close()
+        except Exception as exc:
+            self.logger.debug("Bootstrap admin por defecto omitido: %s", exc)
 
     def _init_repositories(self) -> None:
         """Inicializa los repositorios con la fábrica de sesiones."""
