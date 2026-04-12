@@ -2,6 +2,11 @@
 setlocal EnableExtensions
 cd /d "%~dp0"
 
+where git >nul 2>nul && (
+  echo [build] revision Git:
+  git log -1 --oneline
+) || echo [build] Git no en PATH; omitiendo revision.
+
 if not exist .venv-build-win (
   python -m venv .venv-build-win
 )

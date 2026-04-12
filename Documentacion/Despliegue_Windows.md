@@ -19,6 +19,28 @@
 
 3. Salida esperada: `dist\Hipatia\Hipatia.exe` junto con DLLs y carpeta `_internal` (o equivalente según versión de PyInstaller).
 
+### Compilar solo desde la terminal (sin el `.bat`)
+
+En la raíz del repo, con un venv ya activado y dependencias instaladas (`pip install -r requirements.txt` y `pip install -r requirements-build.txt`):
+
+```bat
+pyinstaller --noconfirm hipatia.spec
+```
+
+Equivalente multiplataforma (misma limpieza + spec que CI):
+
+```bash
+python scripts/build_executable.py
+```
+
+**No hace falta GitHub** para obtener un `.exe`: cualquier PC Windows con Python sirve como máquina de build.
+
+### Si el error del `.exe` no coincide con el código del repo
+
+PyInstaller incrusta el `app.py` que había en disco **en el momento del build**. Si el traceback menciona `app.py`, línea 29, y en tu `app.py` actual la línea relevante está mucho más abajo (por ejemplo el `import` de `AppController` cambió de sitio), el ejecutable **no se generó con esa versión del código**: vuelve a compilar tras `git pull` en la rama correcta, borra la carpeta antigua `dist\Hipatia` y prueba solo el nuevo `dist\Hipatia\Hipatia.exe`.
+
+En GitHub Actions, el workflow **Build Windows EXE** solo hace push automático en `main`; en ejecución manual (*Run workflow*) elige la rama que contenga el commit deseado. En el log del job aparece el commit tras el checkout (ver paso «Show git revision» en el workflow).
+
 Para depuración con consola, en `hipatia.spec` se puede poner `console=True` en `EXE` y volver a empaquetar.
 
 ## Datos de usuario junto al ejecutable

@@ -14,6 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Show git revision
+        run: |
+          git rev-parse HEAD
+          git log -1 --oneline
+
       - name: Set up Python 3.12
         uses: actions/setup-python@v6
         with:
