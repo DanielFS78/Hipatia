@@ -8,10 +8,20 @@ gracias a ``core.paths.get_writable_app_root``.
 """
 from pathlib import Path
 
+from PyInstaller.utils.hooks import collect_submodules
+
 # SPECPATH (PyInstaller) = directorio que contiene este .spec, no el padre del repo.
 ROOT = Path(SPECPATH).resolve()
 
 block_cipher = None
+
+# Diálogos/widgets cargados con ``importlib`` (p. ej. ``controllers.ui_class_loader.ui_class``):
+# el análisis estático de PyInstaller no los incluye si no están en el grafo de imports.
+_hidden_ui_dynamic = (
+    collect_submodules("ui.dialogs")
+    + collect_submodules("ui.widgets")
+    + collect_submodules("ui.worker")
+)
 
 datas = []
 for folder, dest in (
@@ -45,6 +55,7 @@ a = Analysis(
         "reportlab",
         "alembic",
         "jinja2",
+        *_hidden_ui_dynamic,
     ],
     hookspath=[],
     hooksconfig={},
